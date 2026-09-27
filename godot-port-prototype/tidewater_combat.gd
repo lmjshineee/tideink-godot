@@ -26,6 +26,12 @@ var beams: Array[Dictionary] = []
 var bombs: Array[Dictionary] = []
 var storm_bombs: Array[Dictionary] = []
 var clouds: Array[Dictionary] = []
+var bloom := 0.0
+var roll_time := 0.0
+var flick_recover := 0.0
+var firing_time := 0.0
+var roll_hits: Dictionary = {}
+var elapsed := 0.0
 var special_points := 0.0
 var special_active := ""
 var special_time := 0.0
@@ -48,8 +54,9 @@ func _add_turf(area: float) -> void:
 		special_points = minf(special_cost(), special_points + area)
 
 
-func _paint_player(at: Vector3, radius: float, seed: float) -> float:
-	var area := float(game.call("paint_at_world", at, 0, radius, seed))
+func _paint_player(at: Vector3, radius: float, seed: float,
+		stretch: Vector3 = Vector3.ZERO, stretch_amount: float = 0.0) -> float:
+	var area := float(game.call("paint_at_world", at, 0, radius, seed, stretch, stretch_amount))
 	_add_turf(area)
 	return area
 
@@ -67,6 +74,11 @@ func select_weapon(weapon_id: String) -> bool:
 	if not weapons.has(weapon_id):
 		return false
 	selected_id = weapon_id
+	bloom = 0.0
+	roll_time = 0.0
+	flick_recover = 0.0
+	firing_time = 0.0
+	roll_hits.clear()
 	walker.get_node("Body").call("set_weapon", weapon_id)
 	charging = false
 	charge_time = 0.0
@@ -89,6 +101,10 @@ func on_death() -> void:
 	charge_fraction = 0.0
 	flick_time = -1.0
 	rolling = false
+	roll_time = 0.0
+	flick_recover = 0.0
+	firing_time = 0.0
+	roll_hits.clear()
 	last_fire = false
 	last_sub = false
 	aiming_sub = false
@@ -136,6 +152,12 @@ func _update_special(delta: float) -> void:
 
 func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 	cooldown = maxf(0.0, cooldown - delta)
+	# Spread bloom recovers only once the trigger is released (weapons.js:72).
+	if not fire:
+		bloom = maxf(0.0, bloom - delta / float(weapons[selected_id]["bloomRecover"]))
+	elapsed += delta
+	firing_time = maxf(0.0, firing_time - delta)
+	flick_recover = maxf(0.0, flick_recover - delta)
 	advance_effects(delta)
 	if not special_active.is_empty():
 		walker.set("firing_speed_limit", INF)
@@ -192,8 +214,7 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 					cooldown = 0.28
 			"roller":
 				_update_roller(delta, fire, pressed, weapon)
-				if fire or flick_time >= 0.0:
-					speed_limit = float(weapon["moveSpeedFiring"])
+				speed_limit = _roller_speed_limit(weapon)
 	else:
 		charging = false
 		charge_time = 0.0
@@ -203,15 +224,80 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 	walker.set("firing_speed_limit", speed_limit)
 
 
+# Current shot cone half-angle in degrees, mirroring weapons.js:57-64. Only the
+# shooter's cone widens with bloom; the blaster's is constant.
+func _spread_degrees(weapon: Dictionary) -> float:
+	var base := float(weapon["spreadBaseGround"]) if walker.is_on_floor() else float(weapon["spreadBaseAir"])
+	if String(weapon["kind"]) == "shooter":
+		return base * lerpf(float(weapon["spreadFirst"]), 1.0, bloom)
+	return base
+
+
 func _spawn_shot(weapon: Dictionary) -> void:
 	var muzzle := walker.global_position + Vector3.UP * 1.05
 	var direction := _aim_direction(muzzle, float(weapon["range"]))
+	# Per-shot spread with bloom (weapons.js:57-64, 119). Without it the shooter is a
+	# laser: 5.5 deg on the ground, 11 deg in the air, opening from spreadFirst to the
+	# full cone over a burst and recovering once the trigger is released.
+	var angle := deg_to_rad(_spread_degrees(weapon))
+	if angle > 0.0:
+		var basis := _perpendicular_basis(direction)
+		var offset := tan(angle) * sqrt(randf())
+		var offset_side := tan(angle) * sqrt(randf())
+		direction = (direction + basis[0] * offset + basis[1] * offset_side).normalized()
+	bloom = minf(1.0, bloom + float(weapon["bloomPerShot"]))
 	muzzle += direction * 0.55
-	var kind := String(weapon["kind"])
-	_spawn_projectile(kind, muzzle, direction * float(weapon["projSpeed"]), weapon)
+	_spawn_projectile(String(weapon["kind"]), muzzle, direction * float(weapon["projSpeed"]), weapon)
 
 
+# Two unit vectors perpendicular to `direction`, for isotropic spread sampling.
+func _perpendicular_basis(direction: Vector3) -> Array:
+	var helper := Vector3.UP if absf(direction.dot(Vector3.UP)) < 0.9 else Vector3.RIGHT
+	var first := direction.cross(helper).normalized()
+	return [first, direction.cross(first).normalized()]
+
+
+# Mirrors the web game's projectile record (weapons.js:357/377/401), including the
+# per-type radius, lifetime, gravity after the straight segment, air drag and the
+# trail-drip cadence. These used to be re-derived at impact time from the weapon
+# table, which silently dropped the roller's randomised drop radius and every
+# trail drip.
 func _spawn_projectile(kind: String, at: Vector3, velocity: Vector3, weapon: Dictionary) -> void:
+	var radius := 0.15
+	var life := 1.4
+	var straight := 0.0
+	var gravity := 26.0
+	var drag := 0.0
+	var trail_every := 0.0
+	var trail_radius := 0.0
+	var trail := 0.0
+	match kind:
+		"shooter":
+			radius = float(weapon["impactRadius"])
+			life = 1.2
+			straight = float(weapon.get("straightTime", 0.13))
+			gravity = 28.0
+			drag = 0.8
+			trail_every = float(weapon["trailEvery"])
+			trail_radius = float(weapon["trailRadius"])
+			trail = -(2.5 - trail_every)
+		"blaster":
+			radius = float(weapon["impactRadius"])
+			life = float(weapon["range"]) / float(weapon["projSpeed"])
+			straight = 99.0
+			gravity = 0.0
+			trail_every = 2.2
+			trail_radius = 0.45
+			trail = -1.5
+		"drop":
+			radius = 0.85 + randf() * 0.3
+			life = 1.4
+			straight = 0.0
+			gravity = 26.0
+			drag = 0.4
+			trail_every = 1.8
+			trail_radius = 0.45
+			trail = 0.0
 	var visual := MeshInstance3D.new()
 	var mesh := SphereMesh.new()
 	mesh.radius = 0.25 if kind == "blaster" else 0.15
@@ -226,6 +312,8 @@ func _spawn_projectile(kind: String, at: Vector3, velocity: Vector3, weapon: Dic
 	projectiles.append({
 		"kind": kind, "visual": visual, "velocity": velocity, "origin": at,
 		"age": 0.0, "distance": 0.0, "weapon": weapon,
+		"radius": radius, "life": life, "straight": straight, "gravity": gravity,
+		"drag": drag, "trail_every": trail_every, "trail_radius": trail_radius, "trail": trail,
 	})
 
 
@@ -236,13 +324,17 @@ func _update_projectiles(delta: float) -> void:
 		var velocity: Vector3 = shot["velocity"]
 		var age := float(shot["age"]) + delta
 		var kind := String(shot["kind"])
-		if kind != "blaster" and age > float(shot["weapon"].get("straightTime", 0.0)):
-			velocity.y -= (26.0 if kind == "drop" else 28.0) * delta
+		var straight := float(shot["straight"])
+		if age > straight:
+			velocity.y -= float(shot["gravity"]) * delta
+			var drag := float(shot["drag"])
+			if drag > 0.0:
+				velocity *= 1.0 - drag * delta
 		var previous := visual.global_position
 		var next := previous + velocity * delta
 		var query := PhysicsRayQueryParameters3D.create(previous, next, 1)
 		var hit := get_world_3d().direct_space_state.intersect_ray(query)
-		var body_size := 0.25 if kind == "blaster" else 0.15
+		var body_size := 0.26 if kind == "blaster" else 0.15
 		var bot_hit := _segment_bot_hit(previous, next, body_size)
 		shot["velocity"] = velocity
 		shot["age"] = age
@@ -252,27 +344,51 @@ func _update_projectiles(delta: float) -> void:
 			var weapon: Dictionary = shot["weapon"]
 			var damage := float(weapon.get("damage", weapon.get("directDamage", weapon.get("flickDamageNear", 0.0))))
 			if kind == "drop":
+				# Falloff measured from the launch point, not the flight path.
 				damage = lerpf(float(weapon["flickDamageNear"]), float(weapon["flickDamageFar"]),
-					clampf(float(shot["distance"]) / 7.0, 0.0, 1.0))
+					clampf((shot["origin"] as Vector3).distance_to(bot_hit["point"]) / 7.0, 0.0, 1.0))
 			game.call("damage_bot", damage)
 			if kind == "blaster":
 				_burst_blaster(bot_hit["point"], weapon, true)
 			done = true
 		elif not hit.is_empty():
-			var radius := float(shot["weapon"].get("impactRadius", 0.9))
-			_paint_player(hit["position"] + hit["normal"] * 0.1, radius, randf())
+			_impact(hit, shot)
 			if kind == "blaster":
 				_burst_blaster(hit["position"], shot["weapon"])
 			done = true
-		elif kind == "blaster" and float(shot["distance"]) >= float(shot["weapon"]["range"]):
-			_burst_blaster(next, shot["weapon"])
+		elif age >= float(shot["life"]):
+			if kind == "blaster":
+				_burst_blaster(next, shot["weapon"])
 			done = true
-		elif age >= 1.4 or next.y < -3.4:
+		elif next.y < float(weapon_data["player"]["waterY"]) - 1.8:
 			done = true
+		# Trail drips: every `trail_every` metres the shot drops ink straight down
+		# (weapons.js:681-687). This is the shooter's main turf channel, and the port
+		# had no ink along the flight path at all.
+		if not done:
+			var trail_every := float(shot["trail_every"])
+			if trail_every > 0.0:
+				shot["trail"] = float(shot["trail"]) + velocity.length() * delta
+				if float(shot["trail"]) > trail_every:
+					shot["trail"] = 0.0
+					var down := PhysicsRayQueryParameters3D.create(next, next - Vector3.UP * 4.0, 1)
+					var ground := get_world_3d().direct_space_state.intersect_ray(down)
+					if not ground.is_empty():
+						_paint_player(ground["position"] + ground["normal"] * 0.1,
+							float(shot["trail_radius"]) * (0.8 + randf() * 0.4), randf())
 		visual.global_position = next
 		if done:
 			visual.queue_free()
 			projectiles.remove_at(index)
+
+
+# Impact splat: randomised radius, offset off the surface, and the blob stretched
+# along the shot direction (weapons.js:705-710).
+func _impact(hit: Dictionary, shot: Dictionary) -> void:
+	var position: Vector3 = hit["position"] + hit["normal"] * 0.14
+	var radius := float(shot["radius"]) * (0.85 + randf() * 0.3)
+	var direction := (shot["velocity"] as Vector3).normalized()
+	_paint_player(position, radius, randf(), direction, 0.7)
 
 
 func _burst_blaster(at: Vector3, weapon: Dictionary, direct_hit_bot: bool = false) -> void:
@@ -311,11 +427,11 @@ func _fire_charger(weapon: Dictionary, charge: float, aim_override: Vector3 = Ve
 		var ground := get_world_3d().direct_space_state.intersect_ray(down)
 		if not ground.is_empty():
 			_paint_player(ground["position"] + ground["normal"] * 0.1,
-				float(weapon["lineRadius"]) * (0.8 + charge * 0.4), randf())
+				float(weapon["lineRadius"]) * (0.8 + charge * 0.4), randf(), direction, 1.2)
 		distance += float(weapon["lineSplatEvery"])
 	if not hit.is_empty() and bot_hit.is_empty():
-		_paint_player(hit["position"] + hit["normal"] * 0.1,
-			float(weapon["impactRadius"]) * (0.6 + 0.4 * charge), randf())
+		_paint_player(hit["position"] + hit["normal"] * 0.12,
+			float(weapon["impactRadius"]) * (0.6 + 0.4 * charge), randf(), direction, 0.6)
 	_add_beam(muzzle, direction, length, charge)
 
 
@@ -526,6 +642,25 @@ func _colored_sphere(radius: float) -> MeshInstance3D:
 	return visual
 
 
+# Roller ground speed, mirroring weapons.js:45-52. The drum has weight: rolling
+# speed builds from half to full over ~0.45 s, the flick wind-up plants the player,
+# and the recovery after a flick eases back to a run. This used to read
+# moveSpeedFiring, which only looked right because rollSpeed happens to equal it.
+func _roller_speed_limit(weapon: Dictionary) -> float:
+	var run_speed := float(weapon_data["player"]["runSpeed"])
+	if rolling:
+		return lerpf(float(weapon["rollSpeed"]) * 0.5, float(weapon["rollSpeed"]),
+			smoothstep(0.0, 0.45, roll_time))
+	if flick_time >= 0.0:
+		return lerpf(float(weapon["moveSpeedFiring"]), float(weapon["moveSpeedFiring"]) * 0.45,
+			clampf(flick_time / float(weapon["flickWindup"]), 0.0, 1.0))
+	if flick_recover > 0.0:
+		return lerpf(run_speed, float(weapon["moveSpeedFiring"]) * 0.6, flick_recover / 0.18)
+	if firing_time > 0.0:
+		return float(weapon["moveSpeedFiring"])
+	return run_speed
+
+
 func _update_roller(delta: float, fire: bool, pressed: bool, weapon: Dictionary) -> void:
 	if flick_time >= 0.0:
 		flick_time += delta
@@ -533,37 +668,67 @@ func _update_roller(delta: float, fire: bool, pressed: bool, weapon: Dictionary)
 			_spawn_flick(weapon)
 			flick_time = -1.0
 			cooldown = float(weapon["flickInterval"]) - float(weapon["flickWindup"])
+			firing_time = 0.25
+			flick_recover = 0.18
 		return
 	if pressed and cooldown <= 0.0 and ink_amount >= float(weapon["flickInk"]):
 		ink_amount -= float(weapon["flickInk"])
 		flick_time = 0.0
 		return
-	rolling = fire and walker.is_on_floor() and ink_amount > 0.5 and cooldown <= 0.25
+	var can_roll := fire and walker.is_on_floor() and ink_amount > 0.5 and cooldown <= 0.25
+	roll_time = roll_time + delta if can_roll else 0.0
+	rolling = can_roll
 	if not rolling:
 		last_roll_position = walker.global_position
 		return
 	var movement := walker.global_position - last_roll_position
 	movement.y = 0.0
+	# Damage is checked every frame while rolling, not per painted stripe, and is
+	# rate-limited per victim below.
+	_roll_damage(weapon)
 	if movement.length() < 0.28:
 		return
 	last_roll_position = walker.global_position
 	_paint_roll_at(walker.global_position, movement, weapon)
 
 
+# Crushing damage in front of the drum (weapons.js:200-207): needs a moving roller
+# (> 1 m/s) and hits each victim at most once every 0.5 s. Without that cooldown the
+# port re-applied rollDamage every 0.28 m of travel — roughly 2100 dps against the
+# web's 280 — so one touch killed instantly.
+func _roll_damage(weapon: Dictionary) -> void:
+	if game.get("phase") != "playing" or float(game.get("bot_respawn")) > 0.0:
+		return
+	if Vector2(walker.velocity.x, walker.velocity.z).length() <= 1.0:
+		return
+	var yaw := float(walker.get_node("Body").rotation.y)
+	var forward := Vector3(sin(yaw), 0.0, cos(yaw))
+	var bot: Node3D = game.get_node("Bot")
+	var offset := bot.global_position - walker.global_position
+	var ahead := offset.x * forward.x + offset.z * forward.z
+	if ahead <= -0.2 or ahead >= 1.35:
+		return
+	var lateral := absf(offset.x * forward.z - offset.z * forward.x)
+	if lateral >= float(weapon["rollWidth"]) * 0.5 + 0.35 or absf(offset.y) >= 1.2:
+		return
+	var key := bot.get_instance_id()
+	if elapsed - float(roll_hits.get(key, -9.0)) <= 0.5:
+		return
+	roll_hits[key] = elapsed
+	game.call("damage_bot", float(weapon["rollDamage"]))
+
+
 func _paint_roll_at(position: Vector3, movement: Vector3, weapon: Dictionary) -> void:
 	ink_amount = maxf(0.0, ink_amount - float(weapon["rollInkPerMeter"]) * movement.length())
-	var forward := movement.normalized()
-	var lateral := Vector3(-forward.z, 0.0, forward.x)
+	# The stripe is laid out along the actor's facing, not the instantaneous travel
+	# direction (weapons.js:213-219), so brushing past sideways paints a different
+	# band than the web does.
+	var yaw := float(walker.get_node("Body").rotation.y)
+	var forward := Vector3(sin(yaw), 0.0, cos(yaw))
+	var right := Vector3(cos(yaw), 0.0, -sin(yaw))
 	for offset in [-1.0, 0.0, 1.0]:
-		var at := position + forward * 0.75 + lateral * float(offset) * float(weapon["rollWidth"]) * 0.33 + Vector3.UP * 0.35
+		var at := position + forward * 0.75 + right * float(offset) * float(weapon["rollWidth"]) * 0.33 + Vector3.UP * 0.35
 		_paint_player(at, 0.62, randf())
-	if float(game.get("bot_respawn")) <= 0.0:
-		var bot: Node3D = game.get_node("Bot")
-		var offset := bot.global_position - position
-		if offset.dot(forward) > -0.2 and offset.dot(forward) < 1.35 \
-			and absf(offset.dot(lateral)) < float(weapon["rollWidth"]) * 0.5 + 0.35 \
-			and absf(offset.y) < 1.2:
-			game.call("damage_bot", float(weapon["rollDamage"]))
 
 
 func _spawn_flick(weapon: Dictionary) -> void:
@@ -596,16 +761,42 @@ func _aim_direction(muzzle: Vector3, max_range: float) -> Vector3:
 	return result if result.length_squared() > 0.01 else Vector3.FORWARD
 
 
+# Closest approach of a projectile segment to the victim's body capsule, mirroring
+# weapons.js:657-661 + physics.js:305-334: a vertical capsule of PLAYER.radius and
+# PLAYER.height whose axis runs base+radius .. base+height-radius, hit when the
+# distance is under radius*0.95 + the projectile's own size. The port used a single
+# 0.72 m sphere at +0.8 m, i.e. a 1.74 m wide hitbox that ignored body height, so
+# remote shots connected far more often than in the web game.
 func _segment_bot_hit(start: Vector3, finish: Vector3, projectile_radius: float) -> Dictionary:
 	if game.get("phase") != "playing" or float(game.get("bot_respawn")) > 0.0:
 		return {}
-	var bot: Node3D = game.get_node("Bot")
-	var center := bot.global_position + Vector3.UP * 0.8
 	var step := finish - start
 	if step.length_squared() < 0.000001:
 		return {}
-	var t := clampf((center - start).dot(step) / step.length_squared(), 0.0, 1.0)
-	var closest := start + step * t
-	if closest.distance_to(center) > 0.72 + projectile_radius:
+	var bot: Node3D = game.get_node("Bot")
+	var player_config: Dictionary = weapon_data["player"]
+	var radius := float(player_config["radius"])
+	var height := float(player_config["height"])
+	var base: Vector3 = bot.global_position
+	var reach := radius * 0.95 + projectile_radius
+	# The point-to-capsule distance is convex along the segment, so a ternary search
+	# converges on the true closest approach.
+	var low := 0.0
+	var high := 1.0
+	for iteration in range(40):
+		var lower := low + (high - low) / 3.0
+		var upper := high - (high - low) / 3.0
+		if _point_capsule_distance(start + step * lower, base, radius, height) \
+				< _point_capsule_distance(start + step * upper, base, radius, height):
+			high = upper
+		else:
+			low = lower
+	var closest := start + step * ((low + high) * 0.5)
+	if _point_capsule_distance(closest, base, radius, height) > reach:
 		return {}
 	return {"point": closest, "distance": start.distance_to(closest)}
+
+
+static func _point_capsule_distance(point: Vector3, base: Vector3, radius: float, height: float) -> float:
+	var clamped_y := clampf(point.y, base.y + radius, base.y + maxf(radius, height - radius))
+	return Vector3(point.x - base.x, point.y - clamped_y, point.z - base.z).length()

@@ -63,5 +63,54 @@ func _check() -> void:
 		printerr("FAIL: wall paint changed turf score")
 		quit(1)
 		return
-	print("PASS: 70,180 scoreable cells; turf claim, idempotence, overwrite and unscored wall paint")
+	# Stretch: grazing hits smear the blob along the shot direction and the web applies
+	# that to the scoring grid, not just to the picture (paint.js:283-287, 345-350).
+	# Omitting it changed claimed area and coverage on every glancing hit.
+	var grid: Dictionary = turf["grid"]
+	var nu := int(grid["nu"])
+	var nv := int(grid["nv"])
+	var plain := SurfaceInk.new(data)
+	plain.splat_face(turf_id, turf_u, turf_v, 1.2, 0, 0.75)
+	var stretched := SurfaceInk.new(data)
+	stretched.splat_face(turf_id, turf_u, turf_v, 1.2, 0, 0.75, 1.0, 0.0, 2.0)
+	var plain_span := _span(plain, turf_id, nu)
+	var stretched_span := _span(stretched, turf_id, nu)
+	if stretched.counts[0] <= plain.counts[0] or stretched_span[0] <= plain_span[0]:
+		printerr("FAIL: stretch did not lengthen the blob: cells ", plain.counts[0], " -> ", stretched.counts[0],
+			" u-span ", plain_span[0], " -> ", stretched_span[0])
+		quit(1)
+		return
+	if stretched_span[1] > plain_span[1] + 1:
+		printerr("FAIL: stretch widened across the direction: v-span ", plain_span[1], " -> ", stretched_span[1])
+		quit(1)
+		return
+	# A stretch pointing out of the face plane must degrade to a circle, not distort.
+	var flat := SurfaceInk.new(data)
+	flat.splat_face(turf_id, turf_u, turf_v, 1.2, 0, 0.75)
+	if flat.counts[0] != plain.counts[0]:
+		printerr("FAIL: zero-amount stretch changed the blob")
+		quit(1)
+		return
+	print("PASS: scoreable cells, turf claim/overwrite, unscored wall paint, stretched blob shape")
 	quit()
+
+
+# [u-span, v-span] in cells of the claimed region on one face.
+func _span(ink: RefCounted, face_id: int, nu: int) -> Array:
+	var pixels: PackedByteArray = ink.owners[face_id]
+	var min_u := 1 << 30
+	var max_u := -1
+	var min_v := 1 << 30
+	var max_v := -1
+	for index in pixels.size():
+		if pixels[index] == 0:
+			continue
+		var i := index % nu
+		var j := index / nu
+		min_u = mini(min_u, i)
+		max_u = maxi(max_u, i)
+		min_v = mini(min_v, j)
+		max_v = maxi(max_v, j)
+	if max_u < 0:
+		return [0, 0]
+	return [max_u - min_u, max_v - min_v]

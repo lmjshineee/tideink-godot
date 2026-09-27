@@ -38,7 +38,12 @@
       "trailEvery": 1.05,
       "moveSpeedFiring": 4.6,
       "special": "slam",
-      "specialCost": 190
+      "specialCost": 190,
+      "spreadBaseGround": 5.5,
+      "spreadBaseAir": 11,
+      "spreadFirst": 0.45,
+      "bloomPerShot": 0.3,
+      "bloomRecover": 0.28
     },
     "roller": {
       "id": "roller",
@@ -67,7 +72,12 @@
       "impactRadius": 1,
       "moveSpeedFiring": 4.4,
       "special": "slam",
-      "specialCost": 170
+      "specialCost": 170,
+      "spreadBaseGround": 0,
+      "spreadBaseAir": 0,
+      "spreadFirst": 0.45,
+      "bloomPerShot": 0.3,
+      "bloomRecover": 0.28
     },
     "charger": {
       "id": "charger",
@@ -92,7 +102,12 @@
       "impactRadius": 1.2,
       "moveSpeedFiring": 1.8,
       "special": "storm",
-      "specialCost": 180
+      "specialCost": 180,
+      "spreadBaseGround": 0,
+      "spreadBaseAir": 0,
+      "spreadFirst": 0.45,
+      "bloomPerShot": 0.3,
+      "bloomRecover": 0.28
     },
     "blaster": {
       "id": "blaster",
@@ -118,7 +133,12 @@
       "burstRadius": 1.9,
       "moveSpeedFiring": 4,
       "special": "storm",
-      "specialCost": 180
+      "specialCost": 180,
+      "spreadBaseGround": 1.2,
+      "spreadBaseAir": 4,
+      "spreadFirst": 0.45,
+      "bloomPerShot": 0.3,
+      "bloomRecover": 0.28
     }
   },
   "sub": {

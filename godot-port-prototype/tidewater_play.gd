@@ -229,8 +229,9 @@ func _judge_round() -> void:
 	_update_hud()
 
 
-func paint_at_world(center: Vector3, team: int, radius: float, seed: float) -> float:
-	return float(ink.call("splat_world", center, radius, team, seed))
+func paint_at_world(center: Vector3, team: int, radius: float, seed: float,
+		stretch: Vector3 = Vector3.ZERO, stretch_amount: float = 0.0) -> float:
+	return float(ink.call("splat_world", center, radius, team, seed, stretch, stretch_amount))
 
 
 func damage_bot(amount: float) -> void:

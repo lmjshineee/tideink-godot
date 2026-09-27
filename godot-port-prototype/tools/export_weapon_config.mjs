@@ -22,7 +22,21 @@ const payload = {
   source: 'public/game/src/config.js',
   game: { title: GAME_TITLE, subtitle: GAME_SUBTITLE, version: VERSION },
   weaponOrder: WEAPON_ORDER,
-  weapons: Object.fromEntries(WEAPON_ORDER.map((id) => [id, WEAPONS[id]])),
+  // Effective spread inputs. weapons.js:57-64 keeps the blaster's cone and all the
+  // bloom constants as code defaults instead of config.js values, so a port that
+  // only reads config.js has nowhere to get them; the effective numbers are exported
+  // here so assets/weapons.json stays the single source on the Godot side.
+  weapons: Object.fromEntries(WEAPON_ORDER.map((id) => {
+    const w = WEAPONS[id];
+    return [id, {
+      ...w,
+      spreadBaseGround: w.kind === 'shooter' ? w.spreadGround : (w.kind === 'blaster' ? (w.spread ?? 1.2) : 0),
+      spreadBaseAir: w.kind === 'shooter' ? w.spreadAir : (w.kind === 'blaster' ? (w.spreadAir ?? 4) : 0),
+      spreadFirst: w.spreadFirst ?? 0.45,
+      bloomPerShot: w.bloomPerShot ?? 0.3,
+      bloomRecover: w.bloomRecover ?? 0.28,
+    }];
+  })),
   sub: { bomb: SUB.bomb },
   specials: SPECIALS,
   // Whole objects are spread rather than hand-listing keys. The previous whitelist

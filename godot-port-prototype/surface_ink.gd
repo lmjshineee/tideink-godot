@@ -56,9 +56,15 @@ func consume_dirty_cells() -> Dictionary:
 
 
 # A spherical splat can mark the floor, a ramp and an adjacent wall at once.
-# This is the unstretched CPU rule; animated ink growth and GPU atlas are separate.
-func splat_world(center: Vector3, radius: float, team: int, seed: float) -> float:
+# `stretch` is the shot direction in world space and `stretch_amount` its strength:
+# the web game stretches the blob along that direction for grazing hits and applies
+# it to the *scoring grid* too (paint.js:283-287, 345-350), so leaving it out
+# changes claimed area and coverage, not just the picture.
+func splat_world(center: Vector3, radius: float, team: int, seed: float,
+		stretch: Vector3 = Vector3.ZERO, stretch_amount: float = 0.0) -> float:
 	var claimed := 0.0
+	var stretching := stretch.length_squared() > 0.0
+	var amount := stretch_amount if stretching else 0.0
 	for face in surfaces:
 		if not bool(face["paintable"]):
 			continue
@@ -69,16 +75,33 @@ func splat_world(center: Vector3, radius: float, team: int, seed: float) -> floa
 		var local_u := relative.dot(_vector(face["u"]))
 		var local_v := relative.dot(_vector(face["v"]))
 		var projected_radius := sqrt(maxf(0.0, radius * radius - distance * distance))
-		var extent := projected_radius * 2.05
+		var extent := projected_radius * (2.05 + 1.4 * amount)
 		if local_u < -extent or local_u > float(face["su"]) + extent:
 			continue
 		if local_v < -extent - (projected_radius * 1.9 if bool(face["wall"]) else 0.0) or local_v > float(face["sv"]) + extent:
 			continue
-		claimed += splat_face(int(face["id"]), local_u, local_v, projected_radius, team, seed)
+		# The stretch direction projected into this face's own u/v axes.
+		var stretch_u := 0.0
+		var stretch_v := 0.0
+		var face_amount := 0.0
+		if stretching:
+			stretch_u = stretch.dot(_vector(face["u"]))
+			stretch_v = stretch.dot(_vector(face["v"]))
+			var in_plane := sqrt(stretch_u * stretch_u + stretch_v * stretch_v)
+			if in_plane > 0.2:
+				stretch_u /= in_plane
+				stretch_v /= in_plane
+				face_amount = amount * in_plane
+			else:
+				stretch_u = 0.0
+				stretch_v = 0.0
+		claimed += splat_face(int(face["id"]), local_u, local_v, projected_radius, team, seed,
+			stretch_u, stretch_v, face_amount)
 	return claimed
 
 
-func splat_face(face_id: int, local_u: float, local_v: float, radius: float, team: int, seed: float) -> float:
+func splat_face(face_id: int, local_u: float, local_v: float, radius: float, team: int, seed: float,
+		stretch_u: float = 0.0, stretch_v: float = 0.0, stretch_amount: float = 0.0) -> float:
 	if radius <= 0.02:
 		return 0.0
 	var face: Dictionary = surfaces[face_id]
@@ -89,7 +112,7 @@ func splat_face(face_id: int, local_u: float, local_v: float, radius: float, tea
 	var nv := int(grid["nv"])
 	var cu := float(grid["cu"])
 	var cv := float(grid["cv"])
-	var extent := radius * WOB_MAX
+	var extent := radius * (1.0 + stretch_amount) * WOB_MAX
 	var i0 := maxi(0, int(floor((local_u - extent) / cu)))
 	var i1 := mini(nu - 1, int(floor((local_u + extent) / cu)))
 	var j0 := maxi(0, int(floor((local_v - extent) / cv)))
@@ -104,6 +127,13 @@ func splat_face(face_id: int, local_u: float, local_v: float, radius: float, tea
 		for i in range(i0, i1 + 1):
 			var dx := (float(i) + 0.5) * cu - local_u
 			var dy := (float(j) + 0.5) * cv - local_v
+			if stretch_amount > 0.0:
+				var along := dx * stretch_u + dy * stretch_v
+				var across_u := dx - along * stretch_u
+				var across_v := dy - along * stretch_v
+				var scale := 1.0 + stretch_amount if along > 0.0 else 1.0 + 0.25 * stretch_amount
+				dx = across_u + stretch_u * (along / scale)
+				dy = across_v + stretch_v * (along / scale)
 			var distance := sqrt(dx * dx + dy * dy)
 			if distance > radius * WOB_MAX:
 				continue

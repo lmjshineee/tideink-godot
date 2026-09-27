@@ -45,10 +45,36 @@ func _check() -> void:
 		_fail("blaster direct hit should splat bot")
 		return
 	scene.call("_update_bot", 4.1)
+	# Roller crushing damage (weapons.js:200-207): the drum must be moving, the victim
+	# must be in front of the body's facing, and each victim can be hit at most once
+	# every 0.5 s. The old assertion called _paint_roll_at once and expected a kill,
+	# which hid the fact that damage was re-applied every 0.28 m of travel.
 	var roller: Dictionary = weapon_data["weapons"]["roller"]
-	combat.call("_paint_roll_at", Vector3(0.0, 2.2, 38.2), Vector3(0.0, 0.0, 0.5), roller)
+	walker.global_position = Vector3(0.0, 2.25, 38.2)
+	walker.get_node("Body").rotation.y = 0.0
+	walker.velocity = Vector3(0.0, 0.0, 4.4)
+	combat.call("_roll_damage", roller)
 	if float(scene.get("bot_respawn")) <= 0.0:
-		_fail("roller contact should splat bot")
+		_fail("roller contact should crush the bot")
+		return
+	scene.call("_update_bot", 4.1)
+	# A standing drum deals nothing.
+	walker.velocity = Vector3.ZERO
+	combat.call("_roll_damage", roller)
+	if float(scene.get("bot_respawn")) > 0.0 or float(scene.get("bot_health")) != 100.0:
+		_fail("standing roller should not damage")
+		return
+	# Second pass inside the cooldown window: still nothing.
+	walker.velocity = Vector3(0.0, 0.0, 4.4)
+	combat.call("_roll_damage", roller)
+	if float(scene.get("bot_respawn")) > 0.0:
+		_fail("roller cooldown did not limit the second hit")
+		return
+	# Past the cooldown the drum bites again.
+	combat.set("elapsed", float(combat.get("elapsed")) + 0.6)
+	combat.call("_roll_damage", roller)
+	if float(scene.get("bot_respawn")) <= 0.0:
+		_fail("roller cooldown never expired")
 		return
 	scene.call("_update_bot", 4.1)
 	walker.global_position = Vector3(0.0, 2.25, 39.2)

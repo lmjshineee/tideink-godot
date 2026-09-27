@@ -6,6 +6,9 @@ func _initialize() -> void:
 
 
 func _check() -> void:
+	# Fixed RNG seed: spread and impact-radius jitter draw from the global generator,
+	# so the assertions below would otherwise be flaky run to run.
+	seed(20260927)
 	var scene := (load("res://tidewater_play.tscn") as PackedScene).instantiate()
 	root.add_child(scene)
 	await physics_frame
@@ -45,6 +48,39 @@ func _check() -> void:
 		_fail("shooter collision-to-ink path")
 		return
 	combat.call("tick", 0.02, false, false)
+	# Trail drips: the web drops ink straight down every trailEvery metres of flight
+	# (weapons.js:681-687). That is the shooter's main turf channel; the port had no
+	# ink along the flight path at all.
+	var trail_before := float(ink.call("coverage", 0))
+	combat.call("_spawn_projectile", "shooter", Vector3(0.0, 3.5, -39.2), Vector3(0.0, 0.0, 20.0), shooter)
+	for step in range(3):
+		combat.call("_update_projectiles", 0.05)
+	if float(ink.call("coverage", 0)) <= trail_before:
+		_fail("shooter trail drips did not paint along the flight path")
+		return
+	combat.call("tick", 0.02, false, false)
+	# Spread: consecutive shots must fan out inside the source cone instead of all
+	# following the crosshair exactly (weapons.js:57-64, 119).
+	var walker := scene.get_node("World/Walker")
+	var cone := float(shooter["spreadBaseGround"]) if walker.is_on_floor() else float(shooter["spreadBaseAir"])
+	var directions: Array[Vector3] = []
+	for shot_index in range(8):
+		combat.call("_spawn_shot", shooter)
+		var list: Array = combat.get("projectiles")
+		var latest: Dictionary = list[list.size() - 1]
+		directions.append((latest["velocity"] as Vector3).normalized())
+		(latest["visual"] as MeshInstance3D).queue_free()
+		list.remove_at(list.size() - 1)
+	var widest := 0.0
+	for i in range(directions.size()):
+		for j in range(i + 1, directions.size()):
+			widest = maxf(widest, rad_to_deg(directions[i].angle_to(directions[j])))
+	if widest < 0.2:
+		_fail("shooter fired with no spread")
+		return
+	if widest > cone * 2.0 + 0.5:
+		_fail("shooter spread exceeded the source cone: %.2f deg (cone %.1f)" % [widest, cone])
+		return
 	combat.call("select_weapon", "blaster")
 	before = float(combat.get("ink_amount"))
 	combat.call("tick", 0.05, true, false)
