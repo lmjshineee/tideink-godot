@@ -3,7 +3,11 @@ extends Node3D
 # Real-map migration slice. Single authoritative ink state drives the HUD,
 # movement, weapon impacts and the temporary 1v1 combat loop.
 const SurfaceInk = preload("res://surface_ink.gd")
-const ROUND_TIME := 90.0
+# Match length comes from assets/weapons.json (config.js MATCH.durations). The web
+# default is MATCH.defaultDuration = 180 s with teamSize 5; this prototype runs the
+# 90 s option with a 1v1 roster, which MIGRATION.md records as a known difference.
+# When the roster batch lands, switching to the default is only this index.
+const ROUND_DURATION_OPTION := 0
 # Source match.js intro/finish and hud.js judge timings. This scene uses the
 # source's optional 90 s duration while keeping the prototype's 1v1 roster.
 const INTRO_SECONDS := 4.2
@@ -21,7 +25,9 @@ var ink: RefCounted
 var phase := "setup"
 var phase_time := 0.0
 var selected_weapon := "shooter"
-var round_left := ROUND_TIME
+var round_time := 90.0
+var final_countdown := 10
+var round_left := 90.0
 var judged_coverage := [0.0, 0.0]
 var winner := -1
 var player_health := 100.0
@@ -72,6 +78,10 @@ func _ready() -> void:
 	$World/Walker.set("active", false)
 	$World/Walker.set("auto_respawn", false)
 	$Combat.call("setup", self, $World/Walker)
+	var match_config: Dictionary = $Combat.get("weapon_data")["match"]
+	round_time = float((match_config["durations"] as Array)[ROUND_DURATION_OPTION])
+	final_countdown = int(match_config["finalCountdown"])
+	round_left = round_time
 	$Bot.call("setup", self, $World/Walker, $World/Map)
 	player_health = float($Combat.get("weapon_data")["player"]["hp"])
 	bot_health = player_health
@@ -126,7 +136,7 @@ func _notification(what: int) -> void:
 func _begin_intro() -> void:
 	phase = "intro"
 	phase_time = 0.0
-	round_left = ROUND_TIME
+	round_left = round_time
 	result = ""
 	winner = -1
 	$World/Walker.set("active", false)
@@ -137,7 +147,7 @@ func _start_round() -> void:
 	phase = "playing"
 	paused = false
 	phase_time = 0.0
-	round_left = ROUND_TIME
+	round_left = round_time
 	player_respawn = 0.0
 	bot_respawn = 0.0
 	var player_config: Dictionary = $Combat.get("weapon_data")["player"]
@@ -528,7 +538,7 @@ func _update_hud() -> void:
 	blue_bar.value = blue_percent
 	var seconds := int(ceil(round_left))
 	timer_label.text = "%d:%02d" % [int(seconds / 60), seconds % 60]
-	timer_label.add_theme_color_override("font_color", Color("ffe27a") if phase == "playing" and seconds <= 10 else Color.WHITE)
+	timer_label.add_theme_color_override("font_color", Color("ffe27a") if phase == "playing" and seconds <= final_countdown else Color.WHITE)
 	vitals_panel.visible = phase == "playing" and player_respawn <= 0.0
 	special_panel.visible = phase == "playing" and player_respawn <= 0.0
 	var max_health := float(combat.get("weapon_data")["player"]["hp"])
@@ -565,4 +575,4 @@ func _update_hud() -> void:
 		var charge := float(combat.get("charge_fraction"))
 		var charge_text := "  蓄力 %d%%" % int(charge * 100.0) if bool(combat.get("charging")) else ""
 		var controls := "WASD 移动 · 鼠标瞄准 · 空格跳跃 · Shift 潜墨 · 左键射击 · 右键炸弹 · F/Q 大招 · Esc 暂停"
-		hud.text = ("最后 %d 秒 · " % seconds if seconds <= 10 else "") + ("点击画面继续 · " if not pointer_locked else "") + controls + charge_text
+		hud.text = ("最后 %d 秒 · " % seconds if seconds <= final_countdown else "") + ("点击画面继续 · " if not pointer_locked else "") + controls + charge_text

@@ -10,6 +10,15 @@ func _check() -> void:
 	root.add_child(scene)
 	var walker: CharacterBody3D = scene.get_node("World/Walker")
 	var ink: RefCounted = scene.get("ink")
+	# The round length and the final-countdown threshold must come from config.js via
+	# assets/weapons.json; they used to be hardcoded here (90 and 10) while the docs
+	# claimed the countdown read finalCountdown.
+	var match_config: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/weapons.json"))["match"]
+	var configured_round: float = float((match_config["durations"] as Array)[0])
+	if float(scene.get("round_time")) != configured_round or int(scene.get("final_countdown")) != int(match_config["finalCountdown"]):
+		_fail("match length/countdown did not follow config: round=%s/%s countdown=%s/%s" % [
+			scene.get("round_time"), configured_round, scene.get("final_countdown"), match_config["finalCountdown"]])
+		return
 	var enter := InputEventKey.new()
 	enter.keycode = KEY_ENTER
 	enter.pressed = true

@@ -1,6 +1,11 @@
 {
   "schema": 1,
   "source": "public/game/src/config.js",
+  "game": {
+    "title": "INKWAVE",
+    "subtitle": "Turf Riot",
+    "version": "1.0.0"
+  },
   "weaponOrder": [
     "shooter",
     "roller",
@@ -154,6 +159,21 @@
   },
   "player": {
     "hp": 100,
+    "radius": 0.38,
+    "height": 1.45,
+    "squidHeight": 0.55,
+    "runSpeed": 6,
+    "squidDrySpeed": 2.9,
+    "swimSpeed": 11.8,
+    "enemyInkSpeed": 1.9,
+    "climbSpeed": 7.5,
+    "accelGround": 42,
+    "accelAir": 14,
+    "accelSwim": 60,
+    "jumpVel": 8.4,
+    "swimJumpVel": 9.4,
+    "gravity": 25,
+    "maxFall": 40,
     "inkMax": 100,
     "inkRefillSwim": 42,
     "inkRefillKid": 9,
@@ -166,13 +186,7 @@
     "respawnTime": 5.5,
     "spawnInvuln": 1.6,
     "fallDeathY": -1.45,
-    "radius": 0.38,
-    "height": 1.45,
-    "squidHeight": 0.55,
-    "runSpeed": 6,
-    "squidDrySpeed": 2.9,
-    "swimSpeed": 11.8,
-    "enemyInkSpeed": 1.9,
+    "waterY": -1.6,
     "runAccel": 70,
     "runAccelIn": 0.5,
     "runInKnee": 1.6,
@@ -200,22 +214,38 @@
     "squidAirDecel": 3,
     "enemyInkDecel": 30,
     "enemyInkAccel": 30,
-    "jumpVel": 8.4,
-    "swimJumpVel": 9.4,
     "jumpBuffer": 0.13,
     "coyoteTime": 0.12,
-    "gravity": 25,
     "fallGravityMul": 1.2,
+    "apexGravityMul": 0.82,
     "apexBand": 1.6,
-    "maxFall": 40,
-    "climbSpeed": 7.5,
+    "hardLandSpeed": 11.5,
+    "hardLandSlow": 0.72,
+    "hardLandTime": 0.16,
+    "footRadius": 0.24,
+    "stepUp": 0.35,
+    "stepDown": 0.45,
+    "squidStepUp": 0.24,
+    "squidBodyLift": 0.16,
+    "ledgeAssist": 0.35,
+    "faceOmega": 20,
+    "faceMaxRate": 12.5,
+    "faceMaxAcc": 170,
+    "squidFaceOmega": 26,
+    "squidFaceMaxRate": 17,
+    "swimFaceMaxRate": 14,
+    "squidFaceMaxAcc": 260,
+    "aimFaceOmega": 36,
+    "aimFaceMaxRate": 24,
+    "aimFaceMaxAcc": 380,
     "climbAccel": 46,
     "climbSideSpeed": 5.2,
     "climbAttachDot": 0.5,
     "climbDetachDot": -0.45,
     "ledgePopClear": 0.42,
     "ledgePopCarry": 2.5,
-    "apexGravityMul": 0.82
+    "emergeDelay": 0.07,
+    "fireBuffer": 0.16
   },
   "match": {
     "durations": [
@@ -223,6 +253,70 @@
       180
     ],
     "defaultDuration": 180,
-    "finalCountdown": 10
+    "finalCountdown": 10,
+    "teamSize": 5,
+    "pointsPerM2": 1
+  },
+  "teams": {
+    "palettes": [
+      {
+        "id": "tangerine-cobalt",
+        "a": "#ff8a14",
+        "b": "#2f5bff",
+        "names": [
+          "Tangerine",
+          "Cobalt"
+        ]
+      },
+      {
+        "id": "bubblegum-mint",
+        "a": "#ff3f9e",
+        "b": "#18d48c",
+        "names": [
+          "Bubblegum",
+          "Mint"
+        ]
+      },
+      {
+        "id": "lemon-grape",
+        "a": "#f2e312",
+        "b": "#8a3cff",
+        "names": [
+          "Lemon",
+          "Grape"
+        ]
+      },
+      {
+        "id": "aqua-cherry",
+        "a": "#10d2e6",
+        "b": "#ff4150",
+        "names": [
+          "Aqua",
+          "Cherry"
+        ]
+      },
+      {
+        "id": "lime-magenta",
+        "a": "#a6f01a",
+        "b": "#e02cd8",
+        "names": [
+          "Lime",
+          "Magenta"
+        ]
+      }
+    ],
+    "colorblind": {
+      "id": "cb-yellow-blue",
+      "a": "#ffd21a",
+      "b": "#2a52ff",
+      "names": [
+        "Sun",
+        "Sea"
+      ]
+    },
+    "names": [
+      "Alpha",
+      "Bravo"
+    ]
   }
 }
