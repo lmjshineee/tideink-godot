@@ -81,6 +81,57 @@ func _check() -> void:
 	if widest > cone * 2.0 + 0.5:
 		_fail("shooter spread exceeded the source cone: %.2f deg (cone %.1f)" % [widest, cone])
 		return
+	# Check the actual sampling region. A previous implementation used two
+	# positive offsets: shots varied, but all landed on one side of the aim.
+	var aim := Vector3.FORWARD
+	var spread_basis: Array = combat.call("_perpendicular_basis", aim)
+	var signed_sides := [false, false, false, false]
+	for sample in range(64):
+		var spread: Vector3 = combat.call("_spread_direction", aim, deg_to_rad(cone))
+		var horizontal := spread.dot(spread_basis[0])
+		var vertical := spread.dot(spread_basis[1])
+		signed_sides[0] = signed_sides[0] or horizontal > 0.001
+		signed_sides[1] = signed_sides[1] or horizontal < -0.001
+		signed_sides[2] = signed_sides[2] or vertical > 0.001
+		signed_sides[3] = signed_sides[3] or vertical < -0.001
+		if rad_to_deg(aim.angle_to(spread)) > cone + 0.001:
+			_fail("spread sample escaped the source cone")
+			return
+	if signed_sides.has(false):
+		_fail("spread samples favored only one side of the crosshair")
+		return
+	# A level crosshair at 11 m should still be reached after the shooter's
+	# gravity and drag. Check the actual projectile update, not only the solver.
+	var from := Vector3(0.0, 50.0, -39.0)
+	var target := from + Vector3.FORWARD * 11.0
+	var corrected: Vector3 = combat.call("_ballistic_direction", from, Vector3.FORWARD,
+		target, float(shooter["projSpeed"]), float(shooter["straightTime"]),
+		28.0, 0.8, float(shooter["range"]))
+	if corrected.y <= 0.0 or corrected.angle_to(Vector3.FORWARD) > 0.35:
+		_fail("shooter ballistic aim did not raise the launch pitch")
+		return
+	combat.call("_spawn_projectile", "shooter", from, corrected * float(shooter["projSpeed"]), shooter)
+	var ballistic_shot: Dictionary = (combat.get("projectiles") as Array).back()
+	var ballistic_visual: MeshInstance3D = ballistic_shot["visual"]
+	var previous: Vector3 = from
+	var crossed := false
+	for step in range(20):
+		combat.call("_update_projectiles", 1.0 / 30.0)
+		if not is_instance_valid(ballistic_visual):
+			break
+		var current: Vector3 = ballistic_visual.global_position
+		if current.z <= target.z:
+			var fraction := (target.z - previous.z) / (current.z - previous.z)
+			var height_at_target := lerpf(previous.y, current.y, fraction)
+			if absf(height_at_target - target.y) > 0.25:
+				_fail("shooter ballistic shot missed crosshair height at 11 m")
+				return
+			crossed = true
+			break
+		previous = current
+	if not crossed:
+		_fail("shooter ballistic shot expired before target distance")
+		return
 	combat.call("select_weapon", "blaster")
 	before = float(combat.get("ink_amount"))
 	combat.call("tick", 0.05, true, false)

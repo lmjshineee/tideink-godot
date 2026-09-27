@@ -40,11 +40,11 @@ func _check() -> void:
 		return
 	var opponent: Node3D = scene.get_node("Bot")
 	walker.global_position = opponent.global_position + Vector3(2.0, 0.0, 0.0)
-	var hp_before := float(scene.get("player_health"))
 	scene.call("_update_bot", 0.1)
 	var tracer: MeshInstance3D = scene.get_node("BotAttackTracer")
-	if float(scene.get("player_health")) >= hp_before or not tracer.visible:
-		_fail("opponent attack has no visible hit direction")
+	var shots: Array = combat.get("projectiles")
+	if shots.is_empty() or int((shots.back() as Dictionary)["team"]) != 1 or not tracer.visible:
+		_fail("opponent projectile has no visible firing cue")
 		return
 	scene.call("damage_bot", 25.0)
 	scene.call("_update_bot", 0.01)
@@ -52,6 +52,7 @@ func _check() -> void:
 	if not is_equal_approx(fill.scale.x, 0.75):
 		_fail("opponent health bar did not track damage")
 		return
+	scene.set("player_respawn", 1.0)
 	scene.call("_update_bot", 0.2)
 	if tracer.visible:
 		_fail("opponent attack trace did not expire")

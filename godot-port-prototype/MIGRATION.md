@@ -65,8 +65,9 @@
 
 ### 渲染路线决策：Forward+（已决定，尚未执行）
 
-**决定（2026-09-27）：目标渲染器为 Forward+（Vulkan），不再把 GL Compatibility 作为正式路线。**
-`project.godot` 现在仍是 `gl_compatibility`；本次只记录决策与执行条件，**未修改任何项目文件**。执行时按下面步骤一次做完，并在同一批次里更新本文的完成状态。
+**决定（2026-09-27）：目标渲染器为 Forward+，不再把 GL Compatibility 作为正式路线。**
+`project.godot` 现在仍是 `gl_compatibility`；做出该决策时只记录了执行条件，**没有切换渲染器**。执行时按下面步骤一次做完，并在同一批次里更新本文的完成状态。
+Forward+ 使用 RenderingDevice；在 macOS 上应按实际 Godot 版本和设备检查 Metal 后端，不能把 Forward+ 等同于 Vulkan。[Godot 渲染器说明](https://docs.godotengine.org/en/stable/tutorials/rendering/renderers.html)
 
 依据：
 
@@ -75,7 +76,7 @@
    - **MRT / 多渲染目标**：网页 [texlib.js](../public/game/src/world/texlib.js) 一次渲染写 albedo / normal / orm 三个附件；Compatibility 不支持 MRT。
    - **Decal**：官方文档明确 Decals 只在 Forward+ 与 Mobile 可用（见 §2 贴花一行），命中贴花不能按 Compatibility 推断。
    - **SSAO/SSIL 与后处理**：网页 [screenfx.js](../public/game/src/fx/screenfx.js) 的 GTAO + bloom + 色彩分级 + 暗角，在 Forward+ 对应 `WorldEnvironment` 的 SSAO/glow/Adjustment 或后处理 quad。
-3. 温度控制不应靠选低端渲染器：渲染器对温度的影响远小于帧率上限、渲染分辨率与后处理开关，而这三项 §5 已有明确门槛。
+3. 温度仍以本机实测为准。Forward+ 的基础渲染开销可能高于 Compatibility；帧率上限、渲染分辨率和后处理也会影响负载。先保留当前低负载基线，切换时在同一场景比较帧时间和温度，不能预设哪项影响最大。
 
 执行步骤（一次做完，逐项留证）：
 
@@ -86,7 +87,7 @@
 
 必须记录的风险：
 
-- **x86_64 是唯一真实风险点。** 导出预设为 Universal，Intel Mac 上 Forward+ 需要 MoltenVK 才能走 Metal。若 x86_64 启动失败且无法在预算内解决，回退方案是"保留 Compatibility + 把画面锁死在纯色简约路线"（不做 GTAO/贴花类效果），并把这一取舍写回本节，**不是默默降级**。
+- **设备兼容与负载都要验收。** 导出预设为 Universal，但在 Apple Silicon 上检查 x86_64 文件片段不能证明 Intel GPU 能正确渲染；需要真实 Intel Mac 验收该路径。Apple Silicon 上也要比较切换前后的画面、帧时间和温度。若未通过，保留 Compatibility 作为可玩的交付路线，并记录不能使用的 Forward+ 效果。
 - 切换后所有按 Compatibility 推断的结论作废（例如"4.8 兼容渲染器支持贴花"）；§2 与 §4 里相关描述要跟着改。
 - 不要把 Forward+ 当作"可以照搬网页全部特效"的许可：网页的渲染器、后处理参数与质量档（[config.js](../public/game/src/config.js) 的 `QUALITY`）仍需逐项对照，且必须先满足 §5 的帧时间与温度门槛。
 
@@ -129,8 +130,8 @@
 
 批次状态（2026-09-27，均以 `tools/run_checks.sh` 全部通过为证）：
 
-- **已完成**：基线入库；统一验证入口；导出分母修正（含道具碰撞盒）与两个导出器共用同一 `Level` 构造；配置改为整体导出并真正消费 `match`；弹道拖尾涂墨、每发散布与 bloom、CPU 拉伸、滚筒碾压冷却与起速曲线、弹丸逐类型存活时间/重力/阻力、命中体改为身体胶囊；空墨回墨死锁与潜墨开火丢失。
-- **未完成（B/C 剩余）**：弹道发射角修正；机器人回到与玩家同一套伤害/重生/武器入口；`stepUp`/`stepDown`/`footRadius`/`ledgeAssist`/`squidBodyLift`/`hardLand*`/`face*`（12 个朝向弹簧）等移动手感字段的消费——这些是足迹地面探测与朝向弹簧两块结构性工作，参数已导出但不代表已实现；`burstRadius` 仍未被消费。
+- **已完成**：基线入库；统一验证入口；导出分母修正（含道具碰撞盒）与两个导出器共用同一 `Level` 构造；配置改为整体导出并真正消费 `match`；弹道拖尾涂墨、圆盘散布与 bloom、CPU 拉伸、滚筒碾压冷却与起速曲线、弹丸逐类型存活时间/重力/阻力、命中体改为身体胶囊；空墨回墨死锁与潜墨开火丢失；射手按 30 Hz 弹体更新补偿发射角；蓝队射手与玩家共用弹体、地形命中、伤害和涂墨通道，墨耗/回墨由同一配置驱动。
+- **未完成（B/C 剩余）**：蓝队尚未共用玩家的完整生命、重生与四种武器控制，也仍沿固定路线涂墨；`stepUp`/`stepDown`/`footRadius`/`ledgeAssist`/`squidBodyLift`/`hardLand*`/`face*`（12 个朝向弹簧）等移动手感字段的消费——这些是足迹地面探测与朝向弹簧两块结构性工作，参数已导出但不代表已实现；`burstRadius` 仍未被消费。
 - **独立门槛**：渲染器切换为 Forward+（§2「渲染路线决策」），需在 arm64 与 x86_64 上分别验证；Mac 导出、完整图形试玩、整局帧时间与温度。
 
 当前决策：先把 B 的规则与手感字段补完，再按 §2 的步骤执行渲染器切换并做画面验收；Mac 导出为独立验收门槛。Godot 4.8 的新增视觉特性只在隔离实验中评估，不能替代这些规则门槛。

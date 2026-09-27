@@ -9,8 +9,7 @@ const WAYPOINTS := [
 	Vector2(8.0, 8.0), Vector2(12.0, 13.0), Vector2(12.0, 31.0),
 ]
 const PAINT_INTERVAL := 0.22
-const ATTACK_INTERVAL := 1.2
-const ATTACK_RANGE := 5.0
+const ATTACK_RANGE := 8.0
 const CHASE_RANGE := 13.0
 const CHASE_STOP := 3.8
 const BODY_RADIUS := 0.34
@@ -21,6 +20,8 @@ var map: Node3D
 var waypoint_index := 0
 var paint_cooldown := 0.0
 var attack_cooldown := 0.0
+var ink_amount := 100.0
+var last_fire_time := 99.0
 var chasing := false
 var returning := false
 var chase_trail: Array[Vector3] = []
@@ -48,6 +49,9 @@ func reset() -> void:
 	waypoint_index = 0
 	paint_cooldown = 0.0
 	attack_cooldown = 0.0
+	var player_config: Dictionary = game.get_node("Combat").get("weapon_data")["player"]
+	ink_amount = float(player_config["inkMax"])
+	last_fire_time = 99.0
 	chasing = false
 	returning = false
 	chase_trail.clear()
@@ -63,13 +67,19 @@ func clear_attack_visual() -> void:
 
 
 func tick(delta: float) -> void:
+	var combat: Node3D = game.get_node("Combat")
+	var player_config: Dictionary = combat.get("weapon_data")["player"]
+	var shooter: Dictionary = combat.get("weapons")["shooter"]
+	last_fire_time += delta
+	if last_fire_time > float(player_config["inkRefillDelay"]):
+		ink_amount = minf(float(player_config["inkMax"]), ink_amount + float(player_config["inkRefillKid"]) * delta)
 	attack_visual_time = maxf(0.0, attack_visual_time - delta)
 	attack_tracer.visible = attack_visual_time > 0.0
 	_update_health_visual()
 	var old_position := global_position
 	var current := Vector2(global_position.x, global_position.z)
 	var player := Vector2(walker.global_position.x, walker.global_position.z)
-	var speed := float(game.get_node("Combat").get("weapon_data")["player"]["runSpeed"])
+	var speed := float(player_config["runSpeed"])
 	var can_chase := float(game.get("player_respawn")) <= 0.0 and current.distance_to(player) <= CHASE_RANGE \
 		and _can_see_player()
 	chasing = false
@@ -114,11 +124,16 @@ func tick(delta: float) -> void:
 		game.call("paint_at_world", global_position + Vector3.UP * 0.12, 1, 0.9, randf())
 	attack_cooldown = maxf(0.0, attack_cooldown - delta)
 	if float(game.get("player_respawn")) <= 0.0 and attack_cooldown <= 0.0 \
-		and global_position.distance_to(walker.global_position) < ATTACK_RANGE and _can_see_player():
-		attack_cooldown = ATTACK_INTERVAL
+		and ink_amount >= float(shooter["inkPerShot"]) \
+		and global_position.distance_to(walker.global_position) < minf(ATTACK_RANGE, float(shooter["range"])) \
+		and _can_see_player():
+		attack_cooldown = float(shooter["fireInterval"])
+		ink_amount -= float(shooter["inkPerShot"])
+		last_fire_time = 0.0
 		_show_attack()
-		game.call("damage_player", 18.0)
-		game.call("paint_at_world", walker.global_position + Vector3.UP * 0.2, 1, 0.8, randf())
+		var target_height := 0.3 if bool(walker.get("squid_form")) else 1.0
+		combat.call("spawn_bot_shot", global_position + Vector3.UP * 1.05,
+			walker.global_position + Vector3.UP * target_height)
 
 
 func _build_feedback() -> void:
@@ -174,7 +189,8 @@ func _show_attack() -> void:
 		return
 	attack_tracer_mesh.size = Vector3(0.055, 0.055, length)
 	attack_tracer.global_position = (from + to) * 0.5
-	attack_tracer.look_at(to, Vector3.UP)
+	var up := Vector3.RIGHT if absf((to - from).normalized().dot(Vector3.UP)) > 0.98 else Vector3.UP
+	attack_tracer.look_at(to, up)
 	attack_tracer.visible = true
 	attack_visual_time = 0.14
 
@@ -232,6 +248,6 @@ func _ground_at(at: Vector3) -> Dictionary:
 
 func _can_see_player() -> bool:
 	var from := global_position + Vector3.UP
-	var to := walker.global_position + Vector3.UP
+	var to := walker.global_position + Vector3.UP * (0.3 if bool(walker.get("squid_form")) else 1.0)
 	var query := PhysicsRayQueryParameters3D.create(from, to, 1)
 	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
