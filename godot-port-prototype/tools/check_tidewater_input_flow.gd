@@ -26,6 +26,14 @@ func _check() -> void:
 	if scene.get("phase") != "playing" or not bool(scene.get("pointer_locked")):
 		_fail("intro did not start controllable play")
 		return
+	# Aim at the floor before firing: a shot aimed at the horizon bursts in the air
+	# past the platform and paints nothing, so the check states the aim explicitly.
+	# The SceneTree's physics_frame signal fires before nodes are processed, so more
+	# than one frame is awaited before the walker's camera transform is up to date.
+	var walker: CharacterBody3D = scene.get_node("World/Walker")
+	walker.set("camera_pitch", -0.55)
+	for i in range(3):
+		await physics_frame
 	_mouse(MOUSE_BUTTON_LEFT, true)
 	scene.call("_physics_process", 0.01)
 	_mouse(MOUSE_BUTTON_LEFT, false)
