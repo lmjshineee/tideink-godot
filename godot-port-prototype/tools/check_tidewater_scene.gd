@@ -29,8 +29,17 @@ func _check() -> void:
 			for part in child.get_children():
 				if part is CollisionShape3D:
 					collisions += 1
-	if map.get("block_count") != 63 or bodies != 63 or ramps != 10 or collisions != 63:
-		printerr("FAIL: blocks=", map.get("block_count"), " bodies=", bodies, " ramps=", ramps, " collisions=", collisions)
+	# 63 structural blocks + 82 set-dressing prop colliders, all solid. The prop
+	# colliders are hidden and unpaintable but must exist as collision, or players
+	# walk through benches and crates that the web game collides with.
+	var structural := int(manifest.get("structuralBlocks", 0))
+	var expected: int = structural + int((manifest.get("dressing") as Dictionary).get("propColliders", 0))
+	if map.get("block_count") != expected or bodies != expected or ramps != 10 or collisions != expected:
+		printerr("FAIL: blocks=", map.get("block_count"), " bodies=", bodies, " ramps=", ramps, " collisions=", collisions, " expected=", expected)
+		quit(1)
+		return
+	if structural != 63 or expected != 145:
+		printerr("FAIL: structural/prop split changed: structural=", structural, " total=", expected)
 		quit(1)
 		return
 	if (map.get("spawn_pads") as Array).size() != 2:
@@ -60,7 +69,7 @@ func _check() -> void:
 		printerr("FAIL: missing surface examples")
 		quit(1)
 		return
-	print("PASS: 63 bodies, 10 ramps, 63 colliders, 2 spawns, 289 faces; turf/wall lookup")
+	print("PASS: ", expected, " bodies (", structural, " structural + props), 10 ramps, 2 spawns, 289 faces; turf/wall lookup")
 	quit()
 
 static func _vector(values: Array) -> Vector3:

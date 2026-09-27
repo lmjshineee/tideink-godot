@@ -8,8 +8,17 @@ func _initialize() -> void:
 func _check() -> void:
 	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/tidewater_surfaces.json"))
 	var ink = SurfaceInk.new(data)
-	if ink.turf_total != 70180 or ink.surfaces.size() != 289:
-		printerr("FAIL: Turf grid size")
+	# Guard against Godot-side drift: the loader must take the denominator from the
+	# export. The expected value is pinned so a change in the map or set dressing is
+	# a visible, deliberate edit; export_tidewater_surfaces.mjs --check guards the
+	# source side (289 faces, 69,366 turf cells).
+	var expected_turf := 69366
+	if int(data["turfCells"]) != expected_turf:
+		printerr("FAIL: exported turfCells changed: ", data["turfCells"], " (expected ", expected_turf, ")")
+		quit(1)
+		return
+	if ink.turf_total != expected_turf or ink.surfaces.size() != 289:
+		printerr("FAIL: Turf grid size: total=", ink.turf_total, " faces=", ink.surfaces.size())
 		quit(1)
 		return
 	var turf: Dictionary = {}

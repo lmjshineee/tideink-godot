@@ -1,25 +1,15 @@
 // Export the original Level's exposed face IDs and local coordinates verbatim.
 // Run: node godot-port-prototype/tools/export_tidewater_surfaces.mjs [--check]
-import { registerHooks } from 'node:module';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { createRuntimeLevel, round6, vector3 } from './lib/runtime_level.mjs';
+import { TIDEWATER } from '../../public/game/src/world/maps.js';
 
-registerHooks({
-  resolve(specifier, context, nextResolve) {
-    if (specifier === 'three') {
-      return { url: new URL('../../public/game/vendor/three/engine/three.module.js', import.meta.url).href, shortCircuit: true };
-    }
-    return nextResolve(specifier, context);
-  },
-});
-
-const [{ Level }, { TIDEWATER }] = await Promise.all([
-  import('../../public/game/src/world/level.js'),
-  import('../../public/game/src/world/maps.js'),
-]);
-const level = new Level(TIDEWATER);
-const round = (value) => Math.round(value * 1e6) / 1e6;
-const vector = (v) => [round(v.x), round(v.y), round(v.z)];
+// Built through the shared helper so the exported grid always matches the running
+// game, including the set-dressing prop colliders that bury turf cells.
+const { level, layoutId, dressingItems, colliders } = await createRuntimeLevel(TIDEWATER);
+const round = round6;
+const vector = vector3;
 const cellSize = 0.25;
 let turfCells = 0;
 let gridCells = 0;
@@ -72,6 +62,10 @@ const payload = {
   schema: 1,
   source: 'public/game/src/world/level.js:Level._buildFaces',
   id: TIDEWATER.id,
+  layout: layoutId,
+  // Provenance for the denominator: buried cells come from the level geometry AND
+  // from the set-dressing prop colliders, so they are recorded together.
+  dressing: { items: dressingItems, propColliders: colliders.length },
   blockCount: level.blocks.length,
   cellSize,
   gridCells,
@@ -83,7 +77,7 @@ const serialized = `${JSON.stringify(payload, null, 2)}\n`;
 
 if (process.argv.includes('--check')) {
   if (readFileSync(output, 'utf8') !== serialized) throw new Error('tidewater_surfaces.json differs from Level; regenerate it');
-  console.log(`OK: ${faces.length} source faces match ${fileURLToPath(output)}`);
+  console.log(`OK: ${faces.length} source faces, ${turfCells} turf cells match ${fileURLToPath(output)}`);
 } else {
   mkdirSync(new URL('../assets/maps/', import.meta.url), { recursive: true });
   writeFileSync(output, serialized);

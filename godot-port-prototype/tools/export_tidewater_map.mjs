@@ -2,21 +2,15 @@
 // Run: node godot-port-prototype/tools/export_tidewater_map.mjs [--check]
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { registerHooks } from 'node:module';
+import { createRuntimeLevel, round6, vector3 } from './lib/runtime_level.mjs';
 import { TIDEWATER } from '../../public/game/src/world/maps.js';
 
-registerHooks({
-  resolve(specifier, context, nextResolve) {
-    if (specifier === 'three') {
-      return { url: new URL('../../public/game/vendor/three/engine/three.module.js', import.meta.url).href, shortCircuit: true };
-    }
-    return nextResolve(specifier, context);
-  },
-});
-const { Level } = await import('../../public/game/src/world/level.js');
-const level = new Level(TIDEWATER);
-const round = (value) => Math.round(value * 1e6) / 1e6;
-const vector = (value) => [round(value.x), round(value.y), round(value.z)];
+// Same construction as the running game, so the block list (and the set-dressing
+// prop colliders that follow the structural blocks) can never disagree with the
+// surfaces export.
+const { level, layoutId, dressingItems, colliders } = await createRuntimeLevel(TIDEWATER);
+const round = round6;
+const vector = vector3;
 
 function mirror(def) {
   const mirrored = { ...def };
@@ -34,23 +28,26 @@ function mirror(def) {
   return mirrored;
 }
 
-const blocks = [...TIDEWATER.single, ...TIDEWATER.half, ...TIDEWATER.half.map(mirror)]
-  .map((def, id) => {
-    const block = level.blocks[id];
-    if (block.id !== id) throw new Error(`Level block order changed at ${id}`);
-    return {
-      id,
-      ...def,
-      geometry: { center: vector(block.center), half: vector(block.half), axes: block.axes.map(vector) },
-    };
-  });
+const structural = [...TIDEWATER.single, ...TIDEWATER.half, ...TIDEWATER.half.map(mirror)];
+const blocks = level.blocks.map((block, id) => {
+  if (block.id !== id) throw new Error(`Level block order changed at ${id}`);
+  const geometry = { center: vector(block.center), half: vector(block.half), axes: block.axes.map(vector) };
+  if (id < structural.length) return { id, ...structural[id], geometry };
+  // Set-dressing prop collider: hidden and unpaintable, but solid, exactly as
+  // level.js:27 builds it. Godot needs these as collision or players walk through
+  // benches, crates and pilings that the web game collides with.
+  return { id, kind: 'box', hidden: true, solid: true, paint: false, color: '#888888', geometry };
+});
 const manifest = {
   schema: 1,
   source: 'public/game/src/world/maps.js:TIDEWATER',
   id: TIDEWATER.id,
+  layout: layoutId,
   bounds: TIDEWATER.bounds,
   spawnPads: TIDEWATER.spawnPads,
   spawnBarrier: TIDEWATER.spawnBarrier,
+  dressing: { items: dressingItems, propColliders: colliders.length },
+  structuralBlocks: structural.length,
   blocks,
 };
 const output = new URL('../assets/maps/tidewater.json', import.meta.url);
@@ -59,9 +56,9 @@ const serialized = `${JSON.stringify(manifest, null, 2)}\n`;
 if (process.argv.includes('--check')) {
   const actual = readFileSync(output, 'utf8');
   if (actual !== serialized) throw new Error('tidewater.json differs from maps.js; regenerate it');
-  console.log(`OK: ${blocks.length} source blocks match ${fileURLToPath(output)}`);
+  console.log(`OK: ${structural.length} structural blocks + ${colliders.length} prop colliders match ${fileURLToPath(output)}`);
 } else {
   mkdirSync(new URL('../assets/maps/', import.meta.url), { recursive: true });
   writeFileSync(output, serialized);
-  console.log(`Exported ${blocks.length} blocks to ${fileURLToPath(output)}`);
+  console.log(`Exported ${blocks.length} blocks (${structural.length} structural + ${colliders.length} props) to ${fileURLToPath(output)}`);
 }

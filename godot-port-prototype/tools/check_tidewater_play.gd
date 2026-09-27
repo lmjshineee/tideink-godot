@@ -23,8 +23,11 @@ func _check() -> void:
 	var view: Node3D = scene.get_node("InkView")
 	var combat: Node3D = scene.get_node("Combat")
 	var ink: RefCounted = scene.get("ink")
-	if map.get("block_count") != 63 or view.get("face_mesh_count") != 0 or ink.get("turf_total") != 70180:
-		printerr("FAIL: real-map scene wiring")
+	# 63 structural blocks + 82 set-dressing prop colliders; turf denominator from
+	# export_tidewater_surfaces.mjs, which now includes the buried cells the props
+	# create (it used to report 70,180 because it built the Level without them).
+	if map.get("block_count") != 145 or view.get("face_mesh_count") != 0 or ink.get("turf_total") != 69366:
+		printerr("FAIL: real-map scene wiring: blocks=", map.get("block_count"), " meshes=", view.get("face_mesh_count"), " turf=", ink.get("turf_total"))
 		quit(1)
 		return
 	if scene.get("phase") != "setup" or bool(walker.get("active")) or (combat.get("weapons") as Dictionary).size() != 4:
