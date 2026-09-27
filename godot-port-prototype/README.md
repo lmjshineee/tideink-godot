@@ -29,6 +29,18 @@
 - 90 秒对局结束后冻结操作，约 2.6 秒后统计地面墨迹面积，再展示约 5.1 秒裁判结果；覆盖率相同则随机决定胜方。HUD 顶部显示计时和双方覆盖率，左下显示墨量与生命，右上显示大招，终场有独立结果面板。
 - 默认限制为 30 FPS、30 次物理更新/秒，以减少运行负载；这不能保证任何特定温度。若设备仍达到不舒适的温度，请停止运行。
 
+### 验证
+
+唯一入口（素材导入 → 4 个导出器 `--check` → 全部规则短测，任一失败即非 0 退出）：
+
+```bash
+NODE=$(command -v node) ./godot-port-prototype/tools/run_checks.sh
+```
+
+不要逐个手跑 `tools/check_*.gd`：这套东西正是那样漂移的（曾有 2 个短测长期失败而文档仍写"通过"）。runner 对每个检查有超时看门狗，脚本错误导致的挂死会变成可见的 FAIL。结论与门槛见[迁移规范](MIGRATION.md)§5。
+
+画面路线的渲染器已定为 **Forward+**（记录在[迁移规范](MIGRATION.md)§2「渲染路线决策」），但 `project.godot` 目前仍是 `gl_compatibility`，尚未执行切换。
+
 ### 导出 macOS 应用
 
 [导出预设](export_presets.cfg)固定 Universal 架构和本地 Demo 的 Bundle ID。本机现已安装与 Godot 4.8.dev6 匹配的[官方导出模板](https://godotengine.org/download/archive/4.8-dev6/)；在仓库根目录运行 `./godot-port-prototype/export_macos.sh` 可生成 `godot-port-prototype/build/INKWAVE Demo.app`。2026-09-27 已实际导出：包内 arm64/x86_64 可执行文件、资源包和临时签名校验通过，导出的程序以 `--headless --quit-after 2` 启动没有脚本或场景错误；另用 `--quit-after 60` 确认导出程序能创建图形窗口并在约三秒后退出。脚本会重复执行导入、导出、日志、签名和无界面短启动检查。项目源场景已做数帧画面检查；导出的 `.app` 仍需检查真实输入、完整对局和设备温度。向他人分发另需处理正式签名与公证。
@@ -41,10 +53,10 @@
 
 ### Tidewater 地图数据与碰撞（独立场景）
 
-- `tools/export_tidewater_map.mjs` 从网页 `maps.js` 和 `Level` 导出 63 个结构块及其准确变换；`tools/export_tidewater_surfaces.mjs` 导出 289 个可见面，保留地面/墙面、可涂与计分标记。运行两个脚本的 `--check` 可检查生成数据与网页源码是否一致。
+- `tools/export_tidewater_map.mjs` 从网页 `maps.js` 和 `Level` 导出 63 个结构块及其准确变换，并追加 82 个场景道具碰撞块（`hidden`/`solid`/不可涂，与网页 `level.js:27` 一致，共 145 块）；`tools/export_tidewater_surfaces.mjs` 导出 289 个可见面，保留地面/墙面、可涂与计分标记。两个导出器共用 `tools/lib/runtime_level.mjs` 构造与运行时相同的 `Level`（含道具碰撞盒），构造不一致会直接抛错。运行 `--check` 可检查生成数据与网页源码是否一致。
 - [tidewater_map.tscn](tidewater_map.tscn) 无界面加载时生成 63 个碰撞体、10 个坡道和两个出生点；可通过碰撞体的来源 ID、命中点和法线定位原地图表面。Godot 4.8.dev6 的短时无界面检查通过，检查脚本见 [tools/check_tidewater_scene.gd](tools/check_tidewater_scene.gd)。
 - 独立 [步行场](tidewater_walk.tscn)使用 `CharacterBody3D`，短测已检查落在出生平台、横穿平台并沿原地图坡道下降。[角色控制器](tidewater_walker.gd)按原 `actor.js` 参数实现水平起步、刹车、反向和转向，以及潜墨/敌墨速度变化；无界面行为检查见 [check_tidewater_handling.gd](tools/check_tidewater_handling.gd)。[跳跃检查](tools/check_tidewater_jump.gd)覆盖提前按键缓存、离地宽限、己方/敌方墨跳跃、顶点/下落重力和真实场景中的空格起跳。[形态检查](tools/check_tidewater_form.gd)覆盖低矮碰撞体、顶棚下禁止站起及空间清空后恢复站立。墙面短测还检查了干墙与敌方墨墙无法附着、己方墨墙爬升、松开潜墨脱离及顶边弹出。潜墨碰撞体目前用 12 边凸棱柱近似原作圆形体积；台阶/落地细节与实际移动手感仍未验收。
-- [多表面归属格](surface_ink.gd)加载了 285 个可涂面、其中 61 个计分面与 70,180 个有效计分格。短测已检查涂地、重复涂、敌方覆盖、墙面涂墨不改变计分，以及 0–1 覆盖率接口；真实地图墨迹已有显示层，数帧近景确认地面涂墨可见，涂墨动画和整局显示效果仍未验收。
+- [多表面归属格](surface_ink.gd)加载了 285 个可涂面、其中 61 个计分面与 **69,366 个有效计分格**（含场景道具压住的格子，与运行时一致）。短测已检查涂地、重复涂、敌方覆盖、墙面涂墨不改变计分、掠射墨团的拉伸形状，以及 0–1 覆盖率接口；真实地图墨迹已有显示层，数帧近景确认地面涂墨可见，涂墨动画和整局显示效果仍未验收。
 - [tidewater_play.tscn](tidewater_play.tscn)把地图碰撞、角色采样、[多表面墨迹显示](surface_ink_view.gd)和同一份 CPU 计分状态连成独立实验场。墨迹网格与纹理在首次涂到相应表面时才创建；无界面短测检查了空场景零墨迹资源、重涂不重复创建、角色读取己方墨以及敌方覆盖后的纹理更新。[生命规则检查](tools/check_tidewater_vitals.gd)覆盖敌墨伤害上限、离墨后回血、己方墨潜行加速回血及出生保护。显示仍是 0.25 米格子，未实现网页的流动边缘、墨迹扩张或甩墨拉伸；临时蓝队机器人尚未使用相同生命规则。
 - `tools/export_weapon_config.mjs` 从网页 [config.js](../public/game/src/config.js) 导出四武器、墨水炸弹、两种大招、水平移动/攀爬、生命、重生和补墨参数到 `assets/weapons.json`；[tidewater_combat.gd](tidewater_combat.gd)读取这些参数并实现四武器、炸弹与大招的核心事件。涂墨面积充能，冲击波跃起落地涂墨并伤害，墨雨投出后持续漂移、涂墨并伤害；死亡后充能减半。[大招短测](tools/check_tidewater_special.gd)覆盖参数、充能、装甲、落地、弹体变云、持续效果与消失。大招表现仍是简化球体/冲击墨迹，没有原网页完整动画和粒子。
 - [蓝队样机](tidewater_bot.gd)把移动、地面涂墨和近距离攻击从对局控制器拆出；攻击有短暂蓝色轨迹，头顶血条显示受伤情况。无界面检查确认其从出生区进入中场、路线避开静态碰撞、蓝队计分面积增加且终场停止。[追击短测](tools/check_tidewater_bot_chase.gd)还检查可见玩家吸引蓝队、安全身体位置，以及玩家重生时沿追击路径退回巡逻。[整局时间模拟](tools/check_tidewater_full_round.gd)检查暂停、90 秒蓝队涂墨、裁判和结果页；它不验证画面、玩家操作或实际运行 90 秒。蓝队仍缺少原网页的动态寻路、武器状态与回墨。默认场景现为 Tidewater；旧 `main.tscn` 保留为平地样机。已检查部分静态画面，完整图形对局尚未验收。
