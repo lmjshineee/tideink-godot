@@ -10,7 +10,7 @@ var weapon_data: Dictionary = {}
 var weapons: Dictionary = {}
 var selected_id := "shooter"
 var ink_amount := 100.0
-var refill_wait := 0.0
+var last_fire_time := 99.0
 var cooldown := 0.0
 var charge_time := 0.0
 var charge_fraction := 0.0
@@ -35,6 +35,11 @@ var elapsed := 0.0
 var special_points := 0.0
 var special_active := ""
 var special_time := 0.0
+
+
+# weapons.js:42 — a weapon mid-charge or mid-flick keeps the actor a kid.
+func is_busy() -> bool:
+	return charging or flick_time >= 0.0
 
 
 func special_cost() -> float:
@@ -163,15 +168,19 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 		walker.set("firing_speed_limit", INF)
 		return
 	var player_config: Dictionary = weapon_data["player"]
-	if squid:
-		if int(walker.get("ink_owner")) == 0 or bool(walker.get("climbing")):
-			ink_amount = minf(float(player_config["inkMax"]), ink_amount + float(player_config["inkRefillSwim"]) * delta)
-	elif fire:
-		refill_wait = float(player_config["inkRefillDelay"])
-	else:
-		refill_wait = maxf(0.0, refill_wait - delta)
-		if refill_wait <= 0.0:
-			ink_amount = minf(float(player_config["inkMax"]), ink_amount + float(player_config["inkRefillKid"]) * delta)
+	last_fire_time += delta
+	# Ink refill, mirroring actor.js:311-314. The delay is measured from the last shot
+	# that actually left the barrel, not from the button state: the port used to reset
+	# the delay every frame the trigger was held, so an empty tank pressed against the
+	# trigger never refilled and the player was stuck dry until they let go.
+	var submerged := squid and walker.is_on_floor() and int(walker.get("ink_owner")) == 0
+	if submerged or bool(walker.get("climbing")):
+		ink_amount = minf(float(player_config["inkMax"]), ink_amount + float(player_config["inkRefillSwim"]) * delta)
+	elif not squid and last_fire_time > float(player_config["inkRefillDelay"]) and not is_busy():
+		ink_amount = minf(float(player_config["inkMax"]), ink_amount + float(player_config["inkRefillKid"]) * delta)
+	elif squid:
+		# A squid on dry ground still trickles at half the kid rate (actor.js:314).
+		ink_amount = minf(float(player_config["inkMax"]), ink_amount + float(player_config["inkRefillKid"]) * 0.5 * delta)
 	var pressed := fire and not last_fire
 	last_fire = fire
 	var sub_released := not sub and last_sub
@@ -185,7 +194,7 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 		var bomb: Dictionary = weapon_data["sub"]["bomb"]
 		if ink_amount >= float(bomb["inkCost"]):
 			ink_amount -= float(bomb["inkCost"])
-			refill_wait = float(player_config["inkRefillDelay"])
+			last_fire_time = 0.0
 			_throw_bomb(bomb)
 	var weapon: Dictionary = weapons[selected_id]
 	var speed_limit := INF
@@ -195,7 +204,10 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 				if fire and cooldown <= 0.0 and ink_amount >= float(weapon["inkPerShot"]):
 					_spawn_shot(weapon)
 					ink_amount -= float(weapon["inkPerShot"])
-					cooldown = float(weapon["fireInterval"])
+					# Accumulate like the web's while-loop so a slow weapon is not
+					# quantised by the 30 Hz tick (blaster 0.78 s used to become 0.80 s).
+					cooldown += float(weapon["fireInterval"])
+					last_fire_time = 0.0
 				if fire:
 					speed_limit = float(weapon["moveSpeedFiring"])
 			"charger":
@@ -409,6 +421,7 @@ func _burst_blaster(at: Vector3, weapon: Dictionary, direct_hit_bot: bool = fals
 
 func _fire_charger(weapon: Dictionary, charge: float, aim_override: Vector3 = Vector3.ZERO) -> void:
 	ink_amount = maxf(0.0, ink_amount - float(weapon["inkFull"]) * charge)
+	last_fire_time = 0.0
 	var muzzle := walker.global_position + Vector3.UP * 1.05
 	var range_m := lerpf(float(weapon["rangeMin"]), float(weapon["rangeMax"]), charge)
 	var direction := aim_override.normalized() if aim_override.length_squared() > 0.01 else _aim_direction(muzzle, range_m)
@@ -668,6 +681,7 @@ func _update_roller(delta: float, fire: bool, pressed: bool, weapon: Dictionary)
 			_spawn_flick(weapon)
 			flick_time = -1.0
 			cooldown = float(weapon["flickInterval"]) - float(weapon["flickWindup"])
+			last_fire_time = 0.0
 			firing_time = 0.25
 			flick_recover = 0.18
 		return
@@ -720,6 +734,7 @@ func _roll_damage(weapon: Dictionary) -> void:
 
 func _paint_roll_at(position: Vector3, movement: Vector3, weapon: Dictionary) -> void:
 	ink_amount = maxf(0.0, ink_amount - float(weapon["rollInkPerMeter"]) * movement.length())
+	last_fire_time = 0.0
 	# The stripe is laid out along the actor's facing, not the instantaneous travel
 	# direction (weapons.js:213-219), so brushing past sideways paints a different
 	# band than the web does.

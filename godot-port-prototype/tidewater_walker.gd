@@ -9,6 +9,17 @@ const CAMERA_HEIGHT := 1.85
 var jump_requested := false
 var jump_buffer := 0.0
 var coyote := 0.0
+# Intent state (actor.js:226-241, 253-263, 317-324). Owned here rather than in the
+# match controller so the squid/fire rule is testable without a scene.
+var weapon_fire := false
+var intent_driven := false
+var fire_buffer := 0.0
+var kid_time := 99.0
+var intent_time := 0.0
+var _fire_press := -1.0
+var _squid_press := -1.0
+var _previous_fire := false
+var _previous_squid := false
 var ink: RefCounted
 var ink_owner := -1
 var active := true
@@ -91,16 +102,24 @@ func _physics_process(delta: float) -> void:
 	axis = axis.normalized()
 	axis = _camera_relative_axis(axis)
 	ink_owner = _floor_ink_owner() if ink != null else -1
-	var wants_squid := Input.is_key_pressed(KEY_SHIFT)
-	var squid := update_form(wants_squid)
+	# The match controller owns the form decision through update_intent(); the bare
+	# walk scene (no controller) keeps reading the key directly.
+	var squid := squid_form
+	if not intent_driven:
+		squid = update_form(Input.is_key_pressed(KEY_SHIFT))
 	_advance_jump_input(delta)
-	if _update_climb(delta, wants_squid, axis):
+	if _update_climb(delta, squid, axis):
 		coyote = maxf(0.0, coyote - delta)
 		move_and_slide()
 		_update_camera()
 		return
-	_horizontal_step(delta, axis, squid, ink_owner == 1, is_on_floor())
-	_vertical_step(delta, squid, is_on_floor())
+	var grounded := is_on_floor()
+	# Both "submerged" and "on enemy ink" require contact with the ground in the web
+	# game (actor.js:267-268), so a coyote-time jump off a ledge uses the plain jump.
+	var submerged := squid and grounded and ink_owner == 0
+	var on_enemy := grounded and ink_owner == 1 and not submerged
+	_horizontal_step(delta, axis, squid, on_enemy, grounded)
+	_vertical_step(delta, squid, grounded, submerged, on_enemy)
 	move_and_slide()
 	_update_camera()
 	if axis.length_squared() > 0.0:
@@ -168,6 +187,38 @@ func reset_movement_state() -> void:
 	_update_camera()
 
 
+# Applies one frame of player intent and decides, per actor.js:253-263 and
+# 317-324, whether the actor is a squid this frame and whether the weapon may fire.
+# "Most recent press wins" is what makes diving mid-spray and popping out of the ink
+# to shoot both work; the pop-out shot is buffered for fireBuffer seconds instead of
+# being dropped, and the weapon only leaves the barrel emergeDelay after surfacing.
+func update_intent(delta: float, fire: bool, squid_request: bool, weapon_busy: bool) -> void:
+	intent_driven = true
+	intent_time += delta
+	kid_time += delta
+	var fire_pressed := fire and not _previous_fire
+	if squid_request and not _previous_squid:
+		_squid_press = intent_time
+	if fire_pressed:
+		_fire_press = intent_time
+	_previous_fire = fire
+	_previous_squid = squid_request
+
+	fire_buffer = float(player_config["fireBuffer"]) if fire_pressed else maxf(0.0, fire_buffer - delta)
+	var fire_wins := (fire or fire_buffer > 0.0) and _fire_press >= _squid_press
+	var want_squid := squid_request and not fire_wins and not weapon_busy
+	var was_squid := squid_form
+	update_form(want_squid)
+	if was_squid != squid_form and not squid_form:
+		kid_time = 0.0
+
+	if not squid_form and kid_time >= float(player_config["emergeDelay"]):
+		weapon_fire = fire or fire_buffer > 0.0
+		fire_buffer = 0.0
+	else:
+		weapon_fire = false
+
+
 func update_form(requested_squid: bool) -> bool:
 	if requested_squid == squid_form:
 		return squid_form
@@ -216,12 +267,13 @@ func _advance_jump_input(delta: float) -> void:
 
 # Port of actor.js jump buffering, coyote time and variable gravity. The Godot
 # CharacterBody still handles floor contact, so step/ledge behavior differs.
-func _vertical_step(delta: float, squid: bool, grounded: bool) -> bool:
+func _vertical_step(delta: float, squid: bool, grounded: bool, submerged: bool = false,
+		on_enemy: bool = false) -> bool:
 	coyote = float(player_config["coyoteTime"]) if grounded else maxf(0.0, coyote - delta)
 	var jumped := jump_buffer > 0.0 and (grounded or coyote > 0.0)
 	if jumped:
-		var jump := float(player_config["swimJumpVel"]) if squid and ink_owner == 0 else float(player_config["jumpVel"])
-		velocity.y = jump * 0.72 if ink_owner == 1 else jump
+		var jump := float(player_config["swimJumpVel"]) if submerged else float(player_config["jumpVel"])
+		velocity.y = jump * 0.72 if on_enemy else jump
 		jump_buffer = 0.0
 		coyote = 0.0
 	elif grounded:

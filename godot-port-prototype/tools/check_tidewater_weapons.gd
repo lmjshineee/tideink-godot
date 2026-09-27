@@ -139,6 +139,24 @@ func _check() -> void:
 	if float(combat.get("ink_amount")) <= before:
 		_fail("kid ink did not refill after source idle delay")
 		return
+	# An empty tank with the trigger still held must refill: the delay is measured from
+	# the last shot that actually fired, not from the button state (actor.js:311-313).
+	# The port reset the delay every frame the trigger was held, so the player stayed
+	# locked at zero ink until they let go.
+	combat.set("ink_amount", 0.0)
+	combat.set("last_fire_time", 2.0)
+	combat.call("tick", 0.6, true, false)
+	if float(combat.get("ink_amount")) <= 0.0:
+		_fail("holding the trigger on empty ink never refilled")
+		return
+	# A squid on dry ground still trickles at half the kid rate (actor.js:314).
+	combat.set("ink_amount", 0.0)
+	walker.set("ink_owner", -1)
+	walker.set("climbing", false)
+	combat.call("tick", 1.0, false, true)
+	if absf(float(combat.get("ink_amount")) - 4.5) > 0.01:
+		_fail("dry-ground squid trickle: " + str(combat.get("ink_amount")))
+		return
 	print("PASS: four source-configured weapons, selection, ink costs and map paint impacts")
 	quit()
 

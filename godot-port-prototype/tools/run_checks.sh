@@ -77,18 +77,43 @@ printf '\n'
 # --- 3. 规则短测 ---------------------------------------------------------------
 # 沙箱等环境里 user:// 目录可能不可写，这行日志噪声不算失败。
 NOISE='Failed to open.*user://logs|Failed to open log file|Cannot write to user'
+CHECK_TIMEOUT="${CHECK_TIMEOUT:-120}"
+
+# Runs a command with a wall-clock limit. A check that raises a script error can
+# leave the SceneTree alive forever instead of reaching quit(), which hangs the
+# whole suite with no output; a timeout turns that into a visible FAIL.
+run_limited() {
+  "$@" &
+  limited_pid=$!
+  limited_waited=0
+  while kill -0 "$limited_pid" 2>/dev/null; do
+    if [ "$limited_waited" -ge "$CHECK_TIMEOUT" ]; then
+      kill -9 "$limited_pid" 2>/dev/null
+      wait "$limited_pid" 2>/dev/null
+      return 124
+    fi
+    sleep 1
+    limited_waited=$((limited_waited + 1))
+  done
+  wait "$limited_pid"
+}
+
 for path in "$HERE"/tools/check_*.gd; do
   name=$(basename "$path" .gd)
   log="$HERE/.godot/$name.log"
-  "$GODOT" --headless --path "$HERE" --script "res://tools/$name.gd" >"$log" 2>&1
+  run_limited "$GODOT" --headless --path "$HERE" --script "res://tools/$name.gd" >"$log" 2>&1
   status=$?
-  problems=$(grep -E 'SCRIPT ERROR|Parse Error|Invalid call|Failed to load' "$log" | grep -vE "$NOISE" | head -3)
+  problems=$(grep -E 'SCRIPT ERROR|Parse Error|Invalid call|Failed to load|Cannot call method' "$log" | grep -vE "$NOISE" | head -3)
   if [ "$status" -eq 0 ] && grep -q 'PASS' "$log" && [ -z "$problems" ]; then
     printf 'PASS  %s\n' "$name"
     passed=$((passed + 1))
   else
-    printf 'FAIL  %s (exit=%s)\n' "$name" "$status"
-    grep -E 'FAIL:|SCRIPT ERROR|Parse Error|Invalid call' "$log" | head -4 | sed 's/^/      /'
+    if [ "$status" -eq 124 ]; then
+      printf 'FAIL  %s (exceeded %ss and was killed)\n' "$name" "$CHECK_TIMEOUT"
+    else
+      printf 'FAIL  %s (exit=%s)\n' "$name" "$status"
+    fi
+    grep -E 'FAIL:|SCRIPT ERROR|Parse Error|Invalid call|Cannot call method' "$log" | head -4 | sed 's/^/      /'
     if [ -n "$problems" ]; then
       printf '%s\n' "$problems" | sed 's/^/      /'
     elif ! grep -q 'PASS' "$log"; then

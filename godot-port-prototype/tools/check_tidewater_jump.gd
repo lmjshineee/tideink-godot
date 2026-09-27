@@ -31,15 +31,29 @@ func _check() -> void:
 	walker.set("ink_owner", 0)
 	walker.set("jump_requested", true)
 	walker.call("_advance_jump_input", STEP)
-	if not bool(walker.call("_vertical_step", STEP, true, true)) or walker.velocity.y < 8.5:
+	# submerged = squid on own ink *and grounded* (actor.js:267-268).
+	if not bool(walker.call("_vertical_step", STEP, true, true, true, false)) or walker.velocity.y < 8.5:
 		_fail("own ink swim jump is not stronger")
 		return
 	walker.call("reset_movement_state")
 	walker.set("ink_owner", 1)
 	walker.set("jump_requested", true)
 	walker.call("_advance_jump_input", STEP)
-	if not bool(walker.call("_vertical_step", STEP, false, true)) or walker.velocity.y < 5.0 or walker.velocity.y > 6.0:
+	if not bool(walker.call("_vertical_step", STEP, false, true, false, true)) \
+		or walker.velocity.y < 5.0 or walker.velocity.y > 6.0:
 		_fail("enemy ink jump penalty differs from source")
+		return
+	# On enemy ink but airborne inside the coyote window: the web only applies the
+	# 0.72 penalty while grounded (actor.js:267-268, 281-282). A grounded frame first,
+	# then a jump after walking off, must clear the plain 7.0 threshold a penalised
+	# jump (about 5.4) cannot reach. The old test passed on_enemy without grounding.
+	walker.call("reset_movement_state")
+	walker.set("ink_owner", 1)
+	walker.call("_vertical_step", STEP, false, true, false, true)
+	walker.set("jump_requested", true)
+	walker.call("_advance_jump_input", STEP)
+	if not bool(walker.call("_vertical_step", STEP, false, false, false, false)) or walker.velocity.y < 7.0:
+		_fail("airborne enemy-ink jump wrongly took the grounded penalty: " + str(walker.velocity.y))
 		return
 
 	walker.call("reset_movement_state")
