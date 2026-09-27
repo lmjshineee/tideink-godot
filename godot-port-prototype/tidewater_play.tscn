@@ -1,0 +1,27 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://tidewater_play.gd" id="1_play"]
+[ext_resource type="PackedScene" path="res://tidewater_walk.tscn" id="2_world"]
+[ext_resource type="Script" path="res://surface_ink_view.gd" id="3_ink_view"]
+[ext_resource type="Script" path="res://tidewater_combat.gd" id="4_combat"]
+[ext_resource type="Script" path="res://tidewater_bot.gd" id="5_bot"]
+[ext_resource type="Script" path="res://tidewater_character_visual.gd" id="6_visual"]
+
+[node name="TidewaterPlay" type="Node3D"]
+script = ExtResource("1_play")
+
+[node name="World" parent="." instance=ExtResource("2_world")]
+
+[node name="InkView" type="Node3D" parent="."]
+script = ExtResource("3_ink_view")
+
+[node name="Combat" type="Node3D" parent="."]
+script = ExtResource("4_combat")
+
+[node name="Bot" type="Node3D" parent="."]
+position = Vector3(0, 2.2, 39.2)
+script = ExtResource("5_bot")
+
+[node name="Body" type="Node3D" parent="Bot"]
+script = ExtResource("6_visual")
+team = 1
