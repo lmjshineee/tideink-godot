@@ -16,18 +16,19 @@
 
 | ID | 负责人 | 范围 | 验收和停止点 |
 | --- | --- | --- | --- |
-| DS-01 | DeepSeek | 只处理 `tidewater_walker.gd` 的 `stepUp`、`stepDown`、`footRadius`，新增或修改一个对应 `tools/check_*.gd` 短测；对照 `public/game/src/game/actor.js` 和导出的 `assets/weapons.json` | 跨 0.35 m 台阶、下台阶、临边三个可观察场景通过；不改战斗、蓝队和渲染器；提交后停止 |
+| DS-01（已集成 `1b8aa41`） | DeepSeek | 只处理 `tidewater_walker.gd` 的 `stepUp`、`stepDown`、`footRadius`，新增或修改一个对应 `tools/check_*.gd` 短测；对照 `public/game/src/game/actor.js` 和导出的 `assets/weapons.json` | 跨 0.35 m 台阶、下台阶、临边三个可观察场景通过；不改战斗、蓝队和渲染器；提交后停止 |
+| DS-02（待审 `1e0cacf`） | DeepSeek | 朝向角弹簧及相应短测已在独立提交中，尚未合入 Codex 分支 | 先审差异和移动回归，再决定是否集成 |
 | CX-01（完成） | Codex | 蓝队敌墨伤害、回血、重生保护与玩家规则的差异收敛；代码只触及 `tidewater_bot.gd`、`tidewater_play.gd` 和对应短测 | `check_tidewater_bot_vitals.gd` 覆盖敌墨、回血、击倒、重生与保护；战斗和特殊技能短测通过 |
 | CX-02（完成） | Codex | 蓝队四武器核心攻击与赛前选配；共用弹体、射线、墨迹和命中路径 | `check_tidewater_bot_loadout.gd` 覆盖爆破枪直击/溅射、蓄力狙、滚筒接触、赛前选配与重生保留；完整 AI 状态仍属后续范围 |
-| QA-01 | Codex，用户提供试玩现象 | 集成 DS-01 后做一次完整无界面检查、一次导出；只在候选版稳定时做短时图形试玩 | 记录输入、HUD、射击、重生、结算是否走通，以及同机帧时间和温度；失败只修阻断问题 |
+| QA-01 | Codex，用户提供试玩现象 | 已在 DS-01 提交上做完整无界面检查；待确定 DS-02 范围后再做候选版导出与短时图形试玩 | 记录输入、HUD、射击、重生、结算是否走通，以及同机帧时间和温度；失败只修阻断问题 |
 
-CX-01 与 CX-02 已完成。下一步仍为 DS-01；避免两边同时占用当前检出目录。Codex 收到 DS-01 的提交 SHA 后先看 `git diff`，再决定集成，不重新读完整原项目。
+DS-01 已按 `git diff` 审查并快进集成；在独立检出目录运行 `tools/run_checks.sh`，30 项通过、0 失败。CX-01 与 CX-02 也已完成。下一步审查 DS-02 候选提交；避免两边同时切换同一个检出目录。
 
 ## 3. 每项任务的最小交接
 
 发给执行方的任务只包含五项：**基线分支/提交、目标行为、允许改的文件、一个短测、停止点**。执行方回报最多六行：提交 SHA、改动文件、源码依据、执行的检查及结果、已知风险、是否需要集成。不要贴长日志；失败时只贴首个相关错误及日志路径。
 
-给 DeepSeek 的首个提示可直接复制：
+DS-01 已执行的交接提示（留作记录，不再重复执行）：
 
 > 在 `/Users/yunni/Joy/inkwave-game` 阅读 `godot-port-prototype/COORDINATION.md`，只做 DS-01。从 `codex/godot-playable-demo` 当前 HEAD 建 `deepseek/DS-01` 分支。对照 `public/game/src/game/actor.js`，把 `stepUp`、`stepDown`、`footRadius` 接入 `tidewater_walker.gd`；新增或更新一个短时无界面检查，覆盖上台阶、下台阶和临边。不要修改战斗、蓝队、渲染器、Release 或其他任务，不启动图形试玩。先运行目标短测；若通过则提交并停止。最后最多六行报告提交 SHA、文件、源码位置、测试结果、剩余风险。
 
