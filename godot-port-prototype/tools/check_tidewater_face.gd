@@ -82,8 +82,12 @@ func _check() -> void:
 	# The aim branch uses its own stiffer spring and higher rate cap.
 	_place(Vector3(0.0, FLOOR_Y + 0.3, 0.0), 0.0)
 	await _frames(40)
-	walker.set("aim_yaw", -PI / 2.0)
-	walker.call("update_intent", 1.0 / 60.0, true, false, false, true)
+	# Exercise the real mouse-look path and the controller's four-argument fire call.
+	walker.call("apply_look_delta", Vector2((PI / 2.0) / 0.0021, 0.0))
+	if absf(float(walker.get("aim_yaw")) + PI / 2.0) > 0.01:
+		_fail("mouse look did not update the facing aim target")
+		return
+	walker.call("update_intent", 1.0 / 60.0, true, false, false)
 	peak_rate = 0.0
 	await _sample_frames(50, float(p["aimFaceMaxRate"]))
 	if absf(float(walker.get("body_yaw")) - (-PI / 2.0)) > 0.15:
@@ -94,6 +98,8 @@ func _check() -> void:
 		return
 
 	# --- 4. squid form uses its own rate cap -------------------------------------
+	walker.call("apply_look_delta", Vector2(-(PI / 2.0) / 0.0021, 0.0))
+	walker.call("update_intent", 1.0 / 60.0, false, false, false)
 	_place(Vector3(0.0, FLOOR_Y + 0.3, 0.0), 0.0)
 	await _frames(40)
 	walker.call("update_intent", 1.0 / 60.0, false, true, false)
@@ -105,6 +111,9 @@ func _check() -> void:
 	peak_rate = 0.0
 	await _sample_frames(50, float(p["squidFaceMaxRate"]))
 	_set_key(KEY_D, false)
+	if peak_rate < 0.5:
+		_fail("squid facing barely turned at all")
+		return
 	if peak_rate > float(p["squidFaceMaxRate"]) + RATE_EPSILON:
 		_fail("squid yaw rate %.3f exceeded squidFaceMaxRate %.3f" % [peak_rate, p["squidFaceMaxRate"]])
 		return

@@ -216,8 +216,9 @@ func _physics_process(delta: float) -> void:
 	# The walker owns the squid/fire rule ("most recent press wins") and the buffered
 	# pop-out shot, so the controller only feeds it raw key state. Holding squid and
 	# pressing fire used to be silently ignored, and a tap just before surfacing was lost.
+	var firing_pose := bool($Combat.get("rolling")) or float($Combat.get("firing_time")) > 0.0
 	walker.call("update_intent", delta, alive and firing, alive and Input.is_key_pressed(KEY_SHIFT),
-		bool($Combat.call("is_busy")))
+		bool($Combat.call("is_busy")), firing_pose, alive and throwing)
 	var squid := bool(walker.get("squid_form"))
 	var weapon_fire := bool(walker.get("weapon_fire"))
 	_update_player_respawn(delta)

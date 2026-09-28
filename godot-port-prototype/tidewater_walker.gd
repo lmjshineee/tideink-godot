@@ -100,6 +100,7 @@ func _input(event: InputEvent) -> void:
 
 func apply_look_delta(relative: Vector2) -> void:
 	camera_yaw -= relative.x * LOOK_SENSITIVITY
+	aim_yaw = camera_yaw
 	camera_pitch = clampf(camera_pitch - relative.y * LOOK_SENSITIVITY, -1.05, 1.15)
 	_update_camera()
 
@@ -257,9 +258,9 @@ func reset_movement_state() -> void:
 # "Most recent press wins" is what makes diving mid-spray and popping out of the ink
 # to shoot both work; the pop-out shot is buffered for fireBuffer seconds instead of
 # being dropped, and the weapon only leaves the barrel emergeDelay after surfacing.
-# `firing` and `sub` are optional so the current match controller keeps working; they
-# let the aiming facing branch (actor.js:789-791: the body turns to the crosshair while
-# firing or holding a bomb) be driven without changing the walker again.
+# The match controller passes `firing` and `sub` for the facing branch
+# (actor.js:789-791: the body turns to the crosshair while firing or holding a bomb).
+# Defaults keep standalone movement tests and older callers compatible.
 func update_intent(delta: float, fire: bool, squid_request: bool, weapon_busy: bool,
 		firing: bool = false, sub: bool = false) -> void:
 	intent_driven = true

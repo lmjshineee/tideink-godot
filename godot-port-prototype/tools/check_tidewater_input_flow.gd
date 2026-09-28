@@ -53,6 +53,9 @@ func _check() -> void:
 		return
 	_mouse(MOUSE_BUTTON_RIGHT, true)
 	scene.call("_physics_process", 0.01)
+	if not bool(walker.get("sub_intent")):
+		_fail("right mouse hold did not reach the facing controller")
+		return
 	_mouse(MOUSE_BUTTON_RIGHT, false)
 	scene.call("_physics_process", 0.01)
 	if (combat.get("bombs") as Array).size() != 1 or float(combat.get("ink_amount")) > 21.01:
