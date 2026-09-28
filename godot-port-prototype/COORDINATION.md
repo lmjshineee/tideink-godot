@@ -17,10 +17,10 @@
 | ID | 负责人 | 范围 | 验收和停止点 |
 | --- | --- | --- | --- |
 | DS-01 | DeepSeek | 只处理 `tidewater_walker.gd` 的 `stepUp`、`stepDown`、`footRadius`，新增或修改一个对应 `tools/check_*.gd` 短测；对照 `public/game/src/game/actor.js` 和导出的 `assets/weapons.json` | 跨 0.35 m 台阶、下台阶、临边三个可观察场景通过；不改战斗、蓝队和渲染器；提交后停止 |
-| CX-01 | Codex | 蓝队敌墨伤害、回血、重生保护与玩家规则的差异收敛；只触及 `tidewater_bot.gd`、`tidewater_play.gd` 和对应短测 | 蓝队伤害/回血/击倒/重生形成一条可重复验证的事件链；保留 1v1 难度可玩性 |
+| CX-01（完成） | Codex | 蓝队敌墨伤害、回血、重生保护与玩家规则的差异收敛；代码只触及 `tidewater_bot.gd`、`tidewater_play.gd` 和对应短测 | `check_tidewater_bot_vitals.gd` 覆盖敌墨、回血、击倒、重生与保护；战斗和特殊技能短测通过 |
 | QA-01 | Codex，用户提供试玩现象 | 合并前两项后做一次完整无界面检查、一次导出；只在候选版稳定时做短时图形试玩 | 记录输入、HUD、射击、重生、结算是否走通，以及同机帧时间和温度；失败只修阻断问题 |
 
-DS-01 与 CX-01 可以先后实施，避免两边同时占用当前检出目录。下一步从 DS-01 开始；Codex 收到提交 SHA 后先看 `git diff`，再决定集成，不重新读完整原项目。
+CX-01 已完成。下一步为 DS-01；避免两边同时占用当前检出目录。Codex 收到 DS-01 的提交 SHA 后先看 `git diff`，再决定集成，不重新读完整原项目。
 
 ## 3. 每项任务的最小交接
 

@@ -246,6 +246,26 @@ func _ground_at(at: Vector3) -> Dictionary:
 	return get_world_3d().direct_space_state.intersect_ray(query)
 
 
+func floor_ink_owner() -> int:
+	var hit := _ground_at(global_position)
+	if hit.is_empty() or (hit["normal"] as Vector3).y < 0.6 \
+			or absf((hit["position"] as Vector3).y - global_position.y) > 0.6:
+		return -1
+	var block_id := int((hit["collider"] as Object).get_meta("source_id", -1))
+	if block_id < 0:
+		return -1
+	var face: Dictionary = map.call("find_surface", hit["position"], hit["normal"], block_id)
+	if face.is_empty():
+		return -1
+	var relative: Vector3 = hit["position"] - _vector(face["origin"])
+	return int(game.get("ink").call("owner_at", int(face["id"]),
+		relative.dot(_vector(face["u"])), relative.dot(_vector(face["v"]))))
+
+
+static func _vector(values: Array) -> Vector3:
+	return Vector3(float(values[0]), float(values[1]), float(values[2]))
+
+
 func _can_see_player() -> bool:
 	var from := global_position + Vector3.UP
 	var to := walker.global_position + Vector3.UP * (0.3 if bool(walker.get("squid_form")) else 1.0)

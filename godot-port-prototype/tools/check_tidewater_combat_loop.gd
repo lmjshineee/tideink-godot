@@ -27,7 +27,7 @@ func _check() -> void:
 	if float(scene.get("bot_respawn")) <= 0.0 or bot.visible:
 		_fail("bot death")
 		return
-	scene.call("_update_bot", 4.1)
+	_respawn_bot(scene)
 	if float(scene.get("bot_health")) != 100.0 or not bot.visible:
 		_fail("bot respawn")
 		return
@@ -37,14 +37,14 @@ func _check() -> void:
 	if float(scene.get("bot_respawn")) <= 0.0:
 		_fail("full charger hit should splat bot")
 		return
-	scene.call("_update_bot", 4.1)
+	_respawn_bot(scene)
 	var blaster: Dictionary = weapon_data["weapons"]["blaster"]
 	combat.call("_spawn_projectile", "blaster", Vector3(0.0, 3.0, 37.2), Vector3(0.0, 0.0, 23.0), blaster)
 	combat.call("_update_projectiles", 0.1)
 	if float(scene.get("bot_respawn")) <= 0.0:
 		_fail("blaster direct hit should splat bot")
 		return
-	scene.call("_update_bot", 4.1)
+	_respawn_bot(scene)
 	# Roller crushing damage (weapons.js:200-207): the drum must be moving, the victim
 	# must be in front of the body's facing, and each victim can be hit at most once
 	# every 0.5 s. The old assertion called _paint_roll_at once and expected a kill,
@@ -57,7 +57,7 @@ func _check() -> void:
 	if float(scene.get("bot_respawn")) <= 0.0:
 		_fail("roller contact should crush the bot")
 		return
-	scene.call("_update_bot", 4.1)
+	_respawn_bot(scene)
 	# A standing drum deals nothing.
 	walker.velocity = Vector3.ZERO
 	combat.call("_roll_damage", roller)
@@ -76,7 +76,7 @@ func _check() -> void:
 	if float(scene.get("bot_respawn")) <= 0.0:
 		_fail("roller cooldown never expired")
 		return
-	scene.call("_update_bot", 4.1)
+	_respawn_bot(scene)
 	walker.global_position = Vector3(0.0, 2.25, 36.0)
 	var bot_ink_before := float(bot.get("ink_amount"))
 	scene.call("_update_bot", 0.1)
@@ -145,3 +145,11 @@ func _check() -> void:
 func _fail(message: String) -> void:
 	printerr("FAIL: ", message)
 	quit(1)
+
+
+func _respawn_bot(scene: Node3D) -> void:
+	var player_config: Dictionary = scene.get_node("Combat").get("weapon_data")["player"]
+	scene.call("_update_bot", float(player_config["respawnTime"]) + 0.1)
+	# Isolate independent weapon hits from the respawn protection window.
+	# The dedicated vitals test covers protection itself.
+	scene.set("bot_invuln", 0.0)

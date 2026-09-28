@@ -37,6 +37,9 @@ var player_last_damage := 99.0
 var player_ink_damage := 0.0
 var bot_health := 100.0
 var bot_respawn := 0.0
+var bot_invuln := 0.0
+var bot_last_damage := 99.0
+var bot_ink_damage := 0.0
 var result := ""
 var hud: Label
 var score_panel: Panel
@@ -157,6 +160,9 @@ func _start_round() -> void:
 	player_last_damage = 99.0
 	player_ink_damage = 0.0
 	bot_health = player_health
+	bot_invuln = 0.0
+	bot_last_damage = 99.0
+	bot_ink_damage = 0.0
 	$Bot.call("reset")
 	$World/Walker.set("active", true)
 	$World/Walker.visible = true
@@ -243,13 +249,15 @@ func paint_at_world(center: Vector3, team: int, radius: float, seed: float,
 
 
 func damage_bot(amount: float) -> void:
-	if phase != "playing" or bot_respawn > 0.0:
+	if phase != "playing" or bot_respawn > 0.0 or amount <= 0.0 or bot_invuln > 0.0:
 		return
+	bot_last_damage = 0.0
 	bot_health = maxf(0.0, bot_health - amount)
 	if bot_health <= 0.0:
 		$Combat.call("_paint_player", $Bot.global_position + Vector3.UP * 0.35, 1.7, randf())
-		bot_respawn = 4.0
+		bot_respawn = float($Combat.get("weapon_data")["player"]["respawnTime"])
 		$Bot.visible = false
+		$Bot.call("clear_attack_visual")
 
 
 func damage_player(amount: float, bypass_invuln: bool = false) -> void:
@@ -319,10 +327,34 @@ func _update_bot(delta: float) -> void:
 	if bot_respawn > 0.0:
 		bot_respawn = maxf(0.0, bot_respawn - delta)
 		if bot_respawn <= 0.0:
-			bot_health = float($Combat.get("weapon_data")["player"]["hp"])
+			var player_config: Dictionary = $Combat.get("weapon_data")["player"]
+			bot_health = float(player_config["hp"])
+			bot_invuln = float(player_config["spawnInvuln"])
+			bot_last_damage = 99.0
+			bot_ink_damage = 0.0
 			bot.call("reset")
 		return
+	_update_bot_vitals(delta)
 	bot.call("tick", delta)
+
+
+func _update_bot_vitals(delta: float) -> void:
+	if phase != "playing" or bot_respawn > 0.0:
+		return
+	var player_config: Dictionary = $Combat.get("weapon_data")["player"]
+	bot_invuln = maxf(0.0, bot_invuln - delta)
+	bot_last_damage += delta
+	var on_enemy := int($Bot.call("floor_ink_owner")) == 0
+	if on_enemy:
+		if bot_ink_damage < float(player_config["enemyInkDamageCap"]) and bot_invuln <= 0.0:
+			var damage := minf(float(player_config["enemyInkDps"]) * delta, float(player_config["enemyInkDamageCap"]) - bot_ink_damage)
+			bot_ink_damage += damage
+			bot_health = maxf(1.0, bot_health - damage)
+		bot_last_damage = minf(bot_last_damage, 0.4)
+	else:
+		bot_ink_damage = maxf(0.0, bot_ink_damage - delta * 30.0)
+	if bot_last_damage > float(player_config["regenDelay"]) and bot_health < float(player_config["hp"]):
+		bot_health = minf(float(player_config["hp"]), bot_health + float(player_config["regenRate"]) * delta)
 
 
 func _build_hud() -> void:

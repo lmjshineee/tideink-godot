@@ -42,7 +42,8 @@ func _check() -> void:
 	if float(scene.get("bot_respawn")) <= 0.0 or combat.get("special_active") != "" or float(combat.get("special_points")) != 0.0:
 		_fail("slam impact did not damage opponent or recharged itself")
 		return
-	scene.call("_update_bot", 4.1)
+	scene.call("_update_bot", float(config["player"]["respawnTime"]) + 0.1)
+	scene.set("bot_invuln", 0.0)
 	bot.global_position = Vector3(0.0, 2.2, 0.0)
 	combat.call("select_weapon", "charger")
 	combat.set("special_points", 180.0)
