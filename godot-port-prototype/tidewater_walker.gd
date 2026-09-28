@@ -56,6 +56,17 @@ var slam_impact_pending := false
 # capsule disagree at ledge edges.
 var grounded := false
 var ground_normal := Vector3.UP
+# Facing angular spring (actor.js:781-815). The body yaw is a damped spring towards a
+# target, capped in both rate and acceleration, with the target's own angular velocity
+# fed forward so a smoothly moving target is tracked without steady-state lag.
+var body_yaw := 0.0
+var yaw_velocity := 0.0
+var aim_yaw := 0.0
+var firing_pose := false
+var sub_intent := false
+var weapon_busy_state := false
+var _face_target := 0.0
+var _has_face_target := false
 var step_height := 0.35
 var step_down := 0.45
 var foot_radius := 0.24
@@ -75,6 +86,8 @@ func _ready() -> void:
 	# step-down range the foot probe searches.
 	floor_max_angle = acos(WALKABLE)
 	floor_snap_length = step_down
+	body_yaw = $Body.rotation.y
+	aim_yaw = camera_yaw
 	_update_camera()
 
 
@@ -135,11 +148,6 @@ func _physics_process(delta: float) -> void:
 	if not intent_driven:
 		squid = update_form(Input.is_key_pressed(KEY_SHIFT))
 	_advance_jump_input(delta)
-	if _update_climb(delta, squid, axis):
-		coyote = maxf(0.0, coyote - delta)
-		move_and_slide()
-		_update_camera()
-		return
 	# Ground state from the previous frame's foot probe, exactly as actor.js reads
 	# this.grounded before _integrate. Both "submerged" and "on enemy ink" require
 	# contact with the ground (actor.js:267-268), so a coyote-time jump off a ledge
@@ -147,6 +155,12 @@ func _physics_process(delta: float) -> void:
 	var was_grounded := grounded
 	var submerged := squid and was_grounded and ink_owner == 0
 	var on_enemy := was_grounded and ink_owner == 1 and not submerged
+	if _update_climb(delta, squid, axis):
+		coyote = maxf(0.0, coyote - delta)
+		move_and_slide()
+		_face(delta, squid, axis, submerged)
+		_update_camera()
+		return
 	_horizontal_step(delta, axis, squid, on_enemy, was_grounded)
 	var jumped := _vertical_step(delta, squid, was_grounded, submerged, on_enemy)
 	var stick := was_grounded and not jumped
@@ -159,9 +173,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	_resolve_ground(squid, previous_y, stick)
 	_try_step_up(axis, squid, stick)
+	_face(delta, squid, axis, submerged)
 	_update_camera()
-	if axis.length_squared() > 0.0:
-		$Body.rotation.y = atan2(axis.x, axis.y)
 	if auto_respawn and global_position.y < -5.0:
 		global_position = Vector3(0.0, 2.25, -39.2)
 		velocity = Vector3.ZERO
@@ -214,6 +227,7 @@ func _advance_slam(delta: float) -> void:
 	# cannot tunnel through the deck (actor.js:483-495).
 	if slam_phase == "fall":
 		_resolve_ground(false, previous_y, false)
+	_face(delta, false, Vector2.ZERO, false)
 	if slam_phase == "fall" and (grounded or slam_time > 1.2):
 		cancel_slam()
 		slam_impact_pending = true
@@ -232,6 +246,8 @@ func reset_movement_state() -> void:
 	floor_snap_length = step_down
 	grounded = false
 	ground_normal = Vector3.UP
+	yaw_velocity = 0.0
+	_has_face_target = false
 	velocity = Vector3.ZERO
 	_update_camera()
 
@@ -241,8 +257,15 @@ func reset_movement_state() -> void:
 # "Most recent press wins" is what makes diving mid-spray and popping out of the ink
 # to shoot both work; the pop-out shot is buffered for fireBuffer seconds instead of
 # being dropped, and the weapon only leaves the barrel emergeDelay after surfacing.
-func update_intent(delta: float, fire: bool, squid_request: bool, weapon_busy: bool) -> void:
+# `firing` and `sub` are optional so the current match controller keeps working; they
+# let the aiming facing branch (actor.js:789-791: the body turns to the crosshair while
+# firing or holding a bomb) be driven without changing the walker again.
+func update_intent(delta: float, fire: bool, squid_request: bool, weapon_busy: bool,
+		firing: bool = false, sub: bool = false) -> void:
 	intent_driven = true
+	firing_pose = firing
+	sub_intent = sub
+	weapon_busy_state = weapon_busy
 	intent_time += delta
 	kid_time += delta
 	var fire_pressed := fire and not _previous_fire
@@ -572,6 +595,73 @@ func _try_step_up(axis: Vector2, squid: bool, stick: bool) -> void:
 	ground_normal = hit["normal"]
 	grounded = true
 	velocity.y = 0.0
+
+
+# actor.js:781-815 _face. The body yaw is a spring towards a target chosen by state:
+# a slam faces its velocity, firing or holding a bomb faces the crosshair, a climb
+# faces into the wall, and otherwise the movement input wins, falling back to the
+# velocity while coasting. Squid form uses its own stiffness and rate limits. Angular
+# acceleration is capped too, so a turn spins up over a few frames instead of snapping.
+func _face(delta: float, squid: bool, axis: Vector2, submerged: bool) -> void:
+	var p := player_config
+	var move_length := axis.length()
+	var speed := Vector2(velocity.x, velocity.z).length()
+	var target := 0.0
+	var target_valid := false
+	var omega := float(p["faceOmega"])
+	var max_rate := float(p["faceMaxRate"])
+	var max_acc := float(p["faceMaxAcc"])
+	if not slam_phase.is_empty():
+		if speed > 0.6:
+			target = atan2(velocity.x, velocity.z)
+			target_valid = true
+	elif firing_pose or sub_intent or weapon_busy_state or weapon_fire:
+		target = aim_yaw
+		omega = float(p["aimFaceOmega"])
+		max_rate = float(p["aimFaceMaxRate"])
+		max_acc = float(p["aimFaceMaxAcc"])
+		target_valid = true
+	elif climbing:
+		target = atan2(-wall_normal.x, -wall_normal.z)
+		omega = 26.0
+		max_rate = 18.0
+		target_valid = true
+	else:
+		if move_length > 0.2:
+			target = atan2(axis.x, axis.y)
+			target_valid = true
+		elif speed > 0.6:
+			target = atan2(velocity.x, velocity.z)
+			target_valid = true
+		if squid:
+			omega = float(p["squidFaceOmega"])
+			max_rate = float(p["swimFaceMaxRate"]) if submerged else float(p["squidFaceMaxRate"])
+			max_acc = float(p["squidFaceMaxAcc"])
+
+	# Feed the target's own angular velocity forward so a smoothly moving target is
+	# tracked without lag; a discrete jump (new key direction) gets no kick.
+	var target_rate := 0.0
+	if target_valid and _has_face_target:
+		var difference := _angle_difference(_face_target, target)
+		if absf(difference) < 0.12:
+			target_rate = clampf(difference / maxf(delta, 1e-4), -max_rate, max_rate)
+	_face_target = target
+	_has_face_target = target_valid
+
+	var acceleration := 0.0
+	if target_valid:
+		acceleration = omega * omega * _angle_difference(body_yaw, target) + 2.0 * omega * (target_rate - yaw_velocity)
+	else:
+		acceleration = -2.0 * omega * yaw_velocity
+	yaw_velocity = clampf(yaw_velocity + clampf(acceleration, -max_acc, max_acc) * delta, -max_rate, max_rate)
+	if absf(yaw_velocity) < 1e-5:
+		yaw_velocity = 0.0
+	body_yaw = wrapf(body_yaw + yaw_velocity * delta, -PI, PI)
+	$Body.rotation.y = body_yaw
+
+
+static func _angle_difference(from_angle: float, to_angle: float) -> float:
+	return wrapf(to_angle - from_angle, -PI, PI)
 
 
 func _probe_ray(base: Vector3, up: float, length: float) -> Dictionary:
