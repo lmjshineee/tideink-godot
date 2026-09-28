@@ -23,6 +23,7 @@ var aiming_sub := false
 var last_roll_position := Vector3.ZERO
 var projectiles: Array[Dictionary] = []
 var beams: Array[Dictionary] = []
+var bursts: Array[Dictionary] = []
 var bombs: Array[Dictionary] = []
 var storm_bombs: Array[Dictionary] = []
 var clouds: Array[Dictionary] = []
@@ -125,6 +126,7 @@ func on_death() -> void:
 func advance_effects(delta: float) -> void:
 	_update_projectiles(delta)
 	_update_beams(delta)
+	_update_bursts(delta)
 	_update_bombs(delta)
 	_update_storm_bombs(delta)
 	_update_clouds(delta)
@@ -270,18 +272,20 @@ func _spawn_shot(weapon: Dictionary) -> void:
 	_spawn_projectile(String(weapon["kind"]), muzzle, direction * float(weapon["projSpeed"]), weapon)
 
 
-# The bot fires the same shooter projectile as the player, including launch
-# compensation, spread, flight, direct damage and trail paint.
-func spawn_bot_shot(from: Vector3, target: Vector3) -> void:
-	var weapon: Dictionary = weapons["shooter"]
+# Both automatic weapons use the same projectile, impact and hit rules for each team.
+func spawn_bot_shot(from: Vector3, target: Vector3, weapon_id: String = "shooter") -> void:
+	if weapon_id != "shooter" and weapon_id != "blaster":
+		return
+	var weapon: Dictionary = weapons[weapon_id]
 	var direction := (target - from).normalized()
 	if direction.length_squared() < 0.01:
 		return
-	direction = _ballistic_direction(from, direction, target,
-		float(weapon["projSpeed"]), float(weapon["straightTime"]),
-		28.0, 0.8, float(weapon["range"]))
+	if weapon_id == "shooter":
+		direction = _ballistic_direction(from, direction, target,
+			float(weapon["projSpeed"]), float(weapon["straightTime"]),
+			28.0, 0.8, float(weapon["range"]))
 	direction = _spread_direction(direction, deg_to_rad(float(weapon["spreadBaseGround"])))
-	_spawn_projectile("shooter", from + direction * 0.55,
+	_spawn_projectile(weapon_id, from + direction * 0.55,
 		direction * float(weapon["projSpeed"]), weapon, 1)
 
 
@@ -465,16 +469,16 @@ func _update_projectiles(delta: float) -> void:
 			else:
 				game.call("damage_player", damage)
 			if kind == "blaster":
-				_burst_blaster(victim_hit["point"], weapon, true)
+				_burst_blaster(victim_hit["point"], weapon, true, team)
 			done = true
 		elif not hit.is_empty():
 			_impact(hit, shot)
 			if kind == "blaster":
-				_burst_blaster(hit["position"], shot["weapon"])
+				_burst_blaster(hit["position"], shot["weapon"], false, team)
 			done = true
 		elif age >= float(shot["life"]):
 			if kind == "blaster":
-				_burst_blaster(next, shot["weapon"])
+				_burst_blaster(next, shot["weapon"], false, team)
 			done = true
 		elif next.y < float(weapon_data["player"]["waterY"]) - 1.8:
 			done = true
@@ -507,20 +511,59 @@ func _impact(hit: Dictionary, shot: Dictionary) -> void:
 	_paint_team(position, int(shot["team"]), radius, randf(), direction, 0.7)
 
 
-func _burst_blaster(at: Vector3, weapon: Dictionary, direct_hit_bot: bool = false) -> void:
+func _burst_blaster(at: Vector3, weapon: Dictionary, direct_hit_target: bool = false,
+		team: int = 0) -> void:
+	_add_burst(at, team, float(weapon["burstRadius"]))
 	var query := PhysicsRayQueryParameters3D.create(at + Vector3.UP * 0.2, at - Vector3.UP * 3.5, 1)
+	if team == 1:
+		query.exclude = [walker.get_rid()]
 	var hit := get_world_3d().direct_space_state.intersect_ray(query)
 	if not hit.is_empty():
-		_paint_player(hit["position"] + hit["normal"] * 0.1, float(weapon["impactRadius"]), randf())
-	if not direct_hit_bot and float(game.get("bot_respawn")) <= 0.0:
-		var bot: Node3D = game.get_node("Bot")
-		var target := bot.global_position + Vector3.UP * 0.8
+		_paint_team(hit["position"] + hit["normal"] * 0.1, team, float(weapon["impactRadius"]), randf())
+	if not direct_hit_target:
+		var target: Vector3
+		if team == 0:
+			if float(game.get("bot_respawn")) > 0.0:
+				return
+			target = game.get_node("Bot").global_position + Vector3.UP * 0.8
+		else:
+			if float(game.get("player_respawn")) > 0.0:
+				return
+			target = walker.global_position + Vector3.UP * (0.3 if bool(walker.get("squid_form")) else 0.8)
 		var distance := at.distance_to(target)
 		if distance <= float(weapon["splashRadius"]):
 			var sight := PhysicsRayQueryParameters3D.create(at + (target - at).normalized() * 0.06, target, 1)
+			if team == 1:
+				sight.exclude = [walker.get_rid()]
 			if get_world_3d().direct_space_state.intersect_ray(sight).is_empty():
-				game.call("damage_bot", lerpf(float(weapon["splashDamageMax"]), float(weapon["splashDamageMin"]),
-					distance / float(weapon["splashRadius"])))
+				var damage := lerpf(float(weapon["splashDamageMax"]), float(weapon["splashDamageMin"]),
+					distance / float(weapon["splashRadius"]))
+				game.call("damage_bot" if team == 0 else "damage_player", damage)
+
+
+func _add_burst(at: Vector3, team: int, radius: float) -> void:
+	var visual := MeshInstance3D.new()
+	var mesh := SphereMesh.new()
+	mesh.radius = radius
+	mesh.height = radius * 2.0
+	visual.mesh = mesh
+	var material := StandardMaterial3D.new()
+	material.albedo_color = Color(PROJECTILE_COLORS[team], 0.24)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	visual.material_override = material
+	add_child(visual)
+	visual.global_position = at
+	bursts.append({"visual": visual, "life": 0.18})
+
+
+func _update_bursts(delta: float) -> void:
+	for index in range(bursts.size() - 1, -1, -1):
+		var burst: Dictionary = bursts[index]
+		burst["life"] = float(burst["life"]) - delta
+		if float(burst["life"]) <= 0.0:
+			(burst["visual"] as MeshInstance3D).queue_free()
+			bursts.remove_at(index)
 
 
 func _fire_charger(weapon: Dictionary, charge: float, aim_override: Vector3 = Vector3.ZERO) -> void:
@@ -529,36 +572,53 @@ func _fire_charger(weapon: Dictionary, charge: float, aim_override: Vector3 = Ve
 	var muzzle := walker.global_position + Vector3.UP * 1.05
 	var range_m := lerpf(float(weapon["rangeMin"]), float(weapon["rangeMax"]), charge)
 	var direction := aim_override.normalized() if aim_override.length_squared() > 0.01 else _aim_direction(muzzle, range_m)
+	_fire_charger_ray(weapon, charge, muzzle, direction, 0)
+
+
+func fire_bot_charger(from: Vector3, target: Vector3, charge: float = 1.0) -> void:
+	var direction := (target - from).normalized()
+	if direction.length_squared() < 0.01:
+		return
+	_fire_charger_ray(weapons["charger"], charge, from, direction, 1)
+
+
+func _fire_charger_ray(weapon: Dictionary, charge: float, muzzle: Vector3,
+		direction: Vector3, team: int) -> void:
+	var range_m := lerpf(float(weapon["rangeMin"]), float(weapon["rangeMax"]), charge)
 	var query := PhysicsRayQueryParameters3D.create(muzzle, muzzle + direction * range_m, 1)
+	if team == 1:
+		query.exclude = [walker.get_rid()]
 	var hit := get_world_3d().direct_space_state.intersect_ray(query)
 	var length := muzzle.distance_to(hit["position"]) if not hit.is_empty() else range_m
-	var bot_hit := _segment_bot_hit(muzzle, muzzle + direction * length, 0.14)
-	if not bot_hit.is_empty():
-		length = float(bot_hit["distance"])
+	var target_hit := _segment_bot_hit(muzzle, muzzle + direction * length, 0.14) if team == 0 else \
+		_segment_player_hit(muzzle, muzzle + direction * length, 0.14)
+	if not target_hit.is_empty():
+		length = float(target_hit["distance"])
 		var damage := float(weapon["damageMax"]) if charge >= 0.999 else lerpf(float(weapon["damageMin"]), float(weapon["damageMax"]) * 0.62, charge)
-		game.call("damage_bot", damage)
+		game.call("damage_bot" if team == 0 else "damage_player", damage)
 	var distance := 1.2
 	while distance < length - 0.3:
 		var sample := muzzle + direction * distance
 		var down := PhysicsRayQueryParameters3D.create(sample, sample - Vector3.UP * 3.5, 1)
 		var ground := get_world_3d().direct_space_state.intersect_ray(down)
 		if not ground.is_empty():
-			_paint_player(ground["position"] + ground["normal"] * 0.1,
+			_paint_team(ground["position"] + ground["normal"] * 0.1, team,
 				float(weapon["lineRadius"]) * (0.8 + charge * 0.4), randf(), direction, 1.2)
 		distance += float(weapon["lineSplatEvery"])
-	if not hit.is_empty() and bot_hit.is_empty():
-		_paint_player(hit["position"] + hit["normal"] * 0.12,
+	if not hit.is_empty() and target_hit.is_empty():
+		_paint_team(hit["position"] + hit["normal"] * 0.12, team,
 			float(weapon["impactRadius"]) * (0.6 + 0.4 * charge), randf(), direction, 0.6)
-	_add_beam(muzzle, direction, length, charge)
+	_add_beam(muzzle, direction, length, charge, team)
 
 
-func _add_beam(origin: Vector3, direction: Vector3, length: float, charge: float) -> void:
+func _add_beam(origin: Vector3, direction: Vector3, length: float, charge: float,
+		team: int = 0) -> void:
 	var visual := MeshInstance3D.new()
 	var mesh := BoxMesh.new()
 	mesh.size = Vector3(0.07 + charge * 0.07, 0.07 + charge * 0.07, maxf(length, 0.01))
 	visual.mesh = mesh
 	var material := StandardMaterial3D.new()
-	material.albedo_color = PROJECTILE_COLORS[0].lightened(0.35)
+	material.albedo_color = PROJECTILE_COLORS[team].lightened(0.35)
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	visual.material_override = material
 	add_child(visual)
@@ -844,15 +904,34 @@ func _paint_roll_at(position: Vector3, movement: Vector3, weapon: Dictionary) ->
 	# band than the web does.
 	var yaw := float(walker.get_node("Body").rotation.y)
 	var forward := Vector3(sin(yaw), 0.0, cos(yaw))
+	_paint_roll_team(position, forward, weapon, 0)
+
+
+func paint_bot_roll(position: Vector3, forward: Vector3) -> void:
+	_paint_roll_team(position, forward, weapons["roller"], 1)
+
+
+func _paint_roll_team(position: Vector3, forward: Vector3, weapon: Dictionary,
+		team: int) -> void:
+	var yaw := atan2(forward.x, forward.z)
 	var right := Vector3(cos(yaw), 0.0, -sin(yaw))
 	for offset in [-1.0, 0.0, 1.0]:
 		var at := position + forward * 0.75 + right * float(offset) * float(weapon["rollWidth"]) * 0.33 + Vector3.UP * 0.35
-		_paint_player(at, 0.62, randf())
+		_paint_team(at, team, 0.62, randf())
 
 
 func _spawn_flick(weapon: Dictionary) -> void:
 	var muzzle := walker.global_position + Vector3.UP * 1.3
 	var forward := _aim_direction(muzzle, 10.0)
+	_spawn_flick_from(weapon, muzzle, forward, 0)
+
+
+func spawn_bot_flick(from: Vector3, target: Vector3) -> void:
+	_spawn_flick_from(weapons["roller"], from, target - from, 1)
+
+
+func _spawn_flick_from(weapon: Dictionary, muzzle: Vector3, forward: Vector3,
+		team: int) -> void:
 	forward.y = 0.0
 	forward = forward.normalized()
 	if forward.length_squared() < 0.01:
@@ -865,7 +944,7 @@ func _spawn_flick(weapon: Dictionary) -> void:
 		var speed := float(weapon["flickSpeed"]) * (0.82 + 0.28 * (1.0 - absf(t)))
 		var up := 0.32
 		var velocity := Vector3(sin(angle) * cos(up), sin(up), cos(angle) * cos(up)) * speed
-		_spawn_projectile("drop", muzzle + forward * 0.6, velocity, weapon)
+		_spawn_projectile("drop", muzzle + forward * 0.6, velocity, weapon, team)
 
 
 func _aim_direction(muzzle: Vector3, max_range: float) -> Vector3:

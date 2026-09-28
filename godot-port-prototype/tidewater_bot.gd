@@ -20,6 +20,10 @@ var map: Node3D
 var waypoint_index := 0
 var paint_cooldown := 0.0
 var attack_cooldown := 0.0
+var roll_hit_cooldown := 0.0
+var roll_distance := 0.0
+var charge_time := 0.0
+var weapon_id := "shooter"
 var ink_amount := 100.0
 var last_fire_time := 99.0
 var chasing := false
@@ -49,6 +53,9 @@ func reset() -> void:
 	waypoint_index = 0
 	paint_cooldown = 0.0
 	attack_cooldown = 0.0
+	roll_hit_cooldown = 0.0
+	roll_distance = 0.0
+	charge_time = 0.0
 	var player_config: Dictionary = game.get_node("Combat").get("weapon_data")["player"]
 	ink_amount = float(player_config["inkMax"])
 	last_fire_time = 99.0
@@ -56,8 +63,20 @@ func reset() -> void:
 	returning = false
 	chase_trail.clear()
 	visible = true
+	$Body.call("set_weapon", weapon_id)
 	clear_attack_visual()
 	_update_health_visual()
+
+
+func select_weapon(id: String) -> bool:
+	if not game.get_node("Combat").get("weapons").has(id):
+		return false
+	weapon_id = id
+	attack_cooldown = 0.0
+	charge_time = 0.0
+	roll_distance = 0.0
+	$Body.call("set_weapon", id)
+	return true
 
 
 func clear_attack_visual() -> void:
@@ -69,21 +88,23 @@ func clear_attack_visual() -> void:
 func tick(delta: float) -> void:
 	var combat: Node3D = game.get_node("Combat")
 	var player_config: Dictionary = combat.get("weapon_data")["player"]
-	var shooter: Dictionary = combat.get("weapons")["shooter"]
+	var weapon: Dictionary = combat.get("weapons")[weapon_id]
 	last_fire_time += delta
-	if last_fire_time > float(player_config["inkRefillDelay"]):
+	if charge_time <= 0.0 and last_fire_time > float(player_config["inkRefillDelay"]):
 		ink_amount = minf(float(player_config["inkMax"]), ink_amount + float(player_config["inkRefillKid"]) * delta)
+	roll_hit_cooldown = maxf(0.0, roll_hit_cooldown - delta)
 	attack_visual_time = maxf(0.0, attack_visual_time - delta)
 	attack_tracer.visible = attack_visual_time > 0.0
 	_update_health_visual()
 	var old_position := global_position
 	var current := Vector2(global_position.x, global_position.z)
 	var player := Vector2(walker.global_position.x, walker.global_position.z)
-	var speed := float(player_config["runSpeed"])
+	var speed := float(weapon["rollSpeed"]) if weapon_id == "roller" and ink_amount > 0.5 else float(player_config["runSpeed"])
+	var chase_stop := 0.9 if weapon_id == "roller" else CHASE_STOP
 	var can_chase := float(game.get("player_respawn")) <= 0.0 and current.distance_to(player) <= CHASE_RANGE \
 		and _can_see_player()
 	chasing = false
-	if can_chase and current.distance_to(player) > CHASE_STOP:
+	if can_chase and current.distance_to(player) > chase_stop:
 		var step := current.move_toward(player, speed * delta)
 		var candidate := Vector3(step.x, global_position.y, step.y)
 		if _safe_chase_step(candidate):
@@ -119,21 +140,73 @@ func tick(delta: float) -> void:
 		$Body.rotation.y = atan2(facing.x, facing.z)
 	var floor_hit := _ground_at(global_position)
 	paint_cooldown = maxf(0.0, paint_cooldown - delta)
-	if paint_cooldown <= 0.0 and not floor_hit.is_empty():
+	if weapon_id == "roller":
+		_update_roll(delta, old_position, weapon, combat)
+	elif paint_cooldown <= 0.0 and not floor_hit.is_empty():
 		paint_cooldown = PAINT_INTERVAL
 		game.call("paint_at_world", global_position + Vector3.UP * 0.12, 1, 0.9, randf())
 	attack_cooldown = maxf(0.0, attack_cooldown - delta)
-	if float(game.get("player_respawn")) <= 0.0 and attack_cooldown <= 0.0 \
-		and ink_amount >= float(shooter["inkPerShot"]) \
-		and global_position.distance_to(walker.global_position) < minf(ATTACK_RANGE, float(shooter["range"])) \
-		and _can_see_player():
-		attack_cooldown = float(shooter["fireInterval"])
-		ink_amount -= float(shooter["inkPerShot"])
-		last_fire_time = 0.0
-		_show_attack()
-		var target_height := 0.3 if bool(walker.get("squid_form")) else 1.0
-		combat.call("spawn_bot_shot", global_position + Vector3.UP * 1.05,
-			walker.global_position + Vector3.UP * target_height)
+	var distance := global_position.distance_to(walker.global_position)
+	var attack_range := minf(ATTACK_RANGE, float(weapon.get("range", 5.5)))
+	if weapon_id == "charger":
+		attack_range = minf(CHASE_RANGE, float(weapon["rangeMax"]))
+	var can_attack := float(game.get("player_respawn")) <= 0.0 and distance < attack_range and _can_see_player()
+	var target_height := 0.3 if bool(walker.get("squid_form")) else 1.0
+	var target := walker.global_position + Vector3.UP * target_height
+	match weapon_id:
+		"shooter", "blaster":
+			if can_attack and attack_cooldown <= 0.0 and ink_amount >= float(weapon["inkPerShot"]):
+				attack_cooldown = float(weapon["fireInterval"])
+				ink_amount -= float(weapon["inkPerShot"])
+				last_fire_time = 0.0
+				_show_attack()
+				combat.call("spawn_bot_shot", global_position + Vector3.UP * 1.05, target, weapon_id)
+		"charger":
+			if can_attack and attack_cooldown <= 0.0 and ink_amount >= float(weapon["inkFull"]):
+				charge_time += delta
+				if charge_time >= float(weapon["chargeTime"]):
+					charge_time = 0.0
+					attack_cooldown = 0.28
+					ink_amount -= float(weapon["inkFull"])
+					last_fire_time = 0.0
+					_show_attack()
+					combat.call("fire_bot_charger", global_position + Vector3.UP * 1.05, target)
+			else:
+				charge_time = 0.0
+		"roller":
+			if can_attack and distance > 1.5 and attack_cooldown <= 0.0 \
+					and ink_amount >= float(weapon["flickInk"]):
+				attack_cooldown = float(weapon["flickInterval"])
+				ink_amount -= float(weapon["flickInk"])
+				last_fire_time = 0.0
+				_show_attack()
+				combat.call("spawn_bot_flick", global_position + Vector3.UP * 1.3, target)
+
+
+func _update_roll(delta: float, old_position: Vector3, weapon: Dictionary,
+		combat: Node3D) -> void:
+	var movement := global_position - old_position
+	movement.y = 0.0
+	var distance := movement.length()
+	if distance <= 0.001 or ink_amount <= 0.5:
+		return
+	var forward := movement.normalized()
+	ink_amount = maxf(0.0, ink_amount - float(weapon["rollInkPerMeter"]) * distance)
+	last_fire_time = 0.0
+	roll_distance += distance
+	if roll_distance >= 0.28:
+		roll_distance = fmod(roll_distance, 0.28)
+		combat.call("paint_bot_roll", global_position, forward)
+	if roll_hit_cooldown > 0.0 or distance / maxf(delta, 0.0001) <= 1.0 \
+			or float(game.get("player_respawn")) > 0.0:
+		return
+	var offset := walker.global_position - global_position
+	var ahead := offset.x * forward.x + offset.z * forward.z
+	var lateral := absf(offset.x * forward.z - offset.z * forward.x)
+	if ahead > -0.2 and ahead < 1.35 and lateral < float(weapon["rollWidth"]) * 0.5 + 0.35 \
+			and absf(offset.y) < 1.2:
+		roll_hit_cooldown = 0.5
+		game.call("damage_player", float(weapon["rollDamage"]))
 
 
 func _build_feedback() -> void:

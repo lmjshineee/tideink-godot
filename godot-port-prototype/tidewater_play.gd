@@ -25,6 +25,7 @@ var ink: RefCounted
 var phase := "setup"
 var phase_time := 0.0
 var selected_weapon := "shooter"
+var selected_bot_weapon := "shooter"
 var round_time := 90.0
 var final_countdown := 10
 var round_left := 90.0
@@ -104,6 +105,10 @@ func _input(event: InputEvent) -> void:
 			if phase == "setup" or (phase == "playing" and player_respawn > 0.0):
 				selected_weapon = WEAPON_IDS[event.keycode - KEY_1]
 				$Combat.call("select_weapon", selected_weapon)
+		KEY_B:
+			if phase == "setup":
+				selected_bot_weapon = WEAPON_IDS[(WEAPON_IDS.find(selected_bot_weapon) + 1) % WEAPON_IDS.size()]
+				$Bot.call("select_weapon", selected_bot_weapon)
 		KEY_ENTER:
 			if phase == "setup":
 				_begin_intro()
@@ -164,6 +169,7 @@ func _start_round() -> void:
 	bot_last_damage = 99.0
 	bot_ink_damage = 0.0
 	$Bot.call("reset")
+	$Bot.call("select_weapon", selected_bot_weapon)
 	$World/Walker.set("active", true)
 	$World/Walker.visible = true
 	$Combat.call("select_weapon", selected_weapon)
@@ -565,7 +571,7 @@ func _update_hud() -> void:
 	crosshair.visible = phase == "playing" and player_respawn <= 0.0 and pointer_locked
 	menu_panel.visible = phase == "setup" or (phase == "playing" and player_respawn > 0.0)
 	if menu_panel.visible:
-		menu_hint.text = "选择武器 · 按 1–4 · Enter 开始" if phase == "setup" else "等待重生 · 按 1–4 更换武器"
+		menu_hint.text = ("橙队 1–4 · 蓝队 B：%s · Enter 开始" % WEAPON_NAMES[selected_bot_weapon]) if phase == "setup" else "等待重生 · 按 1–4 更换武器"
 	if shown_weapon != selected_weapon:
 		weapon_icon.texture = load("res://assets/ui/%s.svg" % selected_weapon) as Texture2D
 		shown_weapon = selected_weapon
@@ -599,7 +605,7 @@ func _update_hud() -> void:
 	elif phase == "judge" or phase == "results":
 		result_label.text = "%s\n橙 %.1f%%   蓝 %.1f%%" % [result, judged_coverage[0] * 100.0, judged_coverage[1] * 100.0]
 	if phase == "setup":
-		hud.text = "赛前按 1–4 选武器 · Enter 开始"
+		hud.text = "赛前按 1–4 选橙队武器 · B 切换蓝队武器 · Enter 开始"
 	elif phase == "intro":
 		hud.text = "准备开战 · %d" % int(ceil(maxf(0.0, INTRO_SECONDS - phase_time)))
 	elif phase == "finish":
