@@ -6,6 +6,18 @@ const SQUID_SIDES := 12
 const LOOK_SENSITIVITY := 0.0021
 const CAMERA_DISTANCE := 4.5
 const CAMERA_HEIGHT := 1.85
+# Foot-probe constants from the source. physics.js:11 defines WALKABLE = 0.68, the
+# minimum ground normal.y a character may stand on (about 47.2 deg, vs Godot's 45
+# default). The 8-sample ring at footRadius is how the source steps onto curbs and
+# keeps the feet planted on a ledge until the whole footprint has left it.
+const RING: Array[Vector2] = [
+	Vector2(1.0, 0.0), Vector2(0.70710678, 0.70710678), Vector2(0.0, 1.0), Vector2(-0.70710678, 0.70710678),
+	Vector2(-1.0, 0.0), Vector2(-0.70710678, -0.70710678), Vector2(0.0, -1.0), Vector2(0.70710678, -0.70710678),
+]
+const WALKABLE := 0.68
+# A ring sample must sit this far above the centre sample to count as a step
+# (physics.js groundProbe stepMin): slopes stay exact, curbs get stepped onto.
+const STEP_MIN := 0.12
 var jump_requested := false
 var jump_buffer := 0.0
 var coyote := 0.0
@@ -38,6 +50,15 @@ var slam_phase := ""
 var slam_time := 0.0
 var slam_config: Dictionary = {}
 var slam_impact_pending := false
+# Ground state owned by the foot probe (see _resolve_ground). The engine's
+# is_on_floor() stays in use for collision and for the other modules, but the walk
+# rules use this footprint-based state, because a 0.24 m footprint and a 0.38 m
+# capsule disagree at ledge edges.
+var grounded := false
+var ground_normal := Vector3.UP
+var step_height := 0.35
+var step_down := 0.45
+var foot_radius := 0.24
 var _kid_shape: Shape3D
 var _squid_shape: Shape3D
 
@@ -47,7 +68,13 @@ func _ready() -> void:
 	player_config = config["player"]
 	_kid_shape = $CollisionShape3D.shape
 	_squid_shape = _make_squid_shape()
-	floor_snap_length = 0.25
+	step_height = float(player_config["stepUp"])
+	step_down = float(player_config["stepDown"])
+	foot_radius = float(player_config["footRadius"])
+	# Stand on the same slope range as the source, and let the engine cover the same
+	# step-down range the foot probe searches.
+	floor_max_angle = acos(WALKABLE)
+	floor_snap_length = step_down
 	_update_camera()
 
 
@@ -113,20 +140,33 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		_update_camera()
 		return
-	var grounded := is_on_floor()
-	# Both "submerged" and "on enemy ink" require contact with the ground in the web
-	# game (actor.js:267-268), so a coyote-time jump off a ledge uses the plain jump.
-	var submerged := squid and grounded and ink_owner == 0
-	var on_enemy := grounded and ink_owner == 1 and not submerged
-	_horizontal_step(delta, axis, squid, on_enemy, grounded)
-	_vertical_step(delta, squid, grounded, submerged, on_enemy)
+	# Ground state from the previous frame's foot probe, exactly as actor.js reads
+	# this.grounded before _integrate. Both "submerged" and "on enemy ink" require
+	# contact with the ground (actor.js:267-268), so a coyote-time jump off a ledge
+	# uses the plain jump.
+	var was_grounded := grounded
+	var submerged := squid and was_grounded and ink_owner == 0
+	var on_enemy := was_grounded and ink_owner == 1 and not submerged
+	_horizontal_step(delta, axis, squid, on_enemy, was_grounded)
+	var jumped := _vertical_step(delta, squid, was_grounded, submerged, on_enemy)
+	var stick := was_grounded and not jumped
+	if stick:
+		# Follow the ground plane: the vertical component keeps the feet on the
+		# surface at the current horizontal speed (actor.js:443-446).
+		var n := ground_normal
+		velocity.y = -(velocity.x * n.x + velocity.z * n.z) / maxf(0.35, n.y)
+	var previous_y := global_position.y
 	move_and_slide()
+	_resolve_ground(squid, previous_y, stick)
+	_try_step_up(axis, squid, stick)
 	_update_camera()
 	if axis.length_squared() > 0.0:
 		$Body.rotation.y = atan2(axis.x, axis.y)
 	if auto_respawn and global_position.y < -5.0:
 		global_position = Vector3(0.0, 2.25, -39.2)
 		velocity = Vector3.ZERO
+		grounded = false
+		coyote = 0.0
 		_update_camera()
 
 
@@ -137,7 +177,8 @@ func begin_slam(config: Dictionary) -> void:
 	slam_phase = "rise"
 	slam_time = 0.0
 	slam_impact_pending = false
-	floor_snap_length = 0.0
+	_set_climbing(false)
+	grounded = false
 	velocity = Vector3(velocity.x * 0.3, 11.5, velocity.z * 0.3)
 
 
@@ -145,7 +186,7 @@ func cancel_slam() -> void:
 	slam_phase = ""
 	slam_time = 0.0
 	slam_impact_pending = false
-	floor_snap_length = 0.25
+	floor_snap_length = step_down
 
 
 func _advance_slam(delta: float) -> void:
@@ -165,9 +206,15 @@ func _advance_slam(delta: float) -> void:
 				velocity = Vector3(0.0, -34.0, 0.0)
 		"fall":
 			velocity.y = -34.0
+	var previous_y := global_position.y
 	move_and_slide()
 	_update_camera()
-	if slam_phase == "fall" and (is_on_floor() or slam_time > 1.2):
+	# The slam lands on the foot probe's surface, not on engine floor contact: the
+	# probe starts from the highest point this frame passed through, so a 34 m/s fall
+	# cannot tunnel through the deck (actor.js:483-495).
+	if slam_phase == "fall":
+		_resolve_ground(false, previous_y, false)
+	if slam_phase == "fall" and (grounded or slam_time > 1.2):
 		cancel_slam()
 		slam_impact_pending = true
 
@@ -182,7 +229,9 @@ func reset_movement_state() -> void:
 	jump_buffer = 0.0
 	coyote = 0.0
 	_apply_form(false)
-	floor_snap_length = 0.25
+	floor_snap_length = step_down
+	grounded = false
+	ground_normal = Vector3.UP
 	velocity = Vector3.ZERO
 	_update_camera()
 
@@ -458,9 +507,104 @@ func _is_own_wall_hit(hit: Dictionary) -> bool:
 
 func _set_climbing(on: bool) -> void:
 	climbing = on
-	floor_snap_length = 0.0 if on else 0.25
-	if not on:
+	floor_snap_length = 0.0 if on else step_down
+	if on:
+		# A climbing character is not standing on the ground (actor.js:436-438).
+		grounded = false
+	else:
 		climb_velocity = 0.0
+
+
+# physics.js:164-188 groundProbe. A vertical centre sample wins when it is walkable
+# and inside the search range, so slopes are exact; a ring sample at footRadius only
+# wins when it sits at least STEP_MIN above the centre — that is what steps a curb up
+# as soon as the foot reaches it — or when the centre is over a gap, which keeps the
+# feet planted until the whole footprint has left the ledge.
+func _ground_probe(up: float, down: float) -> Dictionary:
+	var length := up + down
+	var center_y := -INF
+	var have_center := false
+	var best: Dictionary = {}
+	var center := _probe_ray(global_position, up, length)
+	if not center.is_empty() and float(center["normal"].y) >= WALKABLE:
+		have_center = true
+		center_y = float(center["position"].y)
+		best = center
+	var threshold := center_y + STEP_MIN if have_center else -INF
+	for direction in RING:
+		var base := global_position + Vector3(direction.x * foot_radius, 0.0, direction.y * foot_radius)
+		var sample := _probe_ray(base, up, length)
+		if sample.is_empty() or float(sample["normal"].y) < WALKABLE:
+			continue
+		if float(sample["position"].y) > threshold:
+			threshold = float(sample["position"].y)
+			best = sample
+	if best.is_empty():
+		return {}
+	return {"y": float(best["position"].y), "normal": best["normal"]}
+
+
+# The source lifts the character's body capsule by stepUp, which is why a curb never
+# blocks it and the foot ring can pull the feet up. Godot's capsule must keep touching
+# the ground here (is_on_floor() still drives the play controller and the weapons), so
+# the same outcome is produced by probing just ahead of the body: a walkable surface
+# within stepUp of the feet raises them before the next move, and the capsule then
+# passes over the curb instead of being stopped by it.
+#
+# Known difference from the source: the lift fires at body radius + 5 cm from the face
+# instead of at the 0.24 m footprint, so the character rises slightly earlier than the
+# web build. Lifting the collision shape instead would match exactly but would break
+# is_on_floor() for the modules that still read it.
+func _try_step_up(axis: Vector2, squid: bool, stick: bool) -> void:
+	if not stick or climbing or axis.length_squared() < 0.01:
+		return
+	var limit := float(player_config["squidStepUp"]) if squid else step_height
+	var direction := Vector3(axis.x, 0.0, axis.y).normalized()
+	var from := global_position + direction * (float(player_config["radius"]) + 0.05) + Vector3.UP * (limit + 0.02)
+	var hit := get_world_3d().direct_space_state.intersect_ray(
+		PhysicsRayQueryParameters3D.create(from, from - Vector3.UP * (limit + 0.04), collision_mask))
+	if hit.is_empty() or float(hit["normal"].y) < WALKABLE:
+		return
+	var rise := float(hit["position"].y) - global_position.y
+	if rise <= 0.02 or rise > limit + 0.01:
+		return
+	global_position.y = float(hit["position"].y)
+	ground_normal = hit["normal"]
+	grounded = true
+	velocity.y = 0.0
+
+
+func _probe_ray(base: Vector3, up: float, length: float) -> Dictionary:
+	var from := base + Vector3.UP * up
+	return get_world_3d().direct_space_state.intersect_ray(
+		PhysicsRayQueryParameters3D.create(from, from - Vector3.UP * length, collision_mask))
+
+
+# actor.js:471-500 _resolve. `stick` means we were grounded and did not jump, so the
+# feet are snapped to the probed surface anywhere between stepUp above and stepDown
+# below; otherwise this is a landing, searched upwards from the highest point the
+# frame passed through plus ledgeAssist, which is what lets a fall land on a ledge.
+func _resolve_ground(squid: bool, previous_y: float, stick: bool) -> void:
+	var landed := false
+	if stick:
+		var probe := _ground_probe(float(player_config["squidStepUp"]) if squid else step_height, step_down)
+		if not probe.is_empty():
+			global_position.y = float(probe["y"])
+			ground_normal = probe["normal"]
+			landed = true
+	elif velocity.y <= 0.5:
+		var assist := float(player_config["squidStepUp"]) if squid else float(player_config["ledgeAssist"])
+		var top := maxf(previous_y, global_position.y)
+		var probe := _ground_probe((top - global_position.y) + assist, 0.02)
+		if not probe.is_empty():
+			var probe_y := float(probe["y"])
+			if probe_y >= global_position.y - 0.02 and (velocity.y <= 0.0 or probe_y - global_position.y < 0.02):
+				global_position.y = probe_y
+				ground_normal = probe["normal"]
+				landed = true
+	grounded = landed
+	if grounded:
+		velocity.y = 0.0
 
 
 func _ledge_pop(direction: Vector3) -> void:
