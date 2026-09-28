@@ -56,6 +56,11 @@ var slam_impact_pending := false
 # capsule disagree at ledge edges.
 var grounded := false
 var ground_normal := Vector3.UP
+# Hard-landing recovery (actor.js:241, 388, 508-512). A landing faster than
+# hardLandSpeed sets a weight in 0..1; while it is above zero the kid's ground target
+# speed is scaled down, and the weight drains to zero over hardLandTime.
+var hard_land := 0.0
+var land_speed := 0.0
 # Facing angular spring (actor.js:781-815). The body yaw is a damped spring towards a
 # target, capped in both rate and acceleration, with the target's own angular velocity
 # fed forward so a smoothly moving target is tracked without steady-state lag.
@@ -149,6 +154,7 @@ func _physics_process(delta: float) -> void:
 	if not intent_driven:
 		squid = update_form(Input.is_key_pressed(KEY_SHIFT))
 	_advance_jump_input(delta)
+	hard_land = maxf(0.0, hard_land - delta / float(player_config["hardLandTime"]))
 	# Ground state from the previous frame's foot probe, exactly as actor.js reads
 	# this.grounded before _integrate. Both "submerged" and "on enemy ink" require
 	# contact with the ground (actor.js:267-268), so a coyote-time jump off a ledge
@@ -171,8 +177,11 @@ func _physics_process(delta: float) -> void:
 		var n := ground_normal
 		velocity.y = -(velocity.x * n.x + velocity.z * n.z) / maxf(0.35, n.y)
 	var previous_y := global_position.y
+	# move_and_slide() clears the vertical velocity when the body lands, so the impact
+	# speed has to be sampled before the move or _on_land() would always see zero.
+	var fall_speed := maxf(0.0, -velocity.y)
 	move_and_slide()
-	_resolve_ground(squid, previous_y, stick)
+	_resolve_ground(squid, previous_y, stick, fall_speed)
 	_try_step_up(axis, squid, stick)
 	_face(delta, squid, axis, submerged)
 	_update_camera()
@@ -221,13 +230,14 @@ func _advance_slam(delta: float) -> void:
 		"fall":
 			velocity.y = -34.0
 	var previous_y := global_position.y
+	var fall_speed := maxf(0.0, -velocity.y)
 	move_and_slide()
 	_update_camera()
 	# The slam lands on the foot probe's surface, not on engine floor contact: the
 	# probe starts from the highest point this frame passed through, so a 34 m/s fall
 	# cannot tunnel through the deck (actor.js:483-495).
 	if slam_phase == "fall":
-		_resolve_ground(false, previous_y, false)
+		_resolve_ground(false, previous_y, false, fall_speed)
 	_face(delta, false, Vector2.ZERO, false)
 	if slam_phase == "fall" and (grounded or slam_time > 1.2):
 		cancel_slam()
@@ -249,6 +259,8 @@ func reset_movement_state() -> void:
 	ground_normal = Vector3.UP
 	yaw_velocity = 0.0
 	_has_face_target = false
+	hard_land = 0.0
+	land_speed = 0.0
 	velocity = Vector3.ZERO
 	_update_camera()
 
@@ -409,6 +421,10 @@ func _horizontal_step(delta: float, axis: Vector2, squid: bool, on_enemy: bool, 
 		turn_rate = float(p["squidTurn"])
 	else:
 		target_speed = minf(float(p["runSpeed"]), firing_speed_limit)
+		# Recovery weight after a hard landing; squid branches above are untouched
+		# because the source applies this only to the kid ground branch.
+		if hard_land > 0.0:
+			target_speed *= 1.0 - (1.0 - float(p["hardLandSlow"])) * hard_land
 		acceleration = float(p["runAccel"])
 		acceleration_in = float(p["runAccelIn"])
 		in_knee = float(p["runInKnee"])
@@ -675,7 +691,7 @@ func _probe_ray(base: Vector3, up: float, length: float) -> Dictionary:
 # feet are snapped to the probed surface anywhere between stepUp above and stepDown
 # below; otherwise this is a landing, searched upwards from the highest point the
 # frame passed through plus ledgeAssist, which is what lets a fall land on a ledge.
-func _resolve_ground(squid: bool, previous_y: float, stick: bool) -> void:
+func _resolve_ground(squid: bool, previous_y: float, stick: bool, fall_speed: float = 0.0) -> void:
 	var landed := false
 	if stick:
 		var probe := _ground_probe(float(player_config["squidStepUp"]) if squid else step_height, step_down)
@@ -693,9 +709,23 @@ func _resolve_ground(squid: bool, previous_y: float, stick: bool) -> void:
 				global_position.y = probe_y
 				ground_normal = probe["normal"]
 				landed = true
+	var was_grounded := grounded
 	grounded = landed
 	if grounded:
+		# The impact speed must be read before the vertical velocity is cleared, and
+		# only on the airborne -> grounded transition (actor.js:492/503-511).
+		if not was_grounded:
+			_on_land(fall_speed)
 		velocity.y = 0.0
+
+
+# actor.js:506-511 _onLand. Only the hard-landing weight is reproduced here; the
+# land event, camera dip and audio hook live outside this controller.
+func _on_land(fall_speed: float) -> void:
+	land_speed = fall_speed
+	var threshold := float(player_config["hardLandSpeed"])
+	if land_speed > threshold:
+		hard_land = clampf((land_speed - threshold) / 6.0 + 0.5, 0.0, 1.0)
 
 
 func _ledge_pop(direction: Vector3) -> void:
