@@ -60,7 +60,6 @@ const ALLOWED := {
 	"weapons.json.teams": "palette selection is not wired; the port hardcodes two colours",
 	"weapons.json.match.defaultDuration": "the prototype runs the 90 s option (ROUND_DURATION_OPTION)",
 	"weapons.json.match.teamSize": "1v1 prototype; the roster batch consumes it",
-	"weapons.json.match.pointsPerM2": "no turf-points ledger yet; the special gauge uses raw area",
 	# Consumed through text.weapons[weapon_id], so the field names below are keys the
 	# production code never spells out.
 	"weapons.json.text": "looked up as text.weapons[weapon_id] and text for other groups",

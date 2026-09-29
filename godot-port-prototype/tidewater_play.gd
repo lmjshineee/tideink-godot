@@ -43,6 +43,13 @@ var bot_invuln := 0.0
 var bot_last_damage := 99.0
 var bot_ink_damage := 0.0
 var result := ""
+# actor.js:116-125 addTurf and hud.js:482/971-985. The raw area each team has painted
+# feeds the results rows; the local player's points (area * match.pointsPerM2) feed the
+# HUD counter, whose shown value chases the true total instead of jumping to it.
+var turf_area := [0.0, 0.0]
+var turf_total := 0.0
+var turf_shown := 0.0
+var _points_per_m2 := 1.0
 var hud: Label
 var score_panel: Panel
 var orange_score: Label
@@ -58,6 +65,7 @@ var health_label: Label
 var special_panel: Panel
 var special_bar: ProgressBar
 var special_label: Label
+var turf_label: Label
 var result_panel: Panel
 var result_label: Label
 var status_panel: Panel
@@ -91,6 +99,11 @@ func _ready() -> void:
 	if weapon_order.is_empty():
 		push_error("assets/weapons.json carries no weaponOrder; falling back to the weapons block order")
 		weapon_order = (weapon_data.get("weapons", {}) as Dictionary).keys()
+	# hud.js uses `MATCH.pointsPerM2 || 1`, so a missing or zero value means one point per
+	# square metre rather than a score of zero.
+	_points_per_m2 = float(match_config.get("pointsPerM2", 1.0))
+	if _points_per_m2 <= 0.0:
+		_points_per_m2 = 1.0
 	round_left = round_time
 	$Bot.call("setup", self, $World/Walker, $World/Map)
 	player_health = float($Combat.get("weapon_data")["player"]["hp"])
@@ -196,6 +209,7 @@ func _start_round() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	_update_turf_display(delta)
 	match phase:
 		"intro":
 			phase_time += delta
@@ -270,7 +284,26 @@ func _judge_round() -> void:
 
 func paint_at_world(center: Vector3, team: int, radius: float, seed: float,
 		stretch: Vector3 = Vector3.ZERO, stretch_amount: float = 0.0) -> float:
-	return float(ink.call("splat_world", center, radius, team, seed, stretch, stretch_amount))
+	var area := float(ink.call("splat_world", center, radius, team, seed, stretch, stretch_amount))
+	# actor.js:116-125 credits turf to whoever painted it. Every stroke in the port funnels
+	# through here — the bot's own paint calls this directly rather than going through the
+	# weapon script — so this is the one place that can account for both teams without
+	# touching the bot. Raw area always counts (actor stats.turf); the local player's
+	# points only while alive, which is the `_live()` guard hud.js applies.
+	var slot := clampi(team, 0, turf_area.size() - 1)
+	turf_area[slot] = float(turf_area[slot]) + area
+	if slot == 0 and player_respawn <= 0.0:
+		turf_total += area * _points_per_m2
+	return area
+
+
+# hud.js:983-985: the shown number climbs toward the true total by 6 points per second or
+# seven times the remaining gap, whichever is larger. The floating "+n p" pops drawn on
+# top of it are an animation the port has no framework for, so only the chase is ported —
+# the number itself is the same.
+func _update_turf_display(delta: float) -> void:
+	if turf_shown < turf_total:
+		turf_shown = minf(turf_total, turf_shown + maxf(6.0, (turf_total - turf_shown) * 7.0) * delta)
 
 
 func damage_bot(amount: float) -> void:
@@ -406,6 +439,8 @@ func _build_hud() -> void:
 	health_bar = _hud_bar(vitals_panel, "HealthBar", Color("fc4266"))
 	special_panel = _hud_panel(layer, "SpecialPanel")
 	special_label = _hud_label(special_panel, "SpecialLabel", Color.WHITE, 18)
+	turf_label = _hud_label(special_panel, "TurfLabel", ORANGE.lightened(0.35), 16)
+	turf_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	special_bar = _hud_bar(special_panel, "SpecialBar", ORANGE.lightened(0.35))
 	result_panel = _hud_panel(layer, "ResultPanel")
 	result_label = _hud_label(result_panel, "ResultLabel", Color.WHITE, 28)
@@ -557,7 +592,9 @@ func _layout_hud() -> void:
 	health_bar.position = Vector2(16.0, 83.0)
 	health_bar.size = Vector2(243.0, 13.0)
 	special_panel.position = Vector2(maxf(16.0, size.x - 226.0), 124.0)
-	special_panel.size = Vector2(210.0, 82.0)
+	special_panel.size = Vector2(210.0, 108.0)
+	turf_label.position = Vector2(0.0, 78.0)
+	turf_label.size = Vector2(210.0, 24.0)
 	special_label.position = Vector2(13.0, 7.0)
 	special_label.size = Vector2(184.0, 35.0)
 	special_bar.position = Vector2(13.0, 53.0)
@@ -612,6 +649,7 @@ func _update_hud() -> void:
 	timer_label.add_theme_color_override("font_color", Color("ffe27a") if phase == "playing" and seconds <= final_countdown else Color.WHITE)
 	vitals_panel.visible = phase == "playing" and player_respawn <= 0.0
 	special_panel.visible = phase == "playing" and player_respawn <= 0.0
+	turf_label.visible = special_panel.visible
 	var max_health := float(combat.get("weapon_data")["player"]["hp"])
 	var max_ink := float(combat.get("weapon_data")["player"]["inkMax"])
 	ink_label.text = "墨量  %d / %d" % [int(ceil(float(combat.get("ink_amount")))), int(max_ink)]
@@ -623,11 +661,16 @@ func _update_hud() -> void:
 	special_bar.value = special_percent
 	special_label.text = "大招就绪 · F/Q" if ready else "大招  %d%%" % special_percent
 	special_label.add_theme_color_override("font_color", ORANGE.lightened(0.45) if ready else Color.WHITE)
+	# Hud.js prints the local player's turf points next to the special gauge; the results
+	# screen prints the raw area instead, and the web labels both "p" (they differ by
+	# pointsPerM2, which the shipped config sets to 1).
+	turf_label.text = "涂地  %d p" % int(floor(turf_shown))
 	result_panel.visible = phase == "finish" or phase == "judge" or phase == "results"
 	if phase == "finish":
 		result_label.text = "时间到\n等待裁判统计"
 	elif phase == "judge" or phase == "results":
-		result_label.text = "%s\n橙 %.1f%%   蓝 %.1f%%" % [result, judged_coverage[0] * 100.0, judged_coverage[1] * 100.0]
+		result_label.text = "%s\n橙 %.1f%%   蓝 %.1f%%\n涂地 橙 %.1f m²   蓝 %.1f m²" % [
+			result, judged_coverage[0] * 100.0, judged_coverage[1] * 100.0, turf_area[0], turf_area[1]]
 	if phase == "setup":
 		hud.text = "赛前按 1–4 选橙队武器 · B 切换蓝队武器 · Enter 开始"
 	elif phase == "intro":
