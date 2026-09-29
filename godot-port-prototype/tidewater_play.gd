@@ -13,10 +13,11 @@ const ROUND_DURATION_OPTION := 0
 const INTRO_SECONDS := 4.2
 const FINISH_SECONDS := 2.6
 const JUDGE_SECONDS := 5.1
-const WEAPON_NAMES := {
-	"shooter": "射手", "roller": "滚筒", "charger": "蓄力狙", "blaster": "爆破枪",
-}
-const WEAPON_IDS := ["shooter", "roller", "charger", "blaster"]
+# Weapon order and labels both come from assets/weapons.json: `weaponOrder` is
+# config.js's WEAPON_ORDER, and `text.weapons` is the web's i18n table for those ids.
+# This controller used to keep its own copy of both, which had drifted from the web
+# (it said 射手/滚筒 where the web says 喷溅枪/滚筒刷).
+var weapon_order: Array = []
 const ORANGE := Color("ff8a14")
 const BLUE := Color("2f5bff")
 const UI_PANEL := Color(0.035, 0.045, 0.075, 0.92)
@@ -85,12 +86,26 @@ func _ready() -> void:
 	var match_config: Dictionary = $Combat.get("weapon_data")["match"]
 	round_time = float((match_config["durations"] as Array)[ROUND_DURATION_OPTION])
 	final_countdown = int(match_config["finalCountdown"])
+	var weapon_data: Dictionary = $Combat.get("weapon_data")
+	weapon_order = weapon_data.get("weaponOrder", [])
+	if weapon_order.is_empty():
+		push_error("assets/weapons.json carries no weaponOrder; falling back to the weapons block order")
+		weapon_order = (weapon_data.get("weapons", {}) as Dictionary).keys()
 	round_left = round_time
 	$Bot.call("setup", self, $World/Walker, $World/Map)
 	player_health = float($Combat.get("weapon_data")["player"]["hp"])
 	bot_health = player_health
 	_build_hud()
 	_update_hud()
+
+
+# Chinese label for a weapon id, from the export's text block. The English brand name
+# (weapons.<id>.name in the JSON) is not needed to reach it, and the id is returned as a
+# last resort so a missing translation shows up as an id rather than an empty label.
+func _weapon_text(weapon_id: String) -> String:
+	var text_block: Dictionary = $Combat.get("weapon_data").get("text", {})
+	var weapons_text: Dictionary = text_block.get("weapons", {})
+	return String(weapons_text.get(weapon_id, weapon_id))
 
 
 func _input(event: InputEvent) -> void:
@@ -102,12 +117,15 @@ func _input(event: InputEvent) -> void:
 		return
 	match event.keycode:
 		KEY_1, KEY_2, KEY_3, KEY_4:
-			if phase == "setup" or (phase == "playing" and player_respawn > 0.0):
-				selected_weapon = WEAPON_IDS[event.keycode - KEY_1]
+			# Explicit type: event is statically an InputEvent, so keycode is dynamic and
+			# `:=` cannot infer (this is what broke the whole suite once).
+			var slot: int = event.keycode - KEY_1
+			if slot < weapon_order.size() and (phase == "setup" or (phase == "playing" and player_respawn > 0.0)):
+				selected_weapon = weapon_order[slot]
 				$Combat.call("select_weapon", selected_weapon)
 		KEY_B:
 			if phase == "setup":
-				selected_bot_weapon = WEAPON_IDS[(WEAPON_IDS.find(selected_bot_weapon) + 1) % WEAPON_IDS.size()]
+				selected_bot_weapon = weapon_order[(weapon_order.find(selected_bot_weapon) + 1) % weapon_order.size()]
 				$Bot.call("select_weapon", selected_bot_weapon)
 		KEY_ENTER:
 			if phase == "setup":
@@ -480,8 +498,8 @@ func _build_weapon_menu(layer: CanvasLayer) -> void:
 	menu_hint.add_theme_font_size_override("font_size", 22)
 	menu_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	menu_panel.add_child(menu_hint)
-	for index in WEAPON_IDS.size():
-		var weapon_id: String = WEAPON_IDS[index]
+	for index in weapon_order.size():
+		var weapon_id: String = weapon_order[index]
 		var card := Panel.new()
 		card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		menu_panel.add_child(card)
@@ -494,7 +512,7 @@ func _build_weapon_menu(layer: CanvasLayer) -> void:
 		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		card.add_child(icon)
 		var name_label := Label.new()
-		name_label.text = "%d  %s" % [index + 1, WEAPON_NAMES[weapon_id]]
+		name_label.text = "%d  %s" % [index + 1, _weapon_text(weapon_id)]
 		name_label.position.y = 74.0
 		name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		name_label.add_theme_font_size_override("font_size", 18)
@@ -504,7 +522,7 @@ func _build_weapon_menu(layer: CanvasLayer) -> void:
 
 
 func _refresh_weapon_cards() -> void:
-	for weapon_id in WEAPON_IDS:
+	for weapon_id in weapon_order:
 		var card: Panel = weapon_cards[weapon_id]
 		var selected: bool = weapon_id == selected_weapon
 		card.add_theme_stylebox_override("panel", _ui_style(
@@ -563,8 +581,8 @@ func _layout_hud() -> void:
 	title.size = Vector2(width, 58.0)
 	menu_hint.size = Vector2(width, 36.0)
 	var card_width := (width - 70.0) * 0.25
-	for index in WEAPON_IDS.size():
-		var card: Panel = weapon_cards[WEAPON_IDS[index]]
+	for index in weapon_order.size():
+		var card: Panel = weapon_cards[weapon_order[index]]
 		card.position = Vector2(20.0 + float(index) * (card_width + 10.0), 137.0)
 		card.size = Vector2(card_width, 106.0)
 		var icon: TextureRect = card.get_child(0)
@@ -577,7 +595,7 @@ func _update_hud() -> void:
 	crosshair.visible = phase == "playing" and player_respawn <= 0.0 and pointer_locked
 	menu_panel.visible = phase == "setup" or (phase == "playing" and player_respawn > 0.0)
 	if menu_panel.visible:
-		menu_hint.text = ("橙队 1–4 · 蓝队 B：%s · Enter 开始" % WEAPON_NAMES[selected_bot_weapon]) if phase == "setup" else "等待重生 · 按 1–4 更换武器"
+		menu_hint.text = ("橙队 1–4 · 蓝队 B：%s · Enter 开始" % _weapon_text(selected_bot_weapon)) if phase == "setup" else "等待重生 · 按 1–4 更换武器"
 	if shown_weapon != selected_weapon:
 		weapon_icon.texture = load("res://assets/ui/%s.svg" % selected_weapon) as Texture2D
 		shown_weapon = selected_weapon

@@ -12,6 +12,21 @@
     "charger",
     "blaster"
   ],
+  "text": {
+    "weapons": {
+      "shooter": "喷溅枪",
+      "roller": "滚筒刷",
+      "charger": "蓄力狙",
+      "blaster": "爆破枪"
+    },
+    "specials": {
+      "slam": "潮汐重击",
+      "storm": "墨水风暴"
+    },
+    "sub": {
+      "bomb": "溅射炸弹"
+    }
+  },
   "weapons": {
     "shooter": {
       "id": "shooter",
