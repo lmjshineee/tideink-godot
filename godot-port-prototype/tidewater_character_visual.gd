@@ -158,8 +158,11 @@ func _read_motion(delta: float) -> void:
 		var body := parent as CharacterBody3D
 		horizontal = Vector2(body.velocity.x, body.velocity.z).length()
 		vertical = body.velocity.y
+		# The walker owns `grounded` from its foot probe. is_on_floor() is deliberately not
+		# used as a fallback: both bodies are lifted out of the ground, so it is always
+		# false and would make every frame look airborne.
 		var flag: Variant = body.get("grounded")
-		anim_grounded = bool(flag) if flag != null else body.is_on_floor()
+		anim_grounded = bool(flag) if flag != null else true
 	else:
 		# The blue team is moved by writing global_position, so speed comes from the
 		# travelled distance instead of a velocity it does not have.

@@ -17,6 +17,8 @@ const WALKABLE := 0.68
 # A ring sample must sit this far above the centre sample to count as a step
 # (physics.js groundProbe stepMin): slopes stay exact, curbs get stepped onto.
 const STEP_MIN := 0.12
+# Tolerance on the upward reach of the foot probe, see _resolve_ground.
+const STEP_EPSILON := 0.02
 var jump_requested := false
 var jump_buffer := 0.0
 var coyote := 0.0
@@ -49,10 +51,11 @@ var slam_phase := ""
 var slam_time := 0.0
 var slam_config: Dictionary = {}
 var slam_impact_pending := false
-# Ground state owned by the foot probe (see _resolve_ground). The engine's
-# is_on_floor() stays in use for collision and for the other modules, but the walk
-# rules use this footprint-based state, because a 0.24 m footprint and a 0.38 m
-# capsule disagree at ledge edges.
+# Ground state owned by the foot probe (see _resolve_ground). Both bodies are lifted out
+# of the ground, so the engine's is_on_floor() is false whenever this controller runs:
+# everything that asks "am I standing" — the walk rules here, the match controller's
+# enemy-ink damage and regen, the weapon script's ink refill, ground/air spread and the
+# roller's roll condition — reads this footprint-based state instead.
 var grounded := false
 var ground_normal := Vector3.UP
 # Hard-landing recovery (actor.js:241, 388, 508-512). A landing faster than
@@ -81,8 +84,11 @@ var _squid_shape: Shape3D
 func _ready() -> void:
 	var config: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/weapons.json"))
 	player_config = config["player"]
-	_kid_shape = $CollisionShape3D.shape
-	_squid_shape = _make_squid_shape()
+	# Both bodies come from the source formula, not from the scene's placeholder shape.
+	# _apply_form below pushes them onto the collision node, so the scene's numbers are
+	# only a readable placeholder and config.js stays the single source.
+	_kid_shape = _make_body_shape(false)
+	_squid_shape = _make_body_shape(true)
 	step_height = float(player_config["stepUp"])
 	step_down = float(player_config["stepDown"])
 	foot_radius = float(player_config["footRadius"])
@@ -92,6 +98,10 @@ func _ready() -> void:
 	floor_snap_length = step_down
 	body_yaw = $Body.rotation.y
 	aim_yaw = camera_yaw
+	# update_form() returns early while the form already matches, so without this the
+	# collision node would keep the scene's placeholder capsule instead of the shape built
+	# above and the two could silently drift apart.
+	_apply_form(squid_form)
 	_update_camera()
 
 
@@ -181,7 +191,6 @@ func _physics_process(delta: float) -> void:
 	var fall_speed := maxf(0.0, -velocity.y)
 	move_and_slide()
 	_resolve_ground(squid, previous_y, stick, fall_speed)
-	_try_step_up(axis, squid, stick)
 	_face(delta, squid, axis, submerged)
 	_update_camera()
 	if auto_respawn and global_position.y < -5.0:
@@ -315,45 +324,57 @@ func update_form(requested_squid: bool) -> bool:
 func _apply_form(squid: bool) -> void:
 	squid_form = squid
 	$CollisionShape3D.shape = _squid_shape if squid else _kid_shape
-	# The kid shape keeps the scene's source-sized capsule (0 .. 1.45); only the squid
-	# uses the lifted centre from _squid_shape_center().
-	$CollisionShape3D.position.y = _squid_shape_center() if squid else float(player_config["height"]) * 0.5
+	# Both bodies sit at the centre of their source span (kid 0.90, squid 0.54).
+	$CollisionShape3D.position.y = _body_center(squid)
 	$Body.call("set_form", squid)
 
 
 func _can_stand() -> bool:
 	var query := PhysicsShapeQueryParameters3D.new()
 	query.shape = _kid_shape
-	query.transform = Transform3D(global_transform.basis, global_position + global_transform.basis * Vector3.UP * float(player_config["height"]) * 0.5)
+	query.transform = Transform3D(global_transform.basis,
+		global_position + global_transform.basis * Vector3.UP * _body_center(false))
 	query.collision_mask = collision_mask
 	query.exclude = [get_rid()]
 	return get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty()
 
 
-# physics.js:201 builds the body capsule as `bot = lift + radius,
-# top = max(bot, height - radius)`. For the squid that is lift = squidBodyLift (0.16)
-# and height = squidHeight (0.55), so `top == bot` and the body degenerates into a
-# sphere of PLAYER.radius whose centre sits lift + radius above the feet: its solid
-# extent is 0.16 .. 0.92. Everything below the lift belongs to the feet, which is what
-# lets a squid slip over geometry shorter than squidBodyLift instead of being stopped
-# by it. The port used a 0.38 m twelve-sided prism resting on the ground (0 .. 0.55),
-# which was both fatter at the ankle and 0.37 m shorter at the top.
-func _make_squid_shape() -> Shape3D:
+# physics.js:201 states the whole body rule in one line:
+#   bot = lift + radius, top = max(bot, height - radius)
+# The capsule axis runs from `lift + radius` to `top` above the feet, so everything
+# below `lift` belongs to the feet rather than to the body. That is what makes curbs and
+# lips the ground probe's business instead of a wall the body walks into.
+#
+#   kid:   lift = stepUp (0.35), height = 1.45 -> axis 0.73 .. 1.07, solid 0.35 .. 1.45
+#   squid: lift = squidBodyLift (0.16), height = 0.55 -> axis degenerates to a point at
+#          0.54, i.e. a sphere of PLAYER.radius with solid extent 0.16 .. 0.92
+#
+# The kid body used to rest on the ground (0 .. 1.45). That was the DS-01 deviation
+# which needed an ahead probe to fake step-up; lifting it is what makes the source's own
+# mechanism work: the lifted body never hits the curb, so the footprint ring reaches the
+# lip and pops the feet up, and a fall can catch a ledge the feet are already under
+# (ledgeAssist). Both bodies are now built from config here.
+func _body_span(squid: bool) -> Vector2:
 	var radius := float(player_config["radius"])
-	var bottom := float(player_config["squidBodyLift"]) + radius
-	var top := maxf(bottom, float(player_config["squidHeight"]) - radius)
+	var lift := float(player_config["squidBodyLift"]) if squid else float(player_config["stepUp"])
+	var height := float(player_config["squidHeight"]) if squid else float(player_config["height"])
+	var bottom := lift + radius
+	return Vector2(bottom, maxf(bottom, height - radius))
+
+
+func _make_body_shape(squid: bool) -> CapsuleShape3D:
+	var radius := float(player_config["radius"])
+	var span := _body_span(squid)
 	var shape := CapsuleShape3D.new()
 	shape.radius = radius
-	shape.height = (top - bottom) + 2.0 * radius
+	shape.height = (span.y - span.x) + 2.0 * radius
 	return shape
 
 
-# Centre of the squid body above the feet, from the same formula.
-func _squid_shape_center() -> float:
-	var radius := float(player_config["radius"])
-	var bottom := float(player_config["squidBodyLift"]) + radius
-	var top := maxf(bottom, float(player_config["squidHeight"]) - radius)
-	return (bottom + top) * 0.5
+# Centre of a body shape above the feet, from the same span.
+func _body_center(squid: bool) -> float:
+	var span := _body_span(squid)
+	return (span.x + span.y) * 0.5
 
 
 func _advance_jump_input(delta: float) -> void:
@@ -571,6 +592,12 @@ func _set_climbing(on: bool) -> void:
 # wins when it sits at least STEP_MIN above the centre — that is what steps a curb up
 # as soon as the foot reaches it — or when the centre is over a gap, which keeps the
 # feet planted until the whole footprint has left the ledge.
+#
+# Because both bodies are lifted out of the ground (see _body_span), this ring is the
+# only step-up mechanism: the body no longer collides with a curb, so the walker keeps
+# advancing until a footprint sample reaches the lip, and the ring then raises the feet.
+# The port previously needed an extra "probe ahead of the body" step because its kid
+# capsule rested on the ground and was blocked by every lip; that helper is gone.
 func _ground_probe(up: float, down: float) -> Dictionary:
 	var length := up + down
 	var center_y := -INF
@@ -593,42 +620,6 @@ func _ground_probe(up: float, down: float) -> Dictionary:
 	if best.is_empty():
 		return {}
 	return {"y": float(best["position"].y), "normal": best["normal"]}
-
-
-# The source lifts the character's body capsule by stepUp, which is why a curb never
-# blocks it and the foot ring can pull the feet up. Godot's capsule must keep touching
-# the ground here (is_on_floor() still drives the play controller and the weapons), so
-# the same outcome is produced by probing just ahead of the body: a walkable surface
-# within stepUp of the feet raises them before the next move, and the capsule then
-# passes over the curb instead of being stopped by it.
-#
-# Known difference from the source: the lift fires at body radius + 5 cm from the face
-# instead of at the 0.24 m footprint, so the character rises slightly earlier than the
-# web build. Lifting the collision shape instead would match exactly but would break
-# is_on_floor() for the modules that still read it.
-func _try_step_up(axis: Vector2, squid: bool, stick: bool) -> void:
-	if not stick or climbing or axis.length_squared() < 0.01:
-		return
-	var limit := float(player_config["squidStepUp"]) if squid else step_height
-	var direction := Vector3(axis.x, 0.0, axis.y).normalized()
-	var from := global_position + direction * (float(player_config["radius"]) + 0.05) + Vector3.UP * (limit + 0.02)
-	var hit := get_world_3d().direct_space_state.intersect_ray(
-		PhysicsRayQueryParameters3D.create(from, from - Vector3.UP * (limit + 0.04), collision_mask))
-	if hit.is_empty() or float(hit["normal"].y) < WALKABLE:
-		return
-	var rise := float(hit["position"].y) - global_position.y
-	# groundProbe only lets a footprint sample win when it sits more than STEP_MIN
-	# above the centre, so a lip shorter than that is walked over, not stepped onto.
-	# The squid body is lifted like the source's, so that threshold applies directly;
-	# the kid body is not lifted here (see _try_step_up's header), so it keeps a looser
-	# threshold to stand in for the missing lift.
-	var minimum := STEP_MIN if squid else 0.02
-	if rise <= minimum or rise > limit + 0.01:
-		return
-	global_position.y = float(hit["position"].y)
-	ground_normal = hit["normal"]
-	grounded = true
-	velocity.y = 0.0
 
 
 # actor.js:781-815 _face. The body yaw is a spring towards a target chosen by state:
@@ -711,7 +702,10 @@ func _probe_ray(base: Vector3, up: float, length: float) -> Dictionary:
 func _resolve_ground(squid: bool, previous_y: float, stick: bool, fall_speed: float = 0.0) -> void:
 	var landed := false
 	if stick:
-		var probe := _ground_probe(float(player_config["squidStepUp"]) if squid else step_height, step_down)
+		# A hair more than the source's stepUp: a ray that ends exactly on a lip top is
+		# not reliably inclusive, and a curb of exactly stepUp must still be climbable.
+		var reach := (float(player_config["squidStepUp"]) if squid else step_height) + STEP_EPSILON
+		var probe := _ground_probe(reach, step_down)
 		if not probe.is_empty():
 			global_position.y = float(probe["y"])
 			ground_normal = probe["normal"]

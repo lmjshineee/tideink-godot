@@ -62,7 +62,7 @@ func _check() -> void:
 	# Spread: consecutive shots must fan out inside the source cone instead of all
 	# following the crosshair exactly (weapons.js:57-64, 119).
 	var walker := scene.get_node("World/Walker")
-	var cone := float(shooter["spreadBaseGround"]) if walker.is_on_floor() else float(shooter["spreadBaseAir"])
+	var cone := float(shooter["spreadBaseGround"]) if bool(walker.get("grounded")) else float(shooter["spreadBaseAir"])
 	var directions: Array[Vector3] = []
 	for shot_index in range(8):
 		combat.call("_spawn_shot", shooter)

@@ -26,42 +26,55 @@ func _check() -> void:
 	var walker: CharacterBody3D = scene.get_node("Walker")
 	for i in range(12):
 		await physics_frame
-	if not walker.is_on_floor():
+	if not bool(walker.get("grounded")):
 		_fail("walker was not standing on the spawn deck in kid form")
 		return
 	var config: Dictionary = walker.get("player_config")
 	var collision: CollisionShape3D = walker.get_node("CollisionShape3D")
 	var kid_shape: Shape3D = collision.shape
 
-	# --- 1. a plate entirely below squidBodyLift is not touched by the squid body -----
+	# --- 1. both bodies are lifted, and each by its own amount ------------------------
+	# A plate below squidBodyLift (0.16) is cleared by both bodies; a plate between
+	# squidBodyLift and stepUp (0.35) is still touched by the squid but already cleared by
+	# the kid. Those two queries pin both lift values behaviourally, which is what the old
+	# ground-resting shapes could not do.
 	walker.set("active", false)
 	walker.collision_mask |= PLATE_LAYER
 	var feet := walker.global_position
-	var plate_top := float(config["squidBodyLift"]) - 0.04
 	var plate := StaticBody3D.new()
 	plate.name = "SubLiftPlate"
 	plate.collision_layer = PLATE_LAYER
 	plate.collision_mask = 0
-	plate.position = Vector3(feet.x, feet.y + plate_top * 0.5, feet.z)
 	var plate_collision := CollisionShape3D.new()
 	var plate_shape := BoxShape3D.new()
-	plate_shape.size = Vector3(4.0, plate_top, 4.0)
 	plate_collision.shape = plate_shape
 	plate.add_child(plate_collision)
 	root.add_child(plate)
-	await physics_frame
+	var body_radius := float(config["radius"])
+	var squid_lift := float(config["squidBodyLift"])
+	var kid_lift := float(config["stepUp"])
 
-	if not bool(walker.call("update_form", true)):
-		_fail("squid request did not change collision shape")
-		return
+	# Case A: entirely below the squid lift.
+	await _set_plate(plate, plate_shape, feet, squid_lift - 0.04)
+	walker.call("update_form", true)
 	if _overlaps(walker, collision.global_transform, collision.shape):
-		_fail("squid body touches a plate below squidBodyLift (%.2f m)" % plate_top)
+		_fail("squid body touches a plate below squidBodyLift (%.2f m)" % (squid_lift - 0.04))
 		return
-	# Control: the kid body reaches the feet, so it must touch the same plate.
 	walker.call("update_form", false)
-	if not _overlaps(walker, Transform3D(walker.global_transform.basis,
-			feet + Vector3.UP * float(config["height"]) * 0.5), kid_shape):
-		_fail("kid body unexpectedly clears a plate it stands on")
+	if _overlaps(walker, _kid_transform(walker, feet, kid_lift, body_radius), kid_shape):
+		_fail("kid body touches a plate below the squid lift")
+		return
+
+	# Case B: between the squid lift and the kid lift.
+	var middle := (squid_lift + kid_lift) * 0.5
+	await _set_plate(plate, plate_shape, feet, middle)
+	walker.call("update_form", true)
+	if not _overlaps(walker, collision.global_transform, collision.shape):
+		_fail("squid body clears a plate above squidBodyLift (%.2f m)" % middle)
+		return
+	walker.call("update_form", false)
+	if _overlaps(walker, _kid_transform(walker, feet, kid_lift, body_radius), kid_shape):
+		_fail("kid body touches a plate below its own stepUp lift (%.2f m)" % middle)
 		return
 	plate.queue_free()
 	await physics_frame
@@ -90,6 +103,21 @@ func _check() -> void:
 
 	print("PASS: squid body lifted by squidBodyLift, ignores sub-lift geometry, grounded by the probe alone")
 	quit()
+
+
+# Kid body centre from the same source span the walker uses. The walker is passed in
+# rather than captured, because it is local to _check().
+func _kid_transform(body: CharacterBody3D, feet: Vector3, lift: float, radius: float) -> Transform3D:
+	var bottom := lift + radius
+	var top := maxf(bottom, float((body.get("player_config") as Dictionary)["height"]) - radius)
+	return Transform3D(body.global_transform.basis, feet + Vector3.UP * (bottom + top) * 0.5)
+
+
+# Resizes and repositions the probe plate, then lets the physics server pick it up.
+func _set_plate(plate: StaticBody3D, shape: BoxShape3D, feet: Vector3, top: float) -> void:
+	shape.size = Vector3(4.0, top, 4.0)
+	plate.position = Vector3(feet.x, feet.y + top * 0.5, feet.z)
+	await physics_frame
 
 
 func _overlaps(walker: CharacterBody3D, transform: Transform3D, shape: Shape3D) -> bool:

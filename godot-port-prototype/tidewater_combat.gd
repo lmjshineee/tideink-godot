@@ -249,7 +249,9 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 # Current shot cone half-angle in degrees, mirroring weapons.js:57-64. Only the
 # shooter's cone widens with bloom; the blaster's is constant.
 func _spread_degrees(weapon: Dictionary) -> float:
-	var base := float(weapon["spreadBaseGround"]) if walker.is_on_floor() else float(weapon["spreadBaseAir"])
+	# The walker's bodies are lifted out of the ground, so is_on_floor() is always false;
+	# the probe state is what decides ground versus air spread.
+	var base := float(weapon["spreadBaseGround"]) if bool(walker.get("grounded")) else float(weapon["spreadBaseAir"])
 	if String(weapon["kind"]) == "shooter":
 		return base * lerpf(float(weapon["spreadFirst"]), 1.0, bloom)
 	return base
@@ -855,7 +857,9 @@ func _update_roller(delta: float, fire: bool, pressed: bool, weapon: Dictionary)
 		ink_amount -= float(weapon["flickInk"])
 		flick_time = 0.0
 		return
-	var can_roll := fire and walker.is_on_floor() and ink_amount > 0.5 and cooldown <= 0.25
+	# Same lifted-body reason: reading is_on_floor() here would make the roller unable to
+	# roll at all.
+	var can_roll := fire and bool(walker.get("grounded")) and ink_amount > 0.5 and cooldown <= 0.25
 	roll_time = roll_time + delta if can_roll else 0.0
 	rolling = can_roll
 	if not rolling:

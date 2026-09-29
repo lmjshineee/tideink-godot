@@ -12,7 +12,7 @@ func _check() -> void:
 	var walker: CharacterBody3D = scene.get_node("World/Walker")
 	for i in range(12):
 		await physics_frame
-	if not walker.is_on_floor():
+	if not bool(walker.get("grounded")):
 		_fail("player did not settle on the spawn deck")
 		return
 	scene.call("paint_at_world", walker.global_position + Vector3.UP * 0.06, 1, 0.9, 0.5)

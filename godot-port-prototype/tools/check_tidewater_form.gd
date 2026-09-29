@@ -11,7 +11,7 @@ func _check() -> void:
 	var walker: CharacterBody3D = scene.get_node("Walker")
 	for i in range(12):
 		await physics_frame
-	if not walker.is_on_floor():
+	if not bool(walker.get("grounded")):
 		_fail("walker was not standing on the spawn deck")
 		return
 	walker.set("active", false)
@@ -61,8 +61,11 @@ func _check() -> void:
 	if not walker.get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty():
 		_fail("squid collision intersects the low ceiling")
 		return
+	var kid_bottom := float(config["stepUp"]) + body_radius
+	var kid_top := maxf(kid_bottom, float(config["height"]) - body_radius)
 	query.shape = kid_shape
-	query.transform = Transform3D(walker.global_transform.basis, walker.global_position + Vector3.UP * float(config["height"]) * 0.5)
+	query.transform = Transform3D(walker.global_transform.basis,
+		walker.global_position + Vector3.UP * (kid_bottom + kid_top) * 0.5)
 	if walker.get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty():
 		_fail("standing shape unexpectedly fits under the low ceiling")
 		return
@@ -74,8 +77,16 @@ func _check() -> void:
 	if bool(walker.call("update_form", false)) or collision.shape != kid_shape:
 		_fail("walker stayed squid after the ceiling cleared")
 		return
-	if absf(collision.position.y * 2.0 - float(config["height"])) > 0.001:
-		_fail("kid collision did not restore source height")
+	# The kid body uses the same lift: axis stepUp+radius .. max(that, height-radius).
+	var radius_check := float(config["radius"])
+	var bottom_check := float(config["stepUp"]) + radius_check
+	var top_check := maxf(bottom_check, float(config["height"]) - radius_check)
+	if absf(collision.position.y - (bottom_check + top_check) * 0.5) > 0.001:
+		_fail("kid body did not restore the source-lifted centre: %.4f" % collision.position.y)
+		return
+	var kid_capsule := collision.shape as CapsuleShape3D
+	if kid_capsule == null or absf(kid_capsule.height - ((top_check - bottom_check) + 2.0 * radius_check)) > 0.001:
+		_fail("kid body is not the source capsule")
 		return
 	print("PASS: source-lifted squid body, safe low-ceiling exit and standing restoration")
 	quit()

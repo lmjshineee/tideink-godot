@@ -120,7 +120,7 @@ func _check() -> void:
 	walker.global_position = Vector3(0.0, 2.25, -39.2)
 	for i in range(12):
 		await physics_frame
-	if not walker.is_on_floor():
+	if not bool(walker.get("grounded")):
 		_fail("integration walker did not land before jumping")
 		return
 	var floor_y := walker.global_position.y
