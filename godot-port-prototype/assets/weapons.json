@@ -25,6 +25,32 @@
     },
     "sub": {
       "bomb": "溅射炸弹"
+    },
+    "teams": {
+      "tangerine-cobalt": [
+        "橘子队",
+        "钴蓝队"
+      ],
+      "bubblegum-mint": [
+        "泡泡糖队",
+        "薄荷队"
+      ],
+      "lemon-grape": [
+        "柠檬队",
+        "葡萄队"
+      ],
+      "aqua-cherry": [
+        "水蓝队",
+        "樱桃队"
+      ],
+      "lime-magenta": [
+        "青柠队",
+        "洋红队"
+      ],
+      "cb-yellow-blue": [
+        "太阳队",
+        "海洋队"
+      ]
     }
   },
   "weapons": {

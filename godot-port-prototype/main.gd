@@ -4,8 +4,10 @@ extends Node3D
 # and turf scoring be played natively in Godot before committing to a full port?
 const PaintField = preload("res://paint_field.gd")
 const GROUND_SHADER = preload("res://ink_ground.gdshader")
-const ORANGE := Color("ff8a14")
-const BLUE := Color("2f5bff")
+# From the exported palette, like the match scene: main.gd used to keep its own copy.
+const TeamPalette := preload("res://team_palette.gd")
+var orange_color := Color.WHITE
+var blue_color := Color.WHITE
 const UI_DARK := Color("15121c")
 const UI_PANEL := Color(0.12, 0.10, 0.17, 0.93)
 const RUN_SPEED := 6.0
@@ -86,6 +88,8 @@ var shown_weapon := ""
 
 
 func _ready() -> void:
+	orange_color = TeamPalette.color(0)
+	blue_color = TeamPalette.color(1)
 	Engine.max_fps = 30
 	Engine.physics_ticks_per_second = 30
 	weapon_textures = {
@@ -120,8 +124,8 @@ func _build_arena() -> void:
 		_add_box(Vector3(side * 8.0, 0.25, 0.0), Vector3(3.0, 0.5, 2.0), Color("a9b4bc"))
 		_add_box(Vector3(side * 13.0, 0.2, side * 12.0), Vector3(2.5, 0.4, 2.5), Color("c9a27c"))
 	_add_box(Vector3(0.0, 0.35, 0.0), Vector3(3.8, 0.7, 3.8), Color("d9dfe0"))
-	_add_pad(Vector3(0.0, 0.015, -13.0), ORANGE)
-	_add_pad(Vector3(0.0, 0.015, 13.0), BLUE)
+	_add_pad(Vector3(0.0, 0.015, -13.0), orange_color)
+	_add_pad(Vector3(0.0, 0.015, 13.0), blue_color)
 
 
 func _add_box(at: Vector3, size: Vector3, color: Color) -> void:
@@ -169,8 +173,8 @@ func _ui_style(background: Color, outline: Color, border_width: int, radius: int
 
 
 func _build_actors() -> void:
-	player_model = _actor_model(ORANGE)
-	bot_model = _actor_model(BLUE)
+	player_model = _actor_model(orange_color)
+	bot_model = _actor_model(blue_color)
 	player_model.position = player_pos
 	player_model.scale = Vector3.ONE
 	bot_model.position = bot_pos
@@ -246,7 +250,7 @@ func _build_hud() -> void:
 	root.add_child(ink_bar_back)
 	ink_bar_fill = ColorRect.new()
 	ink_bar_fill.size = Vector2(300.0, 10.0)
-	ink_bar_fill.color = ORANGE
+	ink_bar_fill.color = orange_color
 	ink_bar_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	ink_bar_back.add_child(ink_bar_fill)
 	help_label = Label.new()
@@ -278,7 +282,7 @@ func _build_hud() -> void:
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title_label.add_theme_font_override("font", titan_font)
 	title_label.add_theme_font_size_override("font_size", 42)
-	title_label.add_theme_color_override("font_color", ORANGE)
+	title_label.add_theme_color_override("font_color", orange_color)
 	title_label.add_theme_color_override("font_shadow_color", UI_DARK)
 	title_label.add_theme_constant_override("shadow_offset_x", 3)
 	title_label.add_theme_constant_override("shadow_offset_y", 4)
@@ -348,7 +352,7 @@ func _refresh_weapon_art() -> void:
 		var active: bool = weapon_id == selected_weapon
 		var card: Panel = weapon_cards[weapon_id]
 		var fill := Color(0.30, 0.18, 0.08, 0.96) if active else UI_PANEL
-		var outline := ORANGE if active else Color(1.0, 1.0, 1.0, 0.18)
+		var outline := orange_color if active else Color(1.0, 1.0, 1.0, 0.18)
 		card.add_theme_stylebox_override("panel", _ui_style(fill, outline, 3 if active else 2, 16))
 	shown_weapon = selected_weapon
 
@@ -550,7 +554,7 @@ func _fire_charger(charge: float) -> void:
 	var shape := BoxMesh.new()
 	shape.size = Vector3(0.07 + charge * 0.07, 0.05, length)
 	beam.mesh = shape
-	beam.material_override = _flat_material(ORANGE.lightened(0.35))
+	beam.material_override = _flat_material(orange_color.lightened(0.35))
 	beam.position = player_pos + direction * (length * 0.5) + Vector3.UP * 0.08
 	beam.rotation.y = atan2(-direction.x, -direction.z)
 	add_child(beam)
@@ -569,7 +573,7 @@ func _fire_shooter() -> void:
 	mesh.radius = 0.12
 	mesh.height = 0.24
 	node.mesh = mesh
-	node.material_override = _flat_material(ORANGE)
+	node.material_override = _flat_material(orange_color)
 	node.position = origin
 	add_child(node)
 	projectiles.append({"mesh": node, "velocity": velocity, "travel": 0.0, "kind": "shooter", "max_travel": SHOOTER_RANGE + 1.0})
@@ -585,7 +589,7 @@ func _fire_blaster() -> void:
 	mesh.radius = 0.25
 	mesh.height = 0.5
 	node.mesh = mesh
-	node.material_override = _flat_material(ORANGE)
+	node.material_override = _flat_material(orange_color)
 	node.position = origin
 	add_child(node)
 	projectiles.append({"mesh": node, "velocity": direction * BLASTER_SPEED, "travel": 0.0, "kind": "blaster", "max_travel": BLASTER_RANGE})

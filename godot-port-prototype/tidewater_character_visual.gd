@@ -21,7 +21,7 @@ extends Node3D
 # than reparenting anything.
 @export_range(0, 1) var team := 0
 
-const TEAM_COLORS := [Color("ff8a14"), Color("2f5bff")]
+const TeamPalette := preload("res://team_palette.gd")
 const SKIN := Color("ffd9c2")
 const SHIRT := Color("f4f2ec")
 const DARK := Color("27304a")
@@ -280,7 +280,7 @@ func _track(group: Array, part: MeshInstance3D) -> MeshInstance3D:
 
 # ------------------------------------------------------------------ appearance
 func _build_kid() -> void:
-	var ink: Color = TEAM_COLORS[team]
+	var ink: Color = TeamPalette.color(team)
 	_track(_head, _sphere(kid, "Head", Vector3(0.0, 1.214, 0.012), Vector3(0.178, 0.176, 0.165), SKIN))
 	_track(_head, _sphere(kid, "HairCap", Vector3(0.0, 1.365, -0.025), Vector3(0.182, 0.095, 0.17), ink))
 	# Team silhouette: the source varies hair per roster slot (character.js style.hair);
@@ -339,7 +339,7 @@ func _build_kid() -> void:
 
 
 func _build_squid() -> void:
-	var ink: Color = TEAM_COLORS[team]
+	var ink: Color = TeamPalette.color(team)
 	_track(_squid_body, _sphere(squid, "Mantle", Vector3(0.0, 0.24, 0.0), Vector3(0.35, 0.20, 0.40), ink))
 	for side in [-1.0, 1.0]:
 		var suffix := "L" if side < 0.0 else "R"
@@ -364,21 +364,21 @@ func _build_weapons() -> void:
 		match id:
 			"shooter":
 				_box(model, "Receiver", Vector3(0.0, 0.1, 0.12), Vector3(0.20, 0.17, 0.42), SHIRT)
-				_box(model, "InkSpine", Vector3(0.0, 0.20, 0.10), Vector3(0.13, 0.04, 0.30), TEAM_COLORS[team])
+				_box(model, "InkSpine", Vector3(0.0, 0.20, 0.10), Vector3(0.13, 0.04, 0.30), TeamPalette.color(team))
 				var barrel := _cylinder(model, "Barrel", Vector3(0.0, 0.10, 0.40), 0.065, 0.23, DARK)
 				barrel.rotation.x = PI * 0.5
 			"roller":
 				_box(model, "Handle", Vector3(0.0, 0.01, 0.28), Vector3(0.07, 0.07, 0.48), DARK)
-				var drum := _cylinder(model, "Drum", Vector3(0.0, -0.20, 0.56), 0.18, 0.70, TEAM_COLORS[team])
+				var drum := _cylinder(model, "Drum", Vector3(0.0, -0.20, 0.56), 0.18, 0.70, TeamPalette.color(team))
 				drum.rotation.z = PI * 0.5
 				_box(model, "DrumFork", Vector3(0.0, -0.12, 0.50), Vector3(0.65, 0.035, 0.06), SHIRT)
 			"charger":
 				_box(model, "Rail", Vector3(0.0, 0.10, 0.29), Vector3(0.12, 0.12, 0.82), SHIRT)
-				_box(model, "Coil", Vector3(0.0, 0.19, 0.18), Vector3(0.08, 0.08, 0.35), TEAM_COLORS[team])
+				_box(model, "Coil", Vector3(0.0, 0.19, 0.18), Vector3(0.08, 0.08, 0.35), TeamPalette.color(team))
 				var nozzle := _cylinder(model, "Nozzle", Vector3(0.0, 0.10, 0.78), 0.045, 0.25, DARK)
 				nozzle.rotation.x = PI * 0.5
 			"blaster":
-				_sphere(model, "Chamber", Vector3(0.0, 0.10, 0.15), Vector3(0.19, 0.19, 0.22), TEAM_COLORS[team])
+				_sphere(model, "Chamber", Vector3(0.0, 0.10, 0.15), Vector3(0.19, 0.19, 0.22), TeamPalette.color(team))
 				var muzzle := _cylinder(model, "Muzzle", Vector3(0.0, 0.10, 0.40), 0.14, 0.25, DARK)
 				muzzle.rotation.x = PI * 0.5
 				_box(model, "Guard", Vector3(0.0, -0.07, 0.04), Vector3(0.14, 0.15, 0.12), SHIRT)

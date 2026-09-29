@@ -6,7 +6,7 @@ const RESOLUTION := 256
 const HALF_SIZE := 20.0
 const WORLD_SIZE := HALF_SIZE * 2.0
 const EMPTY := 255
-const TEAM_COLORS := [Color("ff8a14"), Color("2f5bff")]
+const TeamPalette := preload("res://team_palette.gd")
 
 var image: Image
 var texture: ImageTexture
@@ -59,7 +59,7 @@ func splat(world: Vector3, radius: float, team: int, seed: float) -> void:
 				counts[before] -= 1
 			owners[index] = team
 			counts[team] += 1
-			image.set_pixel(px, py, TEAM_COLORS[team])
+			image.set_pixel(px, py, TeamPalette.color(team))
 			dirty = true
 
 

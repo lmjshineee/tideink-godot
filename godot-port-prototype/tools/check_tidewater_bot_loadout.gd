@@ -1,5 +1,7 @@
 extends SceneTree
 
+const TeamPalette := preload("res://team_palette.gd")
+
 
 func _initialize() -> void:
 	call_deferred("_check")
@@ -97,7 +99,7 @@ func _check() -> void:
 		_fail("blue charger charge, beam, ink cost or hit")
 		return
 	var beam: MeshInstance3D = (charger_combat.get("beams") as Array)[0]["visual"]
-	if (beam.material_override as StandardMaterial3D).albedo_color != Color("2f5bff").lightened(0.35):
+	if (beam.material_override as StandardMaterial3D).albedo_color != TeamPalette.color(1).lightened(0.35):
 		_fail("blue charger beam used the wrong team colour")
 		return
 	var roller_scene := (load("res://tidewater_play.tscn") as PackedScene).instantiate()

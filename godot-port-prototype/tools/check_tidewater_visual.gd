@@ -1,5 +1,7 @@
 extends SceneTree
 
+const TeamPalette := preload("res://team_palette.gd")
+
 # Appearance check for the character visual: teams, weapon/form/facing, opponent
 # feedback, and the idle / walk / airborne poses added with the animation work.
 #
@@ -29,7 +31,8 @@ func _check() -> void:
 		_fail("team character visuals did not initialize in kid form")
 		return
 	var hair: MeshInstance3D = bot.get_node("Kid/HairCap")
-	if (hair.material_override as StandardMaterial3D).albedo_color != Color("2f5bff"):
+	# Compared against the palette rather than the literal, so the check follows config.js.
+	if (hair.material_override as StandardMaterial3D).albedo_color != TeamPalette.color(1):
 		_fail("blue opponent has the wrong team hair colour")
 		return
 	var combat: Node3D = scene.get_node("Combat")

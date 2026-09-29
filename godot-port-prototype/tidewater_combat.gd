@@ -2,7 +2,7 @@ extends Node3D
 
 # Source-configured weapon cores, bomb and two specials for the 1v1 demo.
 # Projectiles hit map collision and the visible bot; detailed effects are simplified.
-const PROJECTILE_COLORS := [Color("ff8a14"), Color("2f5bff")]
+const TeamPalette := preload("res://team_palette.gd")
 
 var game: Node3D
 var walker: CharacterBody3D
@@ -421,7 +421,7 @@ func _spawn_projectile(kind: String, at: Vector3, velocity: Vector3,
 	mesh.height = mesh.radius * 2.0
 	visual.mesh = mesh
 	var material := StandardMaterial3D.new()
-	material.albedo_color = PROJECTILE_COLORS[team]
+	material.albedo_color = TeamPalette.color(team)
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	visual.material_override = material
 	add_child(visual)
@@ -552,7 +552,7 @@ func _add_burst(at: Vector3, team: int, radius: float) -> void:
 	mesh.height = radius * 2.0
 	visual.mesh = mesh
 	var material := StandardMaterial3D.new()
-	material.albedo_color = Color(PROJECTILE_COLORS[team], 0.24)
+	material.albedo_color = Color(TeamPalette.color(team), 0.24)
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	visual.material_override = material
@@ -622,7 +622,7 @@ func _add_beam(origin: Vector3, direction: Vector3, length: float, charge: float
 	mesh.size = Vector3(0.07 + charge * 0.07, 0.07 + charge * 0.07, maxf(length, 0.01))
 	visual.mesh = mesh
 	var material := StandardMaterial3D.new()
-	material.albedo_color = PROJECTILE_COLORS[team].lightened(0.35)
+	material.albedo_color = TeamPalette.color(team).lightened(0.35)
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	visual.material_override = material
 	add_child(visual)
@@ -651,7 +651,7 @@ func _throw_bomb(config: Dictionary) -> void:
 	mesh.height = 0.4
 	visual.mesh = mesh
 	var material := StandardMaterial3D.new()
-	material.albedo_color = PROJECTILE_COLORS[0]
+	material.albedo_color = TeamPalette.color(0)
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	visual.material_override = material
 	add_child(visual)
@@ -816,7 +816,7 @@ func _colored_sphere(radius: float) -> MeshInstance3D:
 	mesh.height = radius * 2.0
 	visual.mesh = mesh
 	var material := StandardMaterial3D.new()
-	material.albedo_color = PROJECTILE_COLORS[0].lightened(0.3)
+	material.albedo_color = TeamPalette.color(0).lightened(0.3)
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	visual.material_override = material
 	add_child(visual)

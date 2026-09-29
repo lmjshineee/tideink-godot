@@ -1,5 +1,7 @@
 extends SceneTree
 
+const TeamPalette := preload("res://team_palette.gd")
+
 
 func _initialize() -> void:
 	call_deferred("_check")
@@ -31,7 +33,7 @@ func _check() -> void:
 		_fail("menu keyboard selection did not update the equipped weapon")
 		return
 	var selected_style := (cards["charger"] as Panel).get_theme_stylebox("panel") as StyleBoxFlat
-	if selected_style.border_color != Color("ff8a14"):
+	if selected_style.border_color != TeamPalette.color(0):
 		_fail("selected weapon card lacks the orange highlight")
 		return
 	scene.call("_begin_intro")

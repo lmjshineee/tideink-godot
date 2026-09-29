@@ -47,9 +47,16 @@ const TEXT = (() => {
     sub: [['bomb', SUB.bomb.name]],
   };
   const chinese = chineseFor(Object.values(groups).flat().map(([, name]) => name));
-  return Object.fromEntries(Object.entries(groups).map(([group, entries]) => [
-    group, Object.fromEntries(entries.map(([id, name]) => [id, chinese[name]])),
-  ]));
+  return {
+    ...Object.fromEntries(Object.entries(groups).map(([group, entries]) => [
+      group, Object.fromEntries(entries.map(([id, name]) => [id, chinese[name]])),
+    ])),
+    // Palette labels, keyed by palette id: menus.js shows a palette's own names and only
+    // falls back to TEAM_NAMES, and i18n translates those English names.
+    teams: Object.fromEntries([...TEAM_PALETTES, COLORBLIND_PALETTE].map((palette) => [
+      palette.id, palette.names.map((name) => chineseFor([name])[name]),
+    ])),
+  };
 })();
 
 const payload = {

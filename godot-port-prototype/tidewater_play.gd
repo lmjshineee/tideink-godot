@@ -18,8 +18,12 @@ const JUDGE_SECONDS := 5.1
 # This controller used to keep its own copy of both, which had drifted from the web
 # (it said 射手/滚筒 where the web says 喷溅枪/滚筒刷).
 var weapon_order: Array = []
-const ORANGE := Color("ff8a14")
-const BLUE := Color("2f5bff")
+# Team colours come from config.js's palette list through TeamPalette; assigned at the top
+# of _ready because label colours are baked while the HUD builds. main.gd used to keep a
+# second copy of the same two literals.
+const TeamPalette := preload("res://team_palette.gd")
+var orange_color := Color.WHITE
+var blue_color := Color.WHITE
 const UI_PANEL := Color(0.035, 0.045, 0.075, 0.92)
 
 var ink: RefCounted
@@ -81,6 +85,8 @@ var paused := false
 
 
 func _ready() -> void:
+	orange_color = TeamPalette.color(0)
+	blue_color = TeamPalette.color(1)
 	_set_pointer_lock(false)
 	Engine.max_fps = 30
 	Engine.physics_ticks_per_second = 30
@@ -424,24 +430,24 @@ func _build_hud() -> void:
 	var layer := CanvasLayer.new()
 	add_child(layer)
 	score_panel = _hud_panel(layer, "ScorePanel")
-	orange_score = _hud_label(score_panel, "OrangeScore", ORANGE, 24)
-	blue_score = _hud_label(score_panel, "BlueScore", BLUE.lightened(0.45), 24)
+	orange_score = _hud_label(score_panel, "OrangeScore", orange_color, 24)
+	blue_score = _hud_label(score_panel, "BlueScore", blue_color.lightened(0.45), 24)
 	timer_label = _hud_label(score_panel, "Timer", Color.WHITE, 34)
 	timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var number_font := load("res://assets/fonts/TitanOne-latin.woff2") as Font
 	timer_label.add_theme_font_override("font", number_font)
-	orange_bar = _hud_bar(score_panel, "OrangeTurf", ORANGE)
-	blue_bar = _hud_bar(score_panel, "BlueTurf", BLUE)
+	orange_bar = _hud_bar(score_panel, "OrangeTurf", orange_color)
+	blue_bar = _hud_bar(score_panel, "BlueTurf", blue_color)
 	vitals_panel = _hud_panel(layer, "VitalsPanel")
 	ink_label = _hud_label(vitals_panel, "InkLabel", Color.WHITE, 17)
 	health_label = _hud_label(vitals_panel, "HealthLabel", Color.WHITE, 17)
-	ink_bar = _hud_bar(vitals_panel, "InkBar", ORANGE)
+	ink_bar = _hud_bar(vitals_panel, "InkBar", orange_color)
 	health_bar = _hud_bar(vitals_panel, "HealthBar", Color("fc4266"))
 	special_panel = _hud_panel(layer, "SpecialPanel")
 	special_label = _hud_label(special_panel, "SpecialLabel", Color.WHITE, 18)
-	turf_label = _hud_label(special_panel, "TurfLabel", ORANGE.lightened(0.35), 16)
+	turf_label = _hud_label(special_panel, "TurfLabel", orange_color.lightened(0.35), 16)
 	turf_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	special_bar = _hud_bar(special_panel, "SpecialBar", ORANGE.lightened(0.35))
+	special_bar = _hud_bar(special_panel, "SpecialBar", orange_color.lightened(0.35))
 	result_panel = _hud_panel(layer, "ResultPanel")
 	result_label = _hud_label(result_panel, "ResultLabel", Color.WHITE, 28)
 	result_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -524,7 +530,7 @@ func _build_weapon_menu(layer: CanvasLayer) -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_override("font", load("res://assets/fonts/TitanOne-latin.woff2") as Font)
 	title.add_theme_font_size_override("font_size", 42)
-	title.add_theme_color_override("font_color", ORANGE)
+	title.add_theme_color_override("font_color", orange_color)
 	title.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	menu_panel.add_child(title)
 	menu_hint = Label.new()
@@ -562,7 +568,7 @@ func _refresh_weapon_cards() -> void:
 		var selected: bool = weapon_id == selected_weapon
 		card.add_theme_stylebox_override("panel", _ui_style(
 			Color(0.18, 0.11, 0.07, 0.98) if selected else Color(0.07, 0.09, 0.14, 0.96),
-			ORANGE if selected else Color(1.0, 1.0, 1.0, 0.2), 3 if selected else 1, 14))
+			orange_color if selected else Color(1.0, 1.0, 1.0, 0.2), 3 if selected else 1, 14))
 
 
 func _layout_hud() -> void:
@@ -660,7 +666,7 @@ func _update_hud() -> void:
 	var special_percent := int(round(float(combat.call("special_fraction")) * 100.0))
 	special_bar.value = special_percent
 	special_label.text = "大招就绪 · F/Q" if ready else "大招  %d%%" % special_percent
-	special_label.add_theme_color_override("font_color", ORANGE.lightened(0.45) if ready else Color.WHITE)
+	special_label.add_theme_color_override("font_color", orange_color.lightened(0.45) if ready else Color.WHITE)
 	# Hud.js prints the local player's turf points next to the special gauge; the results
 	# screen prints the raw area instead, and the web labels both "p" (they differ by
 	# pointsPerM2, which the shipped config sets to 1).
