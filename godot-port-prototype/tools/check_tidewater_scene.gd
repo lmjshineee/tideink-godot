@@ -42,6 +42,43 @@ func _check() -> void:
 		printerr("FAIL: structural/prop split changed: structural=", structural, " total=", expected)
 		quit(1)
 		return
+	# Export provenance and grid invariants. These fields have no runtime consumer, so the
+	# only thing that keeps them honest is being asserted here; the consumption gate
+	# (check_config_consumption.gd) records that division of labour in its allowlist.
+	var surfaces: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/tidewater_surfaces.json"))
+	if String(manifest.get("source", "")).is_empty() or String(surfaces.get("source", "")).is_empty():
+		printerr("FAIL: export provenance is missing from the map or surfaces JSON")
+		quit(1)
+		return
+	if String(manifest.get("layout", "")) != String(manifest.get("id", "")) \
+			or String(surfaces.get("layout", "")) != String(manifest.get("layout", "")):
+		printerr("FAIL: the two exports disagree about the layout they describe")
+		quit(1)
+		return
+	# The two exports must agree about the set dressing: they are built from the same prop
+	# kit, and the whole 70,180 vs 69,366 denominator defect was one of them being built
+	# without those colliders. Disagreement here means one export is stale.
+	var map_dressing: Dictionary = manifest.get("dressing", {})
+	var surface_dressing: Dictionary = surfaces.get("dressing", {})
+	if int(map_dressing.get("propColliders", -1)) != int(surface_dressing.get("propColliders", -2)) \
+			or int(map_dressing.get("items", -1)) != int(surface_dressing.get("items", -2)):
+		printerr("FAIL: the two exports disagree about set dressing: ", map_dressing, " vs ", surface_dressing)
+		quit(1)
+		return
+	if absf(float(surfaces.get("cellSize", 0.0)) - 0.25) > 0.000001:
+		printerr("FAIL: the ink grid is not the source's 0.25 m cell: ", surfaces.get("cellSize"))
+		quit(1)
+		return
+	var counted_cells := 0
+	for face in surfaces.get("faces", []):
+		var grid: Variant = face.get("grid")
+		if grid is Dictionary:
+			counted_cells += int(grid["nu"]) * int(grid["nv"])
+	if counted_cells != int(surfaces.get("gridCells", -1)):
+		printerr("FAIL: gridCells (%s) does not match the per-face grids (%d)" % [
+			surfaces.get("gridCells"), counted_cells])
+		quit(1)
+		return
 	if (map.get("spawn_pads") as Array).size() != 2:
 		printerr("FAIL: missing spawn pads")
 		quit(1)
@@ -69,7 +106,8 @@ func _check() -> void:
 		printerr("FAIL: missing surface examples")
 		quit(1)
 		return
-	print("PASS: ", expected, " bodies (", structural, " structural + props), 10 ramps, 2 spawns, 289 faces; turf/wall lookup")
+	print("PASS: ", expected, " bodies (", structural, " structural + props), 10 ramps, 2 spawns, 289 faces; "
+		+ str(counted_cells), " grid cells at ", surfaces.get("cellSize"), " m; provenance and turf/wall lookup")
 	quit()
 
 static func _vector(values: Array) -> Vector3:
