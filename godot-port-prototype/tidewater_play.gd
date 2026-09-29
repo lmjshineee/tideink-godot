@@ -290,8 +290,13 @@ func _update_player_vitals(delta: float) -> void:
 	var walker: CharacterBody3D = $World/Walker
 	player_invuln = maxf(0.0, player_invuln - delta)
 	player_last_damage += delta
-	var on_enemy := walker.is_on_floor() and int(walker.get("ink_owner")) == 1
-	var submerged := walker.is_on_floor() and bool(walker.get("squid_form")) and int(walker.get("ink_owner")) == 0
+	# Ground contact comes from the walker's foot probe. The engine's is_on_floor() is
+	# no longer usable here: the squid body is lifted by squidBodyLift (physics.js:201),
+	# so in squid form the collision shape never touches the floor and reading
+	# is_on_floor() silently disabled enemy-ink damage and the swim regen.
+	var grounded_now := bool(walker.get("grounded"))
+	var on_enemy := grounded_now and int(walker.get("ink_owner")) == 1
+	var submerged := grounded_now and bool(walker.get("squid_form")) and int(walker.get("ink_owner")) == 0
 	if on_enemy:
 		if player_ink_damage < float(player_config["enemyInkDamageCap"]) and player_invuln <= 0.0:
 			var damage := minf(float(player_config["enemyInkDps"]) * delta, float(player_config["enemyInkDamageCap"]) - player_ink_damage)

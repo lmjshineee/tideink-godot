@@ -19,11 +19,21 @@ func _check() -> void:
 	var config: Dictionary = walker.get("player_config")
 	var collision: CollisionShape3D = walker.get_node("CollisionShape3D")
 	var kid_shape: Shape3D = collision.shape
-	if not bool(walker.call("update_form", true)) or not collision.shape is ConvexPolygonShape3D:
+	if not bool(walker.call("update_form", true)) or not collision.shape is CapsuleShape3D:
 		_fail("squid request did not change collision shape")
 		return
-	if absf(collision.position.y * 2.0 - float(config["squidHeight"])) > 0.001:
-		_fail("squid collision does not use source height")
+	# physics.js:201: bot = lift + radius, top = max(bot, height - radius). For the squid
+	# that degenerates to a sphere of PLAYER.radius centred (squidBodyLift + radius)
+	# above the feet, so its solid extent is squidBodyLift .. squidBodyLift + 2 * radius.
+	var body_radius := float(config["radius"])
+	var expected_center := float(config["squidBodyLift"]) + body_radius
+	var squid_shape := collision.shape as CapsuleShape3D
+	if absf(collision.position.y - expected_center) > 0.001:
+		_fail("squid body is not lifted by squidBodyLift: centre %.4f, expected %.4f" % [
+			collision.position.y, expected_center])
+		return
+	if absf(squid_shape.radius - body_radius) > 0.001 or absf(squid_shape.height - 2.0 * body_radius) > 0.001:
+		_fail("squid body is not the source sphere: r=%.4f h=%.4f" % [squid_shape.radius, squid_shape.height])
 		return
 	if bool(walker.call("update_form", false)) or collision.shape != kid_shape:
 		_fail("walker could not stand in open space")
@@ -33,7 +43,9 @@ func _check() -> void:
 	var roof := StaticBody3D.new()
 	roof.collision_layer = 4
 	roof.collision_mask = 0
-	roof.position = Vector3(walker.global_position.x, floor_y + 0.85, walker.global_position.z)
+	# The source squid body reaches 0.92 above the feet and the kid 1.45, so the ceiling
+	# sits between them: it must not touch the squid, and must block standing up.
+	roof.position = Vector3(walker.global_position.x, floor_y + 1.05, walker.global_position.z)
 	var roof_collision := CollisionShape3D.new()
 	var roof_shape := BoxShape3D.new()
 	roof_shape.size = Vector3(2.0, 0.2, 2.0)
@@ -65,7 +77,7 @@ func _check() -> void:
 	if absf(collision.position.y * 2.0 - float(config["height"])) > 0.001:
 		_fail("kid collision did not restore source height")
 		return
-	print("PASS: source-sized squid collision, safe low-ceiling exit and standing restoration")
+	print("PASS: source-lifted squid body, safe low-ceiling exit and standing restoration")
 	quit()
 
 

@@ -111,7 +111,36 @@ func _check() -> void:
 		_fail("walker did not start falling off the ledge: " + _pos())
 		return
 
-	print("PASS: stepUp 0.35 m curb, stepDown off the edge, ledge footprint support; %.2f m face not climbable" % LEDGE_TOP)
+	# --- 4. ledgeAssist is exported but currently unreachable -------------------------
+	# actor.js:486-495 searches up from the highest point the frame passed through plus
+	# ledgeAssist (0.35), which lets a fall catch a ledge its feet are already under.
+	# That cannot happen while the kid body is not lifted (the DS-01 decision): with the
+	# feet below the ledge top the 0.38 m capsule overlaps the ledge side, the engine
+	# pushes the walker clear (about 0.24 m out and 0.09 m up here) and the 0.24 m
+	# footprint ends up past the edge, so the pop can never fire. The source reaches it
+	# precisely because its kid capsule starts stepUp above the feet.
+	#
+	# This asserts the limitation instead of skipping it, so lifting the kid body (the
+	# follow-up that also makes stepUp's ring rule exact) has to update this expectation.
+	var assist := float((walker.get("player_config") as Dictionary)["ledgeAssist"])
+	if absf(assist - 0.35) > 0.001:
+		_fail("ledgeAssist changed: %.3f" % assist)
+		return
+	_place(Vector3(0.0, FLOOR_Y + LEDGE_TOP - (assist - 0.05), LEDGE_Z.y + 0.10))
+	walker.velocity = Vector3(0.0, -1.0, 0.0)
+	await _frames(3)
+	if bool(walker.get("grounded")):
+		_fail("ledgeAssist now fires, so the kid body was lifted: update this expectation " + _pos())
+		return
+	if walker.global_position.y > FLOOR_Y + LEDGE_TOP - 0.1:
+		_fail("unreachable ledgeAssist pop produced a ledge landing anyway: " + _pos())
+		return
+	if walker.global_position.z <= LEDGE_Z.y:
+		_fail("walker was not pushed clear of the ledge: " + _pos())
+		return
+
+	print("PASS: stepUp 0.35 m curb, stepDown off the edge, ledge footprint support, "
+		+ "%.2f m face not climbable, ledgeAssist limitation recorded" % LEDGE_TOP)
 	quit()
 
 

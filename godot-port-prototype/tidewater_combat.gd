@@ -181,7 +181,9 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 	# that actually left the barrel, not from the button state: the port used to reset
 	# the delay every frame the trigger was held, so an empty tank pressed against the
 	# trigger never refilled and the player was stuck dry until they let go.
-	var submerged := squid and walker.is_on_floor() and int(walker.get("ink_owner")) == 0
+	# Same reason as the vitals: the lifted squid body never reports engine floor
+	# contact, so the probe state is what decides the 42/s swim refill.
+	var submerged := squid and bool(walker.get("grounded")) and int(walker.get("ink_owner")) == 0
 	if submerged or bool(walker.get("climbing")):
 		ink_amount = minf(float(player_config["inkMax"]), ink_amount + float(player_config["inkRefillSwim"]) * delta)
 	elif not squid and last_fire_time > float(player_config["inkRefillDelay"]) and not is_busy():

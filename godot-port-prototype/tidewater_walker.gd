@@ -2,7 +2,6 @@ extends CharacterBody3D
 
 # CharacterBody3D traversal for the exported Tidewater map.
 # Horizontal handling follows actor.js; kid/squid collision volumes share source dimensions.
-const SQUID_SIDES := 12
 const LOOK_SENSITIVITY := 0.0021
 const CAMERA_DISTANCE := 4.5
 const CAMERA_HEIGHT := 1.85
@@ -315,9 +314,10 @@ func update_form(requested_squid: bool) -> bool:
 
 func _apply_form(squid: bool) -> void:
 	squid_form = squid
-	var height := float(player_config["squidHeight"]) if squid else float(player_config["height"])
 	$CollisionShape3D.shape = _squid_shape if squid else _kid_shape
-	$CollisionShape3D.position.y = height * 0.5
+	# The kid shape keeps the scene's source-sized capsule (0 .. 1.45); only the squid
+	# uses the lifted centre from _squid_shape_center().
+	$CollisionShape3D.position.y = _squid_shape_center() if squid else float(player_config["height"]) * 0.5
 	$Body.call("set_form", squid)
 
 
@@ -330,19 +330,30 @@ func _can_stand() -> bool:
 	return get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty()
 
 
-func _make_squid_shape() -> ConvexPolygonShape3D:
-	var shape := ConvexPolygonShape3D.new()
-	var points := PackedVector3Array()
-	var radius := float(player_config["radius"]) / cos(PI / float(SQUID_SIDES))
-	var half_height := float(player_config["squidHeight"]) * 0.5
-	for i in range(SQUID_SIDES):
-		var angle := TAU * float(i) / float(SQUID_SIDES)
-		var x := cos(angle) * radius
-		var z := sin(angle) * radius
-		points.append(Vector3(x, -half_height, z))
-		points.append(Vector3(x, half_height, z))
-	shape.points = points
+# physics.js:201 builds the body capsule as `bot = lift + radius,
+# top = max(bot, height - radius)`. For the squid that is lift = squidBodyLift (0.16)
+# and height = squidHeight (0.55), so `top == bot` and the body degenerates into a
+# sphere of PLAYER.radius whose centre sits lift + radius above the feet: its solid
+# extent is 0.16 .. 0.92. Everything below the lift belongs to the feet, which is what
+# lets a squid slip over geometry shorter than squidBodyLift instead of being stopped
+# by it. The port used a 0.38 m twelve-sided prism resting on the ground (0 .. 0.55),
+# which was both fatter at the ankle and 0.37 m shorter at the top.
+func _make_squid_shape() -> Shape3D:
+	var radius := float(player_config["radius"])
+	var bottom := float(player_config["squidBodyLift"]) + radius
+	var top := maxf(bottom, float(player_config["squidHeight"]) - radius)
+	var shape := CapsuleShape3D.new()
+	shape.radius = radius
+	shape.height = (top - bottom) + 2.0 * radius
 	return shape
+
+
+# Centre of the squid body above the feet, from the same formula.
+func _squid_shape_center() -> float:
+	var radius := float(player_config["radius"])
+	var bottom := float(player_config["squidBodyLift"]) + radius
+	var top := maxf(bottom, float(player_config["squidHeight"]) - radius)
+	return (bottom + top) * 0.5
 
 
 func _advance_jump_input(delta: float) -> void:
@@ -606,7 +617,13 @@ func _try_step_up(axis: Vector2, squid: bool, stick: bool) -> void:
 	if hit.is_empty() or float(hit["normal"].y) < WALKABLE:
 		return
 	var rise := float(hit["position"].y) - global_position.y
-	if rise <= 0.02 or rise > limit + 0.01:
+	# groundProbe only lets a footprint sample win when it sits more than STEP_MIN
+	# above the centre, so a lip shorter than that is walked over, not stepped onto.
+	# The squid body is lifted like the source's, so that threshold applies directly;
+	# the kid body is not lifted here (see _try_step_up's header), so it keeps a looser
+	# threshold to stand in for the missing lift.
+	var minimum := STEP_MIN if squid else 0.02
+	if rise <= minimum or rise > limit + 0.01:
 		return
 	global_position.y = float(hit["position"].y)
 	ground_normal = hit["normal"]
