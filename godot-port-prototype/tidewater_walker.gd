@@ -33,6 +33,12 @@ var _fire_press := -1.0
 var _squid_press := -1.0
 var _previous_fire := false
 var _previous_squid := false
+# Team 0 is the local player in this 1v1 demo; the enemy pad is spawn_pads[1 - team].
+@export var team := 0
+# Enemy spawn barrier, actor.js:522-533. The radius has been exported by
+# export_tidewater_map.mjs since it was written (spawnBarrier 4.2) and had no consumer.
+var spawn_barrier := 0.0
+var _spawn_pads: Array = []
 var ink: RefCounted
 var ink_owner := -1
 var active := true
@@ -89,6 +95,7 @@ func _ready() -> void:
 	# only a readable placeholder and config.js stays the single source.
 	_kid_shape = _make_body_shape(false)
 	_squid_shape = _make_body_shape(true)
+	_load_spawn_barrier()
 	step_height = float(player_config["stepUp"])
 	step_down = float(player_config["stepDown"])
 	foot_radius = float(player_config["footRadius"])
@@ -174,6 +181,9 @@ func _physics_process(delta: float) -> void:
 	if _update_climb(delta, squid, axis):
 		coyote = maxf(0.0, coyote - delta)
 		move_and_slide()
+		# The source runs the barrier after collide in every non-special frame, including
+		# a climbing one.
+		_apply_spawn_barrier()
 		_face(delta, squid, axis, submerged)
 		_update_camera()
 		return
@@ -191,6 +201,7 @@ func _physics_process(delta: float) -> void:
 	var fall_speed := maxf(0.0, -velocity.y)
 	move_and_slide()
 	_resolve_ground(squid, previous_y, stick, fall_speed)
+	_apply_spawn_barrier()
 	_face(delta, squid, axis, submerged)
 	_update_camera()
 	if auto_respawn and global_position.y < -5.0:
@@ -687,6 +698,51 @@ func _face(delta: float, squid: bool, axis: Vector2, submerged: bool) -> void:
 
 static func _angle_difference(from_angle: float, to_angle: float) -> float:
 	return wrapf(to_angle - from_angle, -PI, PI)
+
+
+# actor.js:522-533. Any actor inside the *enemy* spawn radius is pushed out to exactly
+# that radius, and velocity still heading inward is reflected with a 1.6 factor. The
+# source skips the check below `pad.y - 1.0` so a character falling past the pad is not
+# shoved sideways.
+#
+# Two deliberate differences from the source, both recorded rather than hidden:
+#   * the source divides by `d` without guarding d == 0, which yields a NaN (and in
+#     practice a huge offset) for an actor exactly on the pad centre; a small epsilon
+#     pushes it out along +X instead.
+#   * the source applies this to every actor. Here it applies to the local player only,
+#     because the blue team is a kinematic placeholder whose script belongs to another
+#     workstream this round. The half that matters for gameplay — a player may not camp
+#     the enemy spawn — is covered; the bot can still wander into the player's spawn.
+func _apply_spawn_barrier() -> void:
+	if spawn_barrier <= 0.0 or _spawn_pads.size() < 2:
+		return
+	var pad: Vector3 = _spawn_pads[clampi(1 - team, 0, _spawn_pads.size() - 1)]
+	if global_position.y <= pad.y - 1.0:
+		return
+	var offset := Vector2(global_position.x - pad.x, global_position.z - pad.z)
+	var distance := offset.length()
+	if distance >= spawn_barrier:
+		return
+	var direction := offset / distance if distance > 0.01 else Vector2(1.0, 0.0)
+	global_position.x = pad.x + direction.x * spawn_barrier
+	global_position.z = pad.z + direction.y * spawn_barrier
+	var inward := velocity.x * direction.x + velocity.z * direction.y
+	if inward < 0.0:
+		velocity.x -= direction.x * inward * 1.6
+		velocity.z -= direction.y * inward * 1.6
+
+
+# The radius lives in the map export. The walker reads it directly instead of asking
+# tidewater_map.gd, which carries another workstream's uncommitted changes this round.
+func _load_spawn_barrier() -> void:
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/tidewater.json"))
+	if not parsed is Dictionary or not (parsed as Dictionary).has("spawnBarrier"):
+		push_warning("tidewater map has no spawnBarrier field; the spawn barrier is disabled")
+		return
+	spawn_barrier = float((parsed as Dictionary)["spawnBarrier"])
+	var map := get_parent().get_node_or_null("Map")
+	if map != null and map.get("spawn_pads") != null:
+		_spawn_pads = map.get("spawn_pads")
 
 
 func _probe_ray(base: Vector3, up: float, length: float) -> Dictionary:
