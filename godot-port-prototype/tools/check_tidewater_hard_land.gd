@@ -24,6 +24,8 @@ var peak_land_speed := 0.0
 
 
 func _initialize() -> void:
+	# Historical fixture timings are measured at 60 Hz; match runtime is 30 Hz.
+	Engine.physics_ticks_per_second = 60
 	call_deferred("_check")
 
 
@@ -108,6 +110,8 @@ func _check() -> void:
 	_set_key(KEY_D, false)
 	# Squid on dry ground uses squidDrySpeed and must ignore the weight entirely.
 	_place(Vector3(0.0, FLOOR_Y + 0.3, 0.0))
+	walker.set("intent_driven", true)
+	walker.call("update_form", true) # Low-level dry-squid physics; player Shift is tested separately.
 	_set_key(KEY_SHIFT, true)
 	await _frames(30)
 	if not bool(walker.get("squid_form")):

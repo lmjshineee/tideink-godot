@@ -17,6 +17,8 @@ const PLATE_LAYER := 4
 
 
 func _initialize() -> void:
+	# Historical fixture timings are measured at 60 Hz; match runtime is 30 Hz.
+	Engine.physics_ticks_per_second = 60
 	call_deferred("_check")
 
 
@@ -84,6 +86,10 @@ func _check() -> void:
 	# asks "is the squid standing" must read the probe.
 	walker.set("active", true)
 	walker.set_physics_process(true)
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/tidewater_surfaces.json"))
+	var ink := preload("res://surface_ink.gd").new(data)
+	ink.splat_world(walker.global_position+Vector3.UP*0.02,1.5,0,0.5)
+	walker.set("ink",ink)
 	_set_key(KEY_SHIFT, true)
 	for i in range(6):
 		await physics_frame

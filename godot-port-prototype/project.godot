@@ -12,7 +12,12 @@ config_version=5
 
 config/name="INKWAVE Demo"
 run/main_scene="res://tidewater_play.tscn"
+run/max_fps=30
 config/features=PackedStringArray("4.8", "Forward Plus")
+
+[physics]
+
+common/physics_ticks_per_second=30
 
 [display]
 
@@ -25,5 +30,6 @@ window/stretch/mode="canvas_items"
 renderer/rendering_method="forward_plus"
 renderer/rendering_method.mobile="forward_plus"
 anti_aliasing/quality/msaa_3d=1
-lights_and_shadows/directional_shadow/size=2048
+lights_and_shadows/directional_shadow/size=1024
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=0
 textures/vram_compression/import_etc2_astc=true

@@ -31,6 +31,12 @@ var aiming := false
 var recoil := 0.0
 var action_time := 0.0
 var action_name := ""
+var action_elapsed := 1.0
+var aim_weight := 0.0
+var aim_pitch := 0.0
+var rolling_pose := false
+static var _weapon_pose_data: Dictionary = {}
+var _upper_bones: Array[int] = []
 
 const TeamPalette := preload("res://team_palette.gd")
 const SKIN := Color("ffd9c2")
@@ -116,7 +122,7 @@ func _ready() -> void:
 	_previous_position = global_position
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	_read_motion(delta)
 	_animate(delta)
 
@@ -139,6 +145,9 @@ func set_weapon(weapon_id: String) -> void:
 	if not weapon_models.has(weapon_id):
 		return
 	current_weapon = weapon_id
+	action_time = 0.0
+	action_elapsed = 1.0
+	action_name = ""
 	for id in weapon_models:
 		(weapon_models[id] as Node3D).visible = id == weapon_id
 	for id in original_weapons:
@@ -176,7 +185,12 @@ func _read_motion(delta: float) -> void:
 		# The blue team is moved by writing global_position, so speed comes from the
 		# travelled distance instead of a velocity it does not have.
 		var current := global_position
-		if _has_previous_position:
+		var mover: Variant = parent.get("team_mover")
+		if mover is CharacterBody3D:
+			horizontal = Vector2(mover.velocity.x, mover.velocity.z).length()
+			vertical = mover.velocity.y
+			anim_grounded = mover.is_on_floor()
+		elif _has_previous_position:
 			var step := current - _previous_position
 			horizontal = Vector2(step.x, step.z).length() / maxf(delta, 1e-4)
 			vertical = step.y / maxf(delta, 1e-4)
@@ -192,6 +206,9 @@ func _animate(delta: float) -> void:
 	_clock += delta
 	recoil = move_toward(recoil, 0.0, delta * 5.0)
 	action_time = maxf(0.0, action_time - delta)
+	action_elapsed += delta
+	var held_aim := aiming or (action_name == "shoot" and action_time > 0.3)
+	aim_weight = lerpf(aim_weight, 1.0 if held_aim else 0.0, 1.0 - exp(-12.0 * delta))
 	var target_gait := 1.0 if (anim_grounded and moving) else 0.0
 	gait_weight = move_toward(gait_weight, target_gait, GAIT_BLEND * delta)
 	air_weight = move_toward(air_weight, 0.0 if anim_grounded else 1.0, AIR_BLEND * delta)
@@ -477,6 +494,7 @@ func _install_original() -> void:
 	original_rig.name = "OriginalRig"
 	kid.add_child(original_rig)
 	skeleton = _find_skeleton(original_rig)
+	_load_weapon_poses()
 	var squid_root := original_rig.find_child("SquidRig", true, false) as Node3D
 	if squid_root != null:
 		squid_root.reparent(squid)
@@ -528,7 +546,8 @@ func _find_skeleton(node: Node) -> Skeleton3D:
 
 func set_action(name_text: String) -> void:
 	action_name = name_text
-	action_time = 0.6 if name_text == "flick" else 0.32
+	action_time = 0.8
+	action_elapsed = 0.0
 	recoil = 0.17
 
 
@@ -551,20 +570,66 @@ func _animate_original(left: float, right: float, lean: float, lift: float, _del
 	_bone_angle("shinR", maxf(0.0, right) * 0.6)
 	_bone_angle("spine", lean * 0.5)
 	_bone_angle("head", -lean * 0.35)
-	var hold := -1.05 if aiming else -0.45
-	var swing := sin(anim_phase) * gait_weight * 0.24 * (0.15 if aiming else 1.0)
-	if current_weapon == "roller":
-		hold = -0.8
-	if action_name == "flick" and action_time > 0.0:
-		hold -= sin(action_time / 0.6 * PI) * 1.4
-	elif action_name == "throw" and action_time > 0.0:
-		hold -= sin(action_time / 0.32 * PI) * 0.9
-	_bone_angle("uArmR", hold + swing + recoil, 0.0, -0.12)
-	_bone_angle("uArmL", hold - swing, 0.0, 0.20)
-	_bone_angle("fArmR", -0.45 - recoil)
-	_bone_angle("fArmL", -0.65)
+	_apply_original_hold(_delta)
 	var hips := skeleton.find_bone("hips")
 	if hips >= 0:
-		skeleton.set_bone_pose_position(hips, Vector3(0.0, lift, 0.0))
+		skeleton.set_bone_pose_position(hips, skeleton.get_bone_rest(hips).origin + Vector3(0.0, lift, 0.0))
 	for strand in range(8):
 		_bone_angle("hair%d_0" % strand, sin(_clock * 3.0 + strand) * 0.025 + lean * 0.2)
+
+
+func set_weapon_pose(pitch: float, rolling: bool) -> void:
+	aim_pitch = clampf(pitch, -0.8, 0.8)
+	rolling_pose = rolling
+
+
+func _load_weapon_poses() -> void:
+	if _weapon_pose_data.is_empty():
+		var raw: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/characters/weapon_poses.json"))
+		_weapon_pose_data = {"bones": raw["bones"], "weapons": {}}
+		for weapon in raw["weapons"]:
+			var clips := {}
+			for clip in raw["weapons"][weapon]:
+				var frames := []
+				for frame in raw["weapons"][weapon][clip]:
+					var poses: Array[Transform3D] = []
+					for v in frame:
+						poses.append(Transform3D(Basis(Quaternion(v[3],v[4],v[5],v[6]).normalized()),Vector3(v[0],v[1],v[2])))
+					frames.append(poses)
+				clips[clip] = frames
+			_weapon_pose_data["weapons"][weapon] = clips
+	for name_text in _weapon_pose_data["bones"]:
+		_upper_bones.append(skeleton.find_bone(name_text))
+
+
+func _clip_pose(frames: Array, bone: int, time: float) -> Transform3D:
+	var frame := clampf(time * 30.0, 0.0, frames.size() - 1.0)
+	var index := int(frame)
+	return (frames[index][bone] as Transform3D).interpolate_with(frames[mini(index+1,frames.size()-1)][bone],frame-index)
+
+
+func _apply_original_hold(delta: float) -> void:
+	if not _weapon_pose_data.get("weapons", {}).has(current_weapon):
+		return
+	var clips: Dictionary = _weapon_pose_data["weapons"][current_weapon]
+	var pitch_clip: String = "aim_high" if aim_pitch >= 0.0 else "aim_low"
+	var weight := 1.0 - exp(-22.0 * delta)
+	for i in _upper_bones.size():
+		var bone := _upper_bones[i]
+		if bone < 0:
+			continue
+		var carry: Transform3D = clips["roll" if rolling_pose and current_weapon == "roller" else "carry"][0][i]
+		var aim: Transform3D = (clips["aim"][0][i] as Transform3D).interpolate_with(clips[pitch_clip][0][i],absf(aim_pitch)/0.8)
+		var pose := carry.interpolate_with(aim,aim_weight if current_weapon != "roller" else 0.0)
+		if action_time > 0.0 and clips.has(action_name):
+			var action := _clip_pose(clips[action_name],i,action_elapsed)
+			if action_name == "shoot":
+				# Recoil is additive to the current camera pitch, rather than snapping to a neutral aim.
+				var neutral: Transform3D = clips["aim"][0][i]
+				pose.basis *= neutral.basis.inverse() * action.basis
+				pose.origin += action.origin - neutral.origin
+			else:
+				pose = action
+		var target := pose.basis.get_rotation_quaternion()
+		skeleton.set_bone_pose_rotation(bone,skeleton.get_bone_pose_rotation(bone).slerp(target,weight))
+		skeleton.set_bone_pose_position(bone,skeleton.get_bone_pose_position(bone).lerp(pose.origin,weight))

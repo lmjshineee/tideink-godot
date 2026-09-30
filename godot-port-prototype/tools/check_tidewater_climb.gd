@@ -18,6 +18,8 @@ var ink: RefCounted
 
 
 func _initialize() -> void:
+	# Historical fixture timings are measured at 60 Hz; match runtime is 30 Hz.
+	Engine.physics_ticks_per_second = 60
 	call_deferred("_check")
 
 

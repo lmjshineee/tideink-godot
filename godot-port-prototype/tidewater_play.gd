@@ -107,6 +107,7 @@ var style_select: OptionButton
 var setup_match_options: HBoxContainer
 var start_button: Button
 var minimap: Control
+var expanded_map: Control
 var scoreboard_panel: Panel
 var roster_rows: Array[Label] = []
 var roster_label: Label
@@ -356,10 +357,11 @@ func _physics_process(delta: float) -> void:
 	# The walker owns the squid/fire rule ("most recent press wins") and the buffered
 	# pop-out shot, so the controller only feeds it raw key state. Holding squid and
 	# pressing fire used to be silently ignored, and a tap just before surfacing was lost.
-	walker.get_node("Body").call("set_aim", alive and pointer_locked and not bool(walker.get("squid_form")))
+	walker.get_node("Body").call("set_aim", alive and (firing or bool($Combat.get("charging")) or float($Combat.get("firing_time")) > 0.0) and not bool(walker.get("squid_form")))
 	var firing_pose := bool($Combat.get("rolling")) or float($Combat.get("firing_time")) > 0.0
 	walker.call("update_intent", delta, alive and firing, alive and Input.is_key_pressed(KEY_SHIFT),
 		bool($Combat.call("is_busy")), firing_pose, alive and throwing)
+	walker.get_node("Body").call("set_weapon_pose", float(walker.get("camera_pitch")), bool($Combat.get("rolling")))
 	var squid := bool(walker.get("squid_form"))
 	var weapon_fire := bool(walker.get("weapon_fire"))
 	_update_player_respawn(delta)
@@ -1069,8 +1071,13 @@ func _build_team_ui(layer: Node) -> void:
 	rows.add_child(back)
 	scoreboard_panel = _hud_panel(layer, "TeamRoster")
 	var header := _hud_label(scoreboard_panel, "TeamHeader", Color.WHITE, 22)
-	header.text = "队伍状态 · 松开 Tab 返回"
-	header.position = Vector2(16,16)
+	header.text = "战术地图 · 松开 Tab 返回"
+	header.position = Vector2(20,16)
+	expanded_map = Control.new()
+	expanded_map.set_script(preload("res://turf_minimap.gd"))
+	expanded_map.name = "ExpandedMap"
+	scoreboard_panel.add_child(expanded_map)
+	expanded_map.call("setup",self)
 	for team in range(2):
 		for slot in range(5):
 			var row := _hud_label(scoreboard_panel, "Roster_%d_%d" % [team,slot], TeamPalette.color(team).lightened(0.4), 16)
@@ -1119,18 +1126,22 @@ func _layout_team_ui(view_size: Vector2) -> void:
 	feed_label.size = Vector2(300,28)
 	pause_panel.size = Vector2(328,245)
 	pause_panel.position = (view_size - pause_panel.size) * 0.5
-	scoreboard_panel.size = Vector2(minf(680.0, view_size.x - 32.0), 285.0)
-	scoreboard_panel.position = (view_size - scoreboard_panel.size) * 0.5
+	scoreboard_panel.size = Vector2(minf(900.0,view_size.x-32.0),minf(460.0,view_size.y-32.0))
+	scoreboard_panel.position = (view_size-scoreboard_panel.size)*0.5
+	expanded_map.position = Vector2(20,58)
+	expanded_map.size = Vector2(scoreboard_panel.size.x*0.37,scoreboard_panel.size.y-76.0)
+	var roster_x := expanded_map.position.x + expanded_map.size.x + 16.0
+	var row_width := scoreboard_panel.size.x-roster_x-20.0
 	for index in roster_rows.size():
-		roster_rows[index].position = Vector2(16.0 + (index / 5) * scoreboard_panel.size.x * 0.5, 66.0 + (index % 5) * 39.0)
-		roster_rows[index].size = Vector2(scoreboard_panel.size.x * 0.5 - 24.0, 32.0)
-	settings_panel.size = Vector2(minf(470.0, view_size.x - 24.0), 440.0)
+		roster_rows[index].position = Vector2(roster_x,58.0+index*(scoreboard_panel.size.y-78.0)/10.0)
+		roster_rows[index].size = Vector2(row_width,30.0)
+	settings_panel.size = Vector2(minf(540.0, view_size.x - 24.0), 460.0)
 	settings_panel.position = (view_size - settings_panel.size) * 0.5
 	result_actions.position = Vector2((result_panel.size.x - 292.0) * 0.5,result_panel.size.y - 45.0)
 
 
 func _update_team_ui() -> void:
-	minimap.visible = phase == "playing" and not paused and player_respawn <= 0.0
+	minimap.visible = phase == "playing" and not paused and player_respawn <= 0.0 and not Input.is_key_pressed(KEY_TAB)
 	roster_label.visible = phase == "playing" or phase == "intro"
 	var live := [0,0]
 	for actor in all_actors():

@@ -38,7 +38,7 @@ def main():
             shutil.copy2(TOOLS / name, tools / name)
         for name in ("map", "surfaces", "visuals"):
             (tools / f"export_tidewater_{name}.mjs").write_text('console.log("stub exporter");\n')
-        for name in ("weapon_config", "ui_icons", "navigation", "characters"):
+        for name in ("weapon_config", "ui_icons", "navigation", "characters", "weapon_poses"):
             (tools / f"export_{name}.mjs").write_text('console.log("stub exporter");\n')
         # This sorts before the parse gate, so the old glob-based runner launches it.
         sentinel = tools / "check_a_sentinel.gd"

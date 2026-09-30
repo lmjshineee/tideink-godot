@@ -63,6 +63,7 @@ var slam_impact_pending := false
 # everything that asks "am I standing" — the walk rules here, the match controller's
 # enemy-ink damage and regen, the weapon script's ink refill, ground/air spread and the
 # roller's roll condition — reads this footprint-based state instead.
+var _step_blocked := false
 var grounded := false
 var ground_normal := Vector3.UP
 # Hard-landing recovery (actor.js:241, 388, 508-512). A landing faster than
@@ -170,7 +171,7 @@ func _physics_process(delta: float) -> void:
 	# walk scene (no controller) keeps reading the key directly.
 	var squid := squid_form
 	if not intent_driven:
-		squid = update_form(Input.is_key_pressed(KEY_SHIFT))
+		squid = update_form(Input.is_key_pressed(KEY_SHIFT) and can_dive())
 	_advance_jump_input(delta)
 	hard_land = maxf(0.0, hard_land - delta / float(player_config["hardLandTime"]))
 	# Ground state from the previous frame's foot probe, exactly as actor.js reads
@@ -197,12 +198,21 @@ func _physics_process(delta: float) -> void:
 		# surface at the current horizontal speed (actor.js:443-446).
 		var n := ground_normal
 		velocity.y = -(velocity.x * n.x + velocity.z * n.z) / maxf(0.35, n.y)
+	var previous_position := global_position
+	var previous_normal := ground_normal
 	var previous_y := global_position.y
 	# move_and_slide() clears the vertical velocity when the body lands, so the impact
 	# speed has to be sampled before the move or _on_land() would always see zero.
 	var fall_speed := maxf(0.0, -velocity.y)
 	move_and_slide()
 	_resolve_ground(squid, previous_y, stick, fall_speed)
+	if _step_blocked:
+		# A lifted capsule can clear a curb while the raised standing body would hit
+		# its ceiling. Restore the last safe feet instead of walking through the curb.
+		global_position = previous_position
+		ground_normal = previous_normal
+		grounded = was_grounded
+		velocity = Vector3.ZERO
 	_apply_spawn_barrier()
 	_face(delta, squid, axis, submerged)
 	_update_camera()
@@ -312,7 +322,7 @@ func update_intent(delta: float, fire: bool, squid_request: bool, weapon_busy: b
 
 	fire_buffer = float(player_config["fireBuffer"]) if fire_pressed else maxf(0.0, fire_buffer - delta)
 	var fire_wins := (fire or fire_buffer > 0.0) and _fire_press >= _squid_press
-	var want_squid := squid_request and not fire_wins and not weapon_busy
+	var want_squid := squid_request and not fire_wins and not weapon_busy and can_dive()
 	var was_squid := squid_form
 	update_form(want_squid)
 	if was_squid != squid_form and not squid_form:
@@ -323,6 +333,20 @@ func update_intent(delta: float, fire: bool, squid_request: bool, weapon_busy: b
 		fire_buffer = 0.0
 	else:
 		weapon_fire = false
+
+
+# Player-facing input requires own ink; low-level form changes remain available for respawn/tests.
+func can_dive() -> bool:
+	if ink == null:
+		return false
+	if climbing:
+		return true
+	if squid_form and not grounded:
+		return true # Keep the form through a jump, then re-evaluate at touchdown.
+	if grounded and _floor_ink_owner() == team:
+		return true
+	var direction := Vector3(sin(camera_yaw),0.0,cos(camera_yaw))
+	return _is_own_wall_hit(_wall_ray(global_position+Vector3.UP*0.3,direction,float(player_config["radius"])+0.35))
 
 
 func update_form(requested_squid: bool) -> bool:
@@ -336,6 +360,7 @@ func update_form(requested_squid: bool) -> bool:
 
 func _apply_form(squid: bool) -> void:
 	squid_form = squid
+	collision_mask = (collision_mask & ~8) if squid else (collision_mask | 8)
 	$CollisionShape3D.shape = _squid_shape if squid else _kid_shape
 	# Both bodies sit at the centre of their source span (kid 0.90, squid 0.54).
 	$CollisionShape3D.position.y = _body_center(squid)
@@ -347,7 +372,7 @@ func _can_stand() -> bool:
 	query.shape = _kid_shape
 	query.transform = Transform3D(global_transform.basis,
 		global_position + global_transform.basis * Vector3.UP * _body_center(false))
-	query.collision_mask = collision_mask
+	query.collision_mask = collision_mask | 8 # Standing must include grates even while currently a squid.
 	query.exclude = [get_rid()]
 	return get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty()
 
@@ -686,15 +711,16 @@ func _face(delta: float, squid: bool, axis: Vector2, submerged: bool) -> void:
 	_face_target = target
 	_has_face_target = target_valid
 
-	var acceleration := 0.0
-	if target_valid:
-		acceleration = omega * omega * _angle_difference(body_yaw, target) + 2.0 * omega * (target_rate - yaw_velocity)
-	else:
-		acceleration = -2.0 * omega * yaw_velocity
-	yaw_velocity = clampf(yaw_velocity + clampf(acceleration, -max_acc, max_acc) * delta, -max_rate, max_rate)
-	if absf(yaw_velocity) < 1e-5:
-		yaw_velocity = 0.0
-	body_yaw = wrapf(body_yaw + yaw_velocity * delta, -PI, PI)
+	# aimFaceOmega=36 is unstable under one explicit 30 Hz spring step.
+	# Substeps keep the same source caps without frame-to-frame ringing.
+	var steps := maxi(1,ceili(delta*120.0))
+	var step := delta/steps
+	for i in range(steps):
+		var acceleration := omega*omega*_angle_difference(body_yaw,target)+2.0*omega*(target_rate-yaw_velocity) if target_valid else -2.0*omega*yaw_velocity
+		yaw_velocity = clampf(yaw_velocity+clampf(acceleration,-max_acc,max_acc)*step,-max_rate,max_rate)
+		if absf(yaw_velocity)<1e-5:
+			yaw_velocity=0.0
+		body_yaw=wrapf(body_yaw+yaw_velocity*step,-PI,PI)
 	$Body.rotation.y = body_yaw
 
 
@@ -758,13 +784,16 @@ func _probe_ray(base: Vector3, up: float, length: float) -> Dictionary:
 # below; otherwise this is a landing, searched upwards from the highest point the
 # frame passed through plus ledgeAssist, which is what lets a fall land on a ledge.
 func _resolve_ground(squid: bool, previous_y: float, stick: bool, fall_speed: float = 0.0) -> void:
+	_step_blocked = false
 	var landed := false
 	if stick:
 		# A hair more than the source's stepUp: a ray that ends exactly on a lip top is
 		# not reliably inclusive, and a curb of exactly stepUp must still be climbable.
 		var reach := (float(player_config["squidStepUp"]) if squid else step_height) + STEP_EPSILON
 		var probe := _ground_probe(reach, step_down)
-		if not probe.is_empty():
+		if not probe.is_empty() and float(probe["y"]) > global_position.y + 0.02 and not _body_fits_at(Vector3(global_position.x,float(probe["y"]),global_position.z)):
+			_step_blocked = true
+		if not probe.is_empty() and _body_fits_at(Vector3(global_position.x,float(probe["y"]),global_position.z)):
 			global_position.y = float(probe["y"])
 			ground_normal = probe["normal"]
 			landed = true
@@ -774,7 +803,7 @@ func _resolve_ground(squid: bool, previous_y: float, stick: bool, fall_speed: fl
 		var probe := _ground_probe((top - global_position.y) + assist, 0.02)
 		if not probe.is_empty():
 			var probe_y := float(probe["y"])
-			if probe_y >= global_position.y - 0.02 and (velocity.y <= 0.0 or probe_y - global_position.y < 0.02):
+			if probe_y >= global_position.y - 0.02 and (velocity.y <= 0.0 or probe_y - global_position.y < 0.02) and _body_fits_at(Vector3(global_position.x,probe_y,global_position.z)):
 				global_position.y = probe_y
 				ground_normal = probe["normal"]
 				landed = true
@@ -842,3 +871,12 @@ func _enter_tree() -> void:
 	var body := get_node_or_null("Body")
 	if body != null:
 		body.set("style_index", preload("res://match_setup.gd").style_index)
+
+
+func _body_fits_at(feet: Vector3) -> bool:
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = $CollisionShape3D.shape
+	query.transform = Transform3D(global_transform.basis, feet + Vector3.UP * _body_center(squid_form))
+	query.collision_mask = collision_mask
+	query.exclude = [get_rid()]
+	return get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty()

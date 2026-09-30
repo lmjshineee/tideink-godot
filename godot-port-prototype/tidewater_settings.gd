@@ -11,6 +11,8 @@ const DEFAULT_LOOK_SENSITIVITY := 0.0021
 const MIN_LOOK_SENSITIVITY := 0.0005
 const MAX_LOOK_SENSITIVITY := 0.006
 
+const RENDER_SCALE_OPTIONS := [0.75, 1.0]
+var render_scale := 0.75
 var fps_cap := DEFAULT_FPS
 var ui_scale := DEFAULT_UI_SCALE
 var mouse_sensitivity := DEFAULT_LOOK_SENSITIVITY
@@ -29,12 +31,15 @@ func load_from(path: String = USER_PATH) -> bool:
 	var saved_sensitivity: Variant = config.get_value("controls", "mouse_sensitivity", DEFAULT_LOOK_SENSITIVITY)
 	mouse_sensitivity = clampf(float(saved_sensitivity), MIN_LOOK_SENSITIVITY, MAX_LOOK_SENSITIVITY) \
 		if saved_sensitivity is float or saved_sensitivity is int else DEFAULT_LOOK_SENSITIVITY
+	var saved_render: Variant = config.get_value("display", "render_scale", 0.75)
+	render_scale = float(saved_render) if (saved_render is float or saved_render is int) and RENDER_SCALE_OPTIONS.has(float(saved_render)) else 0.75
 	return true
 
 
 func save_to(path: String = USER_PATH) -> Error:
 	var config := ConfigFile.new()
 	config.set_value("display", "fps_cap", fps_cap)
+	config.set_value("display", "render_scale", render_scale)
 	config.set_value("display", "ui_scale", ui_scale)
 	config.set_value("controls", "mouse_sensitivity", mouse_sensitivity)
 	return config.save(path)
@@ -42,4 +47,5 @@ func save_to(path: String = USER_PATH) -> Error:
 
 func apply_to(walker: Node) -> void:
 	Engine.max_fps = fps_cap
+	walker.get_viewport().scaling_3d_scale = render_scale
 	walker.set("look_sensitivity", mouse_sensitivity)

@@ -833,6 +833,7 @@ func _update_roller(delta: float, fire: bool, pressed: bool, weapon: Dictionary)
 	if pressed and cooldown <= 0.0 and ink_amount >= float(weapon["flickInk"]):
 		ink_amount -= float(weapon["flickInk"])
 		flick_time = 0.0
+		walker.get_node("Body").call("set_action", "flick")
 		return
 	# Same lifted-body reason: reading is_on_floor() here would make the roller unable to
 	# roll at all.
@@ -902,7 +903,6 @@ func _paint_roll_team(position: Vector3, forward: Vector3, weapon: Dictionary,
 
 
 func _spawn_flick(weapon: Dictionary) -> void:
-	walker.get_node("Body").call("set_action", "flick")
 	var muzzle := walker.global_position + Vector3.UP * 1.3
 	var forward := _aim_direction(muzzle, 10.0)
 	_spawn_flick_from(weapon, muzzle, forward, 0)

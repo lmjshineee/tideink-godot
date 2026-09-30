@@ -21,6 +21,8 @@ var peak_rate := 0.0
 
 
 func _initialize() -> void:
+	# Historical fixture timings are measured at 60 Hz; match runtime is 30 Hz.
+	Engine.physics_ticks_per_second = 60
 	call_deferred("_check")
 
 
@@ -102,7 +104,7 @@ func _check() -> void:
 	walker.call("update_intent", 1.0 / 60.0, false, false, false)
 	_place(Vector3(0.0, FLOOR_Y + 0.3, 0.0), 0.0)
 	await _frames(40)
-	walker.call("update_intent", 1.0 / 60.0, false, true, false)
+	walker.call("update_form", true) # Isolated rotation fixture has no source ink at y=100.
 	await _frames(10)
 	if not bool(walker.get("squid_form")):
 		_fail("holding squid did not enter squid form")

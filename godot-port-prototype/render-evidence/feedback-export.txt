@@ -1,0 +1,164 @@
+Prepared arm64-only template: /Users/yunni/Joy/inkwave-game/godot-port-prototype/.godot/arm64-template.zip
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+[   0% ] first_scan_filesystem | Started 项目初始化 (5 steps)
+[   0% ] first_scan_filesystem | 正在扫描文件结构……
+[  16% ] first_scan_filesystem | 正在加载全局类名……
+[  33% ] first_scan_filesystem | 正在校验 GDExtension……
+[  50% ] first_scan_filesystem | 正在创建自动加载脚本……
+[  66% ] first_scan_filesystem | 正在初始化插件……
+[  83% ] first_scan_filesystem | 正在启动文件扫描……
+[ DONE ] first_scan_filesystem
+
+[   0% ] update_scripts_classes | Started 正在注册全局类…… (3 steps)
+[   0% ] update_scripts_classes |
+[  25% ] update_scripts_classes |
+[  50% ] update_scripts_classes |
+[ DONE ] update_scripts_classes
+
+[   0% ] loading_editor_layout | Started 正在加载编辑器 (5 steps)
+[   0% ] loading_editor_layout | 正在加载编辑器布局……
+[  16% ] loading_editor_layout | 正在加载停靠面板……
+[  33% ] loading_editor_layout | 正在重新打开场景……
+[  50% ] loading_editor_layout | 正在加载中央编辑器布局……
+[  66% ] loading_editor_layout | 正在加载插件窗口布局……
+[  83% ] loading_editor_layout | 编辑器布局就绪。
+[ DONE ] loading_editor_layout
+
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+[   0% ] first_scan_filesystem | Started 项目初始化 (5 steps)
+[   0% ] first_scan_filesystem | 正在扫描文件结构……
+[  16% ] first_scan_filesystem | 正在加载全局类名……
+[  33% ] first_scan_filesystem | 正在校验 GDExtension……
+[  50% ] first_scan_filesystem | 正在创建自动加载脚本……
+[  66% ] first_scan_filesystem | 正在初始化插件……
+[  83% ] first_scan_filesystem | 正在启动文件扫描……
+[ DONE ] first_scan_filesystem
+
+[   0% ] export | Started 正在为 macOS 导出 (3 steps)
+[   0% ] export | 正在创建应用捆绑包
+[  25% ] export | 正在制作 PKG
+[   0% ] savepack | Started 打包中 (102 steps)
+[   1% ] savepack | 正在保存文件：res://.godot/imported/kid_0.glb-3888315c8c773279e34dba0ff64011e8.scn
+[   1% ] savepack | 正在保存文件：res://assets/characters/kid_0.glb.import
+[   2% ] savepack | 正在保存文件：res://.godot/imported/kid_1.glb-6a1bdacc8ea5c0d4f3d8178fdf2d260b.scn
+[   2% ] savepack | 正在保存文件：res://assets/characters/kid_1.glb.import
+[   4% ] savepack | 正在保存文件：res://.godot/imported/kid_2.glb-0106c581b4978ce1025f4e768c73de64.scn
+[   4% ] savepack | 正在保存文件：res://assets/characters/kid_2.glb.import
+[   5% ] savepack | 正在保存文件：res://.godot/imported/kid_3.glb-6cf3d721d63495ff18a6412d3625274d.scn
+[   5% ] savepack | 正在保存文件：res://assets/characters/kid_3.glb.import
+[   7% ] savepack | 正在保存文件：res://assets/characters/manifest.json
+[   8% ] savepack | 正在保存文件：res://assets/characters/weapon_poses.json
+[  10% ] savepack | 正在保存文件：res://.godot/imported/Rubik-latin.woff2-d72adce7a9ca47c1d345b4e832d979eb.fontdata
+[  10% ] savepack | 正在保存文件：res://assets/fonts/Rubik-latin.woff2.import
+[  11% ] savepack | 正在保存文件：res://.godot/imported/TitanOne-latin.woff2-460054ce7f3b07811efa09461ad606d9.fontdata
+[  11% ] savepack | 正在保存文件：res://assets/fonts/TitanOne-latin.woff2.import
+[  13% ] savepack | 正在保存文件：res://assets/maps/kelpline.json
+[  15% ] savepack | 正在保存文件：res://assets/maps/kelpline_nav.json
+[  16% ] savepack | 正在保存文件：res://assets/maps/kelpline_surfaces.json
+[  18% ] savepack | 正在保存文件：res://assets/maps/tidewater.json
+[  19% ] savepack | 正在保存文件：res://assets/maps/tidewater_nav.json
+[  21% ] savepack | 正在保存文件：res://assets/maps/tidewater_surfaces.json
+[  22% ] savepack | 正在保存文件：res://.godot/imported/kelpline_visuals.glb-fc023c369801319b92a4397896b0c877.scn
+[  22% ] savepack | 正在保存文件：res://assets/scenery/kelpline_visuals.glb.import
+[  24% ] savepack | 正在保存文件：res://assets/scenery/kelpline_visuals.json
+[  26% ] savepack | 正在保存文件：res://.godot/imported/kelpline_visuals_0.png-78d12426594d22f398a393dc289cf38b.ctex
+[  26% ] savepack | 正在保存文件：res://assets/scenery/kelpline_visuals_0.png.import
+[  27% ] savepack | 正在保存文件：res://.godot/imported/kelpline_visuals_1.png-ba875c9c383f1d8a3cf260bef4c8789b.ctex
+[  27% ] savepack | 正在保存文件：res://assets/scenery/kelpline_visuals_1.png.import
+[  29% ] savepack | 正在保存文件：res://.godot/imported/kelpline_visuals_2.png-e164b3250dbcd02295a3d3a6160d18fb.ctex
+[  29% ] savepack | 正在保存文件：res://assets/scenery/kelpline_visuals_2.png.import
+[  30% ] savepack | 正在保存文件：res://.godot/imported/murals.png-c4a346dff45123a12fc159d6660068bd.ctex
+[  30% ] savepack | 正在保存文件：res://assets/scenery/murals.png.import
+[  32% ] savepack | 正在保存文件：res://.godot/imported/tidewater_visuals.glb-eaa648009a0eedf3d2b28b0a24a1461f.scn
+[  32% ] savepack | 正在保存文件：res://assets/scenery/tidewater_visuals.glb.import
+[  33% ] savepack | 正在保存文件：res://assets/scenery/tidewater_visuals.json
+[  34% ] savepack | 正在保存文件：res://.godot/imported/tidewater_visuals_0.png-853027e0bb6cf68abe18dbe743041d7b.ctex
+[  34% ] savepack | 正在保存文件：res://assets/scenery/tidewater_visuals_0.png.import
+[  35% ] savepack | 正在保存文件：res://.godot/imported/tidewater_visuals_1.png-a30fc1e3c81f4eed2575d33c62a6e7b9.ctex
+[  35% ] savepack | 正在保存文件：res://assets/scenery/tidewater_visuals_1.png.import
+[  37% ] savepack | 正在保存文件：res://.godot/imported/tidewater_visuals_2.png-7bfbd0d67589a285520d176b9780c38d.ctex
+[  37% ] savepack | 正在保存文件：res://assets/scenery/tidewater_visuals_2.png.import
+[  39% ] savepack | 正在保存文件：res://.godot/imported/blaster.svg-e33e9c55f13aa83e6a976ff3a470fd52.ctex
+[  39% ] savepack | 正在保存文件：res://assets/ui/blaster.svg.import
+[  40% ] savepack | 正在保存文件：res://.godot/imported/charger.svg-0226b14c7c2eb52f7a05b3944f5d4687.ctex
+[  40% ] savepack | 正在保存文件：res://assets/ui/charger.svg.import
+[  42% ] savepack | 正在保存文件：res://.godot/imported/roller.svg-9886a2324de13ff5516a38d42459a27b.ctex
+[  42% ] savepack | 正在保存文件：res://assets/ui/roller.svg.import
+[  43% ] savepack | 正在保存文件：res://.godot/imported/shooter.svg-1e21021d8f4df0f5b38a47e9f5ed5bf8.ctex
+[  43% ] savepack | 正在保存文件：res://assets/ui/shooter.svg.import
+[  45% ] savepack | 正在保存文件：res://assets/weapons.json
+[  46% ] savepack | 正在保存文件：res://tidewater_scenery.gdc
+[  48% ] savepack | 正在保存文件：res://tidewater_map.gdc
+[  50% ] savepack | 正在保存文件：res://tidewater_combat.gdc
+[  51% ] savepack | 正在保存文件：res://licenses/Three.js-MIT.txt
+[  53% ] savepack | 正在保存文件：res://team_navigation.gdc
+[  54% ] savepack | 正在保存文件：res://tidewater_spawn_pad.gdshader
+[  56% ] savepack | 正在保存文件：res://tidewater_settings_panel.gdc
+[  57% ] savepack | 正在保存文件：res://team_palette.gdc
+[  59% ] savepack | 正在保存文件：res://ink_ground.gdshader
+[  60% ] savepack | 正在保存文件：res://tidewater_settings.gdc
+[  62% ] savepack | 正在保存文件：res://tidewater_play.gdc
+[  64% ] savepack | 正在保存文件：res://.godot/exported/133200997/export-7c3cf0e0f8e7fff96def73fd4450714f-tidewater_environment.scn
+[  65% ] savepack | 正在保存文件：res://match_setup.gdc
+[  66% ] savepack | 正在保存文件：res://tidewater_bot.gdc
+[  67% ] savepack | 正在保存文件：res://surface_ink.gdc
+[  69% ] savepack | 正在保存文件：res://licenses/TitanOne-OFL.txt
+[  70% ] savepack | 正在保存文件：res://tidewater_mural.gdshader
+[  72% ] savepack | 正在保存文件：res://.godot/exported/133200997/export-4c01c71c2f26334c959d3bdb25c3130b-tidewater_walk.scn
+[  74% ] savepack | 正在保存文件：res://turf_minimap.gdc
+[  75% ] savepack | 正在保存文件：res://tidewater_walker.gdc
+[  77% ] savepack | 正在保存文件：res://surface_ink.gdshader
+[  78% ] savepack | 正在保存文件：res://tidewater_sea.gdshader
+[  80% ] savepack | 正在保存文件：res://surface_ink_view.gdc
+[  81% ] savepack | 正在保存文件：res://licenses/Rubik-OFL.txt
+[  83% ] savepack | 正在保存文件：res://.godot/exported/133200997/export-a8aafeac871ea47ee2d46d8bbf6dc6ea-tidewater_play.scn
+[  84% ] savepack | 正在保存文件：res://tidewater_surface.gdshader
+[  86% ] savepack | 正在保存文件：res://paint_field.gdc
+[  88% ] savepack | 正在保存文件：res://tidewater_cloth.gdshader
+[  89% ] savepack | 正在保存文件：res://main.gdc
+[  91% ] savepack | 正在保存文件：res://THIRD_PARTY_NOTICES.md
+[  92% ] savepack | 正在保存文件：res://character_surface.gdshader
+[  94% ] savepack | 正在保存文件：res://.godot/exported/133200997/export-3070c538c03ee49b7677ff960a3f5195-main.scn
+[  95% ] savepack | 正在保存文件：res://.godot/exported/133200997/export-34fe767e088124f47f6ef973ea640d07-tidewater_map.scn
+[  97% ] savepack | 正在保存文件：res://tidewater_character_visual.gdc
+[  97% ] savepack | 正在保存文件：res://tidewater_scenery.gd.remap
+[  97% ] savepack | 正在保存文件：res://tidewater_map.gd.remap
+[  97% ] savepack | 正在保存文件：res://tidewater_combat.gd.remap
+[  97% ] savepack | 正在保存文件：res://team_navigation.gd.remap
+[  97% ] savepack | 正在保存文件：res://tidewater_settings_panel.gd.remap
+[  97% ] savepack | 正在保存文件：res://team_palette.gd.remap
+[  97% ] savepack | 正在保存文件：res://tidewater_settings.gd.remap
+[  97% ] savepack | 正在保存文件：res://tidewater_play.gd.remap
+[  97% ] savepack | 正在保存文件：res://tidewater_environment.tscn.remap
+[  97% ] savepack | 正在保存文件：res://match_setup.gd.remap
+[  97% ] savepack | 正在保存文件：res://tidewater_bot.gd.remap
+[  97% ] savepack | 正在保存文件：res://surface_ink.gd.remap
+[  97% ] savepack | 正在保存文件：res://tidewater_walk.tscn.remap
+[  97% ] savepack | 正在保存文件：res://turf_minimap.gd.remap
+[  97% ] savepack | 正在保存文件：res://tidewater_walker.gd.remap
+[  97% ] savepack | 正在保存文件：res://surface_ink_view.gd.remap
+[  97% ] savepack | 正在保存文件：res://tidewater_play.tscn.remap
+[  97% ] savepack | 正在保存文件：res://paint_field.gd.remap
+[  97% ] savepack | 正在保存文件：res://main.gd.remap
+[  97% ] savepack | 正在保存文件：res://main.tscn.remap
+[  97% ] savepack | 正在保存文件：res://tidewater_map.tscn.remap
+[  97% ] savepack | 正在保存文件：res://tidewater_character_visual.gd.remap
+[  97% ] savepack | 正在保存文件：res://.godot/global_script_class_cache.cfg
+[  97% ] savepack | 正在保存文件：res://.godot/uid_cache.bin
+[  97% ] savepack | 正在保存文件：res://project.binary
+[ DONE ] savepack
+
+[  50% ] export | 正在对捆绑包进行代码签名
+[ DONE ] export
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+已导出：/Users/yunni/Joy/inkwave-game/godot-port-prototype/build/INKWAVE Demo.app

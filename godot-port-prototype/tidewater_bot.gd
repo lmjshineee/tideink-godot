@@ -62,7 +62,7 @@ func setup(owner: Node3D, player: CharacterBody3D, level: Node3D) -> void:
 		team_mover = CharacterBody3D.new()
 		team_mover.name = "TeamMover"
 		team_mover.collision_layer = 4
-		team_mover.collision_mask = 1
+		team_mover.collision_mask = 9
 		team_mover.floor_snap_length = 0.35
 		var shape := CollisionShape3D.new()
 		var capsule := CapsuleShape3D.new()
@@ -437,6 +437,7 @@ func _tick_team(delta: float) -> void:
 	if aim.length_squared() > 0.001:
 		$Body.rotation.y = lerp_angle($Body.rotation.y, atan2(aim.x, aim.z), minf(delta * 9.0, 1.0))
 	$Body.call("set_aim", target_actor != null)
+	$Body.call("set_weapon_pose", 0.0, weapon_id == "roller" and travel.length_squared() > 0.1)
 	paint_cooldown -= delta
 	if movement.length() > 0.001 and ink_amount > 1.0 and paint_cooldown <= 0.0:
 		paint_cooldown = PAINT_INTERVAL

@@ -96,7 +96,7 @@ func _add_block(def: Dictionary) -> void:
 	var size := half * 2.0
 	var axes: Array = geometry["axes"]
 	block.transform = Transform3D(Basis(_vector(axes[0]), _vector(axes[1]), _vector(axes[2])), _vector(geometry["center"]))
-	block.collision_layer = 1
+	block.collision_layer = 8 if bool(def.get("grate",false)) else 1
 	block.collision_mask = 0
 	add_child(block)
 	if bool(def.get("solid", true)):
