@@ -1,0 +1,8 @@
+{
+  "architecture": "arm64",
+  "codesign": "verified --deep --strict",
+  "executable_sha256": "7bea3270a5b0940ede102339b1a44acb88aa87ca71c7b9c41b8bb0b8ea1b5109",
+  "pck_sha256": "cbdb97e4832ce57fd1611c643dc47111e1963c8649af4870de53ec2fbf912129",
+  "scope": "setup palette/colorblind, duration and clickable loadouts; session preferences only",
+  "note": "Local arm64 candidate; no Release publication; source/evidence committed separately."
+}

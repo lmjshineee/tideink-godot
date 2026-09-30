@@ -57,7 +57,6 @@ const ALLOWED := {
 	"weapons.json.weapons.shooter.spreadGround": "superseded by the exporter's spreadBaseGround",
 	"weapons.json.weapons.shooter.spreadAir": "superseded by the exporter's spreadBaseAir",
 	# Declared gaps: recorded in MIGRATION.md, waiting for the batch that owns them.
-	"weapons.json.match.defaultDuration": "the prototype runs the 90 s option (ROUND_DURATION_OPTION)",
 	"weapons.json.match.teamSize": "1v1 prototype; the roster batch consumes it",
 	# Consumed through text.weapons[weapon_id], so the field names below are keys the
 	# production code never spells out.

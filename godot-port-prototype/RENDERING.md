@@ -5,7 +5,26 @@
 ![当前战斗画面](preview-rendering.png)
 
 
-## 当前候选：CX-03 与 QA-02（2026-09-30）
+## 当前候选：赛前操作批次（2026-09-30）
+
+1. **三项交付：** 菜单加入五配色/色盲开关、导出的 90/180 秒选择和鼠标玩家/机器人武器选择。配色切换重建赛前场景，保留已选武器与时长；偏好限当前进程。开局后禁止改设置和活着换武器，重生只允许玩家武器选择。
+2. **42 项通过、0 失败**（5 个导出器 + 37 短测），[全套输出](render-evidence/setup-checks.txt)。新增 `check_setup_settings.gd` 验证 GUI 信号、非默认时长、defaultDuration 回退、重建后的选项保留、intro/playing/respawn 的限制。
+3. **原生 GUI 短验收：** [1280×720 菜单](render-evidence/setup-menu.png)、[960×540 色盲模式](render-evidence/setup-small-colorblind.png)、[重生武器选择](render-evidence/setup-respawn.png)。真实鼠标事件点选玩家/机器人按钮和色盲复选框；配色和时长以 PopupMenu.index_pressed 信号触发下拉选择路径（没有模拟 OS 下拉弹窗点选）。已目视核验文字和布局，并断言缩放后各设置控件均在菜单边界内。[GUI 日志](render-evidence/setup-gui.txt)。
+4. **对局回归：** [自动原生输入/物理流程日志](render-evidence/setup-play.txt)、[机器记录](render-evidence/setup-play-qa.json)，原来的七项流程均通过。测试条件与缩短等待同前一批，不宣称人工手感或完整 90/180 秒图形对局验收。前一批的截图和记录保留。
+5. **更新候选应用一次：** [导出/签名/无界面短启动](render-evidence/setup-export.txt)及 [12 帧图形启动](render-evidence/setup-app.txt)通过，Metal / Forward+，只含 arm64；[构建哈希与架构/签名记录](render-evidence/setup-build.json)。应用仍为 `build/INKWAVE Demo.app`，未发布 Release。没有恢复其他架构或进行长期温度测试。
+
+来源：`public/game/src/ui/menus.js` 的时长选项/色盲设置及 `config.js` 的配色、时长、武器顺序；Godot 使用既有导出数据。完整 AI、完整战斗动作/特效和持续负载仍为后续范围。
+
+复现入口：
+
+```sh
+NODE=$(command -v node) CHECK_TIMEOUT=20 ./godot-port-prototype/tools/run_checks.sh
+/Applications/Godot.app/Contents/MacOS/Godot --path godot-port-prototype --script res://tools/capture_setup.gd
+/Applications/Godot.app/Contents/MacOS/Godot --path godot-port-prototype --script res://tools/capture_candidate.gd -- --label=setup-play
+./godot-port-prototype/export_macos.sh
+```
+
+## 前一批候选：CX-03 与 QA-02（2026-09-30，历史）
 
 剩余两项已完成，本批停止。下方 2026-09-29 的 34/32 项结果和旧停止点保留为历史，不是最新验收。
 

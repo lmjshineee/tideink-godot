@@ -1,0 +1,50 @@
+Godot: 4.8.dev6.official.8898c2b3d
+Node : /opt/homebrew/opt/node@24/bin/node
+
+PASS  export_tidewater_map         --check
+PASS  export_tidewater_surfaces    --check
+PASS  export_weapon_config         --check
+PASS  export_ui_icons              --check
+PASS  export_tidewater_visuals     --check
+
+PASS  check_scripts_parse
+PASS  check_config_consumption
+PASS  check_setup_settings
+PASS  check_surface_ink
+PASS  check_surface_ink_view
+PASS  check_team_palette
+PASS  check_tidewater_bomb
+PASS  check_tidewater_bot
+PASS  check_tidewater_bot_chase
+PASS  check_tidewater_bot_loadout
+PASS  check_tidewater_bot_vitals
+PASS  check_tidewater_camera
+PASS  check_tidewater_climb
+PASS  check_tidewater_combat_loop
+PASS  check_tidewater_face
+PASS  check_tidewater_form
+PASS  check_tidewater_full_round
+PASS  check_tidewater_handling
+PASS  check_tidewater_hard_land
+PASS  check_tidewater_hud
+PASS  check_tidewater_input_flow
+PASS  check_tidewater_jump
+PASS  check_tidewater_match
+PASS  check_tidewater_menu
+PASS  check_tidewater_play
+PASS  check_tidewater_scene
+PASS  check_tidewater_scenery
+PASS  check_tidewater_spawn_barrier
+PASS  check_tidewater_special
+PASS  check_tidewater_squid_body
+PASS  check_tidewater_steps
+PASS  check_tidewater_turf_points
+PASS  check_tidewater_visual
+PASS  check_tidewater_visual_config
+PASS  check_tidewater_vitals
+PASS  check_tidewater_walk
+PASS  check_tidewater_weapons
+
+----------------------------------------
+通过 42，失败 0
+全部通过。

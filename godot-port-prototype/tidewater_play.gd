@@ -3,11 +3,9 @@ extends Node3D
 # Real-map migration slice. Single authoritative ink state drives the HUD,
 # movement, weapon impacts and the temporary 1v1 combat loop.
 const SurfaceInk = preload("res://surface_ink.gd")
-# Match length comes from assets/weapons.json (config.js MATCH.durations). The web
-# default is MATCH.defaultDuration = 180 s with teamSize 5; this prototype runs the
-# 90 s option with a 1v1 roster, which MIGRATION.md records as a known difference.
-# When the roster batch lands, switching to the default is only this index.
-const ROUND_DURATION_OPTION := 0
+# Setup selects a duration from config.js MATCH.durations. The initial option is
+# still 90 s / 1v1; the web defaults to 180 s / 5v5.
+const MatchSetup := preload("res://match_setup.gd")
 # Source match.js intro/finish and hud.js judge timings. This scene uses the
 # source's optional 90 s duration while keeping the prototype's 1v1 roster.
 const INTRO_SECONDS := 4.2
@@ -83,9 +81,18 @@ var weapon_cards := {}
 var shown_weapon := ""
 var pointer_locked := false
 var paused := false
+var setup_options: HBoxContainer
+var palette_select: OptionButton
+var colorblind_toggle: CheckButton
+var duration_select: OptionButton
+var bot_weapon_button: Button
+var weapon_buttons: Dictionary = {}
 
 
 func _ready() -> void:
+	var loadout := MatchSetup.take_loadout()
+	selected_weapon = String(loadout.get("player", "shooter"))
+	selected_bot_weapon = String(loadout.get("bot", "shooter"))
 	orange_color = TeamPalette.color(0)
 	blue_color = TeamPalette.color(1)
 	team_names = [TeamPalette.display_name(0), TeamPalette.display_name(1)]
@@ -100,13 +107,18 @@ func _ready() -> void:
 	$World/Walker.set("auto_respawn", false)
 	$Combat.call("setup", self, $World/Walker)
 	var match_config: Dictionary = $Combat.get("weapon_data")["match"]
-	round_time = float((match_config["durations"] as Array)[ROUND_DURATION_OPTION])
+	round_time = MatchSetup.duration(match_config)
 	final_countdown = int(match_config["finalCountdown"])
 	var weapon_data: Dictionary = $Combat.get("weapon_data")
 	weapon_order = weapon_data.get("weaponOrder", [])
 	if weapon_order.is_empty():
 		push_error("assets/weapons.json carries no weaponOrder; falling back to the weapons block order")
 		weapon_order = (weapon_data.get("weapons", {}) as Dictionary).keys()
+	if not weapon_order.has(selected_weapon):
+		selected_weapon = String(weapon_order[0])
+	if not weapon_order.has(selected_bot_weapon):
+		selected_bot_weapon = String(weapon_order[0])
+	$Combat.call("select_weapon", selected_weapon)
 	# hud.js uses `MATCH.pointsPerM2 || 1`, so a missing or zero value means one point per
 	# square metre rather than a score of zero.
 	_points_per_m2 = float(match_config.get("pointsPerM2", 1.0))
@@ -114,6 +126,7 @@ func _ready() -> void:
 		_points_per_m2 = 1.0
 	round_left = round_time
 	$Bot.call("setup", self, $World/Walker, $World/Map)
+	$Bot.call("select_weapon", selected_bot_weapon)
 	player_health = float($Combat.get("weapon_data")["player"]["hp"])
 	bot_health = player_health
 	_build_hud()
@@ -130,7 +143,7 @@ func _weapon_text(weapon_id: String) -> String:
 
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and phase == "playing" and not pointer_locked:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and phase == "playing" and player_respawn <= 0.0 and not pointer_locked:
 		_set_pointer_lock(true)
 		_update_hud()
 		return
@@ -142,12 +155,9 @@ func _input(event: InputEvent) -> void:
 			# `:=` cannot infer (this is what broke the whole suite once).
 			var slot: int = event.keycode - KEY_1
 			if slot < weapon_order.size() and (phase == "setup" or (phase == "playing" and player_respawn > 0.0)):
-				selected_weapon = weapon_order[slot]
-				$Combat.call("select_weapon", selected_weapon)
+				_choose_player_weapon(String(weapon_order[slot]))
 		KEY_B:
-			if phase == "setup":
-				selected_bot_weapon = weapon_order[(weapon_order.find(selected_bot_weapon) + 1) % weapon_order.size()]
-				$Bot.call("select_weapon", selected_bot_weapon)
+			_cycle_bot_weapon()
 		KEY_ENTER:
 			if phase == "setup":
 				_begin_intro()
@@ -161,6 +171,52 @@ func _input(event: InputEvent) -> void:
 		KEY_ESCAPE:
 			if phase == "playing":
 				_set_pointer_lock(false)
+	_update_hud()
+
+
+func _choose_player_weapon(id: String) -> void:
+	if not (phase == "setup" or (phase == "playing" and player_respawn > 0.0)) or not weapon_order.has(id):
+		return
+	selected_weapon = id
+	$Combat.call("select_weapon", id)
+	_update_hud()
+
+
+func _cycle_bot_weapon() -> void:
+	if phase != "setup":
+		return
+	selected_bot_weapon = weapon_order[(weapon_order.find(selected_bot_weapon) + 1) % weapon_order.size()]
+	$Bot.call("select_weapon", selected_bot_weapon)
+	_update_hud()
+
+
+func _change_palette(index: int) -> void:
+	if phase != "setup" or index == TeamPalette.palette_index:
+		return
+	TeamPalette.select(index)
+	_reload_setup()
+
+
+func _change_colorblind(enabled: bool) -> void:
+	if phase != "setup" or enabled == TeamPalette.use_colorblind:
+		return
+	TeamPalette.set_colorblind(enabled)
+	_reload_setup()
+
+
+func _reload_setup() -> void:
+	MatchSetup.pending_loadout = {"player": selected_weapon, "bot": selected_bot_weapon}
+	get_tree().reload_current_scene()
+
+
+func _change_duration(index: int) -> void:
+	var config: Dictionary = $Combat.get("weapon_data")["match"]
+	var options: Array = config.get("durations", [])
+	if phase != "setup" or index < 0 or index >= options.size():
+		return
+	MatchSetup.duration_index = index
+	round_time = MatchSetup.duration(config)
+	round_left = round_time
 	_update_hud()
 
 
@@ -562,6 +618,48 @@ func _build_weapon_menu(layer: CanvasLayer) -> void:
 		name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		card.add_child(name_label)
 		weapon_cards[weapon_id] = card
+		var button := Button.new()
+		button.name = "SelectWeapon"
+		button.flat = true
+		button.tooltip_text = _weapon_text(weapon_id)
+		card.add_child(button)
+		button.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		button.pressed.connect(_choose_player_weapon.bind(weapon_id))
+		weapon_buttons[weapon_id] = button
+	setup_options = HBoxContainer.new()
+	setup_options.add_theme_constant_override("separation", 12)
+	menu_panel.add_child(setup_options)
+	palette_select = OptionButton.new()
+	palette_select.custom_minimum_size.x = 200
+	palette_select.add_theme_font_size_override("font_size", 16)
+	var palettes := TeamPalette.palettes()
+	var labels: Dictionary = $Combat.get("weapon_data")["text"]["teams"]
+	for palette in palettes:
+		var names: Array = labels.get(String(palette["id"]), palette["names"])
+		palette_select.add_item("%s / %s" % names)
+	palette_select.select(TeamPalette.palette_index)
+	palette_select.item_selected.connect(_change_palette)
+	setup_options.add_child(palette_select)
+	colorblind_toggle = CheckButton.new()
+	colorblind_toggle.text = "色盲配色"
+	colorblind_toggle.add_theme_font_size_override("font_size", 16)
+	colorblind_toggle.set_pressed_no_signal(TeamPalette.use_colorblind)
+	colorblind_toggle.toggled.connect(_change_colorblind)
+	setup_options.add_child(colorblind_toggle)
+	duration_select = OptionButton.new()
+	duration_select.custom_minimum_size.x = 100
+	duration_select.add_theme_font_size_override("font_size", 16)
+	var durations: Array = $Combat.get("weapon_data")["match"].get("durations", [])
+	for duration in durations:
+		duration_select.add_item("%d 秒" % int(duration))
+	if not durations.is_empty():
+		duration_select.select(clampi(MatchSetup.duration_index, 0, durations.size() - 1))
+	duration_select.item_selected.connect(_change_duration)
+	setup_options.add_child(duration_select)
+	bot_weapon_button = Button.new()
+	bot_weapon_button.add_theme_font_size_override("font_size", 16)
+	bot_weapon_button.pressed.connect(_cycle_bot_weapon)
+	setup_options.add_child(bot_weapon_button)
 
 
 func _refresh_weapon_cards() -> void:
@@ -620,11 +718,13 @@ func _layout_hud() -> void:
 	crosshair_layer.size = size
 	weapon_icon.position = Vector2(maxf(18.0, size.x - 114.0), 20.0)
 	var width := minf(850.0, size.x - 24.0)
-	menu_panel.size = Vector2(width, 270.0)
+	menu_panel.size = Vector2(width, 330.0)
 	menu_panel.position = (size - menu_panel.size) * 0.5
 	var title: Label = menu_panel.get_child(0)
 	title.size = Vector2(width, 58.0)
 	menu_hint.size = Vector2(width, 36.0)
+	setup_options.position = Vector2(24.0, 260.0)
+	setup_options.size = Vector2(width - 48.0, 44.0)
 	var card_width := (width - 70.0) * 0.25
 	for index in weapon_order.size():
 		var card: Panel = weapon_cards[weapon_order[index]]
@@ -639,6 +739,14 @@ func _layout_hud() -> void:
 func _update_hud() -> void:
 	crosshair.visible = phase == "playing" and player_respawn <= 0.0 and pointer_locked
 	menu_panel.visible = phase == "setup" or (phase == "playing" and player_respawn > 0.0)
+	setup_options.visible = phase == "setup"
+	palette_select.disabled = phase != "setup"
+	colorblind_toggle.disabled = phase != "setup"
+	duration_select.disabled = phase != "setup"
+	bot_weapon_button.disabled = phase != "setup"
+	bot_weapon_button.text = "机器人：%s · B" % _weapon_text(selected_bot_weapon)
+	for button in weapon_buttons.values():
+		(button as Button).disabled = not menu_panel.visible
 	if menu_panel.visible:
 		menu_hint.text = ("%s 1–4 · %s B：%s · Enter 开始" % [team_names[0], team_names[1], _weapon_text(selected_bot_weapon)]) if phase == "setup" else "等待重生 · 按 1–4 更换武器"
 	if shown_weapon != selected_weapon:

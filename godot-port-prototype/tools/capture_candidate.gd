@@ -7,9 +7,13 @@ var scene: Node3D
 var walker: CharacterBody3D
 var combat: Node3D
 var checks: Array[String] = []
+var output_label := "candidate"
 
 
 func _initialize() -> void:
+	for argument in OS.get_cmdline_user_args():
+		if argument.begins_with("--label="):
+			output_label = argument.trim_prefix("--label=").validate_filename()
 	call_deferred("_run")
 
 
@@ -97,7 +101,7 @@ func _run() -> void:
 	_key(KEY_W, false)
 	_mouse(MOUSE_BUTTON_LEFT, false)
 	checks.append("live roller input")
-	await _save("candidate-live")
+	await _save(output_label + "-live")
 	# Exercise a visible isolated 0.35m curb through the unchanged live controller.
 	_box(Vector3(0, 99.5, 0), Vector3(30, 1, 30))
 	_box(Vector3(0, 100.175, 0), Vector3(10, 0.35, 2))
@@ -143,7 +147,7 @@ func _run() -> void:
 	if scene.get("phase") != "results":
 		_fail("judge did not reach results")
 		return
-	await _save("candidate-results")
+	await _save(output_label + "-results")
 	_key(KEY_ENTER, true)
 	await _frames(1)
 	_key(KEY_ENTER, false)
@@ -152,11 +156,11 @@ func _run() -> void:
 		_fail("results Enter did not reload a fresh setup scene")
 		return
 	checks.append("accelerated finish/judge/results and Enter restart")
-	await _save("candidate-restart")
+	await _save(output_label + "-restart")
 	var report := {"checks": checks, "renderer": RenderingServer.get_current_rendering_method(),
 		"adapter": RenderingServer.get_video_adapter_name(), "engine": Engine.get_version_info()["string"],
 		"note": "Native automated input/physics smoke; injected fixtures and shortened waits; not manual or full-duration/thermal acceptance."}
-	var file := FileAccess.open("res://render-evidence/candidate-qa.json", FileAccess.WRITE)
+	var file := FileAccess.open("res://render-evidence/" + output_label + "-qa.json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(report, "\t"))
 	print("PASS: ", JSON.stringify(report))
 	quit()
