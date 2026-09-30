@@ -1,91 +1,53 @@
-# INKWAVE Godot Demo（开发中）
+# INKWAVE Godot Demo
 
-**验证问题：** 现有网页游戏的涂墨、移动、潜墨和武器规则能否在 Godot 原生项目中组成一个可玩的最小闭环？这是可丢弃的样机，不是完整移植。
+当前版本：**v0.3.0-preview.1 · Apple Silicon / arm64 单机预览版**。
 
-后续实现以 [Godot 特性选型与迁移规范](MIGRATION.md) 为准；其中区分了样机行为和网页游戏的正式规则。
+默认是 **5v5**（你和四名队友机器人，对抗五名机器人），支持 Tidewater / Kelpline 两张原版地图；赛前可切回 1v1、选择 90/180 秒、玩家武器、对手先锋武器、四种角色外观、五组配色或色盲配色。
 
-**2026-09-30 最新候选：赛前操作批次完成。** 在赛前菜单可选择五组配色、切换色盲配色、选择 90/180 秒，并用鼠标点选四武器及机器人武器。1–4、B、Enter 仍可用；开局后锁定配色/时长/机器人武器，重生等待时仅可换玩家武器。配色切换重建赛前场景并保留武器和时长选择；这些设置只保存在本次应用会话中。首次启动仍为 90 秒、1v1。
+![原版角色几何与四武器](render-evidence/release-characters.png)
+![5v5 名单与 HUD](render-evidence/release-tidewater-roster.png)
 
-全套 **42 项通过、0 失败**（5 导出器 + 37 短测），见 [检查输出](render-evidence/setup-checks.txt)。[原生 GUI 短验收](render-evidence/setup-gui.txt)验证鼠标点选武器/机器人/色盲开关、下拉选项的 PopupMenu 选择信号，以及 1280×720 和 960×540 布局；[既有自动对局短流程](render-evidence/setup-play-qa.json)仍通过。该流程使用测试条件并缩短阶段等待，不代表人工手感或完整 90/180 秒图形对局。当前 arm64 应用已更新并核验签名及短时图形启动，详见 [RENDERING.md](RENDERING.md)。
+## 运行与操作
 
-![可操作的赛前配色、时长及武器菜单](render-evidence/setup-menu.png)
+需要 Godot 4.8.dev6；仓库根目录执行：
 
-## 运行
-
-当前项目文件带有 `4.8` 特性标记；macOS 使用本机的 Godot 4.8.dev6 打开。在仓库根目录运行：
-
-```bash
+```sh
 ./godot-port-prototype/run.sh
 ```
 
-默认启动 Tidewater 真实地图场景。首次运行或素材改变后，脚本会做一次无界面的素材导入；后续运行不会重复导入。也可用 Godot 编辑器打开 `godot-port-prototype/project.godot`，按 F5 运行。上图是 1280×720 的 Forward+ 菜单操作短验收截图；此前还检查了墙面/坡道和 960×540 缩放，未运行持续试玩。旧版平地样机可单独启动：
+- 点击武器卡片，或按 1–4 选择武器；B 轮换对手先锋武器。队伍其他机器人使用混合武器配置。点击“开始对局”或 Enter 开始。
+- WASD 移动，鼠标瞄准，空格跳跃，Shift 潜墨，左键主武器，右键按住/松开投弹，F/Q 大招。
+- Tab 查看十人名单、武器、生命与重生状态；Esc 暂停，使用“继续对局”“设置”“返回赛前菜单”。
+- 被击倒后释放鼠标，可点击卡片更换玩家武器；计时继续，重生后恢复鼠标捕获。存活时不能换武器。
+- 结算后点击“再开一局”返回赛前选择，或点击“退出游戏”；Enter/R 也可重开。
+- 设置保留上一发布版的 30/45/60 FPS、90/100/110% 界面缩放及鼠标灵敏度，保存到 `user://inkwave_settings.cfg`。默认 30 FPS；物理保持 30 Hz。地图、人数、发型、配色、时长与武器选择限当前会话。
 
-```bash
-./godot-port-prototype/run.sh --flat
+Godot 编辑器打开 `project.godot` 后也可 F5 运行。`run.sh --compatibility` 为不含 SSAO 的备用渲染，`run.sh --flat` 保留历史平地样机。
+
+## 实现与边界
+
+- 角色使用原版 `character.js` / `character-geo.js` 等生成的四套几何、87 根骨骼、蒙皮权重及原版四武器。Godot 驱动基础步态、空中姿态、瞄准、后坐力、甩墨/投弹和发梢动作；原版 GLSL 材质以顶点颜色/队色掩码近似重建，未移植完整脚部 IK、表情、舞蹈与全部动作层。原始网格资源共享；同队角色共用显示材质。旧基础模型作为缺失资源时的后备，加载原版资源后隐藏。
+- 两地图均使用原版结构与道具碰撞、暴露表面和被遮挡计分格。Tidewater：145 碰撞块、69,366 有效计分格；Kelpline：141 碰撞块、76,563 有效计分格。两者都有原版道具、壁画和港口远景；海水等使用 Godot 近似效果。
+- 5v5 有每角色敌我关系、生命、死亡/保护重生、四武器命中、炸弹/冲击波/墨雨群体伤害及共用权威计分。友方不会挡住武器的敌人命中查询，也不会受友伤。队友涂墨不增加玩家自己的点数或大招。
+- 多人机器人使用原版 NavGraph 导出数据和 AStar 路线，支持不同路线与机器人之间交战；独立 CharacterBody3D 移动体执行碰撞、支撑和下落，避免在出生台落差边缘停住。跳跃边未启用；仍未达到原版潜墨、撤退、难度、炸弹/大招决策和完整 WeaponRunner。
+- HUD 包含小地图、双方存活人数、击倒提示、Tab 名单、生命/墨量/大招与结果；小地图约一米采样、每 0.25 秒更新，仅作显示。计分仍使用 0.25 米 CPU 归属格。
+- 音频、联机、完整战斗/屏幕特效、入场镜头与结果角色展示尚未移植。
+
+## 检查与构建
+
+```sh
+NODE=$(command -v node) CHECK_TIMEOUT=20 ./godot-port-prototype/tools/run_checks.sh
+python3 godot-port-prototype/tools/test_parse_gate.py
+python3 godot-port-prototype/tools/test_visual_config.py
+./godot-port-prototype/export_macos.sh
 ```
 
-这个场景有 Tidewater 地形碰撞、WASD/空格移动与跳跃、Shift 己方墨潜行加速及已涂墙面的攀爬、赛前及重生等待时的四武器选择卡片、左键使用武器、右键投掷墨水炸弹、涂墨充能与两种大招、双方覆盖率和可选 90/180 秒计时。按 Enter 后先经过 4.2 秒赛前介绍，时间到后依次进入终场、裁判和结果阶段。蓝队沿安全巡逻线进入中场、涂写计分地面，看到附近玩家会在确认路径可走后追击并使用赛前选定的武器；双方可受伤、被击倒并重生。蓝队四武器核心攻击与玩家共用弹体、射线命中、伤害和涂墨通道，墨耗与回墨取自原配置。玩家和蓝队已有阵营色人形及四种可辨识的简化武器模型。完整特效、动画和正式机器人行为仍待迁移。已做短时无界面规则检查，**尚未做完整图形试玩或温度测试**。
+唯一规则入口包含两地图的导出校验、角色/导航来源校验、解析预检与全部短测。原生 GUI 验收入口：
 
-## 操作
-
-赛前菜单下方可选择配色、色盲模式和时长；点击武器卡片选择玩家武器，点击“机器人”按钮轮换对手武器。重生菜单保留玩家武器卡片，其余设置在本局锁定。
-
-- 赛前按 `1` 选射手、`2` 选滚筒、`3` 选蓄力狙、`4` 选爆破枪；按 `B` 循环切换蓝队武器；`Enter` 进入开场介绍，随后开赛。橙队被击倒等待重生时可按 `1`–`4` 重新选择，蓝队武器在本局保持不变。
-- `WASD` 随相机方向移动；移动鼠标转身瞄准；左键使用武器（蓄力狙按住蓄力、松开发射）；右键按住、松开投出墨水炸弹（消耗 70 墨）；涂墨充满大招条后按 `F` 或 `Q` 发动冲击波（射手/滚筒）或墨雨（蓄力狙/爆破枪）；`Shift` 潜墨；`Esc` 暂停并释放鼠标，点击画面继续；`R` 重开。
-- 90 秒对局结束后冻结操作，约 2.6 秒后统计地面墨迹面积，再展示约 5.1 秒裁判结果；覆盖率相同则随机决定胜方。HUD 顶部显示计时和双方覆盖率，左下显示墨量与生命，右上显示大招，终场有独立结果面板。
-- 默认限制为 30 FPS、30 次物理更新/秒，以减少运行负载；这不能保证任何特定温度。若设备仍达到不舒适的温度，请停止运行。
-
-### 验证
-
-唯一入口（素材导入 → 5 个导出器 `--check` → 全部规则短测，任一失败即非 0 退出）：
-
-```bash
-NODE=$(command -v node) ./godot-port-prototype/tools/run_checks.sh
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path godot-port-prototype --script res://tools/capture_release.gd
 ```
 
-不要逐个手跑 `tools/check_*.gd`：这套东西正是那样漂移的（曾有 2 个短测长期失败而文档仍写"通过"）。runner 对每个检查有超时看门狗，脚本错误导致的挂死会变成可见的 FAIL。结论与门槛见[迁移规范](MIGRATION.md)§5。
+最终检查与原生短验收见 [RENDERING.md](RENDERING.md)。GUI 流程包含鼠标开始/再开/设置保存、下拉选择信号、110% 缩放、两地图十角色短运行及截图；对战位置和出生保护为截图条件，阶段等待缩短。不是完整 90/180 秒人工试玩，也没有长期温度或帧率结论。
 
-已补齐原版 144 处道具布置、18 面壁画，以及招牌、港口和远景模型；地面按原图案类型生成材质。场景视觉合并为 27 个网格，不重复添加既有的 82 个道具碰撞体。
-
-画面已接入 **Forward+ / Metal**：天空与环境光、方向光阴影、SSAO、2× MSAA、地图细缝和角色受光材质，以及带高光与柔化轮廓的墨迹。墨迹仍读取原有 CPU 归属格，显示不参与计分。截图、同场景短时采样、导出验证与剩余边界见 [渲染实现与验证](RENDERING.md)。
-
-若设备不适合 Forward+，可运行 `./godot-port-prototype/run.sh --compatibility`，使用不含 SSAO 的兼容渲染。两条路线均保持 30 FPS 上限；这不是温度保证。
-
-### 导出 macOS 应用
-
-[导出预设](export_presets.cfg)固定 **Apple Silicon / arm64** 和本地 Demo 的 Bundle ID。用户已明确要求不再做 x86：不构建 Universal，不测试 x86_64/Rosetta，不以 Intel Mac 验收作为后续工作。运行 `./godot-port-prototype/export_macos.sh` 生成 `godot-port-prototype/build/INKWAVE Demo.app`。脚本会从本机已安装模板中准备仅 arm64 的模板，然后执行导入、导出、架构核对、日志检查、签名校验和无界面短启动（需要 `python3` 与 macOS `lipo`）。当前渲染批次的图形启动与证据见 [RENDERING.md](RENDERING.md)；本批部分输入/流程已通过自动短验收，人工手感、完整图形对局与设备温度尚未验收。向他人分发另需处理正式签名与公证。
-
-## 从原项目迁移了什么
-
-- [原始参数](../public/game/src/config.js)：奔跑 6.0、干地潜墨 2.9、己方墨中 11.8、敌方墨中 1.9、潜墨回墨 42/秒；四类主武器的关键伤害、射程、墨耗与射速参数，以及 90 秒对局。
-- [原始墨迹轮廓函数](../public/game/src/world/paint.js)的 `blobWobble`；CPU 格记录归属与面积，动态纹理显示相同归属。
-- 一名玩家、一个简化敌方机器人，以及赛前和重生时换武器的交互。
-
-### Tidewater 地图数据与碰撞（独立场景）
-
-- `tools/export_tidewater_map.mjs` 从网页 `maps.js` 和 `Level` 导出 63 个结构块及其准确变换，并追加 82 个场景道具碰撞块（`hidden`/`solid`/不可涂，与网页 `level.js:27` 一致，共 145 块）；`tools/export_tidewater_surfaces.mjs` 导出 289 个可见面，保留地面/墙面、可涂与计分标记。两个导出器共用 `tools/lib/runtime_level.mjs` 构造与运行时相同的 `Level`（含道具碰撞盒），构造不一致会直接抛错。运行 `--check` 可检查生成数据与网页源码是否一致。
-- [tidewater_map.tscn](tidewater_map.tscn) 无界面加载时生成 63 个碰撞体、10 个坡道和两个出生点；可通过碰撞体的来源 ID、命中点和法线定位原地图表面。Godot 4.8.dev6 的短时无界面检查通过，检查脚本见 [tools/check_tidewater_scene.gd](tools/check_tidewater_scene.gd)。
-- 独立 [步行场](tidewater_walk.tscn)使用 `CharacterBody3D`，短测已检查落在出生平台、横穿平台并沿原地图坡道下降。[角色控制器](tidewater_walker.gd)按原 `actor.js` 参数实现水平起步、刹车、反向和转向，以及潜墨/敌墨速度变化；无界面行为检查见 [check_tidewater_handling.gd](tools/check_tidewater_handling.gd)。[跳跃检查](tools/check_tidewater_jump.gd)覆盖提前按键缓存、离地宽限、己方/敌方墨跳跃、顶点/下落重力和真实场景中的空格起跳。[形态检查](tools/check_tidewater_form.gd)覆盖低矮碰撞体、顶棚下禁止站起及空间清空后恢复站立。墙面短测还检查了干墙与敌方墨墙无法附着、己方墨墙爬升、松开潜墨脱离及顶边弹出。潜墨碰撞体按源码 `squidBodyLift`、半径和高度生成退化胶囊（球体），kid 身体按 `stepUp` 抬升；[台阶短测](tools/check_tidewater_steps.gd)覆盖 0.35 m 上台阶、下台阶、临边足迹和 0.9 m 障碍不可越过；[朝向短测](tools/check_tidewater_face.gd)覆盖角速度限制、滑行、开火/潜墨朝向与鼠标瞄准接线。高速落地减速与恢复、kid/squid 身体抬升及 ledgeAssist 已有短测；人工移动手感仍未验收。
-- [多表面归属格](surface_ink.gd)加载了 285 个可涂面、其中 61 个计分面与 **69,366 个有效计分格**（含场景道具压住的格子，与运行时一致）。短测已检查涂地、重复涂、敌方覆盖、墙面涂墨不改变计分、掠射墨团的拉伸形状，以及 0–1 覆盖率接口；真实地图墨迹已有显示层，数帧近景确认地面涂墨可见，涂墨动画和整局显示效果仍未验收。
-- [tidewater_play.tscn](tidewater_play.tscn)把地图碰撞、角色采样、[多表面墨迹显示](surface_ink_view.gd)和同一份 CPU 计分状态连成独立实验场。墨迹网格与纹理在首次涂到相应表面时才创建；无界面短测检查了空场景零墨迹资源、重涂不重复创建、角色读取己方墨以及敌方覆盖后的纹理更新。[生命规则检查](tools/check_tidewater_vitals.gd)覆盖敌墨伤害上限、离墨后回血、己方墨潜行加速回血及出生保护；[蓝队生命检查](tools/check_tidewater_bot_vitals.gd)覆盖蓝队同配置的普通生命与重生规则。归属仍是 0.25 米格子；显示使用插值轮廓、湿润高光与细微法线起伏，最大视觉边界差异约半格。未实现网页的流动边缘与扩张动画；射击方向拉伸仍由既有 CPU 规则产生。
-- `tools/export_weapon_config.mjs` 从网页 [config.js](../public/game/src/config.js) 导出四武器、墨水炸弹、两种大招、水平移动/攀爬、生命、重生和补墨参数到 `assets/weapons.json`；[tidewater_combat.gd](tidewater_combat.gd)读取这些参数并实现四武器、炸弹与大招的核心事件。涂墨面积充能，冲击波跃起落地涂墨并伤害，墨雨投出后持续漂移、涂墨并伤害；死亡后充能减半。[大招短测](tools/check_tidewater_special.gd)覆盖参数、充能、装甲、落地、弹体变云、持续效果与消失。大招表现仍是简化球体/冲击墨迹，没有原网页完整动画和粒子。
-- [蓝队样机](tidewater_bot.gd)把移动、地面涂墨和近距离攻击从对局控制器拆出；攻击有跟随队色的短暂轨迹，头顶血条显示受伤情况。无界面检查确认其从出生区进入中场、路线避开静态碰撞、蓝队计分面积增加且终场停止。[追击短测](tools/check_tidewater_bot_chase.gd)还检查可见玩家吸引蓝队、安全身体位置，以及玩家重生时沿追击路径退回巡逻。[蓝队武器短测](tools/check_tidewater_bot_loadout.gd)覆盖赛前选配、四武器攻击、阵营涂墨和重生后武器保留。[整局时间模拟](tools/check_tidewater_full_round.gd)检查暂停、90 秒蓝队涂墨、裁判和结果页；它不验证画面、玩家操作或实际运行 90 秒。蓝队仍缺少原网页的动态寻路、完整武器状态和潜墨。默认场景现为 Tidewater；旧 `main.tscn` 保留为平地样机。已检查部分静态画面，完整图形对局尚未验收。
-- [简化角色外观](tidewater_character_visual.gd)为玩家和蓝队生成人形、潜墨体及四种武器的低面数模型；从控制器读取阵营、形态、选中武器及运动状态，不参与碰撞或伤害判定。[外观短测](tools/check_tidewater_visual.gd)核对蓝队颜色、武器显隐、形态切换、蓝队朝向及战斗反馈。已按网页程序化外形补齐基础待机呼吸、行走摆腿及腾空姿态；跑速在 owner 配置就绪后通过 `configure_animation` 单向传入。默认 6 和注入 12 的腿部摆幅验证见 [初始化短测](tools/test_visual_config.py)。完整骨骼/武器动作和人工手感仍未验收。
-
-## 界面素材
-
-- 从 [原项目的 SVG 图标代码](../public/game/src/ui/ui-icons.js)导出四个武器图标到 `assets/ui/`，可用 `node godot-port-prototype/tools/export_ui_icons.mjs` 重新生成。
-- 复制了原项目的 Titan One 与 Rubik WOFF2 字体到 `assets/fonts/`，分别用于英文标题和数字；中文标签继续使用 Godot 默认字体。旧平地样机使用深色面板、橙色选中边框、武器卡片、图标和墨量条，对照了原项目的 [UI 样式](../public/game/styles/ui.css)。默认 Tidewater 场景已接入赛前/重生四武器图标卡片、选中边框、计时/覆盖率/墨量/生命/大招进度条、结果面板和中央准星；[HUD 短测](tools/check_tidewater_hud.gd)核对数值来源、阶段显隐与文字宽度。数帧截图修复了赛前图标溢出与底部提示可读性；原网页的液体仪表、动态角色徽章和入场动画尚未迁，动态界面仍未验收。
-- 原项目只有两张地图光照贴图；它们依赖原地图几何的 UV，不适合直接贴到这个简化平地样机。其余多数场景纹理、HUD 装饰和动画由 JavaScript、SVG、Canvas、CSS 运行时生成，需要逐项重新实现。
-
-## 边界
-
-旧平地样机的墨迹仅覆盖地面；四种武器只保留核心行为。默认真实地图场景已有墙面/坡道墨迹格、显示层、相机转向和准星、己方墙面基础攀爬、低矮潜墨碰撞体、玩家敌墨伤害与回血、四武器/炸弹/两类大招的核心事件和简化伤害/重生循环，但缺少完整命中判定、甩墨形变、完整角色动画与大招特效、完整机器人策略、网络联机及完整 UI 动效。温度目标必须在同一台 Mac 上以相同窗口大小和帧率实测，不能由引擎名称推断。
-
-旧平地样机在 Godot 4.6.2 中完成过素材导入、三帧无界面启动检查和[两帧图形截图](preview.png)。默认 Tidewater 场景现在以 Godot 4.8.dev6 完成了赛前、开局及蓝队近景的数帧截图，并修复了截图发现的武器图标溢出和底部提示可读性问题。完整图形试玩、长期性能和设备温度尚未测试。
-
-### 2026-09-29 渲染批次（历史记录）
-
-已接入默认 Forward+ 场景，原 Compatibility 无光照截图保留作历史基线。新增的 `tools/capture_rendering.gd` 自动截取菜单、固定涂墨战斗场景、俯瞰、缩放、墙面与坡道，并在数秒后退出；不会启动编辑器或持续运行一局。详细证据与复现命令见 [RENDERING.md](RENDERING.md)。
-
-本批地图与场景渲染已完成并停止：34 项检查通过，arm64 应用已导出并短时启动。给 DS 的接续范围见 [COORDINATION.md](COORDINATION.md)；该条交接已由本页顶部的 2026-09-30 候选状态取代；当前已实现基础角色外形/动作，完整动作与战斗特效仍待后续实现。
+`export_macos.sh` 只导出 arm64，验证签名、架构和短启动。应用是临时签名，未经 Apple 公证。源码快照和 ZIP 发布到专用仓库 `lmjshineee/inkwave-godot-demo`，原仓库上游不推送。许可证见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。

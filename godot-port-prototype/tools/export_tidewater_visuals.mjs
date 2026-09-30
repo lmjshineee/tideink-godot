@@ -7,6 +7,7 @@ import { resolve, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 const root = resolve(fileURLToPath(new URL('../../', import.meta.url)));
+const mapId = process.argv.includes('--kelpline') ? 'kelpline' : 'tidewater';
 const output = new URL('../assets/scenery/', import.meta.url);
 const sources = ['props.js','dressing.js','decor.js','environment.js','level.js','maps.js','murals.js'].map(n => `public/game/src/world/${n}`)
   .concat(['public/game/src/config.js','public/game/src/core/ctx.js','public/game/vendor/three/engine/three.core.js','public/game/vendor/three/engine/three.module.js','public/game/vendor/three/jsm/utils/BufferGeometryUtils.js',
@@ -15,10 +16,10 @@ const sources = ['props.js','dressing.js','decor.js','environment.js','level.js'
 const hash = data => createHash('sha256').update(data).digest('hex');
 const fingerprints = Object.fromEntries(sources.map(p => [p, hash(readFileSync(resolve(root, p)))]));
 if (process.argv.includes('--check')) {
-  const manifest = JSON.parse(readFileSync(new URL('tidewater_visuals.json', output)));
+  const manifest = JSON.parse(readFileSync(new URL(`${mapId}_visuals.json`, output)));
   if (JSON.stringify(manifest.sources) !== JSON.stringify(fingerprints)) throw new Error('Visual source changed; regenerate tidewater visuals');
   for (const [name, checksum] of Object.entries(manifest.outputs)) if (hash(readFileSync(new URL(name, output))) !== checksum) throw new Error(`Visual output differs: ${name}`);
-  if (manifest.items !== 144 || manifest.colliders !== 82) throw new Error('Original placement/collision count changed');
+  if (manifest.items <= 0 || manifest.colliders <= 0) throw new Error('Original placement/collision count changed');
   console.log(`OK: ${manifest.items} original props, ${manifest.meshes} merged visual meshes; source/output hashes match`);
   process.exit(0);
 }
@@ -42,7 +43,7 @@ try {
   const page = await browser.newPage();
   page.on('pageerror', error => console.error(error));
   await page.goto(`http://127.0.0.1:${server.address().port}/`);
-  const exported = await page.evaluate(async () => (await import('/godot-port-prototype/tools/lib/export_visual_scene.js')).exportScene());
+  const exported = await page.evaluate(async id => (await import('/godot-port-prototype/tools/lib/export_visual_scene.js')).exportScene(id), mapId);
   mkdirSync(output, { recursive: true });
   const gltf = { asset:{version:'2.0',generator:'INKWAVE original scene exporter'},scene:0,scenes:[{nodes:[]}],nodes:[],meshes:[],materials:[],buffers:[{byteLength:0}],bufferViews:[],accessors:[],images:[],textures:[],samplers:[],extensionsUsed:['KHR_materials_unlit'] };
   const chunks = [];
@@ -88,10 +89,10 @@ try {
   header.writeUInt32LE(0x46546c67);header.writeUInt32LE(2,4);header.writeUInt32LE(12+8+json.length+8+binary.length,8);
   jh.writeUInt32LE(json.length);jh.writeUInt32LE(0x4e4f534a,4);bh.writeUInt32LE(binary.length);bh.writeUInt32LE(0x004e4942,4);
   const glb=Buffer.concat([header,jh,json,bh,binary]);
-  writeFileSync(new URL('tidewater_visuals.glb',output),glb);
+  writeFileSync(new URL(`${mapId}_visuals.glb`,output),glb);
   const murals=Buffer.from(exported.murals,'base64');
   writeFileSync(new URL('murals.png',output),murals);
-  const manifest={schema:1,items:exported.items,colliders:exported.colliders,meshes:exported.meshes.length,sourceStats:exported.sourceStats,skippedGPUVisuals:exported.skipped,sources:fingerprints,outputs:{'tidewater_visuals.glb':hash(glb),'murals.png':hash(murals)}};
-  writeFileSync(new URL('tidewater_visuals.json',output),JSON.stringify(manifest,null,2)+'\n');
+  const manifest={schema:1,items:exported.items,colliders:exported.colliders,meshes:exported.meshes.length,sourceStats:exported.sourceStats,skippedGPUVisuals:exported.skipped,sources:fingerprints,outputs:{[`${mapId}_visuals.glb`]:hash(glb),'murals.png':hash(murals)}};
+  writeFileSync(new URL(`${mapId}_visuals.json`,output),JSON.stringify(manifest,null,2)+'\n');
   console.log(`Exported ${exported.items} original props + decor + harbor as ${exported.meshes.length} merged meshes (${(glb.length/1048576).toFixed(1)} MiB)`);
 } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }

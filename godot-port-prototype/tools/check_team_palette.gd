@@ -12,6 +12,7 @@ const TeamPalette := preload("res://team_palette.gd")
 
 
 func _initialize() -> void:
+	preload("res://match_setup.gd").team_size = 1
 	call_deferred("_check")
 
 

@@ -3,12 +3,15 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createRuntimeLevel, round6, vector3 } from './lib/runtime_level.mjs';
-import { TIDEWATER } from '../../public/game/src/world/maps.js';
+import { TIDEWATER, KELPLINE } from '../../public/game/src/world/maps.js';
+
+const mapId = process.argv.includes('--kelpline') ? 'kelpline' : 'tidewater';
+const MAP = mapId === 'kelpline' ? KELPLINE : TIDEWATER;
 
 // Same construction as the running game, so the block list (and the set-dressing
 // prop colliders that follow the structural blocks) can never disagree with the
 // surfaces export.
-const { level, layoutId, dressingItems, colliders } = await createRuntimeLevel(TIDEWATER);
+const { level, layoutId, dressingItems, colliders } = await createRuntimeLevel(MAP);
 const round = round6;
 const vector = vector3;
 
@@ -28,7 +31,7 @@ function mirror(def) {
   return mirrored;
 }
 
-const structural = [...TIDEWATER.single, ...TIDEWATER.half, ...TIDEWATER.half.map(mirror)];
+const structural = [...MAP.single, ...MAP.half, ...MAP.half.map(mirror)];
 const blocks = level.blocks.map((block, id) => {
   if (block.id !== id) throw new Error(`Level block order changed at ${id}`);
   const geometry = { center: vector(block.center), half: vector(block.half), axes: block.axes.map(vector) };
@@ -40,17 +43,17 @@ const blocks = level.blocks.map((block, id) => {
 });
 const manifest = {
   schema: 1,
-  source: 'public/game/src/world/maps.js:TIDEWATER',
-  id: TIDEWATER.id,
+  source: `public/game/src/world/maps.js:${mapId.toUpperCase()}`,
+  id: MAP.id,
   layout: layoutId,
-  bounds: TIDEWATER.bounds,
-  spawnPads: TIDEWATER.spawnPads,
-  spawnBarrier: TIDEWATER.spawnBarrier,
+  bounds: MAP.bounds,
+  spawnPads: MAP.spawnPads,
+  spawnBarrier: MAP.spawnBarrier,
   dressing: { items: dressingItems, propColliders: colliders.length },
   structuralBlocks: structural.length,
   blocks,
 };
-const output = new URL('../assets/maps/tidewater.json', import.meta.url);
+const output = new URL(`../assets/maps/${mapId}.json`, import.meta.url);
 const serialized = `${JSON.stringify(manifest, null, 2)}\n`;
 
 if (process.argv.includes('--check')) {

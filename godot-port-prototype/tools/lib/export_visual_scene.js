@@ -6,7 +6,7 @@ import { dressingFor } from '/public/game/src/world/dressing.js';
 import { Decor } from '/public/game/src/world/decor.js';
 import { Environment } from '/public/game/src/world/environment.js';
 import { Level } from '/public/game/src/world/level.js';
-import { TIDEWATER } from '/public/game/src/world/maps.js';
+import { TIDEWATER, KELPLINE } from '/public/game/src/world/maps.js';
 import { createMuralTexture } from '/public/game/src/world/murals.js';
 
 function base64(array) {
@@ -16,16 +16,17 @@ function base64(array) {
   return btoa(result);
 }
 
-export async function exportScene() {
+export async function exportScene(mapId = "tidewater") {
+  const MAP = mapId === "kelpline" ? KELPLINE : TIDEWATER;
   const scene = new THREE.Scene();
   const kit = new PropKit(scene, { quality: 'high' });
-  const items = dressingFor('tidewater');
+  const items = dressingFor(mapId);
   const colliders = items.flatMap(item => kit.add(item.type, item).colliders);
   kit.build();
   // Allow loadFonts() to finish and redraw the original sign atlas.
   await document.fonts.ready;
   await new Promise(resolve => setTimeout(resolve, 100));
-  const level = new Level(TIDEWATER, colliders);
+  const level = new Level(MAP, colliders);
   const decor = new Decor(scene, level);
   decor.setTeamColors(kit.teamColors);
 
@@ -36,7 +37,7 @@ export async function exportScene() {
     _buildSea() {}
     setTheme() {}
   }
-  const environment = new StaticEnvironment(null, scene, { bounds: TIDEWATER.bounds });
+  const environment = new StaticEnvironment(null, scene, { bounds: MAP.bounds });
   scene.updateMatrixWorld(true);
   const buckets = new Map(), skipped = [];
   const textureIds = new Map(), textures = [];

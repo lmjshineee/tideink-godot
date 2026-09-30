@@ -22,7 +22,7 @@ def main():
             (isolated / "assets/maps").mkdir(parents=True)
             (isolated / "project.godot").write_text("config_version=5\n")
             for name in ("tidewater_character_visual.gd", "tidewater_walker.gd",
-                         "tidewater_bot.gd", "team_palette.gd"):
+                         "tidewater_bot.gd", "team_palette.gd", "match_setup.gd", "character_surface.gdshader"):
                 shutil.copy2(project / name, isolated / name)
             shutil.copy2(project / "tools/check_tidewater_visual_config.gd",
                          isolated / "tools/check_tidewater_visual_config.gd")

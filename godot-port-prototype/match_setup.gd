@@ -2,6 +2,9 @@ extends RefCounted
 
 # Session-only setup preferences. No gameplay state or on-disk settings.
 static var duration_index := 0
+static var map_id := "tidewater"
+static var team_size := 5
+static var style_index := 0
 static var pending_loadout: Dictionary = {}
 
 

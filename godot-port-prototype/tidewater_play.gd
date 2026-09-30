@@ -2,6 +2,15 @@ extends Node3D
 
 # Real-map migration slice. Single authoritative ink state drives the HUD,
 # movement, weapon impacts and the temporary 1v1 combat loop.
+const Settings := preload("res://tidewater_settings.gd")
+const SettingsPanel := preload("res://tidewater_settings_panel.gd")
+var settings: RefCounted
+var settings_path := Settings.USER_PATH
+var settings_panel: Panel
+var setup_settings_button: Button
+var pause_settings_button: Button
+var pause_resume_button: Button
+var hud_root: Control
 const SurfaceInk = preload("res://surface_ink.gd")
 # Setup selects a duration from config.js MATCH.durations. The initial option is
 # still 90 s / 1v1; the web defaults to 180 s / 5v5.
@@ -15,6 +24,12 @@ const JUDGE_SECONDS := 5.1
 # config.js's WEAPON_ORDER, and `text.weapons` is the web's i18n table for those ids.
 # This controller used to keep its own copy of both, which had drifted from the web
 # (it said 射手/滚筒 where the web says 喷溅枪/滚筒刷).
+var extra_bots: Array[Node3D] = []
+var navigation: RefCounted
+var bot_painting := false
+var local_deaths := 0
+var feed_text := ""
+var feed_time := 0.0
 var weapon_order: Array = []
 # Team colours come from config.js's palette list through TeamPalette; assigned at the top
 # of _ready because label colours are baked while the HUD builds. main.gd used to keep a
@@ -86,22 +101,38 @@ var palette_select: OptionButton
 var colorblind_toggle: CheckButton
 var duration_select: OptionButton
 var bot_weapon_button: Button
+var map_select: OptionButton
+var mode_select: OptionButton
+var style_select: OptionButton
+var setup_match_options: HBoxContainer
+var start_button: Button
+var minimap: Control
+var scoreboard_panel: Panel
+var roster_rows: Array[Label] = []
+var roster_label: Label
+var feed_label: Label
+var pause_panel: Panel
+var result_actions: HBoxContainer
 var weapon_buttons: Dictionary = {}
 
 
 func _ready() -> void:
 	var loadout := MatchSetup.take_loadout()
+	settings_path = String(loadout.get("settings_path", settings_path))
 	selected_weapon = String(loadout.get("player", "shooter"))
 	selected_bot_weapon = String(loadout.get("bot", "shooter"))
 	orange_color = TeamPalette.color(0)
 	blue_color = TeamPalette.color(1)
 	team_names = [TeamPalette.display_name(0), TeamPalette.display_name(1)]
 	_set_pointer_lock(false)
-	Engine.max_fps = 30
+	settings = Settings.new()
+	settings.call("load_from", settings_path)
+	settings.call("apply_to", $World/Walker)
 	Engine.physics_ticks_per_second = 30
-	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/tidewater_surfaces.json"))
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/%s_surfaces.json" % MatchSetup.map_id))
 	ink = SurfaceInk.new(data)
 	$InkView.call("setup", ink)
+	$World/Walker.global_position = ($World/Map.get("spawn_pads")[0] as Vector3) + Vector3.UP * 0.05
 	$World/Walker.set("ink", ink)
 	$World/Walker.set("active", false)
 	$World/Walker.set("auto_respawn", false)
@@ -129,6 +160,7 @@ func _ready() -> void:
 	$Bot.call("select_weapon", selected_bot_weapon)
 	player_health = float($Combat.get("weapon_data")["player"]["hp"])
 	bot_health = player_health
+	_build_roster()
 	_build_hud()
 	_update_hud()
 
@@ -143,6 +175,12 @@ func _weapon_text(weapon_id: String) -> String:
 
 
 func _input(event: InputEvent) -> void:
+	if settings_panel != null and settings_panel.visible:
+		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+			settings_panel.call("close_panel")
+		return
+	if paused and event is InputEventMouseButton and pause_panel.get_global_rect().has_point(event.position / hud_root.scale.x):
+		return
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and phase == "playing" and player_respawn <= 0.0 and not pointer_locked:
 		_set_pointer_lock(true)
 		_update_hud()
@@ -162,14 +200,14 @@ func _input(event: InputEvent) -> void:
 			if phase == "setup":
 				_begin_intro()
 			elif phase == "results":
-				get_tree().reload_current_scene()
+				_reload_setup()
 		KEY_R:
-			get_tree().reload_current_scene()
+			_reload_setup()
 		KEY_F, KEY_Q:
 			if phase == "playing" and not paused and pointer_locked and player_respawn <= 0.0:
 				$Combat.call("try_special")
 		KEY_ESCAPE:
-			if phase == "playing":
+			if phase == "playing" and player_respawn <= 0.0:
 				_set_pointer_lock(false)
 	_update_hud()
 
@@ -205,7 +243,7 @@ func _change_colorblind(enabled: bool) -> void:
 
 
 func _reload_setup() -> void:
-	MatchSetup.pending_loadout = {"player": selected_weapon, "bot": selected_bot_weapon}
+	MatchSetup.pending_loadout = {"player": selected_weapon, "bot": selected_bot_weapon, "settings_path": settings_path}
 	get_tree().reload_current_scene()
 
 
@@ -265,6 +303,11 @@ func _start_round() -> void:
 	bot_ink_damage = 0.0
 	$Bot.call("reset")
 	$Bot.call("select_weapon", selected_bot_weapon)
+	for teammate in extra_bots:
+		teammate.set("respawn_time", 0.0)
+		teammate.set("health", player_health)
+		teammate.set("invuln", 0.0)
+		teammate.call("reset")
 	$World/Walker.set("active", true)
 	$World/Walker.visible = true
 	$Combat.call("select_weapon", selected_weapon)
@@ -273,6 +316,7 @@ func _start_round() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	feed_time = maxf(0.0, feed_time - delta)
 	_update_turf_display(delta)
 	match phase:
 		"intro":
@@ -312,6 +356,7 @@ func _physics_process(delta: float) -> void:
 	# The walker owns the squid/fire rule ("most recent press wins") and the buffered
 	# pop-out shot, so the controller only feeds it raw key state. Holding squid and
 	# pressing fire used to be silently ignored, and a tap just before surfacing was lost.
+	walker.get_node("Body").call("set_aim", alive and pointer_locked and not bool(walker.get("squid_form")))
 	var firing_pose := bool($Combat.get("rolling")) or float($Combat.get("firing_time")) > 0.0
 	walker.call("update_intent", delta, alive and firing, alive and Input.is_key_pressed(KEY_SHIFT),
 		bool($Combat.call("is_busy")), firing_pose, alive and throwing)
@@ -324,6 +369,8 @@ func _physics_process(delta: float) -> void:
 	else:
 		$Combat.call("advance_effects", delta)
 	_update_bot(delta)
+	for teammate in extra_bots:
+		_update_team_actor(teammate, delta)
 	$InkView.call("sync_dirty")
 	_update_hud()
 
@@ -333,6 +380,8 @@ func _finish_round() -> void:
 	phase_time = 0.0
 	$World/Walker.set("active", false)
 	$Bot.call("clear_attack_visual")
+	for teammate in extra_bots:
+		teammate.call("clear_attack_visual")
 	_set_pointer_lock(false)
 	_update_hud()
 
@@ -356,7 +405,7 @@ func paint_at_world(center: Vector3, team: int, radius: float, seed: float,
 	# points only while alive, which is the `_live()` guard hud.js applies.
 	var slot := clampi(team, 0, turf_area.size() - 1)
 	turf_area[slot] = float(turf_area[slot]) + area
-	if slot == 0 and player_respawn <= 0.0:
+	if slot == 0 and player_respawn <= 0.0 and not bot_painting:
 		turf_total += area * _points_per_m2
 	return area
 
@@ -376,6 +425,7 @@ func damage_bot(amount: float) -> void:
 	bot_last_damage = 0.0
 	bot_health = maxf(0.0, bot_health - amount)
 	if bot_health <= 0.0:
+		_record_splat($Bot, 0)
 		$Combat.call("_paint_player", $Bot.global_position + Vector3.UP * 0.35, 1.7, randf())
 		bot_respawn = float($Combat.get("weapon_data")["player"]["respawnTime"])
 		$Bot.visible = false
@@ -390,12 +440,17 @@ func damage_player(amount: float, bypass_invuln: bool = false) -> void:
 	player_last_damage = 0.0
 	player_health = maxf(0.0, player_health - amount)
 	if player_health <= 0.0:
+		local_deaths += 1
+		feed_text = "你被击倒了"
+		feed_time = 3.0
 		if not bypass_invuln:
 			paint_at_world($World/Walker.global_position + Vector3.UP * 0.35, 1, 1.7, randf())
 		player_respawn = float($Combat.get("weapon_data")["player"]["respawnTime"])
 		$World/Walker.set("active", false)
 		$World/Walker.visible = false
 		$Combat.call("on_death")
+		_set_pointer_lock(false)
+		paused = false
 
 
 func _update_player_vitals(delta: float) -> void:
@@ -447,6 +502,7 @@ func _update_player_respawn(delta: float) -> void:
 	player_ink_damage = 0.0
 	$Combat.set("ink_amount", float($Combat.get("weapon_data")["player"]["inkMax"]))
 	$Combat.call("select_weapon", selected_weapon)
+	_set_pointer_lock(true)
 
 
 func _update_bot(delta: float) -> void:
@@ -462,7 +518,9 @@ func _update_bot(delta: float) -> void:
 			bot.call("reset")
 		return
 	_update_bot_vitals(delta)
+	bot_painting = true
 	bot.call("tick", delta)
+	bot_painting = false
 
 
 func _update_bot_vitals(delta: float) -> void:
@@ -485,8 +543,12 @@ func _update_bot_vitals(delta: float) -> void:
 
 
 func _build_hud() -> void:
-	var layer := CanvasLayer.new()
-	add_child(layer)
+	var canvas := CanvasLayer.new()
+	add_child(canvas)
+	var layer := Control.new()
+	layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hud_root = layer
+	canvas.add_child(layer)
 	score_panel = _hud_panel(layer, "ScorePanel")
 	orange_score = _hud_label(score_panel, "OrangeScore", orange_color, 18)
 	blue_score = _hud_label(score_panel, "BlueScore", blue_color.lightened(0.45), 18)
@@ -533,11 +595,13 @@ func _build_hud() -> void:
 	crosshair.add_theme_color_override("font_shadow_color", Color.BLACK)
 	crosshair_layer.add_child(crosshair)
 	_build_weapon_menu(layer)
+	_build_team_ui(layer)
+	_build_settings_ui(layer)
 	get_viewport().size_changed.connect(_layout_hud)
 	_layout_hud()
 
 
-func _hud_panel(parent: CanvasLayer, name_text: String) -> Panel:
+func _hud_panel(parent: Node, name_text: String) -> Panel:
 	var panel := Panel.new()
 	panel.name = name_text
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -577,7 +641,7 @@ func _ui_style(background: Color, outline: Color, border_width: int, radius: int
 	return style
 
 
-func _build_weapon_menu(layer: CanvasLayer) -> void:
+func _build_weapon_menu(layer: Node) -> void:
 	menu_panel = Panel.new()
 	menu_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	menu_panel.add_theme_stylebox_override("panel", _ui_style(UI_PANEL, Color(1.0, 1.0, 1.0, 0.22), 3, 22))
@@ -594,7 +658,7 @@ func _build_weapon_menu(layer: CanvasLayer) -> void:
 	menu_hint = Label.new()
 	menu_hint.position = Vector2(0.0, 83.0)
 	menu_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	menu_hint.add_theme_font_size_override("font_size", 22)
+	menu_hint.add_theme_font_size_override("font_size", 18)
 	menu_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	menu_panel.add_child(menu_hint)
 	for index in weapon_order.size():
@@ -672,7 +736,9 @@ func _refresh_weapon_cards() -> void:
 
 
 func _layout_hud() -> void:
-	var size := get_viewport().get_visible_rect().size
+	var size := get_viewport().get_visible_rect().size / float(settings.get("ui_scale"))
+	hud_root.scale = Vector2.ONE * float(settings.get("ui_scale"))
+	hud_root.size = size
 	var score_width := minf(400.0, size.x - 24.0)
 	score_panel.position = Vector2((size.x - score_width) * 0.5, 12.0)
 	score_panel.size = Vector2(score_width, 86.0)
@@ -706,7 +772,7 @@ func _layout_hud() -> void:
 	special_bar.position = Vector2(13.0, 53.0)
 	special_bar.size = Vector2(184.0, 15.0)
 	var result_width := minf(520.0, size.x - 24.0)
-	result_panel.size = Vector2(result_width, 176.0)
+	result_panel.size = Vector2(result_width, 230.0)
 	result_panel.position = (size - result_panel.size) * 0.5
 	result_label.position = Vector2(12.0, 19.0)
 	result_label.size = Vector2(result_width - 24.0, 140.0)
@@ -717,12 +783,15 @@ func _layout_hud() -> void:
 	crosshair_layer.position = Vector2.ZERO
 	crosshair_layer.size = size
 	weapon_icon.position = Vector2(maxf(18.0, size.x - 114.0), 20.0)
+	_layout_team_ui(size)
 	var width := minf(850.0, size.x - 24.0)
-	menu_panel.size = Vector2(width, 330.0)
+	menu_panel.size = Vector2(width, 410.0)
 	menu_panel.position = (size - menu_panel.size) * 0.5
 	var title: Label = menu_panel.get_child(0)
 	title.size = Vector2(width, 58.0)
 	menu_hint.size = Vector2(width, 36.0)
+	setup_match_options.position = Vector2(24.0, 322.0)
+	setup_match_options.size = Vector2(width - 48.0, 48.0)
 	setup_options.position = Vector2(24.0, 260.0)
 	setup_options.size = Vector2(width - 48.0, 44.0)
 	var card_width := (width - 70.0) * 0.25
@@ -738,13 +807,15 @@ func _layout_hud() -> void:
 
 func _update_hud() -> void:
 	crosshair.visible = phase == "playing" and player_respawn <= 0.0 and pointer_locked
-	menu_panel.visible = phase == "setup" or (phase == "playing" and player_respawn > 0.0)
+	menu_panel.visible = (phase == "setup" or (phase == "playing" and player_respawn > 0.0)) and not settings_panel.visible
 	setup_options.visible = phase == "setup"
 	palette_select.disabled = phase != "setup"
 	colorblind_toggle.disabled = phase != "setup"
 	duration_select.disabled = phase != "setup"
 	bot_weapon_button.disabled = phase != "setup"
 	bot_weapon_button.text = "机器人：%s · B" % _weapon_text(selected_bot_weapon)
+	setup_match_options.visible = phase == "setup"
+	_update_team_ui()
 	for button in weapon_buttons.values():
 		(button as Button).disabled = not menu_panel.visible
 	if menu_panel.visible:
@@ -807,3 +878,313 @@ func _update_hud() -> void:
 		var charge_text := "  蓄力 %d%%" % int(charge * 100.0) if bool(combat.get("charging")) else ""
 		var controls := "WASD 移动 · 鼠标瞄准 · 空格跳跃 · Shift 潜墨 · 左键射击 · 右键炸弹 · F/Q 大招 · Esc 暂停"
 		hud.text = ("最后 %d 秒 · " % seconds if seconds <= final_countdown else "") + ("点击画面继续 · " if not pointer_locked else "") + controls + charge_text
+
+
+func team_mode() -> bool:
+	return MatchSetup.team_size == 5
+
+
+func _build_roster() -> void:
+	if not team_mode():
+		return
+	navigation = preload("res://team_navigation.gd").new()
+	navigation.call("setup", MatchSetup.map_id)
+	var bot_script := preload("res://tidewater_bot.gd")
+	var visual_script := preload("res://tidewater_character_visual.gd")
+	for team in range(2):
+		for slot in range(1, 5):
+			var actor := Node3D.new()
+			actor.name = "Ally_%d" % slot if team == 0 else "Rival_%d" % slot
+			actor.set_script(bot_script)
+			actor.set("team", team)
+			actor.set("slot", slot)
+			var body := Node3D.new()
+			body.name = "Body"
+			body.set_script(visual_script)
+			body.set("team", team)
+			body.set("style_index", slot % 4)
+			actor.add_child(body)
+			add_child(actor)
+			extra_bots.append(actor)
+			actor.call("setup", self, $World/Walker, $World/Map)
+			actor.call("select_weapon", String(weapon_order[(slot + team) % weapon_order.size()]))
+
+
+func all_actors() -> Array[Node3D]:
+	var actors: Array[Node3D] = [$World/Walker, $Bot]
+	actors.append_array(extra_bots)
+	return actors
+
+
+func actor_team(actor: Node3D) -> int:
+	return 0 if actor == $World/Walker else int(actor.get("team"))
+
+
+func actor_alive(actor: Node3D) -> bool:
+	if actor == $World/Walker:
+		return player_respawn <= 0.0
+	if actor == $Bot:
+		return bot_respawn <= 0.0
+	return float(actor.get("respawn_time")) <= 0.0
+
+
+func actor_health(actor: Node3D) -> float:
+	if actor == $World/Walker:
+		return player_health
+	if actor == $Bot:
+		return bot_health
+	return float(actor.get("health"))
+
+
+func enemies(team: int) -> Array[Node3D]:
+	var found: Array[Node3D] = []
+	for actor in all_actors():
+		if actor_team(actor) != team and actor_alive(actor):
+			found.append(actor)
+	return found
+
+
+func damage_actor(actor: Node3D, amount: float, source_team: int) -> void:
+	if actor_team(actor) == source_team:
+		return
+	if actor == $World/Walker:
+		damage_player(amount)
+	elif actor == $Bot:
+		damage_bot(amount)
+	elif phase == "playing" and actor_alive(actor) and float(actor.get("invuln")) <= 0.0 and amount > 0.0:
+		actor.set("last_damage", 0.0)
+		actor.set("health", maxf(0.0, float(actor.get("health")) - amount))
+		if float(actor.get("health")) <= 0.0:
+			_record_splat(actor, source_team)
+			paint_at_world(actor.global_position + Vector3.UP * 0.35, source_team, 1.7, randf())
+			actor.set("respawn_time", float($Combat.get("weapon_data")["player"]["respawnTime"]))
+			actor.visible = false
+			actor.call("clear_attack_visual")
+
+
+func _record_splat(actor: Node3D, source_team: int) -> void:
+	feed_text = "%s 击倒 %s" % [team_names[source_team], _actor_name(actor)]
+	feed_time = 3.0
+
+
+func _update_team_actor(actor: Node3D, delta: float) -> void:
+	var config: Dictionary = $Combat.get("weapon_data")["player"]
+	var wait := float(actor.get("respawn_time"))
+	if wait > 0.0:
+		wait = maxf(0.0, wait - delta)
+		actor.set("respawn_time", wait)
+		if wait <= 0.0:
+			actor.set("health", float(config["hp"]))
+			actor.set("invuln", float(config["spawnInvuln"]))
+			actor.call("reset")
+		return
+	actor.set("invuln", maxf(0.0, float(actor.get("invuln")) - delta))
+	actor.set("last_damage", float(actor.get("last_damage")) + delta)
+	var owner := int(actor.call("floor_ink_owner"))
+	var suffered := float(actor.get("ink_damage"))
+	if owner == 1 - actor_team(actor):
+		if float(actor.get("invuln")) <= 0.0:
+			var damage := minf(float(config["enemyInkDps"]) * delta, maxf(0.0, float(config["enemyInkDamageCap"]) - suffered))
+			actor.set("health", maxf(1.0, actor_health(actor) - damage))
+			actor.set("ink_damage", suffered + damage)
+		actor.set("last_damage", 0.4)
+	else:
+		actor.set("ink_damage", maxf(0.0, suffered - delta * 30.0))
+	if float(actor.get("last_damage")) > float(config["regenDelay"]):
+		actor.set("health", minf(float(config["hp"]), actor_health(actor) + float(config["regenRate"]) * delta))
+	bot_painting = true
+	actor.call("tick", delta)
+	bot_painting = false
+
+
+func _build_team_ui(layer: Node) -> void:
+	setup_match_options = HBoxContainer.new()
+	setup_match_options.add_theme_constant_override("separation", 16)
+	menu_panel.add_child(setup_match_options)
+	map_select = OptionButton.new()
+	map_select.add_item("潮水码头 · Tidewater")
+	map_select.add_item("海藻工坊 · Kelpline")
+	map_select.select(1 if MatchSetup.map_id == "kelpline" else 0)
+	map_select.item_selected.connect(_change_map)
+	setup_match_options.add_child(map_select)
+	mode_select = OptionButton.new()
+	mode_select.add_item("5 对 5 · 团队涂地")
+	mode_select.add_item("1 对 1 · 快速练习")
+	mode_select.select(0 if team_mode() else 1)
+	mode_select.item_selected.connect(_change_mode)
+	setup_match_options.add_child(mode_select)
+	style_select = OptionButton.new()
+	for text in ["珊瑚短发", "触须长发", "海风侧发", "潮汐束发"]:
+		style_select.add_item(text)
+	style_select.select(MatchSetup.style_index)
+	style_select.item_selected.connect(_change_style)
+	setup_match_options.add_child(style_select)
+	start_button = Button.new()
+	start_button.text = "开始对局  ↵"
+	start_button.custom_minimum_size = Vector2(130.0, 44.0)
+	start_button.add_theme_stylebox_override("normal", _ui_style(orange_color.darkened(0.4), orange_color, 2, 12))
+	start_button.pressed.connect(_begin_intro)
+	setup_match_options.add_child(start_button)
+	minimap = Control.new()
+	minimap.name = "TurfMinimap"
+	minimap.set_script(preload("res://turf_minimap.gd"))
+	layer.add_child(minimap)
+	minimap.call("setup", self)
+	roster_label = Label.new()
+	roster_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	roster_label.add_theme_font_size_override("font_size", 16)
+	roster_label.add_theme_color_override("font_outline_color", Color("17203a"))
+	roster_label.add_theme_constant_override("outline_size", 5)
+	roster_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(roster_label)
+	feed_label = Label.new()
+	feed_label.add_theme_font_size_override("font_size", 16)
+	feed_label.add_theme_color_override("font_outline_color", Color("17203a"))
+	feed_label.add_theme_constant_override("outline_size", 5)
+	feed_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(feed_label)
+	pause_panel = _hud_panel(layer, "PausePanel")
+	var rows := VBoxContainer.new()
+	rows.position = Vector2(24.0,16.0)
+	rows.size = Vector2(280.0,195.0)
+	rows.add_theme_constant_override("separation",12)
+	pause_panel.add_child(rows)
+	var heading := Label.new()
+	heading.text = "对局已暂停"
+	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	heading.add_theme_font_size_override("font_size",24)
+	rows.add_child(heading)
+	var resume := Button.new()
+	pause_resume_button = resume
+	resume.text = "继续对局"
+	resume.pressed.connect(func(): _set_pointer_lock(true); _update_hud())
+	rows.add_child(resume)
+	pause_settings_button = Button.new()
+	pause_settings_button.text = "设置"
+	pause_settings_button.pressed.connect(_open_settings)
+	rows.add_child(pause_settings_button)
+	var back := Button.new()
+	back.text = "返回赛前菜单"
+	back.pressed.connect(_reload_setup)
+	rows.add_child(back)
+	scoreboard_panel = _hud_panel(layer, "TeamRoster")
+	var header := _hud_label(scoreboard_panel, "TeamHeader", Color.WHITE, 22)
+	header.text = "队伍状态 · 松开 Tab 返回"
+	header.position = Vector2(16,16)
+	for team in range(2):
+		for slot in range(5):
+			var row := _hud_label(scoreboard_panel, "Roster_%d_%d" % [team,slot], TeamPalette.color(team).lightened(0.4), 16)
+			roster_rows.append(row)
+	result_actions = HBoxContainer.new()
+	result_actions.add_theme_constant_override("separation",12)
+	result_panel.add_child(result_actions)
+	for text in ["再开一局", "退出游戏"]:
+		var button := Button.new()
+		button.text = text
+		button.custom_minimum_size = Vector2(140,38)
+		if text == "再开一局":
+			button.pressed.connect(_reload_setup)
+		else:
+			button.pressed.connect(get_tree().quit)
+		result_actions.add_child(button)
+
+
+func _change_map(index: int) -> void:
+	if phase != "setup":
+		return
+	MatchSetup.map_id = "tidewater" if index == 0 else "kelpline"
+	_reload_setup()
+
+
+func _change_mode(index: int) -> void:
+	if phase != "setup":
+		return
+	MatchSetup.team_size = 5 if index == 0 else 1
+	_reload_setup()
+
+
+func _change_style(index: int) -> void:
+	if phase != "setup":
+		return
+	MatchSetup.style_index = clampi(index,0,3)
+	_reload_setup()
+
+
+func _layout_team_ui(view_size: Vector2) -> void:
+	minimap.position = Vector2(16,150)
+	minimap.size = Vector2(180,180)
+	roster_label.position = Vector2((view_size.x - 460.0) * 0.5,102.0)
+	roster_label.size = Vector2(460,30)
+	feed_label.position = Vector2(16,120)
+	feed_label.size = Vector2(300,28)
+	pause_panel.size = Vector2(328,245)
+	pause_panel.position = (view_size - pause_panel.size) * 0.5
+	scoreboard_panel.size = Vector2(minf(680.0, view_size.x - 32.0), 285.0)
+	scoreboard_panel.position = (view_size - scoreboard_panel.size) * 0.5
+	for index in roster_rows.size():
+		roster_rows[index].position = Vector2(16.0 + (index / 5) * scoreboard_panel.size.x * 0.5, 66.0 + (index % 5) * 39.0)
+		roster_rows[index].size = Vector2(scoreboard_panel.size.x * 0.5 - 24.0, 32.0)
+	settings_panel.size = Vector2(minf(470.0, view_size.x - 24.0), 440.0)
+	settings_panel.position = (view_size - settings_panel.size) * 0.5
+	result_actions.position = Vector2((result_panel.size.x - 292.0) * 0.5,result_panel.size.y - 45.0)
+
+
+func _update_team_ui() -> void:
+	minimap.visible = phase == "playing" and not paused and player_respawn <= 0.0
+	roster_label.visible = phase == "playing" or phase == "intro"
+	var live := [0,0]
+	for actor in all_actors():
+		if actor_alive(actor):
+			live[actor_team(actor)] += 1
+	roster_label.text = "%s  %d/%d   ·   %s  %d/%d" % [team_names[0],live[0],MatchSetup.team_size,team_names[1],live[1],MatchSetup.team_size]
+	feed_label.visible = phase == "playing" and feed_time > 0.0
+	feed_label.text = feed_text
+	pause_panel.visible = phase == "playing" and paused and player_respawn <= 0.0 and not settings_panel.visible
+	setup_settings_button.visible = phase == "setup" and not settings_panel.visible
+	result_actions.visible = phase == "results"
+	scoreboard_panel.visible = phase == "playing" and Input.is_key_pressed(KEY_TAB) and not settings_panel.visible and not paused
+	var roster := [[],[]]
+	for actor in all_actors():
+		roster[actor_team(actor)].append(actor)
+	for team in range(2):
+		for slot in range(5):
+			var row := roster_rows[team * 5 + slot]
+			row.visible = slot < roster[team].size()
+			if not row.visible:
+				continue
+			var actor: Node3D = roster[team][slot]
+			var weapon: String = selected_weapon if actor == $World/Walker else String(actor.get("weapon_id"))
+			row.text = "%s · %s · %s" % [_actor_name(actor), _weapon_text(weapon), "生命 %d" % int(actor_health(actor)) if actor_alive(actor) else "等待重生"]
+
+
+func _build_settings_ui(parent: Node) -> void:
+	setup_settings_button = Button.new()
+	setup_settings_button.text = "设置"
+	setup_settings_button.pressed.connect(_open_settings)
+	setup_match_options.add_child(setup_settings_button)
+	settings_panel = Panel.new()
+	settings_panel.set_script(SettingsPanel)
+	parent.add_child(settings_panel)
+	settings_panel.connect("saved", _on_settings_saved)
+	settings_panel.connect("closed", _update_hud)
+
+
+func _open_settings() -> void:
+	if phase != "setup" and not (phase == "playing" and paused and player_respawn <= 0.0):
+		return
+	settings_panel.call("open_with", settings, settings_path)
+	_update_hud()
+
+
+func _on_settings_saved() -> void:
+	settings.call("apply_to", $World/Walker)
+	_layout_hud()
+	_update_hud()
+
+
+func _actor_name(actor: Node3D) -> String:
+	if actor == $World/Walker:
+		return "你"
+	if actor == $Bot:
+		return "对手 1"
+	return "%s %d" % ["队友" if actor_team(actor) == 0 else "对手",int(actor.get("slot")) + (1 if actor_team(actor) == 1 else 0)]

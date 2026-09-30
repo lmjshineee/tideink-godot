@@ -17,6 +17,7 @@ var _frames_used := 0
 
 
 func _initialize() -> void:
+	preload("res://match_setup.gd").team_size = 1
 	call_deferred("_check")
 
 

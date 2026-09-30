@@ -1,5 +1,17 @@
 # 渲染实现与验证 · 2026-09-30
 
+## 最新候选：v0.3.0-preview.1 双地图团队版
+
+角色原版几何/蒙皮、HUD 与菜单、5v5 和 Kelpline 本批完成。见 [README](README.md) 的当前功能与迁移边界；下方 42/41/34/32 项及 1v1 是历史结果。
+
+- **工作区与独立发布快照均为 51 项通过、0 失败**（10 个导出校验 + 41 个短测）。最终规则入口：[release-checks.txt](render-evidence/release-checks.txt)。另有解析门槛五项隔离用例和跑速 6/12 非默认初始化检查。
+- 新增两个团队短测：十角色敌我命中/群体伤害/保护重生/原版骨骼与双地图权威计分；九机器人在两地图六秒模拟时间内全部离开出生区。设置两项短测从上一发布版并回。
+- 原生 Forward+ / Metal 短验收：[release-gui.txt](render-evidence/release-gui.txt)。鼠标开始、结果再开、设置保存和 110% 缩放；地图下拉以 PopupMenu 选择信号触发。1280×720 与 960×540 均检查菜单控件在边界内。
+- 截图：[角色](render-evidence/release-characters.png)、[Tidewater 菜单](render-evidence/release-tidewater-menu.png)、[缩放](render-evidence/release-tidewater-small.png)、[名单](render-evidence/release-tidewater-roster.png)、[战斗](render-evidence/release-tidewater-battle.png)、[结果](render-evidence/release-tidewater-results.png)；[Kelpline 菜单](render-evidence/release-kelpline-menu.png)、[战斗](render-evidence/release-kelpline-battle.png)、[结果](render-evidence/release-kelpline-results.png)及[设置](render-evidence/release-settings.png)。均已目视核验。
+- GUI 场景为短时自动验收：中场位置和数秒出生保护是截图条件，intro 等待缩短；没有把短流程或源码规则检查当作人工手感、完整图形对局、长期性能或温度验证。
+- 发布应用仅 Apple Silicon / arm64，临时签名、未经 Apple 公证；导出、签名/架构/无界面启动和 12 帧原生应用启动通过；ZIP 解压后再次校验签名与 arm64。见 [导出日志](render-evidence/release-export.txt)、[应用启动](render-evidence/release-app.txt)及 [构建/ZIP 哈希](render-evidence/release-build.json)。相同版本引擎直接加载最终 PCK 的两地图/十角色检查也通过，见 [PCK 检查](render-evidence/release-pck-check.txt)；这与应用本身的短启动是两项不同证据。
+
+
 默认 Tidewater 场景已接入 Forward+。**交付只面向 Apple Silicon / arm64；按用户最新要求，不再构建或验证 x86_64、Universal 或 Rosetta。**画面采用简约受光材质：天空/环境反射、方向光及阴影、轻量 SSAO、2× MSAA、地图表面的细缝、角色高光，以及湿润的橙蓝墨迹。旧网页与 CPU 归属/计分规则没有修改。
 
 ![当前战斗画面](preview-rendering.png)

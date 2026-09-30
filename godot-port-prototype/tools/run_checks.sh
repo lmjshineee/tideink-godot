@@ -58,18 +58,24 @@ failed=0
 passed=0
 
 # --- 2. 导出器 --check ---------------------------------------------------------
-EXPORTERS="export_tidewater_map export_tidewater_surfaces export_weapon_config export_ui_icons export_tidewater_visuals"
+EXPORTERS="export_tidewater_map export_tidewater_surfaces export_weapon_config export_ui_icons export_tidewater_visuals export_navigation export_characters"
 for name in $EXPORTERS; do
-    output=$("$NODE" "$HERE/tools/$name.mjs" --check 2>&1)
+    variants="default"
+    case "$name" in export_tidewater_map|export_tidewater_surfaces|export_tidewater_visuals) variants="default kelpline" ;; esac
+    for variant in $variants; do
+    map_flag=""
+    [ "$variant" = kelpline ] && map_flag="--kelpline"
+    output=$("$NODE" "$HERE/tools/$name.mjs" --check $map_flag 2>&1)
     status=$?
     if [ "$status" -eq 0 ]; then
-      printf 'PASS  %-28s --check\n' "$name"
+      printf 'PASS  %-28s --check %s\n' "$name" "$variant"
       passed=$((passed + 1))
     else
       printf 'FAIL  %-28s --check (exit=%s)\n' "$name" "$status"
       printf '%s\n' "$output" | grep -vE 'Reparsing|MODULE_TYPELESS|trace-warnings' | tail -6 | sed 's/^/      /'
       failed=$((failed + 1))
     fi
+    done
 done
 
 printf '\n'

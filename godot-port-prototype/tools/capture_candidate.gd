@@ -11,6 +11,7 @@ var output_label := "candidate"
 
 
 func _initialize() -> void:
+	preload("res://match_setup.gd").team_size = 1
 	for argument in OS.get_cmdline_user_args():
 		if argument.begins_with("--label="):
 			output_label = argument.trim_prefix("--label=").validate_filename()

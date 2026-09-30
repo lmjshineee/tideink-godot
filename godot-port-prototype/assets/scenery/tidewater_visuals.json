@@ -33,8 +33,8 @@
     "public/game/vendor/three/jsm/utils/BufferGeometryUtils.js": "9fb63427ce6641fa14fd0baff9cc4d1b5f9c3d85fd084bf2e90e803c44ec1797",
     "public/game/assets/fonts/TitanOne-latin.woff2": "f5f3f60e9246f7e78242697ef18f1fa78467dc4135312208b693e33678e78c4c",
     "public/game/assets/fonts/Rubik-latin.woff2": "99ec7ccb40cf143f977c893649deece6cc2dcc7c0ff82ebf84b6584090f207ea",
-    "godot-port-prototype/tools/lib/export_visual_scene.js": "0d37b22fe3f5bf5796f43464af75f4600f0d2c9c9e6e74d7d7d3e67f29e132fa",
-    "godot-port-prototype/tools/export_tidewater_visuals.mjs": "31342c6115a7da27a3a45d8f07a368ce974c54ad50a1e759c95c3801cca0dd66"
+    "godot-port-prototype/tools/lib/export_visual_scene.js": "37f5105938b3dd29c7bb1c056d8255968c361c9b3ca635b0f89e41ce375a0f0f",
+    "godot-port-prototype/tools/export_tidewater_visuals.mjs": "0764f58737bc22df64e781739d4d16f60053bc737b7869b3698ec3193fce977c"
   },
   "outputs": {
     "tidewater_visuals.glb": "bc4b376c43d9d7e86c4550a6d9a35e5375ba86befff93a794c420098b072ec57",

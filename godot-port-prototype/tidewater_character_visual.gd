@@ -21,6 +21,16 @@ extends Node3D
 # and stay unchanged; animation recomputes each part from its rest transform rather
 # than reparenting anything.
 @export_range(0, 1) var team := 0
+@export_range(0, 3) var style_index := 0
+const ORIGINAL_SURFACE := preload("res://character_surface.gdshader")
+static var _original_team_materials: Dictionary = {}
+var original_rig: Node3D
+var skeleton: Skeleton3D
+var original_weapons: Dictionary = {}
+var aiming := false
+var recoil := 0.0
+var action_time := 0.0
+var action_name := ""
 
 const TeamPalette := preload("res://team_palette.gd")
 const SKIN := Color("ffd9c2")
@@ -100,6 +110,7 @@ func _ready() -> void:
 	add_child(squid)
 	_build_kid()
 	_build_squid()
+	_install_original()
 	set_weapon(current_weapon)
 	set_form(false)
 	_previous_position = global_position
@@ -130,6 +141,8 @@ func set_weapon(weapon_id: String) -> void:
 	current_weapon = weapon_id
 	for id in weapon_models:
 		(weapon_models[id] as Node3D).visible = id == weapon_id
+	for id in original_weapons:
+		(original_weapons[id] as Node3D).visible = id == weapon_id
 
 
 # Read-only snapshot for the appearance check and for future spectators/name tags.
@@ -177,6 +190,8 @@ func _read_motion(delta: float) -> void:
 # ------------------------------------------------------------------ pose
 func _animate(delta: float) -> void:
 	_clock += delta
+	recoil = move_toward(recoil, 0.0, delta * 5.0)
+	action_time = maxf(0.0, action_time - delta)
 	var target_gait := 1.0 if (anim_grounded and moving) else 0.0
 	gait_weight = move_toward(gait_weight, target_gait, GAIT_BLEND * delta)
 	air_weight = move_toward(air_weight, 0.0 if anim_grounded else 1.0, AIR_BLEND * delta)
@@ -231,6 +246,7 @@ func _animate(delta: float) -> void:
 	# chest (they used to sit at a fixed offset relative to the body).
 	_apply_weapons_group(arm_r, torso_roll, Vector3(0.0, vertical + lift_r, 0.0))
 
+	_animate_original(leg_l, leg_r, torso_pitch, vertical, delta)
 	# Squid: a soft mantle bob plus fin flutter, faster while swimming.
 	var squid_bob := sin(_clock * TAU * 0.45) * 0.012 + sin(anim_phase * 2.0) * 0.02 * gait_weight
 	var flutter := sin(_clock * TAU * 1.15) * 0.16
@@ -444,3 +460,111 @@ func _cylinder(parent: Node3D, name_text: String, at: Vector3, radius: float, he
 	part.material_override = _material(color)
 	parent.add_child(part)
 	return part
+
+
+# Original skinned meshes and 87-bone rig. The primitive builder remains an offline
+# fallback and API adapter; all its meshes are hidden when the source assets load.
+func _install_original() -> void:
+	var path := "res://assets/characters/kid_%d.glb" % posmod(style_index, 4)
+	if not ResourceLoader.exists(path):
+		return
+	var packed := load(path) as PackedScene
+	if packed == null:
+		return
+	_hide_primitive_meshes(kid)
+	_hide_primitive_meshes(squid)
+	original_rig = packed.instantiate()
+	original_rig.name = "OriginalRig"
+	kid.add_child(original_rig)
+	skeleton = _find_skeleton(original_rig)
+	var squid_root := original_rig.find_child("SquidRig", true, false) as Node3D
+	if squid_root != null:
+		squid_root.reparent(squid)
+		squid_root.position.y = 0.2
+	_materialize_original(original_rig)
+	_materialize_original(squid)
+	for id in weapon_models:
+		var model := original_rig.find_child("Weapon_" + id, true, false) as Node3D
+		if model != null:
+			original_weapons[id] = model
+
+
+func _hide_primitive_meshes(node: Node) -> void:
+	if node is MeshInstance3D:
+		(node as MeshInstance3D).visible = false
+	for child in node.get_children():
+		_hide_primitive_meshes(child)
+
+
+func _materialize_original(node: Node) -> void:
+	if node is MeshInstance3D and node.get_parent() != kid:
+		if node.name == "TankGlass":
+			var glass := StandardMaterial3D.new()
+			glass.albedo_color = Color(0.65,0.9,1.0,0.18)
+			glass.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+			glass.roughness = 0.18
+			(node as MeshInstance3D).material_override = glass
+			return
+		var key := TeamPalette.color(team).to_html()
+		if not _original_team_materials.has(key):
+			var shared := ShaderMaterial.new()
+			shared.shader = ORIGINAL_SURFACE
+			shared.set_shader_parameter("team_color", TeamPalette.color(team))
+			_original_team_materials[key] = shared
+		(node as MeshInstance3D).material_override = _original_team_materials[key]
+	for child in node.get_children():
+		_materialize_original(child)
+
+
+func _find_skeleton(node: Node) -> Skeleton3D:
+	if node is Skeleton3D:
+		return node as Skeleton3D
+	for child in node.get_children():
+		var found := _find_skeleton(child)
+		if found != null:
+			return found
+	return null
+
+
+func set_action(name_text: String) -> void:
+	action_name = name_text
+	action_time = 0.6 if name_text == "flick" else 0.32
+	recoil = 0.17
+
+
+func set_aim(value: bool) -> void:
+	aiming = value
+
+
+func _bone_angle(name_text: String, pitch: float, yaw: float = 0.0, roll: float = 0.0) -> void:
+	var index := skeleton.find_bone(name_text)
+	if index >= 0:
+		skeleton.set_bone_pose_rotation(index, Quaternion.from_euler(Vector3(pitch, yaw, roll)))
+
+
+func _animate_original(left: float, right: float, lean: float, lift: float, _delta: float) -> void:
+	if skeleton == null:
+		return
+	_bone_angle("thighL", left * 0.75)
+	_bone_angle("thighR", right * 0.75)
+	_bone_angle("shinL", maxf(0.0, left) * 0.6)
+	_bone_angle("shinR", maxf(0.0, right) * 0.6)
+	_bone_angle("spine", lean * 0.5)
+	_bone_angle("head", -lean * 0.35)
+	var hold := -1.05 if aiming else -0.45
+	var swing := sin(anim_phase) * gait_weight * 0.24 * (0.15 if aiming else 1.0)
+	if current_weapon == "roller":
+		hold = -0.8
+	if action_name == "flick" and action_time > 0.0:
+		hold -= sin(action_time / 0.6 * PI) * 1.4
+	elif action_name == "throw" and action_time > 0.0:
+		hold -= sin(action_time / 0.32 * PI) * 0.9
+	_bone_angle("uArmR", hold + swing + recoil, 0.0, -0.12)
+	_bone_angle("uArmL", hold - swing, 0.0, 0.20)
+	_bone_angle("fArmR", -0.45 - recoil)
+	_bone_angle("fArmL", -0.65)
+	var hips := skeleton.find_bone("hips")
+	if hips >= 0:
+		skeleton.set_bone_pose_position(hips, Vector3(0.0, lift, 0.0))
+	for strand in range(8):
+		_bone_angle("hair%d_0" % strand, sin(_clock * 3.0 + strand) * 0.025 + lean * 0.2)

@@ -1,0 +1,5 @@
+PASS: valid production script
+PASS: syntax error exits nonzero without PASS
+PASS: broken preloaded dependency is identified
+PASS: runner stops before dependent scene checks
+PASS: runner continues after a valid preflight, without duplicating it

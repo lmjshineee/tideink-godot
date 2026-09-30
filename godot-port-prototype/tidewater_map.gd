@@ -2,8 +2,9 @@ extends Node3D
 
 # Structural map slice: visible blocks, collision shapes and source spawn pads.
 # Paintable faces, movement on ramps, and wall ink are separate migration steps.
-const MAP_FILE := "res://assets/maps/tidewater.json"
-const SURFACES_FILE := "res://assets/maps/tidewater_surfaces.json"
+const MatchSetup := preload("res://match_setup.gd")
+var MAP_FILE := "res://assets/maps/tidewater.json"
+var SURFACES_FILE := "res://assets/maps/tidewater_surfaces.json"
 const SURFACE_SHADER = preload("res://tidewater_surface.gdshader")
 
 var map_bounds := Rect2()
@@ -17,9 +18,11 @@ var _faces_by_block: Dictionary = {}
 
 
 func _ready() -> void:
+	MAP_FILE = "res://assets/maps/%s.json" % MatchSetup.map_id
+	SURFACES_FILE = "res://assets/maps/%s_surfaces.json" % MatchSetup.map_id
 	var content := FileAccess.get_file_as_string(MAP_FILE)
 	var parsed: Variant = JSON.parse_string(content)
-	if not parsed is Dictionary or parsed.get("schema") != 1 or parsed.get("id") != "tidewater":
+	if not parsed is Dictionary or parsed.get("schema") != 1 or parsed.get("id") != MatchSetup.map_id:
 		push_error("Could not load Tidewater source map: " + MAP_FILE)
 		return
 	_build(parsed)

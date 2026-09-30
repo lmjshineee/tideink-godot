@@ -16,6 +16,18 @@ const CHASE_RANGE := 13.0
 const CHASE_STOP := 3.8
 const BODY_RADIUS := 0.34
 
+var team_mover: CharacterBody3D
+var team := 1
+var slot := 0
+var health := 100.0
+var respawn_time := 0.0
+var invuln := 0.0
+var last_damage := 99.0
+var ink_damage := 0.0
+var route := PackedVector3Array()
+var route_index := 0
+var repath_time := 0.0
+var target_actor: Node3D
 var game: Node3D
 var walker: CharacterBody3D
 var map: Node3D
@@ -46,13 +58,34 @@ func setup(owner: Node3D, player: CharacterBody3D, level: Node3D) -> void:
 	$Body.call("configure_animation", game.get_node("Combat").get("weapon_data")["player"])
 	_body_shape = SphereShape3D.new()
 	_body_shape.radius = BODY_RADIUS
+	if game.has_method("team_mode") and bool(game.call("team_mode")):
+		team_mover = CharacterBody3D.new()
+		team_mover.name = "TeamMover"
+		team_mover.collision_layer = 4
+		team_mover.collision_mask = 1
+		team_mover.floor_snap_length = 0.35
+		var shape := CollisionShape3D.new()
+		var capsule := CapsuleShape3D.new()
+		capsule.radius = BODY_RADIUS
+		capsule.height = float(game.get_node("Combat").get("weapon_data")["player"]["height"])
+		shape.shape = capsule
+		shape.position.y = capsule.height * 0.5
+		team_mover.add_child(shape)
+		add_child(team_mover)
 	_build_feedback()
 	reset()
 
 
 func reset() -> void:
 	var pads: Array = map.get("spawn_pads")
-	global_position = pads[1] as Vector3
+	global_position = pads[team] as Vector3
+	if game.has_method("team_mode") and bool(game.call("team_mode")):
+		global_position += Vector3([0.0,-0.8,0.8,-1.6,1.6][slot], 0.05, 0.0)
+	if team_mover != null:
+		team_mover.position = Vector3.ZERO
+		team_mover.velocity = Vector3.ZERO
+	route.clear()
+	repath_time = 0.0
 	waypoint_index = 0
 	paint_cooldown = 0.0
 	attack_cooldown = 0.0
@@ -89,6 +122,9 @@ func clear_attack_visual() -> void:
 
 
 func tick(delta: float) -> void:
+	if game.has_method("team_mode") and bool(game.call("team_mode")):
+		_tick_team(delta)
+		return
 	var combat: Node3D = game.get_node("Combat")
 	var player_config: Dictionary = combat.get("weapon_data")["player"]
 	var weapon: Dictionary = combat.get("weapons")[weapon_id]
@@ -230,13 +266,13 @@ func _build_feedback() -> void:
 	fill_mesh.size = Vector3(0.70, 0.065, 0.035)
 	health_fill.mesh = fill_mesh
 	health_fill.position.z = 0.018
-	health_fill.material_override = _flat_material(TeamPalette.color(1).lightened(0.25))
+	health_fill.material_override = _flat_material(TeamPalette.color(team).lightened(0.25))
 	health_bar.add_child(health_fill)
 	attack_tracer = MeshInstance3D.new()
-	attack_tracer.name = "BotAttackTracer"
+	attack_tracer.name = "BotAttackTracer" if name == "Bot" else "%sAttackTracer" % name
 	attack_tracer_mesh = BoxMesh.new()
 	attack_tracer.mesh = attack_tracer_mesh
-	attack_tracer.material_override = _flat_material(TeamPalette.color(1).lightened(0.3))
+	attack_tracer.material_override = _flat_material(TeamPalette.color(team).lightened(0.3))
 	attack_tracer.visible = false
 	game.add_child(attack_tracer)
 
@@ -250,7 +286,7 @@ func _flat_material(color: Color) -> StandardMaterial3D:
 
 func _update_health_visual() -> void:
 	var max_health := float(game.get_node("Combat").get("weapon_data")["player"]["hp"])
-	var fraction := clampf(float(game.get("bot_health")) / max_health, 0.0, 1.0)
+	var fraction := clampf((float(game.call("actor_health", self)) if game.has_method("actor_health") else float(game.get("bot_health"))) / max_health, 0.0, 1.0)
 	health_fill.scale.x = maxf(0.001, fraction)
 	health_fill.position.x = (fraction - 1.0) * 0.35
 	var camera: Camera3D = walker.get_node("Camera3D")
@@ -346,4 +382,102 @@ func _can_see_player() -> bool:
 	var from := global_position + Vector3.UP
 	var to := walker.global_position + Vector3.UP * (0.3 if bool(walker.get("squid_form")) else 1.0)
 	var query := PhysicsRayQueryParameters3D.create(from, to, 1)
+	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
+
+
+func _tick_team(delta: float) -> void:
+	var combat: Node3D = game.get_node("Combat")
+	var config: Dictionary = combat.get("weapon_data")["player"]
+	var weapon: Dictionary = combat.get("weapons")[weapon_id]
+	attack_cooldown = maxf(0.0, attack_cooldown - delta)
+	attack_visual_time = maxf(0.0, attack_visual_time - delta)
+	attack_tracer.visible = attack_visual_time > 0.0
+	last_fire_time += delta
+	if last_fire_time > float(config["inkRefillDelay"]):
+		ink_amount = minf(float(config["inkMax"]), ink_amount + float(config["inkRefillKid"]) * delta)
+	_update_health_visual()
+	# Visibility and opponent selection belong to each bot, never to the local player alone.
+	target_actor = null
+	var best := CHASE_RANGE
+	for enemy in game.call("enemies", team):
+		var distance := global_position.distance_to(enemy.global_position)
+		if distance < best and _visible_actor(enemy):
+			best = distance
+			target_actor = enemy
+	repath_time -= delta
+	if repath_time <= 0.0 or route_index >= route.size():
+		var nav: RefCounted = game.get("navigation")
+		route = nav.call("route", global_position, target_actor.global_position, team) if target_actor != null else nav.call("patrol", global_position, team, slot)
+		route_index = 1 if route.size() > 1 else 0
+		repath_time = randf_range(1.0, 2.0)
+	var old := global_position
+	var travel := Vector3.ZERO
+	if route_index < route.size() and (target_actor == null or best > (1.0 if weapon_id == "roller" else CHASE_STOP)):
+		var next := route[route_index]
+		var offset := next - global_position
+		var horizontal := Vector3(offset.x,0.0,offset.z)
+		if horizontal.length() < 0.3 and absf(offset.y) < 0.65:
+			route_index += 1
+		else:
+			var speed := float(weapon["rollSpeed"]) if weapon_id == "roller" and ink_amount > 1.0 else float(config["runSpeed"])
+			travel = horizontal.normalized() * minf(speed, horizontal.length() / maxf(delta,0.001))
+	# A collision body owns support, walls and gravity; the source graph can include
+	# drop edges without teleporting through geometry or refusing every ledge.
+	team_mover.global_position = global_position
+	team_mover.velocity.x = travel.x
+	team_mover.velocity.z = travel.z
+	team_mover.velocity.y = -0.5 if team_mover.is_on_floor() else maxf(-30.0, team_mover.velocity.y - 24.0 * delta)
+	team_mover.move_and_slide()
+	global_position = team_mover.global_position
+	team_mover.position = Vector3.ZERO
+	if travel.length_squared() > 0.01 and global_position.distance_to(old) < delta * 0.15:
+		repath_time = 0.0
+	var movement := global_position - old
+	var aim := target_actor.global_position - global_position if target_actor != null else movement
+	if aim.length_squared() > 0.001:
+		$Body.rotation.y = lerp_angle($Body.rotation.y, atan2(aim.x, aim.z), minf(delta * 9.0, 1.0))
+	$Body.call("set_aim", target_actor != null)
+	paint_cooldown -= delta
+	if movement.length() > 0.001 and ink_amount > 1.0 and paint_cooldown <= 0.0:
+		paint_cooldown = PAINT_INTERVAL
+		game.call("paint_at_world", global_position + Vector3.UP * 0.12, team, 0.8, randf())
+		ink_amount = maxf(0.0, ink_amount - 0.6)
+	if target_actor == null:
+		charge_time = 0.0
+		return
+	var from := global_position + Vector3.UP * 1.05
+	var target := target_actor.global_position + Vector3.UP * 0.8
+	var attack_range := minf(ATTACK_RANGE, float(weapon.get("range", weapon.get("rangeMax", 5.5))))
+	if from.distance_to(target) > attack_range or attack_cooldown > 0.0:
+		return
+	match weapon_id:
+		"shooter", "blaster":
+			if ink_amount < float(weapon["inkPerShot"]):
+				return
+			ink_amount -= float(weapon["inkPerShot"])
+			attack_cooldown = float(weapon["fireInterval"])
+			combat.call("spawn_bot_shot", from, target, weapon_id, team)
+		"charger":
+			if ink_amount < float(weapon["inkFull"]):
+				return
+			charge_time += delta
+			if charge_time < float(weapon["chargeTime"]):
+				return
+			charge_time = 0.0
+			ink_amount -= float(weapon["inkFull"])
+			attack_cooldown = 0.28
+			combat.call("fire_bot_charger", from, target, 1.0, team)
+		"roller":
+			if ink_amount < float(weapon["flickInk"]):
+				return
+			ink_amount -= float(weapon["flickInk"])
+			attack_cooldown = float(weapon["flickInterval"])
+			combat.call("spawn_bot_flick", from, target, team)
+	last_fire_time = 0.0
+	$Body.call("set_action", "flick" if weapon_id == "roller" else "shoot")
+	attack_visual_time = 0.12
+
+
+func _visible_actor(actor: Node3D) -> bool:
+	var query := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP, actor.global_position + Vector3.UP * 0.8, 1)
 	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()

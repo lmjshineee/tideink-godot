@@ -3,6 +3,7 @@ extends CharacterBody3D
 # CharacterBody3D traversal for the exported Tidewater map.
 # Horizontal handling follows actor.js; kid/squid collision volumes share source dimensions.
 const LOOK_SENSITIVITY := 0.0021
+var look_sensitivity := LOOK_SENSITIVITY
 const CAMERA_DISTANCE := 4.5
 const CAMERA_HEIGHT := 1.85
 # Foot-probe constants from the source. physics.js:11 defines WALKABLE = 0.68, the
@@ -121,9 +122,9 @@ func _input(event: InputEvent) -> void:
 
 
 func apply_look_delta(relative: Vector2) -> void:
-	camera_yaw -= relative.x * LOOK_SENSITIVITY
+	camera_yaw -= relative.x * look_sensitivity
 	aim_yaw = camera_yaw
-	camera_pitch = clampf(camera_pitch - relative.y * LOOK_SENSITIVITY, -1.05, 1.15)
+	camera_pitch = clampf(camera_pitch - relative.y * look_sensitivity, -1.05, 1.15)
 	_update_camera()
 
 
@@ -736,7 +737,7 @@ func _apply_spawn_barrier() -> void:
 # The radius lives in the map export. The walker reads it directly instead of asking
 # tidewater_map.gd, which carries another workstream's uncommitted changes this round.
 func _load_spawn_barrier() -> void:
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/tidewater.json"))
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/%s.json" % preload("res://match_setup.gd").map_id))
 	if not parsed is Dictionary or not (parsed as Dictionary).has("spawnBarrier"):
 		push_warning("tidewater map has no spawnBarrier field; the spawn barrier is disabled")
 		return
@@ -835,3 +836,9 @@ func _floor_ink_owner() -> int:
 
 static func _vector(values: Array) -> Vector3:
 	return Vector3(float(values[0]), float(values[1]), float(values[2]))
+
+
+func _enter_tree() -> void:
+	var body := get_node_or_null("Body")
+	if body != null:
+		body.set("style_index", preload("res://match_setup.gd").style_index)

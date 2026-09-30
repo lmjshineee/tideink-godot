@@ -1,6 +1,7 @@
 extends Node3D
 
 # Visual-only original assets. Existing map JSON owns all 82 prop collisions.
+const MatchSetup := preload("res://match_setup.gd")
 const CLOTH = preload("res://tidewater_cloth.gdshader")
 const SEA = preload("res://tidewater_sea.gdshader")
 const MURAL = preload("res://tidewater_mural.gdshader")
@@ -12,7 +13,7 @@ var mural_count := 0
 
 
 func _ready() -> void:
-	var packed := load("res://assets/scenery/tidewater_visuals.glb") as PackedScene
+	var packed := load("res://assets/scenery/%s_visuals.glb" % MatchSetup.map_id) as PackedScene
 	if packed == null:
 		push_error("Missing exported Tidewater visuals")
 		return
@@ -59,7 +60,7 @@ func _prepare_materials(node: Node) -> void:
 
 func _add_murals() -> void:
 	var map: Node3D = get_parent()
-	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/tidewater.json"))
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/%s.json" % MatchSetup.map_id))
 	var atlas: Texture2D = load("res://assets/scenery/murals.png")
 	for team in range(2):
 		var values: Array = data["spawnPads"][team]

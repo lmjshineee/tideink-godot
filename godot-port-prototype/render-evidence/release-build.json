@@ -1,0 +1,22 @@
+{
+  "version": "v0.3.0-preview.1",
+  "engine": "Godot 4.8.dev6",
+  "architecture": "arm64",
+  "bundle_version": "0.3.0",
+  "signature": "ad-hoc; codesign --verify --deep --strict passed",
+  "notarized": false,
+  "executable_sha256": "4af12027049736746c6118cc3c70d6aa625c0f8080240b7276ad393eac4e1c5f",
+  "pck_sha256": "f0876b6a0d4608f054db6f7e22a1d3eb08454895c612c0c42af25f86ae9a410f",
+  "validation": {
+    "workspace_checks": 51,
+    "snapshot_checks": 51,
+    "native_app_frames": 12,
+    "native_gui": "two maps/5v5, original characters, setup/settings/roster/results; bounded fixtures",
+    "manual_full_round": false,
+    "sustained_performance_thermal": false,
+    "exported_pck_two_maps": "passed using Godot 4.8.dev6 --main-pack",
+    "zip_extracted_signature_and_arm64": "passed"
+  },
+  "zip_sha256": "2cf3b84c51b719fd1c115c89825d79b57db09ff0bd3f9f5302885996423a9d61",
+  "zip_bytes": 63129022
+}

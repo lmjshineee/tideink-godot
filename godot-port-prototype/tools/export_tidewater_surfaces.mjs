@@ -3,11 +3,14 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createRuntimeLevel, round6, vector3 } from './lib/runtime_level.mjs';
-import { TIDEWATER } from '../../public/game/src/world/maps.js';
+import { TIDEWATER, KELPLINE } from '../../public/game/src/world/maps.js';
+
+const mapId = process.argv.includes('--kelpline') ? 'kelpline' : 'tidewater';
+const MAP = mapId === 'kelpline' ? KELPLINE : TIDEWATER;
 
 // Built through the shared helper so the exported grid always matches the running
 // game, including the set-dressing prop colliders that bury turf cells.
-const { level, layoutId, dressingItems, colliders } = await createRuntimeLevel(TIDEWATER);
+const { level, layoutId, dressingItems, colliders } = await createRuntimeLevel(MAP);
 const round = round6;
 const vector = vector3;
 const cellSize = 0.25;
@@ -61,7 +64,7 @@ const faces = level.faces.map((face) => {
 const payload = {
   schema: 1,
   source: 'public/game/src/world/level.js:Level._buildFaces',
-  id: TIDEWATER.id,
+  id: MAP.id,
   layout: layoutId,
   // Provenance for the denominator: buried cells come from the level geometry AND
   // from the set-dressing prop colliders, so they are recorded together.
@@ -72,7 +75,7 @@ const payload = {
   turfCells,
   faces,
 };
-const output = new URL('../assets/maps/tidewater_surfaces.json', import.meta.url);
+const output = new URL(`../assets/maps/${mapId}_surfaces.json`, import.meta.url);
 const serialized = `${JSON.stringify(payload, null, 2)}\n`;
 
 if (process.argv.includes('--check')) {

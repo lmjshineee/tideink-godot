@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "sources": {
+    "../../public/game/src/game/character.js": "e47f7f97b9fc7c413adc31812f4367fc9a6f2bcd7b66459d023ead326ea65d4d",
+    "../../public/game/src/game/character-geo.js": "6494f29b533bb0346d09a95cbaa9b1e0b934bb20fdf88248ed4fc05a905b7627",
+    "../../public/game/src/game/character-mats.js": "53cf4fdd2db474eef730d7c447c7c07a0aa2bc94baae8c0f081759cdde4e95a1",
+    "../../public/game/src/game/character-weapons.js": "a75e15972dbce296fb5630358d570f1f206ed72c2626cb69a139f0fbf9451925",
+    "../../public/game/src/config.js": "7908f3cdb1c636cede95c6c013d3c9ed588361ba26b8e8694dcdfe458947abfc",
+    "./export_characters.mjs": "3b31023ec135ab44319dbb7bbc2381988e2873ad50fed9e365ace1db0ad44b2f"
+  },
+  "outputs": {
+    "kid_0.glb": "806985f779b65de704d128661edc0ea5451c9c590b77fd9bcded38ed332d0eae",
+    "kid_1.glb": "ef4a89dc024079e234547befce9e8e1dfd707e39b1ba257cc3f107d4817f389b",
+    "kid_2.glb": "8a534a9943bfb2c1f2aa10e027787a12de72ce6e2c776b54d4dc3eed48fb186d",
+    "kid_3.glb": "ec6cde19040fc674356ca757b56a5158b5b9098ad740ca2fd8aa035a1ad92700"
+  },
+  "stats": [
+    {
+      "style": 0,
+      "bones": 87,
+      "meshes": 20,
+      "triangles": 59998
+    },
+    {
+      "style": 1,
+      "bones": 87,
+      "meshes": 20,
+      "triangles": 60630
+    },
+    {
+      "style": 2,
+      "bones": 87,
+      "meshes": 20,
+      "triangles": 59798
+    },
+    {
+      "style": 3,
+      "bones": 87,
+      "meshes": 20,
+      "triangles": 60162
+    }
+  ],
+  "limitations": "Original geometry/skin weights; baked colour masks; Godot procedural animation and material, not original GLSL/IK/facial layers"
+}
