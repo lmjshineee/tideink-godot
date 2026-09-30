@@ -18,8 +18,11 @@ func _check() -> void:
 	for file in DirAccess.get_files_at("res://"):
 		if not file.ends_with(".gd"):
 			continue
-		# The engine logs the parse error itself; here it only needs to be noticed.
-		if load("res://" + file) == null:
+		# load() can return a non-null GDScript even after a parse/compile error.
+		# reload() checks compilation, including preloaded script dependencies,
+		# without instantiating the script or executing its game logic.
+		var script := load("res://" + file) as GDScript
+		if script == null or script.reload() != OK:
 			broken.append(file)
 	if not broken.is_empty():
 		broken.sort()

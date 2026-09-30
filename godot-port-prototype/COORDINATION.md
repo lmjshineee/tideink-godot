@@ -1,5 +1,13 @@
 # Godot Demo：Codex × DeepSeek 协作计划
 
+## DS-04 完成 · 2026-09-30
+
+按引用审查计划，本轮由 Codex 执行第一项 DS-04，完成后停止。`tools/check_scripts_parse.gd` 改用 `GDScript.reload()` 的编译返回码检查，避免非空但解析失败的资源误报；`tools/run_checks.sh` 在所有场景短测之前单独执行解析预检，失败立即退出，成功后不重复执行。保留 runner 既有五导出器改动及其他未提交渲染文件。
+
+验证：`python3 godot-port-prototype/tools/test_parse_gate.py` 的五项隔离用例通过（正常脚本、语法错误非零且无 PASS、坏 preload 依赖定位、失败不启动排序更早的哨兵场景、成功只跑一次预检后继续）；当前实际工程直接执行解析检查通过；`sh -n` 和 `git diff --check` 通过。隔离 runner 的导出器为桩，仅验证预检顺序与退出行为。执行主机为 arm64；未跑全套、图形试玩、导出或发布。本次解析日志在 `/private/tmp/inkwave-ds04-parse.engine.log`，长期可复现入口为上述 Python 短测。
+
+下一项为 **DS-05：角色动画跑速初始化**；下面 2026-09-29 的审查表与结论保留作依据，DS-04 的待办状态由本节取代。
+
 状态：2026-09-28。开发基线是本仓库 `codex/godot-playable-demo` 分支；`fd10b23` 是已发布 v0.1.0 的玩法代码。GitHub 的 [`lmjshineee/inkwave-godot-demo`](https://github.com/lmjshineee/inkwave-godot-demo) 是经过文件筛选的独立发布快照，**不是**本仓库的推送远端。对局目标是可玩的单机 1v1 Demo；不把联网、原作全部动画或 5v5 列为本轮完成条件。
 
 ## 1. 分工与顺序

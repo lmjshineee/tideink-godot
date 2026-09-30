@@ -4,7 +4,7 @@
 # 依次执行：
 #   1. 素材导入（仅在 assets/ 比上次戳记更新时）
 #   2. 每个导出器的 --check（需要 node；只读，不写生成物）
-#   3. tools/check_*.gd 的每个无界面规则短测
+#   3. 解析预检（失败立即停止），再执行其余无界面规则短测
 #
 # 用法：
 #   tools/run_checks.sh
@@ -99,7 +99,8 @@ run_limited() {
   wait "$limited_pid"
 }
 
-for path in "$HERE"/tools/check_*.gd; do
+run_check() {
+  path=$1
   name=$(basename "$path" .gd)
   log="$HERE/.godot/$name.log"
   run_limited "$GODOT" --headless --log-file "$HERE/.godot/$name.engine.log" --path "$HERE" --script "res://tools/$name.gd" >"$log" 2>&1
@@ -108,6 +109,7 @@ for path in "$HERE"/tools/check_*.gd; do
   if [ "$status" -eq 0 ] && grep -q '^PASS:' "$log" && [ -z "$problems" ]; then
     printf 'PASS  %s\n' "$name"
     passed=$((passed + 1))
+    return 0
   else
     if [ "$status" -eq 124 ]; then
       printf 'FAIL  %s (exceeded %ss and was killed)\n' "$name" "$CHECK_TIMEOUT"
@@ -121,7 +123,21 @@ for path in "$HERE"/tools/check_*.gd; do
       tail -4 "$log" | sed 's/^/      /'
     fi
     failed=$((failed + 1))
+    return 1
   fi
+}
+
+# Run this explicitly first: glob order otherwise starts dependent scene checks
+# before the parse gate. A failed gate must never launch the remaining scenes.
+if ! run_check "$HERE/tools/check_scripts_parse.gd"; then
+  printf '\n解析预检失败，停止后续规则短测。通过 %d，失败 %d\n' "$passed" "$failed"
+  printf '日志保留在 %s/*.log\n' "$HERE/.godot"
+  exit 1
+fi
+
+for path in "$HERE"/tools/check_*.gd; do
+  [ "$(basename "$path")" = check_scripts_parse.gd ] && continue
+  run_check "$path"
 done
 
 printf '\n%s\n' "----------------------------------------"
