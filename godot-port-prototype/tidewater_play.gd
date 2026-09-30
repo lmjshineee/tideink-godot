@@ -24,6 +24,7 @@ var weapon_order: Array = []
 const TeamPalette := preload("res://team_palette.gd")
 var orange_color := Color.WHITE
 var blue_color := Color.WHITE
+var team_names: Array[String] = []
 const UI_PANEL := Color(0.035, 0.045, 0.075, 0.92)
 
 var ink: RefCounted
@@ -87,6 +88,7 @@ var paused := false
 func _ready() -> void:
 	orange_color = TeamPalette.color(0)
 	blue_color = TeamPalette.color(1)
+	team_names = [TeamPalette.display_name(0), TeamPalette.display_name(1)]
 	_set_pointer_lock(false)
 	Engine.max_fps = 30
 	Engine.physics_ticks_per_second = 30
@@ -282,7 +284,7 @@ func _finish_round() -> void:
 func _judge_round() -> void:
 	judged_coverage = [float(ink.call("coverage", 0)), float(ink.call("coverage", 1))]
 	winner = randi_range(0, 1) if judged_coverage[0] == judged_coverage[1] else (0 if judged_coverage[0] > judged_coverage[1] else 1)
-	result = "橙队胜利" if winner == 0 else "蓝队胜利"
+	result = "%s胜利" % team_names[winner]
 	phase = "judge"
 	phase_time = 0.0
 	_update_hud()
@@ -430,8 +432,8 @@ func _build_hud() -> void:
 	var layer := CanvasLayer.new()
 	add_child(layer)
 	score_panel = _hud_panel(layer, "ScorePanel")
-	orange_score = _hud_label(score_panel, "OrangeScore", orange_color, 24)
-	blue_score = _hud_label(score_panel, "BlueScore", blue_color.lightened(0.45), 24)
+	orange_score = _hud_label(score_panel, "OrangeScore", orange_color, 18)
+	blue_score = _hud_label(score_panel, "BlueScore", blue_color.lightened(0.45), 18)
 	timer_label = _hud_label(score_panel, "Timer", Color.WHITE, 34)
 	timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var number_font := load("res://assets/fonts/TitanOne-latin.woff2") as Font
@@ -638,7 +640,7 @@ func _update_hud() -> void:
 	crosshair.visible = phase == "playing" and player_respawn <= 0.0 and pointer_locked
 	menu_panel.visible = phase == "setup" or (phase == "playing" and player_respawn > 0.0)
 	if menu_panel.visible:
-		menu_hint.text = ("橙队 1–4 · 蓝队 B：%s · Enter 开始" % _weapon_text(selected_bot_weapon)) if phase == "setup" else "等待重生 · 按 1–4 更换武器"
+		menu_hint.text = ("%s 1–4 · %s B：%s · Enter 开始" % [team_names[0], team_names[1], _weapon_text(selected_bot_weapon)]) if phase == "setup" else "等待重生 · 按 1–4 更换武器"
 	if shown_weapon != selected_weapon:
 		weapon_icon.texture = load("res://assets/ui/%s.svg" % selected_weapon) as Texture2D
 		shown_weapon = selected_weapon
@@ -646,8 +648,8 @@ func _update_hud() -> void:
 	var combat: Node3D = $Combat
 	var orange_percent := float(ink.call("coverage", 0)) * 100.0
 	var blue_percent := float(ink.call("coverage", 1)) * 100.0
-	orange_score.text = "橙 %.1f%%" % orange_percent
-	blue_score.text = "蓝 %.1f%%" % blue_percent
+	orange_score.text = "%s %.1f%%" % [team_names[0], orange_percent]
+	blue_score.text = "%s %.1f%%" % [team_names[1], blue_percent]
 	orange_bar.value = orange_percent
 	blue_bar.value = blue_percent
 	var seconds := int(ceil(round_left))
@@ -675,10 +677,11 @@ func _update_hud() -> void:
 	if phase == "finish":
 		result_label.text = "时间到\n等待裁判统计"
 	elif phase == "judge" or phase == "results":
-		result_label.text = "%s\n橙 %.1f%%   蓝 %.1f%%\n涂地 橙 %.1f m²   蓝 %.1f m²" % [
-			result, judged_coverage[0] * 100.0, judged_coverage[1] * 100.0, turf_area[0], turf_area[1]]
+		result_label.text = "%s\n%s %.1f%%   %s %.1f%%\n涂地 %s %.1f m²   %s %.1f m²" % [
+			result, team_names[0], judged_coverage[0] * 100.0, team_names[1], judged_coverage[1] * 100.0,
+			team_names[0], turf_area[0], team_names[1], turf_area[1]]
 	if phase == "setup":
-		hud.text = "赛前按 1–4 选橙队武器 · B 切换蓝队武器 · Enter 开始"
+		hud.text = "赛前按 1–4 选%s武器 · B 切换%s武器 · Enter 开始" % team_names
 	elif phase == "intro":
 		hud.text = "准备开战 · %d" % int(ceil(maxf(0.0, INTRO_SECONDS - phase_time)))
 	elif phase == "finish":

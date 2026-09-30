@@ -4,7 +4,11 @@
 
 后续实现以 [Godot 特性选型与迁移规范](MIGRATION.md) 为准；其中区分了样机行为和网页游戏的正式规则。
 
-![Tidewater 场景的赛前武器菜单，数帧截图](preview-tidewater.png)
+**2026-09-30 候选版：** DS-04、DS-05、CX-03、QA-02 均已完成本批范围。全套 **41 项通过、0 失败**（5 个导出器 + 36 个短测），见 [检查输出](render-evidence/candidate-checks.txt)。两队动画正确读取默认/非默认跑速；五组配色与色盲配色统一驱动角色、弹丸、出生台、墨迹 shader 与 HUD 队名。配色必须在场景创建前选定，本批没有设置 UI 或局中换色。
+
+[短时原生图形验收](render-evidence/candidate-qa.json)通过实际输入与物理更新跑通开局、移动、射击、潜墨回墨、滚筒、击倒重生、0.35 m 台阶和结算重开；测试设置了起点、台阶、墨量和伤害等条件，缩短介绍/重生/裁判等待，**不是人工手感或完整 90 秒图形对局验收**。[非默认配色](render-evidence/palette-mint-combat.png)与[色盲配色](render-evidence/palette-colorblind-combat.png)截图已检查。当前 arm64 候选应用已重新导出，架构、签名、无界面及 12 帧图形启动通过；详见 [RENDERING.md](RENDERING.md)。
+
+![本轮实际输入与物理更新中的滚筒画面](render-evidence/candidate-live.png)
 
 ## 运行
 
@@ -14,7 +18,7 @@
 ./godot-port-prototype/run.sh
 ```
 
-默认启动 Tidewater 真实地图场景。首次运行或素材改变后，脚本会做一次无界面的素材导入；后续运行不会重复导入。也可用 Godot 编辑器打开 `godot-port-prototype/project.godot`，按 F5 运行。上图是 1280×720 的短时图形截图，确认了赛前菜单与地形的静态布局；没有持续试玩。旧版平地样机可单独启动：
+默认启动 Tidewater 真实地图场景。首次运行或素材改变后，脚本会做一次无界面的素材导入；后续运行不会重复导入。也可用 Godot 编辑器打开 `godot-port-prototype/project.godot`，按 F5 运行。上图是 1280×720 的 Forward+ 自动输入短验收截图；此前还检查了墙面/坡道和 960×540 缩放，未运行持续试玩。旧版平地样机可单独启动：
 
 ```bash
 ./godot-port-prototype/run.sh --flat
@@ -31,7 +35,7 @@
 
 ### 验证
 
-唯一入口（素材导入 → 4 个导出器 `--check` → 全部规则短测，任一失败即非 0 退出）：
+唯一入口（素材导入 → 5 个导出器 `--check` → 全部规则短测，任一失败即非 0 退出）：
 
 ```bash
 NODE=$(command -v node) ./godot-port-prototype/tools/run_checks.sh
@@ -39,11 +43,15 @@ NODE=$(command -v node) ./godot-port-prototype/tools/run_checks.sh
 
 不要逐个手跑 `tools/check_*.gd`：这套东西正是那样漂移的（曾有 2 个短测长期失败而文档仍写"通过"）。runner 对每个检查有超时看门狗，脚本错误导致的挂死会变成可见的 FAIL。结论与门槛见[迁移规范](MIGRATION.md)§5。
 
-画面路线的渲染器已定为 **Forward+**（记录在[迁移规范](MIGRATION.md)§2「渲染路线决策」），但 `project.godot` 目前仍是 `gl_compatibility`，尚未执行切换。
+已补齐原版 144 处道具布置、18 面壁画，以及招牌、港口和远景模型；地面按原图案类型生成材质。场景视觉合并为 27 个网格，不重复添加既有的 82 个道具碰撞体。
+
+画面已接入 **Forward+ / Metal**：天空与环境光、方向光阴影、SSAO、2× MSAA、地图细缝和角色受光材质，以及带高光与柔化轮廓的墨迹。墨迹仍读取原有 CPU 归属格，显示不参与计分。截图、同场景短时采样、导出验证与剩余边界见 [渲染实现与验证](RENDERING.md)。
+
+若设备不适合 Forward+，可运行 `./godot-port-prototype/run.sh --compatibility`，使用不含 SSAO 的兼容渲染。两条路线均保持 30 FPS 上限；这不是温度保证。
 
 ### 导出 macOS 应用
 
-[导出预设](export_presets.cfg)固定 Universal 架构和本地 Demo 的 Bundle ID。本机现已安装与 Godot 4.8.dev6 匹配的[官方导出模板](https://godotengine.org/download/archive/4.8-dev6/)；在仓库根目录运行 `./godot-port-prototype/export_macos.sh` 可生成 `godot-port-prototype/build/INKWAVE Demo.app`。2026-09-27 已实际导出：包内 arm64/x86_64 可执行文件、资源包和临时签名校验通过，导出的程序以 `--headless --quit-after 2` 启动没有脚本或场景错误；另用 `--quit-after 60` 确认导出程序能创建图形窗口并在约三秒后退出。脚本会重复执行导入、导出、日志、签名和无界面短启动检查。项目源场景已做数帧画面检查；导出的 `.app` 仍需检查真实输入、完整对局和设备温度。向他人分发另需处理正式签名与公证。
+[导出预设](export_presets.cfg)固定 **Apple Silicon / arm64** 和本地 Demo 的 Bundle ID。用户已明确要求不再做 x86：不构建 Universal，不测试 x86_64/Rosetta，不以 Intel Mac 验收作为后续工作。运行 `./godot-port-prototype/export_macos.sh` 生成 `godot-port-prototype/build/INKWAVE Demo.app`。脚本会从本机已安装模板中准备仅 arm64 的模板，然后执行导入、导出、架构核对、日志检查、签名校验和无界面短启动（需要 `python3` 与 macOS `lipo`）。当前渲染批次的图形启动与证据见 [RENDERING.md](RENDERING.md)；本批部分输入/流程已通过自动短验收，人工手感、完整图形对局与设备温度尚未验收。向他人分发另需处理正式签名与公证。
 
 ## 从原项目迁移了什么
 
@@ -55,12 +63,12 @@ NODE=$(command -v node) ./godot-port-prototype/tools/run_checks.sh
 
 - `tools/export_tidewater_map.mjs` 从网页 `maps.js` 和 `Level` 导出 63 个结构块及其准确变换，并追加 82 个场景道具碰撞块（`hidden`/`solid`/不可涂，与网页 `level.js:27` 一致，共 145 块）；`tools/export_tidewater_surfaces.mjs` 导出 289 个可见面，保留地面/墙面、可涂与计分标记。两个导出器共用 `tools/lib/runtime_level.mjs` 构造与运行时相同的 `Level`（含道具碰撞盒），构造不一致会直接抛错。运行 `--check` 可检查生成数据与网页源码是否一致。
 - [tidewater_map.tscn](tidewater_map.tscn) 无界面加载时生成 63 个碰撞体、10 个坡道和两个出生点；可通过碰撞体的来源 ID、命中点和法线定位原地图表面。Godot 4.8.dev6 的短时无界面检查通过，检查脚本见 [tools/check_tidewater_scene.gd](tools/check_tidewater_scene.gd)。
-- 独立 [步行场](tidewater_walk.tscn)使用 `CharacterBody3D`，短测已检查落在出生平台、横穿平台并沿原地图坡道下降。[角色控制器](tidewater_walker.gd)按原 `actor.js` 参数实现水平起步、刹车、反向和转向，以及潜墨/敌墨速度变化；无界面行为检查见 [check_tidewater_handling.gd](tools/check_tidewater_handling.gd)。[跳跃检查](tools/check_tidewater_jump.gd)覆盖提前按键缓存、离地宽限、己方/敌方墨跳跃、顶点/下落重力和真实场景中的空格起跳。[形态检查](tools/check_tidewater_form.gd)覆盖低矮碰撞体、顶棚下禁止站起及空间清空后恢复站立。墙面短测还检查了干墙与敌方墨墙无法附着、己方墨墙爬升、松开潜墨脱离及顶边弹出。潜墨碰撞体目前用 12 边凸棱柱近似原作圆形体积；[台阶短测](tools/check_tidewater_steps.gd)覆盖 0.35 m 上台阶、下台阶、临边足迹和 0.9 m 障碍不可越过；[朝向短测](tools/check_tidewater_face.gd)覆盖角速度限制、滑行、开火/潜墨朝向与鼠标瞄准接线。完整落地缓冲与实际移动手感仍未验收。
+- 独立 [步行场](tidewater_walk.tscn)使用 `CharacterBody3D`，短测已检查落在出生平台、横穿平台并沿原地图坡道下降。[角色控制器](tidewater_walker.gd)按原 `actor.js` 参数实现水平起步、刹车、反向和转向，以及潜墨/敌墨速度变化；无界面行为检查见 [check_tidewater_handling.gd](tools/check_tidewater_handling.gd)。[跳跃检查](tools/check_tidewater_jump.gd)覆盖提前按键缓存、离地宽限、己方/敌方墨跳跃、顶点/下落重力和真实场景中的空格起跳。[形态检查](tools/check_tidewater_form.gd)覆盖低矮碰撞体、顶棚下禁止站起及空间清空后恢复站立。墙面短测还检查了干墙与敌方墨墙无法附着、己方墨墙爬升、松开潜墨脱离及顶边弹出。潜墨碰撞体按源码 `squidBodyLift`、半径和高度生成退化胶囊（球体），kid 身体按 `stepUp` 抬升；[台阶短测](tools/check_tidewater_steps.gd)覆盖 0.35 m 上台阶、下台阶、临边足迹和 0.9 m 障碍不可越过；[朝向短测](tools/check_tidewater_face.gd)覆盖角速度限制、滑行、开火/潜墨朝向与鼠标瞄准接线。高速落地减速与恢复、kid/squid 身体抬升及 ledgeAssist 已有短测；人工移动手感仍未验收。
 - [多表面归属格](surface_ink.gd)加载了 285 个可涂面、其中 61 个计分面与 **69,366 个有效计分格**（含场景道具压住的格子，与运行时一致）。短测已检查涂地、重复涂、敌方覆盖、墙面涂墨不改变计分、掠射墨团的拉伸形状，以及 0–1 覆盖率接口；真实地图墨迹已有显示层，数帧近景确认地面涂墨可见，涂墨动画和整局显示效果仍未验收。
-- [tidewater_play.tscn](tidewater_play.tscn)把地图碰撞、角色采样、[多表面墨迹显示](surface_ink_view.gd)和同一份 CPU 计分状态连成独立实验场。墨迹网格与纹理在首次涂到相应表面时才创建；无界面短测检查了空场景零墨迹资源、重涂不重复创建、角色读取己方墨以及敌方覆盖后的纹理更新。[生命规则检查](tools/check_tidewater_vitals.gd)覆盖敌墨伤害上限、离墨后回血、己方墨潜行加速回血及出生保护；[蓝队生命检查](tools/check_tidewater_bot_vitals.gd)覆盖蓝队同配置的普通生命与重生规则。显示仍是 0.25 米格子，未实现网页的流动边缘、墨迹扩张或甩墨拉伸。
+- [tidewater_play.tscn](tidewater_play.tscn)把地图碰撞、角色采样、[多表面墨迹显示](surface_ink_view.gd)和同一份 CPU 计分状态连成独立实验场。墨迹网格与纹理在首次涂到相应表面时才创建；无界面短测检查了空场景零墨迹资源、重涂不重复创建、角色读取己方墨以及敌方覆盖后的纹理更新。[生命规则检查](tools/check_tidewater_vitals.gd)覆盖敌墨伤害上限、离墨后回血、己方墨潜行加速回血及出生保护；[蓝队生命检查](tools/check_tidewater_bot_vitals.gd)覆盖蓝队同配置的普通生命与重生规则。归属仍是 0.25 米格子；显示使用插值轮廓、湿润高光与细微法线起伏，最大视觉边界差异约半格。未实现网页的流动边缘与扩张动画；射击方向拉伸仍由既有 CPU 规则产生。
 - `tools/export_weapon_config.mjs` 从网页 [config.js](../public/game/src/config.js) 导出四武器、墨水炸弹、两种大招、水平移动/攀爬、生命、重生和补墨参数到 `assets/weapons.json`；[tidewater_combat.gd](tidewater_combat.gd)读取这些参数并实现四武器、炸弹与大招的核心事件。涂墨面积充能，冲击波跃起落地涂墨并伤害，墨雨投出后持续漂移、涂墨并伤害；死亡后充能减半。[大招短测](tools/check_tidewater_special.gd)覆盖参数、充能、装甲、落地、弹体变云、持续效果与消失。大招表现仍是简化球体/冲击墨迹，没有原网页完整动画和粒子。
-- [蓝队样机](tidewater_bot.gd)把移动、地面涂墨和近距离攻击从对局控制器拆出；攻击有短暂蓝色轨迹，头顶血条显示受伤情况。无界面检查确认其从出生区进入中场、路线避开静态碰撞、蓝队计分面积增加且终场停止。[追击短测](tools/check_tidewater_bot_chase.gd)还检查可见玩家吸引蓝队、安全身体位置，以及玩家重生时沿追击路径退回巡逻。[蓝队武器短测](tools/check_tidewater_bot_loadout.gd)覆盖赛前选配、四武器攻击、阵营涂墨和重生后武器保留。[整局时间模拟](tools/check_tidewater_full_round.gd)检查暂停、90 秒蓝队涂墨、裁判和结果页；它不验证画面、玩家操作或实际运行 90 秒。蓝队仍缺少原网页的动态寻路、完整武器状态和潜墨。默认场景现为 Tidewater；旧 `main.tscn` 保留为平地样机。已检查部分静态画面，完整图形对局尚未验收。
-- [简化角色外观](tidewater_character_visual.gd)为玩家和蓝队生成人形、潜墨体及四种武器的低面数模型；仅从控制器读取阵营、形态和选中武器，不参与碰撞或伤害判定。[外观短测](tools/check_tidewater_visual.gd)核对蓝队颜色、武器显隐、形态切换、蓝队朝向及战斗反馈。数帧截图确认了玩家和蓝队的静态外形；它还不是网页的程序化角色模型、骨骼动作或武器动画，动作与手感尚未验收。
+- [蓝队样机](tidewater_bot.gd)把移动、地面涂墨和近距离攻击从对局控制器拆出；攻击有跟随队色的短暂轨迹，头顶血条显示受伤情况。无界面检查确认其从出生区进入中场、路线避开静态碰撞、蓝队计分面积增加且终场停止。[追击短测](tools/check_tidewater_bot_chase.gd)还检查可见玩家吸引蓝队、安全身体位置，以及玩家重生时沿追击路径退回巡逻。[蓝队武器短测](tools/check_tidewater_bot_loadout.gd)覆盖赛前选配、四武器攻击、阵营涂墨和重生后武器保留。[整局时间模拟](tools/check_tidewater_full_round.gd)检查暂停、90 秒蓝队涂墨、裁判和结果页；它不验证画面、玩家操作或实际运行 90 秒。蓝队仍缺少原网页的动态寻路、完整武器状态和潜墨。默认场景现为 Tidewater；旧 `main.tscn` 保留为平地样机。已检查部分静态画面，完整图形对局尚未验收。
+- [简化角色外观](tidewater_character_visual.gd)为玩家和蓝队生成人形、潜墨体及四种武器的低面数模型；从控制器读取阵营、形态、选中武器及运动状态，不参与碰撞或伤害判定。[外观短测](tools/check_tidewater_visual.gd)核对蓝队颜色、武器显隐、形态切换、蓝队朝向及战斗反馈。已按网页程序化外形补齐基础待机呼吸、行走摆腿及腾空姿态；跑速在 owner 配置就绪后通过 `configure_animation` 单向传入。默认 6 和注入 12 的腿部摆幅验证见 [初始化短测](tools/test_visual_config.py)。完整骨骼/武器动作和人工手感仍未验收。
 
 ## 界面素材
 
@@ -70,6 +78,12 @@ NODE=$(command -v node) ./godot-port-prototype/tools/run_checks.sh
 
 ## 边界
 
-旧平地样机的墨迹仅覆盖地面；四种武器只保留核心行为。默认真实地图场景已有墙面/坡道墨迹格、显示层、相机转向和准星、己方墙面基础攀爬、低矮潜墨碰撞体、玩家敌墨伤害与回血、四武器/炸弹/两类大招的核心事件和简化伤害/重生循环，但缺少完整命中判定、甩墨形变、完整落地缓冲、完整角色动画与大招特效、完整机器人策略、网络联机及完整 UI 动效。温度目标必须在同一台 Mac 上以相同窗口大小和帧率实测，不能由引擎名称推断。
+旧平地样机的墨迹仅覆盖地面；四种武器只保留核心行为。默认真实地图场景已有墙面/坡道墨迹格、显示层、相机转向和准星、己方墙面基础攀爬、低矮潜墨碰撞体、玩家敌墨伤害与回血、四武器/炸弹/两类大招的核心事件和简化伤害/重生循环，但缺少完整命中判定、甩墨形变、完整角色动画与大招特效、完整机器人策略、网络联机及完整 UI 动效。温度目标必须在同一台 Mac 上以相同窗口大小和帧率实测，不能由引擎名称推断。
 
 旧平地样机在 Godot 4.6.2 中完成过素材导入、三帧无界面启动检查和[两帧图形截图](preview.png)。默认 Tidewater 场景现在以 Godot 4.8.dev6 完成了赛前、开局及蓝队近景的数帧截图，并修复了截图发现的武器图标溢出和底部提示可读性问题。完整图形试玩、长期性能和设备温度尚未测试。
+
+### 2026-09-29 渲染批次（历史记录）
+
+已接入默认 Forward+ 场景，原 Compatibility 无光照截图保留作历史基线。新增的 `tools/capture_rendering.gd` 自动截取菜单、固定涂墨战斗场景、俯瞰、缩放、墙面与坡道，并在数秒后退出；不会启动编辑器或持续运行一局。详细证据与复现命令见 [RENDERING.md](RENDERING.md)。
+
+本批地图与场景渲染已完成并停止：34 项检查通过，arm64 应用已导出并短时启动。给 DS 的接续范围见 [COORDINATION.md](COORDINATION.md)；该条交接已由本页顶部的 2026-09-30 候选状态取代；当前已实现基础角色外形/动作，完整动作与战斗特效仍待后续实现。

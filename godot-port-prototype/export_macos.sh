@@ -14,6 +14,7 @@ else
 fi
 
 mkdir -p "$PROJECT_DIR/build" "$PROJECT_DIR/.godot"
+python3 "$PROJECT_DIR/tools/prepare_arm64_template.py" "$("$GODOT_BIN" --version)"
 "$GODOT_BIN" --headless --log-file "$PROJECT_DIR/.godot/import.log" --path "$PROJECT_DIR" --import
 "$GODOT_BIN" --headless --log-file "$PROJECT_DIR/.godot/export.log" --path "$PROJECT_DIR" \
   --export-release macOS "$OUTPUT_APP"
@@ -21,6 +22,12 @@ mkdir -p "$PROJECT_DIR/build" "$PROJECT_DIR/.godot"
 APP_EXEC=$(find "$OUTPUT_APP/Contents/MacOS" -type f -perm -111 -print -quit 2>/dev/null || true)
 if [ ! -d "$OUTPUT_APP/Contents/MacOS" ] || [ -z "$APP_EXEC" ]; then
   printf '%s\n' '导出命令结束，但没有找到可执行的 macOS .app。请检查 .godot/export.log。' >&2
+  exit 1
+fi
+
+# Project policy: Apple Silicon only. Reject a stale or misconfigured fat build.
+if [ "$(lipo -archs "$APP_EXEC")" != "arm64" ]; then
+  printf '%s\n' '导出架构不符合项目约定：只允许 arm64。' >&2
   exit 1
 fi
 

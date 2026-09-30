@@ -2,14 +2,16 @@
 set -eu
 HERE=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 SCENE=
-case "${1:-}" in
-  --flat) SCENE=res://main.tscn; shift ;;
-  --tidewater) SCENE=res://tidewater_play.tscn; shift ;;
-esac
-if [ "$#" -ne 0 ]; then
-  printf '%s\n' '用法: run.sh [--flat|--tidewater]' >&2
-  exit 2
-fi
+RENDERER=forward_plus
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --flat) SCENE=res://main.tscn ;;
+    --tidewater) SCENE=res://tidewater_play.tscn ;;
+    --compatibility) RENDERER=gl_compatibility ;;
+    *) printf '%s\n' '用法: run.sh [--flat|--tidewater] [--compatibility]' >&2; exit 2 ;;
+  esac
+  shift
+done
 if [ -x /Applications/Godot.app/Contents/MacOS/Godot ]; then
   GODOT=/Applications/Godot.app/Contents/MacOS/Godot
 elif command -v godot >/dev/null 2>&1; then
@@ -26,6 +28,6 @@ if [ ! -f "$STAMP" ] || [ -n "$(find "$HERE/assets" -type f -newer "$STAMP" -pri
   touch "$STAMP"
 fi
 if [ -n "$SCENE" ]; then
-  exec "$GODOT" --log-file "$HERE/.godot/run.log" --path "$HERE" "$SCENE"
+  exec "$GODOT" --log-file "$HERE/.godot/run.log" --path "$HERE" --rendering-method "$RENDERER" "$SCENE"
 fi
-exec "$GODOT" --log-file "$HERE/.godot/run.log" --path "$HERE"
+exec "$GODOT" --log-file "$HERE/.godot/run.log" --path "$HERE" --rendering-method "$RENDERER"

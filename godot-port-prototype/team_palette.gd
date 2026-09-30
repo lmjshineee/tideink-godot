@@ -8,13 +8,9 @@ extends RefCounted
 # all read them here now, so the palette is config.js data instead of six literals, and
 # check_team_palette.gd fails if a copy grows back.
 #
-# The web picks a palette in its settings and swaps COLORBLIND_PALETTE in when
-# settings.colorblind is on; select() and set_colorblind() are that switch. No UI calls
-# them yet, on purpose: the ink's colours are baked into surface_ink_view.gd, which
-# carries another workstream's uncommitted changes, so switching today would recolour the
-# HUD, the characters and the projectiles while the paint on the ground stayed orange and
-# blue. Once that file reads color() (one line at its `TEAM_COLORS[value - 1]` lookup), a
-# settings entry can call these two.
+# select() and set_colorblind() must run before scene creation. The ink view
+# captures the same palette as character materials, spawn pads and HUD labels.
+# No settings UI or live-match switching is part of this batch.
 #
 # Colours taken at build time stay put: label and material colours are assigned while the
 # scene builds, so a switch applies to visuals built afterwards unless the caller rebuilds

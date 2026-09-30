@@ -1,0 +1,5 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-09-30 11:09:38.960 Godot[23836:6575204] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+PASS: {"adapter":"Apple M5 (Apple9)","checks":["Enter intro and WASD movement","live shooter input and turf HUD","live Shift submerge and ink refill","lethal damage, respawn selection and restoration","live roller input","live step up/down on isolated visible 0.35m curb","accelerated finish/judge/results and Enter restart"],"engine":"4.8-dev6 (official)","note":"Native automated input/physics smoke; injected fixtures and shortened waits; not manual or full-duration/thermal acceptance.","renderer":"forward_plus"}

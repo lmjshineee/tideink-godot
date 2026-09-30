@@ -1,0 +1,15 @@
+{
+	"adapter": "Apple M5 (Apple9)",
+	"checks": [
+		"Enter intro and WASD movement",
+		"live shooter input and turf HUD",
+		"live Shift submerge and ink refill",
+		"lethal damage, respawn selection and restoration",
+		"live roller input",
+		"live step up/down on isolated visible 0.35m curb",
+		"accelerated finish/judge/results and Enter restart"
+	],
+	"engine": "4.8-dev6 (official)",
+	"note": "Native automated input/physics smoke; injected fixtures and shortened waits; not manual or full-duration/thermal acceptance.",
+	"renderer": "forward_plus"
+}

@@ -50,7 +50,7 @@ func _check() -> void:
 		_fail("finish overlay or crosshair visibility")
 		return
 	scene.call("_judge_round")
-	if not (scene.get("result_label") as Label).text.contains("橙队胜利"):
+	if not (scene.get("result_label") as Label).text.contains(String(scene.get("team_names")[0]) + "胜利"):
 		_fail("result panel does not show the judge result")
 		return
 	print("PASS: HUD layout, score/time/ink/health/special bindings and phase overlays")

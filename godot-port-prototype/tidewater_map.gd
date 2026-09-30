@@ -4,6 +4,7 @@ extends Node3D
 # Paintable faces, movement on ramps, and wall ink are separate migration steps.
 const MAP_FILE := "res://assets/maps/tidewater.json"
 const SURFACES_FILE := "res://assets/maps/tidewater_surfaces.json"
+const SURFACE_SHADER = preload("res://tidewater_surface.gdshader")
 
 var map_bounds := Rect2()
 var block_count := 0
@@ -106,17 +107,20 @@ func _add_block(def: Dictionary) -> void:
 		var mesh := BoxMesh.new()
 		mesh.size = size
 		visual.mesh = mesh
-		visual.material_override = _material(String(def.get("color", "#dddddd")))
+		visual.material_override = _material(String(def.get("color", "#dddddd")), int(def.get("pattern", 0)), size)
 		block.add_child(visual)
 
 
-func _material(hex: String) -> StandardMaterial3D:
-	if not _materials.has(hex):
-		var material := StandardMaterial3D.new()
-		material.albedo_color = Color(hex)
-		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		_materials[hex] = material
-	return _materials[hex] as StandardMaterial3D
+func _material(hex: String, pattern: int, size: Vector3) -> ShaderMaterial:
+	var key := "%s:%d:%s" % [hex, pattern, size]
+	if not _materials.has(key):
+		var material := ShaderMaterial.new()
+		material.shader = SURFACE_SHADER
+		material.set_shader_parameter("base_color", Color(hex))
+		material.set_shader_parameter("pattern", pattern)
+		material.set_shader_parameter("block_size", size)
+		_materials[key] = material
+	return _materials[key] as ShaderMaterial
 
 
 static func _vector(values: Array) -> Vector3:

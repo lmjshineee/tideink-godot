@@ -1,5 +1,16 @@
 # Godot Demo：Codex × DeepSeek 协作计划
 
+## 本批完成并停止 · 2026-09-30
+
+用户要求“这几个做完再停下来”后，Codex 已完成剩余 **CX-03 + QA-02**；连同此前提交的 DS-04（`78701ed`）、DS-05（`b733f48`），引用方案四项本批范围全部完成。下面旧表的待领取/停止点仅作历史，以本节为准。
+
+1. **CX-03：** 接通场景创建前的五配色/色盲配色。两队角色、弹丸、出生台、墨迹 shader 与 HUD/结算队名一致；墨迹纹理改为线性阵营掩码，交界不依赖显示色的蓝色通道差值。已去除队色副本豁免。局中换色和设置 UI 未扩展。
+2. **集中规则回归：41 项通过、0 失败**（5 导出器 + 36 短测），[完整记录](render-evidence/candidate-checks.txt)。覆盖非默认配置初始化与配色行为、敌方覆盖边缘、CPU 归属/覆盖率不变，及已有规则。结算测试原先写死的旧队名已改为验证当前队名。
+3. **QA-02：** 原生 Metal/Forward+ 自动图形短验收通过真实输入/物理更新中的移动、射击涂地、潜墨回墨、滚筒、击倒重生、隔离 0.35 m 台阶上下、结算与 Enter 重开。少量截图和 [机器记录](render-evidence/candidate-qa.json)见 [RENDERING.md](RENDERING.md)。为限制运行时长，起点/涂墨/墨量/伤害设置为测试条件，阶段等待缩短；不是人工手感或完整 90 秒图形对局验收。
+4. **候选交付：** 当前未提交渲染批次及本轮集成已收束，README/MIGRATION/RENDERING 已更新最新状态。集中导出一次 `build/INKWAVE Demo.app`；仅 arm64、签名、无界面短启动与 12 帧图形启动通过。[导出日志](render-evidence/candidate-export.txt)、[图形启动日志](render-evidence/candidate-app.txt)。应用构建在 Git 忽略目录中；可通过现有导出脚本复现。未发布 Release，未运行其他架构或持续温度测试。
+
+本批到此停止；人工手感、完整图形对局、持续性能/温度及原作等价性仍保持各自的未验收边界。
+
 ## DS-05 完成 · 2026-09-30
 
 本轮由 Codex 接续完成 DS-05，完成后停止。修复位置为 `tidewater_character_visual.gd` 的跑速初始化：子节点不再在 `_ready()` 提前读取父节点配置，新增 `configure_animation(config)`，只复制动画归一化所需的 `runSpeed` 标量，不持有或修改配置字典。walker 在加载 `player_config` 后调用；机器人在 `setup()` 中读取已经就绪的 Combat 配置并调用。两队沿用各自的现有配置来源，移动、碰撞和战斗规则未变。
@@ -15,6 +26,41 @@
 验证：`python3 godot-port-prototype/tools/test_parse_gate.py` 的五项隔离用例通过（正常脚本、语法错误非零且无 PASS、坏 preload 依赖定位、失败不启动排序更早的哨兵场景、成功只跑一次预检后继续）；当前实际工程直接执行解析检查通过；`sh -n` 和 `git diff --check` 通过。隔离 runner 的导出器为桩，仅验证预检顺序与退出行为。执行主机为 arm64；未跑全套、图形试玩、导出或发布。本次解析日志在 `/private/tmp/inkwave-ds04-parse.engine.log`，长期可复现入口为上述 Python 短测。
 
 下一项为 **DS-05：角色动画跑速初始化**；下面 2026-09-29 的审查表与结论保留作依据，DS-04 的待办状态由本节取代。
+
+## 最新审查与下一步 · 2026-09-29
+
+审查基线：`codex/tidewater-rendering`，HEAD `c9696aa`；本次审查 `5a86d09..c9696aa` 的 8 个 DS 提交，并核对它们与工作区未提交渲染改动的集成。**本轮只审查和规划，未修实现、未提交、未导出或发布。** 保留所有现有未提交文件；下面较早交接中的 HEAD、检查数量和待领取状态仅作历史。
+
+### 审查结论与证据
+
+- 角色基础外形/待机/行走、kid/squid 身体抬升、玩家出生屏障、武器顺序/中文名、涂地点数与队色数据层均已有实现。当前工作区执行 `NODE=$(command -v node) CHECK_TIMEOUT=20 ./godot-port-prototype/tools/run_checks.sh`：**40 项通过、0 失败**；`git diff --check` 通过。日志：`/private/tmp/inkwave-ds-review-checks.log`（临时文件，非长期证据）。这是工作区集成结果，不是干净 HEAD 的独立验收。
+- **P2：解析检查误报成功，且没有快速中止。** `tools/check_scripts_parse.gd:22` 仅检查 `load() == null`。在独立临时工程放入语法错误脚本，Godot 4.8.dev6 返回了非空脚本资源；该检查打印解析错误后仍打印 PASS、退出 0。总入口能用日志把该项判为 FAIL，但随后继续跑依赖场景，仍可能逐项耗尽超时。复现日志：`/private/tmp/inkwave-parse-review.log`。
+- **P2：角色动画读取跑速的时机错误。** `tidewater_character_visual.gd:100,115-121` 在子节点 `_ready()` 中只读一次父节点配置；父节点 walker 到自己的 `_ready()` 才加载 JSON。实际场景在 `Body.ready` 时配置为 `{}`；隔离父节点加载 `runSpeed=12` 后，visual 的 `run_speed` 仍为 6。默认配置恰为 6，掩盖了问题。复现日志：`/private/tmp/inkwave-review-visual-order.log`。
+- **已声明的集成缺口，不算当前默认橙蓝模式的回归：** 队色尚未接通 `surface_ink_view.gd`，无切换 UI。接通不是只改第 35 行：第 55–56 行 shader 队色参数也需一致；若支持局中切换，还要处理既有纹理与材质。HUD 队名仍写死“橙/蓝”。出生屏障只覆盖玩家，机器人仍为既有简化行为。
+- 配置消费检查是字符串引用扫描，不能证明配置影响行为；同名字段、注释和仅存在性检查都可能掩盖未消费。保留其低成本提醒作用，关键字段应以非默认值行为测试验收，不以豁免数量作为迁移完成度。
+- 已查看 DS 的行走截图，但截图来自冻结物理并注入速度的摆拍脚本，且早于新增涂地 HUD；不能替代当前版本的移动手感或完整对局验收。本轮没有启动图形试玩、测持续性能/温度或重导出应用。
+
+### 下一步唯一任务表（按顺序，一次只做一项）
+
+| ID / 顺序 | 负责人 | 允许范围与目标 | 验收与停止点 |
+| --- | --- | --- | --- |
+| DS-04 / 1 | DS | 修复 `tools/check_scripts_parse.gd` 的有效性判定，并让 `tools/run_checks.sh` 在解析预检失败后立即退出；保留 runner 既有未提交改动 | 临时隔离工程分别验证正常脚本通过、坏脚本非 0 且无 PASS、坏依赖被定位；总入口不再运行后续场景。只跑目标检查，提交本项后停止 |
+| DS-05 / 2 | DS | 修复 `tidewater_character_visual.gd` 跑速初始化；必要时在 walker 配置加载完成后提供只读初始化值，不改移动规则 | 默认配置及注入 `runSpeed=12` 均能驱动正确动画归一化；两队、四武器和潜墨外观检查保持通过。目标短测通过，提交后停止 |
+| CX-03 / 3 | Codex | 接通 `TeamPalette` 与墨迹纹理、shader 参数、HUD 队名；本批以场景创建前选配色为边界，局中切换/UI另行确定 | 非默认配色与色盲配色下，角色、弹丸、墨迹与 HUD 一致；两队覆盖边缘正确；CPU 归属/覆盖率不变。移除已失效的队色副本豁免；集中跑一次全套并留少量截图 |
+| QA-02 / 4 | Codex | 收束当前未提交渲染批次与已审查修复，更新 README/MIGRATION 的过期状态，再做短时 arm64 图形验收 | 检查真实移动上下台阶、潜墨回墨、滚筒、击倒重生、新涂地 HUD、结算/重开；成功后才集中导出一次 arm64 候选应用并核验。发现阻断只修阻断，不扩展功能或发布 Release |
+
+下一项建议交给 DS 的只有 **DS-04**。本次没有向 DS 发送任务。继续遵守单人占用检出目录、原上游只读、**仅 arm64**；不为这次审查恢复 x86/Universal/Rosetta，也不运行长时间温度测试。
+
+## 较早交接 · 2026-09-29（历史）
+
+**Codex 本批地图与场景渲染已完成并停止；接下来由 DS 接续其他部分。** 当前工作目录 `/Users/yunni/Joy/inkwave-game`，分支 `codex/tidewater-rendering`，HEAD `5a86d09`（DS-03 已集成）。渲染改动尚未提交，包含此前渲染基础与本次场景批次；接手先检查 `git status`，保留这些文件，不要 reset、清理或切回旧分支。单人占用检出目录。
+
+1. 已完成：Forward+ 光照与墨迹；原版 144 处道具、18 面壁画、旗帜/招牌/港口背景及地图材质。视觉层不改变既有碰撞、伤害和 CPU 计分。最新结果为 **34 项通过、0 失败**；截图、数据和复现入口见 [RENDERING.md](RENDERING.md)。应用在 `godot-port-prototype/build/INKWAVE Demo.app`，已通过 arm64 导出、签名及 12 帧图形启动。
+2. DS 建议接续一个可见交付项：**原版角色外形与基础待机/行走动作**。对照 `public/game/src/game/character.js`、`character-geo.js`、`character-mats.js`、`character-weapons.js`，在 `tidewater_character_visual.gd` 与必要的独立视觉资源中实现；继续读取现有阵营、武器、形态和运动状态，不改控制器、碰撞、战斗参数或地图渲染。需要新增只读视觉状态接口时明确记录。
+3. 完成条件：两队外形、四武器显隐、潜墨切换无回归；待机/行走实际画面可见。更新必要的外观检查，集中跑一次 `NODE=$(command -v node) ./godot-port-prototype/tools/run_checks.sh`，保存少量短时截图后停止。不要顺带扩展战斗特效或整套 HUD，也不要重复本批的场景工作。
+4. **只做 Apple Silicon / arm64。禁止恢复 x86_64、Universal 或 Rosetta 构建与测试。** 不为交接再跑长时间对局、温度测试或反复导出；不擅自发布 Release。
+
+下面是旧协作记录，保留用于追溯；其中旧分支、DS-03 待领取、Forward+ 尚未实现的描述已被以上状态取代，不再照旧任务执行。
 
 状态：2026-09-28。开发基线是本仓库 `codex/godot-playable-demo` 分支；`fd10b23` 是已发布 v0.1.0 的玩法代码。GitHub 的 [`lmjshineee/inkwave-godot-demo`](https://github.com/lmjshineee/inkwave-godot-demo) 是经过文件筛选的独立发布快照，**不是**本仓库的推送远端。对局目标是可玩的单机 1v1 Demo；不把联网、原作全部动画或 5v5 列为本轮完成条件。
 

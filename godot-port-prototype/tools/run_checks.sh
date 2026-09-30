@@ -36,7 +36,7 @@ if [ -z "$NODE" ] && command -v node >/dev/null 2>&1; then
   NODE=$(command -v node)
 fi
 if [ -z "$NODE" ] || ! command -v "$NODE" >/dev/null 2>&1; then
-  printf '%s\n' '未找到 Node；四个导出器检查必需。请设置 NODE=/path/to/node。' >&2
+  printf '%s\n' '未找到 Node；五个导出器检查必需。请设置 NODE=/path/to/node。' >&2
   exit 2
 fi
 
@@ -58,7 +58,7 @@ failed=0
 passed=0
 
 # --- 2. 导出器 --check ---------------------------------------------------------
-EXPORTERS="export_tidewater_map export_tidewater_surfaces export_weapon_config export_ui_icons"
+EXPORTERS="export_tidewater_map export_tidewater_surfaces export_weapon_config export_ui_icons export_tidewater_visuals"
 for name in $EXPORTERS; do
     output=$("$NODE" "$HERE/tools/$name.mjs" --check 2>&1)
     status=$?

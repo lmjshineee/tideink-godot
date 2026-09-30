@@ -1,5 +1,7 @@
 extends Node3D
 
+const TeamPalette := preload("res://team_palette.gd")
+
 # Tidewater 1v1 opponent. Patrol the clear right lane, pursue a visible nearby
 # player only when a body-width path stays on walkable ground, and paint the
 # same authoritative surface grid used by the player and judge.
@@ -228,13 +230,13 @@ func _build_feedback() -> void:
 	fill_mesh.size = Vector3(0.70, 0.065, 0.035)
 	health_fill.mesh = fill_mesh
 	health_fill.position.z = 0.018
-	health_fill.material_override = _flat_material(Color("6ca8ff"))
+	health_fill.material_override = _flat_material(TeamPalette.color(1).lightened(0.25))
 	health_bar.add_child(health_fill)
 	attack_tracer = MeshInstance3D.new()
 	attack_tracer.name = "BotAttackTracer"
 	attack_tracer_mesh = BoxMesh.new()
 	attack_tracer.mesh = attack_tracer_mesh
-	attack_tracer.material_override = _flat_material(Color("79b9ff"))
+	attack_tracer.material_override = _flat_material(TeamPalette.color(1).lightened(0.3))
 	attack_tracer.visible = false
 	game.add_child(attack_tracer)
 

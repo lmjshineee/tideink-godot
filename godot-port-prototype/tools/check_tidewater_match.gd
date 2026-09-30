@@ -58,7 +58,7 @@ func _check() -> void:
 		_fail("finish pause ended too early")
 		return
 	scene.call("_physics_process", 0.2)
-	if scene.get("phase") != "judge" or int(scene.get("winner")) != 0 or scene.get("result") != "橙队胜利":
+	if scene.get("phase") != "judge" or int(scene.get("winner")) != 0 or scene.get("result") != String(scene.get("team_names")[0]) + "胜利":
 		_fail("judge did not use the authoritative turf coverage")
 		return
 	scene.call("_physics_process", 5.0)

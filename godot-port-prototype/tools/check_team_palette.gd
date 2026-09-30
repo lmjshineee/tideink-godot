@@ -6,16 +6,9 @@ extends SceneTree
 # six scripts used to carry the same two literals, so the way to tell a data lookup from
 # another copy is to select a different palette and watch the colours move. Second, that
 # no second copy grows back — the scan at the end fails if any production script hardcodes
-# a palette colour, with the one deliberate exception named below.
+# a palette colour.
 const TeamPalette := preload("res://team_palette.gd")
 
-# The ink's colours are written into its textures inside surface_ink_view.gd, which
-# carries another workstream's uncommitted changes this round and exposes them as a
-# `const`, so a palette switch cannot reach them from outside. One line at its
-# `TEAM_COLORS[value - 1]` lookup retires this exception.
-const KNOWN_COPY := {
-	"surface_ink_view.gd": "ink colours are baked into its textures; another workstream's file",
-}
 
 
 func _initialize() -> void:
@@ -60,20 +53,81 @@ func _check() -> void:
 		return
 	TeamPalette.set_colorblind(false)
 
-	# 4. a scene built while a palette is selected wears it: HUD text and character ink.
-	TeamPalette.select(1)
-	var scene := (load("res://tidewater_play.tscn") as PackedScene).instantiate()
-	root.add_child(scene)
-	await physics_frame
-	var wanted := TeamPalette.color(0)
-	if (scene.get("orange_score") as Label).get_theme_color("font_color") != wanted:
-		_fail("the HUD did not take the selected palette")
-		return
-	var hair: MeshInstance3D = scene.get_node("World/Walker/Body/Kid/HairCap")
-	if (hair.material_override as StandardMaterial3D).albedo_color != wanted:
-		_fail("the player's character did not take the selected palette")
-		return
-	scene.queue_free()
+	# All five palettes plus colorblind must reach every visible team consumer.
+	var baseline_owners: Array = []
+	var baseline_coverage: Array = []
+	for mode in range(palettes.size() + 1):
+		TeamPalette.select(mode if mode < palettes.size() else 0)
+		TeamPalette.set_colorblind(mode == palettes.size())
+		var scene := (load("res://tidewater_play.tscn") as PackedScene).instantiate()
+		root.add_child(scene)
+		scene.process_mode = Node.PROCESS_MODE_DISABLED
+		# Scenery adds pads/murals deferred, after the map has built its surfaces.
+		await process_frame
+		var wanted := [TeamPalette.color(0), TeamPalette.color(1)]
+		for team in range(2):
+			var body: Node3D = scene.get_node("World/Walker/Body" if team == 0 else "Bot/Body")
+			var hair: MeshInstance3D = body.get_node("Kid/HairCap")
+			var pad: MeshInstance3D = scene.get_node("World/Map/Scenery/SpawnPad_%d" % team)
+			if (hair.material_override as StandardMaterial3D).albedo_color != wanted[team] \
+				or (pad.material_override as ShaderMaterial).get_shader_parameter("team_color") != wanted[team]:
+				_fail("character/spawn pad palette mismatch")
+				return
+			var score: Label = scene.get("orange_score" if team == 0 else "blue_score")
+			if not score.text.begins_with(TeamPalette.display_name(team)) \
+				or not (scene.get("menu_hint") as Label).text.contains(TeamPalette.display_name(team)):
+				_fail("HUD/setup names do not follow selected palette")
+				return
+		var combat: Node3D = scene.get_node("Combat")
+		for team in range(2):
+			combat.call("_spawn_projectile", "shooter", Vector3(0, 3, 0), Vector3(0, 0, 1), combat.get("weapons")["shooter"], team)
+			var shots: Array = combat.get("projectiles")
+			var shot: MeshInstance3D = shots.back()["visual"]
+			if (shot.material_override as StandardMaterial3D).albedo_color != wanted[team]:
+				_fail("projectile palette mismatch")
+				return
+		var ink: RefCounted = scene.get("ink")
+		var face: Dictionary = ink.get("surfaces")[12]
+		var u := float(face["su"]) * 0.5
+		var v := float(face["sv"]) * 0.5
+		ink.call("splat_face", 12, u, v, 1.2, 0, 0.5)
+		ink.call("splat_face", 12, u + 0.5, v, 0.6, 1, 0.5)
+		var owners: Array = ink.get("owners").duplicate(true)
+		var coverage := [ink.call("coverage", 0), ink.call("coverage", 1)]
+		var view: Node3D = scene.get_node("InkView")
+		view.call("sync_dirty")
+		var material := (view.get_node("InkFace_12") as MeshInstance3D).material_override as ShaderMaterial
+		if material.get_shader_parameter("team_a") != wanted[0] or material.get_shader_parameter("team_b") != wanted[1]:
+			_fail("ink shader palette mismatch")
+			return
+		var image: Image = view.get("images")[12]
+		var grid: Dictionary = face["grid"]
+		var face_owners: PackedByteArray = owners[12]
+		for cell in range(face_owners.size()):
+			var owner := int(face_owners[cell])
+			var expected := Color(0, 0, 0, 0) if owner == 0 else Color(1, 0, 0, 1) if owner == 1 else Color(0, 1, 0, 1)
+			if image.get_pixel(cell % int(grid["nu"]), cell / int(grid["nu"])) != expected:
+				_fail("ink mask changed team ownership at a cell/overpaint edge")
+				return
+		if owners != ink.get("owners") or coverage != [ink.call("coverage", 0), ink.call("coverage", 1)]:
+			_fail("visual synchronization changed CPU ownership/coverage")
+			return
+		if mode == 0:
+			baseline_owners = owners
+			baseline_coverage = coverage
+		elif owners != baseline_owners or coverage != baseline_coverage:
+			_fail("palette selection changed CPU paint results")
+			return
+		scene.call("_judge_round")
+		if not String(scene.get("result")).begins_with(TeamPalette.display_name(int(scene.get("winner")))):
+			_fail("winner label does not follow palette")
+			return
+		for team in range(2):
+			if not (scene.get("result_label") as Label).text.contains(TeamPalette.display_name(team)):
+				_fail("results coverage/turf names do not follow palette")
+				return
+		scene.free()
+	TeamPalette.set_colorblind(false)
 	TeamPalette.select(0)
 
 	# 5. no production script keeps its own copy of a palette colour.
@@ -88,7 +142,7 @@ func _check() -> void:
 	hexes.append(String(teams["colorblind"]["b"]).lstrip("#").to_lower())
 	var offenders: Array = []
 	for file in DirAccess.get_files_at("res://"):
-		if not file.ends_with(".gd") or KNOWN_COPY.has(file):
+		if not file.ends_with(".gd") :
 			continue
 		var source := FileAccess.get_file_as_string("res://" + file).to_lower()
 		for hex in hexes:
@@ -101,16 +155,7 @@ func _check() -> void:
 			printerr("   ", entry)
 		quit(1)
 		return
-	# The exception must still be needed, or the record above is stale.
-	if not FileAccess.get_file_as_string("res://surface_ink_view.gd").to_lower().contains(
-			String(palettes[0]["a"]).lstrip("#").to_lower()):
-		_fail("surface_ink_view.gd no longer hardcodes a palette colour; delete it from KNOWN_COPY")
-		return
-
-	print("PASS: team colours come from the exported palette (%d palettes + colourblind), "
-		% TeamPalette.palettes().size()
-		+ "select() and set_colorblind() move them, scenes build with them, and only the "
-		+ "documented ink view keeps a copy")
+	print("PASS: all five palettes + colorblind reach characters, projectiles, pads, ink shader and HUD names; masks and CPU coverage stay identical; no color copies")
 	quit()
 
 

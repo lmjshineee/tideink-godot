@@ -31,7 +31,7 @@ func _check() -> void:
 		_fail("full-round judge did not score the opponent's turf")
 		return
 	scene.call("_physics_process", 5.1)
-	if scene.get("phase") != "results" or scene.get("result") != "蓝队胜利":
+	if scene.get("phase") != "results" or scene.get("result") != String(scene.get("team_names")[1]) + "胜利":
 		_fail("full round did not reach the result screen")
 		return
 	print("PASS: paused clock, 90-second opponent turf loop and final result")

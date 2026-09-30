@@ -1,0 +1,16 @@
+{
+	"adapter": "Apple M5 (Apple9)",
+	"coverage_blue": 0.000893809647377678,
+	"coverage_orange": 0.00281117550384915,
+	"engine": "4.8-dev6 (official)",
+	"fps_cap": 30,
+	"frame_median_ms": 33.325,
+	"frame_p95_ms": 33.542,
+	"ink_faces": 1,
+	"note": "Short frozen-scene smoke sample; excludes startup; not thermal or full-round evidence. Zero GPU time means unavailable.",
+	"render_cpu_median_ms": 0.131999999284744,
+	"render_gpu_median_ms": 7.22599983215332,
+	"renderer": "forward_plus",
+	"samples": 30,
+	"size": "1280x720"
+}

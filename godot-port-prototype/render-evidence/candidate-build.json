@@ -1,0 +1,8 @@
+{
+  "architecture": "arm64",
+  "codesign": "verified --deep --strict",
+  "pck_sha256": "58788b93baad7ba45c38cfc0e4254efd62fc60efd4fea30151a088701e3e8781",
+  "executable_sha256": "4ef89591c1c19f803abbe764620fbb0dfbda1090b4e4e7053173cfb270af3efb",
+  "build": "INKWAVE Demo.app",
+  "note": "Local candidate, ad-hoc signed, no Release publication; source/evidence committed separately, app is git-ignored."
+}
