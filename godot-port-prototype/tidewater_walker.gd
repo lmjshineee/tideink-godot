@@ -90,6 +90,7 @@ var _squid_shape: Shape3D
 func _ready() -> void:
 	var config: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/weapons.json"))
 	player_config = config["player"]
+	$Body.call("configure_animation", player_config)
 	# Both bodies come from the source formula, not from the scene's placeholder shape.
 	# _apply_form below pushes them onto the collision node, so the scene's numbers are
 	# only a readable placeholder and config.js stays the single source.

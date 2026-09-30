@@ -1,5 +1,13 @@
 # Godot Demo：Codex × DeepSeek 协作计划
 
+## DS-05 完成 · 2026-09-30
+
+本轮由 Codex 接续完成 DS-05，完成后停止。修复位置为 `tidewater_character_visual.gd` 的跑速初始化：子节点不再在 `_ready()` 提前读取父节点配置，新增 `configure_animation(config)`，只复制动画归一化所需的 `runSpeed` 标量，不持有或修改配置字典。walker 在加载 `player_config` 后调用；机器人在 `setup()` 中读取已经就绪的 Combat 配置并调用。两队沿用各自的现有配置来源，移动、碰撞和战斗规则未变。
+
+验证：`python3 godot-port-prototype/tools/test_visual_config.py` 在两个临时最小工程分别使用默认 `runSpeed=6` 和注入值 `12`，真实执行 walker `_ready()` / bot `setup()`；两队配置值、归一化腿部摆幅、四武器显隐、kid/squid 切换及玩法配置未被修改均通过。当前工程的 `check_scripts_parse`、`check_tidewater_visual_config`、`check_tidewater_visual`、`check_tidewater_bot_loadout` 四项目标短测及 `git diff --check` 通过。日志在 `/private/tmp/inkwave-ds05-check_*.log`；长期复现入口为上述 Python 短测与新增的 `tools/check_tidewater_visual_config.gd`（自动进入全套短测）。本轮未跑全套、图形试玩、导出或发布。
+
+下一项为 **CX-03：场景创建前接通队色、墨迹纹理/shader 与 HUD 队名**。下面 DS-04 的“下一项 DS-05”及旧表待办状态仅为历史，以本节为准；现有未提交渲染改动继续保留。
+
 ## DS-04 完成 · 2026-09-30
 
 按引用审查计划，本轮由 Codex 执行第一项 DS-04，完成后停止。`tools/check_scripts_parse.gd` 改用 `GDScript.reload()` 的编译返回码检查，避免非空但解析失败的资源误报；`tools/run_checks.sh` 在所有场景短测之前单独执行解析预检，失败立即退出，成功后不重复执行。保留 runner 既有五导出器改动及其他未提交渲染文件。

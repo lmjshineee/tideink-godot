@@ -41,6 +41,7 @@ func setup(owner: Node3D, player: CharacterBody3D, level: Node3D) -> void:
 	game = owner
 	walker = player
 	map = level
+	$Body.call("configure_animation", game.get_node("Combat").get("weapon_data")["player"])
 	_body_shape = SphereShape3D.new()
 	_body_shape.radius = BODY_RADIUS
 	_build_feedback()

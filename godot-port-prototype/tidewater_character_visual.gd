@@ -9,12 +9,13 @@ extends Node3D
 # pelvis bob, counter-swinging arms, forward lean) around :1008-1048; config.js:25
 # PLAYER.runSpeed for the speed the run pose is normalized against.
 #
-# Read-only motion source, no new setters and no controller change:
+# Read-only motion source; owners pass animation configuration after loading it:
 #   * the player's visual sits under the CharacterBody3D walker, so it reads the
 #     walker's `velocity` and its `grounded` flag;
 #   * the blue team's visual sits under a plain Node3D that is moved by writing
 #     `global_position`, so its speed comes from the position delta instead.
 # Team, weapon and form still arrive through the existing set_* API.
+# configure_animation() only copies the animation normalization speed.
 #
 # Node paths Kid, Kid/HairCap and Kid/Weapon_<id> are part of the appearance checks
 # and stay unchanged; animation recomputes each part from its rest transform rather
@@ -27,7 +28,7 @@ const SHIRT := Color("f4f2ec")
 const DARK := Color("27304a")
 const SOLE := Color("faf6eb")
 
-# Fallback when the parent exposes no player_config (the blue team's visual).
+# Fallback for standalone visuals without an owner configuration.
 const DEFAULT_RUN_SPEED := 6.0
 const STRIDE_METRES := 2.6
 const MIN_CADENCE := 1.05
@@ -97,7 +98,6 @@ func _ready() -> void:
 	squid = Node3D.new()
 	squid.name = "Squid"
 	add_child(squid)
-	_read_run_speed()
 	_build_kid()
 	_build_squid()
 	set_weapon(current_weapon)
@@ -110,15 +110,11 @@ func _process(delta: float) -> void:
 	_animate(delta)
 
 
-# The walker owns the run speed; the blue team's parent does not expose it, so the
-# source value is the fallback.
-func _read_run_speed() -> void:
-	var parent := get_parent()
-	if parent == null:
-		return
-	var config: Variant = parent.get("player_config")
-	if config is Dictionary and (config as Dictionary).has("runSpeed"):
-		run_speed = float((config as Dictionary)["runSpeed"])
+# Child _ready() runs before its owner loads the config. The walker calls this
+# after loading player_config; the bot calls it from setup(), after Combat setup.
+# Copy only a scalar: the visual cannot mutate the owner's configuration.
+func configure_animation(config: Dictionary) -> void:
+	run_speed = float(config.get("runSpeed", DEFAULT_RUN_SPEED))
 
 
 func set_form(value: bool) -> void:
