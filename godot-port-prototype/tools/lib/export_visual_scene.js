@@ -7,6 +7,7 @@ import { Decor } from '/public/game/src/world/decor.js';
 import { Environment } from '/public/game/src/world/environment.js';
 import { Level } from '/public/game/src/world/level.js';
 import { TIDEWATER, KELPLINE } from '/public/game/src/world/maps.js';
+import {getMap} from './arena_layouts.mjs';
 import { createMuralTexture } from '/public/game/src/world/murals.js';
 
 function base64(array) {
@@ -17,10 +18,10 @@ function base64(array) {
 }
 
 export async function exportScene(mapId = "tidewater") {
-  const MAP = mapId === "kelpline" ? KELPLINE : TIDEWATER;
+  const MAP = getMap(mapId);
   const scene = new THREE.Scene();
   const kit = new PropKit(scene, { quality: 'high' });
-  const items = dressingFor(mapId);
+  const items = MAP.dressing || dressingFor(MAP.layout || mapId);
   const colliders = items.flatMap(item => kit.add(item.type, item).colliders);
   kit.build();
   // Allow loadFonts() to finish and redraw the original sign atlas.

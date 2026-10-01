@@ -1,5 +1,171 @@
 # 渲染实现与验证 · 2026-09-30
 
+## 滚动配装、角色曲面细化与模块地图 · v0.3.0-preview.14 · 2026-10-01
+
+1. 七武器、七道具、十二天赋在同页三个独立横向选择带：滚轮／双指滑动／滚动条／键盘焦点，保留单列浮动星级和真实详情；当前配装及当前地图自动滚入视区。新增双持喷枪、长管喷枪、轻爆枪，沿用源喷枪／爆破枪模型与动作族，双持补上左手模型。
+2. 爆墨瓶、减速墨雾与医疗领域共用赛前选择、墨量、CD、阵营、楼层和遮挡规则，机器人可用。新增道具技师、命中回复、稳枪专注、循环墨泵；整局锁定、死亡和装备重摇不能清空 CD。
+3. 原脸型、87 骨骼、肩袖／裆部修正、衣服和装饰保留，导出头／耳／圆角解析曲面提高采样，完整模型约 5.9 万 → 7.9 万三角（含潜墨与四个源武器）。独立人物视口 4×MSAA；新中文名称使用随包 OFL Noto Sans SC，避免缺字。
+4. 七图十九套布局，新增模块港湾与阶梯花园。港湾按 3 种中央区 × 3 种镜像侧路组合，种子保持，“换图”保证换到另一组合；花园有 0／3／6 米平台与双侧连接坡道。碰撞、墨面、导航和小地图一起预导出，是有限模块组合库；任意运行时拼接另列 MAP-02。
+5. 182 组生产攻击、84 组墨量配置见 [BALANCE_REPORT.md](BALANCE_REPORT.md)。新三武器一轮对基础满血躯干目标留下 87／77／68 HP；保留普通伤害上限、部位和距离规则。
+
+证据：[81 项回归](render-evidence/expand14-checks-final.txt)、[原生滚动／换图／小窗口](render-evidence/expand14-ui-final.txt)、[双方实际控制器 6 m 通行](render-evidence/expand14-check_garden_platforms.txt)、[两张新图各 90 秒自然回放](render-evidence/expand14-full-matches.json)、[本地导出](render-evidence/expand14-export.txt)、[导出 PCK](render-evidence/expand14-pck.txt)、[解压／签名／哈希](render-evidence/expand14-archive-verification.json)。人工手感、长期温度与多局配装平衡未验收。
+
+后续按顺序：多局收益对照 → 双持独立持握／坡面脚部 IK → 侦察道具与正式图标／特效 → 更丰富模块和运行时断路回退 → 音乐分层／机器人自动跳跃。仅本地 arm64 包，不上传。
+
+## 同页配装、队友／信标跳跃与受控配装测量 · v0.3.0-preview.13 · 2026-10-01
+
+当前玩法与剩余工作以 [GAMEPLAY.md](GAMEPLAY.md) 为准，以下 preview.12 及更早章节保留历史。
+
+1. 四武器、四道具、八天赋同时显示在同一个配装页，直接选择、无需切换标签。保留地图主体、独立可动全身预览与单列浮动星级／真实详情，960×540 / 110% 已核验。
+2. 死亡立即显示地点与 4 秒倒计时，点存活队友／己方信标一次排队，到零自动发射；Esc 取消，保留基地快速出场。存活按 J 选目标，1 秒可受伤／可取消蓄势，落地不回血、不补墨；落点公开，起飞／到达重新核验占位和实际楼层，信标要求己方墨地，失效回退。
+3. 第四道具跳跃信标：CD 18 秒、消耗 35 墨水、45 秒／两次使用，每人一个、重放替换。死亡／换装保留 CD 和已放信标；敌墨／占位暂不可用。机器人可放置，自动跳跃与可被射击摧毁尚未接入。
+4. [BALANCE_REPORT.md](BALANCE_REPORT.md) 记录 72 组实际攻击与 32 组墨量配置。本批不改既有伤害数值；滚筒回归扩大至整轮墨滴生命周期。正式多局生存／涂地收益与人工手感仍待完成。
+
+证据：**79 项通过、0 失败**，[全套检查](render-evidence/unified13-checks-final.txt)、[原生同页配装／小窗口／跳跃](render-evidence/unified13-ui-final.txt)、[回廊 90 秒自然回放](render-evidence/unified13-full-matches.json)、[本地导出](render-evidence/unified13-export.txt)、[导出 PCK](render-evidence/unified13-pck.txt)、[ZIP 解压／签名／哈希](render-evidence/unified13-archive-verification.json)。受控输入证明 6 m 落地，自然回放最高 8.89 m 含跳跃弧线；平均 29.84 FPS、P99 39.28 ms 含后台负载，非独占性能测量。人工手感／长期温度未验收。
+
+后续：BAL-03 多局收益对照 → ITEM-02 进攻／侦察道具和资产 → ANIM-01／AUD-01；机器人自动跳跃继续列 DEPLOY-02 延伸项。只交付本地 arm64 包，不上传。
+
+## 地图主体、可动 3D 人物与浮动星级 · v0.3.0-preview.12 · 2026-10-01
+
+当前玩法见 [GAMEPLAY.md](GAMEPLAY.md)，以下 preview.11 及更早内容仅用于追溯。
+
+1. 地图选择为赛前主体：大幅实际地形 3D 预览、五张地图卡片，拖动／滚轮查看；切图保留武器／道具／天赋。静态地图按需刷新，窗口变更后重绘；入场关闭预览。
+2. 人物独立 3D 舞台：旋转、缩放、点击跳跃，待机／跑动／试射，聚焦后 WASD 移动、空格跳跃；沿用实战原角色与动作，RANDOM 和队色保留。
+3. 武器卡片取消左右分栏，五项星级放入单列悬浮详情，显示当前伤害、射程、射速、移速、涂墨、耗墨与大招；道具／天赋也有浮动说明，消耗计入节墨天赋。
+4. 命中实际扣血数字弹起、上浮、淡出，颜色跟随攻击方队色；护盾和溢出已计入，快速连击合并，最多 24 标签复用、不透墙。
+
+验证：**78 项通过、0 失败**，[全套回归](render-evidence/menu12-checks.txt)、[原生鼠标／键盘与 960×540 / 110%](render-evidence/menu12-ui-final.txt)、[导出](render-evidence/menu12-export.txt)、[PCK](render-evidence/menu12-pck.txt)、[ZIP 解压／签名／哈希](render-evidence/menu12-archive-verification.json)。原生 UI 与伤害为受控核验，旧版五图自然回放保留为玩法基线；人工手感和长期温度仍未验收。
+
+下一批顺序保留：BAL-03 配装／高层地图对照 → DEPLOY-02 队友跳跃／信标 → ITEM-02 更多赛前道具 → ANIM-01／AUD-01。仅本地 arm64 包，不上传。
+
+## 五地图、三层平台与锁定天赋 · v0.3.0-preview.11 · 2026-10-01
+
+当前玩法见 [GAMEPLAY.md](GAMEPLAY.md)，下面旧版内容仅用于追溯。
+
+1. 新增珊瑚集市、回廊展馆、双层高架。回廊为地面／3 米／6 米三层站立平台与坡道；原两图可开启标准／木箱／矮墙随机布置。九套布局同步导出碰撞、有效墨面、导航与网页风格小地图。
+2. 修复滚筒多滴叠伤，普通主武器不再一发击倒基础满血。喷枪 30、滚筒接触 60／近端甩墨预算 72、满蓄狙 100、爆破直击 82、手雷爆心 100；直接命中按头／躯干／腿 ×1.08／1／0.85，并保留距离、蓄力与爆炸遮挡规则。护盾后实际扣血和近期来源可见。
+3. 八种赛前天赋，玩家自选、机器人随机，开战即锁定。死亡、复活和装备重摇均不改变天赋；150 HP／125 墨量等上限贯穿血条、治疗、阈值与重生。
+4. 移植网页版双墨色 Logo、倾斜大导航、原图标与配装卡片；全身预览保留，四武器显示五项星级；随机重摇后和死亡界面明确显示当前配装。小窗口按钮与字号已调整。
+
+证据：**76 项通过、0 失败**，[全套回归](render-evidence/balance11-checks.txt)、[三层实际控制器通行](render-evidence/balance11-gallery-platforms.txt)、[原生 UI](render-evidence/balance11-ui.txt)、[五图自然计时回放](render-evidence/balance11-full-matches.json)、[本地 arm64 导出](render-evidence/balance11-export.txt)、[PCK](render-evidence/balance11-pck.txt)、[ZIP 解压／签名／哈希](render-evidence/balance11-archive-verification.json)。界面测试包含受控伤害／阶段；自然对局不强制伤害与结束。人工手感和长期温度仍未验收，未知位置桥梁漏染待定位。
+
+下一批：BAL-03 配装与高层地图对照 → DEPLOY-02 存活队友跳跃／信标 → ITEM-02 更多副武器 → ANIM-01／AUD-01。安全变体已完成本批范围，任意地形生成与联网仍列后续。仅本地包，不上传。
+
+## 主菜单、随机配装与基地发射 · v0.3.0-preview.10 · 2026-10-01
+
+preview.9 的地图点选再确认复活、拾取补给库存方案已撤回。当前以 [GAMEPLAY.md](GAMEPLAY.md) 为准。
+
+1. 应用先进入主菜单，再配装／开战；移植网页导航、字体、墨色和四武器图标。全身预览与实战相同，RANDOM 生成外观／装饰／队色，无外观下拉。菜单关闭主地图 3D 绘制。
+2. 死亡立即进入基地发射视角，同时显示 4 秒倒计时，可边等边选，鼠标／WASD 瞄准，左键／空格／Enter 一次出场；空格可提前准备，死亡 R 重摇自己的配装。
+3. 赛前选一个道具，右键／E 使用，手雷／补充剂／护盾 CD 6／12／16 秒，无地图拾取库存。全部机器人默认随机武器和道具，默认复活重摇，可关闭；各道具 CD 跨死亡／重摇保留，手雷保存攻击者与阵营。
+4. 全部角色名字从网页池随机无重复分配，头顶／HUD／名单／击倒／结算统一，重生固定；机器人涂地充大招，有重击预告／墨雨与基本躲雨。保留稳定编号、血条、击倒来源、源地图小地图、120 HP 与大招强化；修复随机慢速滚筒在 1v1 平台边缘的体积穿模。CPU 墨迹计分与源资产导出不变。
+
+证据：[69 项回归通过](render-evidence/frontend10-checks.txt)、[原生鼠标菜单／RANDOM／发射／道具／小窗口](render-evidence/frontend10-ui.txt)、[最终两图 180 秒自然对局](render-evidence/frontend10-full-matches180.json)、[本地打包](render-evidence/frontend10-build.json)。原生 UI 为受控条件，完整对局自然推进；人工手感与温度仍未验收。基础大招与躲雨已完成；后续平衡对照 → MAP-01 → DEPLOY-02 → ITEM-02，详见 GAMEPLAY.md。
+
+以下为历史记录，旧复活／补给操作已失效。
+
+## 手动复活、道具与战斗平衡 · v0.3.0-preview.9 · 2026-10-01
+
+1. 死亡后由玩家点击己方墨地、确认落点，或明确选择回基地；4 秒倒计时结束后等待确认。落点被覆盖时要求重选，不随机替玩家部署。赛前可选基地左／中／右入口。
+2. Shift 墨墙攀爬加快并补齐横向靠墙；右键炸弹保留，E 补充剂恢复墨水／生命、C 个人护盾有库存、冷却和吸收上限；机器人共用规则，每局成对随机补给布局。
+3. 全员 120 HP，喷溅枪近端四发击倒、末端伤害衰减；大招回满墨水，重击范围／冲击反馈与 8 秒可见墨雨强化。网页导出参数保留，本地调整集中在 `gameplay_rules.gd`。
+4. 最终结算显示地图、双方比例与全部角色编号／武器／击倒／阵亡／有效伤害，保留结果舞蹈。具体参数、Splatoon 3 参考范围与后续任务见 [GAMEPLAY.md](GAMEPLAY.md)。
+
+验证：[68 项检查、0 失败](render-evidence/gameplay9-checks.txt)、[双地图玩法短测](render-evidence/gameplay9-deployment.txt)、[横向墨墙输入](render-evidence/gameplay9-climb.txt)、[6／12 隔离配置](render-evidence/gameplay9-isolated.txt)、[原生鼠标选点／确认／道具／双尺寸结算](render-evidence/gameplay9-ui.txt)、[两图 90 秒自然对局](render-evidence/gameplay9-full-matches.json)。原生 UI 检查使用受控伤害／阶段；完整对局通过实际输入和自然计时推进。人工手感、温度和新平衡 180 秒仍待验收。
+
+新版本两图 90 秒回放均自然死亡 5 次并手动回基地，四武器、结果／重开通过；平均 29.96 FPS，P99 帧间隔 39.86／43.14 ms。运行包含后台 headless 检查，非独占 GPU 基准。一次缩放后的原生合成鼠标基地点击未成功，失败日志保留；随后记录两图按钮 pressed=true 并通过，生产根因未确认。
+
+本地 arm64 导出、PCK 与 ZIP 校验记录：[导出](render-evidence/gameplay9-export.txt)、[最终 PCK](render-evidence/gameplay9-pck.txt)、[应用启动](render-evidence/gameplay9-app.txt)、[打包](render-evidence/gameplay9-build.json)。仅本地交付，不上传。
+
+下一批按顺序：BAL-02 试玩平衡／机器人用大招 → MAP-01 离线安全地形变体 → DEPLOY-02 存活超级跳跃／信标 → ITEM-02 队伍补给与正式资产。完整随机地图生成器、脚部 IK、音乐分层和联网保留计划；地形随机性本轮尚未完成。
+
+以下为历史记录，当前玩法与计划以本节和 GAMEPLAY.md 为准。
+
+## 反馈修复与随机装饰 · v0.3.0-preview.8 · 2026-09-30
+
+- 血条填充在 +Z，旧 `look_at` 让 -Z 朝向相机，导致底板遮挡填充；现在正面朝向当前相机，各角色独立血量即时更新。所有角色稳定 ID：5v5 己方 01–05、对方 06–10，1v1 为 01／02；头顶、顶部 HUD、名单、小地图统一标号，重生保持。
+- 直接导出原版网页的小地图底图和像素到墨格映射，保留地形遮挡、桥梁／坡面与海面。GPU 双线性采样权威墨格，6 Hz 墨色刷新、每帧角色方向／编号／死亡和投弹／墨雨位置；不消耗 `SurfaceInk` 的渲染脏格，不影响计分。
+- 三角警告牌贴图与墨层原先同为 12 mm，产生深度争夺；墙墨改为 24 mm，壁画独立保持 4 mm，地面仍 12 mm。实景坐标 `(-9.8,1.7,-43.4)` / Tidewater face 34，已截取未涂及三个涂色观察角度。
+- 快速鼠标点击缓存到下一物理帧，支持物理空格；保留原有跳跃缓冲／土狼时间。射击冷却保留余量，按原版每帧最多补发三发，避免 30 Hz 量化；机器人使用原版跳跃／下落边、路线代价和玩家起跳／重力配置，遇阻重新规划。
+- 墨镜改为星星、短线、闪电、波纹、菱形、花瓣、点阵、月牙八种脸颊装饰。独立 RNG 随机样式、颜色、尺寸、倾角、位置、单双侧，不改变武器随机数；入场／对局／重生／结算共享种子，一局内保持、下一局重选。保留眼睛、眉毛、表情与身体。导出适配器可重建该材质，源／输出哈希有校验。
+- 命中、击倒、潜墨、起跳与枪口液滴限额 96 粒、两次批量绘制。四武器、爆破范围、滚刷、炸弹和大招传递攻击者；死亡界面和击倒消息显示真实编号／名字／武器。弹丸保存发射时武器，攻击者中途换武器不影响提示，落水单独显示原因。
+
+验证：全套 **67 项通过、0 失败**：[feedback8-checks.txt](render-evidence/feedback8-checks.txt)，另有 [血条／ID／随机种子](render-evidence/feedback8-health.txt)、[四武器击倒来源](render-evidence/feedback8-attribution.txt)、[配置 6／12 隔离](render-evidence/feedback8-isolated.txt)、[警告牌／血条原生画面](render-evidence/feedback8-warning.txt)、[随机装饰／表情](render-evidence/feedback8-ornament.txt)、[死亡来源与鼠标 UI／音频](render-evidence/feedback8-presentation.txt)。
+
+### 完整时长回放
+
+原生 Forward+ / Metal、1280×720、30 FPS / 75% 精度。输入通过事件进入正常控制流程；从出生点移动，不瞬移、不强制伤害／结束计时。两图各 90 秒及一次 180 秒 5v5，自然死亡／重生换武器、四武器、跳跃、潜墨和自然结果重开均已记录。[数据](render-evidence/feedback8-full-matches.json)，[最终回放日志](render-evidence/feedback8-full-matches.txt)。
+
+| 场次 | 平均 FPS | P95 帧间隔 | P99 帧间隔 | 自然死亡 | 覆盖 |
+| --- | --- | --- | --- | --- | --- |
+| tidewater / 90 秒 | 29.96 | 36.09 ms | 40.68 ms | 6 | 四武器 / 跳跃 / 潜墨 / 结果重开 |
+| kelpline / 90 秒 | 29.98 | 35.62 ms | 42.04 ms | 5 | 四武器 / 跳跃 / 潜墨 / 结果重开 |
+| tidewater / 180 秒 | 29.98 | 35.36 ms | 41.36 ms | 10 | 四武器 / 跳跃 / 潜墨 / 结果重开 |
+
+原生合成鼠标在场景重建后两次未触发预期按钮，保留 [第一次](render-evidence/feedback8-full-matches-first-attempt.txt) 与 [第二次](render-evidence/feedback8-full-matches-second-attempt.txt) 失败记录；后两局改用游戏支持的 Enter 完成开始／重开。短时原生鼠标开始、死亡换武器及重开另行通过。帧间隔采样含后台 headless 检查／导出负载，不代表独占 GPU 基准；人工手感和传感器温度未验收。击倒来源补丁在完整回放之后加入，随后通过独立四武器与原生死亡界面回归。
+
+桥梁 CPU 计分／表面可涂回归保留；用户此前未定位的漏染桥梁尚无具体坐标，不能据此声明所有桥梁视觉问题解决。
+
+本地 arm64 应用、ZIP 和 SHA256： [导出](render-evidence/feedback8-export.txt)、[最终 PCK](render-evidence/feedback8-pck.txt)、[应用 Metal 启动](render-evidence/feedback8-app.txt)、[打包](render-evidence/feedback8-build.json)。按用户选择仅保留本地包，没有推送或公开发布。
+
+### 后续按顺序推进
+
+1. QA-03 的完整自动化回放已交付；人工手感／温度与未知桥梁坐标继续保留待验收。
+2. BOT-01 的源跳跃边／代价和真实碰撞已完成，两图各一条起跳落地短测及完整对局通过；潜墨和更复杂策略尚未实现。
+3. VFX-01 的基础命中／击倒／潜墨／起跳已完成并记录整局粒子事件；其他原版屏幕／环境特效后续补充。
+4. 下一项 ANIM-01：坡面／台阶脚部 IK 与极端瞄准持握，再做 AUD-01 音乐分层／节拍过渡；NET-01 仍先评估方案再实施。
+
+以下为历史记录，当前版本／人物和计划以本节为准。
+
+## 清理与发布 · v0.3.0-preview.7 · 2026-09-30
+
+清理已弃用的外部人物加载分支、Quaternius 资产与许可、对应捕获脚本/检查，以及精灵脸、麻将牌与花色面罩的实验截图。保留当前原人物、身体与服装修正、四武器、5v5/1v1、双地图、全屏 UI 和原版音频。旧构建目录清理后仅保留当前 arm64 应用、ZIP 和 SHA256 校验文件。
+
+- 验证：**61 项通过、0 失败**（移除两项仅服务弃用人物实验的检查），[clean-checks.txt](render-evidence/clean-checks.txt)、[隔离配置](render-evidence/clean-visual-isolated.txt)、[原生 UI/音频流程](render-evidence/clean-presentation-gui.txt)。
+- 编译包：[导出](render-evidence/clean-export.txt)、[最终 PCK](render-evidence/clean-pck.txt)、[原生应用启动](render-evidence/clean-app.txt)、[打包校验](render-evidence/clean-build.json)。
+- 交付方式：按用户最新选择，仅保留本地 arm64 应用、ZIP 与校验文件。没有公开 Release 或推送源码；记录见 [clean-publication.json](render-evidence/clean-publication.json)。
+
+## 恢复原人脸 · v0.3.0-preview.6 · 2026-09-30
+
+按用户要求恢复到 preview.5 的人脸：原眼睛、眉毛、眼罩、嘴部与状态表情重新启用，撤回后续精灵脸、花色面罩、编号及随机脸部变化。身体、肩袖与短裤裆部修正、四外观、87 骨骼、四武器和既有动作保留。本轮人物脸部修改到此停止。
+
+- 全套 **63 项通过、0 失败**：[restored-checks.txt](render-evidence/restored-checks.txt)，包含原眼睛可见与原眼睛着色器回归。
+- 原生 Forward+ / Metal：[四外观](render-evidence/restored-three-quarter.png)、[人脸](render-evidence/restored-face-idle.png)，[短时画面核验](render-evidence/restored-gui.txt)。恢复后的正面脸部、四人物和跑步 PNG 与 preview.5 对应截图逐字节一致。
+- arm64 应用与 preview.6 ZIP：[导出](render-evidence/restored-export.txt)、[打包](render-evidence/restored-build.json)、[应用启动](render-evidence/restored-app.txt)、[最终 PCK](render-evidence/restored-pck.txt)。
+
+全屏入场、死亡、结算与原版音乐音效保留；碰撞、武器数值和 CPU 墨迹计分沿用既有实现。下方 preview.5 说明是恢复后的形体与材质基础。
+
+## 原人形修正基础 · v0.3.0-preview.5 · 2026-09-30
+
+默认恢复网页的四种墨鱼人物、87 骨骼与四武器。此前外部人物实验已在 preview.7 清理。原版服装的颜色、徽标、缝线、口袋、袜子和鞋面细节通过独立布料/皮肤/眼睛着色器迁入；站姿、走路和跑步改用原版离线 IK 采样，保留连续眨眼、七种状态表情及结果舞蹈。
+
+本轮对照真实网页渲染，确认球状肩袖、封口骨盆和圆头也存在于网页源模型。`tools/lib/character_anatomy.mjs` 在导出副本上修正：胸部开袖笼并连接开放袖管；短裤用一个腰口、两个裤口和共享裆部曲面替换球体叠管；头部用连续形变调整头颅、下半脸和下颌，眼睛重新贴合解析头面，耳朵、发根和脸部骨骼同步定位。脸部动作按新静止位置偏移，避免眨眼或表情把五官拉回旧位置。原网页文件保持原样。
+
+建模/蒙皮参考为 [Julien Kaspar 的 Snow 头部拓扑说明](https://julienkaspar.artstation.com/blog/M3LL/head-retopology-of-snow) 和 [Kiel Figgins 的权重与活动范围流程](https://www.3dfiggins.com/writeups/paintingWeights/)。使用其工作方法作为参考，没有复制教程的模型或图像。当前头部仍为原版解析网格与贴面眼睛，并非完整面部重拓扑或表情形状键。
+
+- 全套 **63 项通过、0 失败**：[anatomy-checks.txt](render-evidence/anatomy-checks.txt)。新增连通/流形检查、相邻面朝向、衣服四个和短裤三个开放边界、共享接缝权重、五种动作有限性及脸部新挂点回归；源/输出哈希覆盖新增形体修正模块。
+- 原生 Forward+ / Metal：[四外观](render-evidence/original-three-quarter.png)、[脸部](render-evidence/original-face-idle.png)、[跑步](render-evidence/original-running.png)、[抬臂瞄准](render-evidence/original-body-aim-0.65.png)。肩/胯正侧背面、七状态中的四种脸部特写和双地图入场镜头截图见 [anatomy-gui.txt](render-evidence/anatomy-gui.txt)。这些是短时固定条件核验，不代表人工完整对局或人物审美已获用户认可。
+- 全屏入场/READY/GO、死亡/重生、结算和 62 音效/6 首音乐保留，短时鼠标流程与实际音频位置推进见 [original-presentation-gui.txt](render-evidence/original-presentation-gui.txt)。UI 是 Godot 适配，非网页逐像素复刻。
+- 本地 arm64 应用与 preview.5 ZIP；导出、架构、签名和短启动记录 [anatomy-export.txt](render-evidence/anatomy-export.txt)，打包记录 [anatomy-build.json](render-evidence/anatomy-build.json)，导出 PCK 人物检查 [anatomy-pck.txt](render-evidence/anatomy-pck.txt)，应用本体 12 帧 Metal 启动 [anatomy-app.txt](render-evidence/anatomy-app.txt)。最终 ZIP 解压后再验 arm64 与签名通过；解析隔离用例五项、跑速 6/12 的隔离配置用例通过。未推送或公开发布。
+
+本批只改视觉资源和动作适配；碰撞、战斗参数、CPU 墨迹归属与计分保持既有实现。下方 preview.4 及更早章节为历史，默认外观与完成状态以本节为准。
+
+
+preview.4 的外部人物实验已撤回；对应代码、资产、测试与实验截图已在 preview.7 清理。
+
+## 角色、全屏 UI 与原版音频 · v0.3.0-preview.3 · 2026-09-30
+
+本批按本地网页原版继续移植：四外观/四武器沿用原网格，增加起跳、落地、受击、重生的全身/脸部采样和六种结果舞蹈；HUD 改为十人武器/死亡徽章、计时、散射准星/蓄力环/本地命中反馈与圆形大招/涂地点数。入场双方角色阵容、READY?/GO!、全屏死亡染色和重生环、时间到及裁判/结果展示覆盖整个画面，保留死亡换武器、Tab 地图和结算重开。
+
+原版 62 个合成音效与 6 首完整音乐通过 Chromium OfflineAudioContext 导出为 22.05 kHz PCM。导出器按原调度器预调度步长推进，并检查每两个秒段有音频，避免单次跳时触发后台跳过逻辑。固定满强度配器；运动/蓄力循环可动态调音高，机器人射击为 Godot 3D 衰减；总音量、音乐和音效保存到用户设置。
+
+- 全套入口：57 项通过、0 失败，见 [presentation-checks.txt](render-evidence/presentation-checks.txt)。新增源/输出音频校验、动作源校验和行为测试：68 音频资源可加载，阶段/最后一分钟音乐切换，六种逻辑尺寸/缩放全屏覆盖，死亡换武器/重生，音量保存/静音以及实际骨骼舞蹈变化。
+- 原生 Metal 短验收：[presentation-gui.txt](render-evidence/presentation-gui.txt)。音频实际播放位置推进；真实鼠标开始、死亡换武器、结果重开；1280×720 与 960×540/110% UI 截图。阶段/伤害采用测试条件，不是完整对局或人工听感验收。
+- [入场阵容](render-evidence/presentation-lineup.png)、[READY](render-evidence/presentation-ready.png)、[GO](render-evidence/presentation-go.png)、[HUD](render-evidence/presentation-hud.png)、[死亡](render-evidence/presentation-death.png)、[小窗口死亡](render-evidence/presentation-death-small.png)、[结果](render-evidence/presentation-results.png)、[声音设置](render-evidence/presentation-settings.png)。预览角色只在入场/结果运行，正常对战禁用第二视口和预览骨骼更新。
+- 重建本地 arm64 应用和 preview.3 ZIP；没有推送或公开发布。导出/包证据见 `render-evidence/presentation-export.txt` 和 `presentation-build.json`。
+
+仍未迁入实时完整脚部 IK、完整状态表情/特效、原版音乐实时分层/混响/节拍同步过渡和所有环境触发；UI 为 Godot 适配重建，并非网页逐像素等价。保持碰撞、战斗参数与 CPU 墨迹计分权威。下面 preview.2 及更早章节为历史。
+
 ## 试玩反馈修复候选 · v0.3.0-preview.2 · 2026-09-30
 
 发布暂停，先修复真实试玩问题。原 v0.3.0-preview.1 的 51 项规则检查不能证明角色动画、脚底高度、阴影或持续温度正确。

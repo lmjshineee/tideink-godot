@@ -9,6 +9,7 @@ func _initialize() -> void:
 func _check() -> void:
 	var scene := (load("res://tidewater_play.tscn") as PackedScene).instantiate()
 	root.add_child(scene)
+	scene.call("show_preparation")
 	var walker: CharacterBody3D = scene.get_node("World/Walker")
 	var ink: RefCounted = scene.get("ink")
 	# The round length and the final-countdown threshold must come from config.js via
@@ -59,16 +60,15 @@ func _check() -> void:
 		_fail("finish pause ended too early")
 		return
 	scene.call("_physics_process", 0.2)
-	if scene.get("phase") != "judge" or int(scene.get("winner")) != 0 or scene.get("result") != String(scene.get("team_names")[0]) + "胜利":
-		_fail("judge did not use the authoritative turf coverage")
+	if scene.get("phase") != "results" or int(scene.get("winner")) != 0 or scene.get("result") != String(scene.get("team_names")[0]) + "胜利":
+		_fail("finish did not immediately show the authoritative final result")
 		return
-	scene.call("_physics_process", 5.0)
-	if scene.get("phase") != "judge":
-		_fail("judge reveal ended too early")
+	if scene.get("judged_coverage") != [float(ink.call("coverage", 0)), float(ink.call("coverage", 1))] or not (scene.get("result_actions") as Control).visible:
+		_fail("final percentages or replay controls were delayed")
 		return
 	scene.call("_physics_process", 0.2)
 	if scene.get("phase") != "results":
-		_fail("judge did not reach results")
+		_fail("final result did not remain visible")
 		return
 
 	var tied := (load("res://tidewater_play.tscn") as PackedScene).instantiate()
@@ -77,10 +77,10 @@ func _check() -> void:
 	tied.set("round_left", 0.01)
 	tied.call("_physics_process", 0.02)
 	tied.call("_physics_process", 2.7)
-	if tied.get("phase") != "judge" or int(tied.get("winner")) not in [0, 1] or tied.get("result") == "平局":
+	if tied.get("phase") != "results" or int(tied.get("winner")) not in [0, 1] or tied.get("result") == "平局":
 		_fail("equal coverage did not resolve to a source-style winner")
 		return
-	print("PASS: intro, final countdown, frozen finish, turf judge, tie-break and results")
+	print("PASS: intro, final countdown, frozen finish, authoritative turf result and tie-break; immediate final percentages and replay controls without judge delay")
 	quit()
 
 

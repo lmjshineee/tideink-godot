@@ -1,0 +1,1577 @@
+{
+  "conditions": {
+    "duration_seconds": 90,
+    "item": "refill",
+    "map_variant": 0,
+    "perk": "balanced",
+    "physics_hz": 30,
+    "reroll_bots": false
+  },
+  "limits": "Small automated sample, not human balance or rendering/performance acceptance. Local player is excluded from weapon aggregates; four allied vs five enemy bots and different routes/teams confound averages. Weapon-specific specials remain enabled. Turf is cumulative newly claimed area, including enemy overpaint, not final occupancy.",
+  "method": "Headless fixed-30Hz actual scene simulation; normal input-driven local shooter, nine production bots, natural 90-second timer and results. No teleports, forced damage or phase/clock skips during play.",
+  "rounds": [
+    {
+      "actors": [
+        {
+          "alive_seconds": 85.2333333333334,
+          "height_max": 4.02222204208374,
+          "id": 1,
+          "item": "refill",
+          "local_player": true,
+          "perk": "balanced",
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 292.398116004829
+          },
+          "team": 0,
+          "travel_m": 380.929934307467,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "height_max": 2.25,
+          "id": 2,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 843.635880188802,
+            "deaths": 3,
+            "kills": 5,
+            "specials": 1,
+            "turf": 411.460276030322
+          },
+          "team": 0,
+          "travel_m": 389.668907128624,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 82.0000000000005,
+          "height_max": 2.25,
+          "id": 3,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 260.426998770577,
+            "deaths": 2,
+            "kills": 2,
+            "specials": 1,
+            "turf": 280.367005022233
+          },
+          "team": 0,
+          "travel_m": 319.05983591103,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 73.3666666666644,
+          "height_max": 2.25,
+          "id": 4,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 1105.1519276709,
+            "deaths": 5,
+            "kills": 6,
+            "specials": 1,
+            "turf": 464.020428057805
+          },
+          "team": 0,
+          "travel_m": 310.679878885276,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 74.0000000000006,
+          "height_max": 2.25,
+          "id": 5,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 744.866666666667,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 283.2595011547
+          },
+          "team": 0,
+          "travel_m": 371.091515579727,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 73.199999999998,
+          "height_max": 2.25,
+          "id": 6,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 650.138149889991,
+            "deaths": 5,
+            "kills": 3,
+            "turf": 254.348844025637
+          },
+          "team": 1,
+          "travel_m": 366.894081612583,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "height_max": 2.25,
+          "id": 7,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 993.497378071051,
+            "deaths": 4,
+            "kills": 7,
+            "specials": 1,
+            "turf": 480.766248555212
+          },
+          "team": 1,
+          "travel_m": 357.821597242728,
+          "weapon": "heavy"
+        },
+        {
+          "alive_seconds": 74.0000000000007,
+          "height_max": 2.25,
+          "id": 8,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 742.192592326797,
+            "deaths": 4,
+            "kills": 3,
+            "specials": 1,
+            "turf": 490.771996280951
+          },
+          "team": 1,
+          "travel_m": 368.383319605724,
+          "weapon": "rapid"
+        },
+        {
+          "alive_seconds": 82.0000000000005,
+          "height_max": 2.25,
+          "id": 9,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 122.066666666666,
+            "deaths": 2,
+            "kills": 1,
+            "turf": 223.390052485749
+          },
+          "team": 1,
+          "travel_m": 421.496339986217,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000004,
+          "height_max": 2.25,
+          "id": 10,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 170.685352325439,
+            "deaths": 3,
+            "kills": 1,
+            "turf": 210.485400391948
+          },
+          "team": 1,
+          "travel_m": 306.571588229039,
+          "weapon": "roller"
+        }
+      ],
+      "case": 0,
+      "coverage": [
+        0.167546060029409,
+        0.190439120029986
+      ],
+      "duration_seconds": 90.0,
+      "map": "tidewater",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "team_cumulative_turf_m2": [
+        1731.50532626989,
+        1659.76254173949
+      ],
+      "wall_seconds": 7.76231
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 90.0,
+          "height_max": 3.47722196578979,
+          "id": 1,
+          "item": "refill",
+          "local_player": true,
+          "perk": "balanced",
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 350.067792760669
+          },
+          "team": 0,
+          "travel_m": 420.631672127871,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000005,
+          "height_max": 2.25,
+          "id": 2,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 434.984530654392,
+            "deaths": 3,
+            "kills": 4,
+            "specials": 1,
+            "turf": 349.068168584107
+          },
+          "team": 0,
+          "travel_m": 396.551901952247,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 65.8666666666674,
+          "height_max": 2.25,
+          "id": 3,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 650.766666666667,
+            "deaths": 6,
+            "kills": 4,
+            "turf": 337.672387117385
+          },
+          "team": 0,
+          "travel_m": 331.091408145148,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 70.6999999999979,
+          "height_max": 2.25,
+          "id": 4,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 1376.56966019395,
+            "deaths": 5,
+            "kills": 6,
+            "specials": 1,
+            "turf": 571.958356536525
+          },
+          "team": 0,
+          "travel_m": 341.603801830788,
+          "weapon": "heavy"
+        },
+        {
+          "alive_seconds": 73.9333333333336,
+          "height_max": 2.25,
+          "id": 5,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 416.328458329959,
+            "deaths": 4,
+            "kills": 2,
+            "turf": 253.637621391077
+          },
+          "team": 0,
+          "travel_m": 380.587374472409,
+          "weapon": "rapid"
+        },
+        {
+          "alive_seconds": 86.0000000000002,
+          "height_max": 2.25,
+          "id": 6,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 458.333333333333,
+            "deaths": 1,
+            "kills": 4,
+            "turf": 363.602515783551
+          },
+          "team": 1,
+          "travel_m": 435.801925002364,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000007,
+          "height_max": 2.25,
+          "id": 7,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 367.674410265059,
+            "deaths": 4,
+            "kills": 1,
+            "turf": 223.535903415844
+          },
+          "team": 1,
+          "travel_m": 294.237244220916,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 78.0,
+          "height_max": 2.25,
+          "id": 8,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 979.658923068273,
+            "deaths": 3,
+            "kills": 7,
+            "specials": 1,
+            "turf": 547.036524732459
+          },
+          "team": 1,
+          "travel_m": 319.018896109541,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 66.999999999998,
+          "height_max": 2.25,
+          "id": 9,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 566.333333333333,
+            "deaths": 6,
+            "kills": 3,
+            "turf": 252.609262402964
+          },
+          "team": 1,
+          "travel_m": 344.494553703116,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 82.0000000000001,
+          "height_max": 2.25,
+          "id": 10,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 514.0,
+            "deaths": 2,
+            "kills": 3,
+            "specials": 1,
+            "turf": 356.533606221212
+          },
+          "team": 1,
+          "travel_m": 407.949556061649,
+          "weapon": "dualie"
+        }
+      ],
+      "case": 1,
+      "coverage": [
+        0.207969322146296,
+        0.202000980307355
+      ],
+      "duration_seconds": 90.0,
+      "map": "tidewater",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 1709,
+      "simulation_seconds": 90.0,
+      "team_cumulative_turf_m2": [
+        1862.40432638976,
+        1743.31781255603
+      ],
+      "wall_seconds": 8.508492
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 86.6333333333308,
+          "height_max": 4.12631845474243,
+          "id": 1,
+          "item": "refill",
+          "local_player": true,
+          "perk": "balanced",
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 299.679183610932
+          },
+          "team": 0,
+          "travel_m": 383.627782488242,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 69.1333333333313,
+          "height_max": 2.25,
+          "id": 2,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 495.666666666667,
+            "deaths": 6,
+            "kills": 6,
+            "turf": 268.836839127673
+          },
+          "team": 0,
+          "travel_m": 350.523506968108,
+          "weapon": "rapid"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "height_max": 2.25,
+          "id": 3,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 618.827481608073,
+            "deaths": 3,
+            "kills": 2,
+            "turf": 440.267547303681
+          },
+          "team": 0,
+          "travel_m": 400.964664969826,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000006,
+          "height_max": 2.25,
+          "id": 4,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 576.403758850097,
+            "deaths": 4,
+            "kills": 4,
+            "specials": 1,
+            "turf": 436.99286038997
+          },
+          "team": 0,
+          "travel_m": 291.405043020146,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "height_max": 2.25,
+          "id": 5,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 1402.00666666667,
+            "deaths": 5,
+            "kills": 6,
+            "turf": 282.462965149887
+          },
+          "team": 0,
+          "travel_m": 273.908002413344,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 73.9333333333336,
+          "height_max": 2.25,
+          "id": 6,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 523.333333333333,
+            "deaths": 4,
+            "kills": 4,
+            "turf": 323.747336461115
+          },
+          "team": 1,
+          "travel_m": 374.177225622348,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 80.2999999999979,
+          "height_max": 2.25,
+          "id": 7,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 726.046762972441,
+            "deaths": 3,
+            "kills": 3,
+            "turf": 235.766208819726
+          },
+          "team": 1,
+          "travel_m": 408.194026254932,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "height_max": 2.25,
+          "id": 8,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 629.692162220495,
+            "deaths": 3,
+            "kills": 3,
+            "specials": 1,
+            "turf": 593.542274396979
+          },
+          "team": 1,
+          "travel_m": 390.492552635493,
+          "weapon": "heavy"
+        },
+        {
+          "alive_seconds": 70.0000000000003,
+          "height_max": 2.25,
+          "id": 9,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 522.0,
+            "deaths": 5,
+            "kills": 3,
+            "turf": 255.438309624185
+          },
+          "team": 1,
+          "travel_m": 350.411853792088,
+          "weapon": "rapid"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "height_max": 2.25,
+          "id": 10,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 460.772596220522,
+            "deaths": 3,
+            "kills": 5,
+            "turf": 354.639044744183
+          },
+          "team": 1,
+          "travel_m": 393.256275945576,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 2,
+      "coverage": [
+        0.202880373670098,
+        0.223870484098838
+      ],
+      "duration_seconds": 90.0,
+      "map": "tidewater",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 3253,
+      "simulation_seconds": 90.0,
+      "team_cumulative_turf_m2": [
+        1728.23939558214,
+        1763.13317404619
+      ],
+      "wall_seconds": 8.616101
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 90.0,
+          "height_max": 4.10185623168945,
+          "id": 1,
+          "item": "refill",
+          "local_player": true,
+          "perk": "balanced",
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 329.344099301923
+          },
+          "team": 0,
+          "travel_m": 428.14358671871,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 77.9,
+          "height_max": 2.25,
+          "id": 2,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 1394.29873548471,
+            "deaths": 3,
+            "kills": 8,
+            "specials": 1,
+            "turf": 465.959953054965
+          },
+          "team": 0,
+          "travel_m": 335.063047773088,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 77.9333333333338,
+          "height_max": 2.25,
+          "id": 3,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 552.866666666666,
+            "deaths": 3,
+            "kills": 5,
+            "turf": 383.37402168418
+          },
+          "team": 0,
+          "travel_m": 395.034806563403,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 73.9333333333338,
+          "height_max": 2.25,
+          "id": 4,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 410.938948291597,
+            "deaths": 4,
+            "kills": 1,
+            "turf": 358.645690505233
+          },
+          "team": 0,
+          "travel_m": 374.217875895614,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 77.9666666666667,
+          "height_max": 2.25,
+          "id": 5,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 1090.75981018237,
+            "deaths": 3,
+            "kills": 8,
+            "specials": 1,
+            "turf": 471.181728555101
+          },
+          "team": 0,
+          "travel_m": 384.499748371542,
+          "weapon": "heavy"
+        },
+        {
+          "alive_seconds": 69.9666666666674,
+          "height_max": 2.25,
+          "id": 6,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 226.708350896835,
+            "deaths": 5,
+            "kills": 0,
+            "turf": 305.081873131307
+          },
+          "team": 1,
+          "travel_m": 358.85192110599,
+          "weapon": "rapid"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "height_max": 2.25,
+          "id": 7,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 391.132973122355,
+            "deaths": 4,
+            "kills": 2,
+            "turf": 208.336873462921
+          },
+          "team": 1,
+          "travel_m": 376.323069052538,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000007,
+          "height_max": 2.25,
+          "id": 8,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 43.8044209889003,
+            "deaths": 4,
+            "kills": 0,
+            "turf": 274.420317383642
+          },
+          "team": 1,
+          "travel_m": 292.999309565057,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 74.0000000000007,
+          "height_max": 2.25,
+          "id": 9,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 1186.40036021098,
+            "deaths": 4,
+            "kills": 8,
+            "turf": 437.937408879971
+          },
+          "team": 1,
+          "travel_m": 324.111001249636,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 70.0000000000004,
+          "height_max": 2.25,
+          "id": 10,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 411.933333333333,
+            "deaths": 5,
+            "kills": 3,
+            "turf": 239.591586395402
+          },
+          "team": 1,
+          "travel_m": 354.161884871661,
+          "weapon": "blaster"
+        }
+      ],
+      "case": 3,
+      "coverage": [
+        0.238892252688637,
+        0.155335466943459
+      ],
+      "duration_seconds": 90.0,
+      "map": "tidewater",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 6151,
+      "simulation_seconds": 90.0,
+      "team_cumulative_turf_m2": [
+        2008.5054931014,
+        1465.36805925324
+      ],
+      "wall_seconds": 8.342625
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 88.6333333333308,
+          "height_max": 4.47722196578979,
+          "id": 1,
+          "item": "refill",
+          "local_player": true,
+          "perk": "balanced",
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 254.308066104232
+          },
+          "team": 0,
+          "travel_m": 410.896143160295,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000009,
+          "height_max": 3.25,
+          "id": 2,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 994.862248292811,
+            "deaths": 5,
+            "kills": 3,
+            "turf": 400.280713509092
+          },
+          "team": 0,
+          "travel_m": 336.815472935385,
+          "weapon": "heavy"
+        },
+        {
+          "alive_seconds": 70.0000000000003,
+          "height_max": 3.25,
+          "id": 3,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 256.057420734224,
+            "deaths": 5,
+            "kills": 1,
+            "specials": 1,
+            "turf": 398.132243136438
+          },
+          "team": 0,
+          "travel_m": 356.084996763675,
+          "weapon": "rapid"
+        },
+        {
+          "alive_seconds": 66.0000000000005,
+          "height_max": 3.25,
+          "id": 4,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 470.598364400228,
+            "deaths": 6,
+            "kills": 6,
+            "turf": 379.52025821426
+          },
+          "team": 0,
+          "travel_m": 340.736564144026,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000003,
+          "height_max": 3.25,
+          "id": 5,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 219.351511780512,
+            "deaths": 5,
+            "kills": 1,
+            "turf": 314.741927941836
+          },
+          "team": 0,
+          "travel_m": 274.017411843495,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 78.0000000000004,
+          "height_max": 3.25,
+          "id": 6,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 1857.90488529026,
+            "deaths": 3,
+            "kills": 11,
+            "specials": 2,
+            "turf": 646.968083345167
+          },
+          "team": 1,
+          "travel_m": 312.417812002939,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 85.9999999999998,
+          "height_max": 3.25,
+          "id": 7,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 247.2,
+            "deaths": 1,
+            "kills": 2,
+            "specials": 1,
+            "turf": 325.531455546196
+          },
+          "team": 1,
+          "travel_m": 433.180687496177,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 82.0000000000002,
+          "height_max": 3.25,
+          "id": 8,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 400.06178137643,
+            "deaths": 2,
+            "kills": 2,
+            "specials": 1,
+            "turf": 444.079746739898
+          },
+          "team": 1,
+          "travel_m": 414.147566832944,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 86.0000000000002,
+          "height_max": 3.25,
+          "id": 9,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 289.266666666667,
+            "deaths": 1,
+            "kills": 2,
+            "specials": 1,
+            "turf": 349.223051797115
+          },
+          "team": 1,
+          "travel_m": 417.001785589731,
+          "weapon": "heavy"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "height_max": 3.25,
+          "id": 10,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 690.599999999998,
+            "deaths": 4,
+            "kills": 5,
+            "specials": 1,
+            "turf": 376.145306610988
+          },
+          "team": 1,
+          "travel_m": 375.163565194671,
+          "weapon": "rapid"
+        }
+      ],
+      "case": 4,
+      "coverage": [
+        0.135026056972689,
+        0.249337147185978
+      ],
+      "duration_seconds": 90.0,
+      "map": "kelpline",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "team_cumulative_turf_m2": [
+        1746.98320890586,
+        2141.94764403937
+      ],
+      "wall_seconds": 9.80529
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 85.2333333333331,
+          "height_max": 4.47722196578979,
+          "id": 1,
+          "item": "refill",
+          "local_player": true,
+          "perk": "balanced",
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 317.211915515598
+          },
+          "team": 0,
+          "travel_m": 400.822442266573,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000005,
+          "height_max": 3.25,
+          "id": 2,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 350.595729938688,
+            "deaths": 3,
+            "kills": 4,
+            "specials": 1,
+            "turf": 354.000823705975
+          },
+          "team": 0,
+          "travel_m": 306.351346031239,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 77.9666666666671,
+          "height_max": 3.25,
+          "id": 3,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 1603.10151563009,
+            "deaths": 3,
+            "kills": 8,
+            "specials": 2,
+            "turf": 745.942655520253
+          },
+          "team": 0,
+          "travel_m": 316.595458473894,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 77.9666666666671,
+          "height_max": 3.25,
+          "id": 4,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 422.921971448263,
+            "deaths": 3,
+            "kills": 3,
+            "specials": 1,
+            "turf": 439.486937839681
+          },
+          "team": 0,
+          "travel_m": 393.992171371479,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "height_max": 3.25,
+          "id": 5,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 719.254480787295,
+            "deaths": 3,
+            "kills": 3,
+            "turf": 299.007879764678
+          },
+          "team": 0,
+          "travel_m": 392.124624546384,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 81.9666666666669,
+          "height_max": 3.25,
+          "id": 6,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 734.177197549558,
+            "deaths": 2,
+            "kills": 3,
+            "specials": 1,
+            "turf": 518.557405253568
+          },
+          "team": 1,
+          "travel_m": 397.063349941047,
+          "weapon": "heavy"
+        },
+        {
+          "alive_seconds": 71.5999999999976,
+          "height_max": 3.25,
+          "id": 7,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 436.634650807381,
+            "deaths": 5,
+            "kills": 1,
+            "turf": 259.176204751747
+          },
+          "team": 1,
+          "travel_m": 367.303554600338,
+          "weapon": "rapid"
+        },
+        {
+          "alive_seconds": 74.0000000000001,
+          "height_max": 3.25,
+          "id": 8,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 512.050728514512,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 363.283188294187
+          },
+          "team": 1,
+          "travel_m": 375.05551681621,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0,
+          "height_max": 3.25,
+          "id": 9,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 217.487693404357,
+            "deaths": 3,
+            "kills": 1,
+            "turf": 279.472147710446
+          },
+          "team": 1,
+          "travel_m": 299.134853763622,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 74.0,
+          "height_max": 3.25,
+          "id": 10,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 430.8,
+            "deaths": 4,
+            "kills": 2,
+            "specials": 1,
+            "turf": 405.175248417633
+          },
+          "team": 1,
+          "travel_m": 349.948362608295,
+          "weapon": "charger"
+        }
+      ],
+      "case": 5,
+      "coverage": [
+        0.240194349751185,
+        0.176129462011677
+      ],
+      "duration_seconds": 90.0,
+      "map": "kelpline",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 1709,
+      "simulation_seconds": 90.0,
+      "team_cumulative_turf_m2": [
+        2155.65021234619,
+        1825.66419442758
+      ],
+      "wall_seconds": 9.392503
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 90.0,
+          "height_max": 4.47722196578979,
+          "id": 1,
+          "item": "refill",
+          "local_player": true,
+          "perk": "balanced",
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 278.732411596714
+          },
+          "team": 0,
+          "travel_m": 427.371318451129,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.4666666666642,
+          "height_max": 3.25,
+          "id": 2,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 111.327229091031,
+            "deaths": 3,
+            "kills": 1,
+            "turf": 229.249074858942
+          },
+          "team": 0,
+          "travel_m": 392.813859245158,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 78.0,
+          "height_max": 3.25,
+          "id": 3,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 1327.38054182368,
+            "deaths": 3,
+            "kills": 7,
+            "specials": 2,
+            "turf": 677.096241097348
+          },
+          "team": 0,
+          "travel_m": 366.16704379383,
+          "weapon": "heavy"
+        },
+        {
+          "alive_seconds": 81.0999999999975,
+          "height_max": 3.25,
+          "id": 4,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 510.633333333333,
+            "deaths": 3,
+            "kills": 4,
+            "specials": 1,
+            "turf": 445.878302329037
+          },
+          "team": 0,
+          "travel_m": 404.92790939426,
+          "weapon": "rapid"
+        },
+        {
+          "alive_seconds": 82.0,
+          "height_max": 3.25,
+          "id": 5,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 530.42556241862,
+            "deaths": 2,
+            "kills": 3,
+            "specials": 1,
+            "turf": 416.047871046429
+          },
+          "team": 0,
+          "travel_m": 407.304125412833,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "height_max": 3.25,
+          "id": 6,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 366.138952247983,
+            "deaths": 3,
+            "kills": 1,
+            "turf": 297.551510197455
+          },
+          "team": 1,
+          "travel_m": 311.076491684187,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "height_max": 3.25,
+          "id": 7,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 621.254572837466,
+            "deaths": 3,
+            "kills": 3,
+            "turf": 343.952408713857
+          },
+          "team": 1,
+          "travel_m": 366.181135313032,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 78.0000000000005,
+          "height_max": 3.25,
+          "id": 8,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 363.47044411616,
+            "deaths": 3,
+            "kills": 2,
+            "specials": 1,
+            "turf": 369.65177590391
+          },
+          "team": 1,
+          "travel_m": 378.251715670878,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 82.0,
+          "height_max": 3.25,
+          "id": 9,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 234.8120938292,
+            "deaths": 2,
+            "kills": 2,
+            "specials": 1,
+            "turf": 359.477137534265
+          },
+          "team": 1,
+          "travel_m": 403.756128358422,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 74.0000000000005,
+          "height_max": 3.25,
+          "id": 10,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 589.631097790586,
+            "deaths": 4,
+            "kills": 3,
+            "specials": 1,
+            "turf": 518.090725394783
+          },
+          "team": 1,
+          "travel_m": 363.075514170458,
+          "weapon": "heavy"
+        }
+      ],
+      "case": 6,
+      "coverage": [
+        0.225853218917754,
+        0.20175541710748
+      ],
+      "duration_seconds": 90.0,
+      "map": "kelpline",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 3253,
+      "simulation_seconds": 90.0,
+      "team_cumulative_turf_m2": [
+        2047.00390092847,
+        1888.72355774427
+      ],
+      "wall_seconds": 8.352501
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 85.2333333333331,
+          "height_max": 4.47722196578979,
+          "id": 1,
+          "item": "refill",
+          "local_player": true,
+          "perk": "balanced",
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 251.584001464466
+          },
+          "team": 0,
+          "travel_m": 398.690271725412,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 83.1999999999977,
+          "height_max": 3.25,
+          "id": 2,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 443.043123555501,
+            "deaths": 2,
+            "kills": 5,
+            "turf": 314.595031664204
+          },
+          "team": 0,
+          "travel_m": 418.484255537391,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0,
+          "height_max": 3.25,
+          "id": 3,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 231.872250977017,
+            "deaths": 3,
+            "kills": 1,
+            "specials": 1,
+            "turf": 302.670368662331
+          },
+          "team": 0,
+          "travel_m": 304.650028835691,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 76.833333333331,
+          "height_max": 3.25,
+          "id": 4,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 1555.9414221409,
+            "deaths": 4,
+            "kills": 8,
+            "specials": 2,
+            "turf": 606.538920955567
+          },
+          "team": 0,
+          "travel_m": 316.002751446096,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 78.0,
+          "height_max": 3.25,
+          "id": 5,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 283.925244525763,
+            "deaths": 3,
+            "kills": 0,
+            "specials": 1,
+            "turf": 415.7929954172
+          },
+          "team": 0,
+          "travel_m": 391.821386033844,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 78.333333333331,
+          "height_max": 3.25,
+          "id": 6,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 235.525639910016,
+            "deaths": 3,
+            "kills": 2,
+            "turf": 297.768766712091
+          },
+          "team": 1,
+          "travel_m": 403.366058852436,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 81.9999999999998,
+          "height_max": 3.25,
+          "id": 7,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 1010.1336486117,
+            "deaths": 2,
+            "kills": 6,
+            "specials": 2,
+            "turf": 632.410506633821
+          },
+          "team": 1,
+          "travel_m": 409.000349275186,
+          "weapon": "heavy"
+        },
+        {
+          "alive_seconds": 78.0000000000007,
+          "height_max": 3.25,
+          "id": 8,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 554.896761965751,
+            "deaths": 3,
+            "kills": 3,
+            "specials": 1,
+            "turf": 376.063482576799
+          },
+          "team": 1,
+          "travel_m": 394.603260573815,
+          "weapon": "rapid"
+        },
+        {
+          "alive_seconds": 78.0000000000004,
+          "height_max": 3.25,
+          "id": 9,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 329.433916462402,
+            "deaths": 3,
+            "kills": 1,
+            "turf": 326.668811066103
+          },
+          "team": 1,
+          "travel_m": 397.593705298961,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000005,
+          "height_max": 3.25,
+          "id": 10,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 137.0,
+            "deaths": 3,
+            "kills": 1,
+            "specials": 1,
+            "turf": 368.995139898006
+          },
+          "team": 1,
+          "travel_m": 291.014278414717,
+          "weapon": "roller"
+        }
+      ],
+      "case": 7,
+      "coverage": [
+        0.169638075832974,
+        0.238274362289879
+      ],
+      "duration_seconds": 90.0,
+      "map": "kelpline",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 6151,
+      "simulation_seconds": 90.0,
+      "team_cumulative_turf_m2": [
+        1891.18131816377,
+        2001.90670688682
+      ],
+      "wall_seconds": 8.495782
+    }
+  ],
+  "source_sha256": {
+    "equipment_catalog.gd": "0614b34495544118955b56f0756381c7209a937c977b23136d62700766717e3c",
+    "gameplay_rules.gd": "2b93eddd99b8639c61d8dd37382e9d5e1cec87c3b701924c8187116eb5e7dc36",
+    "tidewater_bot.gd": "7d39d60d0b7b67cc6d6772b9f530a3914e40d8f624adbf45a6774dd6f2e8e006",
+    "tidewater_combat.gd": "0ad2c4c623dab5976064d5292d89e7255a67a74ab01ba48bf6d51c0355751b5f",
+    "tidewater_play.gd": "a870d16f368c249816d0ae4bd572943bbabadc90da6f73df5ec237e171db2226"
+  }
+}

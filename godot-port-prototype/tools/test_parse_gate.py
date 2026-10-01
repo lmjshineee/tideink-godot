@@ -7,6 +7,7 @@ Exporter stubs isolate the runner's ordering from unrelated asset checks.
 
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import tempfile
@@ -36,10 +37,12 @@ def main():
         (project / "project.godot").write_text('config_version=5\n')
         for name in ("check_scripts_parse.gd", "run_checks.sh"):
             shutil.copy2(TOOLS / name, tools / name)
-        for name in ("map", "surfaces", "visuals"):
-            (tools / f"export_tidewater_{name}.mjs").write_text('console.log("stub exporter");\n')
-        for name in ("weapon_config", "ui_icons", "navigation", "characters", "weapon_poses"):
-            (tools / f"export_{name}.mjs").write_text('console.log("stub exporter");\n')
+        exporters = re.search(r'^EXPORTERS="([^"]+)"$',
+                              (tools / "run_checks.sh").read_text(), re.MULTILINE)
+        if exporters is None:
+            raise RuntimeError("Cannot find the runner's exporter inventory")
+        for name in exporters.group(1).split():
+            (tools / f"{name}.mjs").write_text('console.log("stub exporter");\n')
         # This sorts before the parse gate, so the old glob-based runner launches it.
         sentinel = tools / "check_a_sentinel.gd"
         sentinel.write_text('extends SceneTree\nfunc _initialize():\n'

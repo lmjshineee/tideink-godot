@@ -1,8 +1,8 @@
 extends Node3D
 
-# Readable stand-in for the web game's procedural squidkid rig, now with the basic
-# idle and walk poses the demo needs. Feet are y=0, facing +Z. Visuals never own
-# movement, collision, ink or damage state.
+# Original web squidkid geometry, 87-bone rig, source fragment details and sampled
+# poses are the default. Feet are y=0, facing +Z. Visuals never own movement,
+# collision, ink or damage state. Primitive meshes remain hidden API fallbacks.
 #
 # Source references: public/game/src/game/character.js — the idle layer (breathing,
 # weight shift, arm sway) around :1013-1048 and the locomotion layer (gait phase,
@@ -22,7 +22,38 @@ extends Node3D
 # than reparenting anything.
 @export_range(0, 1) var team := 0
 @export_range(0, 3) var style_index := 0
+@export var ornament_seed := -1
+var ornament_pattern := 0
+var ornament_color := Color("ffc04a")
+var ornament_pose := Vector4(1,0,0,0)
+var ornament_side := 0
 const ORIGINAL_SURFACE := preload("res://character_surface.gdshader")
+const SKIN_SURFACE := preload("res://character_skin.gdshader")
+const EYE_SURFACE := preload("res://character_eyes.gdshader")
+const HAIR_SURFACE := preload("res://character_hair.gdshader")
+const CLOTH_SURFACE := preload("res://character_cloth.gdshader")
+const IRIS := [Color("ffcf3a"),Color("4ff0dc"),Color("c9a2ff"),Color("a8f56a")]
+const IRIS_DARK := [Color("ff7a00"),Color("0b7fb0"),Color("5b2ad6"),Color("1d9a4a")]
+const OUTFITS := [
+	["f4f2ec","27304a","272b34","f4f2ec","f7f7f4","30343d"],
+	["2b2e36","cfbb92","f3f2ee","c98b4e","f7f7f4","24262c"],
+	["bfc5cf","1f2127","f3f2ee","2a2c33","2a2c33","2a2c33"],
+	["f2e6c9","3a5683","3a3f4b","f4f2ec","f7f7f4","3a3f4b"]
+]
+var face_material: ShaderMaterial
+var eye_material: ShaderMaterial
+var face_expression := "idle"
+var face_ink := 1.0
+var face_health := 1.0
+var face_charge := 0.0
+var face_special := false
+var _face_bones: Array[int] = []
+var _face_poses: Array[Transform3D] = []
+var _mouth_pose := Vector4(0.75,1.0,0.0,0.0)
+var _eye_look := Vector2.ZERO
+var _blink_remaining := 2.0
+var _blink_elapsed := 1.0
+var _shot_age := 9.0
 static var _original_team_materials: Dictionary = {}
 var original_rig: Node3D
 var skeleton: Skeleton3D
@@ -37,6 +68,17 @@ var aim_pitch := 0.0
 var rolling_pose := false
 static var _weapon_pose_data: Dictionary = {}
 var _upper_bones: Array[int] = []
+static var _action_data: Dictionary = {}
+var _action_bones: Array[int] = []
+var _gait_bones: Array[int] = []
+var _gaits: Dictionary = {}
+var _action_rest: Array[Transform3D] = []
+var _kid_rig: Node3D
+var reaction_name := ""
+var reaction_elapsed := 0.0
+var dance_name := ""
+var dance_variant := 0
+var _was_grounded := true
 
 const TeamPalette := preload("res://team_palette.gd")
 const SKIN := Color("ffd9c2")
@@ -72,6 +114,7 @@ const AIR_BLEND := 7.0
 var kid: Node3D
 var squid: Node3D
 var weapon_models: Dictionary = {}
+const Equipment:=preload("res://equipment_catalog.gd")
 var current_weapon := "shooter"
 var is_squid := false
 
@@ -108,6 +151,7 @@ const NECK := Vector3(0.0, 1.1, 0.0)
 
 
 func _ready() -> void:
+	_configure_ornament()
 	kid = Node3D.new()
 	kid.name = "Kid"
 	add_child(kid)
@@ -120,6 +164,20 @@ func _ready() -> void:
 	set_weapon(current_weapon)
 	set_form(false)
 	_previous_position = global_position
+
+
+func _configure_ornament() -> void:
+	# A private RNG preserves weapon spread/replay seeds. Reuse this seed in portraits.
+	var rng := RandomNumberGenerator.new()
+	if ornament_seed < 0:
+		rng.randomize()
+		ornament_seed = int(rng.randi() & 0x7fffffff)
+	rng.seed = ornament_seed
+	ornament_pattern = rng.randi_range(0,7)
+	ornament_pose = Vector4(rng.randf_range(0.85,1.12),rng.randf_range(-0.22,0.22),rng.randf_range(-0.025,0.025),rng.randf_range(-0.02,0.02))
+	ornament_side = [0,0,-1,1][rng.randi_range(0,3)]
+	var colors := [Color("ffc04a"),Color("fff1ce"),Color("e87d94"),TeamPalette.color(team).lightened(0.25)]
+	ornament_color = colors[rng.randi_range(0,colors.size()-1)]
 
 
 func _physics_process(delta: float) -> void:
@@ -142,16 +200,16 @@ func set_form(value: bool) -> void:
 
 
 func set_weapon(weapon_id: String) -> void:
-	if not weapon_models.has(weapon_id):
+	if not weapon_models.has(Equipment.base(weapon_id)):
 		return
 	current_weapon = weapon_id
 	action_time = 0.0
 	action_elapsed = 1.0
 	action_name = ""
 	for id in weapon_models:
-		(weapon_models[id] as Node3D).visible = id == weapon_id
+		(weapon_models[id] as Node3D).visible = id == Equipment.base(weapon_id)
 	for id in original_weapons:
-		(original_weapons[id] as Node3D).visible = id == weapon_id
+		(original_weapons[id] as Node3D).visible = id == weapon_id or (id=="dualie_left" and weapon_id=="dualie")
 
 
 # Read-only snapshot for the appearance check and for future spectators/name tags.
@@ -204,6 +262,10 @@ func _read_motion(delta: float) -> void:
 # ------------------------------------------------------------------ pose
 func _animate(delta: float) -> void:
 	_clock += delta
+	if anim_grounded != _was_grounded:
+		set_reaction("land" if anim_grounded else "jump")
+	_was_grounded = anim_grounded
+	reaction_elapsed += delta
 	recoil = move_toward(recoil, 0.0, delta * 5.0)
 	action_time = maxf(0.0, action_time - delta)
 	action_elapsed += delta
@@ -495,6 +557,30 @@ func _install_original() -> void:
 	kid.add_child(original_rig)
 	skeleton = _find_skeleton(original_rig)
 	_load_weapon_poses()
+	_kid_rig = original_rig.find_child("KidRig",true,false) as Node3D
+	if _action_data.is_empty():
+		_action_data = JSON.parse_string(FileAccess.get_file_as_string("res://assets/characters/actions.json"))
+	for bone_name in _action_data["bones"]:
+		_action_bones.append(skeleton.find_bone(bone_name))
+	for values in _action_data["rest"]:
+		_action_rest.append(_sample_values(values))
+	for bone_name in _action_data["gaitBones"]:
+		_gait_bones.append(skeleton.find_bone(bone_name))
+	for weapon in _action_data["gaits"]:
+		var clips := {}
+		for mode in _action_data["gaits"][weapon]:
+			var frames := []
+			for frame in _action_data["gaits"][weapon][mode]["frames"]:
+				var poses: Array[Transform3D] = []
+				for values in frame["bones"]:poses.append(_sample_values(values))
+				frames.append({"bones":poses,"kid":_sample_values(frame["kid"])})
+			clips[mode] = frames
+		_gaits[weapon] = clips
+	for bone_name in _action_data["faceBones"]:
+		var bone := skeleton.find_bone(bone_name)
+		_face_bones.append(bone)
+		_face_poses.append(skeleton.get_bone_rest(bone))
+	_blink_remaining += style_index*0.7+team*0.35+fmod(float(get_instance_id()),7.0)*0.12
 	var squid_root := original_rig.find_child("SquidRig", true, false) as Node3D
 	if squid_root != null:
 		squid_root.reparent(squid)
@@ -506,6 +592,16 @@ func _install_original() -> void:
 		if model != null:
 			original_weapons[id] = model
 
+	for id in Equipment.EXTRA:
+		var source:Node3D=original_weapons[Equipment.base(id)]
+		var copy:Node3D=source.duplicate();copy.name="Weapon_"+id;source.get_parent().add_child(copy)
+		copy.scale*=Vector3(1,1,1.35) if id=="heavy" else (Vector3.ONE*.82 if id=="rapid" else Vector3.ONE*.8)
+		original_weapons[id]=copy
+		if id=="dualie":
+			var left:=BoneAttachment3D.new();left.bone_name="handL";skeleton.add_child(left)
+			var twin:Node3D=source.duplicate();left.add_child(twin);twin.scale*=.8
+			original_weapons["dualie_left"]=twin
+
 
 func _hide_primitive_meshes(node: Node) -> void:
 	if node is MeshInstance3D:
@@ -516,6 +612,9 @@ func _hide_primitive_meshes(node: Node) -> void:
 
 func _materialize_original(node: Node) -> void:
 	if node is MeshInstance3D and node.get_parent() != kid:
+		# Preserve the smooth authored silhouette/face at portrait distances. Godot's
+		# automatic low-detail mesh otherwise collapses cheeks and cap into facets.
+		(node as MeshInstance3D).lod_bias = 6.0
 		if node.name == "TankGlass":
 			var glass := StandardMaterial3D.new()
 			glass.albedo_color = Color(0.65,0.9,1.0,0.18)
@@ -523,11 +622,37 @@ func _materialize_original(node: Node) -> void:
 			glass.roughness = 0.18
 			(node as MeshInstance3D).material_override = glass
 			return
-		var key := TeamPalette.color(team).to_html()
+		var mesh := (node as MeshInstance3D).mesh
+		var imported := mesh.surface_get_material(0)
+		var semantic := imported.resource_name if imported != null else "Equipment"
+		if semantic == "Skin" or semantic == "Eyes":
+			var instance_material := face_material if semantic == "Skin" else eye_material
+			if instance_material == null:
+				instance_material = ShaderMaterial.new()
+				instance_material.shader = SKIN_SURFACE if semantic == "Skin" else EYE_SURFACE
+				instance_material.set_shader_parameter("team_color",TeamPalette.color(team))
+				if semantic == "Skin":
+					instance_material.set_shader_parameter("freckles",style_index == 0)
+					instance_material.set_shader_parameter("ornament_pattern",ornament_pattern)
+					instance_material.set_shader_parameter("ornament_color",ornament_color)
+					instance_material.set_shader_parameter("ornament_pose",ornament_pose)
+					instance_material.set_shader_parameter("ornament_side",ornament_side)
+					face_material = instance_material
+				else:
+					instance_material.set_shader_parameter("iris_color",IRIS[posmod(style_index,4)])
+					instance_material.set_shader_parameter("iris_dark",IRIS_DARK[posmod(style_index,4)])
+					eye_material = instance_material
+			(node as MeshInstance3D).material_override = instance_material
+			return
+		var key := TeamPalette.color(team).to_html()+semantic+str(style_index)
 		if not _original_team_materials.has(key):
 			var shared := ShaderMaterial.new()
-			shared.shader = ORIGINAL_SURFACE
+			shared.shader = HAIR_SURFACE if semantic == "TeamHair" else CLOTH_SURFACE if semantic == "Cloth" else ORIGINAL_SURFACE
 			shared.set_shader_parameter("team_color", TeamPalette.color(team))
+			shared.set_shader_parameter("pattern",posmod(style_index,4))
+			if semantic == "Cloth":
+				var names := ["shirt_color","shorts_color","shoe_color","sole_color","sock_color","strap_color"]
+				for i in names.size():shared.set_shader_parameter(names[i],Color(OUTFITS[posmod(style_index,4)][i]))
 			_original_team_materials[key] = shared
 		(node as MeshInstance3D).material_override = _original_team_materials[key]
 	for child in node.get_children():
@@ -549,6 +674,7 @@ func set_action(name_text: String) -> void:
 	action_time = 0.8
 	action_elapsed = 0.0
 	recoil = 0.17
+	_shot_age = 0.0
 
 
 func set_aim(value: bool) -> void:
@@ -564,23 +690,158 @@ func _bone_angle(name_text: String, pitch: float, yaw: float = 0.0, roll: float 
 func _animate_original(left: float, right: float, lean: float, lift: float, _delta: float) -> void:
 	if skeleton == null:
 		return
-	_bone_angle("thighL", left * 0.75)
-	_bone_angle("thighR", right * 0.75)
-	_bone_angle("shinL", maxf(0.0, left) * 0.6)
-	_bone_angle("shinR", maxf(0.0, right) * 0.6)
+	if not anim_grounded:
+		_bone_angle("thighL", left * 0.75)
+		_bone_angle("thighR", right * 0.75)
+		_bone_angle("shinL", maxf(0.0, left) * 0.6)
+		_bone_angle("shinR", maxf(0.0, right) * 0.6)
 	_bone_angle("spine", lean * 0.5)
 	_bone_angle("head", -lean * 0.35)
 	_apply_original_hold(_delta)
 	var hips := skeleton.find_bone("hips")
-	if hips >= 0:
+	if hips >= 0 and not anim_grounded:
 		skeleton.set_bone_pose_position(hips, skeleton.get_bone_rest(hips).origin + Vector3(0.0, lift, 0.0))
+	if anim_grounded:
+		_apply_source_gait(_delta)
 	for strand in range(8):
 		_bone_angle("hair%d_0" % strand, sin(_clock * 3.0 + strand) * 0.025 + lean * 0.2)
+	_apply_face(_delta)
+	_apply_reaction(_delta)
+	if _kid_rig != null and not anim_grounded and reaction_name.is_empty() and dance_name.is_empty():
+		_kid_rig.transform = _kid_rig.transform.interpolate_with(Transform3D.IDENTITY,1.0-exp(-15.0*_delta))
+
+
+# Read-only expression inputs. The game retains all health/ink/charge authority.
+func set_expression_state(ink_fraction: float, health_fraction: float, charge: float, special: bool) -> void:
+	face_ink = clampf(ink_fraction,0.0,1.0)
+	face_health = clampf(health_fraction,0.0,1.0)
+	face_charge = clampf(charge,0.0,1.0)
+	face_special = special
+
+
+func _apply_face(delta: float) -> void:
+	_shot_age += delta
+	face_expression = "tired" if face_health < 0.3 else "low" if face_ink < 0.15 else "charge" if face_charge > 0.5 else "fire" if _shot_age < 0.25 or rolling_pose else "focus" if aiming else "special" if face_special else "idle"
+	var expression: Dictionary = _action_data["expressions"][Equipment.base(current_weapon)][face_expression]
+	var weight := 1.0-exp(-12.0*delta)
+	_blink_remaining -= delta
+	_blink_elapsed += delta
+	if _blink_remaining <= 0.0:
+		_blink_elapsed = 0.0
+		_blink_remaining = 2.3+fmod(float(get_instance_id())*0.17+_clock,2.5)
+	var blink := sin(PI*_blink_elapsed/0.15) if _blink_elapsed < 0.15 else 0.0
+	for i in _face_bones.size():
+		var bone := _face_bones[i]
+		var target := _sample_values(expression["bones"][i])
+		var source_index: int = _action_data["bones"].find(skeleton.get_bone_name(bone))
+		target.origin += skeleton.get_bone_rest(bone).origin-_action_rest[source_index].origin
+		_face_poses[i] = _face_poses[i].interpolate_with(target,weight)
+		var pose := _face_poses[i]
+		skeleton.set_bone_pose_position(bone,pose.origin)
+		skeleton.set_bone_pose_rotation(bone,pose.basis.get_rotation_quaternion())
+		var scale_value := pose.basis.get_scale()
+		if skeleton.get_bone_name(bone).begins_with("eye"):
+			scale_value.y *= maxf(0.07,1.0-blink*0.94)
+		skeleton.set_bone_pose_scale(bone,scale_value)
+	var values: Array = expression["mouth"]
+	_mouth_pose = _mouth_pose.lerp(Vector4(values[0],values[1],values[2],values[3]),weight)
+	values = expression["look"]
+	var glance := Vector2(sin(_clock*0.73+style_index)*0.04,sin(_clock*0.51)*0.018) if not aiming else Vector2(0.0,aim_pitch*0.08)
+	_eye_look = _eye_look.lerp(Vector2(values[0],values[1])+glance,weight)
+	if face_material != null:
+		face_material.set_shader_parameter("mouth",_mouth_pose)
+	if eye_material != null:
+		eye_material.set_shader_parameter("look",_eye_look)
+
+
+func set_reaction(id: String) -> void:
+	reaction_name = id
+	reaction_elapsed = 0.0
+
+
+func set_dance(id: String, variant: int = 0) -> void:
+	dance_name = id
+	dance_variant = variant % 3
+	reaction_elapsed = 0.0
+
+
+func _sample_values(values: Array) -> Transform3D:
+	return Transform3D(Basis(Quaternion(values[3],values[4],values[5],values[6]).normalized()).scaled(Vector3(values[7],values[8],values[9])),Vector3(values[0],values[1],values[2]))
+
+
+func _apply_reaction(delta: float) -> void:
+	var id := dance_name+"_"+str(dance_variant) if not dance_name.is_empty() else reaction_name
+	var clips: Dictionary = _action_data["clips"][Equipment.base(current_weapon)]
+	if not clips.has(id):
+		return
+	var frames: Array = clips[id]
+	var duration := (frames.size()-1)/30.0
+	if dance_name.is_empty() and reaction_elapsed >= duration:
+		reaction_name = ""
+		for bone in _action_bones:
+			if bone >= 0:
+				skeleton.set_bone_pose_scale(bone,Vector3.ONE)
+				if not _upper_bones.has(bone) and skeleton.get_bone_name(bone) != "hips":
+					skeleton.set_bone_pose_position(bone,skeleton.get_bone_rest(bone).origin)
+		if _kid_rig != null:
+			_kid_rig.transform = _kid_rig.transform.interpolate_with(Transform3D.IDENTITY,1.0-exp(-15*delta))
+		return
+	var time := fmod(reaction_elapsed,duration) if not dance_name.is_empty() else reaction_elapsed
+	var index := mini(int(time*30),frames.size()-2)
+	var blend := time*30-index
+	var weight := minf(1.0,time/0.07)*minf(1.0,(duration-time)/0.18) if dance_name.is_empty() else 1.0-exp(-15*delta)
+	for i in _action_bones.size():
+		var bone := _action_bones[i]
+		if bone < 0:
+			continue
+		var a: Array = frames[index]["bones"][i]
+		var b: Array = frames[index+1]["bones"][i]
+		var pose := _sample_values(a).interpolate_with(_sample_values(b),blend)
+		# Source actions use hair style 0. Preserve each variant's authored rest
+		# positions instead of moving its strands to another hairstyle's anchors.
+		pose.origin += skeleton.get_bone_rest(bone).origin-_action_rest[i].origin
+		skeleton.set_bone_pose_position(bone,skeleton.get_bone_pose_position(bone).lerp(pose.origin,weight))
+		skeleton.set_bone_pose_rotation(bone,skeleton.get_bone_pose_rotation(bone).slerp(pose.basis.get_rotation_quaternion(),weight))
+		skeleton.set_bone_pose_scale(bone,skeleton.get_bone_pose_scale(bone).lerp(pose.basis.get_scale(),weight))
+	if _kid_rig != null:
+		var pose := _sample_values(frames[index]["kid"]).interpolate_with(_sample_values(frames[index+1]["kid"]),blend)
+		_kid_rig.transform = _kid_rig.transform.interpolate_with(pose,weight)
+	var mouth_a: Array = frames[index]["mouth"]
+	var mouth_b: Array = frames[index+1]["mouth"]
+	var mouth_target := Vector4(mouth_a[0],mouth_a[1],mouth_a[2],mouth_a[3]).lerp(Vector4(mouth_b[0],mouth_b[1],mouth_b[2],mouth_b[3]),blend)
+	var look_a: Array = frames[index]["look"]
+	var look_b: Array = frames[index+1]["look"]
+	if face_material != null:
+		face_material.set_shader_parameter("mouth",_mouth_pose.lerp(mouth_target,weight))
+	if eye_material != null:
+		eye_material.set_shader_parameter("look",_eye_look.lerp(Vector2(look_a[0],look_a[1]).lerp(Vector2(look_b[0],look_b[1]),blend),weight))
 
 
 func set_weapon_pose(pitch: float, rolling: bool) -> void:
 	aim_pitch = clampf(pitch, -0.8, 0.8)
 	rolling_pose = rolling
+
+
+func _gait_pose(frames: Array,index: int,phase: float) -> Transform3D:
+	var frame := fposmod(phase,1.0)*frames.size()
+	var first := int(frame)%frames.size()
+	return (frames[first]["bones"][index] as Transform3D).interpolate_with(frames[(first+1)%frames.size()]["bones"][index],frame-first)
+
+
+func _apply_source_gait(delta: float) -> void:
+	var clips: Dictionary = _gaits[Equipment.base(current_weapon)]
+	var phase := anim_phase/TAU
+	var run_blend := clampf((anim_speed/maxf(run_speed,0.1)-0.3)/0.7,0.0,1.0)
+	var weight := 1.0-exp(-15.0*delta)
+	for i in _gait_bones.size():
+		var bone := _gait_bones[i]
+		var idle: Transform3D = clips["idle"][0]["bones"][i]
+		var moving_pose := _gait_pose(clips["walk"],i,phase).interpolate_with(_gait_pose(clips["run"],i,phase),run_blend)
+		var pose := idle.interpolate_with(moving_pose,gait_weight)
+		skeleton.set_bone_pose_position(bone,skeleton.get_bone_pose_position(bone).lerp(pose.origin,weight))
+		skeleton.set_bone_pose_rotation(bone,skeleton.get_bone_pose_rotation(bone).slerp(pose.basis.get_rotation_quaternion(),weight))
+	if _kid_rig != null and reaction_name.is_empty() and dance_name.is_empty():
+		_kid_rig.transform = _kid_rig.transform.interpolate_with(clips["idle"][0]["kid"],weight)
 
 
 func _load_weapon_poses() -> void:
@@ -609,9 +870,9 @@ func _clip_pose(frames: Array, bone: int, time: float) -> Transform3D:
 
 
 func _apply_original_hold(delta: float) -> void:
-	if not _weapon_pose_data.get("weapons", {}).has(current_weapon):
+	if not _weapon_pose_data.get("weapons", {}).has(Equipment.base(current_weapon)):
 		return
-	var clips: Dictionary = _weapon_pose_data["weapons"][current_weapon]
+	var clips: Dictionary = _weapon_pose_data["weapons"][Equipment.base(current_weapon)]
 	var pitch_clip: String = "aim_high" if aim_pitch >= 0.0 else "aim_low"
 	var weight := 1.0 - exp(-22.0 * delta)
 	for i in _upper_bones.size():

@@ -1,0 +1,2731 @@
+{
+  "duels": [
+    {
+      "attacker_adrenaline": false,
+      "attacks": 4,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 749
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 751
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 751
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 752
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.375,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 6,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 771
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 774
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 777
+        },
+        {
+          "amount": 25.4482473413086,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 779
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.6,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 60.6462423215594,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 794
+        },
+        {
+          "amount": 17.1137576784406,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 795
+        },
+        {
+          "amount": 42.24,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 833
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.967,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 7,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 879
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 960
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 1058
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 1156
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 1254
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 1352
+        },
+        {
+          "amount": 7.79999999999999,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 1448
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 4.517,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 1462
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 1464
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 1468
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 1469
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 1471
+        },
+        {
+          "amount": 38.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 1474
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.892,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 1492
+        },
+        {
+          "amount": 38.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 1496
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 1.192,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 5,
+      "damage_hp": 150.0,
+      "defender_talent": "vitality",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 1502
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 1503
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 1504
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 1505
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 1506
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 150.0,
+      "ttk_seconds": 0.475,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 7,
+      "damage_hp": 150.0,
+      "defender_talent": "vitality",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 1528
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 1530
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 1533
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 1536
+        },
+        {
+          "amount": 23.9309964550781,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 1538
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 150.0,
+      "ttk_seconds": 0.7,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 150.0,
+      "defender_talent": "vitality",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 60.6462423215594,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 1550
+        },
+        {
+          "amount": 17.1137576784406,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 1550
+        },
+        {
+          "amount": 60.6462423215594,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 1589
+        },
+        {
+          "amount": 11.5937576784406,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 1590
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 150.0,
+      "ttk_seconds": 0.975,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 9,
+      "damage_hp": 150.0,
+      "defender_talent": "vitality",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 1636
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 1747
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 1843
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 1938
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 2034
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 2131
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 2226
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 2323
+        },
+        {
+          "amount": 0.399999999999999,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 2418
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 150.0,
+      "ttk_seconds": 5.758,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 150.0,
+      "defender_talent": "vitality",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 2431
+        },
+        {
+          "amount": 50.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 2432
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 150.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 150.0,
+      "defender_talent": "vitality",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 2436
+        },
+        {
+          "amount": 50.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 2437
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 150.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 150.0,
+      "defender_talent": "vitality",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 2439
+        },
+        {
+          "amount": 68.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 2441
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 150.0,
+      "ttk_seconds": 0.892,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 150.0,
+      "defender_talent": "vitality",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 2460
+        },
+        {
+          "amount": 68.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 2464
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 150.0,
+      "ttk_seconds": 1.192,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 4,
+      "damage_hp": 120.0,
+      "defender_talent": "runner",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 2472
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 2473
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 2474
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 2475
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.375,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 6,
+      "damage_hp": 120.0,
+      "defender_talent": "runner",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 2496
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 2499
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 2502
+        },
+        {
+          "amount": 25.4482473413086,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 2504
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.6,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "runner",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 60.6462423215594,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 2516
+        },
+        {
+          "amount": 17.1137576784406,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 2517
+        },
+        {
+          "amount": 42.24,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 2556
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.967,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 7,
+      "damage_hp": 120.0,
+      "defender_talent": "runner",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 2600
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 2681
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 2777
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 2872
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 2968
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 3064
+        },
+        {
+          "amount": 7.79999999999999,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 3159
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 4.517,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "runner",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 3166
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 3167
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "runner",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 3170
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 3171
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "runner",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 3181
+        },
+        {
+          "amount": 38.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 3183
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.892,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "runner",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 3201
+        },
+        {
+          "amount": 38.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 3206
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 1.192,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 4,
+      "damage_hp": 120.0,
+      "defender_talent": "saver",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 3213
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 3214
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 3215
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 3216
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.375,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 6,
+      "damage_hp": 120.0,
+      "defender_talent": "saver",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 3237
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 3239
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 3242
+        },
+        {
+          "amount": 25.4482473413086,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 3245
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.6,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "saver",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 60.6462423215594,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 3257
+        },
+        {
+          "amount": 17.1137576784406,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 3258
+        },
+        {
+          "amount": 42.24,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 3297
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.967,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 7,
+      "damage_hp": 120.0,
+      "defender_talent": "saver",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 3341
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 3421
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 3517
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 3612
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 3708
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 3804
+        },
+        {
+          "amount": 7.79999999999999,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 3899
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 4.517,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "saver",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 3906
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 3907
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "saver",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 3910
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 3911
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "saver",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 3921
+        },
+        {
+          "amount": 38.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 3923
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.892,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "saver",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 3941
+        },
+        {
+          "amount": 38.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 3946
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 1.192,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 4,
+      "damage_hp": 120.0,
+      "defender_talent": "reserve",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 3953
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 3954
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 3955
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 3956
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.375,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 6,
+      "damage_hp": 120.0,
+      "defender_talent": "reserve",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 3977
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 3979
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 3982
+        },
+        {
+          "amount": 25.4482473413086,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 3985
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.6,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "reserve",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 60.6462423215594,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 3998
+        },
+        {
+          "amount": 17.1137576784406,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 3998
+        },
+        {
+          "amount": 42.24,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 4037
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.967,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 7,
+      "damage_hp": 120.0,
+      "defender_talent": "reserve",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 4082
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 4162
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 4258
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 4353
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 4449
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 4544
+        },
+        {
+          "amount": 7.79999999999999,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 4640
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 4.517,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "reserve",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 4647
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 4648
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "reserve",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 4651
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 4652
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "reserve",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 4661
+        },
+        {
+          "amount": 38.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 4664
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.892,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "reserve",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 4683
+        },
+        {
+          "amount": 38.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 4687
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 1.192,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 4,
+      "damage_hp": 120.0,
+      "defender_talent": "adrenaline",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 4694
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 4695
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 4696
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 4697
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.375,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 6,
+      "damage_hp": 120.0,
+      "defender_talent": "adrenaline",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 4719
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 4721
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 4724
+        },
+        {
+          "amount": 25.4482473413086,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 4727
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.6,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "adrenaline",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 60.6462423215594,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 4739
+        },
+        {
+          "amount": 17.1137576784406,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 4740
+        },
+        {
+          "amount": 42.24,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 4778
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.967,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 7,
+      "damage_hp": 120.0,
+      "defender_talent": "adrenaline",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 4823
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 4903
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 4999
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 5093
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 5189
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 5284
+        },
+        {
+          "amount": 7.79999999999999,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 5379
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 4.517,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "adrenaline",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 5387
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 5388
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "adrenaline",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 5391
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 5392
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "adrenaline",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 5401
+        },
+        {
+          "amount": 38.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 5403
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.892,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "adrenaline",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 5423
+        },
+        {
+          "amount": 38.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 5427
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 1.192,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 4,
+      "damage_hp": 120.0,
+      "defender_talent": "recovery",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 5433
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 5434
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 5435
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 5436
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.375,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 6,
+      "damage_hp": 120.0,
+      "defender_talent": "recovery",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 5458
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 5461
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 5464
+        },
+        {
+          "amount": 25.4482473413086,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 5467
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.6,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "recovery",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 60.6462423215594,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 5479
+        },
+        {
+          "amount": 17.1137576784406,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 5479
+        },
+        {
+          "amount": 42.24,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 5518
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.967,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 7,
+      "damage_hp": 120.0,
+      "defender_talent": "recovery",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 5562
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 5643
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 5739
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 5835
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 5931
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 6028
+        },
+        {
+          "amount": 7.79999999999999,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 6123
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 4.517,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "recovery",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 6130
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 6132
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "recovery",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 6134
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 6136
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "recovery",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 6145
+        },
+        {
+          "amount": 38.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 6147
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.892,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "recovery",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 82.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 6166
+        },
+        {
+          "amount": 38.0,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 6170
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 1.192,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 4,
+      "damage_hp": 120.0,
+      "defender_talent": "bulwark",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 6178
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 6179
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 6180
+        },
+        {
+          "amount": 30.0,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 6181
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.375,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 6,
+      "damage_hp": 120.0,
+      "defender_talent": "bulwark",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 6201
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 6204
+        },
+        {
+          "amount": 31.5172508862305,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 6207
+        },
+        {
+          "amount": 25.4482473413086,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 6210
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.6,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "bulwark",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 60.6462423215594,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 6222
+        },
+        {
+          "amount": 17.1137576784406,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 6223
+        },
+        {
+          "amount": 42.24,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 6261
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.967,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 7,
+      "damage_hp": 120.0,
+      "defender_talent": "bulwark",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 6305
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 6386
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 6482
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 6576
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 6672
+        },
+        {
+          "amount": 18.7,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 6768
+        },
+        {
+          "amount": 7.79999999999999,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 6863
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 4.517,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "bulwark",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 6870
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 6871
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "bulwark",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 100.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 6874
+        },
+        {
+          "amount": 20.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 6875
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "bulwark",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 65.6,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 6885
+        },
+        {
+          "amount": 54.4,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 6887
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.892,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": false,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "bulwark",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 65.6,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 6905
+        },
+        {
+          "amount": 54.4,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 6910
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 1.192,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": true,
+      "attacks": 4,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 34.5,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 6917
+        },
+        {
+          "amount": 34.5,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 6918
+        },
+        {
+          "amount": 34.5,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 6919
+        },
+        {
+          "amount": 16.5,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 躯干 / 2.5m",
+          "time": 6920
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.375,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": true,
+      "attacks": 6,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 36.244838519165,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 6941
+        },
+        {
+          "amount": 36.244838519165,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 6943
+        },
+        {
+          "amount": 36.244838519165,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 6946
+        },
+        {
+          "amount": 11.2654844425049,
+          "cause": "#06 Coral · 喷溅枪",
+          "source": "#06 Coral · 喷溅枪 · 头部 / 9.8m",
+          "time": 6949
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.6,
+      "weapon": "shooter"
+    },
+    {
+      "attacker_adrenaline": true,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 69.7431786697933,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 6962
+        },
+        {
+          "amount": 19.6808213302067,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 6962
+        },
+        {
+          "amount": 30.576,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 头部 / 2.2m",
+          "time": 7001
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.967,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": true,
+      "attacks": 6,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 21.505,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 7045
+        },
+        {
+          "amount": 21.505,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 7125
+        },
+        {
+          "amount": 21.505,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 7221
+        },
+        {
+          "amount": 21.505,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 7316
+        },
+        {
+          "amount": 21.505,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 7411
+        },
+        {
+          "amount": 12.475,
+          "cause": "#06 Coral · 滚筒刷",
+          "source": "#06 Coral · 滚筒刷 · 腿部 / 9.2m",
+          "time": 7506
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 3.9,
+      "weapon": "roller"
+    },
+    {
+      "attacker_adrenaline": true,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 115.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 7514
+        },
+        {
+          "amount": 5.00000000000001,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 3.0m",
+          "time": 7515
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": true,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 115.0,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 7518
+        },
+        {
+          "amount": 5.00000000000001,
+          "cause": "#06 Coral · 蓄力狙",
+          "source": "#06 Coral · 蓄力狙 · 躯干 / 10.0m",
+          "time": 7519
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 2.292,
+      "weapon": "charger"
+    },
+    {
+      "attacker_adrenaline": true,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 3.0,
+      "hit_history": [
+        {
+          "amount": 94.3,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 7528
+        },
+        {
+          "amount": 25.7,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 2.5m",
+          "time": 7530
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 0.892,
+      "weapon": "blaster"
+    },
+    {
+      "attacker_adrenaline": true,
+      "attacks": 2,
+      "damage_hp": 120.0,
+      "defender_talent": "balanced",
+      "distance_m": 10.0,
+      "hit_history": [
+        {
+          "amount": 94.3,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 7550
+        },
+        {
+          "amount": 25.7,
+          "cause": "#06 Coral · 爆破枪",
+          "source": "#06 Coral · 爆破枪 · 躯干 / 9.4m",
+          "time": 7554
+        }
+      ],
+      "kill": true,
+      "limit_seconds": 12,
+      "target_hp": 120.0,
+      "ttk_seconds": 1.192,
+      "weapon": "blaster"
+    }
+  ],
+  "fixture": "Production projectile/beam/volley damage against an unmoving capsule with body aim in an isolated elevated lane; no regeneration or shields. Cadence follows config (full charger includes 0.28-second post-shot recovery). Fired attacks include projectiles still in transit at the kill. This is controlled measurement, not real player input, matchmaking or a balance verdict.",
+  "loadouts": [
+    {
+      "attacks_per_reservoir": 105,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 0.95,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "balanced",
+      "weapon": "shooter"
+    },
+    {
+      "attacks_per_reservoir": 11,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "balanced",
+      "weapon": "roller"
+    },
+    {
+      "attacks_per_reservoir": 5,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 18.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "balanced",
+      "weapon": "charger"
+    },
+    {
+      "attacks_per_reservoir": 11,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "balanced",
+      "weapon": "blaster"
+    },
+    {
+      "attacks_per_reservoir": 105,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 0.95,
+      "max_hp": 150.0,
+      "run_speed": 6.0,
+      "talent": "vitality",
+      "weapon": "shooter"
+    },
+    {
+      "attacks_per_reservoir": 11,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 150.0,
+      "run_speed": 6.0,
+      "talent": "vitality",
+      "weapon": "roller"
+    },
+    {
+      "attacks_per_reservoir": 5,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 18.0,
+      "max_hp": 150.0,
+      "run_speed": 6.0,
+      "talent": "vitality",
+      "weapon": "charger"
+    },
+    {
+      "attacks_per_reservoir": 11,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 150.0,
+      "run_speed": 6.0,
+      "talent": "vitality",
+      "weapon": "blaster"
+    },
+    {
+      "attacks_per_reservoir": 105,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 0.95,
+      "max_hp": 120.0,
+      "run_speed": 6.6,
+      "talent": "runner",
+      "weapon": "shooter"
+    },
+    {
+      "attacks_per_reservoir": 11,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 120.0,
+      "run_speed": 6.6,
+      "talent": "runner",
+      "weapon": "roller"
+    },
+    {
+      "attacks_per_reservoir": 5,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 18.0,
+      "max_hp": 120.0,
+      "run_speed": 6.6,
+      "talent": "runner",
+      "weapon": "charger"
+    },
+    {
+      "attacks_per_reservoir": 11,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 120.0,
+      "run_speed": 6.6,
+      "talent": "runner",
+      "weapon": "blaster"
+    },
+    {
+      "attacks_per_reservoir": 131,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 0.76,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "saver",
+      "weapon": "shooter"
+    },
+    {
+      "attacks_per_reservoir": 13,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 7.2,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "saver",
+      "weapon": "roller"
+    },
+    {
+      "attacks_per_reservoir": 6,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 14.4,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "saver",
+      "weapon": "charger"
+    },
+    {
+      "attacks_per_reservoir": 13,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 7.2,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "saver",
+      "weapon": "blaster"
+    },
+    {
+      "attacks_per_reservoir": 131,
+      "ink_capacity": 125.0,
+      "ink_per_attack": 0.95,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "reserve",
+      "weapon": "shooter"
+    },
+    {
+      "attacks_per_reservoir": 13,
+      "ink_capacity": 125.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "reserve",
+      "weapon": "roller"
+    },
+    {
+      "attacks_per_reservoir": 6,
+      "ink_capacity": 125.0,
+      "ink_per_attack": 18.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "reserve",
+      "weapon": "charger"
+    },
+    {
+      "attacks_per_reservoir": 13,
+      "ink_capacity": 125.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "reserve",
+      "weapon": "blaster"
+    },
+    {
+      "attacks_per_reservoir": 105,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 0.95,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "adrenaline",
+      "weapon": "shooter"
+    },
+    {
+      "attacks_per_reservoir": 11,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "adrenaline",
+      "weapon": "roller"
+    },
+    {
+      "attacks_per_reservoir": 5,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 18.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "adrenaline",
+      "weapon": "charger"
+    },
+    {
+      "attacks_per_reservoir": 11,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "adrenaline",
+      "weapon": "blaster"
+    },
+    {
+      "attacks_per_reservoir": 105,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 0.95,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "recovery",
+      "weapon": "shooter"
+    },
+    {
+      "attacks_per_reservoir": 11,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "recovery",
+      "weapon": "roller"
+    },
+    {
+      "attacks_per_reservoir": 5,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 18.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "recovery",
+      "weapon": "charger"
+    },
+    {
+      "attacks_per_reservoir": 11,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "recovery",
+      "weapon": "blaster"
+    },
+    {
+      "attacks_per_reservoir": 105,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 0.95,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "bulwark",
+      "weapon": "shooter"
+    },
+    {
+      "attacks_per_reservoir": 11,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "bulwark",
+      "weapon": "roller"
+    },
+    {
+      "attacks_per_reservoir": 5,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 18.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "bulwark",
+      "weapon": "charger"
+    },
+    {
+      "attacks_per_reservoir": 11,
+      "ink_capacity": 100.0,
+      "ink_per_attack": 9.0,
+      "max_hp": 120.0,
+      "run_speed": 6.0,
+      "talent": "bulwark",
+      "weapon": "blaster"
+    }
+  ]
+}

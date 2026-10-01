@@ -1,44 +1,120 @@
 {
-  "schema": 1,
+  "schema": 4,
   "sources": {
     "../../public/game/src/game/character.js": "e47f7f97b9fc7c413adc31812f4367fc9a6f2bcd7b66459d023ead326ea65d4d",
     "../../public/game/src/game/character-geo.js": "6494f29b533bb0346d09a95cbaa9b1e0b934bb20fdf88248ed4fc05a905b7627",
     "../../public/game/src/game/character-mats.js": "53cf4fdd2db474eef730d7c447c7c07a0aa2bc94baae8c0f081759cdde4e95a1",
     "../../public/game/src/game/character-weapons.js": "a75e15972dbce296fb5630358d570f1f206ed72c2626cb69a139f0fbf9451925",
     "../../public/game/src/config.js": "7908f3cdb1c636cede95c6c013d3c9ed588361ba26b8e8694dcdfe458947abfc",
-    "./export_characters.mjs": "3b31023ec135ab44319dbb7bbc2381988e2873ad50fed9e365ace1db0ad44b2f"
+    "./export_characters.mjs": "aa162d70b12ad0daedf72a3e7b450786a5cc3a57d90dece19ba67e6f0085e052",
+    "./lib/character_anatomy.mjs": "848110cc162dfd01ba5674b7f57482a41b20c935d805fe29c88efed50739f26b",
+    "./lib/character_quality.mjs": "0f1f7e420d5ae4ee01dc0b0859baa6f4333540dfed6ab4d90fd9cc01df01f932"
   },
   "outputs": {
-    "kid_0.glb": "806985f779b65de704d128661edc0ea5451c9c590b77fd9bcded38ed332d0eae",
-    "kid_1.glb": "ef4a89dc024079e234547befce9e8e1dfd707e39b1ba257cc3f107d4817f389b",
-    "kid_2.glb": "8a534a9943bfb2c1f2aa10e027787a12de72ce6e2c776b54d4dc3eed48fb186d",
-    "kid_3.glb": "ec6cde19040fc674356ca757b56a5158b5b9098ad740ca2fd8aa035a1ad92700"
+    "kid_0.glb": "104333dff2e5c5b8d0461c6603392cdc09400a39d08799a455f8e07742e8cd64",
+    "kid_1.glb": "6b9f4777ff375fa8c17c7e91f7325f7240a26d6808238b863bb901b7dd626fe0",
+    "kid_2.glb": "e5c429b8ff39721b10b2759b1dc533c6c580733fa2745b9fe0761ed2aba44e0f",
+    "kid_3.glb": "dba6e3e1f74390f34012d6f356b6a123f1a2f4fc90692662c460143f8499ee0c"
   },
   "stats": [
     {
       "style": 0,
       "bones": 87,
       "meshes": 20,
-      "triangles": 59998
+      "triangles": 78192,
+      "anatomy": {
+        "shoulders": "tee armholes sewn to open sleeves with matching boundary weights",
+        "shorts": "one waist and two legs sharing a saddle-shaped crotch",
+        "head": "continuous cage for shorter lower face, tapered jaw, smaller cranium and attached face/hair anchors"
+      },
+      "quality": {
+        "head": [
+          96,
+          60
+        ],
+        "ear": [
+          28,
+          24
+        ],
+        "roundedSurfaceScale": 1.5,
+        "maxRadial": 48
+      }
     },
     {
       "style": 1,
       "bones": 87,
       "meshes": 20,
-      "triangles": 60630
+      "triangles": 79118,
+      "anatomy": {
+        "shoulders": "tee armholes sewn to open sleeves with matching boundary weights",
+        "shorts": "one waist and two legs sharing a saddle-shaped crotch",
+        "head": "continuous cage for shorter lower face, tapered jaw, smaller cranium and attached face/hair anchors"
+      },
+      "quality": {
+        "head": [
+          96,
+          60
+        ],
+        "ear": [
+          28,
+          24
+        ],
+        "roundedSurfaceScale": 1.5,
+        "maxRadial": 48
+      }
     },
     {
       "style": 2,
       "bones": 87,
       "meshes": 20,
-      "triangles": 59798
+      "triangles": 78448,
+      "anatomy": {
+        "shoulders": "tee armholes sewn to open sleeves with matching boundary weights",
+        "shorts": "one waist and two legs sharing a saddle-shaped crotch",
+        "head": "continuous cage for shorter lower face, tapered jaw, smaller cranium and attached face/hair anchors"
+      },
+      "quality": {
+        "head": [
+          96,
+          60
+        ],
+        "ear": [
+          28,
+          24
+        ],
+        "roundedSurfaceScale": 1.5,
+        "maxRadial": 48
+      }
     },
     {
       "style": 3,
       "bones": 87,
       "meshes": 20,
-      "triangles": 60162
+      "triangles": 78918,
+      "anatomy": {
+        "shoulders": "tee armholes sewn to open sleeves with matching boundary weights",
+        "shorts": "one waist and two legs sharing a saddle-shaped crotch",
+        "head": "continuous cage for shorter lower face, tapered jaw, smaller cranium and attached face/hair anchors"
+      },
+      "quality": {
+        "head": [
+          96,
+          60
+        ],
+        "ear": [
+          28,
+          24
+        ],
+        "roundedSurfaceScale": 1.5,
+        "maxRadial": 48
+      }
     }
   ],
-  "limitations": "Original geometry/skin weights; baked colour masks; Godot procedural animation and material, not original GLSL/IK/facial layers"
+  "attributes": {
+    "Skin": "UV=head.xy; UV2=(head.z,submaterial); COLOR=source tint; CUSTOM0=(bind position,submaterial)",
+    "Eyes": "UV=signed patch coordinates; UV2.x=side",
+    "TeamHair": "UV=source strand coordinates; UV2=(tint,cap/angle); COLOR.rg=strand data",
+    "Cloth": "UV=source part coordinates; UV2=(part,material class); CUSTOM0=(bind position,color source); CUSTOM1=(part,class,param,0); COLOR=original vertex tint"
+  },
+  "limitations": "Original rig/style with export-local garment topology, weights and head cage corrections; upstream web sources unmodified; source fragment details and offline poses adapted for Godot; realtime terrain foot IK remains separate"
 }

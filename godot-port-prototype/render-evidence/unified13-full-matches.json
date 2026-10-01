@@ -1,0 +1,282 @@
+{
+  "fps_cap": 30,
+  "kind": "native automated input replay; human acceptance and temperature unmeasured",
+  "render_scale": 0.75,
+  "rounds": [
+    {
+      "average_fps": 29.8401075566924,
+      "beacons_remaining": 0,
+      "bots": [
+        {
+          "id": 6,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Blotch",
+          "perk": "reserve",
+          "special_casts": 1,
+          "stats": {
+            "damage": 270.776168524197,
+            "deaths": 3,
+            "kills": 3,
+            "specials": 1
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 2,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Juno",
+          "perk": "balanced",
+          "special_casts": 1,
+          "stats": {
+            "damage": 1049.26666666667,
+            "deaths": 2,
+            "kills": 8,
+            "specials": 1
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 3,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Sprinkle",
+          "perk": "bulwark",
+          "special_casts": 1,
+          "stats": {
+            "damage": 674.854591085797,
+            "deaths": 4,
+            "kills": 4,
+            "specials": 1
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 4,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Fizz",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 559.1,
+            "deaths": 3,
+            "kills": 2,
+            "specials": 1
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 5,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Tako",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 424.433333333333,
+            "deaths": 5,
+            "kills": 5
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 7,
+          "item": "shield",
+          "max_hp": 150.0,
+          "name": "Kelp",
+          "perk": "vitality",
+          "special_casts": 1,
+          "stats": {
+            "damage": 582.766666666667,
+            "deaths": 4,
+            "kills": 5,
+            "specials": 1
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 8,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Marlo",
+          "perk": "runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 748.705839374493,
+            "deaths": 7,
+            "kills": 3
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 9,
+          "item": "bomb",
+          "max_hp": 150.0,
+          "name": "Coral",
+          "perk": "vitality",
+          "special_casts": 1,
+          "stats": {
+            "damage": 360.952233173073,
+            "deaths": 2,
+            "kills": 5,
+            "specials": 1
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 10,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Squiddo",
+          "perk": "bulwark",
+          "special_casts": 1,
+          "stats": {
+            "damage": 951.774160625507,
+            "deaths": 5,
+            "kills": 4,
+            "specials": 1
+          },
+          "weapon": "blaster"
+        }
+      ],
+      "dive_frames": 49,
+      "duration": 90.0,
+      "frames": 2923,
+      "fx_events": {
+        "dive": 7,
+        "hit": 633,
+        "jump": 14,
+        "muzzle": 604,
+        "splat": 70
+      },
+      "geometry": "prism_gallery",
+      "height_max": 8.88907337188721,
+      "height_min": 0.0,
+      "jump_clicks": 1,
+      "jump_inputs": 16,
+      "last_damage_history": [
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 71101
+        },
+        {
+          "amount": 5.33333333333333,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 71368
+        },
+        {
+          "amount": 5.33333333333334,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 71634
+        },
+        {
+          "amount": 5.33333333333334,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 71901
+        },
+        {
+          "amount": 5.33333333333334,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 72168
+        },
+        {
+          "amount": 12.3246478423768,
+          "cause": "#10 Squiddo · 滚筒刷",
+          "source": "#10 Squiddo · 滚筒刷 · 头部 / 1.0m",
+          "time": 72268
+        },
+        {
+          "amount": 51.9667365646362,
+          "cause": "#10 Squiddo · 滚筒刷",
+          "source": "#10 Squiddo · 滚筒刷 · 头部 / 3.3m",
+          "time": 80368
+        },
+        {
+          "amount": 25.7932634353638,
+          "cause": "#10 Squiddo · 滚筒刷",
+          "source": "#10 Squiddo · 滚筒刷 · 头部 / 3.2m",
+          "time": 80369
+        },
+        {
+          "amount": 5.33333333333332,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 80701
+        },
+        {
+          "amount": 38.24,
+          "cause": "#10 Squiddo · 滚筒刷",
+          "source": "#10 Squiddo · 滚筒刷 · 躯干 / 0.4m",
+          "time": 80801
+        },
+        {
+          "amount": 30.0,
+          "cause": "#07 Kelp · 喷溅枪",
+          "source": "#07 Kelp · 喷溅枪 · 躯干 / 3.3m",
+          "time": 96068
+        },
+        {
+          "amount": 30.0,
+          "cause": "#07 Kelp · 喷溅枪",
+          "source": "#07 Kelp · 喷溅枪 · 躯干 / 2.8m",
+          "time": 96201
+        },
+        {
+          "amount": 30.0,
+          "cause": "#07 Kelp · 喷溅枪",
+          "source": "#07 Kelp · 喷溅枪 · 躯干 / 2.3m",
+          "time": 96301
+        },
+        {
+          "amount": 28.6666666666667,
+          "cause": "#07 Kelp · 喷溅枪",
+          "source": "#07 Kelp · 喷溅枪 · 躯干 / 2.0m",
+          "time": 96434
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 103101
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 103368
+        }
+      ],
+      "map": "prism_gallery",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "natural_deaths": 6,
+      "p95_frame_ms": 35.667,
+      "p99_equivalent_fps": 25.455656246818,
+      "p99_frame_ms": 39.284,
+      "perk": "runner",
+      "play_wall_seconds": 98.948568,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 270.362925206951,
+      "turf_counts": [
+        13392,
+        11876
+      ],
+      "weapons_used": [
+        "shooter",
+        "charger",
+        "blaster",
+        "roller"
+      ]
+    }
+  ]
+}

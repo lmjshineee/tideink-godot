@@ -45,15 +45,16 @@ func _run() -> void:
     return
   root.size = Vector2i(960,540)
   await _frames(3)
-  for row in [game.get("setup_options"),game.get("setup_match_options")]:
-   for control in row.get_children():
-    if not (game.get("menu_panel") as Control).get_global_rect().encloses((control as Control).get_global_rect()):
-     printerr("FAIL: small menu overflow ", control.name)
-     quit(1)
-     return
+  for control in [game.get("frontend").get("random_button"),game.get("frontend").get("back_button")]:
+   if not Rect2(Vector2.ZERO,Vector2(root.size)).encloses(control.get_global_rect()):
+    printerr("FAIL: small menu overflow ",control.name)
+    quit(1)
+    return
   await _save("feedback-" + id + "-small")
   root.size = Vector2i(1280,720)
-  await _click_control(game.get("start_button"))
+  game.call("show_preparation")
+  await _frames(2)
+  await _click_control(game.get("frontend").get("preparation").get_node("Actions").get_child(1))
   if game.get("phase") != "intro":
    printerr("FAIL: native start button did not enter intro")
    quit(1)
@@ -80,8 +81,9 @@ func _run() -> void:
   walker.set_physics_process(false)
   # Keep player out of the scripted battle so bots visibly target other bots.
   var camera: Camera3D = walker.get_node("Camera3D")
-  camera.global_position = Vector3(16,15,-22)
-  camera.look_at(Vector3(0,1.8,0))
+  camera.global_position = Vector3(8,6,-12)
+  camera.look_at(Vector3(0,1.2,0))
+  game.set("phase_time",2.0)
   await _frames(12)
   await _save("feedback-" + id + "-battle")
   var tab := InputEventKey.new()
@@ -97,7 +99,8 @@ func _run() -> void:
   game.call("_judge_round")
   game.set("phase","results")
   game.call("_update_hud")
-  await _frames(2)
+  # Forced phase changes need the responsive containers to settle before input.
+  await _frames(12)
   await _save("feedback-" + id + "-results")
   await _click_control((game.get("result_actions") as HBoxContainer).get_child(0))
   await _frames(3)
@@ -109,7 +112,7 @@ func _run() -> void:
   game.queue_free()
   await _frames(2)
  DirAccess.remove_absolute("/private/tmp/inkwave-feedback-gui-settings.cfg")
- # Close-up of all four original hair/skin/outfit variants and held weapons.
+ # Close-up of the four default original web variants and their held weapons.
  var stage := Node3D.new()
  root.add_child(stage)
  stage.add_child((load("res://tidewater_environment.tscn") as PackedScene).instantiate())
@@ -139,7 +142,7 @@ func _run() -> void:
   visual.call("set_weapon_pose",0.0,weapons[style]=="roller")
  await _frames(12)
  await _save("feedback-characters")
- print("PASS: original character legs/weapon holds and ground shadows captured" if OS.get_cmdline_user_args().has("--rig-only") else "PASS: bounded native 5v5 on both maps, Tab map, setup/settings at 1280/960, battle/results, original character legs/holds; fixtures used, not full-duration gameplay")
+ print("PASS: default character legs/weapon holds and ground shadows captured" if OS.get_cmdline_user_args().has("--rig-only") else "PASS: bounded native 5v5 on both maps, Tab map, setup/settings at 1280/960, battle/results, default character legs/holds; fixtures used, not full-duration gameplay")
  quit()
 
 func _frames(count: int) -> void:
@@ -148,19 +151,22 @@ func _frames(count: int) -> void:
 
 func _save(label: String) -> void:
  await RenderingServer.frame_post_draw
- var result := root.get_texture().get_image().save_png("res://render-evidence/" + label + ".png")
+ var capture_label := label.replace("feedback-","feedback8-") if OS.get_cmdline_user_args().has("--feedback8") else label.replace("feedback-","clean-") if OS.get_cmdline_user_args().has("--clean") else label.replace("feedback-","restored-") if OS.get_cmdline_user_args().has("--restored") else label.replace("feedback-","original-") if OS.get_cmdline_user_args().has("--original") else label
+ var result := root.get_texture().get_image().save_png("res://render-evidence/" + capture_label + ".png")
  if result != OK:
   printerr("FAIL: screenshot save ", label)
   quit(1)
 
 
 func _click_control(control: Control) -> void:
- if not mouse_notified:
-  root.notify_mouse_entered()
-  mouse_notified = true
+ var position := control.get_global_transform_with_canvas()*(control.size*0.5)
+ var motion := InputEventMouseMotion.new()
+ motion.position = position
+ root.push_input(motion,true)
+ await _frames(2)
  for pressed in [true,false]:
   var event := InputEventMouseButton.new()
-  event.position = control.get_global_transform_with_canvas() * (control.size * 0.5)
+  event.position = position
   event.button_index = MOUSE_BUTTON_LEFT
   event.pressed = pressed
   root.push_input(event,true)

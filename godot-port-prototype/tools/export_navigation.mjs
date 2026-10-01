@@ -4,7 +4,8 @@ import {TIDEWATER, KELPLINE} from '../../public/game/src/world/maps.js';
 const {NavGraph} = await import('../../public/game/src/game/nav.js');
 const {Physics} = await import('../../public/game/src/game/physics.js');
 import {readFileSync, writeFileSync} from 'node:fs';
-for(const map of [TIDEWATER,KELPLINE]) {
+const {ALL_MAPS}=await import('./lib/arena_layouts.mjs');
+for(const map of ALL_MAPS) {
  const {level} = await createRuntimeLevel(map);
  const nav = new NavGraph(level, new Physics(level));
  const payload={schema:1,id:map.id,source:'public/game/src/game/nav.js:NavGraph',nodes:nav.nodes.filter(n=>nav.valid[n.id]).map(n=>({id:n.id,p:[n.x,n.y,n.z],zone:n.zone,edges:n.nb.filter(e=>nav.valid[e.to])}))};

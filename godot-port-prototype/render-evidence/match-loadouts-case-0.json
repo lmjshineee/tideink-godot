@@ -1,0 +1,216 @@
+{
+  "conditions": {
+    "duration_seconds": 90,
+    "item": "refill",
+    "map_variant": 0,
+    "perk": "balanced",
+    "physics_hz": 30,
+    "reroll_bots": false
+  },
+  "limits": "Small automated sample, not human balance or rendering/performance acceptance. Local player is excluded from weapon aggregates; four allied vs five enemy bots and different routes/teams confound averages. Weapon-specific specials remain enabled. Turf is cumulative newly claimed area, including enemy overpaint, not final occupancy.",
+  "method": "Headless fixed-30Hz actual scene simulation; normal input-driven local shooter, nine production bots, natural 90-second timer and results. No teleports, forced damage or phase/clock skips during play.",
+  "rounds": [
+    {
+      "actors": [
+        {
+          "alive_seconds": 85.2333333333334,
+          "height_max": 4.02222204208374,
+          "id": 1,
+          "item": "refill",
+          "local_player": true,
+          "perk": "balanced",
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 292.398116004829
+          },
+          "team": 0,
+          "travel_m": 380.929934307467,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "height_max": 2.25,
+          "id": 2,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 843.635880188802,
+            "deaths": 3,
+            "kills": 5,
+            "specials": 1,
+            "turf": 411.460276030322
+          },
+          "team": 0,
+          "travel_m": 389.668907128624,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 82.0000000000005,
+          "height_max": 2.25,
+          "id": 3,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 260.426998770577,
+            "deaths": 2,
+            "kills": 2,
+            "specials": 1,
+            "turf": 280.367005022233
+          },
+          "team": 0,
+          "travel_m": 319.05983591103,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 73.3666666666644,
+          "height_max": 2.25,
+          "id": 4,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 1105.1519276709,
+            "deaths": 5,
+            "kills": 6,
+            "specials": 1,
+            "turf": 464.020428057805
+          },
+          "team": 0,
+          "travel_m": 310.679878885276,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 74.0000000000006,
+          "height_max": 2.25,
+          "id": 5,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 744.866666666667,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 283.2595011547
+          },
+          "team": 0,
+          "travel_m": 371.091515579727,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 73.199999999998,
+          "height_max": 2.25,
+          "id": 6,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 650.138149889991,
+            "deaths": 5,
+            "kills": 3,
+            "turf": 254.348844025637
+          },
+          "team": 1,
+          "travel_m": 366.894081612583,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "height_max": 2.25,
+          "id": 7,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 993.497378071051,
+            "deaths": 4,
+            "kills": 7,
+            "specials": 1,
+            "turf": 480.766248555212
+          },
+          "team": 1,
+          "travel_m": 357.821597242728,
+          "weapon": "heavy"
+        },
+        {
+          "alive_seconds": 74.0000000000007,
+          "height_max": 2.25,
+          "id": 8,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 742.192592326797,
+            "deaths": 4,
+            "kills": 3,
+            "specials": 1,
+            "turf": 490.771996280951
+          },
+          "team": 1,
+          "travel_m": 368.383319605724,
+          "weapon": "rapid"
+        },
+        {
+          "alive_seconds": 82.0000000000005,
+          "height_max": 2.25,
+          "id": 9,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 122.066666666666,
+            "deaths": 2,
+            "kills": 1,
+            "turf": 223.390052485749
+          },
+          "team": 1,
+          "travel_m": 421.496339986217,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000004,
+          "height_max": 2.25,
+          "id": 10,
+          "item": "refill",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 170.685352325439,
+            "deaths": 3,
+            "kills": 1,
+            "turf": 210.485400391948
+          },
+          "team": 1,
+          "travel_m": 306.571588229039,
+          "weapon": "roller"
+        }
+      ],
+      "case": 0,
+      "coverage": [
+        0.167546060029409,
+        0.190439120029986
+      ],
+      "duration_seconds": 90.0,
+      "map": "tidewater",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "team_cumulative_turf_m2": [
+        1731.50532626989,
+        1659.76254173949
+      ],
+      "wall_seconds": 8.074517
+    }
+  ],
+  "source_sha256": {
+    "equipment_catalog.gd": "0614b34495544118955b56f0756381c7209a937c977b23136d62700766717e3c",
+    "gameplay_rules.gd": "2b93eddd99b8639c61d8dd37382e9d5e1cec87c3b701924c8187116eb5e7dc36",
+    "tidewater_bot.gd": "7d39d60d0b7b67cc6d6772b9f530a3914e40d8f624adbf45a6774dd6f2e8e006",
+    "tidewater_combat.gd": "0ad2c4c623dab5976064d5292d89e7255a67a74ab01ba48bf6d51c0355751b5f",
+    "tidewater_play.gd": "a870d16f368c249816d0ae4bd572943bbabadc90da6f73df5ec237e171db2226"
+  }
+}

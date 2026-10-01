@@ -14,7 +14,13 @@ const checkOnly = process.argv.includes('--check');
 const output = new URL('../assets/ui/', import.meta.url);
 if (!checkOnly) mkdirSync(output, { recursive: true });
 
-const sources = Object.entries(WEAPON_ICONS);
+const inner=svg=>svg.replace(/<svg[^>]*>/,'').replace('</svg>','');
+const derived={
+ dualie:`<svg viewBox="0 0 64 64"><g transform="translate(2 0) scale(.72)">${inner(WEAPON_ICONS.shooter)}</g><g transform="translate(17 17) scale(.72)">${inner(WEAPON_ICONS.shooter)}</g></svg>`,
+ heavy:WEAPON_ICONS.shooter.replace('</svg>','<path d="M 44 22 L 60 22 L 60 29 L 44 29 Z" fill="currentColor"/></svg>'),
+ rapid:WEAPON_ICONS.blaster.replace('</svg>','<path d="M 5 48 L 14 48 M 3 54 L 13 54" fill="none" stroke="currentColor" stroke-width="3"/></svg>')
+};
+const sources = Object.entries({...WEAPON_ICONS,...derived});
 let mismatched = 0;
 
 for (const [name, markup] of sources) {

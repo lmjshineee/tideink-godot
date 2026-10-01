@@ -2,17 +2,16 @@
 // Run: node godot-port-prototype/tools/export_tidewater_map.mjs [--check]
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { createRuntimeLevel, round6, vector3 } from './lib/runtime_level.mjs';
-import { TIDEWATER, KELPLINE } from '../../public/game/src/world/maps.js';
+import { createRuntimeLevel, vector3 } from './lib/runtime_level.mjs';
 
-const mapId = process.argv.includes('--kelpline') ? 'kelpline' : 'tidewater';
-const MAP = mapId === 'kelpline' ? KELPLINE : TIDEWATER;
+const {cliMap}=await import('./lib/arena_layouts.mjs');
+const MAP=cliMap();
+const mapId=MAP.id;
 
 // Same construction as the running game, so the block list (and the set-dressing
 // prop colliders that follow the structural blocks) can never disagree with the
 // surfaces export.
 const { level, layoutId, dressingItems, colliders } = await createRuntimeLevel(MAP);
-const round = round6;
 const vector = vector3;
 
 function mirror(def) {
@@ -43,8 +42,9 @@ const blocks = level.blocks.map((block, id) => {
 });
 const manifest = {
   schema: 1,
-  source: `public/game/src/world/maps.js:${mapId.toUpperCase()}`,
+  source: ["tidewater","kelpline"].includes(mapId) ? `public/game/src/world/maps.js:${mapId.toUpperCase()}` : `godot-port-prototype/tools/lib/arena_layouts.mjs:${mapId}`,
   id: MAP.id,
+  ...(MAP.modulePlan ? {modulePlan:MAP.modulePlan} : {}),
   layout: layoutId,
   bounds: MAP.bounds,
   spawnPads: MAP.spawnPads,

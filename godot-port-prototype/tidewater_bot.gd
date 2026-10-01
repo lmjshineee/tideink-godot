@@ -11,9 +11,8 @@ const WAYPOINTS := [
 	Vector2(8.0, 8.0), Vector2(12.0, 13.0), Vector2(12.0, 31.0),
 ]
 const PAINT_INTERVAL := 0.22
-const ATTACK_RANGE := 8.0
+const ROLLER_FLICK_RANGE := 8.0
 const CHASE_RANGE := 13.0
-const CHASE_STOP := 3.8
 const BODY_RADIUS := 0.34
 
 var team_mover: CharacterBody3D
@@ -27,6 +26,8 @@ var ink_damage := 0.0
 var route := PackedVector3Array()
 var route_index := 0
 var repath_time := 0.0
+var jump_time := 0.0
+var jumps_started := 0
 var target_actor: Node3D
 var game: Node3D
 var walker: CharacterBody3D
@@ -45,6 +46,7 @@ var returning := false
 var chase_trail: Array[Vector3] = []
 var _body_shape: SphereShape3D
 var health_bar: Node3D
+var identity_label: Label3D
 var health_fill: MeshInstance3D
 var attack_tracer: MeshInstance3D
 var attack_tracer_mesh: BoxMesh
@@ -86,6 +88,7 @@ func reset() -> void:
 		team_mover.velocity = Vector3.ZERO
 	route.clear()
 	repath_time = 0.0
+	jump_time = 0.0
 	waypoint_index = 0
 	paint_cooldown = 0.0
 	attack_cooldown = 0.0
@@ -93,7 +96,7 @@ func reset() -> void:
 	roll_distance = 0.0
 	charge_time = 0.0
 	var player_config: Dictionary = game.get_node("Combat").get("weapon_data")["player"]
-	ink_amount = float(player_config["inkMax"])
+	ink_amount = float(game.call("actor_ink_max",self)) if game.has_method("actor_ink_max") else float(player_config["inkMax"])
 	last_fire_time = 99.0
 	chasing = false
 	returning = false
@@ -121,16 +124,30 @@ func clear_attack_visual() -> void:
 		attack_tracer.visible = false
 
 
+func _weapon_reach(weapon: Dictionary) -> float:
+	if String(weapon["kind"]) == "roller":
+		return ROLLER_FLICK_RANGE
+	return float(weapon.get("rangeMax", weapon.get("range", 5.5)))
+
+
+func _engagement_distance(weapon: Dictionary) -> float:
+	if String(weapon["kind"]) == "roller":
+		return 1.0 if team_mover != null else 0.9
+	# Leave room inside the effective range for aim height and moving targets.
+	return _weapon_reach(weapon) * (0.65 if String(weapon["kind"]) == "charger" else 0.55)
+
+
 func tick(delta: float) -> void:
 	if game.has_method("team_mode") and bool(game.call("team_mode")):
 		_tick_team(delta)
 		return
 	var combat: Node3D = game.get_node("Combat")
 	var player_config: Dictionary = combat.get("weapon_data")["player"]
-	var weapon: Dictionary = combat.get("weapons")[weapon_id]
+	var weapon: Dictionary = game.perks.weapon(self,combat.get("weapons")[weapon_id])
 	last_fire_time += delta
+	$Body.call("set_expression_state",ink_amount/float(game.call("actor_ink_max",self)),float(game.call("actor_health",self))/float(game.call("actor_max_health",self)),charge_time/maxf(0.01,float(weapon.get("chargeTime",1.0))),false)
 	if charge_time <= 0.0 and last_fire_time > float(player_config["inkRefillDelay"]):
-		ink_amount = minf(float(player_config["inkMax"]), ink_amount + float(player_config["inkRefillKid"]) * delta)
+		ink_amount = minf(float(game.call("actor_ink_max",self)), ink_amount + float(player_config["inkRefillKid"]) * game.perks.refill(self) * delta)
 	roll_hit_cooldown = maxf(0.0, roll_hit_cooldown - delta)
 	attack_visual_time = maxf(0.0, attack_visual_time - delta)
 	attack_tracer.visible = attack_visual_time > 0.0
@@ -139,8 +156,9 @@ func tick(delta: float) -> void:
 	var current := Vector2(global_position.x, global_position.z)
 	var player := Vector2(walker.global_position.x, walker.global_position.z)
 	var speed := float(weapon["rollSpeed"]) if weapon_id == "roller" and ink_amount > 0.5 else float(player_config["runSpeed"])
-	var chase_stop := 0.9 if weapon_id == "roller" else CHASE_STOP
-	var can_chase := float(game.get("player_respawn")) <= 0.0 and current.distance_to(player) <= CHASE_RANGE \
+	speed *= game.perks.movement(self)*game.items.move_factor(self)
+	var chase_stop := _engagement_distance(weapon)
+	var can_chase := float(game.get("player_respawn")) <= 0.0 and current.distance_to(player) <= maxf(CHASE_RANGE, _weapon_reach(weapon)) \
 		and _can_see_player()
 	chasing = false
 	if can_chase and current.distance_to(player) > chase_stop:
@@ -171,6 +189,13 @@ func tick(delta: float) -> void:
 			var patrol_floor := _ground_at(next)
 			if not patrol_floor.is_empty():
 				next.y = float(patrol_floor["position"].y) + 0.05
+				# Keep the whole body above a deck edge until its trailing radius clears.
+				# Slower random roller kits can step across the edge by < BODY_RADIUS.
+				var trailing := next-Vector3(movement.x,0,movement.y).normalized()*BODY_RADIUS
+				trailing.y = old_position.y
+				var back := _ground_at(trailing)
+				if not back.is_empty():
+					next.y = maxf(next.y,float(back["position"].y)+0.05)
 			global_position = next
 	else:
 		returning = false
@@ -186,20 +211,18 @@ func tick(delta: float) -> void:
 		game.call("paint_at_world", global_position + Vector3.UP * 0.12, 1, 0.9, randf())
 	attack_cooldown = maxf(0.0, attack_cooldown - delta)
 	var distance := global_position.distance_to(walker.global_position)
-	var attack_range := minf(ATTACK_RANGE, float(weapon.get("range", 5.5)))
-	if weapon_id == "charger":
-		attack_range = minf(CHASE_RANGE, float(weapon["rangeMax"]))
+	var attack_range := _weapon_reach(weapon)
 	var can_attack := float(game.get("player_respawn")) <= 0.0 and distance < attack_range and _can_see_player()
 	var target_height := 0.3 if bool(walker.get("squid_form")) else 1.0
 	var target := walker.global_position + Vector3.UP * target_height
-	match weapon_id:
+	match String(weapon["kind"]):
 		"shooter", "blaster":
 			if can_attack and attack_cooldown <= 0.0 and ink_amount >= float(weapon["inkPerShot"]):
 				attack_cooldown = float(weapon["fireInterval"])
 				ink_amount -= float(weapon["inkPerShot"])
 				last_fire_time = 0.0
 				_show_attack()
-				combat.call("spawn_bot_shot", global_position + Vector3.UP * 1.05, target, weapon_id)
+				combat.call("spawn_bot_shot", global_position + Vector3.UP * 1.05, target, weapon_id,team,self)
 		"charger":
 			if can_attack and attack_cooldown <= 0.0 and ink_amount >= float(weapon["inkFull"]):
 				charge_time += delta
@@ -209,7 +232,7 @@ func tick(delta: float) -> void:
 					ink_amount -= float(weapon["inkFull"])
 					last_fire_time = 0.0
 					_show_attack()
-					combat.call("fire_bot_charger", global_position + Vector3.UP * 1.05, target)
+					combat.call("fire_bot_charger", global_position + Vector3.UP * 1.05, target,1.0,team,self)
 			else:
 				charge_time = 0.0
 		"roller":
@@ -219,7 +242,7 @@ func tick(delta: float) -> void:
 				ink_amount -= float(weapon["flickInk"])
 				last_fire_time = 0.0
 				_show_attack()
-				combat.call("spawn_bot_flick", global_position + Vector3.UP * 1.3, target)
+				combat.call("spawn_bot_flick", global_position + Vector3.UP * 1.3, target,team,self)
 
 
 func _update_roll(delta: float, old_position: Vector3, weapon: Dictionary,
@@ -245,7 +268,7 @@ func _update_roll(delta: float, old_position: Vector3, weapon: Dictionary,
 	if ahead > -0.2 and ahead < 1.35 and lateral < float(weapon["rollWidth"]) * 0.5 + 0.35 \
 			and absf(offset.y) < 1.2:
 		roll_hit_cooldown = 0.5
-		game.call("damage_player", float(weapon["rollDamage"]))
+		game.call("damage_actor",walker,float(weapon["rollDamage"]),team,self,"roller")
 
 
 func _build_feedback() -> void:
@@ -268,6 +291,17 @@ func _build_feedback() -> void:
 	health_fill.position.z = 0.018
 	health_fill.material_override = _flat_material(TeamPalette.color(team).lightened(0.25))
 	health_bar.add_child(health_fill)
+	backing.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	health_fill.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	identity_label = Label3D.new()
+	identity_label.name = "ActorIdentity"
+	identity_label.font = load("res://assets/fonts/TitanOne-latin.woff2") as Font
+	identity_label.position = Vector3(0, 0.18, 0.035)
+	identity_label.font_size = 32
+	identity_label.pixel_size = 0.005
+	identity_label.outline_size = 8
+	identity_label.modulate = TeamPalette.color(team).lightened(0.65)
+	health_bar.add_child(identity_label)
 	attack_tracer = MeshInstance3D.new()
 	attack_tracer.name = "BotAttackTracer" if name == "Bot" else "%sAttackTracer" % name
 	attack_tracer_mesh = BoxMesh.new()
@@ -285,12 +319,20 @@ func _flat_material(color: Color) -> StandardMaterial3D:
 
 
 func _update_health_visual() -> void:
-	var max_health := float(game.get_node("Combat").get("weapon_data")["player"]["hp"])
+	var max_health := float(game.call("actor_max_health",self)) if game.has_method("actor_max_health") else float(game.get_node("Combat").get("weapon_data")["player"]["hp"])
 	var fraction := clampf((float(game.call("actor_health", self)) if game.has_method("actor_health") else float(game.get("bot_health"))) / max_health, 0.0, 1.0)
 	health_fill.scale.x = maxf(0.001, fraction)
 	health_fill.position.x = (fraction - 1.0) * 0.35
-	var camera: Camera3D = walker.get_node("Camera3D")
-	health_bar.look_at(camera.global_position, Vector3.UP)
+	var id := int(game.call("actor_id", self)) if game.has_method("actor_id") else team * 5 + slot + 1
+	var actor_label := String(game.call("actor_name",self)) if game.has_method("actor_name") else String(get_meta("actor_name","Ink"))
+	identity_label.text = "#%02d %s" % [id,actor_label]
+	var camera := get_viewport().get_camera_3d()
+	if camera == null:
+		camera = walker.get_node("Camera3D")
+	# The fill sits on +Z, so +Z must face the camera. Default look_at uses -Z.
+	var toward := camera.global_position - health_bar.global_position
+	if toward.length_squared() > 0.001:
+		health_bar.look_at(camera.global_position, Vector3.RIGHT if absf(toward.normalized().y) > 0.99 else Vector3.UP, true)
 
 
 func _show_attack() -> void:
@@ -388,49 +430,71 @@ func _can_see_player() -> bool:
 func _tick_team(delta: float) -> void:
 	var combat: Node3D = game.get_node("Combat")
 	var config: Dictionary = combat.get("weapon_data")["player"]
-	var weapon: Dictionary = combat.get("weapons")[weapon_id]
+	var weapon: Dictionary = game.perks.weapon(self,combat.get("weapons")[weapon_id])
 	attack_cooldown = maxf(0.0, attack_cooldown - delta)
+	$Body.call("set_expression_state",ink_amount/float(game.call("actor_ink_max",self)),float(game.call("actor_health",self))/float(game.call("actor_max_health",self)),charge_time/maxf(0.01,float(weapon.get("chargeTime",1.0))),false)
 	attack_visual_time = maxf(0.0, attack_visual_time - delta)
 	attack_tracer.visible = attack_visual_time > 0.0
 	last_fire_time += delta
 	if last_fire_time > float(config["inkRefillDelay"]):
-		ink_amount = minf(float(config["inkMax"]), ink_amount + float(config["inkRefillKid"]) * delta)
+		ink_amount = minf(float(game.call("actor_ink_max",self)), ink_amount + float(config["inkRefillKid"]) * game.perks.refill(self) * delta)
 	_update_health_visual()
 	# Visibility and opponent selection belong to each bot, never to the local player alone.
 	target_actor = null
-	var best := CHASE_RANGE
+	var best := maxf(CHASE_RANGE, _weapon_reach(weapon))
 	for enemy in game.call("enemies", team):
 		var distance := global_position.distance_to(enemy.global_position)
 		if distance < best and _visible_actor(enemy):
 			best = distance
 			target_actor = enemy
+	var escape: Vector3 = game.get("bot_specials").call("escape",self)
+	if escape!=Vector3.ZERO:
+		target_actor = null
 	repath_time -= delta
-	if repath_time <= 0.0 or route_index >= route.size():
+	if jump_time <= 0.0 and (repath_time <= 0.0 or route_index >= route.size()):
 		var nav: RefCounted = game.get("navigation")
-		route = nav.call("route", global_position, target_actor.global_position, team) if target_actor != null else nav.call("patrol", global_position, team, slot)
+		route = nav.call("route",global_position,global_position+escape,team) if escape!=Vector3.ZERO else (nav.call("route", global_position, target_actor.global_position, team) if target_actor != null else nav.call("patrol", global_position, team, slot))
 		route_index = 1 if route.size() > 1 else 0
 		repath_time = randf_range(1.0, 2.0)
 	var old := global_position
 	var travel := Vector3.ZERO
-	if route_index < route.size() and (target_actor == null or best > (1.0 if weapon_id == "roller" else CHASE_STOP)):
+	var jump_edge := false
+	if route_index < route.size() and (target_actor == null or best > _engagement_distance(weapon)):
 		var next := route[route_index]
 		var offset := next - global_position
 		var horizontal := Vector3(offset.x,0.0,offset.z)
-		if horizontal.length() < 0.3 and absf(offset.y) < 0.65:
+		if horizontal.length() < 0.3 and absf(offset.y) < 0.4:
 			route_index += 1
 		else:
 			var speed := float(weapon["rollSpeed"]) if weapon_id == "roller" and ink_amount > 1.0 else float(config["runSpeed"])
+			speed *= game.perks.movement(self)*game.items.move_factor(self)
 			travel = horizontal.normalized() * minf(speed, horizontal.length() / maxf(delta,0.001))
+			if route_index > 0 and jump_time <= 0.0:
+				jump_edge = String(game.get("navigation").call("transition",route[route_index-1],next,team)) == "jump" and offset.y > 0.4 and horizontal.length() < 2.5
 	# A collision body owns support, walls and gravity; the source graph can include
 	# drop edges without teleporting through geometry or refusing every ledge.
 	team_mover.global_position = global_position
 	team_mover.velocity.x = travel.x
 	team_mover.velocity.z = travel.z
-	team_mover.velocity.y = -0.5 if team_mover.is_on_floor() else maxf(-30.0, team_mover.velocity.y - 24.0 * delta)
+	jump_time = maxf(0.0,jump_time-delta)
+	if jump_edge and team_mover.is_on_floor():
+		team_mover.velocity.y = float(config["jumpVel"])
+		jump_time = 0.8
+		jumps_started += 1
+		$Body.call("set_reaction","jump")
+	elif team_mover.is_on_floor():
+		team_mover.velocity.y = -0.5
+	else:
+		var gravity := float(config["gravity"])
+		if team_mover.velocity.y < 0.0:
+			gravity *= float(config["fallGravityMul"])
+		if absf(team_mover.velocity.y) < float(config["apexBand"]):
+			gravity *= float(config["apexGravityMul"])
+		team_mover.velocity.y = maxf(-float(config["maxFall"]),team_mover.velocity.y-gravity*delta)
 	team_mover.move_and_slide()
 	global_position = team_mover.global_position
 	team_mover.position = Vector3.ZERO
-	if travel.length_squared() > 0.01 and global_position.distance_to(old) < delta * 0.15:
+	if jump_time <= 0.0 and travel.length_squared() > 0.01 and global_position.distance_to(old) < delta * 0.15:
 		repath_time = 0.0
 	var movement := global_position - old
 	var aim := target_actor.global_position - global_position if target_actor != null else movement
@@ -448,16 +512,16 @@ func _tick_team(delta: float) -> void:
 		return
 	var from := global_position + Vector3.UP * 1.05
 	var target := target_actor.global_position + Vector3.UP * 0.8
-	var attack_range := minf(ATTACK_RANGE, float(weapon.get("range", weapon.get("rangeMax", 5.5))))
+	var attack_range := _weapon_reach(weapon)
 	if from.distance_to(target) > attack_range or attack_cooldown > 0.0:
 		return
-	match weapon_id:
+	match String(weapon["kind"]):
 		"shooter", "blaster":
 			if ink_amount < float(weapon["inkPerShot"]):
 				return
 			ink_amount -= float(weapon["inkPerShot"])
 			attack_cooldown = float(weapon["fireInterval"])
-			combat.call("spawn_bot_shot", from, target, weapon_id, team)
+			combat.call("spawn_bot_shot", from, target, weapon_id, team,self)
 		"charger":
 			if ink_amount < float(weapon["inkFull"]):
 				return
@@ -467,13 +531,13 @@ func _tick_team(delta: float) -> void:
 			charge_time = 0.0
 			ink_amount -= float(weapon["inkFull"])
 			attack_cooldown = 0.28
-			combat.call("fire_bot_charger", from, target, 1.0, team)
+			combat.call("fire_bot_charger", from, target, 1.0, team,self)
 		"roller":
 			if ink_amount < float(weapon["flickInk"]):
 				return
 			ink_amount -= float(weapon["flickInk"])
 			attack_cooldown = float(weapon["flickInterval"])
-			combat.call("spawn_bot_flick", from, target, team)
+			combat.call("spawn_bot_flick", from, target, team,self)
 	last_fire_time = 0.0
 	$Body.call("set_action", "flick" if weapon_id == "roller" else "shoot")
 	attack_visual_time = 0.12

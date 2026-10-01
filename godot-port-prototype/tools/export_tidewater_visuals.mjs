@@ -7,12 +7,12 @@ import { resolve, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 const root = resolve(fileURLToPath(new URL('../../', import.meta.url)));
-const mapId = process.argv.includes('--kelpline') ? 'kelpline' : 'tidewater';
+const mapId=process.argv.find(v=>v.startsWith('--arena='))?.split('=')[1] || (process.argv.includes('--kelpline')?'kelpline':'tidewater');
 const output = new URL('../assets/scenery/', import.meta.url);
 const sources = ['props.js','dressing.js','decor.js','environment.js','level.js','maps.js','murals.js'].map(n => `public/game/src/world/${n}`)
   .concat(['public/game/src/config.js','public/game/src/core/ctx.js','public/game/vendor/three/engine/three.core.js','public/game/vendor/three/engine/three.module.js','public/game/vendor/three/jsm/utils/BufferGeometryUtils.js',
     'public/game/assets/fonts/TitanOne-latin.woff2','public/game/assets/fonts/Rubik-latin.woff2',
-    'godot-port-prototype/tools/lib/export_visual_scene.js','godot-port-prototype/tools/export_tidewater_visuals.mjs']);
+    'godot-port-prototype/tools/lib/arena_layouts.mjs','godot-port-prototype/tools/lib/export_visual_scene.js','godot-port-prototype/tools/export_tidewater_visuals.mjs']);
 const hash = data => createHash('sha256').update(data).digest('hex');
 const fingerprints = Object.fromEntries(sources.map(p => [p, hash(readFileSync(resolve(root, p)))]));
 if (process.argv.includes('--check')) {
@@ -33,7 +33,7 @@ const server = createServer((req, res) => {
   }
   const path = resolve(root, '.' + decodeURIComponent(req.url.split('?')[0]));
   if (!path.startsWith(root + '/') || !existsSync(path)) { res.writeHead(404).end(); return; }
-  res.setHeader('Content-Type', ({'.js':'text/javascript','.woff2':'font/woff2'})[extname(path)] || 'application/octet-stream');
+  res.setHeader('Content-Type', ({'.js':'text/javascript','.mjs':'text/javascript','.woff2':'font/woff2'})[extname(path)] || 'application/octet-stream');
   res.end(readFileSync(path));
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));

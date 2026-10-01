@@ -4,6 +4,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import {
   COLORBLIND_PALETTE,
+  BOT_NAMES,
   GAME_SUBTITLE,
   GAME_TITLE,
   MATCH,
@@ -94,6 +95,7 @@ const payload = {
   // the web game itself (superseded by runAccel/airAccel/swimAccel).
   player: { ...PLAYER },
   match: { ...MATCH },
+  bots: { names: BOT_NAMES },
   teams: { palettes: TEAM_PALETTES, colorblind: COLORBLIND_PALETTE, names: TEAM_NAMES },
 };
 const output = new URL('../assets/weapons.json', import.meta.url);

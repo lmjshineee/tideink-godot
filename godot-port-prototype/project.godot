@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="INKWAVE Demo"
+config/version="0.3.0-preview.15"
 run/main_scene="res://tidewater_play.tscn"
 run/max_fps=30
 config/features=PackedStringArray("4.8", "Forward Plus")

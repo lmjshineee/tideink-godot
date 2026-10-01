@@ -15,8 +15,9 @@ func _check() -> void:
 	scene.set("settings_path", TEST_PATH)
 	root.add_child(scene)
 	await process_frame
+	scene.call("show_preparation")
 	var panel: Panel = scene.get("settings_panel")
-	var setup_button: Button = scene.get("setup_settings_button")
+	var setup_button: Button = scene.get("frontend").get("settings_button")
 	var pause_panel: Panel = scene.get("pause_panel")
 	if not setup_button.visible or panel.visible or pause_panel.visible:
 		_fail("setup settings entry has the wrong initial visibility")
@@ -87,8 +88,8 @@ func _check() -> void:
 	if bool(scene.get("paused")) or not bool(scene.get("pointer_locked")) or pause_panel.visible:
 		_fail("resume button did not return to play")
 		return
-	scene.call("damage_player", 100.0)
-	if pause_panel.visible or setup_button.visible:
+	scene.call("damage_player", 200.0)
+	if pause_panel.visible or setup_button.is_visible_in_tree():
 		_fail("settings entry leaked into the respawn loadout")
 		return
 	DirAccess.remove_absolute(TEST_PATH)

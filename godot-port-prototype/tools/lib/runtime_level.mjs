@@ -47,7 +47,7 @@ export async function createRuntimeLevel(layoutDef) {
   // main.js uses `map.layout || map.id`; the tidewater layout also backs "sunset".
   const layoutId = layoutDef.layout || layoutDef.id;
 
-  const items = dressingFor(layoutId);
+  const items = layoutDef.dressing || dressingFor(layoutId);
   const propKit = new PropKit(new THREE.Scene(), { castShadow: true, quality: 'high' });
   const colliders = [];
   for (const item of items) {

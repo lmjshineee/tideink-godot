@@ -56,6 +56,7 @@ func _check() -> void:
 		_fail("opponent visual does not face its travel direction")
 		return
 	var opponent: Node3D = scene.get_node("Bot")
+	opponent.call("select_weapon","shooter")
 	walker.global_position = opponent.global_position + Vector3(2.0, 0.0, 0.0)
 	scene.call("_update_bot", 0.1)
 	var tracer: MeshInstance3D = scene.get_node("BotAttackTracer")
@@ -66,7 +67,7 @@ func _check() -> void:
 	scene.call("damage_bot", 25.0)
 	scene.call("_update_bot", 0.01)
 	var fill: MeshInstance3D = opponent.get_node("HealthBar/Fill")
-	if not is_equal_approx(fill.scale.x, 0.75):
+	if not is_equal_approx(fill.scale.x, scene.actor_health(opponent)/scene.actor_max_health(opponent)):
 		_fail("opponent health bar did not track damage")
 		return
 	scene.set("player_respawn", 1.0)

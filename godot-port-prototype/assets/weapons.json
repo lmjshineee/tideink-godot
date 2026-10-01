@@ -318,6 +318,30 @@
     "teamSize": 5,
     "pointsPerM2": 1
   },
+  "bots": {
+    "names": [
+      "Squiddo",
+      "Blotch",
+      "Marlo",
+      "Inky Vee",
+      "Pip",
+      "Coral",
+      "Riptide",
+      "Nori",
+      "Suki",
+      "Zest",
+      "Kelp",
+      "Drip",
+      "Tako",
+      "Sprinkle",
+      "Bubbles",
+      "Moxie",
+      "Juno",
+      "Wasabi",
+      "Fizz",
+      "Loop"
+    ]
+  },
   "teams": {
     "palettes": [
       {

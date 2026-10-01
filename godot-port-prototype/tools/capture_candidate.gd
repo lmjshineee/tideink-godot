@@ -140,13 +140,8 @@ func _run() -> void:
 		return
 	scene.set("phase_time", 2.55)
 	await _frames(5)
-	if scene.get("phase") != "judge":
-		_fail("finish did not reach judge")
-		return
-	scene.set("phase_time", 5.05)
-	await _frames(5)
 	if scene.get("phase") != "results":
-		_fail("judge did not reach results")
+		_fail("finish did not directly reach results")
 		return
 	await _save(output_label + "-results")
 	_key(KEY_ENTER, true)
@@ -156,7 +151,7 @@ func _run() -> void:
 	if current_scene == scene or current_scene.get("phase") != "setup":
 		_fail("results Enter did not reload a fresh setup scene")
 		return
-	checks.append("accelerated finish/judge/results and Enter restart")
+	checks.append("accelerated finish directly to results and Enter restart")
 	await _save(output_label + "-restart")
 	var report := {"checks": checks, "renderer": RenderingServer.get_current_rendering_method(),
 		"adapter": RenderingServer.get_video_adapter_name(), "engine": Engine.get_version_info()["string"],

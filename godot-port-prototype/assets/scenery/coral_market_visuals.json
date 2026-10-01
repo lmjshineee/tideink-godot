@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "items": 18,
+  "colliders": 16,
+  "meshes": 23,
+  "sourceStats": {
+    "props": 18,
+    "meshes": 10,
+    "merged": 7,
+    "instanced": 3,
+    "triangles": 32100
+  },
+  "skippedGPUVisuals": [
+    "props:blob",
+    "spawnPad:face",
+    "spawnPad:barrier",
+    "spawnPad:face",
+    "spawnPad:barrier",
+    "LighthouseBeam"
+  ],
+  "sources": {
+    "public/game/src/world/props.js": "87f099f298e4be854f0a1f85975d3036663e8e08d275c44d4486f5ce4be8dcd8",
+    "public/game/src/world/dressing.js": "f3af731135b45f71ab596647e5aff632e3ab0f715eee15634fc952100487fdda",
+    "public/game/src/world/decor.js": "de3f0e4e7490c0d7f70be959a0fe95358c5eb6885414d9369d474149ed061d6f",
+    "public/game/src/world/environment.js": "1c32d118fe11a7d3df95b2b979f5b2952110565988344ea99804d526a5bc1f8d",
+    "public/game/src/world/level.js": "fd8048cbcc207bebe9ad8111aadd5ac60c22c8ed96cdd61c0cabfd22c1f29980",
+    "public/game/src/world/maps.js": "1a45e6df5119489a118b44871b846eefad15390b955670c042e5a61f005948c9",
+    "public/game/src/world/murals.js": "274177b2693fe426f1a2dddaa2cf57b62966f1ea2fbc2b8d8b7b3acc419b119a",
+    "public/game/src/config.js": "7908f3cdb1c636cede95c6c013d3c9ed588361ba26b8e8694dcdfe458947abfc",
+    "public/game/src/core/ctx.js": "3bac560e4a49b949890b54f7cbbdf9c7ed378aa2c9a1c3878b1d6df2589e5c04",
+    "public/game/vendor/three/engine/three.core.js": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6",
+    "public/game/vendor/three/engine/three.module.js": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea",
+    "public/game/vendor/three/jsm/utils/BufferGeometryUtils.js": "9fb63427ce6641fa14fd0baff9cc4d1b5f9c3d85fd084bf2e90e803c44ec1797",
+    "public/game/assets/fonts/TitanOne-latin.woff2": "f5f3f60e9246f7e78242697ef18f1fa78467dc4135312208b693e33678e78c4c",
+    "public/game/assets/fonts/Rubik-latin.woff2": "99ec7ccb40cf143f977c893649deece6cc2dcc7c0ff82ebf84b6584090f207ea",
+    "godot-port-prototype/tools/lib/arena_layouts.mjs": "95f953267eb0155cc867e637826319ec09dfbb73b8f60b039c7965ceb8f7a618",
+    "godot-port-prototype/tools/lib/export_visual_scene.js": "e27e39b98181ed4fe466f71c67dc22365948b127e09179aa3376fa0474c07dfd",
+    "godot-port-prototype/tools/export_tidewater_visuals.mjs": "08743f954d206da607fa1148a43cb57ee9f54d73fa7d70fb373f25eaf0dc7179"
+  },
+  "outputs": {
+    "coral_market_visuals.glb": "0f8ec5b5be2b44c4a69d4e4ade654360b6d8b263add7e9c9b9dd558db61c467b",
+    "murals.png": "4cb7b9ff30e43a6de41fa1b1baf3f65a7fd122a9ba1ef1148149b672059b8ee9"
+  }
+}

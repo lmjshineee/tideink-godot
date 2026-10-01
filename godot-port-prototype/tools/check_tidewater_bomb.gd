@@ -10,6 +10,7 @@ func _check() -> void:
 	var scene := (load("res://tidewater_play.tscn") as PackedScene).instantiate()
 	root.add_child(scene)
 	await physics_frame
+	for actor in scene.all_actors(): scene.perks.choices[actor.get_instance_id()]="balanced"
 	scene.call("_start_round")
 	var combat: Node3D = scene.get_node("Combat")
 	var ink: RefCounted = scene.get("ink")
@@ -33,7 +34,7 @@ func _check() -> void:
 	if (combat.get("bombs") as Array).size() != 0 or float(ink.call("coverage", 0)) <= 0.0:
 		_fail("bomb explosion did not paint scoring turf")
 		return
-	if float(scene.get("bot_respawn")) <= 0.0:
+	if float(scene.get("bot_health")) >= 120.0 or float(scene.get("bot_respawn")) > 0.0:
 		_fail("bomb blast did not damage the nearby opponent")
 		return
 	combat.set("ink_amount", 69.0)

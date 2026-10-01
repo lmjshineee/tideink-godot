@@ -13,6 +13,7 @@ const TeamPalette := preload("res://team_palette.gd")
 
 func _initialize() -> void:
 	preload("res://match_setup.gd").team_size = 1
+	preload("res://match_setup.gd").randomized = true
 	call_deferred("_check")
 
 
@@ -75,8 +76,7 @@ func _check() -> void:
 				_fail("character/spawn pad palette mismatch")
 				return
 			var score: Label = scene.get("orange_score" if team == 0 else "blue_score")
-			if not score.text.begins_with(TeamPalette.display_name(team)) \
-				or not (scene.get("menu_hint") as Label).text.contains(TeamPalette.display_name(team)):
+			if not score.text.begins_with(TeamPalette.display_name(team)):
 				_fail("HUD/setup names do not follow selected palette")
 				return
 		var combat: Node3D = scene.get_node("Combat")

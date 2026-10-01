@@ -10,6 +10,7 @@ func _check() -> void:
 	var scene := (load("res://tidewater_play.tscn") as PackedScene).instantiate()
 	root.add_child(scene)
 	await process_frame
+	scene.call("show_preparation")
 	_key(KEY_4, true)
 	_key(KEY_4, false)
 	await process_frame
@@ -69,6 +70,7 @@ func _check() -> void:
 	if float(scene.get("player_respawn")) <= 0.0 or scene.get("selected_weapon") != "roller":
 		_fail("key 2 did not switch weapons during the respawn wait")
 		return
+	scene.call("launch_respawn")
 	scene.call("_update_player_respawn", 5.6)
 	if float(scene.get("player_respawn")) != 0.0 or combat.get("selected_id") != "roller":
 		_fail("respawn did not retain the selected weapon")

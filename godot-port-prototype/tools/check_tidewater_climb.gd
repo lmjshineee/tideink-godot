@@ -75,6 +75,19 @@ func _check() -> void:
 	if peak < 2.6 or not popped:
 		_fail("own ink did not carry walker over the ledge: peak=" + str(peak) + " pos=" + str(walker.global_position))
 		return
+	# Sideways movement into a painted wall must use the same axis as attachment.
+	# Forward-only can_dive rejected this even though _update_climb accepted it.
+	_reset()
+	walker.set("camera_yaw",0.0)
+	_set_key(KEY_D,true,true)
+	_set_key(KEY_SHIFT,true)
+	var sideways_y := walker.global_position.y
+	await _frames(14)
+	_set_key(KEY_D,false,true)
+	_set_key(KEY_SHIFT,false)
+	if walker.global_position.y<sideways_y+0.3:
+		_fail("Shift + sideways movement did not enter own-ink wall climb")
+		return
 
 	print("PASS: dry/enemy walls reject; own ink climbs; squid release detaches; ledge pops")
 	quit()

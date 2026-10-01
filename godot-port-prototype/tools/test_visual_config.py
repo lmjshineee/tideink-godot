@@ -22,8 +22,10 @@ def main():
             (isolated / "assets/maps").mkdir(parents=True)
             (isolated / "project.godot").write_text("config_version=5\n")
             for name in ("tidewater_character_visual.gd", "tidewater_walker.gd",
-                         "tidewater_bot.gd", "team_palette.gd", "match_setup.gd", "character_surface.gdshader"):
+                         "tidewater_bot.gd", "team_palette.gd", "match_setup.gd", "gameplay_rules.gd", "equipment_catalog.gd"):
                 shutil.copy2(project / name, isolated / name)
+            for shader in project.glob("character_*.gdshader"):
+                shutil.copy2(shader, isolated / shader.name)
             shutil.copy2(project / "tools/check_tidewater_visual_config.gd",
                          isolated / "tools/check_tidewater_visual_config.gd")
             shutil.copy2(project / "assets/maps/tidewater.json",
@@ -33,6 +35,7 @@ def main():
             result = subprocess.run([
                 godot, "--headless", "--log-file", str(isolated / "engine.log"),
                 "--path", directory, "--script", "res://tools/check_tidewater_visual_config.gd",
+                "--quit-after", "90",
             ], text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=15)
             lines = result.stdout.splitlines()
             # Match the suite's single known macOS sandbox CA diagnostic exemption.

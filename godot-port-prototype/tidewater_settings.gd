@@ -16,6 +16,9 @@ var render_scale := 0.75
 var fps_cap := DEFAULT_FPS
 var ui_scale := DEFAULT_UI_SCALE
 var mouse_sensitivity := DEFAULT_LOOK_SENSITIVITY
+var master_volume := 0.8
+var music_volume := 0.6
+var sfx_volume := 0.85
 
 
 func load_from(path: String = USER_PATH) -> bool:
@@ -33,6 +36,10 @@ func load_from(path: String = USER_PATH) -> bool:
 		if saved_sensitivity is float or saved_sensitivity is int else DEFAULT_LOOK_SENSITIVITY
 	var saved_render: Variant = config.get_value("display", "render_scale", 0.75)
 	render_scale = float(saved_render) if (saved_render is float or saved_render is int) and RENDER_SCALE_OPTIONS.has(float(saved_render)) else 0.75
+	for key in ["master_volume","music_volume","sfx_volume"]:
+		var value: Variant = config.get_value("audio",key,get(key))
+		if (value is int or value is float) and is_finite(float(value)):
+			set(key,clampf(float(value),0,1))
 	return true
 
 
@@ -42,6 +49,8 @@ func save_to(path: String = USER_PATH) -> Error:
 	config.set_value("display", "render_scale", render_scale)
 	config.set_value("display", "ui_scale", ui_scale)
 	config.set_value("controls", "mouse_sensitivity", mouse_sensitivity)
+	for key in ["master_volume","music_volume","sfx_volume"]:
+		config.set_value("audio",key,get(key))
 	return config.save(path)
 
 

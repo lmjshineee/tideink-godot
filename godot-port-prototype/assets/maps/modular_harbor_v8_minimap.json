@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "id": "modular_harbor_v8",
+  "width": 364,
+  "height": 588,
+  "cells": 121398,
+  "paintPixels": 211915,
+  "sources": {
+    "public/game/src/game/minimap.js": "dfeafa909fd2148744a45547e29bd324f54f4af38bb31eba22f5951f4a9d45bc",
+    "public/game/src/world/maps.js": "1a45e6df5119489a118b44871b846eefad15390b955670c042e5a61f005948c9",
+    "public/game/src/world/level.js": "fd8048cbcc207bebe9ad8111aadd5ac60c22c8ed96cdd61c0cabfd22c1f29980",
+    "public/game/src/world/props.js": "87f099f298e4be854f0a1f85975d3036663e8e08d275c44d4486f5ce4be8dcd8",
+    "public/game/src/world/dressing.js": "f3af731135b45f71ab596647e5aff632e3ab0f715eee15634fc952100487fdda",
+    "godot-port-prototype/tools/export_minimap.mjs": "a0953475bd95db3eb6d5f02690a7cfb1844fcf86bce813b341f0d8f0bcf40e85",
+    "godot-port-prototype/assets/maps/tidewater_surfaces.json": "715604cc67e9aebc755fea9b6c49458c8fc067b178965c1a5d6267d1c0c227c3",
+    "godot-port-prototype/assets/maps/kelpline_surfaces.json": "4d6d5aa060ed312ff3d3b148f19c6c289e855f9145d61d04cd5731e6d488b8a4",
+    "godot-port-prototype/tools/lib/arena_layouts.mjs": "95f953267eb0155cc867e637826319ec09dfbb73b8f60b039c7965ceb8f7a618"
+  },
+  "outputs": {
+    "modular_harbor_v8_minimap.png": "bf15e9b440b86f85e5c2129cb6c9404fd5d83fc32da52d0093203498e525e91b",
+    "modular_harbor_v8_minimap_lookup.bin": "157932c981e3295ed30ffe8dba7714daac62a3f3bb230061b3c657731854596c"
+  }
+}

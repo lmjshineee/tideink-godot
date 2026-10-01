@@ -1,0 +1,5 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-09-30 23:08:53.724 Godot[74724:7304050] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+PASS: wall warning paint at three view angles, 63 HP health face and result button mouse reachability

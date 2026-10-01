@@ -16,6 +16,7 @@ extends RefCounted
 # scene builds, so a switch applies to visuals built afterwards unless the caller rebuilds
 # them. Nothing rebuilds yet, which is the other half of why there is no switch UI.
 static var palette_index := 0
+static var random_palette: Dictionary = {}
 static var use_colorblind := false
 static var _payload: Dictionary = {}
 
@@ -39,6 +40,8 @@ static func current() -> Dictionary:
 	var teams: Dictionary = _data().get("teams", {})
 	if use_colorblind and teams.get("colorblind") is Dictionary:
 		return teams["colorblind"]
+	if not random_palette.is_empty():
+		return random_palette
 	var list: Array = teams.get("palettes", [])
 	return {} if list.is_empty() else list[clampi(palette_index, 0, list.size() - 1)]
 
@@ -67,8 +70,29 @@ static func display_name(team: int) -> String:
 
 
 static func select(index: int) -> void:
+	random_palette.clear()
 	palette_index = clampi(index, 0, maxi(0, palettes().size() - 1))
 
 
 static func set_colorblind(enabled: bool) -> void:
 	use_colorblind = enabled
+
+
+# Original colour pairs, varied together in hue and saturation. Material creation
+# follows this choice, so every scene, model, map and UI shares one pair.
+static func random_pair(rng: RandomNumberGenerator) -> void:
+	palette_index = rng.randi_range(0,palettes().size()-1)
+	random_palette = palettes()[palette_index].duplicate(true)
+	var shift := rng.randf_range(-0.055,0.055)
+	for key in ["a","b"]:
+		var c := Color(String(random_palette[key]))
+		random_palette[key] = Color.from_hsv(fposmod(c.h+shift,1.0),rng.randf_range(0.82,1.0),rng.randf_range(0.92,1.0)).to_html()
+	if rng.randf()<0.5:
+		var a: String = random_palette["a"]
+		random_palette["a"] = random_palette["b"]
+		random_palette["b"] = a
+		var names: Array = random_palette.get("names",[])
+		names.reverse()
+	# Names identify sides consistently when colours are varied or swapped.
+	random_palette["id"] = "random"
+	random_palette["names"] = ["我方","对方"]

@@ -18,4 +18,3 @@ void fragment() {
 	ALBEDO = mix(dry, ink.rgb, ink.a);
 	ROUGHNESS = 0.88;
 }
-

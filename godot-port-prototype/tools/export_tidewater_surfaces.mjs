@@ -5,8 +5,9 @@ import { fileURLToPath } from 'node:url';
 import { createRuntimeLevel, round6, vector3 } from './lib/runtime_level.mjs';
 import { TIDEWATER, KELPLINE } from '../../public/game/src/world/maps.js';
 
-const mapId = process.argv.includes('--kelpline') ? 'kelpline' : 'tidewater';
-const MAP = mapId === 'kelpline' ? KELPLINE : TIDEWATER;
+const {cliMap}=await import('./lib/arena_layouts.mjs');
+const MAP=cliMap();
+const mapId=MAP.id;
 
 // Built through the shared helper so the exported grid always matches the running
 // game, including the set-dressing prop colliders that bury turf cells.

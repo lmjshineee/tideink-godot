@@ -12,11 +12,12 @@ func _check() -> void:
 	seed(20260927)
 	var scene := (load("res://tidewater_play.tscn") as PackedScene).instantiate()
 	root.add_child(scene)
+	scene.call("show_preparation")
 	await physics_frame
 	var combat: Node3D = scene.get_node("Combat")
 	var ink: RefCounted = scene.get("ink")
 	var data: Dictionary = combat.get("weapon_data")
-	if int(data["schema"]) != 1 or (data["weaponOrder"] as Array).size() != 4:
+	if int(data["schema"]) != 1 or (data["weaponOrder"] as Array).size() != 7:
 		_fail("source weapon data")
 		return
 	var select := InputEventKey.new()
@@ -64,7 +65,7 @@ func _check() -> void:
 		return
 	combat.call("select_weapon", "shooter")
 	var before := float(combat.get("ink_amount"))
-	combat.call("tick", 0.1, true, false)
+	combat.call("tick", 1.0/30.0, true, false)
 	if (combat.get("projectiles") as Array).size() != 1 or absf(float(combat.get("ink_amount")) - before + 0.95) > 0.001:
 		_fail("shooter projectile or source ink cost")
 		return

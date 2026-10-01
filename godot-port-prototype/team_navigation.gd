@@ -1,7 +1,15 @@
 extends RefCounted
 
 # Read source NavGraph nodes/edges, use Godot AStar for the team patrol routes.
-# Jump edges are excluded until bots share the player's jump controller.
+# Source costs favour walk routes; jump/drop transitions keep their original penalty.
+class SourceGraph extends AStar3D:
+ var edges: Dictionary = {}
+ func _compute_cost(a: int, b: int) -> float:
+  return float(edges[Vector2i(a,b)]["cost"])
+ func _estimate_cost(a: int, b: int) -> float:
+  var delta := get_point_position(a)-get_point_position(b)
+  return Vector2(delta.x,delta.z).length()
+
 var graphs: Array[AStar3D] = []
 var nodes: Array = []
 var goals: Array[PackedInt64Array] = []
@@ -10,7 +18,7 @@ func setup(map_id: String) -> void:
  var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/%s_nav.json" % map_id))
  nodes = data["nodes"]
  for team in range(2):
-  var graph := AStar3D.new()
+  var graph := SourceGraph.new()
   var candidates := PackedInt64Array()
   for node in nodes:
    if int(node["zone"]) == 1 - team:
@@ -25,7 +33,8 @@ func setup(map_id: String) -> void:
     continue
    for edge in node["edges"]:
     var to := int(edge["to"])
-    if graph.has_point(to) and String(edge["type"]) != "jump":
+    if graph.has_point(to):
+     graph.edges[Vector2i(id,to)] = edge
      graph.connect_points(id,to,false)
   graphs.append(graph)
   goals.append(candidates)
@@ -48,3 +57,9 @@ func patrol(from: Vector3, team: int, lane: int) -> PackedVector3Array:
   if path.size() > 1:
    return path
  return PackedVector3Array()
+
+func transition(from: Vector3, target: Vector3, team: int) -> String:
+ var graph := graphs[team] as SourceGraph
+ var a := graph.get_closest_point(from)
+ var b := graph.get_closest_point(target)
+ return String(graph.edges.get(Vector2i(a,b), {}).get("type", "walk"))

@@ -10,6 +10,8 @@ func _check() -> void:
 	var scene := (load("res://tidewater_play.tscn") as PackedScene).instantiate()
 	root.add_child(scene)
 	await physics_frame
+	# This fixture checks pursuit. A charger should now hold range at eight metres.
+	scene.set("selected_bot_weapon","shooter")
 	scene.call("_start_round")
 	var bot: Node3D = scene.get_node("Bot")
 	var walker: CharacterBody3D = scene.get_node("World/Walker")

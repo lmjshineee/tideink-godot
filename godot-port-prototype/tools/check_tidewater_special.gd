@@ -15,8 +15,8 @@ func _check() -> void:
 	var walker: CharacterBody3D = scene.get_node("World/Walker")
 	var bot: Node3D = scene.get_node("Bot")
 	var config: Dictionary = combat.get("weapon_data")
-	if not config.has("specials") or absf(float(config["specials"]["slam"]["radius"]) - 5.2) > 0.001:
-		_fail("source special parameters were not exported")
+	if not config.has("specials") or absf(float(config["specials"]["slam"]["radius"]) - 6.0) > 0.001:
+		_fail("local special tuning did not apply")
 		return
 	combat.call("_paint_player", Vector3(0.0, 2.4, 39.2), 2.2, 0.5)
 	if float(combat.get("special_points")) <= 0.0:
@@ -34,7 +34,7 @@ func _check() -> void:
 		_fail("slam did not enter rise or consume the meter")
 		return
 	scene.call("damage_player", 40.0)
-	if absf(float(scene.get("player_health")) - 90.0) > 0.01:
+	if absf(float(scene.get("player_health")) - 110.0) > 0.01:
 		_fail("slam armor should reduce direct damage to one quarter")
 		return
 	walker.global_position = bot.global_position + Vector3(1.0, 0.0, 0.0)

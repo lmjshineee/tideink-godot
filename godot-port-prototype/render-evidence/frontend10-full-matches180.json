@@ -1,0 +1,310 @@
+{
+  "fps_cap": 30,
+  "kind": "native automated input replay; human acceptance and temperature unmeasured",
+  "render_scale": 0.75,
+  "rounds": [
+    {
+      "average_fps": 29.9878638533998,
+      "bots": [
+        {
+          "id": 6,
+          "item": "bomb",
+          "name": "Tako",
+          "special_casts": 0,
+          "stats": {
+            "damage": 566.333333333333,
+            "deaths": 9,
+            "kills": 3
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 2,
+          "item": "refill",
+          "name": "Kelp",
+          "special_casts": 0,
+          "stats": {
+            "damage": 1148.67121687669,
+            "deaths": 7,
+            "kills": 9
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 3,
+          "item": "refill",
+          "name": "Pip",
+          "special_casts": 1,
+          "stats": {
+            "damage": 658.199999999999,
+            "deaths": 7,
+            "kills": 5,
+            "specials": 1
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 4,
+          "item": "bomb",
+          "name": "Wasabi",
+          "special_casts": 0,
+          "stats": {
+            "damage": 1369.26211645664,
+            "deaths": 8,
+            "kills": 11
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 5,
+          "item": "bomb",
+          "name": "Squiddo",
+          "special_casts": 0,
+          "stats": {
+            "damage": 1149.19508589336,
+            "deaths": 6,
+            "kills": 11
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 7,
+          "item": "refill",
+          "name": "Coral",
+          "special_casts": 0,
+          "stats": {
+            "damage": 875.799999999999,
+            "deaths": 6,
+            "kills": 6
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 8,
+          "item": "shield",
+          "name": "Fizz",
+          "special_casts": 2,
+          "stats": {
+            "damage": 1509.04937412783,
+            "deaths": 7,
+            "kills": 11,
+            "specials": 2
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 9,
+          "item": "refill",
+          "name": "Juno",
+          "special_casts": 0,
+          "stats": {
+            "damage": 1049.59483520312,
+            "deaths": 8,
+            "kills": 11
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 10,
+          "item": "bomb",
+          "name": "Moxie",
+          "special_casts": 1,
+          "stats": {
+            "damage": 920.201530797758,
+            "deaths": 6,
+            "kills": 6,
+            "specials": 1
+          },
+          "weapon": "shooter"
+        }
+      ],
+      "dive_frames": 364,
+      "duration": 180.0,
+      "frames": 5368,
+      "fx_events": {
+        "dive": 35,
+        "hit": 797,
+        "jump": 21,
+        "muzzle": 646,
+        "splat": 108
+      },
+      "height_max": 3.47722196578979,
+      "height_min": 0.0,
+      "jump_inputs": 21,
+      "map": "tidewater",
+      "natural_deaths": 9,
+      "p95_frame_ms": 36.001,
+      "p99_equivalent_fps": 24.501396579605,
+      "p99_frame_ms": 40.814,
+      "play_wall_seconds": 179.993894,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 656.898294677027,
+      "turf_counts": [
+        15524,
+        16594
+      ],
+      "weapons_used": [
+        "shooter",
+        "roller",
+        "charger",
+        "blaster"
+      ]
+    },
+    {
+      "average_fps": 29.9816451229166,
+      "bots": [
+        {
+          "id": 6,
+          "item": "refill",
+          "name": "Riptide",
+          "special_casts": 1,
+          "stats": {
+            "damage": 751.859147289408,
+            "deaths": 7,
+            "kills": 5,
+            "specials": 1
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 2,
+          "item": "refill",
+          "name": "Kelp",
+          "special_casts": 1,
+          "stats": {
+            "damage": 1545.28673891753,
+            "deaths": 8,
+            "kills": 11,
+            "specials": 1
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 3,
+          "item": "refill",
+          "name": "Inky Vee",
+          "special_casts": 2,
+          "stats": {
+            "damage": 881.495819980006,
+            "deaths": 5,
+            "kills": 5,
+            "specials": 2
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 4,
+          "item": "shield",
+          "name": "Moxie",
+          "special_casts": 2,
+          "stats": {
+            "damage": 1338.41002651396,
+            "deaths": 6,
+            "kills": 10,
+            "specials": 2
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 5,
+          "item": "refill",
+          "name": "Loop",
+          "special_casts": 1,
+          "stats": {
+            "damage": 194.989973486037,
+            "deaths": 7,
+            "kills": 3,
+            "specials": 1
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 7,
+          "item": "bomb",
+          "name": "Sprinkle",
+          "special_casts": 2,
+          "stats": {
+            "damage": 1138.4,
+            "deaths": 5,
+            "kills": 7,
+            "specials": 2
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 8,
+          "item": "shield",
+          "name": "Pip",
+          "special_casts": 2,
+          "stats": {
+            "damage": 909.333333333333,
+            "deaths": 5,
+            "kills": 6,
+            "specials": 2
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 9,
+          "item": "bomb",
+          "name": "Marlo",
+          "special_casts": 0,
+          "stats": {
+            "damage": 724.078779878435,
+            "deaths": 7,
+            "kills": 7
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 10,
+          "item": "refill",
+          "name": "Coral",
+          "special_casts": 1,
+          "stats": {
+            "damage": 906.913572418995,
+            "deaths": 5,
+            "kills": 7,
+            "specials": 1
+          },
+          "weapon": "blaster"
+        }
+      ],
+      "dive_frames": 212,
+      "duration": 180.0,
+      "frames": 5368,
+      "fx_events": {
+        "dive": 33,
+        "hit": 758,
+        "jump": 20,
+        "muzzle": 677,
+        "splat": 113
+      },
+      "height_max": 4.47722196578979,
+      "height_min": -1.62577795982361,
+      "jump_inputs": 21,
+      "map": "kelpline",
+      "natural_deaths": 12,
+      "p95_frame_ms": 36.332,
+      "p99_equivalent_fps": 23.1107002542177,
+      "p99_frame_ms": 43.27,
+      "play_wall_seconds": 180.034845,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 574.766712984536,
+      "turf_counts": [
+        22065,
+        16376
+      ],
+      "weapons_used": [
+        "roller",
+        "charger",
+        "blaster",
+        "shooter"
+      ]
+    }
+  ]
+}

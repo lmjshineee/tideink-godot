@@ -1,0 +1,9 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-10-01 13:19:55.007 Godot[96915:7688962] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+AUDIT: tidewater mouse main/prep/weapon/item/random, launcher aim/Space arc, E/right-click cooldown item, results/home, 960x540/110%
+AUDIT: coral_market mouse main/prep/weapon/item/random, launcher aim/Space arc, E/right-click cooldown item, results/home, 960x540/110%
+AUDIT: prism_gallery mouse main/prep/weapon/item/random, launcher aim/Space arc, E/right-click cooldown item, results/home, 960x540/110%
+AUDIT: viaduct mouse main/prep/weapon/item/random, launcher aim/Space arc, E/right-click cooldown item, results/home, 960x540/110%
+PASS: native main menu, full-body random preview, chosen kits, one-action Squid Spawn and results on both maps

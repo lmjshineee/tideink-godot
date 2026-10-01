@@ -28,10 +28,9 @@ func _check() -> void:
 		_fail("opponent painted no turf during the full round")
 		return
 	scene.call("_physics_process", 2.6)
-	if scene.get("phase") != "judge" or int(scene.get("winner")) != 1:
-		_fail("full-round judge did not score the opponent's turf")
+	if scene.get("phase") != "results" or int(scene.get("winner")) != 1:
+		_fail("full-round finish did not immediately score the opponent's turf")
 		return
-	scene.call("_physics_process", 5.1)
 	if scene.get("phase") != "results" or scene.get("result") != String(scene.get("team_names")[1]) + "胜利":
 		_fail("full round did not reach the result screen")
 		return

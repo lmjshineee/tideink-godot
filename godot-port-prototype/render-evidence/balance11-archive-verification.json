@@ -1,0 +1,13 @@
+{
+  "version": "v0.3.0-preview.11",
+  "archive": "/Users/yunni/Joy/inkwave-game/godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.11-macOS-arm64.zip",
+  "bytes": 99972866,
+  "sha256": "6d6ee0b6a74859bd4742b2a80673f6794552a78406ca9051a85471b9d31afe2a",
+  "zip_crc": "passed",
+  "extracted_signature": "passed",
+  "architecture": "arm64",
+  "manifest_and_extracted_hashes": "passed",
+  "matches_current_app": true,
+  "current_gameplay_docs": true,
+  "release_url": null
+}

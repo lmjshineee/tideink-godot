@@ -29,11 +29,13 @@ func _initialize() -> void:
 func _check() -> void:
 	var payload: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/weapons.json"))
 	var expected := float(payload["player"]["runSpeed"])
+	var tuned := payload.duplicate(true)
+	preload("res://gameplay_rules.gd").apply(tuned)
 	var game := TestGame.new()
 	var combat := TestCombat.new()
 	combat.name = "Combat"
-	combat.weapon_data = payload
-	combat.weapons = payload["weapons"]
+	combat.weapon_data = tuned
+	combat.weapons = tuned["weapons"]
 	game.add_child(combat)
 	var level := TestMap.new()
 	game.add_child(level)
@@ -94,7 +96,7 @@ func _check() -> void:
 		if not visual.kid.visible or visual.squid.visible:
 			_fail("kid form visibility regressed")
 			return
-	if walker.player_config != payload["player"] or combat.weapon_data != payload:
+	if walker.player_config != tuned["player"] or combat.weapon_data != tuned:
 		_fail("visual configuration mutated gameplay data")
 		return
 	print("PASS: owner initialization, both teams runSpeed=%s, normalized leg pose, four weapons and forms" % expected)

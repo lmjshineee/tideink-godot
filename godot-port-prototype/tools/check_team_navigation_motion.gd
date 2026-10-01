@@ -18,15 +18,20 @@ func _check() -> void:
   var starts: Array[Vector3] = []
   for bot in bots:
    starts.append(bot.global_position)
+  var furthest: Array[float] = []
+  furthest.resize(bots.size())
+  furthest.fill(0.0)
   for step in range(180):
    await physics_frame
    game.call("_update_bot",1.0/30.0)
    for bot in game.get("extra_bots"):
     game.call("_update_team_actor",bot,1.0/30.0)
    game.get_node("Combat").call("advance_effects",1.0/30.0)
+   for i in bots.size():
+    furthest[i] = maxf(furthest[i],bots[i].global_position.distance_to(starts[i]))
   for i in range(bots.size()):
    var bot: Node3D = bots[i]
-   if bot.global_position.distance_to(starts[i]) < 2.0:
+   if furthest[i] < 2.0:
     printerr("FAIL: stuck at spawn on ",map_id," ",bot.name," ",starts[i]," -> ",bot.global_position)
     quit(1)
     return

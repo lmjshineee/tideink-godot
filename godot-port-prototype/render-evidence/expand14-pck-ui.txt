@@ -1,0 +1,7 @@
+ERROR: Failed to open log file for writing: .godot/expand14-pck-ui.engine.log
+   at: rotate_file (core/io/logger.cpp:164)
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-10-01 17:30:17.258 Godot[59863:8026492] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+PASS: same-version engine / native Metal renders exported arm64 PCK modular v4 preview, seven weapons, new mist/focus kit and dual source models

@@ -1,0 +1,16 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-09-30 23:15:05.425 Godot[75543:7318078] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+AUDIT: start tidewater 180.0 seconds / native input / 5v5
+AUDIT: tidewater elapsed=0 remaining=180 deaths=0
+AUDIT: tidewater elapsed=20 remaining=160 deaths=1
+AUDIT: tidewater elapsed=40 remaining=140 deaths=2
+AUDIT: tidewater elapsed=60 remaining=120 deaths=3
+AUDIT: tidewater elapsed=80 remaining=100 deaths=4
+AUDIT: tidewater elapsed=100 remaining=80 deaths=6
+AUDIT: tidewater elapsed=120 remaining=60 deaths=7
+AUDIT: tidewater elapsed=140 remaining=40 deaths=8
+AUDIT: tidewater elapsed=160 remaining=20 deaths=8
+AUDIT: complete { "map": "tidewater", "duration": 180.0, "play_wall_seconds": 180.04599, "frames": 5369, "average_fps": 29.98467609365, "p95_frame_ms": 35.364, "p99_frame_ms": 41.359, "p99_equivalent_fps": 24.1785342972509, "travel_m": 603.147370861843, "height_min": 0.0, "height_max": 3.47722196578979, "jump_inputs": 21, "dive_frames": 286, "natural_deaths": 10, "weapons_used": ["charger", "roller", "blaster", "shooter"], "fx_events": { "hit": 613, "splat": 70, "dive": 54, "jump": 21, "muzzle": 630 }, "turf_counts": [14367, 16764], "results": true, "restart": true, "restart_input": "Enter" }
+PASS: native full-duration dual-map 90 second rounds and 180 second 5v5, actual input, natural timer/results/restart; see measured coverage and limits in JSON

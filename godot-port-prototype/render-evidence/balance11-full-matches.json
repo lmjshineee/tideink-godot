@@ -1,0 +1,1283 @@
+{
+  "fps_cap": 30,
+  "kind": "native automated input replay; human acceptance and temperature unmeasured",
+  "render_scale": 0.75,
+  "rounds": [
+    {
+      "average_fps": 29.9789443389699,
+      "bots": [
+        {
+          "id": 6,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Pip",
+          "perk": "runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 681.026541882046,
+            "deaths": 4,
+            "kills": 5
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 2,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Coral",
+          "perk": "recovery",
+          "special_casts": 1,
+          "stats": {
+            "damage": 916.818911583276,
+            "deaths": 4,
+            "kills": 5,
+            "specials": 1
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 3,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Inky Vee",
+          "perk": "reserve",
+          "special_casts": 1,
+          "stats": {
+            "damage": 584.093333333331,
+            "deaths": 4,
+            "kills": 3,
+            "specials": 1
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 4,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Squiddo",
+          "perk": "recovery",
+          "special_casts": 1,
+          "stats": {
+            "damage": 525.106666666666,
+            "deaths": 3,
+            "kills": 5,
+            "specials": 1
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 5,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Suki",
+          "perk": "reserve",
+          "special_casts": 0,
+          "stats": {
+            "damage": 160.894194276934,
+            "deaths": 3,
+            "kills": 2
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 7,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Moxie",
+          "perk": "runner",
+          "special_casts": 1,
+          "stats": {
+            "damage": 249.366666666666,
+            "deaths": 2,
+            "kills": 3,
+            "specials": 1
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 8,
+          "item": "shield",
+          "max_hp": 150.0,
+          "name": "Wasabi",
+          "perk": "vitality",
+          "special_casts": 1,
+          "stats": {
+            "damage": 836.093333333333,
+            "deaths": 3,
+            "kills": 3,
+            "specials": 1
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 9,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Sprinkle",
+          "perk": "balanced",
+          "special_casts": 1,
+          "stats": {
+            "damage": 410.894760317746,
+            "deaths": 3,
+            "kills": 5,
+            "specials": 1
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 10,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Juno",
+          "perk": "balanced",
+          "special_casts": 1,
+          "stats": {
+            "damage": 698.406357597453,
+            "deaths": 4,
+            "kills": 3,
+            "specials": 1
+          },
+          "weapon": "shooter"
+        }
+      ],
+      "dive_frames": 79,
+      "duration": 90.0,
+      "frames": 2670,
+      "fx_events": {
+        "dive": 18,
+        "hit": 758,
+        "jump": 13,
+        "muzzle": 621,
+        "splat": 57
+      },
+      "geometry": "prism_gallery",
+      "height_max": 3.6384220123291,
+      "height_min": 0.0,
+      "jump_inputs": 13,
+      "last_damage_history": [
+        {
+          "amount": 1.03333333333298,
+          "source": "#07 Moxie · 墨雨",
+          "time": 55489
+        },
+        {
+          "amount": 5.33333333333334,
+          "source": "敌方墨面",
+          "time": 70889
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 71156
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 75122
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 76189
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 76455
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 76722
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 77055
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 77689
+        },
+        {
+          "amount": 30.0,
+          "source": "#06 Pip · 喷溅枪 · 躯干 / 5.6m",
+          "time": 77722
+        },
+        {
+          "amount": 30.0,
+          "source": "#06 Pip · 喷溅枪 · 躯干 / 5.6m",
+          "time": 77856
+        },
+        {
+          "amount": 26.6666666666665,
+          "source": "#06 Pip · 喷溅枪 · 躯干 / 5.5m",
+          "time": 77989
+        },
+        {
+          "amount": 30.0,
+          "source": "#10 Juno · 喷溅枪 · 躯干 / 6.4m",
+          "time": 89622
+        },
+        {
+          "amount": 32.4,
+          "source": "#10 Juno · 喷溅枪 · 头部 / 5.5m",
+          "time": 89723
+        },
+        {
+          "amount": 32.4,
+          "source": "#10 Juno · 喷溅枪 · 头部 / 5.1m",
+          "time": 89857
+        },
+        {
+          "amount": 25.2,
+          "source": "#10 Juno · 喷溅枪 · 躯干 / 4.5m",
+          "time": 89956
+        }
+      ],
+      "map": "prism_gallery",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "natural_deaths": 5,
+      "p95_frame_ms": 36.04,
+      "p99_equivalent_fps": 24.7072194495232,
+      "p99_frame_ms": 40.474,
+      "perk": "balanced",
+      "play_wall_seconds": 90.052582,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 310.06391861476,
+      "turf_counts": [
+        13170,
+        16387
+      ],
+      "weapons_used": [
+        "shooter",
+        "roller",
+        "charger"
+      ]
+    },
+    {
+      "average_fps": 29.9549780497264,
+      "bots": [
+        {
+          "id": 6,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Inky Vee",
+          "perk": "runner",
+          "special_casts": 2,
+          "stats": {
+            "damage": 1050.11637235299,
+            "deaths": 3,
+            "kills": 7,
+            "specials": 2
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 2,
+          "item": "bomb",
+          "max_hp": 150.0,
+          "name": "Pip",
+          "perk": "vitality",
+          "special_casts": 0,
+          "stats": {
+            "damage": 1022.66118280951,
+            "deaths": 7,
+            "kills": 10
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 3,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Loop",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 601.792206501349,
+            "deaths": 6,
+            "kills": 3,
+            "specials": 1
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 4,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Drip",
+          "perk": "recovery",
+          "special_casts": 0,
+          "stats": {
+            "damage": 383.325651091245,
+            "deaths": 7,
+            "kills": 2
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 5,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Bubbles",
+          "perk": "bulwark",
+          "special_casts": 0,
+          "stats": {
+            "damage": 827.079978541878,
+            "deaths": 7,
+            "kills": 4
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 7,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Suki",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 829.771666666667,
+            "deaths": 4,
+            "kills": 3,
+            "specials": 1
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 8,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Fizz",
+          "perk": "recovery",
+          "special_casts": 2,
+          "stats": {
+            "damage": 1221.76572117652,
+            "deaths": 3,
+            "kills": 13,
+            "specials": 2
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 9,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Tako",
+          "perk": "bulwark",
+          "special_casts": 0,
+          "stats": {
+            "damage": 523.305355299055,
+            "deaths": 4,
+            "kills": 5
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 10,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Sprinkle",
+          "perk": "bulwark",
+          "special_casts": 0,
+          "stats": {
+            "damage": 813.907551171439,
+            "deaths": 5,
+            "kills": 5
+          },
+          "weapon": "blaster"
+        }
+      ],
+      "dive_frames": 44,
+      "duration": 90.0,
+      "frames": 2668,
+      "fx_events": {
+        "dive": 5,
+        "hit": 660,
+        "jump": 10,
+        "muzzle": 597,
+        "splat": 77
+      },
+      "geometry": "coral_market",
+      "height_max": 3.27722191810608,
+      "height_min": -0.421875,
+      "jump_inputs": 10,
+      "last_damage_history": [
+        {
+          "amount": 34.5,
+          "source": "#07 Suki · 喷溅枪 · 躯干 / 6.6m",
+          "time": 186859
+        },
+        {
+          "amount": 34.5,
+          "source": "#07 Suki · 喷溅枪 · 躯干 / 4.5m",
+          "time": 187059
+        },
+        {
+          "amount": 34.5,
+          "source": "#07 Suki · 喷溅枪 · 躯干 / 3.7m",
+          "time": 187192
+        },
+        {
+          "amount": 34.5,
+          "source": "#07 Suki · 喷溅枪 · 躯干 / 2.9m",
+          "time": 187292
+        },
+        {
+          "amount": 12.0,
+          "source": "#07 Suki · 喷溅枪 · 躯干 / 2.3m",
+          "time": 187392
+        },
+        {
+          "amount": 5.33333333333332,
+          "source": "敌方墨面",
+          "time": 194125
+        },
+        {
+          "amount": 5.33333333333326,
+          "source": "敌方墨面",
+          "time": 194392
+        },
+        {
+          "amount": 5.33333333333326,
+          "source": "敌方墨面",
+          "time": 195459
+        },
+        {
+          "amount": 5.33333333333326,
+          "source": "敌方墨面",
+          "time": 195725
+        },
+        {
+          "amount": 5.33333333333326,
+          "source": "敌方墨面",
+          "time": 195992
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 196259
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 196525
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 196792
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 197059
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 197325
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 197725
+        }
+      ],
+      "map": "coral_market",
+      "max_hp": 150.0,
+      "max_ink": 100.0,
+      "natural_deaths": 6,
+      "p95_frame_ms": 35.196,
+      "p99_equivalent_fps": 26.8629452533176,
+      "p99_frame_ms": 37.226,
+      "perk": "vitality",
+      "play_wall_seconds": 90.055132,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 258.805161286145,
+      "turf_counts": [
+        8351,
+        17626
+      ],
+      "weapons_used": [
+        "roller",
+        "blaster",
+        "charger",
+        "shooter"
+      ]
+    },
+    {
+      "average_fps": 29.9668538975638,
+      "bots": [
+        {
+          "id": 6,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Fizz",
+          "perk": "balanced",
+          "special_casts": 1,
+          "stats": {
+            "damage": 690.102970488866,
+            "deaths": 2,
+            "kills": 5,
+            "specials": 1
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 2,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Moxie",
+          "perk": "reserve",
+          "special_casts": 1,
+          "stats": {
+            "damage": 333.386558013084,
+            "deaths": 4,
+            "kills": 3,
+            "specials": 1
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 3,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Marlo",
+          "perk": "runner",
+          "special_casts": 1,
+          "stats": {
+            "damage": 452.633333333333,
+            "deaths": 4,
+            "kills": 4,
+            "specials": 1
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 4,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Inky Vee",
+          "perk": "runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 615.833333333333,
+            "deaths": 3,
+            "kills": 3
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 5,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Drip",
+          "perk": "saver",
+          "special_casts": 0,
+          "stats": {
+            "damage": 424.666666666667,
+            "deaths": 4,
+            "kills": 3
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 7,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Bubbles",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 405.466666666667,
+            "deaths": 2,
+            "kills": 3
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 8,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Kelp",
+          "perk": "reserve",
+          "special_casts": 1,
+          "stats": {
+            "damage": 830.996156280381,
+            "deaths": 3,
+            "kills": 6,
+            "specials": 1
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 9,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Sprinkle",
+          "perk": "runner",
+          "special_casts": 2,
+          "stats": {
+            "damage": 633.630362844467,
+            "deaths": 2,
+            "kills": 4,
+            "specials": 2
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 10,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Coral",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 174.0,
+            "deaths": 4,
+            "kills": 2
+          },
+          "weapon": "blaster"
+        }
+      ],
+      "dive_frames": 27,
+      "duration": 90.0,
+      "frames": 2669,
+      "fx_events": {
+        "dive": 3,
+        "hit": 469,
+        "jump": 12,
+        "muzzle": 375,
+        "splat": 52
+      },
+      "geometry": "viaduct",
+      "height_max": 3.83999967575073,
+      "height_min": 0.0,
+      "jump_inputs": 12,
+      "last_damage_history": [
+        {
+          "amount": 39.3252531019972,
+          "source": "#10 Coral · 炸弹",
+          "time": 253231
+        },
+        {
+          "amount": 25.3414135646691,
+          "source": "#10 Coral · 蓄力狙 · 躯干 / 2.8m",
+          "time": 253332
+        },
+        {
+          "amount": 82.0,
+          "source": "#06 Fizz · 爆破枪 · 躯干 / 6.1m",
+          "time": 266697
+        },
+        {
+          "amount": 5.33333333333334,
+          "source": "敌方墨面",
+          "time": 266797
+        },
+        {
+          "amount": 5.33333333333332,
+          "source": "敌方墨面",
+          "time": 267064
+        },
+        {
+          "amount": 27.3333333333333,
+          "source": "#06 Fizz · 爆破枪 · 躯干 / 3.1m",
+          "time": 267364
+        },
+        {
+          "amount": 5.33333333333335,
+          "source": "敌方墨面",
+          "time": 283996
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 284264
+        },
+        {
+          "amount": 30.0,
+          "source": "#06 Fizz · 喷溅枪 · 躯干 / 6.5m",
+          "time": 285864
+        },
+        {
+          "amount": 30.0,
+          "source": "#09 Sprinkle · 喷溅枪 · 躯干 / 5.6m",
+          "time": 285931
+        },
+        {
+          "amount": 5.33333333333336,
+          "source": "敌方墨面",
+          "time": 285964
+        },
+        {
+          "amount": 30.0,
+          "source": "#06 Fizz · 喷溅枪 · 躯干 / 6.2m",
+          "time": 285998
+        },
+        {
+          "amount": 14.6666666666666,
+          "source": "#06 Fizz · 喷溅枪 · 躯干 / 6.1m",
+          "time": 286131
+        },
+        {
+          "amount": 5.33333333333335,
+          "source": "敌方墨面",
+          "time": 298530
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 298797
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 299063
+        }
+      ],
+      "map": "viaduct",
+      "max_hp": 120.0,
+      "max_ink": 125.0,
+      "natural_deaths": 5,
+      "p95_frame_ms": 35.888,
+      "p99_equivalent_fps": 25.4543603319249,
+      "p99_frame_ms": 39.286,
+      "perk": "reserve",
+      "play_wall_seconds": 90.032945,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 289.310377033427,
+      "turf_counts": [
+        12318,
+        13166
+      ],
+      "weapons_used": [
+        "blaster",
+        "charger",
+        "roller",
+        "shooter"
+      ]
+    },
+    {
+      "average_fps": 29.9624778104091,
+      "bots": [
+        {
+          "id": 6,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Riptide",
+          "perk": "balanced",
+          "special_casts": 1,
+          "stats": {
+            "damage": 410.853333333333,
+            "deaths": 3,
+            "kills": 2,
+            "specials": 1
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 2,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Blotch",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 203.273719533165,
+            "deaths": 3,
+            "kills": 2
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 3,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Juno",
+          "perk": "reserve",
+          "special_casts": 1,
+          "stats": {
+            "damage": 461.333333333333,
+            "deaths": 4,
+            "kills": 4,
+            "specials": 1
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 4,
+          "item": "refill",
+          "max_hp": 150.0,
+          "name": "Moxie",
+          "perk": "vitality",
+          "special_casts": 1,
+          "stats": {
+            "damage": 809.167414452075,
+            "deaths": 4,
+            "kills": 6,
+            "specials": 1
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 5,
+          "item": "shield",
+          "max_hp": 150.0,
+          "name": "Squiddo",
+          "perk": "vitality",
+          "special_casts": 0,
+          "stats": {
+            "damage": 743.133333333333,
+            "deaths": 4,
+            "kills": 4
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 7,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Fizz",
+          "perk": "bulwark",
+          "special_casts": 0,
+          "stats": {
+            "damage": 625.04,
+            "deaths": 3,
+            "kills": 5
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 8,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Loop",
+          "perk": "bulwark",
+          "special_casts": 1,
+          "stats": {
+            "damage": 602.453333333333,
+            "deaths": 4,
+            "kills": 4,
+            "specials": 1
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 9,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Wasabi",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 144.573333333333,
+            "deaths": 3,
+            "kills": 1
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 10,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Bubbles",
+          "perk": "saver",
+          "special_casts": 0,
+          "stats": {
+            "damage": 1055.72763863374,
+            "deaths": 4,
+            "kills": 6
+          },
+          "weapon": "roller"
+        }
+      ],
+      "dive_frames": 132,
+      "duration": 90.0,
+      "frames": 2667,
+      "fx_events": {
+        "dive": 23,
+        "hit": 505,
+        "jump": 11,
+        "muzzle": 533,
+        "splat": 51
+      },
+      "geometry": "tidewater_v1",
+      "height_max": 3.47722196578979,
+      "height_min": 0.0,
+      "jump_inputs": 11,
+      "last_damage_history": [
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 383697
+        },
+        {
+          "amount": 64.0537131902498,
+          "source": "#10 Bubbles · 爆破枪 · 躯干 / 2.3m",
+          "time": 383863
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 394396
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 394663
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 394929
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 395196
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 395463
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 395730
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 395996
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 396263
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 397030
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 398363
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 398630
+        },
+        {
+          "amount": 5.33333333333334,
+          "source": "敌方墨面",
+          "time": 399830
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 403530
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 403796
+        }
+      ],
+      "map": "tidewater",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "natural_deaths": 3,
+      "p95_frame_ms": 36.081,
+      "p99_equivalent_fps": 23.7017373373468,
+      "p99_frame_ms": 42.191,
+      "perk": "adrenaline",
+      "play_wall_seconds": 90.003601,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 344.904778740834,
+      "turf_counts": [
+        12141,
+        12185
+      ],
+      "weapons_used": [
+        "charger",
+        "shooter",
+        "blaster"
+      ]
+    },
+    {
+      "average_fps": 29.9792350271945,
+      "bots": [
+        {
+          "id": 6,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Riptide",
+          "perk": "recovery",
+          "special_casts": 1,
+          "stats": {
+            "damage": 193.125283248277,
+            "deaths": 3,
+            "kills": 2,
+            "specials": 1
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 2,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Juno",
+          "perk": "balanced",
+          "special_casts": 2,
+          "stats": {
+            "damage": 445.041668978449,
+            "deaths": 2,
+            "kills": 5,
+            "specials": 2
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 3,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Coral",
+          "perk": "reserve",
+          "special_casts": 1,
+          "stats": {
+            "damage": 355.218331021551,
+            "deaths": 3,
+            "kills": 1,
+            "specials": 1
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 4,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Kelp",
+          "perk": "saver",
+          "special_casts": 1,
+          "stats": {
+            "damage": 644.566666666667,
+            "deaths": 2,
+            "kills": 4,
+            "specials": 1
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 5,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Nori",
+          "perk": "reserve",
+          "special_casts": 1,
+          "stats": {
+            "damage": 952.839999999999,
+            "deaths": 1,
+            "kills": 7,
+            "specials": 1
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 7,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Marlo",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 220.31090525327,
+            "deaths": 3,
+            "kills": 0,
+            "specials": 1
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 8,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Pip",
+          "perk": "saver",
+          "special_casts": 1,
+          "stats": {
+            "damage": 697.672736446662,
+            "deaths": 4,
+            "kills": 3,
+            "specials": 1
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 9,
+          "item": "bomb",
+          "max_hp": 150.0,
+          "name": "Loop",
+          "perk": "vitality",
+          "special_casts": 0,
+          "stats": {
+            "damage": 343.420358684179,
+            "deaths": 4,
+            "kills": 3
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 10,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Blotch",
+          "perk": "adrenaline",
+          "special_casts": 2,
+          "stats": {
+            "damage": 519.606666666666,
+            "deaths": 3,
+            "kills": 3,
+            "specials": 2
+          },
+          "weapon": "shooter"
+        }
+      ],
+      "dive_frames": 85,
+      "duration": 90.0,
+      "frames": 2669,
+      "fx_events": {
+        "dive": 20,
+        "hit": 721,
+        "jump": 12,
+        "muzzle": 561,
+        "splat": 67
+      },
+      "geometry": "kelpline_v1",
+      "height_max": 4.47722196578979,
+      "height_min": -1.56304478645325,
+      "jump_inputs": 12,
+      "last_damage_history": [
+        {
+          "amount": 1.4,
+          "source": "#06 Riptide · 墨雨",
+          "time": 507307
+        },
+        {
+          "amount": 1.4,
+          "source": "#06 Riptide · 墨雨",
+          "time": 507339
+        },
+        {
+          "amount": 1.4,
+          "source": "#06 Riptide · 墨雨",
+          "time": 507372
+        },
+        {
+          "amount": 1.4,
+          "source": "#06 Riptide · 墨雨",
+          "time": 507405
+        },
+        {
+          "amount": 1.4,
+          "source": "#06 Riptide · 墨雨",
+          "time": 507439
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 507471
+        },
+        {
+          "amount": 1.4,
+          "source": "#06 Riptide · 墨雨",
+          "time": 507472
+        },
+        {
+          "amount": 1.4,
+          "source": "#06 Riptide · 墨雨",
+          "time": 507507
+        },
+        {
+          "amount": 1.4,
+          "source": "#06 Riptide · 墨雨",
+          "time": 507539
+        },
+        {
+          "amount": 1.4,
+          "source": "#06 Riptide · 墨雨",
+          "time": 507573
+        },
+        {
+          "amount": 1.4,
+          "source": "#06 Riptide · 墨雨",
+          "time": 507607
+        },
+        {
+          "amount": 1.4,
+          "source": "#06 Riptide · 墨雨",
+          "time": 507640
+        },
+        {
+          "amount": 1.4,
+          "source": "#06 Riptide · 墨雨",
+          "time": 507672
+        },
+        {
+          "amount": 1.4,
+          "source": "#06 Riptide · 墨雨",
+          "time": 507706
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 507736
+        },
+        {
+          "amount": 5.33333333333337,
+          "source": "敌方墨面",
+          "time": 508004
+        }
+      ],
+      "map": "kelpline",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "natural_deaths": 5,
+      "p95_frame_ms": 35.912,
+      "p99_equivalent_fps": 24.7121039885336,
+      "p99_frame_ms": 40.466,
+      "perk": "runner",
+      "play_wall_seconds": 90.023578,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 325.004436470568,
+      "turf_counts": [
+        14669,
+        18434
+      ],
+      "weapons_used": [
+        "shooter",
+        "charger",
+        "blaster",
+        "roller"
+      ]
+    }
+  ]
+}

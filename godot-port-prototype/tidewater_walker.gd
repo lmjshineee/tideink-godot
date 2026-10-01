@@ -1,5 +1,8 @@
 extends CharacterBody3D
 
+signal jumped
+signal form_changed(squid: bool)
+
 # CharacterBody3D traversal for the exported Tidewater map.
 # Horizontal handling follows actor.js; kid/squid collision volumes share source dimensions.
 const LOOK_SENSITIVITY := 0.0021
@@ -45,6 +48,7 @@ var ink_owner := -1
 var active := true
 var auto_respawn := true
 var firing_speed_limit := INF
+var external_speed_factor:=1.0
 var climbing := false
 var wall_normal := Vector3.ZERO
 var climb_velocity := 0.0
@@ -92,6 +96,7 @@ var _squid_shape: Shape3D
 func _ready() -> void:
 	var config: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/weapons.json"))
 	player_config = config["player"]
+	preload("res://gameplay_rules.gd").apply(config)
 	$Body.call("configure_animation", player_config)
 	# Both bodies come from the source formula, not from the scene's placeholder shape.
 	# _apply_form below pushes them onto the collision node, so the scene's numbers are
@@ -116,7 +121,7 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if active and event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE:
+	if active and event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_SPACE or event.physical_keycode == KEY_SPACE):
 		jump_requested = true
 	if active and look_enabled and event is InputEventMouseMotion:
 		apply_look_delta(event.relative)
@@ -345,7 +350,15 @@ func can_dive() -> bool:
 		return true # Keep the form through a jump, then re-evaluate at touchdown.
 	if grounded and _floor_ink_owner() == team:
 		return true
-	var direction := Vector3(sin(camera_yaw),0.0,cos(camera_yaw))
+	var axis := Vector2.ZERO
+	if Input.is_physical_key_pressed(KEY_A): axis.x -= 1.0
+	if Input.is_physical_key_pressed(KEY_D): axis.x += 1.0
+	if Input.is_physical_key_pressed(KEY_W): axis.y += 1.0
+	if Input.is_physical_key_pressed(KEY_S): axis.y -= 1.0
+	if axis.length_squared()<0.04:
+		axis = Vector2(0,1)
+	var relative := _camera_relative_axis(axis)
+	var direction := Vector3(relative.x,0.0,relative.y).normalized()
 	return _is_own_wall_hit(_wall_ray(global_position+Vector3.UP*0.3,direction,float(player_config["radius"])+0.35))
 
 
@@ -360,6 +373,7 @@ func update_form(requested_squid: bool) -> bool:
 
 func _apply_form(squid: bool) -> void:
 	squid_form = squid
+	form_changed.emit(squid)
 	collision_mask = (collision_mask & ~8) if squid else (collision_mask | 8)
 	$CollisionShape3D.shape = _squid_shape if squid else _kid_shape
 	# Both bodies sit at the centre of their source span (kid 0.90, squid 0.54).
@@ -425,8 +439,9 @@ func _advance_jump_input(delta: float) -> void:
 func _vertical_step(delta: float, squid: bool, grounded: bool, submerged: bool = false,
 		on_enemy: bool = false) -> bool:
 	coyote = float(player_config["coyoteTime"]) if grounded else maxf(0.0, coyote - delta)
-	var jumped := jump_buffer > 0.0 and (grounded or coyote > 0.0)
-	if jumped:
+	var did_jump := jump_buffer > 0.0 and (grounded or coyote > 0.0)
+	if did_jump:
+		jumped.emit()
 		var jump := float(player_config["swimJumpVel"]) if submerged else float(player_config["jumpVel"])
 		velocity.y = jump * 0.72 if on_enemy else jump
 		jump_buffer = 0.0
@@ -440,13 +455,14 @@ func _vertical_step(delta: float, squid: bool, grounded: bool, submerged: bool =
 	if absf(velocity.y) < float(player_config["apexBand"]):
 		gravity *= float(player_config["apexGravityMul"])
 	velocity.y = maxf(-float(player_config["maxFall"]), velocity.y - gravity * delta)
-	return jumped
+	return did_jump
 
 
 # Port of actor.js _horizontal. This changes horizontal velocity only; collision
 # and grounding continue to be resolved by CharacterBody3D.
 func _horizontal_step(delta: float, axis: Vector2, squid: bool, on_enemy: bool, grounded: bool) -> void:
-	var p := player_config
+	var p := player_config.duplicate()
+	for key in ["runSpeed","swimSpeed","squidDrySpeed","enemyInkSpeed"]:p[key]*=external_speed_factor
 	var horizontal := Vector2(velocity.x, velocity.z)
 	var speed := horizontal.length()
 	var input_length := axis.length()
@@ -612,7 +628,7 @@ func _is_own_wall_hit(hit: Dictionary) -> bool:
 	if face.is_empty() or not bool(face["wall"]):
 		return false
 	var relative: Vector3 = hit["position"] - _vector(face["origin"])
-	return int(ink.call("owner_at", int(face["id"]), relative.dot(_vector(face["u"])), relative.dot(_vector(face["v"])))) == 0
+	return int(ink.call("owner_at", int(face["id"]), relative.dot(_vector(face["u"])), relative.dot(_vector(face["v"])))) == team
 
 
 func _set_climbing(on: bool) -> void:
@@ -871,6 +887,7 @@ func _enter_tree() -> void:
 	var body := get_node_or_null("Body")
 	if body != null:
 		body.set("style_index", preload("res://match_setup.gd").style_index)
+		body.set("ornament_seed", preload("res://match_setup.gd").appearance_seed)
 
 
 func _body_fits_at(feet: Vector3) -> bool:

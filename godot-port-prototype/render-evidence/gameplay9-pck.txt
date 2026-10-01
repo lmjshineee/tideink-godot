@@ -1,0 +1,3 @@
+PASS: check_gameplay_deployment from exported PCK, cwd=/private/tmp
+PASS: check_actor_feedback from exported PCK, cwd=/private/tmp
+PASS: check_splat_attribution from exported PCK, cwd=/private/tmp

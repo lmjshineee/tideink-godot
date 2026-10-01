@@ -1,0 +1,552 @@
+{
+  "fps_cap": 30,
+  "kind": "native automated input replay; human acceptance and temperature unmeasured",
+  "render_scale": 0.75,
+  "rounds": [
+    {
+      "average_fps": 29.8168855774488,
+      "beacons_remaining": 0,
+      "bots": [
+        {
+          "id": 6,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Kelp",
+          "perk": "recovery",
+          "special_casts": 0,
+          "stats": {
+            "damage": 694.799999999999,
+            "deaths": 3,
+            "kills": 6
+          },
+          "weapon": "dualie"
+        },
+        {
+          "id": 2,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Nori",
+          "perk": "recovery",
+          "special_casts": 0,
+          "stats": {
+            "damage": 759.198890440805,
+            "deaths": 6,
+            "kills": 5
+          },
+          "weapon": "heavy"
+        },
+        {
+          "id": 3,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Moxie",
+          "perk": "recovery",
+          "special_casts": 1,
+          "stats": {
+            "damage": 495.247291072122,
+            "deaths": 5,
+            "kills": 5,
+            "specials": 1
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 4,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Inky Vee",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 853.333333333333,
+            "deaths": 5,
+            "kills": 6
+          },
+          "weapon": "rapid"
+        },
+        {
+          "id": 5,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Zest",
+          "perk": "recycler",
+          "special_casts": 0,
+          "stats": {
+            "damage": 509.40265983309,
+            "deaths": 5,
+            "kills": 4
+          },
+          "weapon": "rapid"
+        },
+        {
+          "id": 7,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Sprinkle",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 710.090870186839,
+            "deaths": 4,
+            "kills": 5,
+            "specials": 1
+          },
+          "weapon": "heavy"
+        },
+        {
+          "id": 8,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Riptide",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 689.53368217391,
+            "deaths": 4,
+            "kills": 4,
+            "specials": 1
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 9,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Blotch",
+          "perk": "recycler",
+          "special_casts": 0,
+          "stats": {
+            "damage": 867.438507073965,
+            "deaths": 5,
+            "kills": 7
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 10,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Juno",
+          "perk": "bulwark",
+          "special_casts": 0,
+          "stats": {
+            "damage": 689.466317826089,
+            "deaths": 4,
+            "kills": 4
+          },
+          "weapon": "heavy"
+        }
+      ],
+      "dive_frames": 137,
+      "duration": 90.0,
+      "frames": 2655,
+      "fx_events": {
+        "dive": 13,
+        "hit": 595,
+        "jump": 11,
+        "muzzle": 558,
+        "splat": 60
+      },
+      "geometry": "modular_harbor_v2",
+      "height_max": 3.27722191810608,
+      "height_min": 0.0,
+      "jump_clicks": 1,
+      "jump_inputs": 11,
+      "last_damage_history": [
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 68112
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 68379
+        },
+        {
+          "amount": 82.0,
+          "cause": "#09 Blotch · 爆破枪",
+          "source": "#09 Blotch · 爆破枪 · 躯干 / 7.6m",
+          "time": 68412
+        },
+        {
+          "amount": 5.33333333333334,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 69079
+        },
+        {
+          "amount": 13.9999999999999,
+          "cause": "#09 Blotch · 爆破枪",
+          "source": "#09 Blotch · 爆破枪 · 躯干 / 5.4m",
+          "time": 69112
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 81012
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 81279
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 81545
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 81812
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 82079
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 82344
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 83145
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 83412
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 83679
+        },
+        {
+          "amount": 69.333333333333,
+          "cause": "#06 Kelp · 爆破枪",
+          "source": "#06 Kelp · 爆破枪 · 躯干 / 7.7m",
+          "time": 83847
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 95312
+        }
+      ],
+      "map": "modular_harbor",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "natural_deaths": 5,
+      "p95_frame_ms": 35.37,
+      "p99_equivalent_fps": 24.9301954527323,
+      "p99_frame_ms": 40.112,
+      "perk": "focus",
+      "play_wall_seconds": 90.037664,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 322.182308127871,
+      "turf_counts": [
+        13315,
+        14216
+      ],
+      "weapons_used": [
+        "dualie",
+        "rapid",
+        "charger",
+        "roller"
+      ]
+    },
+    {
+      "average_fps": 29.8366142735195,
+      "beacons_remaining": 0,
+      "bots": [
+        {
+          "id": 6,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Marlo",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 515.652825691825,
+            "deaths": 3,
+            "kills": 4,
+            "specials": 1
+          },
+          "weapon": "dualie"
+        },
+        {
+          "id": 2,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Suki",
+          "perk": "recycler",
+          "special_casts": 1,
+          "stats": {
+            "damage": 478.293333333333,
+            "deaths": 3,
+            "kills": 4,
+            "specials": 1
+          },
+          "weapon": "rapid"
+        },
+        {
+          "id": 3,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Wasabi",
+          "perk": "saver",
+          "special_casts": 0,
+          "stats": {
+            "damage": 177.095771489825,
+            "deaths": 4,
+            "kills": 0
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 4,
+          "item": "shield",
+          "max_hp": 150.0,
+          "name": "Drip",
+          "perk": "vitality",
+          "special_casts": 1,
+          "stats": {
+            "damage": 807.517561843509,
+            "deaths": 4,
+            "kills": 5,
+            "specials": 1
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 5,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Inky Vee",
+          "perk": "recycler",
+          "special_casts": 0,
+          "stats": {
+            "damage": 428.733333333333,
+            "deaths": 3,
+            "kills": 4
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 7,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Bubbles",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 605.339360188918,
+            "deaths": 3,
+            "kills": 5,
+            "specials": 1
+          },
+          "weapon": "rapid"
+        },
+        {
+          "id": 8,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Coral",
+          "perk": "runner",
+          "special_casts": 1,
+          "stats": {
+            "damage": 464.784426828225,
+            "deaths": 1,
+            "kills": 3,
+            "specials": 1
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 9,
+          "item": "shield",
+          "max_hp": 120.0,
+          "name": "Nori",
+          "perk": "bulwark",
+          "special_casts": 0,
+          "stats": {
+            "damage": 282.006975362099,
+            "deaths": 3,
+            "kills": 1
+          },
+          "weapon": "heavy"
+        },
+        {
+          "id": 10,
+          "item": "refill",
+          "max_hp": 120.0,
+          "name": "Squiddo",
+          "perk": "balanced",
+          "special_casts": 1,
+          "stats": {
+            "damage": 726.089745262265,
+            "deaths": 3,
+            "kills": 5,
+            "specials": 1
+          },
+          "weapon": "blaster"
+        }
+      ],
+      "dive_frames": 134,
+      "duration": 90.0,
+      "frames": 2657,
+      "fx_events": {
+        "dive": 16,
+        "hit": 457,
+        "jump": 18,
+        "muzzle": 468,
+        "splat": 49
+      },
+      "geometry": "terrace_garden",
+      "height_max": 3.94913482666016,
+      "height_min": 0.0,
+      "jump_clicks": 2,
+      "jump_inputs": 18,
+      "last_damage_history": [
+        {
+          "amount": 5.33333333333332,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 175145
+        },
+        {
+          "amount": 5.33333333333332,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 176345
+        },
+        {
+          "amount": 5.33333333333334,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 176878
+        },
+        {
+          "amount": 10.14,
+          "cause": "#07 Bubbles · 喷溅枪",
+          "source": "#07 Bubbles · 喷溅枪 · 躯干 / 6.6m",
+          "time": 181179
+        },
+        {
+          "amount": 34.5,
+          "cause": "#07 Bubbles · 喷溅枪",
+          "source": "#07 Bubbles · 喷溅枪 · 躯干 / 4.5m",
+          "time": 181378
+        },
+        {
+          "amount": 5.33333333333332,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 181445
+        },
+        {
+          "amount": 10.0266666666663,
+          "cause": "#07 Bubbles · 喷溅枪",
+          "source": "#07 Bubbles · 喷溅枪 · 躯干 / 4.4m",
+          "time": 181512
+        },
+        {
+          "amount": 5.33333333333336,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 191811
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 192078
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 192344
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 192611
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 194644
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 197311
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 197578
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 197844
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 198611
+        }
+      ],
+      "map": "terrace_garden",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "natural_deaths": 4,
+      "p95_frame_ms": 35.533,
+      "p99_equivalent_fps": 24.770869457518,
+      "p99_frame_ms": 40.37,
+      "perk": "subtech",
+      "play_wall_seconds": 90.044891,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 338.381757458672,
+      "turf_counts": [
+        13795,
+        18268
+      ],
+      "weapons_used": [
+        "rapid",
+        "roller",
+        "charger",
+        "blaster"
+      ]
+    }
+  ]
+}

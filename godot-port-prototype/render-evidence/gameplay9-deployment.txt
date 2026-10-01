@@ -1,0 +1,9 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+AUDIT: tidewater seed=5951 landing=(-8.5, 0.05, -16.5) HP=120 shield=60 storm=42 DPS manual respawn
+AUDIT: kelpline seed=5951 landing=(-8.5, 0.05, -16.5) HP=120 shield=60 storm=42 DPS manual respawn
+PASS: both maps, equal health, real item absorption/heal/cooldowns, manual respawn and invalidation, special damage/ink/expiry, final map and kill ledger
+WARNING: 14 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2604)

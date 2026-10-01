@@ -78,4 +78,3 @@ static func blob_wobble(angle: float, seed: float) -> float:
 		+ 0.018 * sin(17.0 * angle + seed * 29.0) \
 		+ 0.17 * pow(maxf(cos(angle - seed * 37.7), 0.0), 28.0) \
 		+ 0.12 * pow(maxf(cos(angle - seed * 53.3 - 2.1), 0.0), 36.0)
-

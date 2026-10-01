@@ -1,0 +1,111 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+PASS: every production script parses and loads
+
+PCK PASS: check_scripts_parse
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: single blaster attack HP=38.0 respawn=0.0
+AUDIT: single charger attack HP=20.0 respawn=0.0
+AUDIT: single roller attack HP=42.24 respawn=0.0
+PASS: normal direct hits and a whole roller volley cannot silently one-shot full health
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2604)
+
+PCK PASS: check_damage_contract
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: charge impact height=0.25 damage=85.0 text=受击 −85 · #06 Squiddo · 蓄力狙 · 腿部 / 4.0m
+AUDIT: charge impact height=0.9 damage=100.0 text=受击 −100 · #06 Squiddo · 蓄力狙 · 躯干 / 4.0m
+AUDIT: charge impact height=1.28 damage=108.0 text=受击 −108 · #06 Squiddo · 蓄力狙 · 头部 / 4.0m
+PASS: native capsule ray zones, distance falloff, squid form, boosted-shot limit and shield-before-health
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2604)
+
+PCK PASS: check_damage_regions
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+PASS: all eight talent choices affect gameplay, per-actor maxima, threshold transition, match lock, death/reroll persistence, damage protection and visible history
+
+PCK PASS: check_perks_lock
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: tidewater blocks=145 paint=69366 spawn routes + launch checked
+AUDIT: tidewater_v1 blocks=149 paint=69350 spawn routes + launch checked
+AUDIT: tidewater_v2 blocks=149 paint=69366 spawn routes + launch checked
+AUDIT: kelpline blocks=141 paint=76563 spawn routes + launch checked
+AUDIT: kelpline_v1 blocks=145 paint=76563 spawn routes + launch checked
+AUDIT: kelpline_v2 blocks=145 paint=76563 spawn routes + launch checked
+AUDIT: coral_market blocks=42 paint=53812 spawn routes + launch checked
+AUDIT: prism_gallery blocks=50 paint=63324 spawn routes + launch checked
+AUDIT: viaduct blocks=49 paint=53698 spawn routes + launch checked
+AUDIT: modular_harbor blocks=32 paint=70176 spawn routes + launch checked
+AUDIT: modular_harbor_v1 blocks=34 paint=70272 spawn routes + launch checked
+AUDIT: modular_harbor_v2 blocks=36 paint=70272 spawn routes + launch checked
+AUDIT: modular_harbor_v3 blocks=34 paint=70296 spawn routes + launch checked
+AUDIT: modular_harbor_v4 blocks=36 paint=70392 spawn routes + launch checked
+AUDIT: modular_harbor_v5 blocks=38 paint=70392 spawn routes + launch checked
+AUDIT: modular_harbor_v6 blocks=35 paint=70272 spawn routes + launch checked
+AUDIT: modular_harbor_v7 blocks=37 paint=70368 spawn routes + launch checked
+AUDIT: modular_harbor_v8 blocks=39 paint=70368 spawn routes + launch checked
+AUDIT: terrace_garden blocks=45 paint=73914 spawn routes + launch checked
+PASS: seven playable stages, nine modular compositions and four source variants have synchronized physics/ink/nav/minimap, both spawn routes, safe launch and stable selection
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2604)
+
+PCK PASS: check_arena_catalog
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: gallery team=0 route nodes=30 progress=30 position=(-8.137626, 6.0, -3.893171) maxY=6.0
+AUDIT: gallery team=1 route nodes=32 progress=32 position=(8.39975, 6.0, 2.899718) maxY=6.0
+PASS: player controller climbs both gallery routes from spawn to 6m upper platforms with live physics
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2604)
+
+PCK PASS: check_gallery_platforms
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+PASS: main -> preparation -> battle, full body matches actor, source weapon icons, chosen item and no death menu
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2604)
+
+PCK PASS: check_tidewater_menu
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+PASS: stage-first real geometry, isolated source animation, adjusted weapon/item/perk details, live talent costs, simultaneous loadout choices and match visibility/lock
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2604)
+
+PCK PASS: check_menu_inspection
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+PASS: actual post-shield and overkill HP, both palette colors, bounce/rise, merge, expiry and bounded label pool
+WARNING: 10 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2604)
+
+PCK PASS: check_damage_popups
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: tidewater live cancellation/damage/landing, queued death fallback and beacon ink/CD/uses/invalidation
+AUDIT: prism_gallery live cancellation/damage/landing, queued death fallback and beacon ink/CD/uses/invalidation
+PASS: one-action teammate and beacon jumps, countdown choice, vulnerable cancelable departure, geometry/height recheck, HP/ink preserved, marker and beacon lifecycle
+WARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2604)
+
+PCK PASS: check_super_jump
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: dualie one attack leaves 87.0 HP
+AUDIT: heavy one attack leaves 77.0 HP
+AUDIT: rapid one attack leaves 68.0 HP
+PASS: seven weapon models and actual attacks, captured bottle rules, team/layer fields, cooldown retention and four locked talent effects
+
+PCK PASS: check_expanded_loadouts
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: garden team=0 route nodes=41 progress=41 position=(-7.600325, 6.0, -2.936486) maxY=6.0
+AUDIT: garden team=1 route nodes=43 progress=43 position=(6.571177, 6.0, 1.873152) maxY=6.0
+PASS: player controller climbs both garden routes from spawn to 6m upper platforms with live physics
+
+PCK PASS: check_garden_platforms
+PASS: final exported PCK loaded production code and all damage/perk/arena/menu/inspection/popup/super-jump contracts

@@ -10,6 +10,7 @@ func _check() -> void:
 	var scene := (load("res://tidewater_play.tscn") as PackedScene).instantiate()
 	root.add_child(scene)
 	await physics_frame
+	for actor in scene.all_actors(): scene.perks.choices[actor.get_instance_id()]="balanced"
 	scene.call("_start_round")
 	if float(scene.get("player_invuln")) != 0.0:
 		_fail("initial lineup should not have respawn protection")
@@ -21,29 +22,29 @@ func _check() -> void:
 	var shooter: Dictionary = weapon_data["weapons"]["shooter"]
 	combat.call("_spawn_projectile", "shooter", Vector3(0.0, 3.0, 37.2), Vector3(0.0, 0.0, 34.0), shooter)
 	combat.call("_update_projectiles", 0.1)
-	if absf(float(scene.get("bot_health")) - 64.0) > 0.01:
+	if absf(float(scene.get("bot_health")) - 90.0) > 0.01:
 		_fail("shooter shot missed visible bot or damage differs from source")
 		return
-	scene.call("damage_bot", 64.0)
+	scene.call("damage_bot", 90.0)
 	if float(scene.get("bot_respawn")) <= 0.0 or bot.visible:
 		_fail("bot death")
 		return
 	_respawn_bot(scene)
-	if float(scene.get("bot_health")) != 100.0 or not bot.visible:
+	if float(scene.get("bot_health")) != 120.0 or not bot.visible:
 		_fail("bot respawn")
 		return
 	walker.global_position = Vector3(0.0, 2.25, 31.2)
 	var charger: Dictionary = weapon_data["weapons"]["charger"]
 	combat.call("_fire_charger", charger, 1.0, Vector3(0.0, 0.0, 1.0))
-	if float(scene.get("bot_respawn")) <= 0.0:
-		_fail("full charger hit should splat bot")
+	if float(scene.get("bot_respawn")) > 0.0 or absf(float(scene.get("bot_health"))-20.0)>0.01:
+		_fail("full charger must leave 20 HP for counterplay")
 		return
 	_respawn_bot(scene)
 	var blaster: Dictionary = weapon_data["weapons"]["blaster"]
 	combat.call("_spawn_projectile", "blaster", Vector3(0.0, 3.0, 37.2), Vector3(0.0, 0.0, 23.0), blaster)
 	combat.call("_update_projectiles", 0.1)
-	if float(scene.get("bot_respawn")) <= 0.0:
-		_fail("blaster direct hit should splat bot")
+	if float(scene.get("bot_respawn")) > 0.0 or absf(float(scene.get("bot_health"))-38.0)>0.01:
+		_fail("blaster direct must leave 38 HP for counterplay")
 		return
 	_respawn_bot(scene)
 	# Roller crushing damage (weapons.js:200-207): the drum must be moving, the victim
@@ -55,14 +56,13 @@ func _check() -> void:
 	walker.get_node("Body").rotation.y = 0.0
 	walker.velocity = Vector3(0.0, 0.0, 4.4)
 	combat.call("_roll_damage", roller)
-	if float(scene.get("bot_respawn")) <= 0.0:
-		_fail("roller contact should crush the bot")
+	if float(scene.get("bot_respawn")) > 0.0 or absf(float(scene.get("bot_health"))-60.0)>0.01:
+		_fail("first roller contact must leave 60 HP")
 		return
-	_respawn_bot(scene)
 	# A standing drum deals nothing.
 	walker.velocity = Vector3.ZERO
 	combat.call("_roll_damage", roller)
-	if float(scene.get("bot_respawn")) > 0.0 or float(scene.get("bot_health")) != 100.0:
+	if float(scene.get("bot_respawn")) > 0.0 or float(scene.get("bot_health")) != 60.0:
 		_fail("standing roller should not damage")
 		return
 	# Second pass inside the cooldown window: still nothing.
@@ -79,6 +79,9 @@ func _check() -> void:
 		return
 	_respawn_bot(scene)
 	walker.global_position = Vector3(0.0, 2.25, 36.0)
+	bot.call("select_weapon","shooter")
+	# Isolate torso damage from random spread; body-zone and spread tests are separate.
+	shooter["spreadBaseGround"]=0.0
 	var bot_ink_before := float(bot.get("ink_amount"))
 	scene.call("_update_bot", 0.1)
 	var bot_shots: Array = combat.get("projectiles")
@@ -87,7 +90,7 @@ func _check() -> void:
 		_fail("bot did not fire a source-configured shooter projectile")
 		return
 	combat.call("advance_effects", 0.1)
-	if absf(float(scene.get("player_health")) - (100.0 - float(shooter["damage"]))) > 0.01:
+	if absf(float(scene.get("player_health")) - (120.0 - float(shooter["damage"]))) > 0.01:
 		_fail("bot projectile did not reach the player with source damage")
 		return
 	var blue_before := float(scene.get("ink").call("coverage", 1))
@@ -109,7 +112,7 @@ func _check() -> void:
 	walker.set("squid_form", false)
 	combat.set("charging", true)
 	scene.call("damage_player", float(scene.get("player_health")))
-	if float(scene.get("player_respawn")) <= 0.0 or walker.visible or bool(walker.get("active")) or bool(combat.get("charging")):
+	if float(scene.get("player_respawn")) <= 0.0 or not walker.visible or bool(walker.get("active")) or bool(combat.get("charging")):
 		_fail("player death and weapon cancellation")
 		return
 	var select := InputEventKey.new()
@@ -119,14 +122,15 @@ func _check() -> void:
 	if scene.get("selected_weapon") != "blaster" or combat.get("selected_id") != "blaster":
 		_fail("weapon change during respawn")
 		return
+	scene.call("launch_respawn")
 	scene.call("_update_player_respawn", 5.6)
-	if float(scene.get("player_respawn")) != 0.0 or float(scene.get("player_health")) != 100.0 \
+	if float(scene.get("player_respawn")) != 0.0 or float(scene.get("player_health")) != 120.0 \
 		or not walker.visible or not bool(walker.get("active")) or combat.get("selected_id") != "blaster" \
 		or float(scene.get("player_invuln")) <= 0.0:
 		_fail("player respawn state")
 		return
 	scene.call("damage_player", 50.0)
-	if float(scene.get("player_health")) != 100.0:
+	if float(scene.get("player_health")) != 120.0:
 		_fail("respawn protection did not block direct damage")
 		return
 	select.keycode = KEY_1
@@ -149,6 +153,7 @@ func _fail(message: String) -> void:
 
 
 func _respawn_bot(scene: Node3D) -> void:
+	if float(scene.get("bot_respawn"))<=0: scene.call("damage_bot",float(scene.get("bot_health")))
 	var player_config: Dictionary = scene.get_node("Combat").get("weapon_data")["player"]
 	scene.call("_update_bot", float(player_config["respawnTime"]) + 0.1)
 	# Isolate independent weapon hits from the respawn protection window.

@@ -1,0 +1,14 @@
+{
+  "version": "v0.3.0-preview.7",
+  "status": "local_only_by_user_choice",
+  "destination": "https://github.com/lmjshineee/inkwave-godot-demo/releases/tag/v0.3.0-preview.7",
+  "payloads": [
+    "INKWAVE-Godot-Demo-v0.3.0-preview.7-SHA256SUMS.txt",
+    "INKWAVE-Godot-Demo-v0.3.0-preview.7-macOS-arm64.zip"
+  ],
+  "source_snapshot": "temporary snapshot removed after local-only choice",
+  "source_snapshot_published": false,
+  "block_reason": "Automatic approval rejected the ZIP/checksum upload because the trusted user instruction did not explicitly authorize these exact payloads to this public repository.",
+  "published": false,
+  "public_upload_authorized": false
+}

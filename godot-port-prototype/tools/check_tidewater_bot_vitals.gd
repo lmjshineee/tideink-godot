@@ -10,6 +10,7 @@ func _check() -> void:
 	var scene := (load("res://tidewater_play.tscn") as PackedScene).instantiate()
 	root.add_child(scene)
 	await physics_frame
+	for actor in scene.all_actors(): scene.perks.choices[actor.get_instance_id()]="balanced"
 	scene.call("_start_round")
 	scene.set_physics_process(false)
 	var bot: Node3D = scene.get_node("Bot")
@@ -24,12 +25,12 @@ func _check() -> void:
 		return
 	for i in range(5):
 		scene.call("_update_bot_vitals", 0.5)
-	if not _near(float(scene.get("bot_health")), 60.0) \
+	if not _near(float(scene.get("bot_health")), 80.0) \
 			or not _near(float(scene.get("bot_ink_damage")), float(config["enemyInkDamageCap"])):
 		_fail("enemy ink damage or cap")
 		return
 	scene.call("_update_bot_vitals", 1.0)
-	if not _near(float(scene.get("bot_health")), 60.0):
+	if not _near(float(scene.get("bot_health")), 80.0):
 		_fail("enemy ink should stop at cap without regenerating")
 		return
 	scene.call("paint_at_world", bot.global_position + Vector3.UP * 0.12, 1, 1.5, 0.5)
@@ -38,17 +39,18 @@ func _check() -> void:
 		return
 	scene.call("_update_bot_vitals", 0.5)
 	scene.call("_update_bot_vitals", 0.5)
-	if not _near(float(scene.get("bot_health")), 71.0) \
-			or not _near(float(scene.get("bot_ink_damage")), 10.0):
+	scene.call("_update_bot_vitals", 0.5)
+	if not _near(float(scene.get("bot_health")), 92.0) \
+			or not _near(float(scene.get("bot_ink_damage")), 0.0):
 		_fail("delayed normal regeneration or ink damage decay")
 		return
 	scene.call("damage_bot", 10.0)
 	scene.call("_update_bot_vitals", 1.0)
-	if not _near(float(scene.get("bot_health")), 61.0):
+	if not _near(float(scene.get("bot_health")), 82.0):
 		_fail("direct hit should restart regeneration delay")
 		return
-	scene.call("_update_bot_vitals", 0.31)
-	if float(scene.get("bot_health")) <= 61.0:
+	scene.call("_update_bot_vitals", 0.81)
+	if float(scene.get("bot_health")) <= 82.0:
 		_fail("direct hit regeneration did not resume")
 		return
 	scene.call("damage_bot", float(scene.get("bot_health")))

@@ -58,7 +58,7 @@ failed=0
 passed=0
 
 # --- 2. 导出器 --check ---------------------------------------------------------
-EXPORTERS="export_tidewater_map export_tidewater_surfaces export_weapon_config export_ui_icons export_tidewater_visuals export_navigation export_characters export_weapon_poses"
+EXPORTERS="export_tidewater_map export_tidewater_surfaces export_weapon_config export_ui_icons export_tidewater_visuals export_navigation export_minimap export_characters export_weapon_poses export_character_actions export_character_materials export_audio check_character_anatomy export_menu_art export_arenas"
 for name in $EXPORTERS; do
     variants="default"
     case "$name" in export_tidewater_map|export_tidewater_surfaces|export_tidewater_visuals) variants="default kelpline" ;; esac

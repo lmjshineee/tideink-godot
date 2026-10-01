@@ -45,15 +45,16 @@ func _run() -> void:
     return
   root.size = Vector2i(960,540)
   await _frames(3)
-  for row in [game.get("setup_options"),game.get("setup_match_options")]:
-   for control in row.get_children():
-    if not (game.get("menu_panel") as Control).get_global_rect().encloses((control as Control).get_global_rect()):
-     printerr("FAIL: small menu overflow ", control.name)
-     quit(1)
-     return
+  for control in [game.get("frontend").get("random_button"),game.get("frontend").get("back_button")]:
+   if not Rect2(Vector2.ZERO,Vector2(root.size)).encloses(control.get_global_rect()):
+    printerr("FAIL: small menu overflow ",control.name)
+    quit(1)
+    return
   await _save("release-" + id + "-small")
   root.size = Vector2i(1280,720)
-  await _click_control(game.get("start_button"))
+  game.call("show_preparation")
+  await _frames(2)
+  await _click_control(game.get("frontend").get("preparation").get_node("Actions").get_child(1))
   if game.get("phase") != "intro":
    printerr("FAIL: native start button did not enter intro")
    quit(1)

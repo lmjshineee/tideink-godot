@@ -1,0 +1,11 @@
+ERROR: Failed to open 'user://logs/godot2026-10-01T16.48.19.log'.
+   at: copy (core/io/dir_access.cpp:426)
+ERROR: Failed to open log file for writing: user://logs/godot.log
+   at: rotate_file (core/io/logger.cpp:164)
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+AUDIT: garden team=0 route nodes=41 progress=41 position=(-7.600325, 6.0, -2.936486) maxY=6.0
+AUDIT: garden team=1 route nodes=43 progress=43 position=(6.571177, 6.0, 1.873152) maxY=6.0
+PASS: player controller climbs both garden routes from spawn to 6m upper platforms with live physics

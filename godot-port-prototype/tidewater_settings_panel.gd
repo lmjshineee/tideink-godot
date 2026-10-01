@@ -17,6 +17,7 @@ var feedback_label: Label
 var reset_button: Button
 var save_button: Button
 var cancel_button: Button
+var volume_sliders: Dictionary = {}
 
 
 func _ready() -> void:
@@ -32,7 +33,7 @@ func _ready() -> void:
 	_build_theme()
 	var title := _label("偏好设置", 26, Color("f1f2f7"))
 	title.name = "Title"
-	var renderer := _label("画面  /  界面  /  操作", 14, Color("8d9ab2"))
+	var renderer := _label("画面  /  界面  /  操作  /  声音", 14, Color("8d9ab2"))
 	renderer.name = "RendererInfo"
 	var fps_label := _label("帧率上限", 18, Color.WHITE)
 	fps_label.name = "FpsLabel"
@@ -66,6 +67,15 @@ func _ready() -> void:
 	sensitivity_slider.step = 0.0001
 	sensitivity_slider.value_changed.connect(_update_sensitivity_label)
 	add_child(sensitivity_slider)
+	for key in ["master_volume","music_volume","sfx_volume"]:
+		var label := _label({"master_volume":"总音量","music_volume":"音乐","sfx_volume":"音效"}[key],17,Color.WHITE)
+		label.name = key+"Label"
+		var slider := HSlider.new()
+		slider.min_value = 0
+		slider.max_value = 1
+		slider.step = 0.01
+		add_child(slider)
+		volume_sliders[key] = slider
 	var hint := _label("保存应用更改 · Esc 取消", 14, Color("b5c2d9"))
 	hint.name = "Hint"
 	reset_button = _button("恢复默认", "ResetButton", _on_reset_pressed)
@@ -101,6 +111,8 @@ func open_with(current_model: RefCounted, path: String = Settings.USER_PATH) -> 
 			ui_scale_button.select(index)
 			break
 	sensitivity_slider.value = float(model.get("mouse_sensitivity"))
+	for key in volume_sliders:
+		volume_sliders[key].value = float(model.get(key))
 	_update_sensitivity_label(sensitivity_slider.value)
 	feedback_label.text = ""
 	visible = true
@@ -117,6 +129,8 @@ func _on_reset_pressed() -> void:
 	render_scale_button.select(0)
 	ui_scale_button.select(1)
 	sensitivity_slider.value = Settings.DEFAULT_LOOK_SENSITIVITY
+	for key in volume_sliders:
+		volume_sliders[key].value = Settings.new().get(key)
 	feedback_label.text = ""
 
 
@@ -128,6 +142,8 @@ func _on_save_pressed() -> void:
 	draft.fps_cap = fps_button.get_selected_id()
 	draft.ui_scale = float(ui_scale_button.get_selected_id()) / 100.0
 	draft.mouse_sensitivity = sensitivity_slider.value
+	for key in volume_sliders:
+		draft.set(key,volume_sliders[key].value)
 	if draft.save_to(save_path) != OK:
 		feedback_label.text = "保存失败，请检查设置文件权限。"
 		return
@@ -135,6 +151,8 @@ func _on_save_pressed() -> void:
 	model.set("fps_cap", draft.fps_cap)
 	model.set("ui_scale", draft.ui_scale)
 	model.set("mouse_sensitivity", draft.mouse_sensitivity)
+	for key in volume_sliders:
+		model.set(key,draft.get(key))
 	visible = false
 	saved.emit()
 	closed.emit()
@@ -181,15 +199,27 @@ func _layout_controls() -> void:
 	sensitivity_label.size = Vector2(width,28)
 	sensitivity_slider.position = Vector2(pad,302)
 	sensitivity_slider.size = Vector2(width,24)
-	get_node("Hint").position = Vector2(pad,338)
+	var row := 0
+	for key in volume_sliders:
+		get_node(key+"Label").position = Vector2(pad,338+row*42)
+		get_node(key+"Label").size = Vector2(width*0.35,28)
+		volume_sliders[key].position = Vector2(pad+width*0.38,340+row*42)
+		volume_sliders[key].size = Vector2(width*0.62,24)
+		row += 1
+	get_node("Hint").position = Vector2(pad,466)
 	get_node("Hint").size = Vector2(width,24)
 	var button_width := (width-16)/3.0
 	var buttons := [reset_button,cancel_button,save_button]
 	for i in range(3):
-		buttons[i].position = Vector2(pad+i*(button_width+8),378)
+		buttons[i].position = Vector2(pad+i*(button_width+8),500)
 		buttons[i].size = Vector2(button_width,40)
-	feedback_label.position = Vector2(pad,422)
+	feedback_label.position = Vector2(pad,548)
 	feedback_label.size = Vector2(width,24)
+	var fit := minf(1.0,size.y/580.0)
+	for control in get_children():
+		if control is Control:
+			control.position.y *= fit
+			control.size.y *= fit
 
 
 func _build_theme() -> void:

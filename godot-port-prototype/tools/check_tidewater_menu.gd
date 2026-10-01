@@ -1,56 +1,37 @@
 extends SceneTree
-
-const TeamPalette := preload("res://team_palette.gd")
-
-
-func _initialize() -> void:
-	preload("res://match_setup.gd").team_size = 1
-	call_deferred("_check")
-
-
+func _initialize() -> void: call_deferred("_check")
 func _check() -> void:
+	var setup := preload("res://match_setup.gd")
+	setup.screen = "home"
 	var scene := (load("res://tidewater_play.tscn") as PackedScene).instantiate()
 	root.add_child(scene)
 	await process_frame
-	var menu: Panel = scene.get("menu_panel")
-	var cards: Dictionary = scene.get("weapon_cards")
-	var size := scene.get_viewport().get_visible_rect().size
-	if not menu.visible or cards.size() != 4 or (menu.position + menu.size * 0.5).distance_to(size * 0.5) > 2.0:
-		_fail("setup loadout panel is absent or not centered")
-		return
-	for card in cards.values():
-		var icon := card.get_child(0) as TextureRect
-		if icon.texture == null:
-			_fail("loadout card lacks its source weapon icon")
-			return
-		if icon.size.x > 70.0 or icon.size.y > 70.0 or icon.position.y + icon.size.y > card.size.y - 25.0:
-			_fail("loadout icon overflows its card: %s at %s" % [icon.size, icon.position])
-			return
-	var select := InputEventKey.new()
-	select.keycode = KEY_3
-	select.pressed = true
-	scene.call("_input", select)
-	if scene.get("selected_weapon") != "charger" or scene.get_node("Combat").get("selected_id") != "charger":
-		_fail("menu keyboard selection did not update the equipped weapon")
-		return
-	var selected_style := (cards["charger"] as Panel).get_theme_stylebox("panel") as StyleBoxFlat
-	if selected_style.border_color != TeamPalette.color(0):
-		_fail("selected weapon card lacks the orange highlight")
-		return
-	scene.call("_begin_intro")
-	if menu.visible:
-		_fail("loadout panel remained over the intro")
-		return
-	scene.call("_start_round")
-	scene.call("damage_player", 100.0)
-	scene.call("_update_hud")
-	if not menu.visible or not String(scene.get("menu_hint").text).contains("重生"):
-		_fail("loadout panel did not return during respawn")
-		return
-	print("PASS: centered setup menu, four imported icons, selection highlight and respawn loadout")
+	var front: Control = scene.get("frontend")
+	if scene.phase!="home" or not front.home.visible or front.preparation.visible or scene.menu_panel.visible or scene.score_panel.visible:
+		fail("app must open main menu with no battle/setup HUD");return
+	if front.model.get("ornament_seed")!=scene.get_node("World/Walker/Body").get("ornament_seed"):
+		fail("full body preview must use the actual actor appearance");return
+	front.play_button.pressed.emit()
+	if scene.phase!="setup" or not front.preparation.visible or front.home.visible:
+		fail("PLAY enters preparation");return
+	if scene.weapon_cards.size()!=7 or front.item_buttons.size()!=7:
+		fail("seven weapons and seven pre-match items");return
+	for id in scene.weapon_order:
+		if scene.weapon_cards[id].get_child(0).texture==null:
+			fail("missing source weapon icon");return
+	scene.weapon_buttons["charger"].pressed.emit()
+	front.item_buttons["shield"].pressed.emit()
+	if scene.selected_weapon!="charger" or scene.items.state(scene.get_node("World/Walker"))["kind"]!="shield":
+		fail("GUI weapon/item loadout is not equipped");return
+	scene._begin_intro()
+	if front.visible or scene.menu_panel.visible:
+		fail("preparation covers intro");return
+	scene._start_round()
+	scene.damage_player(200)
+	scene._update_hud()
+	if front.visible or scene.menu_panel.visible:
+		fail("death must not reopen preparation menus");return
+	print("PASS: main -> preparation -> battle, full body matches actor, source weapon icons, chosen item and no death menu")
 	quit()
-
-
-func _fail(message: String) -> void:
-	printerr("FAIL: ", message)
-	quit(1)
+func fail(message: String) -> void:
+	printerr("FAIL: ",message);quit(1)

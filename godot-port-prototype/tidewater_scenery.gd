@@ -13,7 +13,7 @@ var mural_count := 0
 
 
 func _ready() -> void:
-	var packed := load("res://assets/scenery/%s_visuals.glb" % MatchSetup.map_id) as PackedScene
+	var packed := load("res://assets/scenery/%s_visuals.glb" % preload("res://map_catalog.gd").scenery_id()) as PackedScene
 	if packed == null:
 		push_error("Missing exported Tidewater visuals")
 		return
@@ -60,7 +60,7 @@ func _prepare_materials(node: Node) -> void:
 
 func _add_murals() -> void:
 	var map: Node3D = get_parent()
-	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/%s.json" % MatchSetup.map_id))
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/%s.json" % preload("res://map_catalog.gd").asset_id()))
 	var atlas: Texture2D = load("res://assets/scenery/murals.png")
 	for team in range(2):
 		var values: Array = data["spawnPads"][team]
@@ -88,8 +88,8 @@ func _add_murals() -> void:
 				var visual := MeshInstance3D.new()
 				visual.name = "Mural_%d" % int(face["id"])
 				visual.mesh = InkView._face_mesh(face)
-				# Below ink (0.012 m) but above the wall, so paint hides murals.
-				visual.position = -normal * 0.008
+				# Keep murals 4 mm above the wall and below the separate wet-ink plane.
+				visual.position = normal * (0.004 - InkView.face_offset(face))
 				var material := ShaderMaterial.new()
 				material.shader = MURAL
 				material.set_shader_parameter("artwork",atlas)

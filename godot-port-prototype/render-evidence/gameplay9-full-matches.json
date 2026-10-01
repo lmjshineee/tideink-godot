@@ -1,0 +1,79 @@
+{
+  "fps_cap": 30,
+  "kind": "native automated input replay; human acceptance and temperature unmeasured",
+  "render_scale": 0.75,
+  "rounds": [
+    {
+      "average_fps": 29.9618718335787,
+      "dive_frames": 102,
+      "duration": 90.0,
+      "frames": 2668,
+      "fx_events": {
+        "dive": 14,
+        "hit": 549,
+        "jump": 12,
+        "muzzle": 544,
+        "splat": 42
+      },
+      "height_max": 3.47722196578979,
+      "height_min": 0.0,
+      "jump_inputs": 12,
+      "map": "tidewater",
+      "natural_deaths": 5,
+      "p95_frame_ms": 35.406,
+      "p99_equivalent_fps": 25.0871779433532,
+      "p99_frame_ms": 39.861,
+      "play_wall_seconds": 90.044244,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 359.680076213554,
+      "turf_counts": [
+        11444,
+        13799
+      ],
+      "weapons_used": [
+        "shooter",
+        "roller",
+        "charger",
+        "blaster"
+      ]
+    },
+    {
+      "average_fps": 29.95517842706,
+      "dive_frames": 75,
+      "duration": 90.0,
+      "frames": 2667,
+      "fx_events": {
+        "dive": 17,
+        "hit": 485,
+        "jump": 10,
+        "muzzle": 485,
+        "splat": 32
+      },
+      "height_max": 5.10196161270142,
+      "height_min": -1.63634324073792,
+      "jump_inputs": 10,
+      "map": "kelpline",
+      "natural_deaths": 5,
+      "p95_frame_ms": 35.818,
+      "p99_equivalent_fps": 23.1792684622873,
+      "p99_frame_ms": 43.142,
+      "play_wall_seconds": 90.022766,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 333.264675122686,
+      "turf_counts": [
+        15274,
+        13574
+      ],
+      "weapons_used": [
+        "roller",
+        "charger",
+        "blaster",
+        "shooter"
+      ]
+    }
+  ]
+}

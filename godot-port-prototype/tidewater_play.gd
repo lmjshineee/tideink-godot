@@ -7,7 +7,6 @@ const SettingsPanel := preload("res://tidewater_settings_panel.gd")
 var settings: RefCounted
 var settings_path := Settings.USER_PATH
 var settings_panel: Panel
-var setup_settings_button: Button
 var pause_settings_button: Button
 var pause_resume_button: Button
 var hud_root: Control
@@ -15,11 +14,9 @@ const SurfaceInk = preload("res://surface_ink.gd")
 # Setup selects a duration from config.js MATCH.durations. The initial option is
 # still 90 s / 1v1; the web defaults to 180 s / 5v5.
 const MatchSetup := preload("res://match_setup.gd")
-# Source match.js intro/finish and hud.js judge timings. This scene uses the
-# source's optional 90 s duration while keeping the prototype's 1v1 roster.
+# Keep the source intro/time-up pauses; show final results without a judge reveal.
 const INTRO_SECONDS := 4.2
 const FINISH_SECONDS := 2.6
-const JUDGE_SECONDS := 5.1
 # Weapon order and labels both come from assets/weapons.json: `weaponOrder` is
 # config.js's WEAPON_ORDER, and `text.weapons` is the web's i18n table for those ids.
 # This controller used to keep its own copy of both, which had drifted from the web
@@ -27,6 +24,9 @@ const JUDGE_SECONDS := 5.1
 var extra_bots: Array[Node3D] = []
 var navigation: RefCounted
 var bot_painting := false
+var painting_actor: Node3D
+var bot_specials: Node
+var charge_special := true
 var local_deaths := 0
 var feed_text := ""
 var feed_time := 0.0
@@ -41,7 +41,7 @@ var team_names: Array[String] = []
 const UI_PANEL := Color(0.035, 0.045, 0.075, 0.92)
 
 var ink: RefCounted
-var phase := "setup"
+var phase := "home"
 var phase_time := 0.0
 var selected_weapon := "shooter"
 var selected_bot_weapon := "shooter"
@@ -96,16 +96,6 @@ var weapon_cards := {}
 var shown_weapon := ""
 var pointer_locked := false
 var paused := false
-var setup_options: HBoxContainer
-var palette_select: OptionButton
-var colorblind_toggle: CheckButton
-var duration_select: OptionButton
-var bot_weapon_button: Button
-var map_select: OptionButton
-var mode_select: OptionButton
-var style_select: OptionButton
-var setup_match_options: HBoxContainer
-var start_button: Button
 var minimap: Control
 var expanded_map: Control
 var scoreboard_panel: Panel
@@ -115,13 +105,38 @@ var feed_label: Label
 var pause_panel: Panel
 var result_actions: HBoxContainer
 var weapon_buttons: Dictionary = {}
+var presentation: Control
+var sound: Node
+var _fire_pressed_pending := false
+var _sub_pressed_pending := false
+var deployment: Node3D
+var items: Node3D
+var tactics: Control
+var respawn_ready := false
+var frontend: Control
+var appearance_rng := RandomNumberGenerator.new()
+var equipment_rng := RandomNumberGenerator.new()
+var perks: RefCounted
+var damage_history: Array[Dictionary] = []
+var last_damage_text := ""
+var last_damage_until := 0
+var ink_damage_trace := 0.0
+
+
+func _enter_tree() -> void:
+	preload("res://map_catalog.gd").ensure_setup()
+	MatchSetup.ensure_randomized()
+	appearance_rng.randomize()
+	get_node("Bot/Body").set("style_index",appearance_rng.randi_range(0,3))
+	phase = MatchSetup.screen
 
 
 func _ready() -> void:
 	var loadout := MatchSetup.take_loadout()
 	settings_path = String(loadout.get("settings_path", settings_path))
 	selected_weapon = String(loadout.get("player", "shooter"))
-	selected_bot_weapon = String(loadout.get("bot", "shooter"))
+	equipment_rng.randomize()
+	selected_bot_weapon = "shooter"
 	orange_color = TeamPalette.color(0)
 	blue_color = TeamPalette.color(1)
 	team_names = [TeamPalette.display_name(0), TeamPalette.display_name(1)]
@@ -130,7 +145,7 @@ func _ready() -> void:
 	settings.call("load_from", settings_path)
 	settings.call("apply_to", $World/Walker)
 	Engine.physics_ticks_per_second = 30
-	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/%s_surfaces.json" % MatchSetup.map_id))
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/%s_surfaces.json" % preload("res://map_catalog.gd").asset_id()))
 	ink = SurfaceInk.new(data)
 	$InkView.call("setup", ink)
 	$World/Walker.global_position = ($World/Map.get("spawn_pads")[0] as Vector3) + Vector3.UP * 0.05
@@ -162,7 +177,34 @@ func _ready() -> void:
 	player_health = float($Combat.get("weapon_data")["player"]["hp"])
 	bot_health = player_health
 	_build_roster()
+	_assign_names()
+	perks = preload("res://tidewater_perks.gd").new()
+	perks.call("setup",self)
+	player_health = actor_max_health($World/Walker)
+	bot_health = actor_max_health($Bot)
+	$Combat.set("ink_amount",actor_ink_max($World/Walker))
+	for actor in all_actors():
+		actor.set_meta("actor_id", actor_id(actor))
+		actor.set_meta("match_stats",{"kills":0,"deaths":0,"damage":0.0,"turf":0.0})
+		if actor != $World/Walker:
+			actor.set("health",actor_max_health(actor))
+			actor.call("_update_health_visual")
+	deployment = preload("res://tidewater_deployment.gd").new()
+	add_child(deployment)
+	deployment.call("setup",self)
+	items = preload("res://tidewater_items.gd").new()
+	add_child(items)
+	items.call("setup",self)
+	for actor in all_actors():
+		if actor != $World/Walker:
+			randomize_bot_kit(actor)
+	bot_specials = preload("res://tidewater_bot_specials.gd").new()
+	add_child(bot_specials)
+	bot_specials.call("setup",self)
 	_build_hud()
+	sound = preload("res://tidewater_audio.gd").new()
+	add_child(sound)
+	sound.call("setup",self)
 	_update_hud()
 
 
@@ -180,30 +222,59 @@ func _input(event: InputEvent) -> void:
 		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 			settings_panel.call("close_panel")
 		return
+	if phase == "home":
+		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ENTER:
+			show_preparation()
+		return
+	if phase == "setup" and event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		show_home()
+		return
+	if deployment!=null and deployment.handle_input(event):
+		return
+	if phase == "playing" and player_respawn > 0.0:
+		if event is InputEventMouseMotion and (not deployment.selector_open or not deployment.selector.panel.get_global_rect().has_point(event.position/hud_root.scale.x)):
+			deployment.call("aim",event.relative)
+		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			launch_respawn()
+		if event is InputEventKey and event.pressed and not event.echo:
+			if event.keycode in [KEY_ENTER,KEY_SPACE]:
+				launch_respawn()
+			elif event.keycode == KEY_R:
+				randomize_player_kit()
+			elif event.keycode in [KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_6,KEY_7]:
+				_choose_player_weapon(String(weapon_order[event.keycode-KEY_1]))
+		return
 	if paused and event is InputEventMouseButton and pause_panel.get_global_rect().has_point(event.position / hud_root.scale.x):
 		return
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and phase == "playing" and player_respawn <= 0.0 and not pointer_locked:
 		_set_pointer_lock(true)
 		_update_hud()
 		return
+	if event is InputEventMouseButton and event.pressed and pointer_locked and phase == "playing" and player_respawn <= 0.0:
+		_fire_pressed_pending = _fire_pressed_pending or event.button_index == MOUSE_BUTTON_LEFT
+		_sub_pressed_pending = _sub_pressed_pending or event.button_index == MOUSE_BUTTON_RIGHT
 	if not (event is InputEventKey) or not event.pressed or event.echo:
 		return
 	match event.keycode:
-		KEY_1, KEY_2, KEY_3, KEY_4:
+		KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7:
 			# Explicit type: event is statically an InputEvent, so keycode is dynamic and
 			# `:=` cannot infer (this is what broke the whole suite once).
 			var slot: int = event.keycode - KEY_1
 			if slot < weapon_order.size() and (phase == "setup" or (phase == "playing" and player_respawn > 0.0)):
 				_choose_player_weapon(String(weapon_order[slot]))
-		KEY_B:
-			_cycle_bot_weapon()
 		KEY_ENTER:
 			if phase == "setup":
 				_begin_intro()
 			elif phase == "results":
 				_reload_setup()
+				return
+		KEY_E:
+			if phase=="playing" and pointer_locked and player_respawn<=0.0:
+				items.call("use",$World/Walker)
 		KEY_R:
-			_reload_setup()
+			if phase == "setup":
+				randomize_appearance()
+				return
 		KEY_F, KEY_Q:
 			if phase == "playing" and not paused and pointer_locked and player_respawn <= 0.0:
 				$Combat.call("try_special")
@@ -221,30 +292,11 @@ func _choose_player_weapon(id: String) -> void:
 	_update_hud()
 
 
-func _cycle_bot_weapon() -> void:
-	if phase != "setup":
-		return
-	selected_bot_weapon = weapon_order[(weapon_order.find(selected_bot_weapon) + 1) % weapon_order.size()]
-	$Bot.call("select_weapon", selected_bot_weapon)
-	_update_hud()
-
-
-func _change_palette(index: int) -> void:
-	if phase != "setup" or index == TeamPalette.palette_index:
-		return
-	TeamPalette.select(index)
-	_reload_setup()
-
-
-func _change_colorblind(enabled: bool) -> void:
-	if phase != "setup" or enabled == TeamPalette.use_colorblind:
-		return
-	TeamPalette.set_colorblind(enabled)
-	_reload_setup()
-
-
 func _reload_setup() -> void:
-	MatchSetup.pending_loadout = {"player": selected_weapon, "bot": selected_bot_weapon, "settings_path": settings_path}
+	preload("res://map_catalog.gd").roll()
+	MatchSetup.random_appearance()
+	MatchSetup.screen = "home"
+	MatchSetup.pending_loadout = {"player": selected_weapon, "settings_path": settings_path}
 	get_tree().reload_current_scene()
 
 
@@ -261,11 +313,16 @@ func _change_duration(index: int) -> void:
 
 func _set_pointer_lock(locked: bool) -> void:
 	pointer_locked = locked
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if locked else Input.MOUSE_MODE_VISIBLE
-	$World/Walker.set("look_enabled", locked)
+	if not locked:
+		_fire_pressed_pending = false
+		_sub_pressed_pending = false
+	var choosing:bool=deployment!=null and deployment.selector_open
+	var jumping:bool=deployment!=null and deployment.live_jump
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if locked and not choosing else Input.MOUSE_MODE_VISIBLE
+	$World/Walker.set("look_enabled", locked and player_respawn<=0.0 and phase=="playing" and not choosing and not jumping)
 	if phase == "playing":
 		paused = not locked
-		$World/Walker.set("active", locked and player_respawn <= 0.0)
+		$World/Walker.set("active", locked and player_respawn <= 0.0 and not choosing and not jumping)
 
 
 func _notification(what: int) -> void:
@@ -276,6 +333,7 @@ func _notification(what: int) -> void:
 
 
 func _begin_intro() -> void:
+	perks.locked = true
 	phase = "intro"
 	phase_time = 0.0
 	round_left = round_time
@@ -286,19 +344,22 @@ func _begin_intro() -> void:
 
 
 func _start_round() -> void:
+	perks.locked = true
 	phase = "playing"
 	paused = false
 	phase_time = 0.0
 	round_left = round_time
+	damage_history.clear()
+	last_damage_until = 0
 	player_respawn = 0.0
 	bot_respawn = 0.0
 	var player_config: Dictionary = $Combat.get("weapon_data")["player"]
-	player_health = float(player_config["hp"])
+	player_health = actor_max_health($World/Walker)
 	# Source match.setup() removes spawn protection for the initial lineup.
 	player_invuln = 0.0
 	player_last_damage = 99.0
 	player_ink_damage = 0.0
-	bot_health = player_health
+	bot_health = actor_max_health($Bot)
 	bot_invuln = 0.0
 	bot_last_damage = 99.0
 	bot_ink_damage = 0.0
@@ -306,10 +367,11 @@ func _start_round() -> void:
 	$Bot.call("select_weapon", selected_bot_weapon)
 	for teammate in extra_bots:
 		teammate.set("respawn_time", 0.0)
-		teammate.set("health", player_health)
+		teammate.set("health", actor_max_health(teammate))
 		teammate.set("invuln", 0.0)
 		teammate.call("reset")
 	$World/Walker.set("active", true)
+	$World/Walker.global_position = deployment.call("initial_position")
 	$World/Walker.visible = true
 	$Combat.call("select_weapon", selected_weapon)
 	_set_pointer_lock(true)
@@ -317,6 +379,8 @@ func _start_round() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if sound != null:
+		sound.call("sync",delta)
 	feed_time = maxf(0.0, feed_time - delta)
 	_update_turf_display(delta)
 	match phase:
@@ -332,28 +396,28 @@ func _physics_process(delta: float) -> void:
 				_judge_round()
 			_update_hud()
 			return
-		"judge":
-			phase_time += delta
-			if phase_time >= JUDGE_SECONDS:
-				phase = "results"
-				phase_time = 0.0
-			_update_hud()
-			return
 		"playing":
 			pass
 		_:
 			return
 	if paused:
 		return
+	items.call("tick",delta)
+	bot_specials.call("tick",delta)
 	round_left = maxf(0.0, round_left - delta)
 	if round_left <= 0.0:
 		_finish_round()
 		_update_hud()
 		return
-	var firing := pointer_locked and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-	var throwing := pointer_locked and Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
+	deployment.tick_live(delta)
+	var inspecting_jump:bool=deployment.selector_open or deployment.live_jump
+	var firing := pointer_locked and not inspecting_jump and (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or _fire_pressed_pending)
+	var throwing := pointer_locked and not inspecting_jump and (Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) or _sub_pressed_pending)
+	_fire_pressed_pending = false
+	_sub_pressed_pending = false
 	var walker: CharacterBody3D = $World/Walker
 	var alive := player_respawn <= 0.0
+	phase_time += delta
 	# The walker owns the squid/fire rule ("most recent press wins") and the buffered
 	# pop-out shot, so the controller only feeds it raw key state. Holding squid and
 	# pressing fire used to be silently ignored, and a tap just before surfacing was lost.
@@ -361,13 +425,17 @@ func _physics_process(delta: float) -> void:
 	var firing_pose := bool($Combat.get("rolling")) or float($Combat.get("firing_time")) > 0.0
 	walker.call("update_intent", delta, alive and firing, alive and Input.is_key_pressed(KEY_SHIFT),
 		bool($Combat.call("is_busy")), firing_pose, alive and throwing)
+	if deployment.live_jump:walker.get_node("Body").set_form(true)
 	walker.get_node("Body").call("set_weapon_pose", float(walker.get("camera_pitch")), bool($Combat.get("rolling")))
+	var face_config: Dictionary = $Combat.get("weapon_data")["player"]
+	walker.get_node("Body").call("set_expression_state",float($Combat.get("ink_amount"))/actor_ink_max(walker),player_health/actor_max_health(walker),float($Combat.get("charge_fraction")),bool($Combat.call("special_ready")))
 	var squid := bool(walker.get("squid_form"))
-	var weapon_fire := bool(walker.get("weapon_fire"))
+	var weapon_fire := bool(walker.get("weapon_fire")) and not inspecting_jump
 	_update_player_respawn(delta)
 	if player_respawn <= 0.0:
 		_update_player_vitals(delta)
-		$Combat.call("tick", delta, weapon_fire, squid, throwing)
+		if inspecting_jump:$Combat.call("advance_effects",delta)
+		else:$Combat.call("tick", delta, weapon_fire, squid, throwing)
 	else:
 		$Combat.call("advance_effects", delta)
 	_update_bot(delta)
@@ -378,6 +446,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _finish_round() -> void:
+	deployment.clear()
 	phase = "finish"
 	phase_time = 0.0
 	$World/Walker.set("active", false)
@@ -392,22 +461,30 @@ func _judge_round() -> void:
 	judged_coverage = [float(ink.call("coverage", 0)), float(ink.call("coverage", 1))]
 	winner = randi_range(0, 1) if judged_coverage[0] == judged_coverage[1] else (0 if judged_coverage[0] > judged_coverage[1] else 1)
 	result = "%s胜利" % team_names[winner]
-	phase = "judge"
+	phase = "results"
 	phase_time = 0.0
 	_update_hud()
 
 
 func paint_at_world(center: Vector3, team: int, radius: float, seed: float,
-		stretch: Vector3 = Vector3.ZERO, stretch_amount: float = 0.0) -> float:
+		stretch: Vector3 = Vector3.ZERO, stretch_amount: float = 0.0, source_actor: Node3D = null) -> float:
 	var area := float(ink.call("splat_world", center, radius, team, seed, stretch, stretch_amount))
-	# actor.js:116-125 credits turf to whoever painted it. Every stroke in the port funnels
-	# through here — the bot's own paint calls this directly rather than going through the
-	# weapon script — so this is the one place that can account for both teams without
-	# touching the bot. Raw area always counts (actor stats.turf); the local player's
-	# points only while alive, which is the `_live()` guard hud.js applies.
+	# Newly claimed area is cumulative contribution, distinct from final coverage.
+	# Delayed abilities pass their owner explicitly; ordinary strokes use attack context.
+	var painter: Node3D = source_actor if is_instance_valid(source_actor) else painting_actor
+	if not is_instance_valid(painter) and team == 0 and not bot_painting:
+		painter = $World/Walker
+	if is_instance_valid(painter) and actor_team(painter) == team:
+		var stats: Dictionary = painter.get_meta("match_stats",{})
+		stats["turf"] = float(stats.get("turf",0.0)) + area
+		painter.set_meta("match_stats",stats)
+	else:
+		painter = null
 	var slot := clampi(team, 0, turf_area.size() - 1)
 	turf_area[slot] = float(turf_area[slot]) + area
-	if slot == 0 and player_respawn <= 0.0 and not bot_painting:
+	if charge_special and bot_specials!=null and painter!=null and painter!=$World/Walker:
+		bot_specials.call("charge",painter,area)
+	if painter == $World/Walker and player_respawn <= 0.0:
 		turf_total += area * _points_per_m2
 	return area
 
@@ -421,38 +498,73 @@ func _update_turf_display(delta: float) -> void:
 		turf_shown = minf(turf_total, turf_shown + maxf(6.0, (turf_total - turf_shown) * 7.0) * delta)
 
 
-func damage_bot(amount: float) -> void:
+func damage_bot(amount: float, source_actor: Node3D = null, source_weapon: String = "", region: String = "", hit_distance: float = -1) -> void:
 	if phase != "playing" or bot_respawn > 0.0 or amount <= 0.0 or bot_invuln > 0.0:
 		return
+	if bool(bot_specials.call("busy",$Bot)):
+		amount *= 0.25
+	amount = _modified_damage(amount,$Bot,source_actor,source_weapon)
+	amount = float(items.call("absorb",$Bot,amount))
+	if amount<=0.0:
+		return
+	_track_damage($Bot,amount,source_actor,region,source_weapon)
 	bot_last_damage = 0.0
+	if not bot_painting:
+		play_sound("hit_marker")
+		presentation.call("notify_hit")
 	bot_health = maxf(0.0, bot_health - amount)
+	$Bot.call("_update_health_visual")
+	$Combat.get("feedback").call("emit","hit",$Bot.global_position+Vector3.UP,0)
 	if bot_health <= 0.0:
-		_record_splat($Bot, 0)
-		$Combat.call("_paint_player", $Bot.global_position + Vector3.UP * 0.35, 1.7, randf())
+		_record_splat($Bot, 0,source_actor if source_actor != null else $World/Walker,source_weapon)
+		$Combat.call("_paint_player", $Bot.global_position + Vector3.UP * 0.35, 1.7, randf(),Vector3.ZERO,0.0,source_actor)
 		bot_respawn = float($Combat.get("weapon_data")["player"]["respawnTime"])
 		$Bot.visible = false
 		$Bot.call("clear_attack_visual")
+		items.call("on_death",$Bot)
+		bot_specials.call("on_death",$Bot)
 
 
-func damage_player(amount: float, bypass_invuln: bool = false) -> void:
+func damage_player(amount: float, bypass_invuln: bool = false, source_actor: Node3D = null, source_weapon: String = "", region: String = "", hit_distance: float = -1) -> void:
 	if phase != "playing" or player_respawn > 0.0 or amount <= 0.0 or (player_invuln > 0.0 and not bypass_invuln):
 		return
 	if not bypass_invuln and String($Combat.get("special_active")) == "slam":
 		amount *= 0.25
+	if not bypass_invuln:
+		amount = _modified_damage(amount,$World/Walker,source_actor,source_weapon)
+		amount = float(items.call("absorb",$World/Walker,amount))
+	if amount<=0.0:
+		return
+	_record_damage(amount,source_actor,source_weapon,region,hit_distance)
+	_track_damage($World/Walker,amount,source_actor,region,source_weapon)
 	player_last_damage = 0.0
+	$World/Walker.get_node("Body").call("set_reaction","hit")
+	if presentation != null:
+		presentation.call("notify_damage")
+	play_sound("hurt")
 	player_health = maxf(0.0, player_health - amount)
+	$Combat.get("feedback").call("emit","hit",$World/Walker.global_position+Vector3.UP,1)
 	if player_health <= 0.0:
+		$Combat.get("feedback").call("emit","splat",$World/Walker.global_position+Vector3.UP*0.5,1)
+		play_sound("splatted_self")
+		var by := "落入海水" if bypass_invuln else _attacker_description(source_actor if source_actor != null else $Bot,source_weapon)
+		presentation.set("death_by",by)
 		local_deaths += 1
-		feed_text = "你被击倒了"
+		_track_splat($World/Walker,null if bypass_invuln else source_actor)
+		feed_text = "你落入海水" if bypass_invuln else "%s 击倒 %s" % [by,_actor_name($World/Walker)]
 		feed_time = 3.0
 		if not bypass_invuln:
-			paint_at_world($World/Walker.global_position + Vector3.UP * 0.35, 1, 1.7, randf())
+			paint_at_world($World/Walker.global_position + Vector3.UP * 0.35, 1, 1.7, randf(),Vector3.ZERO,0.0,source_actor)
 		player_respawn = float($Combat.get("weapon_data")["player"]["respawnTime"])
+		respawn_ready = false
+		deployment.call("clear")
+		items.call("on_death",$World/Walker)
 		$World/Walker.set("active", false)
 		$World/Walker.visible = false
 		$Combat.call("on_death")
-		_set_pointer_lock(false)
+		_set_pointer_lock(true)
 		paused = false
+		deployment.call("begin")
 
 
 func _update_player_vitals(delta: float) -> void:
@@ -473,38 +585,92 @@ func _update_player_vitals(delta: float) -> void:
 		if player_ink_damage < float(player_config["enemyInkDamageCap"]) and player_invuln <= 0.0:
 			var damage := minf(float(player_config["enemyInkDps"]) * delta, float(player_config["enemyInkDamageCap"]) - player_ink_damage)
 			player_ink_damage += damage
+			var hp_before := player_health
 			player_health = maxf(1.0, player_health - damage)
+			ink_damage_trace += hp_before-player_health
+			if ink_damage_trace>=5:
+				_record_damage(ink_damage_trace,null,"enemy_ink")
+				ink_damage_trace = 0
 		player_last_damage = minf(player_last_damage, 0.4)
 	else:
 		player_ink_damage = maxf(0.0, player_ink_damage - delta * 30.0)
-	if player_last_damage > float(player_config["regenDelay"]) and player_health < float(player_config["hp"]):
+	if player_last_damage > perks.regen_delay($World/Walker,float(player_config["regenDelay"])) and player_health < actor_max_health($World/Walker):
 		var rate := float(player_config["regenRateSwim"]) if submerged else float(player_config["regenRate"])
-		player_health = minf(float(player_config["hp"]), player_health + rate * delta)
+		player_health = minf(actor_max_health($World/Walker), player_health + perks.regen_rate($World/Walker,rate) * delta)
 
 
 func _update_player_respawn(delta: float) -> void:
 	var walker: CharacterBody3D = $World/Walker
 	if player_respawn <= 0.0:
-		var fall_y := float($Combat.get("weapon_data")["player"]["fallDeathY"])
-		if walker.global_position.y < fall_y:
-			damage_player(player_health, true)
+		if walker.global_position.y < float($Combat.get("weapon_data")["player"]["fallDeathY"]):
+			damage_player(player_health,true)
 		return
-	player_respawn = maxf(0.0, player_respawn - delta)
-	if player_respawn > 0.0:
+	if not respawn_ready:
+		player_respawn = maxf(0.0,player_respawn-delta)
+		if player_respawn>0.0:
+			deployment.call("tick",delta)
+			return
+		respawn_ready = true
+		player_respawn = 0.001
+		_set_pointer_lock(true)
+	if not bool(deployment.call("tick",delta)):
 		return
-	var pads: Array = $World/Map.get("spawn_pads")
-	walker.global_position = (pads[0] as Vector3) + Vector3.UP * 0.05
+	player_respawn = 0.0
+	respawn_ready = false
 	walker.call("reset_movement_state")
-	walker.set("ink_owner", -1)
-	walker.set("active", true)
-	walker.visible = true
-	player_health = float($Combat.get("weapon_data")["player"]["hp"])
-	player_invuln = float($Combat.get("weapon_data")["player"]["spawnInvuln"])
+	walker.get_node("Body").call("set_reaction","spawn")
+	walker.set("ink_owner",-1)
+	player_health = actor_max_health($World/Walker)
+	player_invuln = deployment.landing_protection
 	player_last_damage = 99.0
 	player_ink_damage = 0.0
-	$Combat.set("ink_amount", float($Combat.get("weapon_data")["player"]["inkMax"]))
-	$Combat.call("select_weapon", selected_weapon)
+	$Combat.set("ink_amount",actor_ink_max($World/Walker))
+	$Combat.call("select_weapon",selected_weapon)
+	items.call("on_respawn",walker)
 	_set_pointer_lock(true)
+	$Combat.call("_ability_ring",walker.global_position,1.5,0.6)
+
+
+func launch_respawn() -> void:
+	if phase=="playing" and player_respawn>0.0:
+		_set_pointer_lock(true)
+		deployment.call("launch")
+
+
+func randomize_bot_kit(actor: Node3D) -> void:
+	var weapon: String = weapon_order[equipment_rng.randi_range(0,weapon_order.size()-1)]
+	actor.call("select_weapon",weapon)
+	if actor==$Bot:
+		selected_bot_weapon = weapon
+	items.call("equip",actor,items.get("KINDS")[equipment_rng.randi_range(0,2)])
+
+
+func randomize_player_kit() -> void:
+	selected_weapon = weapon_order[equipment_rng.randi_range(0,weapon_order.size()-1)]
+	MatchSetup.selected_item = items.get("KINDS")[equipment_rng.randi_range(0,2)]
+	$Combat.call("select_weapon",selected_weapon)
+	items.call("equip",$World/Walker,MatchSetup.selected_item)
+	presentation.call("notify_ability","配装已重摇：%s / %s · 天赋 %s（固定）" % [_weapon_text(selected_weapon),items.LABELS[MatchSetup.selected_item],perks.LABELS[perks.kind($World/Walker)]],2.5)
+	_update_hud()
+
+
+func show_preparation() -> void:
+	phase = "setup"
+	MatchSetup.screen = phase
+	_update_hud()
+
+
+func show_home() -> void:
+	phase = "home"
+	MatchSetup.screen = phase
+	_update_hud()
+
+
+func randomize_appearance() -> void:
+	MatchSetup.random_appearance()
+	MatchSetup.screen = phase
+	MatchSetup.pending_loadout = {"player":selected_weapon,"settings_path":settings_path}
+	get_tree().reload_current_scene()
 
 
 func _update_bot(delta: float) -> void:
@@ -513,15 +679,21 @@ func _update_bot(delta: float) -> void:
 		bot_respawn = maxf(0.0, bot_respawn - delta)
 		if bot_respawn <= 0.0:
 			var player_config: Dictionary = $Combat.get("weapon_data")["player"]
-			bot_health = float(player_config["hp"])
+			bot_health = actor_max_health($Bot)
 			bot_invuln = float(player_config["spawnInvuln"])
 			bot_last_damage = 99.0
 			bot_ink_damage = 0.0
+			items.call("on_respawn",$Bot)
 			bot.call("reset")
+			if MatchSetup.reroll_bots:
+				randomize_bot_kit(bot)
 		return
 	_update_bot_vitals(delta)
 	bot_painting = true
-	bot.call("tick", delta)
+	painting_actor = bot
+	if not bool(bot_specials.call("busy",bot)):
+		bot.call("tick",delta)
+	painting_actor = null
 	bot_painting = false
 
 
@@ -540,8 +712,8 @@ func _update_bot_vitals(delta: float) -> void:
 		bot_last_damage = minf(bot_last_damage, 0.4)
 	else:
 		bot_ink_damage = maxf(0.0, bot_ink_damage - delta * 30.0)
-	if bot_last_damage > float(player_config["regenDelay"]) and bot_health < float(player_config["hp"]):
-		bot_health = minf(float(player_config["hp"]), bot_health + float(player_config["regenRate"]) * delta)
+	if bot_last_damage > perks.regen_delay($Bot,float(player_config["regenDelay"])) and bot_health < actor_max_health($Bot):
+		bot_health = minf(actor_max_health($Bot), bot_health + perks.regen_rate($Bot,float(player_config["regenRate"])) * delta)
 
 
 func _build_hud() -> void:
@@ -592,13 +764,26 @@ func _build_hud() -> void:
 	crosshair_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	layer.add_child(crosshair_layer)
 	crosshair = Label.new()
-	crosshair.text = "+"
+	crosshair.text = ""
 	crosshair.add_theme_font_size_override("font_size", 30)
 	crosshair.add_theme_color_override("font_shadow_color", Color.BLACK)
 	crosshair_layer.add_child(crosshair)
 	_build_weapon_menu(layer)
 	_build_team_ui(layer)
 	_build_settings_ui(layer)
+	presentation = preload("res://tidewater_presentation.gd").new()
+	layer.add_child(presentation)
+	presentation.call("setup",self)
+	tactics = preload("res://tidewater_tactics.gd").new()
+	layer.add_child(tactics)
+	tactics.call("setup",self)
+	frontend = preload("res://tidewater_frontend.gd").new()
+	layer.add_child(frontend)
+	frontend.call("setup",self)
+	deployment.setup_ui()
+	# Interactive controls stay above the full-screen presentation.
+	for control in [scoreboard_panel,result_panel,settings_panel]:
+		layer.move_child(control,-1)
 	get_viewport().size_changed.connect(_layout_hud)
 	_layout_hud()
 
@@ -692,40 +877,6 @@ func _build_weapon_menu(layer: Node) -> void:
 		button.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		button.pressed.connect(_choose_player_weapon.bind(weapon_id))
 		weapon_buttons[weapon_id] = button
-	setup_options = HBoxContainer.new()
-	setup_options.add_theme_constant_override("separation", 12)
-	menu_panel.add_child(setup_options)
-	palette_select = OptionButton.new()
-	palette_select.custom_minimum_size.x = 200
-	palette_select.add_theme_font_size_override("font_size", 16)
-	var palettes := TeamPalette.palettes()
-	var labels: Dictionary = $Combat.get("weapon_data")["text"]["teams"]
-	for palette in palettes:
-		var names: Array = labels.get(String(palette["id"]), palette["names"])
-		palette_select.add_item("%s / %s" % names)
-	palette_select.select(TeamPalette.palette_index)
-	palette_select.item_selected.connect(_change_palette)
-	setup_options.add_child(palette_select)
-	colorblind_toggle = CheckButton.new()
-	colorblind_toggle.text = "色盲配色"
-	colorblind_toggle.add_theme_font_size_override("font_size", 16)
-	colorblind_toggle.set_pressed_no_signal(TeamPalette.use_colorblind)
-	colorblind_toggle.toggled.connect(_change_colorblind)
-	setup_options.add_child(colorblind_toggle)
-	duration_select = OptionButton.new()
-	duration_select.custom_minimum_size.x = 100
-	duration_select.add_theme_font_size_override("font_size", 16)
-	var durations: Array = $Combat.get("weapon_data")["match"].get("durations", [])
-	for duration in durations:
-		duration_select.add_item("%d 秒" % int(duration))
-	if not durations.is_empty():
-		duration_select.select(clampi(MatchSetup.duration_index, 0, durations.size() - 1))
-	duration_select.item_selected.connect(_change_duration)
-	setup_options.add_child(duration_select)
-	bot_weapon_button = Button.new()
-	bot_weapon_button.add_theme_font_size_override("font_size", 16)
-	bot_weapon_button.pressed.connect(_cycle_bot_weapon)
-	setup_options.add_child(bot_weapon_button)
 
 
 func _refresh_weapon_cards() -> void:
@@ -786,42 +937,19 @@ func _layout_hud() -> void:
 	crosshair_layer.size = size
 	weapon_icon.position = Vector2(maxf(18.0, size.x - 114.0), 20.0)
 	_layout_team_ui(size)
-	var width := minf(850.0, size.x - 24.0)
-	menu_panel.size = Vector2(width, 410.0)
-	menu_panel.position = (size - menu_panel.size) * 0.5
-	var title: Label = menu_panel.get_child(0)
-	title.size = Vector2(width, 58.0)
-	menu_hint.size = Vector2(width, 36.0)
-	setup_match_options.position = Vector2(24.0, 322.0)
-	setup_match_options.size = Vector2(width - 48.0, 48.0)
-	setup_options.position = Vector2(24.0, 260.0)
-	setup_options.size = Vector2(width - 48.0, 44.0)
-	var card_width := (width - 70.0) * 0.25
-	for index in weapon_order.size():
-		var card: Panel = weapon_cards[weapon_order[index]]
-		card.position = Vector2(20.0 + float(index) * (card_width + 10.0), 137.0)
-		card.size = Vector2(card_width, 106.0)
-		var icon: TextureRect = card.get_child(0)
-		icon.position.x = (card_width - 60.0) * 0.5
-		var name_label: Label = card.get_child(1)
-		name_label.size = Vector2(card_width, 28.0)
+	if frontend!=null:frontend.sync()
 
 
 func _update_hud() -> void:
-	crosshair.visible = phase == "playing" and player_respawn <= 0.0 and pointer_locked
-	menu_panel.visible = (phase == "setup" or (phase == "playing" and player_respawn > 0.0)) and not settings_panel.visible
-	setup_options.visible = phase == "setup"
-	palette_select.disabled = phase != "setup"
-	colorblind_toggle.disabled = phase != "setup"
-	duration_select.disabled = phase != "setup"
-	bot_weapon_button.disabled = phase != "setup"
-	bot_weapon_button.text = "机器人：%s · B" % _weapon_text(selected_bot_weapon)
-	setup_match_options.visible = phase == "setup"
+	if not is_inside_tree():
+		return
+	crosshair.visible = phase == "playing" and player_respawn <= 0.0 and pointer_locked and not deployment.live_jump and not deployment.selector_open
+	menu_panel.visible = phase=="setup" and not settings_panel.visible
 	_update_team_ui()
 	for button in weapon_buttons.values():
 		(button as Button).disabled = not menu_panel.visible
-	if menu_panel.visible:
-		menu_hint.text = ("%s 1–4 · %s B：%s · Enter 开始" % [team_names[0], team_names[1], _weapon_text(selected_bot_weapon)]) if phase == "setup" else "等待重生 · 按 1–4 更换武器"
+	if frontend!=null:
+		frontend.call("sync")
 	if shown_weapon != selected_weapon:
 		weapon_icon.texture = load("res://assets/ui/%s.svg" % selected_weapon) as Texture2D
 		shown_weapon = selected_weapon
@@ -839,8 +967,8 @@ func _update_hud() -> void:
 	vitals_panel.visible = phase == "playing" and player_respawn <= 0.0
 	special_panel.visible = phase == "playing" and player_respawn <= 0.0
 	turf_label.visible = special_panel.visible
-	var max_health := float(combat.get("weapon_data")["player"]["hp"])
-	var max_ink := float(combat.get("weapon_data")["player"]["inkMax"])
+	var max_health := actor_max_health($World/Walker)
+	var max_ink := actor_ink_max($World/Walker)
 	ink_label.text = "墨量  %d / %d" % [int(ceil(float(combat.get("ink_amount")))), int(max_ink)]
 	health_label.text = "生命  %d / %d" % [int(ceil(player_health)), int(max_health)]
 	ink_bar.value = float(combat.get("ink_amount")) / max_ink * 100.0
@@ -854,10 +982,10 @@ func _update_hud() -> void:
 	# screen prints the raw area instead, and the web labels both "p" (they differ by
 	# pointsPerM2, which the shipped config sets to 1).
 	turf_label.text = "涂地  %d p" % int(floor(turf_shown))
-	result_panel.visible = phase == "finish" or phase == "judge" or phase == "results"
+	result_panel.visible = phase == "finish" or phase == "results"
 	if phase == "finish":
 		result_label.text = "时间到\n等待裁判统计"
-	elif phase == "judge" or phase == "results":
+	elif phase == "results":
 		result_label.text = "%s\n%s %.1f%%   %s %.1f%%\n涂地 %s %.1f m²   %s %.1f m²" % [
 			result, team_names[0], judged_coverage[0] * 100.0, team_names[1], judged_coverage[1] * 100.0,
 			team_names[0], turf_area[0], team_names[1], turf_area[1]]
@@ -867,8 +995,6 @@ func _update_hud() -> void:
 		hud.text = "准备开战 · %d" % int(ceil(maxf(0.0, INTRO_SECONDS - phase_time)))
 	elif phase == "finish":
 		hud.text = "时间到 · 等待裁判统计"
-	elif phase == "judge":
-		hud.text = "裁判计分中"
 	elif phase == "results":
 		hud.text = "Enter 再开一局 · R 重开"
 	elif player_respawn > 0.0:
@@ -878,8 +1004,40 @@ func _update_hud() -> void:
 	else:
 		var charge := float(combat.get("charge_fraction"))
 		var charge_text := "  蓄力 %d%%" % int(charge * 100.0) if bool(combat.get("charging")) else ""
-		var controls := "WASD 移动 · 鼠标瞄准 · 空格跳跃 · Shift 潜墨 · 左键射击 · 右键炸弹 · F/Q 大招 · Esc 暂停"
+		var controls := "WASD 移动 · 空格跳跃 · Shift 潜墨/爬墙 · 左键射击 · 右键/E 道具 · F/Q 大招 · Esc 暂停"
 		hud.text = ("最后 %d 秒 · " % seconds if seconds <= final_countdown else "") + ("点击画面继续 · " if not pointer_locked else "") + controls + charge_text
+	_update_presentation()
+
+
+func _update_presentation() -> void:
+	if presentation == null:
+		return
+	var cinematic := phase in ["intro","finish","results"] or player_respawn > 0.0
+	score_panel.visible = phase=="playing" and not cinematic
+	orange_score.visible = false
+	blue_score.visible = false
+	orange_bar.visible = false
+	blue_bar.visible = false
+	score_panel.size = Vector2(132,72)
+	score_panel.position.x = (hud_root.size.x-132)*0.5
+	timer_label.position.x = 21
+	weapon_icon.visible = false
+	special_panel.visible = false
+	status_panel.visible = phase == "playing" and not cinematic
+	roster_label.visible = false
+	result_label.visible = false
+	result_panel.add_theme_stylebox_override("panel",_ui_style(Color.TRANSPARENT,Color.TRANSPARENT,0,0))
+	result_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Result buttons have their own responsive position inside the existing panel.
+	result_panel.position.y = hud_root.size.y*0.67
+	result_panel.size.y = hud_root.size.y*0.28
+	result_actions.position.y = result_panel.size.y-48
+	presentation.call("sync")
+
+
+func play_sound(id: String, at: Vector3 = Vector3.INF) -> void:
+	if sound != null:
+		sound.call("play_sound",id,at)
 
 
 func team_mode() -> bool:
@@ -890,7 +1048,7 @@ func _build_roster() -> void:
 	if not team_mode():
 		return
 	navigation = preload("res://team_navigation.gd").new()
-	navigation.call("setup", MatchSetup.map_id)
+	navigation.call("setup", preload("res://map_catalog.gd").asset_id())
 	var bot_script := preload("res://tidewater_bot.gd")
 	var visual_script := preload("res://tidewater_character_visual.gd")
 	for team in range(2):
@@ -904,7 +1062,7 @@ func _build_roster() -> void:
 			body.name = "Body"
 			body.set_script(visual_script)
 			body.set("team", team)
-			body.set("style_index", slot % 4)
+			body.set("style_index", appearance_rng.randi_range(0,3))
 			actor.add_child(body)
 			add_child(actor)
 			extra_bots.append(actor)
@@ -916,6 +1074,13 @@ func all_actors() -> Array[Node3D]:
 	var actors: Array[Node3D] = [$World/Walker, $Bot]
 	actors.append_array(extra_bots)
 	return actors
+
+
+func actor_id(actor: Node3D) -> int:
+	if actor.has_meta("actor_id"):
+		return int(actor.get_meta("actor_id"))
+	var slot := 0 if actor == $World/Walker else int(actor.get("slot"))
+	return actor_team(actor) * MatchSetup.team_size + slot + 1
 
 
 func actor_team(actor: Node3D) -> int:
@@ -946,26 +1111,46 @@ func enemies(team: int) -> Array[Node3D]:
 	return found
 
 
-func damage_actor(actor: Node3D, amount: float, source_team: int) -> void:
+func damage_actor(actor: Node3D, amount: float, source_team: int, source_actor: Node3D = null, source_weapon: String = "", region: String = "", hit_distance: float = -1) -> void:
 	if actor_team(actor) == source_team:
 		return
 	if actor == $World/Walker:
-		damage_player(amount)
+		damage_player(amount,false,source_actor,source_weapon,region,hit_distance)
 	elif actor == $Bot:
-		damage_bot(amount)
+		damage_bot(amount,source_actor,source_weapon,region,hit_distance)
 	elif phase == "playing" and actor_alive(actor) and float(actor.get("invuln")) <= 0.0 and amount > 0.0:
+		if bool(bot_specials.call("busy",actor)):
+			amount *= 0.25
+		amount = _modified_damage(amount,actor,source_actor,source_weapon)
+		amount = float(items.call("absorb",actor,amount))
+		if amount<=0.0:
+			return
+		_track_damage(actor,amount,source_actor,region,source_weapon)
+		if source_team == 0 and not bot_painting:
+			play_sound("hit_marker")
+			presentation.call("notify_hit")
 		actor.set("last_damage", 0.0)
 		actor.set("health", maxf(0.0, float(actor.get("health")) - amount))
+		actor.call("_update_health_visual")
+		$Combat.get("feedback").call("emit","hit",actor.global_position+Vector3.UP,source_team)
 		if float(actor.get("health")) <= 0.0:
-			_record_splat(actor, source_team)
-			paint_at_world(actor.global_position + Vector3.UP * 0.35, source_team, 1.7, randf())
+			_record_splat(actor, source_team,source_actor,source_weapon)
+			paint_at_world(actor.global_position + Vector3.UP * 0.35, source_team, 1.7, randf(),Vector3.ZERO,0.0,source_actor)
 			actor.set("respawn_time", float($Combat.get("weapon_data")["player"]["respawnTime"]))
 			actor.visible = false
 			actor.call("clear_attack_visual")
+			items.call("on_death",actor)
+			bot_specials.call("on_death",actor)
 
 
-func _record_splat(actor: Node3D, source_team: int) -> void:
-	feed_text = "%s 击倒 %s" % [team_names[source_team], _actor_name(actor)]
+func _record_splat(actor: Node3D, source_team: int, source_actor: Node3D = null, source_weapon: String = "") -> void:
+	_track_splat(actor,source_actor if source_actor!=null else ($World/Walker if source_team==0 else $Bot))
+	$Combat.get("feedback").call("emit","splat",actor.global_position+Vector3.UP*0.5,source_team)
+	play_sound("splat_enemy" if source_team==0 else "ally_splatted")
+	if source_team == 0 and not bot_painting:
+		presentation.call("notify_hit",true)
+	var attacker := _attacker_description(source_actor if source_actor != null else ($World/Walker if source_team == 0 else $Bot),source_weapon)
+	feed_text = "%s 击倒 %s" % [attacker, _actor_name(actor)]
 	feed_time = 3.0
 
 
@@ -976,9 +1161,12 @@ func _update_team_actor(actor: Node3D, delta: float) -> void:
 		wait = maxf(0.0, wait - delta)
 		actor.set("respawn_time", wait)
 		if wait <= 0.0:
-			actor.set("health", float(config["hp"]))
+			actor.set("health", actor_max_health(actor))
 			actor.set("invuln", float(config["spawnInvuln"]))
 			actor.call("reset")
+			items.call("on_respawn",actor)
+			if MatchSetup.reroll_bots:
+				randomize_bot_kit(actor)
 		return
 	actor.set("invuln", maxf(0.0, float(actor.get("invuln")) - delta))
 	actor.set("last_damage", float(actor.get("last_damage")) + delta)
@@ -992,41 +1180,17 @@ func _update_team_actor(actor: Node3D, delta: float) -> void:
 		actor.set("last_damage", 0.4)
 	else:
 		actor.set("ink_damage", maxf(0.0, suffered - delta * 30.0))
-	if float(actor.get("last_damage")) > float(config["regenDelay"]):
-		actor.set("health", minf(float(config["hp"]), actor_health(actor) + float(config["regenRate"]) * delta))
+	if float(actor.get("last_damage")) > perks.regen_delay(actor,float(config["regenDelay"])):
+		actor.set("health", minf(actor_max_health(actor), actor_health(actor) + perks.regen_rate(actor,float(config["regenRate"])) * delta))
 	bot_painting = true
-	actor.call("tick", delta)
+	painting_actor = actor
+	if not bool(bot_specials.call("busy",actor)):
+		actor.call("tick",delta)
+	painting_actor = null
 	bot_painting = false
 
 
 func _build_team_ui(layer: Node) -> void:
-	setup_match_options = HBoxContainer.new()
-	setup_match_options.add_theme_constant_override("separation", 16)
-	menu_panel.add_child(setup_match_options)
-	map_select = OptionButton.new()
-	map_select.add_item("潮水码头 · Tidewater")
-	map_select.add_item("海藻工坊 · Kelpline")
-	map_select.select(1 if MatchSetup.map_id == "kelpline" else 0)
-	map_select.item_selected.connect(_change_map)
-	setup_match_options.add_child(map_select)
-	mode_select = OptionButton.new()
-	mode_select.add_item("5 对 5 · 团队涂地")
-	mode_select.add_item("1 对 1 · 快速练习")
-	mode_select.select(0 if team_mode() else 1)
-	mode_select.item_selected.connect(_change_mode)
-	setup_match_options.add_child(mode_select)
-	style_select = OptionButton.new()
-	for text in ["珊瑚短发", "触须长发", "海风侧发", "潮汐束发"]:
-		style_select.add_item(text)
-	style_select.select(MatchSetup.style_index)
-	style_select.item_selected.connect(_change_style)
-	setup_match_options.add_child(style_select)
-	start_button = Button.new()
-	start_button.text = "开始对局  ↵"
-	start_button.custom_minimum_size = Vector2(130.0, 44.0)
-	start_button.add_theme_stylebox_override("normal", _ui_style(orange_color.darkened(0.4), orange_color, 2, 12))
-	start_button.pressed.connect(_begin_intro)
-	setup_match_options.add_child(start_button)
 	minimap = Control.new()
 	minimap.name = "TurfMinimap"
 	minimap.set_script(preload("res://turf_minimap.gd"))
@@ -1066,7 +1230,7 @@ func _build_team_ui(layer: Node) -> void:
 	pause_settings_button.pressed.connect(_open_settings)
 	rows.add_child(pause_settings_button)
 	var back := Button.new()
-	back.text = "返回赛前菜单"
+	back.text = "返回主菜单"
 	back.pressed.connect(_reload_setup)
 	rows.add_child(back)
 	scoreboard_panel = _hud_panel(layer, "TeamRoster")
@@ -1085,36 +1249,15 @@ func _build_team_ui(layer: Node) -> void:
 	result_actions = HBoxContainer.new()
 	result_actions.add_theme_constant_override("separation",12)
 	result_panel.add_child(result_actions)
-	for text in ["再开一局", "退出游戏"]:
+	for text in ["返回主菜单", "退出游戏"]:
 		var button := Button.new()
 		button.text = text
 		button.custom_minimum_size = Vector2(140,38)
-		if text == "再开一局":
+		if text == "返回主菜单":
 			button.pressed.connect(_reload_setup)
 		else:
 			button.pressed.connect(get_tree().quit)
 		result_actions.add_child(button)
-
-
-func _change_map(index: int) -> void:
-	if phase != "setup":
-		return
-	MatchSetup.map_id = "tidewater" if index == 0 else "kelpline"
-	_reload_setup()
-
-
-func _change_mode(index: int) -> void:
-	if phase != "setup":
-		return
-	MatchSetup.team_size = 5 if index == 0 else 1
-	_reload_setup()
-
-
-func _change_style(index: int) -> void:
-	if phase != "setup":
-		return
-	MatchSetup.style_index = clampi(index,0,3)
-	_reload_setup()
 
 
 func _layout_team_ui(view_size: Vector2) -> void:
@@ -1135,7 +1278,7 @@ func _layout_team_ui(view_size: Vector2) -> void:
 	for index in roster_rows.size():
 		roster_rows[index].position = Vector2(roster_x,58.0+index*(scoreboard_panel.size.y-78.0)/10.0)
 		roster_rows[index].size = Vector2(row_width,30.0)
-	settings_panel.size = Vector2(minf(540.0, view_size.x - 24.0), 460.0)
+	settings_panel.size = Vector2(minf(540.0, view_size.x - 24.0), minf(580.0,view_size.y-24.0))
 	settings_panel.position = (view_size - settings_panel.size) * 0.5
 	result_actions.position = Vector2((result_panel.size.x - 292.0) * 0.5,result_panel.size.y - 45.0)
 
@@ -1151,9 +1294,9 @@ func _update_team_ui() -> void:
 	feed_label.visible = phase == "playing" and feed_time > 0.0
 	feed_label.text = feed_text
 	pause_panel.visible = phase == "playing" and paused and player_respawn <= 0.0 and not settings_panel.visible
-	setup_settings_button.visible = phase == "setup" and not settings_panel.visible
 	result_actions.visible = phase == "results"
 	scoreboard_panel.visible = phase == "playing" and Input.is_key_pressed(KEY_TAB) and not settings_panel.visible and not paused
+	scoreboard_panel.visible = scoreboard_panel.visible and player_respawn<=0.0
 	var roster := [[],[]]
 	for actor in all_actors():
 		roster[actor_team(actor)].append(actor)
@@ -1169,10 +1312,6 @@ func _update_team_ui() -> void:
 
 
 func _build_settings_ui(parent: Node) -> void:
-	setup_settings_button = Button.new()
-	setup_settings_button.text = "设置"
-	setup_settings_button.pressed.connect(_open_settings)
-	setup_match_options.add_child(setup_settings_button)
 	settings_panel = Panel.new()
 	settings_panel.set_script(SettingsPanel)
 	parent.add_child(settings_panel)
@@ -1181,21 +1320,127 @@ func _build_settings_ui(parent: Node) -> void:
 
 
 func _open_settings() -> void:
-	if phase != "setup" and not (phase == "playing" and paused and player_respawn <= 0.0):
+	if phase not in ["home","setup"] and not (phase == "playing" and paused and player_respawn <= 0.0):
 		return
 	settings_panel.call("open_with", settings, settings_path)
 	_update_hud()
 
 
 func _on_settings_saved() -> void:
+	if sound != null:
+		sound.call("apply_settings",settings)
 	settings.call("apply_to", $World/Walker)
 	_layout_hud()
 	_update_hud()
 
 
+func _assign_names() -> void:
+	var pool: Array = $Combat.get("weapon_data")["bots"]["names"].duplicate()
+	for i in range(pool.size()-1,0,-1):
+		var j := appearance_rng.randi_range(0,i)
+		var value: String = pool[i]
+		pool[i] = pool[j]
+		pool[j] = value
+	var index := 0
+	for actor in all_actors():
+		actor.set_meta("actor_name",MatchSetup.player_name if actor==$World/Walker else pool[index])
+		if actor!=$World/Walker:
+			index += 1
+	var label := Label3D.new()
+	label.name = "ActorIdentity"
+	label.text = "#01 "+MatchSetup.player_name
+	label.font = load("res://assets/fonts/TitanOne-latin.woff2") as Font
+	label.font_size = 28
+	label.pixel_size = 0.005
+	label.outline_size = 8
+	label.position.y = 2.0
+	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	$World/Walker.add_child(label)
+
+
+func actor_name(actor: Node3D) -> String:
+	return String(actor.get_meta("actor_name","Wave" if actor==$World/Walker else "Ink"))
+
+
 func _actor_name(actor: Node3D) -> String:
-	if actor == $World/Walker:
-		return "你"
-	if actor == $Bot:
-		return "对手 1"
-	return "%s %d" % ["队友" if actor_team(actor) == 0 else "对手",int(actor.get("slot")) + (1 if actor_team(actor) == 1 else 0)]
+	return "#%02d %s%s" % [actor_id(actor),actor_name(actor),"（你）" if actor==$World/Walker else ""]
+
+
+func _attacker_description(actor: Node3D, weapon_id: String = "") -> String:
+	if not is_instance_valid(actor):
+		return "未知来源"
+	if weapon_id.is_empty():
+		weapon_id = selected_weapon if actor == $World/Walker else String(actor.get("weapon_id"))
+	var names := {"bomb":"炸弹","slam":"砸地","storm":"墨雨"}
+	var weapon := String(names.get(weapon_id,_weapon_text(weapon_id)))
+	return "%s · %s" % [_actor_name(actor),weapon]
+
+
+func heal_actor(actor: Node3D, amount: float) -> void:
+	var hp := minf(actor_max_health(actor),actor_health(actor)+amount)
+	if actor==$World/Walker:
+		player_health = hp
+	elif actor==$Bot:
+		bot_health = hp
+	else:
+		actor.set("health",hp)
+	if actor!=$World/Walker:
+		actor.call("_update_health_visual")
+
+
+func _track_damage(victim: Node3D, amount: float, attacker: Node3D, region: String = "", weapon:String="") -> void:
+	if attacker==null or not is_instance_valid(attacker) or actor_team(attacker)==actor_team(victim):
+		return
+	$Combat.get("feedback").call("pop_damage",victim,minf(amount,actor_health(victim)),actor_team(attacker),region)
+	var stats: Dictionary = attacker.get_meta("match_stats",{})
+	stats["damage"] = float(stats.get("damage",0))+minf(amount,actor_health(victim))
+	attacker.set_meta("match_stats",stats)
+	perks.on_hit(attacker,minf(amount,actor_health(victim)),weapon)
+
+
+func _track_splat(victim: Node3D, attacker: Node3D) -> void:
+	var stats: Dictionary = victim.get_meta("match_stats",{})
+	stats["deaths"] = int(stats.get("deaths",0))+1
+	victim.set_meta("match_stats",stats)
+	if attacker!=null and is_instance_valid(attacker) and actor_team(attacker)!=actor_team(victim):
+		var credited: Dictionary = attacker.get_meta("match_stats",{})
+		credited["kills"] = int(credited.get("kills",0))+1
+		attacker.set_meta("match_stats",credited)
+
+
+func actor_max_health(actor: Node3D) -> float:
+	return float(perks.max_health(actor)) if perks!=null else float($Combat.get("weapon_data")["player"]["hp"])
+
+func actor_ink_max(actor: Node3D) -> float:
+	return float(perks.max_ink(actor)) if perks!=null else float($Combat.get("weapon_data")["player"]["inkMax"])
+
+func _record_damage(amount: float, source: Node3D, weapon: String, region: String = "", hit_distance: float = -1) -> void:
+	var now := Time.get_ticks_msec()
+	var cause := _attacker_description(source,weapon) if source!=null else ("敌方墨面" if weapon=="enemy_ink" else "环境")
+	var label := cause
+	if not region.is_empty(): label += " · "+region
+	if hit_distance>=0: label += " / %.1fm" % hit_distance
+	var actual := minf(amount,player_health)
+	damage_history.append({"time":now,"source":label,"cause":cause,"amount":actual})
+	while damage_history.size()>16: damage_history.pop_front()
+	last_damage_text = "受击 −%.0f · %s" % [actual,label]
+	last_damage_until = now+1600
+
+func damage_summary() -> String:
+	var totals := {}
+	for hit in damage_history:
+		if Time.get_ticks_msec()-int(hit["time"])<=3000:
+			var cause: String=hit.get("cause",hit["source"])
+			totals[cause] = float(totals.get(cause,0))+float(hit["amount"])
+	var parts := PackedStringArray()
+	var causes: Array=totals.keys()
+	causes.sort_custom(func(a,b):return totals[a]>totals[b])
+	for source in causes:
+		if parts.size()<3: parts.append("%s −%.0f" % [source,totals[source]])
+	return " / ".join(parts)
+
+func _modified_damage(amount: float,victim: Node3D,source: Node3D,weapon: String) -> float:
+	var result: float = amount*float(perks.outgoing(source))
+	# Precision and low-health boosts cannot silently turn a normal shot into a full-HP one-shot.
+	if weapon_order.has(weapon): result=minf(result,115.0)
+	return result*perks.incoming(victim,weapon)

@@ -69,8 +69,13 @@ func _create_face(face_id: int) -> void:
 	face_mesh_count += 1
 
 
+static func face_offset(face: Dictionary) -> float:
+	# Wall stickers sit 12 mm above the wall; the wet ink must sit above them.
+	return 0.024 if absf(float(face["n"][1])) < 0.45 else 0.012
+
+
 static func _face_mesh(face: Dictionary) -> ArrayMesh:
-	var origin := _vector(face["origin"]) + _vector(face["n"]) * 0.012
+	var origin := _vector(face["origin"]) + _vector(face["n"]) * face_offset(face)
 	var horizontal := _vector(face["u"]) * float(face["su"])
 	var vertical := _vector(face["v"]) * float(face["sv"])
 	var arrays := []
