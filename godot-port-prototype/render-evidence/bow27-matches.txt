@@ -1,0 +1,13 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+AUDIT: case 0 start coral_market seed=701
+AUDIT: case 0 finished; coverage=[0.20477638507751, 0.23253356078024] cumulative_turf=[1778.70066466055, 1811.09023563755] wall=7.34s
+AUDIT: case 1 start coral_market seed=1709
+AUDIT: case 1 finished; coverage=[0.15955277015501, 0.22724912853223] cumulative_turf=[1739.07356687182, 1910.31713009475] wall=7.95s
+AUDIT: case 2 start viaduct seed=701
+AUDIT: case 2 finished; coverage=[0.19517445222643, 0.22137441367346] cumulative_turf=[1493.10420275851, 1564.5114612255] wall=8.16s
+AUDIT: case 3 start viaduct seed=1709
+AUDIT: case 3 finished; coverage=[0.21004947632205, 0.22331812632526] cumulative_turf=[1616.38942702472, 1647.88685184636] wall=7.78s
+PASS: 4 complete 90-second scene simulations; fixed kits, natural deaths/results, exact individual-to-team turf accounting; res://render-evidence/bow27-matches.json

@@ -1,0 +1,9 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+body triangles kept 5636 / old head removed 12048
+chin/collar vertical gap 0.03274995088577..0.03643745183945; neck/collar distance 0.0068599912338..0.01053264550865
+body triangles kept 5636 / old head removed 12048
+chin/collar vertical gap 0.03274995088577..0.03643745183945; neck/collar distance 0.0068599912338..0.01053264550865
+PASS: scripts parse; original 87-bone body + 31-bone/14-strand head; idle/run/shoot, both teams; eight isolated tee styles

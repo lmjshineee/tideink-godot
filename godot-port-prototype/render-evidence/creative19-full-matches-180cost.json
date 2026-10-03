@@ -1,0 +1,372 @@
+{
+  "fps_cap": 30,
+  "kind": "native automated input replay; human acceptance and temperature unmeasured",
+  "render_scale": 0.75,
+  "rounds": [
+    {
+      "average_fps": 29.9669420150904,
+      "bot_height_max": {
+        "2": 3.15714001655579
+      },
+      "bots": [
+        {
+          "id": 2,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Sprinkle",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 355.034538043812
+          },
+          "weapon": "dualie"
+        }
+      ],
+      "counter_absorbed_projectiles": 0,
+      "counter_casts_all": 0,
+      "counter_casts_player": 0,
+      "counter_retaliations": 0,
+      "dive_frames": 126,
+      "duration": 90.0,
+      "frames": 2668,
+      "fx_events": {
+        "dive": 15,
+        "hit": 87,
+        "jump": 14,
+        "muzzle": 204,
+        "splat": 2
+      },
+      "geometry": "prism_gallery",
+      "height_max": 7.61833381652832,
+      "height_min": 1.64211320877075,
+      "jump_inputs": 14,
+      "last_damage_history": [],
+      "map": "prism_gallery",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "mist_casts_all": 5,
+      "natural_deaths": 0,
+      "observed_enemy_frames": 0,
+      "p95_frame_ms": 35.103,
+      "p99_equivalent_fps": 27.0936627922729,
+      "p99_frame_ms": 36.909,
+      "perk": "balanced",
+      "play_wall_seconds": 90.028155,
+      "player_recall_count": 0,
+      "player_roll_count": 0,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "sonar_deploys": 0,
+      "tagged_enemy_frames": 0,
+      "team_size": 1,
+      "travel_m": 304.393785493332,
+      "turf_counts": [
+        2272,
+        4578
+      ],
+      "weapons_used": [
+        "canopy"
+      ]
+    },
+    {
+      "average_fps": 29.964382143088,
+      "bot_height_max": {
+        "10": 3.00084090232849,
+        "2": 2.50123858451843,
+        "3": 3.03277897834778,
+        "4": 3.03852200508118,
+        "5": 2.04999995231628,
+        "6": 2.04999995231628,
+        "7": 5.02320194244385,
+        "8": 5.55618333816528,
+        "9": 2.25237202644348
+      },
+      "bots": [
+        {
+          "id": 6,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Nori",
+          "perk": "leech",
+          "special_casts": 1,
+          "stats": {
+            "damage": 820.729148891194,
+            "deaths": 2,
+            "kills": 7,
+            "specials": 1,
+            "turf": 420.868095457332
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 2,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Drip",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 397.0,
+            "deaths": 5,
+            "kills": 1,
+            "turf": 314.670126166704
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 3,
+          "item": "sonar",
+          "max_hp": 120.0,
+          "name": "Pip",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 400.630955347172,
+            "deaths": 5,
+            "kills": 3,
+            "turf": 358.977293658142
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 4,
+          "item": "sonar",
+          "max_hp": 120.0,
+          "name": "Marlo",
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 281.358118815104,
+            "deaths": 5,
+            "kills": 4,
+            "turf": 394.251951002784
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 5,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Loop",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 596.515670994701,
+            "deaths": 5,
+            "kills": 3,
+            "turf": 351.09607046421
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 7,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Blotch",
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 372.54572462725,
+            "deaths": 2,
+            "kills": 4,
+            "turf": 301.41287289623
+          },
+          "weapon": "disc"
+        },
+        {
+          "id": 8,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Tako",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 412.866666666667,
+            "deaths": 2,
+            "kills": 3,
+            "turf": 281.7697413065
+          },
+          "weapon": "disc"
+        },
+        {
+          "id": 9,
+          "item": "sonar",
+          "max_hp": 120.0,
+          "name": "Juno",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 594.241793148222,
+            "deaths": 3,
+            "kills": 5,
+            "turf": 262.446611495946
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 10,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Squiddo",
+          "perk": "balanced",
+          "special_casts": 1,
+          "stats": {
+            "damage": 413.733333333333,
+            "deaths": 2,
+            "kills": 3,
+            "specials": 1,
+            "turf": 369.25401502756
+          },
+          "weapon": "canopy"
+        }
+      ],
+      "counter_absorbed_projectiles": 0,
+      "counter_casts_all": 0,
+      "counter_casts_player": 0,
+      "counter_retaliations": 0,
+      "dive_frames": 50,
+      "duration": 90.0,
+      "frames": 2668,
+      "fx_events": {
+        "dive": 17,
+        "hit": 323,
+        "jump": 18,
+        "muzzle": 364,
+        "splat": 47
+      },
+      "geometry": "terrace_garden",
+      "height_max": 7.2772216796875,
+      "height_min": 0.0,
+      "jump_inputs": 15,
+      "last_damage_history": [
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 179640
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 179906
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 180273
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 181006
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 181273
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 181540
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 183773
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 184040
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 184306
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 184573
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 184840
+        },
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 185106
+        },
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 185373
+        },
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 185640
+        },
+        {
+          "amount": 5.33333333333332,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 187973
+        },
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 188240
+        }
+      ],
+      "map": "terrace_garden",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "mist_casts_all": 8,
+      "natural_deaths": 2,
+      "observed_enemy_frames": 4956,
+      "p95_frame_ms": 35.719,
+      "p99_equivalent_fps": 24.4726151436542,
+      "p99_frame_ms": 40.862,
+      "perk": "balanced",
+      "play_wall_seconds": 90.029288,
+      "player_recall_count": 0,
+      "player_roll_count": 0,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "sonar_deploys": 0,
+      "tagged_enemy_frames": 180,
+      "team_size": 5,
+      "travel_m": 303.666480472137,
+      "turf_counts": [
+        11218,
+        13386
+      ],
+      "weapons_used": [
+        "canopy"
+      ]
+    }
+  ]
+}

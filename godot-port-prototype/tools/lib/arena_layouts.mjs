@@ -11,16 +11,44 @@ function arena(id,w,l,ground,extraSingle,extraHalf,dressing){
  decor:{lamps:[[-w+1,-l+2],[-w+1,-12],[w-1,-12]],palms:[],flags:[[-6,ground+2,-l+3],[6,ground+2,-l+3]]},
  dressing:props([{type:'banner',pos:[-7.5,ground+2,-l+8],team:0},{type:'speaker',pos:[6,ground+2,-l+3]},{type:'bunting',pos:[-7,ground+5,-l+1],length:14,team:0},...dressing])};
 }
-export const MARKET=arena('coral_market',22,38,0,[B(-3,3,0,1.1,-2,2,{pattern:PATTERN.wood,color:'#c9a27c'})],[
- B(-14,-9,0,3,-17,-12,{color:'#dcc48e',pattern:PATTERN.concrete}),B(9,14,0,2.6,-9,-4,{color:'#8fb3b1',pattern:PATTERN.tiles}),
- B(-20,-15,0,1.4,-5,8,{color:'#b3abd0'}),R([-17.5,0,-11],[-17.5,1.4,-5],3.8),B(3,5,0,1.1,-19,-17,{pattern:PATTERN.wood}),B(-5,-3,0,1.0,-10,-8,{pattern:PATTERN.wood})
-],[{type:'awning',pos:[-8.85,2.6,-14.5],rotY:Math.PI/2,width:5},{type:'vending',pos:[-8.4,0,-17],rotY:Math.PI/2},{type:'sign',pos:[-11.5,3.1,-12],width:4,variant:1},{type:'barrel',pos:[18,0,-18]},{type:'bench',pos:[19,0,-9],rotY:-Math.PI/2},{type:'stringlights',pos:[-18,0,-21],length:36,height:5,sag:1}]);
+// Market: staggered stalls interrupt the ground lane; a one-storey rooftop
+// flank enters from the back and exits sideways into the centre. No generic
+// centre mound: close combat and roof-to-alley crossfire are the defining play.
+export const MARKET=arena('coral_market',22,38,0,[
+ B(-3.2,-.6,0,2.2,-4.4,-1.5,{pattern:PATTERN.wood,color:'#b98f66'}),
+ B(.6,3.2,0,2.2,1.5,4.4,{pattern:PATTERN.wood,color:'#b98f66'})
+],[
+ B(-18,-9,0,3.4,-16,-6,{color:'#dcc48e',pattern:PATTERN.concrete}),
+ R([-13.5,0,-28],[-13.5,3.4,-16],4.4,{color:'#dcc48e'}),
+ R([-3,0,-6],[-9,3.4,-6],4,{color:'#dcc48e'}),
+ B(-16,-14,3.4,4.4,-11,-9,{pattern:PATTERN.metalpanel,color:'#68989b'}),
+ B(6,11,0,2.2,-22,-18,{color:'#8fb3b1',pattern:PATTERN.tiles}),
+ B(12,17,0,1.25,-11,-7,{pattern:PATTERN.wood,color:'#b98f66'}),
+ B(3,5,0,1.1,-15,-13,{pattern:PATTERN.wood,color:'#dc8760'})
+],[{type:'awning',pos:[-8.85,2.9,-13],rotY:Math.PI/2,width:6},{type:'vending',pos:[-8.4,0,-16],rotY:Math.PI/2},{type:'sign',pos:[-13.5,3.55,-6],width:6,variant:1},{type:'awning',pos:[5.85,2,-20],rotY:-Math.PI/2,width:4},{type:'barrel',pos:[19,0,-20]},{type:'bench',pos:[19,0,-9],rotY:-Math.PI/2},{type:'stringlights',pos:[-18,0,-21],length:36,height:5.7,sag:.65}]);
+Object.assign(MARKET.single[0],{pattern:PATTERN.pavers,color:'#c0b3a1'});
 export const GALLERY=arena('prism_gallery',25,36,0,[B(-6,6,0,3,-8,8),B(-11,11,5.45,6,-6,6,{color:'#b3abd0',pattern:PATTERN.glasstile}),B(-1.2,1.2,6,7.2,-1.2,1.2,{color:'#8fb3b1',pattern:PATTERN.glasstile})],[
  R([0,0,-18],[0,3,-8],4.5),B(-11,-6,0,3,-22,-14,{color:'#ece4d4'}),R([-8.5,0,-30],[-8.5,3,-22],4),R([-8.5,3,-14],[-8.5,6,-6],4),B(-19,-11,0,.8,-18,-8,{color:'#ece4d4'}),R([-15,0,-23],[-15,.8,-18],4),B(8,9,0,2.8,-18,-8,{color:'#8fb3b1',pattern:PATTERN.concrete}),B(13,18,0,1.2,-5,1,{color:'#dcc48e'}),B(-8,-6.5,0,1.3,-23,-21,{pattern:PATTERN.wood})
 ],[{type:'planter',pos:[20,0,-13],variant:1},{type:'bench',pos:[-22,0,-15],rotY:Math.PI/2},{type:'poster',pos:[8,1.5,-13],rotY:-Math.PI/2,count:3,variant:8},{type:'sign',pos:[0,3.4,-35.3],width:7,variant:0},{type:'vending',pos:[20,0,-23],rotY:-Math.PI/2}]);
-export const BRIDGE=arena('viaduct',18,46,0,[B(-8,8,0,1,-30,30,{pattern:PATTERN.asphalt,color:'#9da3a9'}),B(-7,7,1,2.8,-8,8,{pattern:PATTERN.metalpanel,color:'#b9c5d0'})],[
- R([0,0,-34],[0,1,-30],7),R([0,1,-16],[0,2.8,-8],5),B(-8.6,-8,1,1.8,-26,-12,{pattern:PATTERN.metal,color:'#5f7592'}),B(11,16,0,1.3,-21,-10,{pattern:PATTERN.metalpanel,color:'#58668e'}),R([13.5,0,-27],[13.5,1.3,-21],4),B(-15,-13,0,1.2,-17,-15,{pattern:PATTERN.container,color:'#c47a5e'}),B(2,4,1,2.1,-22,-20,{pattern:PATTERN.wood})
-],[{type:'lightpole',pos:[-16.7,0,-22]},{type:'pipes',pos:[-16,0,-10],length:8,rotY:Math.PI/2},{type:'barrel',pos:[15,0,-5]},{type:'sign',pos:[0,3.5,-45.3],width:7,variant:1},{type:'cone',pos:[6,1,-19]},{type:'bunting',pos:[-8,5,-8],length:16,team:0}]);
+// Viaduct: a genuinely hollow six-metre deck. The protected ground shortcut
+// trades away sight of the bridge; exposed side ramps let a flank retake it.
+export const BRIDGE=arena('viaduct',18,46,0,[
+ B(-6,6,5.5,6,-10,10,{pattern:PATTERN.asphalt,color:'#778694'}),
+ ...[-1,1].flatMap(s=>[B(-6,-4.6,0,5.5,s*8-1,s*8+1,{pattern:PATTERN.concrete,color:'#b2bfca'}),B(4.6,6,0,5.5,s*8-1,s*8+1,{pattern:PATTERN.concrete,color:'#b2bfca'})]),
+ B(-1.1,1.1,0,1.4,-1,1,{pattern:PATTERN.container,color:'#c47a5e'})
+],[
+ R([0,2,-36],[0,3,-24],6),B(-4,4,0,3,-24,-20,{pattern:PATTERN.asphalt,color:'#778694'}),
+ R([0,3,-20],[0,6,-10],5.5,{color:'#a0b1c1'}),
+ R([12,0,-30],[12,6,-10],4.2,{color:'#a0b1c1'}),
+ B(6,14,5.5,6,-10,-5,{pattern:PATTERN.metalpanel,color:'#849aaf'}),
+ B(-6,-5.4,6,7.1,-6,0,{pattern:PATTERN.metalpanel,color:'#5f7592'}),
+ B(.7,3,6,6.9,-4.8,-3.6,{pattern:PATTERN.metalpanel,color:'#5f7592'}),
+ B(-15,-13,0,1.2,-22,-20,{pattern:PATTERN.container,color:'#c47a5e'}),
+ B(9,11,0,1.4,-27,-24,{pattern:PATTERN.container,color:'#5f7592'})
+],[{type:'lightpole',pos:[-16.7,0,-22]},{type:'pipes',pos:[-16,0,-10],length:8,rotY:Math.PI/2},{type:'barrel',pos:[15,0,-16]},{type:'sign',pos:[0,3.5,-45.3],width:7,variant:1},{type:'cone',pos:[3,3,-22]},{type:'bunting',pos:[-6,8,-8],length:12,team:0}]);
+Object.assign(BRIDGE.single[0],{pattern:PATTERN.concrete,color:'#b2b8be'});
+// Centre access now leaves the 2m spawn apron directly for the long approach.
+BRIDGE.half.splice(2,1);
 function variant(source,index){
  const map=structuredClone(source);map.id=`${source.id}_v${index}`;map.layout=source.id;
  const cover=index===1?[B(-4,-2,0,1.0,-19,-17,{pattern:PATTERN.wood,color:'#c9a27c'}),B(2,4,0,1.0,-12,-10,{pattern:PATTERN.wood,color:'#c9a27c'})]:[B(-7,-6,0,.85,-11,-7,{pattern:PATTERN.concrete,color:'#b3abd0'}),B(10,12,0,1.1,-25,-23,{pattern:PATTERN.wood,color:'#c9a27c'})];

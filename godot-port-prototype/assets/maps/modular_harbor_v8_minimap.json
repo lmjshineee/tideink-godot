@@ -14,7 +14,7 @@
     "godot-port-prototype/tools/export_minimap.mjs": "a0953475bd95db3eb6d5f02690a7cfb1844fcf86bce813b341f0d8f0bcf40e85",
     "godot-port-prototype/assets/maps/tidewater_surfaces.json": "715604cc67e9aebc755fea9b6c49458c8fc067b178965c1a5d6267d1c0c227c3",
     "godot-port-prototype/assets/maps/kelpline_surfaces.json": "4d6d5aa060ed312ff3d3b148f19c6c289e855f9145d61d04cd5731e6d488b8a4",
-    "godot-port-prototype/tools/lib/arena_layouts.mjs": "95f953267eb0155cc867e637826319ec09dfbb73b8f60b039c7965ceb8f7a618"
+    "godot-port-prototype/tools/lib/arena_layouts.mjs": "7ed50280e5c827d1519d33d7f54dc6ed26dd505c9b86b1ee72448c3b0f29d734"
   },
   "outputs": {
     "modular_harbor_v8_minimap.png": "bf15e9b440b86f85e5c2129cb6c9404fd5d83fc32da52d0093203498e525e91b",

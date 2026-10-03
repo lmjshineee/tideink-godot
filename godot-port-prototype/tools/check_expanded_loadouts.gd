@@ -11,7 +11,7 @@ func _run() -> void:
 	var walker:CharacterBody3D=game.get_node("World/Walker");walker.set_physics_process(false)
 	var combat:Node3D=game.get_node("Combat");var bot:Node3D=game.get_node("Bot")
 	for actor in game.all_actors():game.perks.choices[actor.get_instance_id()]="balanced"
-	expect(game.weapon_order.size()==7 and game.items.KINDS.size()==7 and game.perks.ORDER.size()==12,"expanded catalogs reach actual match rules")
+	expect(game.weapon_order.size()==8 and game.items.KINDS.size()==9 and game.perks.ORDER.size()==8,"expanded catalogs reach actual match rules")
 	for id in game.weapon_order:
 		game.weapon_buttons[id].pressed.emit();var body:Node3D=walker.get_node("Body")
 		body._physics_process(.1)
@@ -56,5 +56,5 @@ func _run() -> void:
 	game.items._advance_fields(7);expect(game.items.fields.is_empty() and walker.external_speed_factor==1,"field expiry removes visuals and movement effect")
 	expect(not game.perks.select_player("focus"),"new talents stay locked in match")
 	game.queue_free();await process_frame
-	if failures.is_empty():print("PASS: seven weapon models and actual attacks, captured bottle rules, team/layer fields, cooldown retention and four locked talent effects")
+	if failures.is_empty():print("PASS: eight active weapon models and retained legacy and actual attacks, captured bottle rules, team/layer fields, cooldown retention and four locked talent effects")
 	quit(0 if failures.is_empty() else 1)

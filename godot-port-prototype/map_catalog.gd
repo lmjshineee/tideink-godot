@@ -2,7 +2,7 @@ extends RefCounted
 const Setup:=preload("res://match_setup.gd")
 const IDS:=["tidewater","kelpline","coral_market","prism_gallery","viaduct","modular_harbor","terrace_garden"]
 const NAMES:=["潮水码头","海藻工坊","珊瑚集市","回廊展馆","双层高架","模块港湾","阶梯花园"]
-const BLURBS:=["港口 / 高台 / 双侧路线","船坞 / 栅格桥 / 高低差","摊位掩体 / 三路推进","地面 / 3m 回廊 / 6m 上层","桥面高点 / 两侧下层","中央区 × 侧路 / 9 种模块组合","花园回廊 / 3m 中层 / 6m 上层"]
+const BLURBS:=["港口 / 高台 / 双侧路线","船坞 / 栅格桥 / 高低差","交错摊位 / 3.4m 屋顶绕侧","地面 / 3m 回廊 / 6m 上层","6m 悬桥 / 桥下穿行 / 侧坡夹击","中央区 × 侧路 / 9 种模块组合","花园回廊 / 3m 中层 / 6m 上层"]
 const VARIANTS:={"tidewater":3,"kelpline":3,"modular_harbor":9}
 static func supports_random(id:String) -> bool:return VARIANTS.has(id)
 static func variant_count(id:String) -> int:return int(VARIANTS.get(id,1))

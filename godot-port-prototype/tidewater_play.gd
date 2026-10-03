@@ -111,12 +111,16 @@ var _fire_pressed_pending := false
 var _sub_pressed_pending := false
 var deployment: Node3D
 var items: Node3D
+var intel: Node3D
 var tactics: Control
 var respawn_ready := false
 var frontend: Control
 var appearance_rng := RandomNumberGenerator.new()
 var equipment_rng := RandomNumberGenerator.new()
+var mobility: Node
 var perks: RefCounted
+var comeback: Node
+var wings: Node3D
 var damage_history: Array[Dictionary] = []
 var last_damage_text := ""
 var last_damage_until := 0
@@ -141,6 +145,8 @@ func _ready() -> void:
 	blue_color = TeamPalette.color(1)
 	team_names = [TeamPalette.display_name(0), TeamPalette.display_name(1)]
 	_set_pointer_lock(false)
+	wings = preload("res://tidewater_wings.gd").new(); add_child(wings); wings.setup(self); $World/Walker.wings = wings
+	comeback = preload("res://tidewater_comeback.gd").new(); add_child(comeback); comeback.setup(self)
 	settings = Settings.new()
 	settings.call("load_from", settings_path)
 	settings.call("apply_to", $World/Walker)
@@ -189,9 +195,15 @@ func _ready() -> void:
 		if actor != $World/Walker:
 			actor.set("health",actor_max_health(actor))
 			actor.call("_update_health_visual")
+	mobility = preload("res://tidewater_mobility.gd").new()
+	add_child(mobility)
+	mobility.setup(self)
 	deployment = preload("res://tidewater_deployment.gd").new()
 	add_child(deployment)
 	deployment.call("setup",self)
+	intel = preload("res://tidewater_intel.gd").new()
+	add_child(intel)
+	intel.setup(self)
 	items = preload("res://tidewater_items.gd").new()
 	add_child(items)
 	items.call("setup",self)
@@ -241,8 +253,9 @@ func _input(event: InputEvent) -> void:
 				launch_respawn()
 			elif event.keycode == KEY_R:
 				randomize_player_kit()
-			elif event.keycode in [KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_6,KEY_7]:
-				_choose_player_weapon(String(weapon_order[event.keycode-KEY_1]))
+			elif event.keycode in [KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_6,KEY_7,KEY_8]:
+				var slot: int = event.keycode - KEY_1
+				if slot < weapon_order.size(): _choose_player_weapon(String(weapon_order[slot]))
 		return
 	if paused and event is InputEventMouseButton and pause_panel.get_global_rect().has_point(event.position / hud_root.scale.x):
 		return
@@ -256,7 +269,7 @@ func _input(event: InputEvent) -> void:
 	if not (event is InputEventKey) or not event.pressed or event.echo:
 		return
 	match event.keycode:
-		KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7:
+		KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8:
 			# Explicit type: event is statically an InputEvent, so keycode is dynamic and
 			# `:=` cannot infer (this is what broke the whole suite once).
 			var slot: int = event.keycode - KEY_1
@@ -346,6 +359,7 @@ func _begin_intro() -> void:
 func _start_round() -> void:
 	perks.locked = true
 	phase = "playing"
+	comeback.reset()
 	paused = false
 	phase_time = 0.0
 	round_left = round_time
@@ -402,6 +416,10 @@ func _physics_process(delta: float) -> void:
 			return
 	if paused:
 		return
+	comeback.tick(delta)
+	wings.tick(delta)
+	mobility.tick(delta)
+	perks.tick(delta)
 	items.call("tick",delta)
 	bot_specials.call("tick",delta)
 	round_left = maxf(0.0, round_left - delta)
@@ -421,12 +439,13 @@ func _physics_process(delta: float) -> void:
 	# The walker owns the squid/fire rule ("most recent press wins") and the buffered
 	# pop-out shot, so the controller only feeds it raw key state. Holding squid and
 	# pressing fire used to be silently ignored, and a tap just before surfacing was lost.
-	walker.get_node("Body").call("set_aim", alive and (firing or bool($Combat.get("charging")) or float($Combat.get("firing_time")) > 0.0) and not bool(walker.get("squid_form")))
-	var firing_pose := bool($Combat.get("rolling")) or float($Combat.get("firing_time")) > 0.0
+	walker.get_node("Body").call("set_aim", alive and (firing or bool($Combat.get("charging")) or float($Combat.get("firing_time")) > 0.0 or $Combat.counter.busy(walker) or $Combat.rain_arrows.busy(walker)) and not bool(walker.get("squid_form")))
+	var firing_pose: bool = bool($Combat.get("rolling")) or float($Combat.get("firing_time")) > 0.0 or $Combat.counter.busy(walker) or $Combat.rain_arrows.busy(walker)
 	walker.call("update_intent", delta, alive and firing, alive and Input.is_key_pressed(KEY_SHIFT),
 		bool($Combat.call("is_busy")), firing_pose, alive and throwing)
 	if deployment.live_jump:walker.get_node("Body").set_form(true)
 	walker.get_node("Body").call("set_weapon_pose", float(walker.get("camera_pitch")), bool($Combat.get("rolling")))
+	walker.get_node("Body").set_weapon_charge(float($Combat.charge_fraction))
 	var face_config: Dictionary = $Combat.get("weapon_data")["player"]
 	walker.get_node("Body").call("set_expression_state",float($Combat.get("ink_amount"))/actor_ink_max(walker),player_health/actor_max_health(walker),float($Combat.get("charge_fraction")),bool($Combat.call("special_ready")))
 	var squid := bool(walker.get("squid_form"))
@@ -441,11 +460,30 @@ func _physics_process(delta: float) -> void:
 	_update_bot(delta)
 	for teammate in extra_bots:
 		_update_team_actor(teammate, delta)
+	intel.tick(delta)
 	$InkView.call("sync_dirty")
 	_update_hud()
 
 
 func _finish_round() -> void:
+	comeback.reset()
+	intel.clear_all()
+	items.sonar.clear_all()
+	items.mist.clear_all()
+	$Combat.counter.clear_all()
+	$Combat.rain_arrows.clear_all()
+	items.mines.clear_all()
+	items.decoys.clear_all()
+	items.supply.clear_all()
+	wings.clear_all()
+	perks.clear_bursts()
+	items.recall.clear_all()
+	$Combat.bow.clear_all()
+	$Combat.canopy.clear_all()
+	for disc in $Combat.discs.flights: disc.visual.queue_free()
+	$Combat.discs.flights.clear()
+	for w in $Combat.discs.windups.values(): w.visual.queue_free()
+	$Combat.discs.windups.clear()
 	deployment.clear()
 	phase = "finish"
 	phase_time = 0.0
@@ -501,7 +539,7 @@ func _update_turf_display(delta: float) -> void:
 func damage_bot(amount: float, source_actor: Node3D = null, source_weapon: String = "", region: String = "", hit_distance: float = -1) -> void:
 	if phase != "playing" or bot_respawn > 0.0 or amount <= 0.0 or bot_invuln > 0.0:
 		return
-	if bool(bot_specials.call("busy",$Bot)):
+	if bool(bot_specials.call("busy",$Bot)) and String(bot_specials.state($Bot).get("kind", "slam")) == "slam":
 		amount *= 0.25
 	amount = _modified_damage(amount,$Bot,source_actor,source_weapon)
 	amount = float(items.call("absorb",$Bot,amount))
@@ -581,9 +619,10 @@ func _update_player_vitals(delta: float) -> void:
 	var grounded_now := bool(walker.get("grounded"))
 	var on_enemy := grounded_now and int(walker.get("ink_owner")) == 1
 	var submerged := grounded_now and bool(walker.get("squid_form")) and int(walker.get("ink_owner")) == 0
+	var ink_cap: float = perks.ink_hazard_cap(walker,float(player_config["enemyInkDamageCap"]))
 	if on_enemy:
-		if player_ink_damage < float(player_config["enemyInkDamageCap"]) and player_invuln <= 0.0:
-			var damage := minf(float(player_config["enemyInkDps"]) * delta, float(player_config["enemyInkDamageCap"]) - player_ink_damage)
+		if player_ink_damage < ink_cap and player_invuln <= 0.0:
+			var damage := minf(float(player_config["enemyInkDps"]) * perks.ink_hazard(walker) * delta, ink_cap - player_ink_damage)
 			player_ink_damage += damage
 			var hp_before := player_health
 			player_health = maxf(1.0, player_health - damage)
@@ -642,12 +681,12 @@ func randomize_bot_kit(actor: Node3D) -> void:
 	actor.call("select_weapon",weapon)
 	if actor==$Bot:
 		selected_bot_weapon = weapon
-	items.call("equip",actor,items.get("KINDS")[equipment_rng.randi_range(0,2)])
+	items.call("equip",actor,items.get("KINDS")[equipment_rng.randi_range(0, items.KINDS.size() - 1)])
 
 
 func randomize_player_kit() -> void:
 	selected_weapon = weapon_order[equipment_rng.randi_range(0,weapon_order.size()-1)]
-	MatchSetup.selected_item = items.get("KINDS")[equipment_rng.randi_range(0,2)]
+	MatchSetup.selected_item = items.get("KINDS")[equipment_rng.randi_range(0, items.KINDS.size() - 1)]
 	$Combat.call("select_weapon",selected_weapon)
 	items.call("equip",$World/Walker,MatchSetup.selected_item)
 	presentation.call("notify_ability","配装已重摇：%s / %s · 天赋 %s（固定）" % [_weapon_text(selected_weapon),items.LABELS[MatchSetup.selected_item],perks.LABELS[perks.kind($World/Walker)]],2.5)
@@ -691,7 +730,7 @@ func _update_bot(delta: float) -> void:
 	_update_bot_vitals(delta)
 	bot_painting = true
 	painting_actor = bot
-	if not bool(bot_specials.call("busy",bot)):
+	if not bool(bot_specials.call("busy",bot)) or String(bot_specials.state(bot).get("kind","")) in ["absorb_counter","rain_arrows"]:
 		bot.call("tick",delta)
 	painting_actor = null
 	bot_painting = false
@@ -704,9 +743,10 @@ func _update_bot_vitals(delta: float) -> void:
 	bot_invuln = maxf(0.0, bot_invuln - delta)
 	bot_last_damage += delta
 	var on_enemy := int($Bot.call("floor_ink_owner")) == 0
+	var ink_cap: float = perks.ink_hazard_cap($Bot,float(player_config["enemyInkDamageCap"]))
 	if on_enemy:
-		if bot_ink_damage < float(player_config["enemyInkDamageCap"]) and bot_invuln <= 0.0:
-			var damage := minf(float(player_config["enemyInkDps"]) * delta, float(player_config["enemyInkDamageCap"]) - bot_ink_damage)
+		if bot_ink_damage < ink_cap and bot_invuln <= 0.0:
+			var damage := minf(float(player_config["enemyInkDps"]) * perks.ink_hazard($Bot) * delta, ink_cap - bot_ink_damage)
 			bot_ink_damage += damage
 			bot_health = maxf(1.0, bot_health - damage)
 		bot_last_damage = minf(bot_last_damage, 0.4)
@@ -730,6 +770,10 @@ func _build_hud() -> void:
 	timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var number_font := load("res://assets/fonts/TitanOne-latin.woff2") as Font
 	timer_label.add_theme_font_override("font", number_font)
+	timer_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	timer_label.add_theme_constant_override("outline_size", 3)
+	timer_label.add_theme_color_override("font_outline_color", Color("15121c"))
+	score_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	orange_bar = _hud_bar(score_panel, "OrangeTurf", orange_color)
 	blue_bar = _hud_bar(score_panel, "BlueTurf", blue_color)
 	vitals_panel = _hud_panel(layer, "VitalsPanel")
@@ -737,6 +781,10 @@ func _build_hud() -> void:
 	health_label = _hud_label(vitals_panel, "HealthLabel", Color.WHITE, 17)
 	ink_bar = _hud_bar(vitals_panel, "InkBar", orange_color)
 	health_bar = _hud_bar(vitals_panel, "HealthBar", Color("fc4266"))
+	vitals_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	# Values remain available to state/debug readers; presentation draws the floating HUD.
+	for control in [ink_label, health_label, ink_bar, health_bar]:
+		control.visible = false
 	special_panel = _hud_panel(layer, "SpecialPanel")
 	special_label = _hud_label(special_panel, "SpecialLabel", Color.WHITE, 18)
 	turf_label = _hud_label(special_panel, "TurfLabel", orange_color.lightened(0.35), 16)
@@ -747,10 +795,13 @@ func _build_hud() -> void:
 	result_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	result_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	status_panel = _hud_panel(layer, "StatusPanel")
+	status_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	hud = Label.new()
 	hud.name = "StatusLine"
-	hud.add_theme_font_size_override("font_size", 17)
+	hud.add_theme_font_size_override("font_size", 10)
 	hud.add_theme_color_override("font_color", Color.WHITE)
+	hud.add_theme_color_override("font_outline_color", Color("15121c"))
+	hud.add_theme_constant_override("outline_size", 2)
 	hud.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	status_panel.add_child(hud)
 	weapon_icon = TextureRect.new()
@@ -977,6 +1028,9 @@ func _update_hud() -> void:
 	var special_percent := int(round(float(combat.call("special_fraction")) * 100.0))
 	special_bar.value = special_percent
 	special_label.text = "大招就绪 · F/Q" if ready else "大招  %d%%" % special_percent
+	if combat.counter.busy($World/Walker):
+		var intake: Dictionary = combat.counter.intakes[$World/Walker.get_instance_id()]
+		special_label.text = "吸墨 %.0f / 100 · %.1fs" % [intake.charge,intake.time] if intake.phase == "intake" else "反击蓄势 · %.1fs" % intake.time
 	special_label.add_theme_color_override("font_color", orange_color.lightened(0.45) if ready else Color.WHITE)
 	# Hud.js prints the local player's turf points next to the special gauge; the results
 	# screen prints the raw area instead, and the web labels both "p" (they differ by
@@ -990,7 +1044,7 @@ func _update_hud() -> void:
 			result, team_names[0], judged_coverage[0] * 100.0, team_names[1], judged_coverage[1] * 100.0,
 			team_names[0], turf_area[0], team_names[1], turf_area[1]]
 	if phase == "setup":
-		hud.text = "赛前按 1–4 选%s武器 · B 切换%s武器 · Enter 开始" % team_names
+		hud.text = "赛前按 1–8 选%s武器 · B 切换%s武器 · Enter 开始" % team_names
 	elif phase == "intro":
 		hud.text = "准备开战 · %d" % int(ceil(maxf(0.0, INTRO_SECONDS - phase_time)))
 	elif phase == "finish":
@@ -998,14 +1052,22 @@ func _update_hud() -> void:
 	elif phase == "results":
 		hud.text = "Enter 再开一局 · R 重开"
 	elif player_respawn > 0.0:
-		hud.text = "被击倒 · %.1f 秒后重生 · 可按 1–4 更换武器" % player_respawn
+		hud.text = "被击倒 · %.1f 秒后重生 · 可按 1–8 更换武器" % player_respawn
 	elif paused:
 		hud.text = "已暂停 · 点击画面继续 · R 重开"
 	else:
 		var charge := float(combat.get("charge_fraction"))
 		var charge_text := "  蓄力 %d%%" % int(charge * 100.0) if bool(combat.get("charging")) else ""
-		var controls := "WASD 移动 · 空格跳跃 · Shift 潜墨/爬墙 · 左键射击 · 右键/E 道具 · F/Q 大招 · Esc 暂停"
-		hud.text = ("最后 %d 秒 · " % seconds if seconds <= final_countdown else "") + ("点击画面继续 · " if not pointer_locked else "") + controls + charge_text
+		if combat.selected_id=="bow" and combat.charging:
+			charge_text="  "+("精准三箭" if charge>=.999 else "爆裂箭就绪" if charge>=.5 else "快速箭")
+		var controls := "Tab 地图 · J 跳跃 · Esc 暂停"
+		var cover_text := ""
+		if combat.counter.busy($World/Walker):
+			cover_text = "  转向瞄准 · 吸墨结束后自动反击"
+		elif combat.selected_id=="canopy":
+			var cover:Dictionary=combat.canopy.state($World/Walker)
+			cover_text="  伞面 %.0f HP%s" % [cover.hp," · 推进中" if cover.launched else " · 持伞"] if cover.cover!=null else ("  伞恢复 %.1fs" % cover.cooldown if cover.cooldown>0 else "  按住开伞 / 推出")
+		hud.text = ("最后 %d 秒 · " % seconds if seconds <= final_countdown else "") + ("点击画面继续 · " if not pointer_locked else "") + controls + charge_text + cover_text
 	_update_presentation()
 
 
@@ -1018,9 +1080,12 @@ func _update_presentation() -> void:
 	blue_score.visible = false
 	orange_bar.visible = false
 	blue_bar.visible = false
-	score_panel.size = Vector2(132,72)
-	score_panel.position.x = (hud_root.size.x-132)*0.5
-	timer_label.position.x = 21
+	var layout := compact_hud_layout()
+	score_panel.size = layout.timer.size
+	score_panel.position = layout.timer.position
+	timer_label.position = Vector2(0,0)
+	timer_label.add_theme_font_size_override("font_size", 32 if hud_root.size.x >= 1100 else 30)
+	timer_label.size = score_panel.size
 	weapon_icon.visible = false
 	special_panel.visible = false
 	status_panel.visible = phase == "playing" and not cinematic
@@ -1045,10 +1110,10 @@ func team_mode() -> bool:
 
 
 func _build_roster() -> void:
-	if not team_mode():
-		return
 	navigation = preload("res://team_navigation.gd").new()
 	navigation.call("setup", preload("res://map_catalog.gd").asset_id())
+	if not team_mode():
+		return
 	var bot_script := preload("res://tidewater_bot.gd")
 	var visual_script := preload("res://tidewater_character_visual.gd")
 	for team in range(2):
@@ -1119,7 +1184,7 @@ func damage_actor(actor: Node3D, amount: float, source_team: int, source_actor: 
 	elif actor == $Bot:
 		damage_bot(amount,source_actor,source_weapon,region,hit_distance)
 	elif phase == "playing" and actor_alive(actor) and float(actor.get("invuln")) <= 0.0 and amount > 0.0:
-		if bool(bot_specials.call("busy",actor)):
+		if bool(bot_specials.call("busy",actor)) and String(bot_specials.state(actor).get("kind", "slam")) == "slam":
 			amount *= 0.25
 		amount = _modified_damage(amount,actor,source_actor,source_weapon)
 		amount = float(items.call("absorb",actor,amount))
@@ -1172,9 +1237,10 @@ func _update_team_actor(actor: Node3D, delta: float) -> void:
 	actor.set("last_damage", float(actor.get("last_damage")) + delta)
 	var owner := int(actor.call("floor_ink_owner"))
 	var suffered := float(actor.get("ink_damage"))
+	var ink_cap: float = perks.ink_hazard_cap(actor,float(config["enemyInkDamageCap"]))
 	if owner == 1 - actor_team(actor):
 		if float(actor.get("invuln")) <= 0.0:
-			var damage := minf(float(config["enemyInkDps"]) * delta, maxf(0.0, float(config["enemyInkDamageCap"]) - suffered))
+			var damage := minf(float(config["enemyInkDps"]) * perks.ink_hazard(actor) * delta, maxf(0.0, ink_cap - suffered))
 			actor.set("health", maxf(1.0, actor_health(actor) - damage))
 			actor.set("ink_damage", suffered + damage)
 		actor.set("last_damage", 0.4)
@@ -1184,7 +1250,7 @@ func _update_team_actor(actor: Node3D, delta: float) -> void:
 		actor.set("health", minf(actor_max_health(actor), actor_health(actor) + perks.regen_rate(actor,float(config["regenRate"])) * delta))
 	bot_painting = true
 	painting_actor = actor
-	if not bool(bot_specials.call("busy",actor)):
+	if not bool(bot_specials.call("busy",actor)) or String(bot_specials.state(actor).get("kind","")) in ["absorb_counter","rain_arrows"]:
 		actor.call("tick",delta)
 	painting_actor = null
 	bot_painting = false
@@ -1204,9 +1270,9 @@ func _build_team_ui(layer: Node) -> void:
 	roster_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	layer.add_child(roster_label)
 	feed_label = Label.new()
-	feed_label.add_theme_font_size_override("font_size", 16)
+	feed_label.add_theme_font_size_override("font_size", 12)
 	feed_label.add_theme_color_override("font_outline_color", Color("17203a"))
-	feed_label.add_theme_constant_override("outline_size", 5)
+	feed_label.add_theme_constant_override("outline_size", 2)
 	feed_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	layer.add_child(feed_label)
 	pause_panel = _hud_panel(layer, "PausePanel")
@@ -1260,12 +1326,18 @@ func _build_team_ui(layer: Node) -> void:
 		result_actions.add_child(button)
 
 
+func compact_hud_layout() -> Dictionary:
+	return preload("res://tidewater_hud_layout.gd").measure(hud_root.size,minimap.map_bounds.size,MatchSetup.team_size)
+
 func _layout_team_ui(view_size: Vector2) -> void:
-	minimap.position = Vector2(16,150)
-	minimap.size = Vector2(180,180)
+	var layout := preload("res://tidewater_hud_layout.gd").measure(view_size,minimap.map_bounds.size,MatchSetup.team_size)
+	minimap.position = layout.map.position
+	minimap.show_border = false
+	minimap.size = layout.map.size
+	minimap._layout()
 	roster_label.position = Vector2((view_size.x - 460.0) * 0.5,102.0)
 	roster_label.size = Vector2(460,30)
-	feed_label.position = Vector2(16,120)
+	feed_label.position = Vector2(16,minimap.get_rect().end.y+12)
 	feed_label.size = Vector2(300,28)
 	pause_panel.size = Vector2(328,245)
 	pause_panel.position = (view_size - pause_panel.size) * 0.5
@@ -1308,7 +1380,11 @@ func _update_team_ui() -> void:
 				continue
 			var actor: Node3D = roster[team][slot]
 			var weapon: String = selected_weapon if actor == $World/Walker else String(actor.get("weapon_id"))
-			row.text = "%s · %s · %s" % [_actor_name(actor), _weapon_text(weapon), "生命 %d" % int(actor_health(actor)) if actor_alive(actor) else "等待重生"]
+			var info: Dictionary = intel.marker(actor, 0)
+			var status := "等待重生"
+			if actor_alive(actor):
+				status = "生命 %d" % int(actor_health(actor)) if team == 0 or (not info.is_empty() and info.status == "seen") else ("声呐标记" if not info.is_empty() and info.status == "sonar" else "最后发现" if not info.is_empty() else "位置未知")
+			row.text = "%s · %s · %s" % [_actor_name(actor), _weapon_text(weapon), status]
 
 
 func _build_settings_ui(parent: Node) -> void:
@@ -1371,7 +1447,7 @@ func _attacker_description(actor: Node3D, weapon_id: String = "") -> String:
 		return "未知来源"
 	if weapon_id.is_empty():
 		weapon_id = selected_weapon if actor == $World/Walker else String(actor.get("weapon_id"))
-	var names := {"bomb":"炸弹","slam":"砸地","storm":"墨雨"}
+	var names := {"last_ink":"残墨引爆", "mine":"感应墨雷", "rain_arrows":"雨箭齐射", "absorb_counter":"吸墨反击", "bomb":"炸弹","slam":"砸地","storm":"墨雨","twin_discs":"双镖突进"}
 	var weapon := String(names.get(weapon_id,_weapon_text(weapon_id)))
 	return "%s · %s" % [_actor_name(actor),weapon]
 
@@ -1442,5 +1518,7 @@ func damage_summary() -> String:
 func _modified_damage(amount: float,victim: Node3D,source: Node3D,weapon: String) -> float:
 	var result: float = amount*float(perks.outgoing(source))
 	# Precision and low-health boosts cannot silently turn a normal shot into a full-HP one-shot.
-	if weapon_order.has(weapon): result=minf(result,115.0)
-	return result*perks.incoming(victim,weapon)
+	if $Combat.weapons.has(weapon): result=minf(result,115.0)
+	result *= perks.incoming(victim,weapon)
+	# Defender vulnerability must also respect that final damage ceiling.
+	return minf(result,115.0) if $Combat.weapons.has(weapon) else result

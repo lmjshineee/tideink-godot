@@ -5,6 +5,7 @@ const Palette:=preload("res://team_palette.gd")
 const Catalog:=preload("res://map_catalog.gd")
 const Perks:=preload("res://tidewater_perks.gd")
 const Details:=preload("res://loadout_details.gd")
+const Icons:=preload("res://loadout_icons.gd")
 var game:Node3D
 var home:Control
 var preparation:Control
@@ -97,9 +98,11 @@ func setup(owner_game:Node3D) -> void:
 	item_area=Control.new();item_area.mouse_filter=MOUSE_FILTER_IGNORE;preparation.add_child(item_area)
 	for id in game.items.KINDS:
 		var button:=_button(item_area,"%s\nCD %.0fs · %s" % [game.items.LABELS[id],game.items.COOLDOWNS[id],game.items.BLURBS[id]],_select_item.bind(id));item_buttons[id]=button;_bind_hover(button,"item",id)
+		button.icon=Icons.icon("item",id)
 	perk_area=Control.new();perk_area.mouse_filter=MOUSE_FILTER_IGNORE;preparation.add_child(perk_area)
 	for id in Perks.ORDER:
 		var button:=_button(perk_area,Perks.LABELS[id],_select_perk.bind(Perks.ORDER.find(id)));perk_buttons[id]=button;_bind_hover(button,"perk",id)
+		button.icon=Icons.icon("perk",id)
 	for pair in [["weapon","主武器"],["item","道具"],["perk","天赋"]]:
 		group_labels[pair[0]]=_label(preparation,pair[1],15)
 	for pair in [["map",map_area],["weapon",weapon_area],["item",item_area],["perk",perk_area]]:
@@ -253,10 +256,12 @@ func _layout_preparation(u:float) -> void:
 		var label:Label=card.get_child(1);_place(label,Vector2(40*u,9*u),Vector2(width-46*u,28*u),maxi(11,int(15*u)))
 	for i in item_buttons.size():
 		var id:String=game.items.KINDS[i]
-		item_buttons[id].text="%s · %.1fs" % [game.items.LABELS[id],game.perks.item_cooldown(game.get_node("World/Walker"),game.items.COOLDOWNS[id])]
+		item_buttons[id].text="%s\n冷却 %.0fs" % [game.items.LABELS[id],game.perks.item_cooldown(game.get_node("World/Walker"),game.items.COOLDOWNS[id])]
+		item_buttons[id].add_theme_constant_override("icon_max_width",maxi(18,int(26*u)))
 		_place(item_buttons[id],Vector2(i*(width+8*u),0),Vector2(width,46*u),maxi(11,int(14*u)));_selected(item_buttons[id],Setup.selected_item==id)
 	for i in Perks.ORDER.size():
 		var id:String=Perks.ORDER[i]
+		perk_buttons[id].add_theme_constant_override("icon_max_width",maxi(18,int(26*u)))
 		_place(perk_buttons[id],Vector2(i*(width+8*u),0),Vector2(width,46*u),maxi(11,int(15*u)));_selected(perk_buttons[id],Setup.selected_perk==id)
 	# Set content minimums before the container extent; otherwise resize clamps
 	# to the previous row height and leaves stale overlap in smaller windows.
@@ -264,9 +269,11 @@ func _layout_preparation(u:float) -> void:
 	if seen_weapon!=game.selected_weapon:
 		seen_weapon=game.selected_weapon;strips.weapon.call_deferred("ensure_control_visible",game.weapon_buttons[seen_weapon])
 	if seen_item!=Setup.selected_item:
-		seen_item=Setup.selected_item;strips.item.call_deferred("ensure_control_visible",item_buttons[seen_item])
+		seen_item=Setup.selected_item
+		if item_buttons.has(seen_item): strips.item.call_deferred("ensure_control_visible",item_buttons[seen_item])
 	if seen_perk!=Setup.selected_perk:
-		seen_perk=Setup.selected_perk;strips.perk.call_deferred("ensure_control_visible",perk_buttons[seen_perk])
+		seen_perk=Setup.selected_perk
+		if perk_buttons.has(seen_perk): strips.perk.call_deferred("ensure_control_visible",perk_buttons[seen_perk])
 	_place(duration_choice,Vector2(size.x*.75,size.y*.741),Vector2(size.x*.09,30*u),maxi(11,int(14*u)))
 	_place(mode_choice,Vector2(size.x*.857,size.y*.741),Vector2(size.x*.10,30*u),maxi(11,int(14*u)))
 	_place(random_map,Vector2(size.x*.746,size.y*.805),Vector2(size.x*.165,28*u),maxi(11,int(13*u)))

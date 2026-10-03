@@ -1,0 +1,90 @@
+{
+  "build_before_bytes": 1568805323,
+  "build_after_bytes": 240591858,
+  "removed_bytes": 1328213353,
+  "remaining": [
+    "INKWAVE Demo.app",
+    "INKWAVE-Godot-Demo-v0.3.0-preview.7-SHA256SUMS.txt",
+    "INKWAVE-Godot-Demo-v0.3.0-preview.7-macOS-arm64.zip"
+  ],
+  "removed": [
+    {
+      "path": "godot-port-prototype/build/.DS_Store",
+      "bytes": 10244
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.5-macOS-arm64.zip",
+      "bytes": 70187932
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.5-macOS-arm64",
+      "bytes": 170437820
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.4-macOS-arm64.zip",
+      "bytes": 73047656
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.6-macOS-arm64",
+      "bytes": 170437376
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.3-macOS-arm64.zip",
+      "bytes": 70889645
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.3-macOS-arm64",
+      "bytes": 170648360
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.6-macOS-arm64.zip",
+      "bytes": 70186361
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.4-macOS-arm64",
+      "bytes": 173029454
+    },
+    {
+      "path": "godot-port-prototype/build/release-notes-v0.1.0.md",
+      "bytes": 1416
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.6-SHA256SUMS.txt",
+      "bytes": 118
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.1-macOS-arm64",
+      "bytes": 147991521
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.1-macOS-arm64.zip",
+      "bytes": 63129022
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.1-SHA256SUMS.txt",
+      "bytes": 118
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.2-macOS-arm64",
+      "bytes": 148215838
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.3-SHA256SUMS.txt",
+      "bytes": 118
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.4-SHA256SUMS.txt",
+      "bytes": 118
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.5-SHA256SUMS.txt",
+      "bytes": 118
+    },
+    {
+      "path": "godot-port-prototype/build/INKWAVE-Godot-Demo-v0.3.0-preview.2-SHA256SUMS.txt",
+      "bytes": 118
+    }
+  ],
+  "initial_observed_build_size": "approximately 1.5 GB",
+  "publication_temp_removed": true
+}

@@ -216,7 +216,7 @@ func advance_beacons(delta:float) -> void:
 		if refresh:beacon.available=not landing(Vector2(beacon.point.x,beacon.point.z),true,beacon.point.y,beacon.team).is_empty()
 		beacon.visual.scale=Vector3.ONE if beacon.available else Vector3.ONE*.35
 
-func landing(xz: Vector2, own_ink: bool, preferred_height:float=INF, team:int=0) -> Dictionary:
+func landing(xz: Vector2, own_ink: bool, preferred_height:float=INF, team:int=0, excluded_actor:Node3D=null) -> Dictionary:
 	var map: Node3D = game.get_node("World/Map")
 	if not (map.get("map_bounds") as Rect2).has_point(xz):
 		return {}
@@ -228,7 +228,7 @@ func landing(xz: Vector2, own_ink: bool, preferred_height:float=INF, team:int=0)
 		return {}
 	var at: Vector3 = hit["position"]
 	var pads: Array = map.get("spawn_pads")
-	if Vector2(at.x-pads[1].x,at.z-pads[1].z).length()<6.5:
+	if Vector2(at.x-pads[1 - team].x,at.z-pads[1 - team].z).length()<6.5:
 		return {}
 	var face: Dictionary = map.call("find_surface",at,hit["normal"],int(hit["collider"].get_meta("source_id",-1)))
 	if face.is_empty() or not bool(face["turf"]):
@@ -250,7 +250,13 @@ func landing(xz: Vector2, own_ink: bool, preferred_height:float=INF, team:int=0)
 	query.shape = shape
 	query.transform = Transform3D(Basis.IDENTITY,at+Vector3.UP*0.81)
 	query.collision_mask = 7
-	query.exclude = [game.get_node("World/Walker").get_rid()]
+	var exclusions: Array[RID] = []
+	if excluded_actor == null or excluded_actor == game.get_node("World/Walker"):
+		exclusions.append(game.get_node("World/Walker").get_rid())
+	elif excluded_actor.team_mover != null:
+		exclusions.append(excluded_actor.team_mover.get_rid())
+	# The exclude getter returns a copy; assign the completed RID list.
+	query.exclude = exclusions
 	if not game.get_world_3d().direct_space_state.intersect_shape(query,1).is_empty():
 		return {}
 	return {"point":at+Vector3.UP*0.05,"face":face}

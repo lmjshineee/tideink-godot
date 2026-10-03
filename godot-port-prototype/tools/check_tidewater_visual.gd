@@ -52,7 +52,9 @@ func _check() -> void:
 		return
 	scene.call("_start_round")
 	scene.call("_update_bot", 0.1)
-	if absf(absf(bot.rotation.y) - PI) > 0.01:
+	var opponent_motion:Vector3=scene.get_node("Bot").team_mover.velocity
+	var travel_yaw:=atan2(opponent_motion.x,opponent_motion.z)
+	if Vector2(opponent_motion.x,opponent_motion.z).length()<.1 or absf(wrapf(bot.rotation.y-travel_yaw,-PI,PI)) > .35:
 		_fail("opponent visual does not face its travel direction")
 		return
 	var opponent: Node3D = scene.get_node("Bot")

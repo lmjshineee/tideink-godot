@@ -1,0 +1,1 @@
+PASS: final preview.5 ZIP extracts; extracted app signature and arm64 architecture verified; packaged README describes restored original characters.

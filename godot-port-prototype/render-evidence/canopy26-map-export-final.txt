@@ -1,0 +1,228 @@
+(node:35553) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:35554) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 45 blocks (29 structural + 16 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/coral_market.json
+(node:35555) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 131 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/coral_market_surfaces.json
+Exported 20 original props + decor + harbor as 23 merged meshes (27.7 MiB)
+(node:35579) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 50 blocks (34 structural + 16 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/prism_gallery.json
+(node:35580) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 145 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/prism_gallery_surfaces.json
+Exported 16 original props + decor + harbor as 24 merged meshes (26.8 MiB)
+(node:35602) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 55 blocks (35 structural + 20 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/viaduct.json
+(node:35603) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 162 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/viaduct_surfaces.json
+Exported 18 original props + decor + harbor as 22 merged meshes (27.0 MiB)
+(node:35629) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 149 blocks (67 structural + 82 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/tidewater_v1.json
+(node:35631) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 309 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/tidewater_v1_surfaces.json
+(node:35632) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 149 blocks (67 structural + 82 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/tidewater_v2.json
+(node:35633) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 309 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/tidewater_v2_surfaces.json
+(node:35636) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 145 blocks (75 structural + 70 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/kelpline_v1.json
+(node:35637) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 348 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/kelpline_v1_surfaces.json
+(node:35638) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 145 blocks (75 structural + 70 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/kelpline_v2.json
+(node:35641) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 344 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/kelpline_v2_surfaces.json
+(node:35643) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 32 blocks (18 structural + 14 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor.json
+(node:35645) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 78 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_surfaces.json
+Exported 14 original props + decor + harbor as 23 merged meshes (27.7 MiB)
+(node:35670) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 34 blocks (20 structural + 14 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v1.json
+(node:35673) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 86 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v1_surfaces.json
+(node:35674) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 36 blocks (22 structural + 14 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v2.json
+(node:35675) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 96 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v2_surfaces.json
+(node:35676) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 34 blocks (20 structural + 14 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v3.json
+(node:35677) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 86 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v3_surfaces.json
+(node:35680) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 36 blocks (22 structural + 14 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v4.json
+(node:35681) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 94 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v4_surfaces.json
+(node:35682) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 38 blocks (24 structural + 14 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v5.json
+(node:35683) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 104 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v5_surfaces.json
+(node:35684) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 35 blocks (21 structural + 14 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v6.json
+(node:35685) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 91 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v6_surfaces.json
+(node:35686) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 37 blocks (23 structural + 14 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v7.json
+(node:35689) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 99 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v7_surfaces.json
+(node:35693) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 39 blocks (25 structural + 14 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v8.json
+(node:35694) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 109 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/modular_harbor_v8_surfaces.json
+(node:35695) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 45 blocks (29 structural + 16 props) to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/terrace_garden.json
+(node:35696) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exported 130 faces to /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/terrace_garden_surfaces.json
+Exported 14 original props + decor + harbor as 24 merged meshes (26.8 MiB)
+Exported 144 original props + decor + harbor as 27 merged meshes (38.1 MiB)
+Exported 130 original props + decor + harbor as 27 merged meshes (36.6 MiB)
+(node:35763) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: tidewater 4050 original navigation nodes
+OK: kelpline 4410 original navigation nodes
+OK: coral_market 3070 original navigation nodes
+OK: prism_gallery 3540 original navigation nodes
+OK: viaduct 3456 original navigation nodes
+OK: tidewater_v1 4058 original navigation nodes
+OK: tidewater_v2 4050 original navigation nodes
+OK: kelpline_v1 4410 original navigation nodes
+OK: kelpline_v2 4410 original navigation nodes
+OK: modular_harbor 4176 original navigation nodes
+OK: modular_harbor_v1 4168 original navigation nodes
+OK: modular_harbor_v2 4168 original navigation nodes
+OK: modular_harbor_v3 4164 original navigation nodes
+OK: modular_harbor_v4 4156 original navigation nodes
+OK: modular_harbor_v5 4156 original navigation nodes
+OK: modular_harbor_v6 4168 original navigation nodes
+OK: modular_harbor_v7 4160 original navigation nodes
+OK: modular_harbor_v8 4160 original navigation nodes
+OK: terrace_garden 4238 original navigation nodes
+(node:35765) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: tidewater web base 350x616, 207094 visible paint pixels
+OK: kelpline web base 336x672, 217092 visible paint pixels
+OK: coral_market web base 308x532, 161453 visible paint pixels
+OK: prism_gallery web base 350x504, 173744 visible paint pixels
+OK: viaduct web base 252x644, 160636 visible paint pixels
+OK: tidewater_v1 web base 350x616, 207011 visible paint pixels
+OK: tidewater_v2 web base 350x616, 206972 visible paint pixels
+OK: kelpline_v1 web base 336x672, 216984 visible paint pixels
+OK: kelpline_v2 web base 336x672, 217066 visible paint pixels
+OK: modular_harbor web base 364x588, 212473 visible paint pixels
+OK: modular_harbor_v1 web base 364x588, 212198 visible paint pixels
+OK: modular_harbor_v2 web base 364x588, 212231 visible paint pixels
+OK: modular_harbor_v3 web base 364x588, 212245 visible paint pixels
+OK: modular_harbor_v4 web base 364x588, 211970 visible paint pixels
+OK: modular_harbor_v5 web base 364x588, 212003 visible paint pixels
+OK: modular_harbor_v6 web base 364x588, 212157 visible paint pixels
+OK: modular_harbor_v7 web base 364x588, 211882 visible paint pixels
+OK: modular_harbor_v8 web base 364x588, 211915 visible paint pixels
+OK: terrace_garden web base 378x560, 209128 visible paint pixels
+OK: seven stages including nine modular harbor compositions and four source-map variants, synchronized collision/paint/nav/minimap

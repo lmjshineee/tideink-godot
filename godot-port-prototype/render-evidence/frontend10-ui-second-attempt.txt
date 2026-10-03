@@ -1,0 +1,15 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-10-01 12:03:13.047 Godot[90509:7606340] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+SCRIPT ERROR: Invalid assignment of property or key 'disable_3d' with value of type 'bool' on a base object of type 'null instance'.
+          at: sync (res://tidewater_frontend.gd:185)
+          GDScript backtrace (most recent call first):
+              [0] sync (res://tidewater_frontend.gd:185)
+              [1] _update_hud (res://tidewater_play.gd:898)
+              [2] _input (res://tidewater_play.gd:265)
+              [3] key (res://tools/capture_frontend.gd:28)
+              [4] _run (res://tools/capture_frontend.gd:109)
+              [5] save (res://tools/capture_frontend.gd:8)
+AUDIT: tidewater mouse main/prep/weapon/item/random, launcher aim/Space arc, E/right-click cooldown item, results/home, 960x540/110%
+FAIL: mouse PLAY must enter preparation

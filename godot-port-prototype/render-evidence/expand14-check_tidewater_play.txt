@@ -1,0 +1,9 @@
+ERROR: Failed to open 'user://logs/godot2026-10-01T16.48.17.log'.
+   at: copy (core/io/dir_access.cpp:426)
+ERROR: Failed to open log file for writing: user://logs/godot.log
+   at: rotate_file (core/io/logger.cpp:164)
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+PASS: real-map collision, loadout, lazy ink visuals, turf scoring and walker ink ownership

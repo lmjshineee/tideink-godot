@@ -1,0 +1,295 @@
+Godot: 4.8.dev6.official.8898c2b3d
+Node : /opt/homebrew/bin/node
+
+PASS  export_tidewater_map         --check default
+PASS  export_tidewater_map         --check kelpline
+PASS  export_tidewater_surfaces    --check default
+PASS  export_tidewater_surfaces    --check kelpline
+PASS  export_weapon_config         --check default
+PASS  export_ui_icons              --check default
+PASS  export_tidewater_visuals     --check default
+PASS  export_tidewater_visuals     --check kelpline
+PASS  export_navigation            --check default
+PASS  export_minimap               --check default
+PASS  export_characters            --check default
+PASS  export_weapon_poses          --check default
+PASS  export_character_actions     --check default
+PASS  export_character_materials   --check default
+PASS  export_audio                 --check default
+PASS  check_character_anatomy      --check default
+
+PASS  check_scripts_parse
+FAIL  check_actor_feedback (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_bot_jump_edges (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+PASS  check_config_consumption
+FAIL  check_feedback_regressions (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+PASS  check_low_ceiling_step
+FAIL  check_minimap_feedback (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_quick_input (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_setup_settings (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_splat_attribution (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+PASS  check_surface_ink
+PASS  check_surface_ink_view
+FAIL  check_team_match (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_team_navigation_motion (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_team_palette (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_tidewater_appearance (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_tidewater_bomb (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_tidewater_bot (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_tidewater_bot_chase (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_tidewater_bot_loadout (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_tidewater_bot_vitals (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_tidewater_camera (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+PASS  check_tidewater_climb
+FAIL  check_tidewater_combat_loop (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+PASS  check_tidewater_face
+PASS  check_tidewater_form
+FAIL  check_tidewater_full_round (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+PASS  check_tidewater_handling
+PASS  check_tidewater_hard_land
+FAIL  check_tidewater_hud (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_tidewater_input_flow (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+PASS  check_tidewater_jump
+FAIL  check_tidewater_match (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_tidewater_menu (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+PASS  check_tidewater_original_character
+FAIL  check_tidewater_play (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_tidewater_presentation (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: death loadout/crosshair visibility
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      FAIL: death loadout/crosshair visibility
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+PASS  check_tidewater_scene
+PASS  check_tidewater_scenery
+PASS  check_tidewater_settings
+FAIL  check_tidewater_settings_ui (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+PASS  check_tidewater_spawn_barrier
+FAIL  check_tidewater_special (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+PASS  check_tidewater_squid_body
+PASS  check_tidewater_steps
+FAIL  check_tidewater_turf_points (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_tidewater_visual (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+FAIL  check_tidewater_visual_config (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: visual configuration mutated gameplay data
+      FAIL: visual configuration mutated gameplay data
+FAIL  check_tidewater_vitals (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+PASS  check_tidewater_walk
+FAIL  check_tidewater_weapons (exit=0)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+      ERROR: Parameter "fd" is null.
+
+----------------------------------------
+通过 35，失败 32
+日志保留在 /Users/yunni/Joy/inkwave-game/godot-port-prototype/.godot/*.log

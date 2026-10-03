@@ -1,0 +1,8 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+AUDIT: bot disc true ink 91.4 target Walker:<CharacterBody3D#48419046945>
+PASS: creative active pools, per-pass returning disc damage, curved return, wall sweep, twin telegraph/death cleanup and bot dispatch
+WARNING: 10 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2604)

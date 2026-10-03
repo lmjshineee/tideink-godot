@@ -26,12 +26,12 @@ func _run() -> void:
 	for id in game.items.KINDS:expect(Details.item(game,id)["body"].contains("冷却"),"item detail "+id)
 	for id in preload("res://tidewater_perks.gd").ORDER:expect(Details.perk(id)["body"].contains("锁定"),"perk detail "+id)
 	expect(front.weapon_area.visible and front.item_area.visible and front.perk_area.visible,"all loadout categories visible on one screen")
-	game.weapon_buttons["charger"].pressed.emit();front.item_buttons["shield"].pressed.emit();front.perk_buttons["vitality"].pressed.emit()
-	expect(game.selected_weapon=="charger" and Setup.selected_item=="shield" and Setup.selected_perk=="vitality","one-screen choices preserve each other")
+	game.weapon_buttons["charger"].pressed.emit();front.item_buttons["recall"].pressed.emit();front.perk_buttons["enemy_swim"].pressed.emit()
+	expect(game.selected_weapon=="charger" and Setup.selected_item=="recall" and Setup.selected_perk=="enemy_swim","one-screen choices preserve each other")
 	root.size=Vector2i(960,540);root.content_scale_size=root.size;game.settings.ui_scale=1.1;game._layout_hud();game._update_hud();await process_frame
 	expect(not front.strips.weapon.get_global_rect().intersects(front.strips.item.get_global_rect()) and not front.strips.item.get_global_rect().intersects(front.strips.perk.get_global_rect()),"small-window loadout rows never overlap")
 	game._begin_intro();expect(not front.preview.enabled and not front.stage_preview.enabled and not front.hover_panel.visible,"inspectors stop and hover closes at match start")
-	expect(not game.perks.select_player("vitality"),"talent still locked at intro")
+	expect(not game.perks.select_player("enemy_swim"),"talent still locked at intro")
 	game.queue_free();await process_frame
 	if not failed:print("PASS: stage-first real geometry, isolated source animation, adjusted weapon/item/perk details, live talent costs, simultaneous loadout choices and match visibility/lock")
 	quit(1 if failed else 0)

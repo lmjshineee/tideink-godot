@@ -20,18 +20,23 @@ func _check() -> void:
 	body_query.shape = clearance
 	body_query.collision_mask = 1
 	var furthest_z := spawn_z
+	var distance := 0.0
+	var previous: Vector3 = bot.global_position
 	for step in 240:
 		scene.call("_update_bot", 0.1)
 		furthest_z = minf(furthest_z, bot.global_position.z)
+		distance += bot.global_position.distance_to(previous)
+		previous = bot.global_position
 		body_query.transform = Transform3D(Basis(), bot.global_position + Vector3.UP * 0.75)
 		var overlap: Array[Dictionary] = scene.get_world_3d().direct_space_state.intersect_shape(body_query, 1)
 		if not overlap.is_empty():
 			_fail("bot route intersects %s at step %d, position %s" % [overlap[0]["collider"].name, step, bot.global_position])
 			return
-	if furthest_z >= -9.0 or spawn_z - furthest_z < 48.0:
+	if bot.team_mover == null or distance < 12.0 or spawn_z - furthest_z < 7.0:
 		_fail("bot did not leave spawn and advance along the map lane")
 		return
-	if absf(bot.global_position.y - 0.05) > 0.1:
+	var support: Dictionary = bot._ground_at(bot.global_position)
+	if support.is_empty() or absf(bot.global_position.y - float(support.position.y)) > 0.6:
 		_fail("bot did not follow main-deck floor height")
 		return
 	if float(ink.call("coverage", 1)) <= 0.0:

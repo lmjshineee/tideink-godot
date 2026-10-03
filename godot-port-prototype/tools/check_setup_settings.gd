@@ -23,12 +23,12 @@ func _check() -> void:
 	payload["match"]["durations"] = durations
 	front.duration_choice.item_selected.emit(1)
 	game.weapon_buttons["charger"].pressed.emit()
-	front.item_buttons["shield"].pressed.emit()
+	front.item_buttons["recall"].pressed.emit()
 	var previous: int = setup.appearance_seed
 	front.random_button.pressed.emit()
 	for i in range(4): await process_frame
 	game = current_scene
-	if game.phase!="setup" or game.selected_weapon!="charger" or setup.selected_item!="shield" or game.round_time!=float(durations[1]) or previous==setup.appearance_seed:
+	if game.phase!="setup" or game.selected_weapon!="charger" or setup.selected_item!="recall" or game.round_time!=float(durations[1]) or previous==setup.appearance_seed:
 		fail("random appearance lost preparation or did not change seed");return
 	var hair: MeshInstance3D = game.get_node("World/Walker/Body/Kid/HairCap")
 	if hair.material_override.albedo_color!=preload("res://team_palette.gd").color(0):

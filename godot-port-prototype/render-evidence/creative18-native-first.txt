@@ -1,0 +1,6 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-10-02 11:14:34.481 Godot[91299:8552481] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+FAIL: native sonar deploy
+FAIL: native pulse reveals concealed target

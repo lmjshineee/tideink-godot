@@ -1,0 +1,500 @@
+{
+  "fps_cap": 30,
+  "kind": "native automated input replay; human acceptance and temperature unmeasured",
+  "render_scale": 0.75,
+  "rounds": [
+    {
+      "average_fps": 29.9593489715518,
+      "bot_height_max": {
+        "2": 6.01211881637573
+      },
+      "bots": [
+        {
+          "id": 2,
+          "item": "sonar",
+          "max_hp": 120.0,
+          "name": "Fizz",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 238.4,
+            "deaths": 0,
+            "kills": 2,
+            "turf": 377.776007290991
+          },
+          "weapon": "bow"
+        }
+      ],
+      "counter_absorbed_projectiles": 0,
+      "counter_casts_all": 0,
+      "counter_casts_player": 0,
+      "counter_cost": 150.0,
+      "counter_retaliations": 0,
+      "dive_frames": 10,
+      "duration": 90.0,
+      "frames": 2667,
+      "fx_events": {
+        "dive": 1,
+        "hit": 9,
+        "jump": 13,
+        "muzzle": 0,
+        "splat": 2
+      },
+      "geometry": "prism_gallery",
+      "height_max": 7.2772216796875,
+      "height_min": 0.0,
+      "jump_inputs": 13,
+      "last_damage_history": [
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 46205
+        },
+        {
+          "amount": 5.33333333333339,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 48272
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 48538
+        },
+        {
+          "amount": 5.33333333333338,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 55071
+        },
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 55338
+        },
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 55605
+        },
+        {
+          "amount": 5.0,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 62205
+        },
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 62471
+        },
+        {
+          "amount": 5.0,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 69071
+        },
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 69338
+        },
+        {
+          "amount": 5.33333333333334,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 69605
+        },
+        {
+          "amount": 5.00000000000002,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 76205
+        },
+        {
+          "amount": 5.33333333333334,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 76471
+        },
+        {
+          "amount": 5.00000000000001,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 83071
+        },
+        {
+          "amount": 5.33333333333333,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 83338
+        },
+        {
+          "amount": 1.33333333333293,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 83605
+        }
+      ],
+      "map": "prism_gallery",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "mine_casts_all": 3,
+      "mine_casts_player": 3,
+      "mine_explosions_all": 1,
+      "mine_triggered_all": 1,
+      "mist_casts_all": 0,
+      "natural_deaths": 2,
+      "observed_enemy_frames": 367,
+      "p95_frame_ms": 35.303,
+      "p99_equivalent_fps": 27.1134970988558,
+      "p99_frame_ms": 36.882,
+      "perk": "balanced",
+      "play_wall_seconds": 90.017039,
+      "player_recall_count": 0,
+      "player_roll_count": 0,
+      "player_stats": {
+        "damage": 0.0,
+        "deaths": 2,
+        "kills": 0,
+        "turf": 87.416483704062
+      },
+      "rain_casts_all": 0,
+      "rain_casts_player": 0,
+      "rain_cost": 170.0,
+      "rain_volleys_all": 0,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "sonar_deploys": 0,
+      "tagged_enemy_frames": 0,
+      "team_size": 1,
+      "travel_m": 207.349534016452,
+      "turf_counts": [
+        1123,
+        5124
+      ],
+      "weapons_used": [
+        "bow"
+      ]
+    },
+    {
+      "average_fps": 29.9748553752535,
+      "bot_height_max": {
+        "10": 3.62582397460938,
+        "2": 3.03539729118347,
+        "3": 2.22355604171753,
+        "4": 3.03755640983582,
+        "5": 2.04999995231628,
+        "6": 2.04999995231628,
+        "7": 3.21817493438721,
+        "8": 4.76709032058716,
+        "9": 2.04999995231628
+      },
+      "bots": [
+        {
+          "id": 6,
+          "item": "mine",
+          "max_hp": 120.0,
+          "name": "Wasabi",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 371.678372466332,
+            "deaths": 5,
+            "kills": 4,
+            "turf": 248.710900631578
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 2,
+          "item": "mine",
+          "max_hp": 120.0,
+          "name": "Juno",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 551.932356358696,
+            "deaths": 2,
+            "kills": 5,
+            "specials": 1,
+            "turf": 391.49736566627
+          },
+          "weapon": "dualie"
+        },
+        {
+          "id": 3,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Moxie",
+          "perk": "leech",
+          "special_casts": 1,
+          "stats": {
+            "damage": 716.287,
+            "deaths": 4,
+            "kills": 5,
+            "specials": 1,
+            "turf": 424.382526343384
+          },
+          "weapon": "canopy"
+        },
+        {
+          "id": 4,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Blotch",
+          "perk": "enemy_swim",
+          "special_casts": 1,
+          "stats": {
+            "damage": 814.038402982905,
+            "deaths": 5,
+            "kills": 5,
+            "specials": 1,
+            "turf": 451.034934216417
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 5,
+          "item": "mine",
+          "max_hp": 120.0,
+          "name": "Riptide",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 560.86659777321,
+            "deaths": 3,
+            "kills": 7,
+            "turf": 227.194289745142
+          },
+          "weapon": "bow"
+        },
+        {
+          "id": 7,
+          "item": "mine",
+          "max_hp": 120.0,
+          "name": "Fizz",
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 457.650945191156,
+            "deaths": 3,
+            "kills": 5,
+            "turf": 281.165532806794
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 8,
+          "item": "mine",
+          "max_hp": 120.0,
+          "name": "Zest",
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 335.400000000001,
+            "deaths": 5,
+            "kills": 3,
+            "turf": 214.034327515476
+          },
+          "weapon": "disc"
+        },
+        {
+          "id": 9,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Coral",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 568.415082342511,
+            "deaths": 5,
+            "kills": 2,
+            "turf": 249.232351287744
+          },
+          "weapon": "bow"
+        },
+        {
+          "id": 10,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Pip",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 233.212255524663,
+            "deaths": 4,
+            "kills": 2,
+            "turf": 256.462848483216
+          },
+          "weapon": "canopy"
+        }
+      ],
+      "counter_absorbed_projectiles": 0,
+      "counter_casts_all": 0,
+      "counter_casts_player": 0,
+      "counter_cost": 150.0,
+      "counter_retaliations": 0,
+      "dive_frames": 17,
+      "duration": 90.0,
+      "frames": 2669,
+      "fx_events": {
+        "dive": 8,
+        "hit": 432,
+        "jump": 20,
+        "muzzle": 297,
+        "splat": 44
+      },
+      "geometry": "terrace_garden",
+      "height_max": 7.2772216796875,
+      "height_min": 0.0,
+      "jump_inputs": 14,
+      "last_damage_history": [
+        {
+          "amount": 5.33333333333326,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 163109
+        },
+        {
+          "amount": 5.33333333333326,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 163643
+        },
+        {
+          "amount": 5.33333333333326,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 164176
+        },
+        {
+          "amount": 5.33333333333326,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 164709
+        },
+        {
+          "amount": 5.33333333333326,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 165243
+        },
+        {
+          "amount": 5.33333333333326,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 167476
+        },
+        {
+          "amount": 5.33333333333326,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 168009
+        },
+        {
+          "amount": 5.33333333333323,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 174243
+        },
+        {
+          "amount": 5.00000000000001,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 174742
+        },
+        {
+          "amount": 5.00000000000004,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 175242
+        },
+        {
+          "amount": 5.0,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 181442
+        },
+        {
+          "amount": 5.00000000000004,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 181942
+        },
+        {
+          "amount": 5.0,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 188142
+        },
+        {
+          "amount": 5.00000000000004,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 188642
+        },
+        {
+          "amount": 5.00000000000002,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 189142
+        },
+        {
+          "amount": 28.0000000000007,
+          "cause": "#08 Zest · 回旋飞镖",
+          "source": "#08 Zest · 回旋飞镖 · 躯干 / 12.1m",
+          "time": 191309
+        }
+      ],
+      "map": "terrace_garden",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "mine_casts_all": 4,
+      "mine_casts_player": 2,
+      "mine_explosions_all": 0,
+      "mine_triggered_all": 0,
+      "mist_casts_all": 3,
+      "natural_deaths": 2,
+      "observed_enemy_frames": 5738,
+      "p95_frame_ms": 35.274,
+      "p99_equivalent_fps": 26.0933096753992,
+      "p99_frame_ms": 38.324,
+      "perk": "enemy_swim",
+      "play_wall_seconds": 90.035336,
+      "player_recall_count": 0,
+      "player_roll_count": 0,
+      "player_stats": {
+        "damage": 0.0,
+        "deaths": 2,
+        "kills": 0,
+        "turf": 83.36341647015
+      },
+      "rain_casts_all": 1,
+      "rain_casts_player": 0,
+      "rain_cost": 170.0,
+      "rain_volleys_all": 3,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "sonar_deploys": 0,
+      "tagged_enemy_frames": 0,
+      "team_size": 5,
+      "travel_m": 265.264855014393,
+      "turf_counts": [
+        13510,
+        8086
+      ],
+      "weapons_used": [
+        "bow"
+      ]
+    }
+  ]
+}

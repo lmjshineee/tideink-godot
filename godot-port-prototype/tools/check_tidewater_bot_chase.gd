@@ -39,16 +39,11 @@ func _check() -> void:
 		_fail("bot accepted a chase step over missing ground")
 		return
 	scene.set("player_respawn", 1.0)
-	var patrol_start := bot.global_position
 	bot.call("tick", 0.1)
-	if bool(bot.get("chasing")) or not bool(bot.get("returning")) or bot.global_position.z <= patrol_start.z:
-		_fail("bot did not retrace its safe chase path while player is splatted")
+	if bool(bot.get("chasing")) or bot.target_actor != null or bot.team_mover == null:
+		_fail("splatted target was not released back to physical navigation patrol")
 		return
-	bot.call("tick", 0.1)
-	if bool(bot.get("returning")) or bot.global_position.z >= 8.0:
-		_fail("bot did not resume its route after retracing")
-		return
-	print("PASS: visible-player pursuit, safe body position and respawn patrol fallback")
+	print("PASS: visible-player pursuit, safe body position and physical navigation patrol fallback")
 	quit()
 
 

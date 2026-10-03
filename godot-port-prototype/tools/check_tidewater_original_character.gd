@@ -13,6 +13,7 @@ func _run() -> void:
 		if visual.skeleton.get_bone_count()!=87 or not visual.original_rig.is_visible_in_tree():
 			fail("default character is not the original web rig");return
 		for mesh in meshes(visual.original_rig):
+			if mesh.get_meta("procedural_equipment", false): continue
 			var semantic := mesh.mesh.surface_get_material(0).resource_name
 			if semantic == "Eyes" and (not mesh.is_visible_in_tree() or mesh.material_override.shader != Visual.EYE_SURFACE):
 				fail("original face eyes are hidden or replaced");return

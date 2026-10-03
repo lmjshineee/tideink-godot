@@ -1,0 +1,16 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+FAIL: tap emits six pellets and pays once
+FAIL: open waits 0.28 seconds
+FAIL: holding drains ink and prevents passive refill/dive
+FAIL: enemy full charge hits cover rather than owner
+FAIL: friendly ray passes cover without damaging it
+FAIL: second hit breaks cover and begins cooldown; breaking shot stays blocked
+FAIL: reroll keeps cover cooldown
+FAIL: side ray hits exposed actor rather than an omnidirectional shield
+FAIL: hold to 1.2 seconds launches with extra ink
+FAIL: wall stops advancing cover
+FAIL: death closes held cover without clearing cooldown
+FAIL: bot uses real cover under fire

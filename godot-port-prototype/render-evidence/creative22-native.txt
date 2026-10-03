@@ -1,0 +1,15 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+AUDIT: stable item hover=true kind=item id=ink_wings
+AUDIT: stable item hover=true kind=perk id=vault_runner
+AUDIT: stable item hover=true kind=perk id=last_ink
+AUDIT: stable item hover=true kind=perk id=dry_focus
+AUDIT: stable item hover=true kind=perk id=turf_engine
+AUDIT: stable item hover=true kind=item id=ink_wings
+AUDIT: stable item hover=true kind=perk id=vault_runner
+AUDIT: stable item hover=true kind=perk id=last_ink
+AUDIT: stable item hover=true kind=perk id=dry_focus
+AUDIT: stable item hover=true kind=perk id=turf_engine
+AUDIT: actual coverage=25.240035373634/1.83500726422841 flight y=5.34999942779541->3.9923939704895 ink=42.9700000000001
+PASS: Native item wings / primary / physical capped ascent and descent, timed support + pulse from true paint, all four perk details and two-size borderless larger results

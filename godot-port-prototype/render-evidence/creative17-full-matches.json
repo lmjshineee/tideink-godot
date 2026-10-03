@@ -1,0 +1,316 @@
+{
+  "fps_cap": 30,
+  "kind": "native automated input replay; human acceptance and temperature unmeasured",
+  "render_scale": 0.75,
+  "rounds": [
+    {
+      "average_fps": 29.9789466952096,
+      "bot_height_max": {
+        "2": 6.01211881637573
+      },
+      "bots": [
+        {
+          "id": 2,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Fizz",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 106.0,
+            "deaths": 0,
+            "kills": 1,
+            "turf": 401.576863850793
+          },
+          "weapon": "blaster"
+        }
+      ],
+      "dive_frames": 8,
+      "duration": 90.0,
+      "frames": 2670,
+      "fx_events": {
+        "dive": 2,
+        "hit": 2,
+        "jump": 15,
+        "muzzle": 5,
+        "splat": 1
+      },
+      "geometry": "prism_gallery",
+      "height_max": 7.2772216796875,
+      "height_min": 0.0,
+      "jump_inputs": 15,
+      "last_damage_history": [
+        {
+          "amount": 82.0,
+          "cause": "#02 Fizz · 爆破枪",
+          "source": "#02 Fizz · 爆破枪 · 躯干 / 5.4m",
+          "time": 15823
+        },
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 16090
+        },
+        {
+          "amount": 5.33333333333334,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 16357
+        },
+        {
+          "amount": 24.0,
+          "cause": "#02 Fizz · 爆破枪",
+          "source": "#02 Fizz · 爆破枪 · 躯干 / 6.1m",
+          "time": 16657
+        },
+        {
+          "amount": 5.33333333333335,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 53239
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 53506
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 53773
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 54039
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 54306
+        }
+      ],
+      "map": "prism_gallery",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "natural_deaths": 1,
+      "p95_frame_ms": 34.891,
+      "p99_equivalent_fps": 27.1606279537183,
+      "p99_frame_ms": 36.818,
+      "perk": "balanced",
+      "play_wall_seconds": 90.050647,
+      "player_recall_count": 0,
+      "player_roll_count": 0,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "team_size": 1,
+      "travel_m": 341.574921245221,
+      "turf_counts": [
+        1577,
+        5349
+      ],
+      "weapons_used": [
+        "bow"
+      ]
+    },
+    {
+      "average_fps": 29.9671678182393,
+      "bot_height_max": {
+        "10": 3.01690220832825,
+        "2": 3.02431106567383,
+        "3": 2.04999995231628,
+        "4": 3.03140640258789,
+        "5": 3.03332138061523,
+        "6": 3.01597046852112,
+        "7": 3.03312587738037,
+        "8": 3.67301249504089,
+        "9": 3.03142285346985
+      },
+      "bots": [
+        {
+          "id": 6,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Inky Vee",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 848.0,
+            "deaths": 4,
+            "kills": 7,
+            "specials": 1,
+            "turf": 463.914934835361
+          },
+          "weapon": "disc"
+        },
+        {
+          "id": 2,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Drip",
+          "perk": "leech",
+          "special_casts": 1,
+          "stats": {
+            "damage": 779.53439965021,
+            "deaths": 4,
+            "kills": 7,
+            "specials": 1,
+            "turf": 387.293564462189
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 3,
+          "item": "mist",
+          "max_hp": 120.0,
+          "name": "Nori",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 642.56560034979,
+            "deaths": 5,
+            "kills": 4,
+            "turf": 308.52637067351
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 4,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Riptide",
+          "perk": "balanced",
+          "special_casts": 1,
+          "stats": {
+            "damage": 779.356547260538,
+            "deaths": 5,
+            "kills": 6,
+            "specials": 1,
+            "turf": 601.431914210534
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 5,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Blotch",
+          "perk": "leech",
+          "special_casts": 1,
+          "stats": {
+            "damage": 109.333333333333,
+            "deaths": 4,
+            "kills": 1,
+            "specials": 1,
+            "turf": 458.825968636908
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 7,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Moxie",
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 486.0,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 272.58578468185
+          },
+          "weapon": "bow"
+        },
+        {
+          "id": 8,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Juno",
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 91.9999999999997,
+            "deaths": 3,
+            "kills": 1,
+            "turf": 318.075822531416
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 9,
+          "item": "mist",
+          "max_hp": 120.0,
+          "name": "Marlo",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 541.8,
+            "deaths": 4,
+            "kills": 4,
+            "turf": 322.032658664838
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 10,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Fizz",
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 348.835,
+            "deaths": 3,
+            "kills": 3,
+            "turf": 243.645024785674
+          },
+          "weapon": "charger"
+        }
+      ],
+      "dive_frames": 0,
+      "duration": 90.0,
+      "frames": 2669,
+      "fx_events": {
+        "dive": 8,
+        "hit": 215,
+        "jump": 15,
+        "muzzle": 344,
+        "splat": 46
+      },
+      "geometry": "terrace_garden",
+      "height_max": 7.2772216796875,
+      "height_min": 0.0,
+      "jump_inputs": 14,
+      "last_damage_history": [],
+      "map": "terrace_garden",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "natural_deaths": 0,
+      "p95_frame_ms": 35.973,
+      "p99_equivalent_fps": 24.9084614043391,
+      "p99_frame_ms": 40.147,
+      "perk": "balanced",
+      "play_wall_seconds": 90.031812,
+      "player_recall_count": 0,
+      "player_roll_count": 0,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "team_size": 5,
+      "travel_m": 314.507273417898,
+      "turf_counts": [
+        15094,
+        10294
+      ],
+      "weapons_used": [
+        "canopy"
+      ]
+    }
+  ]
+}

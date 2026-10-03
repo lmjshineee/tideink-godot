@@ -31,7 +31,7 @@ func _check() -> void:
 		printerr("FAIL: real-map scene wiring: blocks=", map.get("block_count"), " meshes=", view.get("face_mesh_count"), " turf=", ink.get("turf_total"))
 		quit(1)
 		return
-	if scene.get("phase") != "home" or bool(walker.get("active")) or (combat.get("weapons") as Dictionary).size() != 7:
+	if scene.get("phase") != "home" or bool(walker.get("active")) or scene.weapon_order.size() != 8 or not combat.weapons.has("disc") or not combat.weapons.has("heavy"):
 		printerr("FAIL: weapon loadout setup")
 		quit(1)
 		return

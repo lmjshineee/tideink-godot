@@ -1,0 +1,397 @@
+{
+  "fps_cap": 30,
+  "kind": "native automated input replay; human acceptance and temperature unmeasured",
+  "render_scale": 0.75,
+  "rounds": [
+    {
+      "average_fps": 29.9410915201236,
+      "bot_height_max": {
+        "2": 3.02077889442444
+      },
+      "bots": [
+        {
+          "id": 2,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Moxie",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 337.101491338124
+          },
+          "weapon": "bow"
+        }
+      ],
+      "counter_absorbed_projectiles": 0,
+      "counter_casts_all": 0,
+      "counter_casts_player": 0,
+      "counter_cost": 150.0,
+      "counter_retaliations": 0,
+      "decoy_casts_all": 3,
+      "decoy_casts_player": 3,
+      "decoy_fooled_all": 0,
+      "decoy_revealed_all": 0,
+      "dive_frames": 173,
+      "duration": 90.0,
+      "frames": 2666,
+      "fx_events": {
+        "dive": 44,
+        "hit": 514,
+        "jump": 14,
+        "muzzle": 516,
+        "splat": 5
+      },
+      "geometry": "prism_gallery",
+      "height_max": 8.84000110626221,
+      "height_min": 1.67608487606049,
+      "jump_inputs": 14,
+      "last_damage_history": [],
+      "map": "prism_gallery",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "mine_casts_all": 0,
+      "mine_casts_player": 0,
+      "mine_explosions_all": 0,
+      "mine_triggered_all": 0,
+      "mist_casts_all": 0,
+      "natural_deaths": 0,
+      "observed_enemy_frames": 0,
+      "p95_frame_ms": 35.636,
+      "p99_equivalent_fps": 26.992010364932,
+      "p99_frame_ms": 37.048,
+      "perk": "balanced",
+      "play_wall_seconds": 90.036242,
+      "player_recall_count": 0,
+      "player_roll_count": 0,
+      "player_stats": {
+        "damage": 0.0,
+        "deaths": 0,
+        "kills": 0,
+        "turf": 1051.19835903775
+      },
+      "rain_casts_all": 0,
+      "rain_casts_player": 0,
+      "rain_cost": 170.0,
+      "rain_volleys_all": 0,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "sonar_deploys": 0,
+      "supply_casts_all": 0,
+      "supply_casts_player": 0,
+      "supply_received_all": 0,
+      "supply_received_player": 0,
+      "supply_stolen_all": 0,
+      "tagged_enemy_frames": 0,
+      "team_size": 1,
+      "travel_m": 283.749634245032,
+      "turf_counts": [
+        13764,
+        4193
+      ],
+      "weapons_used": [
+        "shooter"
+      ]
+    },
+    {
+      "average_fps": 29.9624532726669,
+      "bot_height_max": {
+        "10": 3.03017115592957,
+        "2": 3.04236125946045,
+        "3": 5.56427907943726,
+        "4": 5.80737400054932,
+        "5": 5.80684423446655,
+        "6": 6.02733612060547,
+        "7": 6.03119134902954,
+        "8": 6.00528621673584,
+        "9": 3.00083541870117
+      },
+      "bots": [
+        {
+          "id": 6,
+          "item": "mine",
+          "max_hp": 120.0,
+          "name": "Fizz",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 496.942691779436,
+            "deaths": 3,
+            "kills": 4,
+            "turf": 387.021620520685
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 2,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Zest",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 872.839233022855,
+            "deaths": 4,
+            "kills": 6,
+            "specials": 1,
+            "turf": 362.258722140508
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 3,
+          "item": "mine",
+          "max_hp": 120.0,
+          "name": "Bubbles",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 494.454296775455,
+            "deaths": 2,
+            "kills": 2,
+            "specials": 1,
+            "turf": 465.175081545015
+          },
+          "weapon": "dualie"
+        },
+        {
+          "id": 4,
+          "item": "intel_mist",
+          "max_hp": 120.0,
+          "name": "Moxie",
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 406.070814442952,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 267.000188500016
+          },
+          "weapon": "canopy"
+        },
+        {
+          "id": 5,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Loop",
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 104.084853613717,
+            "deaths": 4,
+            "kills": 1,
+            "turf": 190.913830585468
+          },
+          "weapon": "dualie"
+        },
+        {
+          "id": 7,
+          "item": "sonar",
+          "max_hp": 120.0,
+          "name": "Pip",
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 208.56776558431,
+            "deaths": 2,
+            "kills": 2,
+            "turf": 233.58551395909
+          },
+          "weapon": "canopy"
+        },
+        {
+          "id": 8,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Wasabi",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 784.654804466277,
+            "deaths": 3,
+            "kills": 4,
+            "turf": 450.312487827827
+          },
+          "weapon": "dualie"
+        },
+        {
+          "id": 9,
+          "item": "sonar",
+          "max_hp": 120.0,
+          "name": "Coral",
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 242.9,
+            "deaths": 2,
+            "kills": 3,
+            "turf": 254.794091767728
+          },
+          "weapon": "disc"
+        },
+        {
+          "id": 10,
+          "item": "sonar",
+          "max_hp": 120.0,
+          "name": "Riptide",
+          "perk": "balanced",
+          "special_casts": 1,
+          "stats": {
+            "damage": 388.427100058171,
+            "deaths": 2,
+            "kills": 3,
+            "specials": 1,
+            "turf": 272.942027659788
+          },
+          "weapon": "blaster"
+        }
+      ],
+      "counter_absorbed_projectiles": 0,
+      "counter_casts_all": 0,
+      "counter_casts_player": 0,
+      "counter_cost": 150.0,
+      "counter_retaliations": 0,
+      "decoy_casts_all": 1,
+      "decoy_casts_player": 0,
+      "decoy_fooled_all": 5,
+      "decoy_revealed_all": 0,
+      "dive_frames": 236,
+      "duration": 90.0,
+      "frames": 2668,
+      "fx_events": {
+        "dive": 42,
+        "hit": 953,
+        "jump": 64,
+        "muzzle": 925,
+        "splat": 33
+      },
+      "geometry": "terrace_garden",
+      "height_max": 8.84000110626221,
+      "height_min": 0.0,
+      "jump_inputs": 14,
+      "last_damage_history": [
+        {
+          "amount": 20.7293836486816,
+          "cause": "#08 Wasabi · 双持喷枪",
+          "source": "#08 Wasabi · 双持喷枪 · 头部 / 8.2m",
+          "time": 171907
+        },
+        {
+          "amount": 20.729023016183,
+          "cause": "#08 Wasabi · 双持喷枪",
+          "source": "#08 Wasabi · 双持喷枪 · 头部 / 8.2m",
+          "time": 171911
+        },
+        {
+          "amount": 19.8,
+          "cause": "#08 Wasabi · 双持喷枪",
+          "source": "#08 Wasabi · 双持喷枪 · 躯干 / 7.2m",
+          "time": 172039
+        },
+        {
+          "amount": 19.8,
+          "cause": "#08 Wasabi · 双持喷枪",
+          "source": "#08 Wasabi · 双持喷枪 · 躯干 / 7.2m",
+          "time": 172040
+        },
+        {
+          "amount": 19.8,
+          "cause": "#08 Wasabi · 双持喷枪",
+          "source": "#08 Wasabi · 双持喷枪 · 躯干 / 6.4m",
+          "time": 172173
+        },
+        {
+          "amount": 19.1415933351353,
+          "cause": "#08 Wasabi · 双持喷枪",
+          "source": "#08 Wasabi · 双持喷枪 · 躯干 / 6.4m",
+          "time": 172173
+        },
+        {
+          "amount": 16.4605702396938,
+          "cause": "#08 Wasabi · 双持喷枪",
+          "source": "#08 Wasabi · 双持喷枪 · 腿部 / 8.1m",
+          "time": 187874
+        },
+        {
+          "amount": 16.460827167402,
+          "cause": "#08 Wasabi · 双持喷枪",
+          "source": "#08 Wasabi · 双持喷枪 · 腿部 / 8.1m",
+          "time": 187874
+        },
+        {
+          "amount": 30.6,
+          "cause": "#06 Fizz · 喷溅枪",
+          "source": "#06 Fizz · 喷溅枪 · 腿部 / 8.7m",
+          "time": 187907
+        },
+        {
+          "amount": 19.8,
+          "cause": "#08 Wasabi · 双持喷枪",
+          "source": "#08 Wasabi · 双持喷枪 · 躯干 / 7.3m",
+          "time": 188007
+        },
+        {
+          "amount": 19.8,
+          "cause": "#08 Wasabi · 双持喷枪",
+          "source": "#08 Wasabi · 双持喷枪 · 躯干 / 7.3m",
+          "time": 188007
+        },
+        {
+          "amount": 16.8786025929042,
+          "cause": "#08 Wasabi · 双持喷枪",
+          "source": "#08 Wasabi · 双持喷枪 · 头部 / 5.6m",
+          "time": 188273
+        }
+      ],
+      "map": "terrace_garden",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "mine_casts_all": 6,
+      "mine_casts_player": 0,
+      "mine_explosions_all": 1,
+      "mine_triggered_all": 1,
+      "mist_casts_all": 2,
+      "natural_deaths": 2,
+      "observed_enemy_frames": 7693,
+      "p95_frame_ms": 35.641,
+      "p99_equivalent_fps": 25.3177376069674,
+      "p99_frame_ms": 39.498,
+      "perk": "enemy_swim",
+      "play_wall_seconds": 90.038069,
+      "player_recall_count": 0,
+      "player_roll_count": 33,
+      "player_stats": {
+        "damage": 36.6795,
+        "deaths": 2,
+        "kills": 0,
+        "turf": 785.262464275848
+      },
+      "rain_casts_all": 0,
+      "rain_casts_player": 0,
+      "rain_cost": 170.0,
+      "rain_volleys_all": 0,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "sonar_deploys": 0,
+      "supply_casts_all": 4,
+      "supply_casts_player": 3,
+      "supply_received_all": 2,
+      "supply_received_player": 2,
+      "supply_stolen_all": 0,
+      "tagged_enemy_frames": 0,
+      "team_size": 5,
+      "travel_m": 375.088678165223,
+      "turf_counts": [
+        17156,
+        13200
+      ],
+      "weapons_used": [
+        "dualie"
+      ]
+    }
+  ]
+}

@@ -3,8 +3,8 @@
   "id": "viaduct",
   "width": 252,
   "height": 644,
-  "cells": 119470,
-  "paintPixels": 159791,
+  "cells": 119054,
+  "paintPixels": 160636,
   "sources": {
     "public/game/src/game/minimap.js": "dfeafa909fd2148744a45547e29bd324f54f4af38bb31eba22f5951f4a9d45bc",
     "public/game/src/world/maps.js": "1a45e6df5119489a118b44871b846eefad15390b955670c042e5a61f005948c9",
@@ -14,10 +14,10 @@
     "godot-port-prototype/tools/export_minimap.mjs": "a0953475bd95db3eb6d5f02690a7cfb1844fcf86bce813b341f0d8f0bcf40e85",
     "godot-port-prototype/assets/maps/tidewater_surfaces.json": "715604cc67e9aebc755fea9b6c49458c8fc067b178965c1a5d6267d1c0c227c3",
     "godot-port-prototype/assets/maps/kelpline_surfaces.json": "4d6d5aa060ed312ff3d3b148f19c6c289e855f9145d61d04cd5731e6d488b8a4",
-    "godot-port-prototype/tools/lib/arena_layouts.mjs": "95f953267eb0155cc867e637826319ec09dfbb73b8f60b039c7965ceb8f7a618"
+    "godot-port-prototype/tools/lib/arena_layouts.mjs": "7ed50280e5c827d1519d33d7f54dc6ed26dd505c9b86b1ee72448c3b0f29d734"
   },
   "outputs": {
-    "viaduct_minimap.png": "f086098133d00465c44b2767d4c6fb9575af3326d90cc2472be1445b036802e9",
-    "viaduct_minimap_lookup.bin": "29621b22d0e9876bce0187d616019b6911ea0466aff871e84fc4fb215d0db3cf"
+    "viaduct_minimap.png": "3dd800b81436d1edfc819055b8164eb3cefd6b5fbcb261ecdb6b76423bd1da71",
+    "viaduct_minimap_lookup.bin": "a439e2fb15a13b457c87ea8754a1f4251d8f7d7c24acc06a1a3f07da52c812ac"
   }
 }

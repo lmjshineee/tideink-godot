@@ -10,6 +10,9 @@ func _check() -> void:
 	var scene := (load("res://tidewater_play.tscn") as PackedScene).instantiate()
 	root.add_child(scene)
 	await physics_frame
+	# This check isolates base Slam/Storm rules; last_ink has a longer respawn.
+	for actor in scene.all_actors(): scene.perks.choices[actor.get_instance_id()] = "balanced"
+	scene.perks.apply_movement()
 	scene.call("_start_round")
 	var combat: Node3D = scene.get_node("Combat")
 	var walker: CharacterBody3D = scene.get_node("World/Walker")

@@ -5,6 +5,7 @@ uniform sampler2D ownership : filter_nearest, repeat_disable;
 uniform vec2 atlas_size;
 uniform vec4 team_a : source_color;
 uniform vec4 team_b : source_color;
+uniform vec2 edge_feather = vec2(0.0);
 float owner_at(float k) {
  vec2 p = vec2(mod(k, atlas_size.x), floor(k / atlas_size.x));
  return floor(texture(ownership, (p + 0.5) / atlas_size).r * 255.0 + 0.5);
@@ -26,4 +27,10 @@ void fragment() {
  float dark = max(0.0, f.x-field(UV+texel).x);
  vec3 ink = mix(team_a.rgb, team_b.rgb, f.y)*(0.94-dark*0.32)+lit*0.59;
  COLOR = vec4(mix(base.rgb, ink, f.x), base.a);
+ // Borderless displays also soften the baked image's outer seam.
+ if (edge_feather.x > 0.0 && edge_feather.y > 0.0) {
+  vec2 edge = min(UV, vec2(1.0)-UV);
+  vec2 mask = smoothstep(edge_feather*0.5, edge_feather, edge);
+  COLOR.a *= min(mask.x, mask.y);
+ }
 }

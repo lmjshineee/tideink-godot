@@ -1,0 +1,10 @@
+CHECK: check_gameplay_deployment
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Attempt to open script 'res://tools/check_gameplay_deployment.gd' resulted in error 'File not found'.
+   at: load_source_code (modules/gdscript/gdscript.cpp:1154)
+ERROR: Failed loading resource: res://tools/check_gameplay_deployment.gd.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Can't load script: res://tools/check_gameplay_deployment.gd
+   at: start (main/main.cpp:4370)
+

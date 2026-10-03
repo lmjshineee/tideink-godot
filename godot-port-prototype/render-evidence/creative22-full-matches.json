@@ -1,0 +1,446 @@
+{
+  "fps_cap": 30,
+  "kind": "native automated input replay; human acceptance and temperature unmeasured",
+  "render_scale": 0.75,
+  "rounds": [
+    {
+      "average_fps": 29.9498132798775,
+      "bot_height_max": {
+        "2": 3.02077889442444
+      },
+      "bots": [
+        {
+          "id": 2,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Tako",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 314.663895588124
+          },
+          "weapon": "canopy"
+        }
+      ],
+      "comeback_events": 0,
+      "counter_absorbed_projectiles": 0,
+      "counter_casts_all": 0,
+      "counter_casts_player": 0,
+      "counter_cost": 150.0,
+      "counter_retaliations": 0,
+      "coverage_gap_max": 18.5980039163666,
+      "death_bursts_all": 0,
+      "decoy_casts_all": 0,
+      "decoy_casts_player": 0,
+      "decoy_fooled_all": 0,
+      "decoy_revealed_all": 0,
+      "dive_frames": 187,
+      "duration": 90.0,
+      "final_shares": [
+        0.246415261196387,
+        0.0605299728381025
+      ],
+      "flight_frames": 392,
+      "flight_relative_height_max": 4.5,
+      "frames": 2666,
+      "fx_events": {
+        "dive": 31,
+        "hit": 455,
+        "jump": 12,
+        "muzzle": 462,
+        "splat": 6
+      },
+      "geometry": "prism_gallery",
+      "height_max": 13.3172235488892,
+      "height_min": 1.67608487606049,
+      "jump_inputs": 13,
+      "last_damage_history": [],
+      "map": "prism_gallery",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "mine_casts_all": 0,
+      "mine_casts_player": 0,
+      "mine_explosions_all": 0,
+      "mine_triggered_all": 0,
+      "mist_casts_all": 0,
+      "natural_deaths": 0,
+      "observed_enemy_frames": 0,
+      "p95_frame_ms": 36.119,
+      "p99_equivalent_fps": 26.2377666413035,
+      "p99_frame_ms": 38.113,
+      "perk": "last_ink",
+      "play_wall_seconds": 90.006536,
+      "player_recall_count": 0,
+      "player_roll_count": 0,
+      "player_stats": {
+        "damage": 0.0,
+        "deaths": 0,
+        "kills": 0,
+        "turf": 1181.36044101092
+      },
+      "rain_casts_all": 0,
+      "rain_casts_player": 0,
+      "rain_cost": 170.0,
+      "rain_volleys_all": 0,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "sonar_deploys": 0,
+      "supply_casts_all": 0,
+      "supply_casts_player": 0,
+      "supply_received_all": 0,
+      "supply_received_player": 0,
+      "supply_stolen_all": 0,
+      "tagged_enemy_frames": 0,
+      "team_size": 1,
+      "travel_m": 370.992459341884,
+      "turf_counts": [
+        15604,
+        3833
+      ],
+      "vault_boosts_all": 0,
+      "weapons_used": [
+        "shooter"
+      ],
+      "wing_casts_all": 5,
+      "wing_casts_player": 5
+    },
+    {
+      "average_fps": 29.9624098658444,
+      "bot_height_max": {
+        "10": 3.03268766403198,
+        "2": 2.44888782501221,
+        "3": 3.02219557762146,
+        "4": 3.03336095809937,
+        "5": 4.60999822616577,
+        "6": 2.26695823669434,
+        "7": 3.04027271270752,
+        "8": 6.02162933349609,
+        "9": 3.00084233283997
+      },
+      "bots": [
+        {
+          "id": 6,
+          "item": "intel_mist",
+          "max_hp": 120.0,
+          "name": "Suki",
+          "perk": "enemy_swim",
+          "special_casts": 1,
+          "stats": {
+            "damage": 976.378594784136,
+            "deaths": 2,
+            "kills": 8,
+            "specials": 1,
+            "turf": 374.824175226023
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 2,
+          "item": "supply_box",
+          "max_hp": 120.0,
+          "name": "Nori",
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 321.633333333333,
+            "deaths": 4,
+            "kills": 1,
+            "turf": 206.920684480122
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 3,
+          "item": "echo_decoy",
+          "max_hp": 120.0,
+          "name": "Kelp",
+          "perk": "last_ink",
+          "special_casts": 1,
+          "stats": {
+            "damage": 584.937696860296,
+            "deaths": 4,
+            "kills": 5,
+            "specials": 1,
+            "turf": 470.301571609145
+          },
+          "weapon": "disc"
+        },
+        {
+          "id": 4,
+          "item": "intel_mist",
+          "max_hp": 120.0,
+          "name": "Loop",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 482.266867830912,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 305.741425356357
+          },
+          "weapon": "canopy"
+        },
+        {
+          "id": 5,
+          "item": "ink_wings",
+          "max_hp": 120.0,
+          "name": "Coral",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 459.635798835754,
+            "deaths": 6,
+            "kills": 4,
+            "turf": 271.148349076288
+          },
+          "weapon": "disc"
+        },
+        {
+          "id": 7,
+          "item": "supply_box",
+          "max_hp": 120.0,
+          "name": "Marlo",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 378.976279137748,
+            "deaths": 2,
+            "kills": 2,
+            "turf": 255.672870778201
+          },
+          "weapon": "dualie"
+        },
+        {
+          "id": 8,
+          "item": "ink_wings",
+          "max_hp": 120.0,
+          "name": "Bubbles",
+          "perk": "leech",
+          "special_casts": 1,
+          "stats": {
+            "damage": 651.112002508981,
+            "deaths": 3,
+            "kills": 2,
+            "specials": 1,
+            "turf": 336.709914143125
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 9,
+          "item": "supply_box",
+          "max_hp": 120.0,
+          "name": "Sprinkle",
+          "perk": "last_ink",
+          "special_casts": 1,
+          "stats": {
+            "damage": 319.652033159326,
+            "deaths": 2,
+            "kills": 4,
+            "specials": 1,
+            "turf": 466.926929380762
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 10,
+          "item": "sonar",
+          "max_hp": 120.0,
+          "name": "Juno",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 505.901551674417,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 288.781713277722
+          },
+          "weapon": "canopy"
+        }
+      ],
+      "comeback_events": 0,
+      "counter_absorbed_projectiles": 0,
+      "counter_casts_all": 1,
+      "counter_casts_player": 0,
+      "counter_cost": 150.0,
+      "counter_retaliations": 1,
+      "coverage_gap_max": 16.5719620099034,
+      "death_bursts_all": 6,
+      "decoy_casts_all": 1,
+      "decoy_casts_player": 0,
+      "decoy_fooled_all": 2,
+      "decoy_revealed_all": 0,
+      "dive_frames": 207,
+      "duration": 90.0,
+      "final_shares": [
+        0.285588657087967,
+        0.17401304218416
+      ],
+      "flight_frames": 273,
+      "flight_relative_height_max": 4.5,
+      "frames": 2668,
+      "fx_events": {
+        "dive": 43,
+        "hit": 910,
+        "jump": 18,
+        "muzzle": 792,
+        "splat": 44
+      },
+      "geometry": "terrace_garden",
+      "height_max": 10.5,
+      "height_min": 0.0,
+      "jump_inputs": 14,
+      "last_damage_history": [
+        {
+          "amount": 14.0,
+          "cause": "#08 Bubbles · 推进挡墨伞",
+          "source": "#08 Bubbles · 推进挡墨伞 · 躯干 / 6.3m",
+          "time": 155297
+        },
+        {
+          "amount": 14.0,
+          "cause": "#08 Bubbles · 推进挡墨伞",
+          "source": "#08 Bubbles · 推进挡墨伞 · 躯干 / 6.3m",
+          "time": 155297
+        },
+        {
+          "amount": 11.9,
+          "cause": "#08 Bubbles · 推进挡墨伞",
+          "source": "#08 Bubbles · 推进挡墨伞 · 腿部 / 6.3m",
+          "time": 155298
+        },
+        {
+          "amount": 11.9,
+          "cause": "#08 Bubbles · 推进挡墨伞",
+          "source": "#08 Bubbles · 推进挡墨伞 · 腿部 / 6.3m",
+          "time": 155298
+        },
+        {
+          "amount": 12.2,
+          "cause": "#08 Bubbles · 推进挡墨伞",
+          "source": "#08 Bubbles · 推进挡墨伞 · 躯干 / 6.3m",
+          "time": 155298
+        },
+        {
+          "amount": 5.33333333333336,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 174396
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 179829
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 180096
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 180363
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 182196
+        },
+        {
+          "amount": 100.0,
+          "cause": "#08 Bubbles · 蓄力狙",
+          "source": "#08 Bubbles · 蓄力狙 · 躯干 / 19.3m",
+          "time": 182369
+        },
+        {
+          "amount": 1.0,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 182463
+        },
+        {
+          "amount": 100.0,
+          "cause": "#08 Bubbles · 蓄力狙",
+          "source": "#08 Bubbles · 蓄力狙 · 躯干 / 14.7m",
+          "time": 192499
+        },
+        {
+          "amount": 5.33333333333334,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 192763
+        },
+        {
+          "amount": 5.33333333333333,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 193029
+        },
+        {
+          "amount": 4.0,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 193296
+        }
+      ],
+      "map": "terrace_garden",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "mine_casts_all": 6,
+      "mine_casts_player": 0,
+      "mine_explosions_all": 2,
+      "mine_triggered_all": 2,
+      "mist_casts_all": 6,
+      "natural_deaths": 1,
+      "observed_enemy_frames": 6530,
+      "p95_frame_ms": 36.052,
+      "p99_equivalent_fps": 24.8379324904995,
+      "p99_frame_ms": 40.261,
+      "perk": "dry_focus",
+      "play_wall_seconds": 90.041033,
+      "player_recall_count": 0,
+      "player_roll_count": 0,
+      "player_stats": {
+        "damage": 30.0,
+        "deaths": 1,
+        "kills": 0,
+        "turf": 1098.01946765876
+      },
+      "rain_casts_all": 0,
+      "rain_casts_player": 0,
+      "rain_cost": 170.0,
+      "rain_volleys_all": 0,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "sonar_deploys": 0,
+      "supply_casts_all": 1,
+      "supply_casts_player": 0,
+      "supply_received_all": 1,
+      "supply_received_player": 0,
+      "supply_stolen_all": 0,
+      "tagged_enemy_frames": 59,
+      "team_size": 5,
+      "travel_m": 382.072312558579,
+      "turf_counts": [
+        21109,
+        12862
+      ],
+      "vault_boosts_all": 0,
+      "weapons_used": [
+        "shooter"
+      ],
+      "wing_casts_all": 7,
+      "wing_casts_player": 4
+    }
+  ]
+}

@@ -1,0 +1,407 @@
+{
+  "fps_cap": 30,
+  "kind": "native automated input replay; human acceptance and temperature unmeasured",
+  "render_scale": 0.75,
+  "rounds": [
+    {
+      "average_fps": 29.9875076760158,
+      "bot_height_max": {
+        "2": 6.01211881637573
+      },
+      "bots": [
+        {
+          "id": 2,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Coral",
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 107.333333333333,
+            "deaths": 0,
+            "kills": 1,
+            "turf": 385.13558656643
+          },
+          "weapon": "blaster"
+        }
+      ],
+      "dive_frames": 3,
+      "duration": 90.0,
+      "frames": 2670,
+      "fx_events": {
+        "dive": 1,
+        "hit": 2,
+        "jump": 18,
+        "muzzle": 2,
+        "splat": 1
+      },
+      "geometry": "prism_gallery",
+      "height_max": 7.2772216796875,
+      "height_min": 0.0,
+      "jump_inputs": 18,
+      "last_damage_history": [
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 52475
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 54808
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 55075
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 55341
+        },
+        {
+          "amount": 5.00000000000005,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 61977
+        },
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 62244
+        },
+        {
+          "amount": 5.0,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 68810
+        },
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 69076
+        },
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 69343
+        },
+        {
+          "amount": 5.0,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 75943
+        },
+        {
+          "amount": 5.33333333333331,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 76210
+        },
+        {
+          "amount": 5.00000000000002,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 82810
+        },
+        {
+          "amount": 5.33333333333334,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 83077
+        },
+        {
+          "amount": 5.33333333333334,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 83344
+        },
+        {
+          "amount": 5.00000000000001,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 89944
+        },
+        {
+          "amount": 5.33333333333333,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 90210
+        }
+      ],
+      "map": "prism_gallery",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "natural_deaths": 1,
+      "observed_enemy_frames": 223,
+      "p95_frame_ms": 34.678,
+      "p99_equivalent_fps": 27.3403324584427,
+      "p99_frame_ms": 36.576,
+      "perk": "balanced",
+      "play_wall_seconds": 90.034564,
+      "player_recall_count": 0,
+      "player_roll_count": 0,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "sonar_deploys": 1,
+      "tagged_enemy_frames": 0,
+      "team_size": 1,
+      "travel_m": 251.533097873558,
+      "turf_counts": [
+        918,
+        5389
+      ],
+      "weapons_used": [
+        "bow"
+      ]
+    },
+    {
+      "average_fps": 29.9675539451352,
+      "bot_height_max": {
+        "10": 3.01071810722351,
+        "2": 3.03294730186462,
+        "3": 3.00611901283264,
+        "4": 5.58336734771729,
+        "5": 6.01533699035645,
+        "6": 3.03052163124084,
+        "7": 3.0322437286377,
+        "8": 6.00519514083862,
+        "9": 2.04999995231628
+      },
+      "bots": [
+        {
+          "id": 6,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Juno",
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 52.6666666666667,
+            "deaths": 3,
+            "kills": 1,
+            "turf": 359.79765788497
+          },
+          "weapon": "disc"
+        },
+        {
+          "id": 2,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Squiddo",
+          "perk": "leech",
+          "special_casts": 1,
+          "stats": {
+            "damage": 201.8,
+            "deaths": 3,
+            "kills": 3,
+            "specials": 1,
+            "turf": 340.3389913789
+          },
+          "weapon": "bow"
+        },
+        {
+          "id": 3,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Marlo",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 680.75,
+            "deaths": 3,
+            "kills": 3,
+            "specials": 1,
+            "turf": 503.574053062368
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 4,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Nori",
+          "perk": "leech",
+          "special_casts": 1,
+          "stats": {
+            "damage": 911.050256942422,
+            "deaths": 4,
+            "kills": 4,
+            "specials": 1,
+            "turf": 461.176475423336
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 5,
+          "item": "mist",
+          "max_hp": 120.0,
+          "name": "Tako",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 790.266666666662,
+            "deaths": 2,
+            "kills": 6,
+            "specials": 1,
+            "turf": 408.59407428151
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 7,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Blotch",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 157.0,
+            "deaths": 2,
+            "kills": 0,
+            "turf": 318.05872545232
+          },
+          "weapon": "canopy"
+        },
+        {
+          "id": 8,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Coral",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 547.065745940692,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 292.057086005267
+          },
+          "weapon": "disc"
+        },
+        {
+          "id": 9,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Riptide",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 392.012666666667,
+            "deaths": 3,
+            "kills": 5,
+            "turf": 254.909914589003
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 10,
+          "item": "sonar",
+          "max_hp": 120.0,
+          "name": "Sprinkle",
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 252.023935171712,
+            "deaths": 4,
+            "kills": 1,
+            "turf": 231.011443440105
+          },
+          "weapon": "disc"
+        }
+      ],
+      "dive_frames": 143,
+      "duration": 90.0,
+      "frames": 2668,
+      "fx_events": {
+        "dive": 19,
+        "hit": 499,
+        "jump": 19,
+        "muzzle": 305,
+        "splat": 36
+      },
+      "geometry": "terrace_garden",
+      "height_max": 7.61833333969116,
+      "height_min": 0.0,
+      "jump_inputs": 14,
+      "last_damage_history": [
+        {
+          "amount": 14.2186792428153,
+          "cause": "#08 Coral · 双持喷枪",
+          "source": "#08 Coral · 双持喷枪 · 躯干 / 9.5m",
+          "time": 156541
+        },
+        {
+          "amount": 14.2186792428153,
+          "cause": "#08 Coral · 双持喷枪",
+          "source": "#08 Coral · 双持喷枪 · 躯干 / 9.5m",
+          "time": 156542
+        },
+        {
+          "amount": 15.4946809932164,
+          "cause": "#08 Coral · 双持喷枪",
+          "source": "#08 Coral · 双持喷枪 · 躯干 / 8.6m",
+          "time": 156676
+        },
+        {
+          "amount": 12.6429699396406,
+          "cause": "#08 Coral · 双持喷枪",
+          "source": "#08 Coral · 双持喷枪 · 腿部 / 9.1m",
+          "time": 156708
+        },
+        {
+          "amount": 15.503133152553,
+          "cause": "#08 Coral · 双持喷枪",
+          "source": "#08 Coral · 双持喷枪 · 躯干 / 8.6m",
+          "time": 156875
+        },
+        {
+          "amount": 16.5,
+          "cause": "#08 Coral · 双持喷枪",
+          "source": "#08 Coral · 双持喷枪 · 躯干 / 7.6m",
+          "time": 156975
+        },
+        {
+          "amount": 16.5,
+          "cause": "#08 Coral · 双持喷枪",
+          "source": "#08 Coral · 双持喷枪 · 躯干 / 7.6m",
+          "time": 156975
+        }
+      ],
+      "map": "terrace_garden",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "natural_deaths": 0,
+      "observed_enemy_frames": 6573,
+      "p95_frame_ms": 35.782,
+      "p99_equivalent_fps": 25.8397932816537,
+      "p99_frame_ms": 38.7,
+      "perk": "balanced",
+      "play_wall_seconds": 90.024081,
+      "player_recall_count": 0,
+      "player_roll_count": 0,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "sonar_deploys": 5,
+      "tagged_enemy_frames": 3,
+      "team_size": 5,
+      "travel_m": 301.39365283314,
+      "turf_counts": [
+        15846,
+        9884
+      ],
+      "weapons_used": [
+        "canopy"
+      ]
+    }
+  ]
+}

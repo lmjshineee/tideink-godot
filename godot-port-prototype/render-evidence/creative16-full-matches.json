@@ -1,0 +1,573 @@
+{
+  "fps_cap": 30.0,
+  "kind": "native automated input replay; human acceptance and temperature unmeasured",
+  "render_scale": 0.75,
+  "rounds": [
+    {
+      "average_fps": 29.9218831137845,
+      "bots": [
+        {
+          "id": 6.0,
+          "item": "mist",
+          "max_hp": 120.0,
+          "name": "Loop",
+          "perk": "enemy_swim",
+          "special_casts": 1.0,
+          "stats": {
+            "damage": 798.581886796517,
+            "deaths": 6.0,
+            "kills": 10.0,
+            "specials": 1.0,
+            "turf": 504.326580267878
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 2.0,
+          "item": "mist",
+          "max_hp": 120.0,
+          "name": "Inky Vee",
+          "perk": "balanced",
+          "special_casts": 2.0,
+          "stats": {
+            "damage": 1195.42859249915,
+            "deaths": 6.0,
+            "kills": 6.0,
+            "specials": 2.0,
+            "turf": 780.575620900311
+          },
+          "weapon": "dualie"
+        },
+        {
+          "id": 3.0,
+          "item": "mist",
+          "max_hp": 120.0,
+          "name": "Riptide",
+          "perk": "adrenaline",
+          "special_casts": 1.0,
+          "stats": {
+            "damage": 1437.56,
+            "deaths": 4.0,
+            "kills": 12.0,
+            "specials": 1.0,
+            "turf": 655.932386005207
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 4.0,
+          "item": "mist",
+          "max_hp": 120.0,
+          "name": "Blotch",
+          "perk": "leech",
+          "special_casts": 1.0,
+          "stats": {
+            "damage": 509.196736244019,
+            "deaths": 5.0,
+            "kills": 7.0,
+            "specials": 1.0,
+            "turf": 570.180688
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 5.0,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Marlo",
+          "perk": "leech",
+          "special_casts": 0.0,
+          "stats": {
+            "damage": 211.131407500851,
+            "deaths": 6.0,
+            "kills": 3.0,
+            "turf": 169.210288100412
+          },
+          "weapon": "blaster"
+        },
+        {
+          "id": 7.0,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Squiddo",
+          "perk": "enemy_swim",
+          "special_casts": 0.0,
+          "stats": {
+            "damage": 307.954744059245,
+            "deaths": 6.0,
+            "kills": 1.0,
+            "turf": 206.424478984088
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 8.0,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Coral",
+          "perk": "enemy_swim",
+          "special_casts": 0.0,
+          "stats": {
+            "damage": 591.219278460069,
+            "deaths": 6.0,
+            "kills": 5.0,
+            "turf": 349.19998
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 9.0,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Zest",
+          "perk": "leech",
+          "special_casts": 1.0,
+          "stats": {
+            "damage": 1017.87152697235,
+            "deaths": 5.0,
+            "kills": 4.0,
+            "specials": 1.0,
+            "turf": 741.652680211264
+          },
+          "weapon": "dualie"
+        },
+        {
+          "id": 10.0,
+          "item": "mist",
+          "max_hp": 120.0,
+          "name": "Pip",
+          "perk": "enemy_swim",
+          "special_casts": 0.0,
+          "stats": {
+            "damage": 818.945263322474,
+            "deaths": 6.0,
+            "kills": 7.0,
+            "turf": 380.150322837619
+          },
+          "weapon": "charger"
+        }
+      ],
+      "dive_frames": 197.0,
+      "duration": 90.0,
+      "frames": 2665.0,
+      "fx_events": {
+        "dive": 118.0,
+        "hit": 681.0,
+        "jump": 28.0,
+        "muzzle": 487.0,
+        "splat": 71.0
+      },
+      "geometry": "modular_harbor",
+      "height_max": 3.27722191810608,
+      "height_min": 0.0,
+      "jump_inputs": 10.0,
+      "last_damage_history": [
+        {
+          "amount": 1.68,
+          "cause": "#06 Loop · 墨雨",
+          "source": "#06 Loop · 墨雨",
+          "time": 53726.0
+        },
+        {
+          "amount": 1.68,
+          "cause": "#06 Loop · 墨雨",
+          "source": "#06 Loop · 墨雨",
+          "time": 53759.0
+        },
+        {
+          "amount": 1.68,
+          "cause": "#06 Loop · 墨雨",
+          "source": "#06 Loop · 墨雨",
+          "time": 53793.0
+        },
+        {
+          "amount": 1.68,
+          "cause": "#06 Loop · 墨雨",
+          "source": "#06 Loop · 墨雨",
+          "time": 53826.0
+        },
+        {
+          "amount": 32.1215807373047,
+          "cause": "#10 Pip · 喷溅枪",
+          "source": "#10 Pip · 喷溅枪 · 躯干 / 10.9m",
+          "time": 53859.0
+        },
+        {
+          "amount": 1.68,
+          "cause": "#06 Loop · 墨雨",
+          "source": "#06 Loop · 墨雨",
+          "time": 53859.0
+        },
+        {
+          "amount": 1.68,
+          "cause": "#06 Loop · 墨雨",
+          "source": "#06 Loop · 墨雨",
+          "time": 53893.0
+        },
+        {
+          "amount": 35.8784192626953,
+          "cause": "#06 Loop · 蓄力狙",
+          "source": "#06 Loop · 蓄力狙 · 躯干 / 7.3m",
+          "time": 54029.0
+        },
+        {
+          "amount": 5.33333333333326,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 65859.0
+        },
+        {
+          "amount": 5.33333333333326,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 66759.0
+        },
+        {
+          "amount": 106.666666666667,
+          "cause": "#08 Coral · 蓄力狙",
+          "source": "#08 Coral · 蓄力狙 · 躯干 / 13.1m",
+          "time": 68793.0
+        },
+        {
+          "amount": 120.0,
+          "cause": "#09 Zest · 蓄力狙",
+          "source": "#09 Zest · 蓄力狙 · 躯干 / 15.7m",
+          "time": 79427.0
+        },
+        {
+          "amount": 5.33333333333326,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 89425.0
+        },
+        {
+          "amount": 31.8957096617562,
+          "cause": "#10 Pip · 滚筒刷",
+          "source": "#10 Pip · 滚筒刷 · 腿部 / 5.7m",
+          "time": 89492.0
+        },
+        {
+          "amount": 32.6594209098816,
+          "cause": "#10 Pip · 滚筒刷",
+          "source": "#10 Pip · 滚筒刷 · 腿部 / 5.6m",
+          "time": 89526.0
+        },
+        {
+          "amount": 53.7782027616955,
+          "cause": "#10 Pip · 滚筒刷",
+          "source": "#10 Pip · 滚筒刷 · 躯干 / 2.9m",
+          "time": 89926.0
+        }
+      ],
+      "map": "modular_harbor",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "natural_deaths": 6.0,
+      "p95_frame_ms": 36.055,
+      "p99_equivalent_fps": 22.8791067996705,
+      "p99_frame_ms": 43.708,
+      "perk": "enemy_swim",
+      "play_wall_seconds": 90.060203,
+      "player_recall_count": 1.0,
+      "player_roll_count": 14.0,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 348.705713707954,
+      "turf_counts": [
+        16425.0,
+        11974.0
+      ],
+      "weapons_used": [
+        "disc",
+        "dualie",
+        "charger",
+        "roller",
+        "blaster"
+      ]
+    },
+    {
+      "average_fps": 29.9687364388518,
+      "bots": [
+        {
+          "id": 6,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Drip",
+          "perk": "balanced",
+          "special_casts": 2,
+          "stats": {
+            "damage": 729.013333333331,
+            "deaths": 3,
+            "kills": 5,
+            "specials": 2,
+            "turf": 909.799417055244
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 2,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Moxie",
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 1110.56571644555,
+            "deaths": 3,
+            "kills": 9,
+            "specials": 1,
+            "turf": 487.97590519541
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 3,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Nori",
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 313.579555652714,
+            "deaths": 5,
+            "kills": 2,
+            "turf": 403.960948496045
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 4,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Riptide",
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 264.0,
+            "deaths": 5,
+            "kills": 1,
+            "turf": 326.742361619105
+          },
+          "weapon": "charger"
+        },
+        {
+          "id": 5,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Juno",
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 491.409569469761,
+            "deaths": 4,
+            "kills": 4,
+            "turf": 783.195071320097
+          },
+          "weapon": "shooter"
+        },
+        {
+          "id": 7,
+          "item": "recall",
+          "max_hp": 120.0,
+          "name": "Kelp",
+          "perk": "balanced",
+          "special_casts": 1,
+          "stats": {
+            "damage": 629.674426743279,
+            "deaths": 2,
+            "kills": 4,
+            "specials": 1,
+            "turf": 464.389278358056
+          },
+          "weapon": "dualie"
+        },
+        {
+          "id": 8,
+          "item": "beacon",
+          "max_hp": 120.0,
+          "name": "Blotch",
+          "perk": "leech",
+          "special_casts": 1,
+          "stats": {
+            "damage": 427.686343286242,
+            "deaths": 3,
+            "kills": 3,
+            "specials": 1,
+            "turf": 441.476720016251
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 9,
+          "item": "mist",
+          "max_hp": 120.0,
+          "name": "Tako",
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 396.933333333333,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 276.733826003211
+          },
+          "weapon": "roller"
+        },
+        {
+          "id": 10,
+          "item": "bomb",
+          "max_hp": 120.0,
+          "name": "Suki",
+          "perk": "balanced",
+          "special_casts": 1,
+          "stats": {
+            "damage": 741.884707936786,
+            "deaths": 4,
+            "kills": 7,
+            "specials": 1,
+            "turf": 496.189730744239
+          },
+          "weapon": "blaster"
+        }
+      ],
+      "dive_frames": 185,
+      "duration": 90.0,
+      "frames": 2667,
+      "fx_events": {
+        "dive": 55,
+        "hit": 840,
+        "jump": 40,
+        "muzzle": 628,
+        "splat": 57
+      },
+      "geometry": "prism_gallery",
+      "height_max": 4.2771954536438,
+      "height_min": 0.0,
+      "jump_inputs": 11,
+      "last_damage_history": [
+        {
+          "amount": 7.11970793678598,
+          "cause": "#10 Suki · 双持喷枪",
+          "source": "#10 Suki · 双持喷枪 · 头部 / 6.0m",
+          "time": 66376
+        },
+        {
+          "amount": 17.82,
+          "cause": "#10 Suki · 双持喷枪",
+          "source": "#10 Suki · 双持喷枪 · 头部 / 6.6m",
+          "time": 76742
+        },
+        {
+          "amount": 16.5,
+          "cause": "#10 Suki · 双持喷枪",
+          "source": "#10 Suki · 双持喷枪 · 躯干 / 4.8m",
+          "time": 76876
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 77008
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 77409
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 77675
+        },
+        {
+          "amount": 70.3466666666666,
+          "cause": "#10 Suki · 砸地",
+          "source": "#10 Suki · 砸地",
+          "time": 77745
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 88742
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 89008
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 89275
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 89975
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 90242
+        },
+        {
+          "amount": 16.341093409947,
+          "cause": "#07 Kelp · 双持喷枪",
+          "source": "#07 Kelp · 双持喷枪 · 头部 / 8.9m",
+          "time": 90909
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 90942
+        },
+        {
+          "amount": 5.33333333333337,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 91209
+        },
+        {
+          "amount": 5.33333333333336,
+          "cause": "敌方墨面",
+          "source": "敌方墨面",
+          "time": 95375
+        }
+      ],
+      "map": "prism_gallery",
+      "max_hp": 120.0,
+      "max_ink": 100.0,
+      "natural_deaths": 5,
+      "p95_frame_ms": 35.873,
+      "p99_equivalent_fps": 25.9315924590929,
+      "p99_frame_ms": 38.563,
+      "perk": "balanced",
+      "play_wall_seconds": 89.986755,
+      "player_recall_count": 0,
+      "player_roll_count": 15,
+      "restart": true,
+      "restart_input": "Enter",
+      "results": true,
+      "travel_m": 360.284441038035,
+      "turf_counts": [
+        12668,
+        14090
+      ],
+      "weapons_used": [
+        "dualie",
+        "blaster",
+        "disc",
+        "charger",
+        "shooter"
+      ]
+    }
+  ]
+}

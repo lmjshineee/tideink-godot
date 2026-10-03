@@ -1,0 +1,17 @@
+{
+  "method": "Compact narrow continuous facial planes; fused nose/neck/ears/orbital rims; cut eye apertures; relaxed closed mouth material; fourteen tapered parallel-transport tentacles",
+  "head_bones": 31,
+  "meshes": 7,
+  "triangles": 76740,
+  "hair_strands": 14,
+  "face_max_half_width": 0.13524,
+  "head_width_scale": 0.92,
+  "head_height_scale": 0.8,
+  "head_height_pivot": 1.018,
+  "neck_base_y": 0.976,
+  "chin_y": 1.018,
+  "body": "Original body/rig/actions retained; old neck replaced with a short tapered connection",
+  "blender": "5.2.0 LTS",
+  "script_sha256": "dbd8442bdb897c023f4c3a237976d3c66023bbc2a54d62418f1184b37acc1531",
+  "glb_sha256": "11ee449078391011af39976831370220e7444287494436e62e95b726319ff56a"
+}

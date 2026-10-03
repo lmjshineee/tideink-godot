@@ -1,0 +1,16 @@
+{
+  "retained_version": "v0.3.0-preview.11",
+  "removed": [
+    {
+      "name": "INKWAVE-Godot-Demo-v0.3.0-preview.10-macOS-arm64.zip",
+      "bytes": 71381664,
+      "sha256": "c028438308b91f2541d7ffdf37ddcc816b9fb7d8520c0cad3b3900b111d89b7d"
+    },
+    {
+      "name": "INKWAVE-Godot-Demo-v0.3.0-preview.10-SHA256SUMS.txt",
+      "bytes": 119,
+      "sha256": "5b40866100d5b3a79b8c672cbbd6fb7ec6c201c26f76d733754e160911c74fe2"
+    }
+  ],
+  "previous_evidence_retained": true
+}

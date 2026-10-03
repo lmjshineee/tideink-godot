@@ -1,0 +1,34 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "ink_cap" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://tidewater_play.gd:622)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tools/check_scripts_parse.gd:24)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "ink_cap" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://tidewater_play.gd:746)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tools/check_scripts_parse.gd:24)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "ink_cap" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://tidewater_play.gd:1238)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tools/check_scripts_parse.gd:24)
+ERROR: Failed to load script "res://tidewater_play.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:50)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tools/check_scripts_parse.gd:24)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "ink_cap" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://tidewater_play.gd:622)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tools/check_scripts_parse.gd:25)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "ink_cap" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://tidewater_play.gd:746)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tools/check_scripts_parse.gd:25)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "ink_cap" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://tidewater_play.gd:1238)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tools/check_scripts_parse.gd:25)
+FAIL: these production scripts do not parse: tidewater_play.gd
+Fix them first: every check that loads them will otherwise fail with unrelated errors and burn its whole watchdog.

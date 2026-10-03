@@ -1,0 +1,78 @@
+(node:2636) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2661) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 26 structural blocks + 16 prop colliders match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/coral_market.json
+(node:2662) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 116 source faces, 53812 turf cells match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/coral_market_surfaces.json
+OK: 18 original props, 23 merged visual meshes; source/output hashes match
+(node:2664) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 34 structural blocks + 16 prop colliders match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/prism_gallery.json
+(node:2665) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 145 source faces, 63324 turf cells match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/prism_gallery_surfaces.json
+OK: 16 original props, 24 merged visual meshes; source/output hashes match
+(node:2667) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 29 structural blocks + 20 prop colliders match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/viaduct.json
+(node:2668) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 127 source faces, 53698 turf cells match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/viaduct_surfaces.json
+OK: 18 original props, 22 merged visual meshes; source/output hashes match
+(node:2673) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 67 structural blocks + 82 prop colliders match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/tidewater_v1.json
+(node:2676) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 309 source faces, 69350 turf cells match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/tidewater_v1_surfaces.json
+(node:2677) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 67 structural blocks + 82 prop colliders match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/tidewater_v2.json
+(node:2679) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 309 source faces, 69366 turf cells match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/tidewater_v2_surfaces.json
+(node:2680) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 75 structural blocks + 70 prop colliders match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/kelpline_v1.json
+(node:2681) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 348 source faces, 76563 turf cells match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/kelpline_v1_surfaces.json
+(node:2682) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 75 structural blocks + 70 prop colliders match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/kelpline_v2.json
+(node:2685) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: 344 source faces, 76563 turf cells match /Users/yunni/Joy/inkwave-game/godot-port-prototype/assets/maps/kelpline_v2_surfaces.json
+OK: three new arenas and four mirrored source-map variants, synchronized collision/paint/nav/minimap

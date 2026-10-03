@@ -26,9 +26,10 @@ func _run() -> void:
   actor.set("invuln",0.0)
   game.bot_invuln=0.0
   game.phase="playing"
+  var expected_damage: float = 37.0 * game.perks.incoming(actor, "")
   game.damage_actor(actor,37,1-game.actor_team(actor))
   actor.call("_update_health_visual")
-  if absf(float(actor.get("health_fill").scale.x)-(game.actor_max_health(actor)-37.0)/game.actor_max_health(actor))>0.001:
+  if absf(float(actor.get("health_fill").scale.x)-(game.actor_max_health(actor)-expected_damage)/game.actor_max_health(actor))>0.001:
    printerr("FAIL: actor health fill does not reflect its own health");quit(1);return
   if not String(actor.get("identity_label").text).contains("%02d" % id):
    printerr("FAIL: overhead label differs from stable actor ID");quit(1);return

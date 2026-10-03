@@ -1,0 +1,7 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+AUDIT: bow visible tip axis=(0.412209, 0.01387, 0.910984) imported mesh axis=(0.412209, 0.01387, 0.910984) actor forward=(0.0, 0.0, 1.0)
+AUDIT: canopy visible tip axis=(0.107584, 0.00295, 0.994192) imported mesh axis=(0.107584, 0.00295, 0.994192) actor forward=(0.0, 0.0, 1.0)
+PASS: held procedural bow/canopy arrows and tip align with actor aim, pitched/yawed grip, rear bowstring and charge draw

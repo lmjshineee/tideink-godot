@@ -1,0 +1,17 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-10-02 12:13:02.626 Godot[98577:8626806] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+AUDIT: hover item intel_mist front=true kind=item clock=0.64766766666667 since=0.393949 panel=true body=向准星 8m 内的落点投放信息墨雾。
+消耗 35 墨水；半径 3m，高度最多 4m，持续 6 秒。
+遮断敌方视野、血条及地图情报，队友可透视己方墨雾。
+敌方最后
+AUDIT: hover weapon canopy front=true kind=weapon clock=0.92062966666667 since=0.66431766666667 panel=true body=点按左键射出六颗散射墨弹；按住展开伞面。
+射程  ★★☆☆☆  · 9 m
+伤害  ★★★★☆  · 每弹 14；六弹躯干 84
+射速  ★★☆☆☆  · 0.
+AUDIT: hover weapon canopy front=true kind=weapon clock=1.457194 since=1.19151466666667 panel=true body=点按左键射出六颗散射墨弹；按住展开伞面。
+射程  ★★☆☆☆  · 9 m
+伤害  ★★★★☆  · 每弹 14；六弹躯干 84
+射速  ★★☆☆☆  · 0.
+PASS: Metal counter loadout/intake/full-charge/windup/projectile and hostile/friendly/inside/sonar/expired mist captured

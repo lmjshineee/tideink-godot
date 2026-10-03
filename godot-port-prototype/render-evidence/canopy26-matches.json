@@ -1,0 +1,817 @@
+{
+  "conditions": {
+    "duration_seconds": 90,
+    "item": "bomb",
+    "local_weapon": "canopy",
+    "map_variant": 0,
+    "perk": "balanced",
+    "physics_hz": 30,
+    "reroll_bots": false
+  },
+  "limits": "Small automated sample, not human balance or rendering/performance acceptance. Local player is excluded from weapon aggregates; four allied vs five enemy bots and different routes/teams confound averages. Weapon-specific specials remain enabled. Turf is cumulative newly claimed area, including enemy overpaint, not final occupancy.",
+  "method": "Headless fixed-30Hz actual scene simulation; normal input-driven local canopy, nine production bots, natural 90-second timer and results. No teleports, forced damage or phase/clock skips during play.",
+  "rounds": [
+    {
+      "actors": [
+        {
+          "alive_seconds": 88.1999999999974,
+          "height_max": 3.61834716796875,
+          "id": 1,
+          "item": "bomb",
+          "local_player": true,
+          "perk": "balanced",
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 190.453562467579
+          },
+          "team": 0,
+          "travel_m": 407.022531021619,
+          "weapon": "canopy"
+        },
+        {
+          "alive_seconds": 62.000000000001,
+          "height_max": 2.04999995231628,
+          "id": 2,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 849.873766448011,
+            "deaths": 7,
+            "kills": 8,
+            "turf": 387.997678849087
+          },
+          "team": 0,
+          "travel_m": 290.607113975217,
+          "weapon": "canopy"
+        },
+        {
+          "alive_seconds": 62.0000000000006,
+          "height_max": 2.04999995231628,
+          "id": 3,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 591.787382219543,
+            "deaths": 7,
+            "kills": 7,
+            "turf": 489.071672941176
+          },
+          "team": 0,
+          "travel_m": 309.148595126462,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "height_max": 3.41595649719238,
+          "id": 4,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 344.930973404576,
+            "deaths": 5,
+            "kills": 3,
+            "specials": 1,
+            "turf": 328.164392547809
+          },
+          "team": 0,
+          "travel_m": 286.692984978203,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 66.5999999999983,
+          "height_max": 2.04999995231628,
+          "id": 5,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 1209.60787792787,
+            "deaths": 6,
+            "kills": 8,
+            "turf": 278.211024883502
+          },
+          "team": 0,
+          "travel_m": 216.036960457102,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 69.866666666665,
+          "height_max": 2.04999995231628,
+          "id": 6,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 650.005878417332,
+            "deaths": 6,
+            "kills": 4,
+            "turf": 338.065368737476
+          },
+          "team": 1,
+          "travel_m": 354.405385068851,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 66.0000000000003,
+          "height_max": 2.04999995231628,
+          "id": 7,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 783.253781350509,
+            "deaths": 6,
+            "kills": 8,
+            "turf": 308.31855925368
+          },
+          "team": 1,
+          "travel_m": 345.839103474864,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 74.0000000000005,
+          "height_max": 3.42972207069397,
+          "id": 8,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 511.0,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 444.424131420282
+          },
+          "team": 1,
+          "travel_m": 370.280192529899,
+          "weapon": "disc"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "height_max": 2.04999995231628,
+          "id": 9,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 639.436950683594,
+            "deaths": 5,
+            "kills": 2,
+            "turf": 278.447210633332
+          },
+          "team": 1,
+          "travel_m": 283.722575473716,
+          "weapon": "bow"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "height_max": 2.04999995231628,
+          "id": 10,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 711.836210011133,
+            "deaths": 5,
+            "kills": 7,
+            "turf": 374.883633216961
+          },
+          "team": 1,
+          "travel_m": 336.64444756796,
+          "weapon": "canopy"
+        }
+      ],
+      "canopy_blocked_damage": 1517.0,
+      "canopy_launched": 12,
+      "canopy_opened": 24,
+      "case": 0,
+      "cover_travel_m": 110.419351058081,
+      "coverage": [
+        0.184454498257064,
+        0.229103315285916
+      ],
+      "duration_seconds": 90.0,
+      "local_low_ink_seconds": 28.4333333333344,
+      "map": "coral_market",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "team_cumulative_turf_m2": [
+        1673.89833168915,
+        1744.13890326173
+      ],
+      "wall_seconds": 8.170972
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 88.5333333333308,
+          "height_max": 3.61833333969116,
+          "id": 1,
+          "item": "bomb",
+          "local_player": true,
+          "perk": "balanced",
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 187.381975860804
+          },
+          "team": 0,
+          "travel_m": 417.602535548765,
+          "weapon": "canopy"
+        },
+        {
+          "alive_seconds": 69.9333333333338,
+          "height_max": 2.04999995231628,
+          "id": 2,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 931.487157279326,
+            "deaths": 5,
+            "kills": 8,
+            "turf": 316.568692727826
+          },
+          "team": 0,
+          "travel_m": 253.722364958841,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 65.9666666666674,
+          "height_max": 2.04999995231628,
+          "id": 3,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 713.986899011656,
+            "deaths": 6,
+            "kills": 4,
+            "turf": 422.794428436536
+          },
+          "team": 0,
+          "travel_m": 335.68473236484,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "height_max": 3.42788648605347,
+          "id": 4,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 596.656205413756,
+            "deaths": 5,
+            "kills": 7,
+            "turf": 349.234301389859
+          },
+          "team": 0,
+          "travel_m": 351.582401275984,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 60.9333333333317,
+          "height_max": 2.04999995231628,
+          "id": 5,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 723.186019974944,
+            "deaths": 8,
+            "kills": 5,
+            "turf": 369.296257962119
+          },
+          "team": 0,
+          "travel_m": 296.686695329379,
+          "weapon": "disc"
+        },
+        {
+          "alive_seconds": 73.9333333333339,
+          "height_max": 2.04999995231628,
+          "id": 6,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 547.30303255717,
+            "deaths": 4,
+            "kills": 2,
+            "turf": 347.650561078032
+          },
+          "team": 1,
+          "travel_m": 287.035343124298,
+          "weapon": "bow"
+        },
+        {
+          "alive_seconds": 66.0000000000007,
+          "height_max": 2.04999995231628,
+          "id": 7,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 735.416666666667,
+            "deaths": 6,
+            "kills": 9,
+            "turf": 409.803658208477
+          },
+          "team": 1,
+          "travel_m": 319.388846994727,
+          "weapon": "canopy"
+        },
+        {
+          "alive_seconds": 76.8999999999977,
+          "height_max": 3.43034768104553,
+          "id": 8,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 684.722203460693,
+            "deaths": 4,
+            "kills": 7,
+            "turf": 450.040941312315
+          },
+          "team": 1,
+          "travel_m": 386.435160871595,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "height_max": 2.04999995231628,
+          "id": 9,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 159.303039169312,
+            "deaths": 5,
+            "kills": 2,
+            "turf": 316.112883776696
+          },
+          "team": 1,
+          "travel_m": 286.545082985307,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "height_max": 2.09624242782593,
+          "id": 10,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 868.483333333333,
+            "deaths": 5,
+            "kills": 5,
+            "turf": 351.630589022651
+          },
+          "team": 1,
+          "travel_m": 258.298672198551,
+          "weapon": "charger"
+        }
+      ],
+      "canopy_blocked_damage": 539.5,
+      "canopy_launched": 10,
+      "canopy_opened": 18,
+      "case": 1,
+      "cover_travel_m": 116.871753156185,
+      "coverage": [
+        0.20331157754209,
+        0.245865163539272
+      ],
+      "duration_seconds": 90.0,
+      "local_low_ink_seconds": 24.5999999999991,
+      "map": "coral_market",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 1709,
+      "simulation_seconds": 90.0,
+      "team_cumulative_turf_m2": [
+        1645.27565637714,
+        1875.23863339817
+      ],
+      "wall_seconds": 7.736842
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 80.4666666666669,
+          "height_max": 3.48065090179443,
+          "id": 1,
+          "item": "bomb",
+          "local_player": true,
+          "perk": "balanced",
+          "stats": {
+            "damage": 0.0,
+            "deaths": 2,
+            "kills": 0,
+            "turf": 214.338623417557
+          },
+          "team": 0,
+          "travel_m": 345.500654850737,
+          "weapon": "canopy"
+        },
+        {
+          "alive_seconds": 77.9666666666667,
+          "height_max": 4.66929864883423,
+          "id": 2,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 528.666666666667,
+            "deaths": 3,
+            "kills": 4,
+            "specials": 1,
+            "turf": 379.549764051314
+          },
+          "team": 0,
+          "travel_m": 385.549676724217,
+          "weapon": "disc"
+        },
+        {
+          "alive_seconds": 74.2999999999979,
+          "height_max": 6.98638486862183,
+          "id": 3,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 186.0,
+            "deaths": 4,
+            "kills": 1,
+            "specials": 1,
+            "turf": 346.219781430094
+          },
+          "team": 0,
+          "travel_m": 339.22595659909,
+          "weapon": "bow"
+        },
+        {
+          "alive_seconds": 76.9333333333312,
+          "height_max": 4.30919218063354,
+          "id": 4,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 606.244291892752,
+            "deaths": 4,
+            "kills": 7,
+            "specials": 1,
+            "turf": 474.40927397618
+          },
+          "team": 0,
+          "travel_m": 372.618794089649,
+          "weapon": "canopy"
+        },
+        {
+          "alive_seconds": 78.0000000000005,
+          "height_max": 3.14517188072205,
+          "id": 5,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 675.525452290852,
+            "deaths": 3,
+            "kills": 4,
+            "turf": 348.742416297262
+          },
+          "team": 0,
+          "travel_m": 390.032607114697,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 76.6999999999978,
+          "height_max": 3.18041920661926,
+          "id": 6,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 94.0492714272635,
+            "deaths": 4,
+            "kills": 1,
+            "turf": 301.292588183025
+          },
+          "team": 1,
+          "travel_m": 312.697654303558,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 82.0000000000002,
+          "height_max": 4.07562875747681,
+          "id": 7,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 439.466666666667,
+            "deaths": 2,
+            "kills": 3,
+            "turf": 241.158991606403
+          },
+          "team": 1,
+          "travel_m": 360.940242841661,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "height_max": 3.00460600852966,
+          "id": 8,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 560.266666666665,
+            "deaths": 4,
+            "kills": 3,
+            "specials": 1,
+            "turf": 468.03579022666
+          },
+          "team": 1,
+          "travel_m": 368.262080919594,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 78.0000000000005,
+          "height_max": 5.7329568862915,
+          "id": 9,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 332.950728572736,
+            "deaths": 3,
+            "kills": 5,
+            "turf": 275.270427237949
+          },
+          "team": 1,
+          "travel_m": 392.632336243289,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 78.0000000000005,
+          "height_max": 5.78334140777588,
+          "id": 10,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 281.333333333333,
+            "deaths": 3,
+            "kills": 2,
+            "turf": 313.390961957398
+          },
+          "team": 1,
+          "travel_m": 387.07489679032,
+          "weapon": "disc"
+        }
+      ],
+      "canopy_blocked_damage": 475.0,
+      "canopy_launched": 6,
+      "canopy_opened": 16,
+      "case": 2,
+      "cover_travel_m": 84.2731299698353,
+      "coverage": [
+        0.254658484867956,
+        0.217808263188331
+      ],
+      "duration_seconds": 90.0,
+      "local_low_ink_seconds": 38.5666666666659,
+      "map": "viaduct",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "team_cumulative_turf_m2": [
+        1763.25985917241,
+        1599.14875921143
+      ],
+      "wall_seconds": 7.550727
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 90.0,
+          "height_max": 3.61833357810974,
+          "id": 1,
+          "item": "bomb",
+          "local_player": true,
+          "perk": "balanced",
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 213.220072924654
+          },
+          "team": 0,
+          "travel_m": 428.002355769277,
+          "weapon": "canopy"
+        },
+        {
+          "alive_seconds": 76.3666666666646,
+          "height_max": 6.38301086425781,
+          "id": 2,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 292.985204001624,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 327.093588306069
+          },
+          "team": 0,
+          "travel_m": 381.938939261134,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 80.5666666666646,
+          "height_max": 6.00535726547241,
+          "id": 3,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 169.890199116298,
+            "deaths": 3,
+            "kills": 1,
+            "specials": 1,
+            "turf": 408.373874971364
+          },
+          "team": 0,
+          "travel_m": 326.813962644432,
+          "weapon": "roller"
+        },
+        {
+          "alive_seconds": 78.0000000000005,
+          "height_max": 4.20185232162476,
+          "id": 4,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 892.0,
+            "deaths": 3,
+            "kills": 5,
+            "specials": 1,
+            "turf": 492.633065388246
+          },
+          "team": 0,
+          "travel_m": 324.417655019904,
+          "weapon": "charger"
+        },
+        {
+          "alive_seconds": 73.433333333331,
+          "height_max": 3.45423007011414,
+          "id": 5,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 448.440806117424,
+            "deaths": 5,
+            "kills": 6,
+            "turf": 337.46790843789
+          },
+          "team": 0,
+          "travel_m": 365.820145964447,
+          "weapon": "blaster"
+        },
+        {
+          "alive_seconds": 78.0000000000004,
+          "height_max": 4.77403402328491,
+          "id": 6,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 147.333333333333,
+            "deaths": 3,
+            "kills": 2,
+            "turf": 231.062299925759
+          },
+          "team": 1,
+          "travel_m": 400.390708028863,
+          "weapon": "dualie"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "height_max": 3.38930082321167,
+          "id": 7,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 705.666666666667,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 411.226377121511
+          },
+          "team": 1,
+          "travel_m": 365.02503832517,
+          "weapon": "disc"
+        },
+        {
+          "alive_seconds": 86.0,
+          "height_max": 5.3236141204834,
+          "id": 8,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 227.65,
+            "deaths": 1,
+            "kills": 2,
+            "specials": 1,
+            "turf": 286.646940231084
+          },
+          "team": 1,
+          "travel_m": 411.767958341748,
+          "weapon": "bow"
+        },
+        {
+          "alive_seconds": 77.3333333333315,
+          "height_max": 5.05384492874146,
+          "id": 9,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 381.422323783537,
+            "deaths": 4,
+            "kills": 3,
+            "specials": 1,
+            "turf": 377.420337910966
+          },
+          "team": 1,
+          "travel_m": 378.232089563971,
+          "weapon": "canopy"
+        },
+        {
+          "alive_seconds": 78.0000000000007,
+          "height_max": 3.16532802581787,
+          "id": 10,
+          "item": "bomb",
+          "local_player": false,
+          "perk": "balanced",
+          "stats": {
+            "damage": 301.279147481283,
+            "deaths": 3,
+            "kills": 3,
+            "turf": 252.499728083753
+          },
+          "team": 1,
+          "travel_m": 394.474907630356,
+          "weapon": "shooter"
+        }
+      ],
+      "canopy_blocked_damage": 447.0,
+      "canopy_launched": 5,
+      "canopy_opened": 15,
+      "case": 3,
+      "cover_travel_m": 55.4268026463687,
+      "coverage": [
+        0.264360984386044,
+        0.24508449527726
+      ],
+      "duration_seconds": 90.0,
+      "local_low_ink_seconds": 35.6333333333351,
+      "map": "viaduct",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 1709,
+      "simulation_seconds": 90.0,
+      "team_cumulative_turf_m2": [
+        1778.78851002822,
+        1558.85568327307
+      ],
+      "wall_seconds": 8.292903
+    }
+  ],
+  "source_sha256": {
+    "assets/maps/coral_market.json": "d1fd61c0a29ae811ca98eb179661e2dd0e2a55f38a8af13ed0d3bbc1d8ef3af2",
+    "assets/maps/coral_market_nav.json": "7603767047b419578d11d25dff63b33a30fef318b5ade39bd354f2db41c109a6",
+    "assets/maps/viaduct.json": "07bf79c82b12ba19f14831fe7cfdf6efafe22b1b11a7994084922e54a84ac31e",
+    "assets/maps/viaduct_nav.json": "335b7a527450816ec4f9e2fe7d624693c8147b010fef81d4bb8b2a6baf8ddb3e",
+    "equipment_catalog.gd": "7f8c088be9e6e71812258ea04701a1d797c37a417d74a5d8bbafdb587d3afc2a",
+    "gameplay_rules.gd": "2b93eddd99b8639c61d8dd37382e9d5e1cec87c3b701924c8187116eb5e7dc36",
+    "team_navigation.gd": "810b1b6778b2c4a651934bd18a8f88111e707ff3ce67d0ca5c828f786ecd89d3",
+    "tidewater_bot.gd": "6abf7e71e6ce0822c26c888688d6784861086b880e7b349398dfca660f02a6c6",
+    "tidewater_canopy.gd": "e44b41bdb5f7ee6a775688fc1d66c626b446872b0053a37398136b4d64dd5d4b",
+    "tidewater_combat.gd": "492eb3b3ee9d7833c2c64a42ab2f0f21c593b293a3152a43fa6c47e8d7266c93",
+    "tidewater_play.gd": "597eb92312c473e236b8b8b64949cd00b05726a7bfc72d6033dd6e9f05e40ff4"
+  }
+}

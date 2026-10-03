@@ -1,14 +1,14 @@
 {
   "schema": 1,
-  "items": 18,
+  "items": 20,
   "colliders": 16,
   "meshes": 23,
   "sourceStats": {
-    "props": 18,
+    "props": 20,
     "meshes": 10,
     "merged": 7,
     "instanced": 3,
-    "triangles": 32100
+    "triangles": 34300
   },
   "skippedGPUVisuals": [
     "props:blob",
@@ -33,12 +33,12 @@
     "public/game/vendor/three/jsm/utils/BufferGeometryUtils.js": "9fb63427ce6641fa14fd0baff9cc4d1b5f9c3d85fd084bf2e90e803c44ec1797",
     "public/game/assets/fonts/TitanOne-latin.woff2": "f5f3f60e9246f7e78242697ef18f1fa78467dc4135312208b693e33678e78c4c",
     "public/game/assets/fonts/Rubik-latin.woff2": "99ec7ccb40cf143f977c893649deece6cc2dcc7c0ff82ebf84b6584090f207ea",
-    "godot-port-prototype/tools/lib/arena_layouts.mjs": "95f953267eb0155cc867e637826319ec09dfbb73b8f60b039c7965ceb8f7a618",
+    "godot-port-prototype/tools/lib/arena_layouts.mjs": "7ed50280e5c827d1519d33d7f54dc6ed26dd505c9b86b1ee72448c3b0f29d734",
     "godot-port-prototype/tools/lib/export_visual_scene.js": "e27e39b98181ed4fe466f71c67dc22365948b127e09179aa3376fa0474c07dfd",
     "godot-port-prototype/tools/export_tidewater_visuals.mjs": "08743f954d206da607fa1148a43cb57ee9f54d73fa7d70fb373f25eaf0dc7179"
   },
   "outputs": {
-    "coral_market_visuals.glb": "0f8ec5b5be2b44c4a69d4e4ade654360b6d8b263add7e9c9b9dd558db61c467b",
+    "coral_market_visuals.glb": "9ba9929338b4fcac47e5b73d5d69cf13c3ab7447afe04d7568af369e7892eb9c",
     "murals.png": "4cb7b9ff30e43a6de41fa1b1baf3f65a7fd122a9ba1ef1148149b672059b8ee9"
   }
 }

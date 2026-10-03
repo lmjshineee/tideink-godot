@@ -18,6 +18,7 @@ func _run() -> void:
 		if visual.eye_material.get_shader_parameter("iris_color") != Visual.IRIS[i]:
 			fail("wrong style iris");return
 		for mesh in meshes(visual.original_rig):
+			if mesh.get_meta("procedural_equipment", false): continue
 			var semantic := mesh.mesh.surface_get_material(0).resource_name
 			var arrays := mesh.mesh.surface_get_arrays(0)
 			var uv: PackedVector2Array = arrays[Mesh.ARRAY_TEX_UV]

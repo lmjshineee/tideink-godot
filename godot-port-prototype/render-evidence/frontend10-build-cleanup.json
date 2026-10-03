@@ -1,0 +1,15 @@
+{
+  "reason": "Keep verified latest local arm64 package",
+  "removed": [
+    {
+      "file": "INKWAVE-Godot-Demo-v0.3.0-preview.9-macOS-arm64.zip",
+      "bytes": 71370318,
+      "sha256": "117dc9eb73ea328a9cafd1fc88b4c9f9f1e3dadda39cfccd725fad9ce20927e5"
+    },
+    {
+      "file": "INKWAVE-Godot-Demo-v0.3.0-preview.9-SHA256SUMS.txt",
+      "bytes": 118,
+      "sha256": "4f57620c4d135ee6942600db87b9bc886d0fb128514e2fc11cafbb3a66cf0c87"
+    }
+  ]
+}

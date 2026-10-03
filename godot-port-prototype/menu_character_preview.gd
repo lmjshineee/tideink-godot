@@ -90,5 +90,6 @@ func _process(delta: float) -> void:
 		actor.velocity.y=cos(minf(jump_time/0.65,1)*PI)*0.35*PI/0.65
 		if jump_time>=0.65:jump_time=-1;actor.position.y=0;actor.grounded=true
 	if pose=="shoot":
+		model.set_weapon_charge(clampf(1.15-fire_time,0,1) if model.current_weapon=="bow" else 0)
 		fire_time-=delta
-		if fire_time<=0:model.set_action("shoot");fire_time=0.35
+		if fire_time<=0:model.set_action("shoot");fire_time=1.15 if model.current_weapon=="bow" else .35

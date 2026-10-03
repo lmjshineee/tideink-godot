@@ -1,0 +1,11 @@
+{
+  "version": "v0.3.0-preview.9",
+  "architecture": "arm64",
+  "sha256": "117dc9eb73ea328a9cafd1fc88b4c9f9f1e3dadda39cfccd725fad9ce20927e5",
+  "bytes": 71370318,
+  "zip_extraction": "passed",
+  "strict_signature": "passed",
+  "executable_and_pck_hashes": "passed",
+  "included_manual_respawn_plan": "passed",
+  "published": false
+}

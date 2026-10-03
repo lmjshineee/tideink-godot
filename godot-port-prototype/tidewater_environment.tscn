@@ -7,7 +7,7 @@ ground_bottom_color = Color(0.17, 0.23, 0.28, 1)
 ground_horizon_color = Color(0.76, 0.86, 0.9, 1)
 
 [sub_resource type="Sky" id="Sky"]
-radiance_size = 1
+radiance_size = 2
 sky_material = SubResource("SkyMaterial")
 
 [sub_resource type="Environment" id="Environment"]
@@ -36,7 +36,7 @@ environment = SubResource("Environment")
 rotation_degrees = Vector3(-52, -32, 0)
 light_color = Color(1, 0.93, 0.82, 1)
 light_energy = 1.2
-light_angular_distance = 0.0
+light_angular_distance = 0.45
 shadow_enabled = true
-directional_shadow_max_distance = 35.0
-directional_shadow_mode = 0
+directional_shadow_max_distance = 70.0
+directional_shadow_mode = 1

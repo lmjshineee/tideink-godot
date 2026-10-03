@@ -1,0 +1,14 @@
+{
+  "authoring": "New head meshes authored in Blender from the approved reference; original body reused by the Godot adapter",
+  "body": "Unchanged original kid_0 body mesh, rig and game actions",
+  "blender": "5.2.0 LTS",
+  "head_bones": 17,
+  "semantic_meshes": 8,
+  "base_polygons": 31333,
+  "head_actions": [
+    "idle (hair sway and blink)"
+  ],
+  "reference_sha256": "8607d240a053c5a8bd5ba73ce7fa42699c202713ac3ae5f5d81219053b4d72bc",
+  "script_sha256": "3a4aaa172f7c2e826f6f9182fffeb47e48011369fd43d54aba1b5faf8d6ca12b",
+  "glb_sha256": "52ab2625c9a8e5ca59fd0f47b415af113ad8ce344b1b91c915b60bd1b126fc8b"
+}

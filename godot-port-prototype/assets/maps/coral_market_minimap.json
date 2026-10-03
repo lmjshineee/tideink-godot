@@ -3,8 +3,8 @@
   "id": "coral_market",
   "width": 308,
   "height": 532,
-  "cells": 98938,
-  "paintPixels": 161786,
+  "cells": 107634,
+  "paintPixels": 161453,
   "sources": {
     "public/game/src/game/minimap.js": "dfeafa909fd2148744a45547e29bd324f54f4af38bb31eba22f5951f4a9d45bc",
     "public/game/src/world/maps.js": "1a45e6df5119489a118b44871b846eefad15390b955670c042e5a61f005948c9",
@@ -14,10 +14,10 @@
     "godot-port-prototype/tools/export_minimap.mjs": "a0953475bd95db3eb6d5f02690a7cfb1844fcf86bce813b341f0d8f0bcf40e85",
     "godot-port-prototype/assets/maps/tidewater_surfaces.json": "715604cc67e9aebc755fea9b6c49458c8fc067b178965c1a5d6267d1c0c227c3",
     "godot-port-prototype/assets/maps/kelpline_surfaces.json": "4d6d5aa060ed312ff3d3b148f19c6c289e855f9145d61d04cd5731e6d488b8a4",
-    "godot-port-prototype/tools/lib/arena_layouts.mjs": "95f953267eb0155cc867e637826319ec09dfbb73b8f60b039c7965ceb8f7a618"
+    "godot-port-prototype/tools/lib/arena_layouts.mjs": "7ed50280e5c827d1519d33d7f54dc6ed26dd505c9b86b1ee72448c3b0f29d734"
   },
   "outputs": {
-    "coral_market_minimap.png": "8b21b2009b3a55569b3432117814d78f4edc23f4ef610f69e9da36d0d2edfcac",
-    "coral_market_minimap_lookup.bin": "dfd359ad237d9d1e3050c79e3cc8d0b0d361848de5081b6b7f7d87a3afec1a80"
+    "coral_market_minimap.png": "aa329ac7059adfdfab3161681fec4ab7a16fac62ccf0316017b3b33ce490161a",
+    "coral_market_minimap_lookup.bin": "d6109df8ba081fa888e1a0fc315ec1571cf14cbf52b3b4d13407c0b1020aaaf8"
   }
 }

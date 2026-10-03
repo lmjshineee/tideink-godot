@@ -14,14 +14,14 @@ func _check() -> void:
 	front.play_button.pressed.emit()
 	if scene.phase!="setup" or not front.preparation.visible or front.home.visible:
 		fail("PLAY enters preparation");return
-	if scene.weapon_cards.size()!=7 or front.item_buttons.size()!=7:
-		fail("seven weapons and seven pre-match items");return
+	if scene.weapon_cards.size()!=8 or front.item_buttons.size()!=9:
+		fail("eight weapons and eight distinct pre-match items");return
 	for id in scene.weapon_order:
 		if scene.weapon_cards[id].get_child(0).texture==null:
 			fail("missing source weapon icon");return
 	scene.weapon_buttons["charger"].pressed.emit()
-	front.item_buttons["shield"].pressed.emit()
-	if scene.selected_weapon!="charger" or scene.items.state(scene.get_node("World/Walker"))["kind"]!="shield":
+	front.item_buttons["recall"].pressed.emit()
+	if scene.selected_weapon!="charger" or scene.items.state(scene.get_node("World/Walker"))["kind"]!="recall":
 		fail("GUI weapon/item loadout is not equipped");return
 	scene._begin_intro()
 	if front.visible or scene.menu_panel.visible:

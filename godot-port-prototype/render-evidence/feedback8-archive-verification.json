@@ -1,0 +1,9 @@
+{
+  "version": "v0.3.0-preview.8",
+  "architecture": "arm64",
+  "archive_sha256": "2f3f66d4023fbcc0caaeea53596d7ddfcddbb3957bc9ec6a1127fa2c1c062464",
+  "extracted_signature": "codesign --verify --deep --strict passed",
+  "extracted_executable_and_pck_hashes": "match BUILD.json",
+  "release_url": null,
+  "source_kind": "workspace-base"
+}

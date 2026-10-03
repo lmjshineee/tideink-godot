@@ -1,0 +1,18 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+AUDIT: reticle height=-3.0 target=(-2.824518, 33.422, 17.88581) remainingHP=120.0
+FAIL: crosshair on body must hit at height -3.0
+AUDIT: reticle height=0.0 target=(-3.244572, 38.20434, 19.356) remainingHP=120.0
+FAIL: crosshair on body must hit at height 0.0
+AUDIT: reticle height=3.0 target=(-3.416772, 43.62916, 19.9587) remainingHP=120.0
+FAIL: crosshair on body must hit at height 3.0
+AUDIT: reticle height=6.0 target=(-3.284009, 49.0988, 19.49403) remainingHP=120.0
+FAIL: crosshair on body must hit at height 6.0
+AUDIT: downward/upward roller launch pitches [0.31999998031462, 0.31999998031462]
+FAIL: roller fan must retain vertical aim
+AUDIT: bot gun pose pitch 0.0
+FAIL: bot visibly aims its weapon towards upper target
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2604)

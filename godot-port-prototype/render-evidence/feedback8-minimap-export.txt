@@ -1,0 +1,6 @@
+(node:71790) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/src/world/maps.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+OK: tidewater web base 350x616, 207094 visible paint pixels
+OK: kelpline web base 336x672, 217092 visible paint pixels

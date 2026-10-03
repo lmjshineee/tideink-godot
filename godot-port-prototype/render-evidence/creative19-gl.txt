@@ -1,0 +1,8 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+OpenGL API 4.1 Metal - 91.7 - Compatibility - Using Device: Apple - Apple M5
+
+2026-10-02 12:17:51.409 Godot[99198:8633133] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+AUDIT: hover item intel_mist panel=true body-height=206.0 panel-height=270.0
+AUDIT: hover weapon canopy panel=true body-height=551.0 panel-height=615.0
+AUDIT: hover weapon canopy panel=true body-height=551.0 panel-height=615.0
+PASS: Native renderer counter loadout/intake/full-charge/windup/projectile and hostile/friendly/inside/sonar/expired mist captured

@@ -1,0 +1,105 @@
+Godot: 4.8.dev6.official.8898c2b3d
+Node : /opt/homebrew/bin/node
+
+PASS  export_tidewater_map         --check default
+PASS  export_tidewater_map         --check kelpline
+PASS  export_tidewater_surfaces    --check default
+PASS  export_tidewater_surfaces    --check kelpline
+PASS  export_weapon_config         --check default
+PASS  export_ui_icons              --check default
+PASS  export_tidewater_visuals     --check default
+PASS  export_tidewater_visuals     --check kelpline
+PASS  export_navigation            --check default
+PASS  export_minimap               --check default
+PASS  export_characters            --check default
+PASS  export_weapon_poses          --check default
+PASS  export_character_actions     --check default
+PASS  export_character_materials   --check default
+PASS  export_audio                 --check default
+PASS  check_character_anatomy      --check default
+
+PASS  check_scripts_parse
+PASS  check_actor_feedback
+PASS  check_bot_jump_edges
+PASS  check_config_consumption
+PASS  check_feedback_regressions
+FAIL  check_gameplay_deployment (exit=0)
+      SCRIPT ERROR: Parse Error: Expected statement, found "Indent" instead.
+      ERROR: Failed to load script "res://tools/check_gameplay_deployment.gd" with error "Parse error".
+      SCRIPT ERROR: Parse Error: Expected statement, found "Indent" instead.
+      ERROR: Failed to load script "res://tools/check_gameplay_deployment.gd" with error "Parse error".
+PASS  check_low_ceiling_step
+PASS  check_minimap_feedback
+PASS  check_quick_input
+PASS  check_setup_settings
+PASS  check_splat_attribution
+PASS  check_surface_ink
+PASS  check_surface_ink_view
+FAIL  check_team_match (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: new HUD/menu not connected
+      FAIL: ally cannot fire a team-correct projectile
+      FAIL: new HUD/menu not connected
+      FAIL: new HUD/menu not connected
+      FAIL: ally cannot fire a team-correct projectile
+      FAIL: new HUD/menu not connected
+PASS  check_team_navigation_motion
+FAIL  check_team_palette (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: HUD/setup names do not follow selected palette
+      FAIL: HUD/setup names do not follow selected palette
+PASS  check_tidewater_appearance
+PASS  check_tidewater_bomb
+FAIL  check_tidewater_bot (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: bot route intersects Block_38_box at step 9, position (0.0, 0.05, 34.80001)
+      FAIL: bot route intersects Block_38_box at step 9, position (0.0, 0.05, 34.80001)
+PASS  check_tidewater_bot_chase
+PASS  check_tidewater_bot_loadout
+PASS  check_tidewater_bot_vitals
+PASS  check_tidewater_camera
+PASS  check_tidewater_climb
+FAIL  check_tidewater_combat_loop (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: bot did not fire a source-configured shooter projectile
+      FAIL: bot did not fire a source-configured shooter projectile
+PASS  check_tidewater_face
+PASS  check_tidewater_form
+PASS  check_tidewater_full_round
+PASS  check_tidewater_handling
+PASS  check_tidewater_hard_land
+PASS  check_tidewater_hud
+PASS  check_tidewater_input_flow
+PASS  check_tidewater_jump
+FAIL  check_tidewater_match (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: Enter did not start a frozen intro
+      FAIL: Enter did not start a frozen intro
+PASS  check_tidewater_menu
+PASS  check_tidewater_original_character
+PASS  check_tidewater_play
+PASS  check_tidewater_presentation
+PASS  check_tidewater_scene
+PASS  check_tidewater_scenery
+PASS  check_tidewater_settings
+FAIL  check_tidewater_settings_ui (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: settings entry leaked into the respawn loadout
+      FAIL: settings entry leaked into the respawn loadout
+PASS  check_tidewater_spawn_barrier
+PASS  check_tidewater_special
+PASS  check_tidewater_squid_body
+PASS  check_tidewater_steps
+PASS  check_tidewater_turf_points
+PASS  check_tidewater_visual
+PASS  check_tidewater_visual_config
+PASS  check_tidewater_vitals
+PASS  check_tidewater_walk
+FAIL  check_tidewater_weapons (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: pre-match weapon choice
+      FAIL: pre-match weapon choice
+
+----------------------------------------
+通过 60，失败 8
+日志保留在 /Users/yunni/Joy/inkwave-game/godot-port-prototype/.godot/*.log

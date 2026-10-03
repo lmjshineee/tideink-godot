@@ -1,0 +1,14 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+saved res://render-evidence/sculpt-full.png
+saved res://render-evidence/sculpt-face.png
+saved res://render-evidence/sculpt-face-three-quarter.png
+saved res://render-evidence/sculpt-clay.png
+saved res://render-evidence/sculpt-profile.png
+saved res://render-evidence/sculpt-back.png
+saved res://render-evidence/sculpt-run.png
+saved res://render-evidence/sculpt-shoot.png
+saved res://render-evidence/sculpt-blue.png
+PASS: viewport input reached run/shoot/portrait/team/reset buttons, keyboard, drag and wheel
+PASS: native new-model full/face/back/run/shoot/two-team captures

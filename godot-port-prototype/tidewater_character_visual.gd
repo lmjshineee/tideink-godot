@@ -602,6 +602,23 @@ func _install_original() -> void:
 			var twin:Node3D=source.duplicate();left.add_child(twin);twin.scale*=.8
 			original_weapons["dualie_left"]=twin
 
+	var hand := BoneAttachment3D.new()
+	hand.bone_name = "handR"
+	skeleton.add_child(hand)
+	var disc: Node3D = preload("res://ink_disc_mesh.gd").make(team, 0.36)
+	hand.add_child(disc)
+	disc.position = Vector3(0, 0.08, 0.04)
+	disc.rotation.x = PI * 0.5
+	original_weapons["disc"] = disc
+	for id in ["bow","canopy"]:
+		var equipment: Node3D = preload("res://ink_equipment_mesh.gd").bow(team) if id=="bow" else preload("res://ink_equipment_mesh.gd").canopy(team)
+		hand.add_child(equipment)
+		var source:Node3D=original_weapons[Equipment.base(id)]
+		# The authored hand bone points along the handle, not the barrel.
+		equipment.basis=(source.get_child(0) as Node3D).basis
+		equipment.position=source.position
+		original_weapons[id]=equipment
+
 
 func _hide_primitive_meshes(node: Node) -> void:
 	if node is MeshInstance3D:
@@ -816,6 +833,10 @@ func _apply_reaction(delta: float) -> void:
 	if eye_material != null:
 		eye_material.set_shader_parameter("look",_eye_look.lerp(Vector2(look_a[0],look_a[1]).lerp(Vector2(look_b[0],look_b[1]),blend),weight))
 
+
+func set_weapon_charge(amount: float) -> void:
+	if current_weapon=="bow" and original_weapons.has("bow"):
+		preload("res://ink_equipment_mesh.gd").set_bow_charge(original_weapons.bow,amount)
 
 func set_weapon_pose(pitch: float, rolling: bool) -> void:
 	aim_pitch = clampf(pitch, -0.8, 0.8)

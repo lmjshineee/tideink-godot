@@ -1,0 +1,9 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-10-02 23:40:37.755 Godot[12915:8876365] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+AUDIT: hover item echo_decoy panel=true body-height=206.0 panel-height=270.0
+AUDIT: hover item supply_box panel=true body-height=206.0 panel-height=270.0
+AUDIT: hover item echo_decoy panel=true body-height=206.0 panel-height=270.0
+AUDIT: hover item supply_box panel=true body-height=206.0 panel-height=270.0
+PASS: Native decoy/supply descriptions at two sizes and Chinese glyphs, real E deployments, allied/hostile/revealed fake silhouette, swept sonar, timed HUD/limited draw/opponent stealing

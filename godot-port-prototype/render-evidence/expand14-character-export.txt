@@ -1,0 +1,8 @@
+Exported kid_0.glb: 87 bones, 78192 triangles (connected garments + corrected head; all four weapons + squid included)
+Exported kid_1.glb: 87 bones, 79118 triangles (connected garments + corrected head; all four weapons + squid included)
+Exported kid_2.glb: 87 bones, 78448 triangles (connected garments + corrected head; all four weapons + squid included)
+Exported kid_3.glb: 87 bones, 78918 triangles (connected garments + corrected head; all four weapons + squid included)
+(node:12975) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/yunni/Joy/inkwave-game/public/game/vendor/three/engine/three.module.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/yunni/Joy/inkwave-game/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)

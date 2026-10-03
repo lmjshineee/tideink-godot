@@ -1,0 +1,51 @@
+{
+  "sounds": 68,
+  "sfx": 62,
+  "music": {
+    "title": {
+      "frames": 1653750,
+      "rms": 0.10368536440089036,
+      "peak": 0.5254752039909363,
+      "sha256": "774006c28e27740da97c57a8c2aa9ed06cc1d162bb8578992287423bb5cda23a"
+    },
+    "menu": {
+      "frames": 1310400,
+      "rms": 0.10293507692669739,
+      "peak": 0.4864048361778259,
+      "sha256": "ec1600b45878f9c7059bff125c09e2a4453e680aac69c4d1cd5a74519242111f"
+    },
+    "battle": {
+      "frames": 1340640,
+      "rms": 0.10587847106023443,
+      "peak": 0.5158451199531555,
+      "sha256": "12d949b39a10100dbdf898da6f77e95a1fe1368bc4204a4e5007dce61b40e0a5"
+    },
+    "battle_final": {
+      "frames": 740880,
+      "rms": 0.10790048734813694,
+      "peak": 0.5094226598739624,
+      "sha256": "00b8732450ddac544c1179f22435ad52ad5e824abcdf36d00c913c70efc9d0d1"
+    },
+    "results_win": {
+      "frames": 341419,
+      "rms": 0.10081215981234688,
+      "peak": 0.47911936044692993,
+      "sha256": "4108a5d4cc01d4b0ad15147f6aa771e1adc743cb3fc2d38280dabb0f02003fbb"
+    },
+    "results_lose": {
+      "frames": 504000,
+      "rms": 0.11234521876621646,
+      "peak": 0.38676008582115173,
+      "sha256": "e644dc34a4d323ef4e5d00220fb1c4aecbd6dc7092ba51a210bf5091901a65f0"
+    }
+  },
+  "sample_rate": 22050,
+  "finite_non_silent_pcm": true,
+  "peak_max": 0.98,
+  "sources": {
+    "public/game/src/audio/audio.js": "55a816beb0b01c307c936457bc274f3c3b279090dc2d187890990ac5763fc3bf",
+    "public/game/src/audio/music.js": "f6fc0ce83fdaa853dbd45c08b3b0c5efa4d9b8631e31269424f5c67e978138d6",
+    "public/game/src/config.js": "7908f3cdb1c636cede95c6c013d3c9ed588361ba26b8e8694dcdfe458947abfc",
+    "godot-port-prototype/tools/export_audio.mjs": "313f08a7b1495684ee579aee86b520d62dfa0de0b2587782642d0f03787b129b"
+  }
+}

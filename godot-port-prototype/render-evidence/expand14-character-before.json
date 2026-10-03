@@ -1,0 +1,46 @@
+[
+  {
+    "style": 0,
+    "bones": 87,
+    "meshes": 20,
+    "triangles": 58798,
+    "anatomy": {
+      "shoulders": "tee armholes sewn to open sleeves with matching boundary weights",
+      "shorts": "one waist and two legs sharing a saddle-shaped crotch",
+      "head": "continuous cage for shorter lower face, tapered jaw, smaller cranium and attached face/hair anchors"
+    }
+  },
+  {
+    "style": 1,
+    "bones": 87,
+    "meshes": 20,
+    "triangles": 59430,
+    "anatomy": {
+      "shoulders": "tee armholes sewn to open sleeves with matching boundary weights",
+      "shorts": "one waist and two legs sharing a saddle-shaped crotch",
+      "head": "continuous cage for shorter lower face, tapered jaw, smaller cranium and attached face/hair anchors"
+    }
+  },
+  {
+    "style": 2,
+    "bones": 87,
+    "meshes": 20,
+    "triangles": 58598,
+    "anatomy": {
+      "shoulders": "tee armholes sewn to open sleeves with matching boundary weights",
+      "shorts": "one waist and two legs sharing a saddle-shaped crotch",
+      "head": "continuous cage for shorter lower face, tapered jaw, smaller cranium and attached face/hair anchors"
+    }
+  },
+  {
+    "style": 3,
+    "bones": 87,
+    "meshes": 20,
+    "triangles": 58962,
+    "anatomy": {
+      "shoulders": "tee armholes sewn to open sleeves with matching boundary weights",
+      "shorts": "one waist and two legs sharing a saddle-shaped crotch",
+      "head": "continuous cage for shorter lower face, tapered jaw, smaller cranium and attached face/hair anchors"
+    }
+  }
+]

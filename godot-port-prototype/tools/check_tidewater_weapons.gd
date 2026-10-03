@@ -17,7 +17,7 @@ func _check() -> void:
 	var combat: Node3D = scene.get_node("Combat")
 	var ink: RefCounted = scene.get("ink")
 	var data: Dictionary = combat.get("weapon_data")
-	if int(data["schema"]) != 1 or (data["weaponOrder"] as Array).size() != 7:
+	if int(data["schema"]) != 1 or (data["weaponOrder"] as Array).size() != 8:
 		_fail("source weapon data")
 		return
 	var select := InputEventKey.new()

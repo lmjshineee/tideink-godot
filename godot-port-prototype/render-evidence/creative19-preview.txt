@@ -1,0 +1,4 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-10-02 12:20:44.176 Godot[99858:8637753] error messaging the mach port for IMKCFRunLoopWakeUpReliable

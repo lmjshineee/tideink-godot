@@ -1,0 +1,24 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+ROUTE: coral_market upper route team 0 [(-0.5, 2.0, -33.5), (-1.5, 2.0, -32.5), (-2.5, 2.0, -31.5), (-3.5, 2.0, -30.5), (-4.5, 2.0, -29.5), (-5.5, 2.0, -29.5), (-6.5, 2.0, -29.5), (-7.5, 0.0, -29.5), (-8.5, 0.0, -28.5), (-9.5, 0.0, -27.5), (-10.5, 0.0, -26.5), (-11.5, 0.425, -26.5), (-11.5, 0.708333, -25.5), (-11.5, 0.991667, -24.5), (-11.5, 1.275, -23.5), (-11.5, 1.558333, -22.5), (-11.5, 1.841667, -21.5), (-11.5, 2.125, -20.5), (-11.5, 2.408333, -19.5), (-11.5, 2.691667, -18.5), (-11.5, 2.975, -17.5), (-11.5, 3.258333, -16.5), (-12.5, 3.4, -15.5), (-12.5, 3.4, -14.5), (-13.5, 3.4, -13.5), (-13.5, 3.4, -12.5)]
+STUCK: 90 (-10.95828, 0.000483, -26.57933) next=(-11.5, 0.425, -26.5)
+STUCK: 91 (-10.95828, 0.000348, -26.57933) next=(-11.5, 0.425, -26.5)
+AUDIT: coral_market upper route team 0 end=(-1.08444, 0.000836, -7.074843) target=(-13.5, 3.4, -12.0)
+FAIL: coral_market upper route team 0 physically reaches destination
+ROUTE: coral_market upper route team 1 [(-0.5, 2.0, 32.5), (0.5, 2.0, 31.5), (1.5, 2.0, 30.5), (2.5, 2.0, 29.5), (3.5, 2.0, 29.5), (4.5, 2.0, 29.5), (5.5, 2.0, 29.5), (6.5, 2.0, 28.5), (7.5, 0.0, 28.5), (8.5, 0.0, 27.5), (9.5, 0.0, 26.5), (10.5, 0.0, 26.5), (11.5, 0.425, 26.5), (11.5, 0.708333, 25.5), (11.5, 0.991667, 24.5), (11.5, 1.275, 23.5), (11.5, 1.558333, 22.5), (11.5, 1.841667, 21.5), (11.5, 2.125, 20.5), (11.5, 2.408333, 19.5), (11.5, 2.691667, 18.5), (11.5, 2.975, 17.5), (11.5, 3.258333, 16.5), (11.5, 3.4, 15.5), (12.5, 3.4, 14.5), (12.5, 3.4, 13.5), (13.5, 3.4, 12.5), (13.5, 3.4, 11.5)]
+STUCK: 114 (10.95927, 0.000842, 26.51309) next=(11.5, 0.425, 26.5)
+AUDIT: coral_market upper route team 1 end=(-0.660429, 0.000841, -6.639462) target=(13.5, 3.4, 12.0)
+FAIL: coral_market upper route team 1 physically reaches destination
+FAIL: viaduct upper route team 0 has a navigation path
+ROUTE: viaduct upper route team 0 []
+AUDIT: viaduct upper route team 0 end=(2.90846, -0.015757, 5.943262) target=(0.0, 6.0, 0.0)
+FAIL: viaduct upper route team 0 physically reaches destination
+FAIL: viaduct upper route team 1 has a navigation path
+ROUTE: viaduct upper route team 1 []
+AUDIT: viaduct upper route team 1 end=(-1.068489, 0.000836, 10.06863) target=(0.0, 6.0, 0.0)
+FAIL: viaduct upper route team 1 physically reaches destination
+ROUTE: bridge underpass [(2.5, 0.0, 14.5), (2.5, 0.0, 13.5), (2.5, 0.0, 12.5), (2.5, 0.0, 11.5), (2.5, 0.0, 10.5), (2.5, 0.0, 9.5), (2.5, 0.0, 8.5), (2.5, 0.0, 7.5), (2.5, 0.0, 6.5), (2.5, 0.0, 5.5), (2.5, 0.0, 4.5), (2.5, 0.0, 3.5), (2.5, 0.0, 2.5), (2.5, 0.0, 1.5), (2.5, 0.0, 0.5), (2.5, 0.0, -0.5), (2.5, 0.0, -1.5), (2.5, 0.0, -2.5), (2.5, 0.0, -3.5), (2.5, 0.0, -4.5), (2.5, 0.0, -5.5), (2.5, 0.0, -6.5), (2.5, 0.0, -7.5), (2.5, 0.0, -8.5), (2.5, 0.0, -9.5), (2.5, 0.0, -10.5)]
+AUDIT: bridge underpass end=(2.500325, -0.000153, 11.62744) target=(2.8, 0.0, -10.0)
+FAIL: bridge underpass physically reaches destination

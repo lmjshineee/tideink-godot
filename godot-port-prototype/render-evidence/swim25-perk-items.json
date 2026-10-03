@@ -1,0 +1,4301 @@
+{
+  "conditions": {
+    "duration_seconds": 90,
+    "items": [
+      "bomb",
+      "intel_mist",
+      "beacon",
+      "recall",
+      "sonar",
+      "mine",
+      "echo_decoy",
+      "supply_box",
+      "ink_wings"
+    ],
+    "local_perk": "enemy_swim",
+    "maps": [
+      "prism_gallery",
+      "terrace_garden"
+    ],
+    "perks": [
+      "balanced",
+      "adrenaline",
+      "leech",
+      "enemy_swim",
+      "vault_runner",
+      "last_ink",
+      "dry_focus",
+      "turf_engine"
+    ],
+    "physics_hz": 30,
+    "reroll_bots": false,
+    "weapon": "shooter"
+  },
+  "limits": "Exploratory sample, not a causal perk comparison or human balance verdict. One seed per map; bots share rounds and items, talents rotate across team/slot. Specials and comeback support remain enabled. Local enemy-swim player excluded from bot aggregates. No GPU/FPS/temperature evidence.",
+  "method": "Headless fixed-30Hz production scene, actual input and nine bots; all use shooter, fixed kits, natural 90-second timer and results. No damage/position/phase/clock injections during play.",
+  "rounds": [
+    {
+      "actors": [
+        {
+          "alive_seconds": 85.2333333333333,
+          "enemy_ink_seconds": 3.56666666666652,
+          "enemy_swim_seconds": 0.633333333333297,
+          "height_max": 3.35113000869751,
+          "id": 1,
+          "item": "bomb",
+          "item_cd_starts": 3,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 407.854502516979
+          },
+          "team": 0,
+          "travel_m": 412.166454059312,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 62.0000000000007,
+          "enemy_ink_seconds": 1.93333333333322,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.46843886375427,
+          "id": 2,
+          "item": "bomb",
+          "item_cd_starts": 7,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 653.629942049832,
+            "deaths": 7,
+            "kills": 6,
+            "turf": 426.732807109449
+          },
+          "team": 0,
+          "travel_m": 312.675512579386,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.0000000000004,
+          "enemy_ink_seconds": 3.4333333333332,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03852677345276,
+          "id": 3,
+          "item": "bomb",
+          "item_cd_starts": 6,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 1001.48986923177,
+            "deaths": 6,
+            "kills": 8,
+            "turf": 548.411827574635
+          },
+          "team": 0,
+          "travel_m": 329.705736174248,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 65.0666666666648,
+          "enemy_ink_seconds": 1.93333333333331,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 6.0061240196228,
+          "id": 4,
+          "item": "bomb",
+          "item_cd_starts": 8,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 1,
+          "stats": {
+            "damage": 665.785386390923,
+            "deaths": 7,
+            "kills": 6,
+            "specials": 1,
+            "turf": 505.839337013201
+          },
+          "team": 0,
+          "travel_m": 296.595753127593,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 59.8666666666651,
+          "enemy_ink_seconds": 2.76666666666658,
+          "enemy_swim_seconds": 2.09999999999994,
+          "height_max": 3.02883505821228,
+          "id": 5,
+          "item": "bomb",
+          "item_cd_starts": 8,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 781.148761739095,
+            "deaths": 8,
+            "kills": 5,
+            "turf": 435.918048955021
+          },
+          "team": 0,
+          "travel_m": 303.834310664795,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 2.59999999999995,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.01700472831726,
+          "id": 6,
+          "item": "bomb",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 442.828403759979,
+            "deaths": 4,
+            "kills": 4,
+            "turf": 407.013120906723
+          },
+          "team": 1,
+          "travel_m": 373.449929263443,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.3333333333344,
+          "enemy_ink_seconds": 2.03333333333327,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 4.44181394577026,
+          "id": 7,
+          "item": "bomb",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 839.687142356364,
+            "deaths": 5,
+            "kills": 5,
+            "turf": 464.740990086173
+          },
+          "team": 1,
+          "travel_m": 321.309501813113,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 2.40000000000001,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 6.03512287139893,
+          "id": 8,
+          "item": "bomb",
+          "item_cd_starts": 7,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 732.901563240407,
+            "deaths": 5,
+            "kills": 9,
+            "turf": 491.76891903113
+          },
+          "team": 1,
+          "travel_m": 319.720393182826,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 2.3666666666666,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03120589256287,
+          "id": 9,
+          "item": "bomb",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 786.566298227051,
+            "deaths": 5,
+            "kills": 5,
+            "turf": 449.70259400309
+          },
+          "team": 1,
+          "travel_m": 354.321376099426,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 68.1999999999979,
+          "enemy_ink_seconds": 2.39999999999993,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.1237359046936,
+          "id": 10,
+          "item": "bomb",
+          "item_cd_starts": 6,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 743.4250274458,
+            "deaths": 6,
+            "kills": 6,
+            "turf": 390.987406729999
+          },
+          "team": 1,
+          "travel_m": 340.255877611344,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 0,
+      "comeback_events": 0,
+      "coverage": [
+        0.191112374455183,
+        0.204456446213126
+      ],
+      "decoy_fooled": 0,
+      "item": "bomb",
+      "map": "prism_gallery",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        2324.75652316928,
+        2204.21303075711
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 90.0,
+          "enemy_ink_seconds": 0.199999999999989,
+          "enemy_swim_seconds": 0.133333333333326,
+          "height_max": 3.61833333969116,
+          "id": 1,
+          "item": "intel_mist",
+          "item_cd_starts": 3,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 242.239406457962
+          },
+          "team": 0,
+          "travel_m": 426.331311939401,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.0000000000007,
+          "enemy_ink_seconds": 2.43333333333325,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.15350818634033,
+          "id": 2,
+          "item": "intel_mist",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 786.089313719482,
+            "deaths": 6,
+            "kills": 5,
+            "turf": 276.177721634979
+          },
+          "team": 0,
+          "travel_m": 321.423554360052,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 2.53333333333329,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.407066822052,
+          "id": 3,
+          "item": "intel_mist",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 1,
+          "stats": {
+            "damage": 1135.10900071859,
+            "deaths": 4,
+            "kills": 11,
+            "specials": 1,
+            "turf": 607.709303462344
+          },
+          "team": 0,
+          "travel_m": 351.269151298533,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.1999999999978,
+          "enemy_ink_seconds": 6.29999999999986,
+          "enemy_swim_seconds": 5.26666666666652,
+          "height_max": 3.13379716873169,
+          "id": 4,
+          "item": "intel_mist",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 865.222277407633,
+            "deaths": 6,
+            "kills": 7,
+            "turf": 390.644505934515
+          },
+          "team": 0,
+          "travel_m": 333.701382530853,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 1.93333333333324,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02883505821228,
+          "id": 5,
+          "item": "intel_mist",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 1,
+          "stats": {
+            "damage": 803.312224357096,
+            "deaths": 5,
+            "kills": 7,
+            "specials": 1,
+            "turf": 459.915395142453
+          },
+          "team": 0,
+          "travel_m": 340.029492961243,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 57.1333333333316,
+          "enemy_ink_seconds": 3.23333333333323,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.01162457466125,
+          "id": 6,
+          "item": "intel_mist",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 321.027486704485,
+            "deaths": 7,
+            "kills": 3,
+            "turf": 327.915956215056
+          },
+          "team": 1,
+          "travel_m": 292.60593824531,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000004,
+          "enemy_ink_seconds": 4.29999999999992,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03737831115723,
+          "id": 7,
+          "item": "intel_mist",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 705.859996269761,
+            "deaths": 5,
+            "kills": 6,
+            "turf": 400.605940282525
+          },
+          "team": 1,
+          "travel_m": 352.273486928199,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 62.0000000000006,
+          "enemy_ink_seconds": 4.1333333333332,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 6.03550672531128,
+          "id": 8,
+          "item": "intel_mist",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 843.654233005574,
+            "deaths": 7,
+            "kills": 4,
+            "turf": 340.307941703235
+          },
+          "team": 1,
+          "travel_m": 313.656743913423,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.0000000000008,
+          "enemy_ink_seconds": 2.46666666666665,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03120589256287,
+          "id": 9,
+          "item": "intel_mist",
+          "item_cd_starts": 2,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 541.368014745683,
+            "deaths": 6,
+            "kills": 6,
+            "turf": 300.719637114175
+          },
+          "team": 1,
+          "travel_m": 326.430726125604,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 2.76666666666664,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.40597438812256,
+          "id": 10,
+          "item": "intel_mist",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 611.763359946696,
+            "deaths": 5,
+            "kills": 2,
+            "turf": 334.522983894047
+          },
+          "team": 1,
+          "travel_m": 353.643553707981,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 1,
+      "comeback_events": 0,
+      "coverage": [
+        0.183074347798623,
+        0.160555239719538
+      ],
+      "decoy_fooled": 0,
+      "item": "intel_mist",
+      "map": "prism_gallery",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1976.68633263225,
+        1704.07245920903
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 85.2333333333336,
+          "enemy_ink_seconds": 0.766666666666652,
+          "enemy_swim_seconds": 0.299999999999983,
+          "height_max": 3.27722191810608,
+          "id": 1,
+          "item": "beacon",
+          "item_cd_starts": 3,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 274.753458660268
+          },
+          "team": 0,
+          "travel_m": 379.673239131196,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000007,
+          "enemy_ink_seconds": 4.6333333333333,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.461097240448,
+          "id": 2,
+          "item": "beacon",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 465.189051737467,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 345.256080773304
+          },
+          "team": 0,
+          "travel_m": 368.827058485243,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 69.0333333333314,
+          "enemy_ink_seconds": 5.33333333333324,
+          "enemy_swim_seconds": 4.26666666666661,
+          "height_max": 6.02573204040527,
+          "id": 3,
+          "item": "beacon",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 733.572614929199,
+            "deaths": 6,
+            "kills": 7,
+            "turf": 374.814015675085
+          },
+          "team": 0,
+          "travel_m": 291.892956495867,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 0.96666666666664,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 6.03918790817261,
+          "id": 4,
+          "item": "beacon",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 1,
+          "stats": {
+            "damage": 1032.16424869609,
+            "deaths": 4,
+            "kills": 7,
+            "specials": 1,
+            "turf": 455.442726128849
+          },
+          "team": 0,
+          "travel_m": 329.612198969233,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.3333333333341,
+          "enemy_ink_seconds": 2.46666666666658,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02883505821228,
+          "id": 5,
+          "item": "beacon",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 726.880856034179,
+            "deaths": 5,
+            "kills": 3,
+            "turf": 379.532967560026
+          },
+          "team": 0,
+          "travel_m": 317.717420102097,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 1.19999999999995,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03332543373108,
+          "id": 6,
+          "item": "beacon",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 581.183979370117,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 364.786095562756
+          },
+          "team": 1,
+          "travel_m": 375.678143515252,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 2.56666666666656,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 6.03337240219116,
+          "id": 7,
+          "item": "beacon",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 1,
+          "stats": {
+            "damage": 443.95,
+            "deaths": 4,
+            "kills": 4,
+            "specials": 1,
+            "turf": 434.418997233909
+          },
+          "team": 1,
+          "travel_m": 361.380455933366,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 75.1333333333312,
+          "enemy_ink_seconds": 1.19999999999997,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.79806041717529,
+          "id": 8,
+          "item": "beacon",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 440.50364855957,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 319.732932931321
+          },
+          "team": 1,
+          "travel_m": 353.885906956944,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 72.9666666666644,
+          "enemy_ink_seconds": 3.79999999999988,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03421592712402,
+          "id": 9,
+          "item": "beacon",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 601.177895531738,
+            "deaths": 5,
+            "kills": 4,
+            "specials": 1,
+            "turf": 416.453778264769
+          },
+          "team": 1,
+          "travel_m": 340.597552044084,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 71.8666666666646,
+          "enemy_ink_seconds": 2.43333333333324,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 6.04105997085571,
+          "id": 10,
+          "item": "beacon",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 880.047750807291,
+            "deaths": 5,
+            "kills": 4,
+            "turf": 345.508528580372
+          },
+          "team": 1,
+          "travel_m": 347.456461562659,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 2,
+      "comeback_events": 0,
+      "coverage": [
+        0.214910618406923,
+        0.206098793506411
+      ],
+      "decoy_fooled": 0,
+      "item": "beacon",
+      "map": "prism_gallery",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1829.79924879753,
+        1880.90033257312
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 90.0,
+          "enemy_ink_seconds": 0.56666666666667,
+          "enemy_swim_seconds": 0.0666666666666629,
+          "height_max": 3.27722191810608,
+          "id": 1,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 344.37041966834
+          },
+          "team": 0,
+          "travel_m": 415.118982713437,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 62.0000000000005,
+          "enemy_ink_seconds": 3.83333333333327,
+          "enemy_swim_seconds": 2.5666666666666,
+          "height_max": 6.02254819869995,
+          "id": 2,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 805.185667744141,
+            "deaths": 7,
+            "kills": 4,
+            "turf": 303.492309495476
+          },
+          "team": 0,
+          "travel_m": 297.879000466142,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 68.6999999999982,
+          "enemy_ink_seconds": 2.89999999999988,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03644394874573,
+          "id": 3,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 446.724543520609,
+            "deaths": 6,
+            "kills": 6,
+            "turf": 417.560331609465
+          },
+          "team": 0,
+          "travel_m": 342.1194949809,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 56.8666666666676,
+          "enemy_ink_seconds": 1.66666666666667,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 6.00791120529175,
+          "id": 4,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 717.881489050292,
+            "deaths": 7,
+            "kills": 5,
+            "turf": 380.324104708671
+          },
+          "team": 0,
+          "travel_m": 284.64869173459,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.0000000000007,
+          "enemy_ink_seconds": 3.4333333333333,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02883291244507,
+          "id": 5,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 827.21086647983,
+            "deaths": 6,
+            "kills": 6,
+            "turf": 401.721164719247
+          },
+          "team": 0,
+          "travel_m": 328.367380185518,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000001,
+          "enemy_ink_seconds": 2.16666666666659,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03643155097961,
+          "id": 6,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 479.220367704468,
+            "deaths": 4,
+            "kills": 2,
+            "turf": 340.801795298987
+          },
+          "team": 1,
+          "travel_m": 375.237457215204,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000008,
+          "enemy_ink_seconds": 3.39999999999984,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03943562507629,
+          "id": 7,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 645.996785764974,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 316.144277837316
+          },
+          "team": 1,
+          "travel_m": 376.915551153943,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000005,
+          "enemy_ink_seconds": 1.63333333333335,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 6.04052400588989,
+          "id": 8,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 960.670452360188,
+            "deaths": 4,
+            "kills": 9,
+            "turf": 492.431992548508
+          },
+          "team": 1,
+          "travel_m": 364.809363260283,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 2.99999999999995,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03120708465576,
+          "id": 9,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 703.24310809965,
+            "deaths": 4,
+            "kills": 8,
+            "turf": 423.320573647334
+          },
+          "team": 1,
+          "travel_m": 362.450606130762,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 6.26666666666643,
+          "enemy_swim_seconds": 5.43333333333314,
+          "height_max": 3.05554628372192,
+          "id": 10,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 619.56013720109,
+            "deaths": 5,
+            "kills": 4,
+            "turf": 348.751499190003
+          },
+          "team": 1,
+          "travel_m": 360.414115754655,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 3,
+      "comeback_events": 0,
+      "coverage": [
+        0.172525424799444,
+        0.212715558082244
+      ],
+      "decoy_fooled": 0,
+      "item": "recall",
+      "map": "prism_gallery",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1847.46833020119,
+        1921.45013852214
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 80.466666666667,
+          "enemy_ink_seconds": 3.50000000000007,
+          "enemy_swim_seconds": 0.26666666666668,
+          "height_max": 3.27722191810608,
+          "id": 1,
+          "item": "sonar",
+          "item_cd_starts": 3,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 2,
+            "kills": 0,
+            "turf": 335.857352594615
+          },
+          "team": 0,
+          "travel_m": 364.748393435031,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.6333333333317,
+          "enemy_ink_seconds": 2.49999999999989,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02895212173462,
+          "id": 2,
+          "item": "sonar",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 768.35862370402,
+            "deaths": 6,
+            "kills": 5,
+            "turf": 317.584928730144
+          },
+          "team": 0,
+          "travel_m": 317.5908261562,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 63.7666666666649,
+          "enemy_ink_seconds": 3.43333333333327,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.96525382995605,
+          "id": 3,
+          "item": "sonar",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 630.693528967285,
+            "deaths": 6,
+            "kills": 6,
+            "turf": 495.523818236327
+          },
+          "team": 0,
+          "travel_m": 319.629157974501,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 62.000000000001,
+          "enemy_ink_seconds": 1.36666666666661,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03404903411865,
+          "id": 4,
+          "item": "sonar",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 876.941864619954,
+            "deaths": 7,
+            "kills": 5,
+            "turf": 353.58415803596
+          },
+          "team": 0,
+          "travel_m": 302.614265776123,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.0999999999979,
+          "enemy_ink_seconds": 3.89999999999995,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02883505821228,
+          "id": 5,
+          "item": "sonar",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 527.26567616984,
+            "deaths": 6,
+            "kills": 5,
+            "turf": 368.381333681133
+          },
+          "team": 0,
+          "travel_m": 311.860123897786,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.5333333333311,
+          "enemy_ink_seconds": 3.33333333333326,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.0331723690033,
+          "id": 6,
+          "item": "sonar",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 440.333333333333,
+            "deaths": 4,
+            "kills": 2,
+            "turf": 284.381530612391
+          },
+          "team": 1,
+          "travel_m": 376.873005868518,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000007,
+          "enemy_ink_seconds": 3.1000000000025,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03963398933411,
+          "id": 7,
+          "item": "sonar",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 693.938714551188,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 488.854298712007
+          },
+          "team": 1,
+          "travel_m": 373.730705467169,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 2.36666666666665,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 6.03550672531128,
+          "id": 8,
+          "item": "sonar",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 615.95083996582,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 449.464613511741
+          },
+          "team": 1,
+          "travel_m": 359.852360497986,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000005,
+          "enemy_ink_seconds": 3.99999999999982,
+          "enemy_swim_seconds": 2.83333333333317,
+          "height_max": 3.03120589256287,
+          "id": 9,
+          "item": "sonar",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 716.919574522298,
+            "deaths": 4,
+            "kills": 6,
+            "turf": 343.321409844432
+          },
+          "team": 1,
+          "travel_m": 354.132184139686,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 2.39999999999989,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03357481956482,
+          "id": 10,
+          "item": "sonar",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 802.324204294026,
+            "deaths": 5,
+            "kills": 9,
+            "turf": 488.930068709448
+          },
+          "team": 1,
+          "travel_m": 350.90529450099,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 4,
+      "comeback_events": 0,
+      "coverage": [
+        0.169825026846062,
+        0.229139031015097
+      ],
+      "decoy_fooled": 0,
+      "item": "sonar",
+      "map": "prism_gallery",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1870.93159127817,
+        2054.95192139001
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 85.0999999999972,
+          "enemy_ink_seconds": 2.49999999999998,
+          "enemy_swim_seconds": 0.400000000000013,
+          "height_max": 3.61834669113159,
+          "id": 1,
+          "item": "mine",
+          "item_cd_starts": 5,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 14.3346012830733,
+            "deaths": 2,
+            "kills": 1,
+            "turf": 211.199451309677
+          },
+          "team": 0,
+          "travel_m": 381.83267470845,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.333333333334,
+          "enemy_ink_seconds": 3.06666666666656,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03671407699585,
+          "id": 2,
+          "item": "mine",
+          "item_cd_starts": 6,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 736.612500962765,
+            "deaths": 5,
+            "kills": 8,
+            "turf": 523.87369494522
+          },
+          "team": 0,
+          "travel_m": 335.160709737684,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000005,
+          "enemy_ink_seconds": 3.0333333333333,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.01534962654114,
+          "id": 3,
+          "item": "mine",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 712.019416933854,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 423.152778349435
+          },
+          "team": 0,
+          "travel_m": 365.796263541211,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 62.0000000000007,
+          "enemy_ink_seconds": 3.36666666666665,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.40948581695557,
+          "id": 4,
+          "item": "mine",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 799.371524938679,
+            "deaths": 7,
+            "kills": 4,
+            "turf": 412.36151306661
+          },
+          "team": 0,
+          "travel_m": 305.139966268092,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.0000000000007,
+          "enemy_ink_seconds": 3.4666666666666,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.37571096420288,
+          "id": 5,
+          "item": "mine",
+          "item_cd_starts": 6,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 655.935752461624,
+            "deaths": 6,
+            "kills": 4,
+            "turf": 359.20589356693
+          },
+          "team": 0,
+          "travel_m": 326.926145866513,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 2.2999999999999,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03441047668457,
+          "id": 6,
+          "item": "mine",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 443.436586730957,
+            "deaths": 5,
+            "kills": 4,
+            "turf": 395.568186034215
+          },
+          "team": 1,
+          "travel_m": 354.514943837188,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 3.33333333333584,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03776478767395,
+          "id": 7,
+          "item": "mine",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 481.850414132487,
+            "deaths": 4,
+            "kills": 4,
+            "turf": 397.116548807773
+          },
+          "team": 1,
+          "travel_m": 367.672451067134,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000001,
+          "enemy_ink_seconds": 2.76666666666659,
+          "enemy_swim_seconds": 2.19999999999996,
+          "height_max": 6.03995656967163,
+          "id": 8,
+          "item": "mine",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 717.157885353241,
+            "deaths": 5,
+            "kills": 6,
+            "turf": 518.664884160543
+          },
+          "team": 1,
+          "travel_m": 339.86971341155,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 1.89999999999998,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.031982421875,
+          "id": 9,
+          "item": "mine",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 670.763665297781,
+            "deaths": 4,
+            "kills": 6,
+            "turf": 322.948874138755
+          },
+          "team": 1,
+          "travel_m": 364.704734642059,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 71.066666666667,
+          "enemy_ink_seconds": 4.13333333333333,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.40387344360352,
+          "id": 10,
+          "item": "mine",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 668.330937398275,
+            "deaths": 4,
+            "kills": 4,
+            "turf": 332.66035136095
+          },
+          "team": 1,
+          "travel_m": 353.505207879876,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 5,
+      "comeback_events": 0,
+      "coverage": [
+        0.195802539321584,
+        0.205024951045417
+      ],
+      "decoy_fooled": 0,
+      "item": "mine",
+      "map": "prism_gallery",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1929.79333123786,
+        1966.95884450223
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 90.0,
+          "enemy_ink_seconds": 0.266666666666666,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.61833333969116,
+          "id": 1,
+          "item": "echo_decoy",
+          "item_cd_starts": 3,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 364.90115465385
+          },
+          "team": 0,
+          "travel_m": 421.26106786239,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 2.86666666666655,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03319907188416,
+          "id": 2,
+          "item": "echo_decoy",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 479.41262676595,
+            "deaths": 5,
+            "kills": 3,
+            "turf": 290.059659053739
+          },
+          "team": 0,
+          "travel_m": 348.193854346289,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000006,
+          "enemy_ink_seconds": 3.43333333333329,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03615260124207,
+          "id": 3,
+          "item": "echo_decoy",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 835.15,
+            "deaths": 5,
+            "kills": 6,
+            "turf": 396.92165580339
+          },
+          "team": 0,
+          "travel_m": 342.941839945444,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 71.7666666666646,
+          "enemy_ink_seconds": 1.8,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 6.03918790817261,
+          "id": 4,
+          "item": "echo_decoy",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 901.074244041341,
+            "deaths": 5,
+            "kills": 5,
+            "turf": 539.861848155032
+          },
+          "team": 0,
+          "travel_m": 344.138308763562,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 62.000000000001,
+          "enemy_ink_seconds": 1.33333333333329,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 6.01582622528076,
+          "id": 5,
+          "item": "echo_decoy",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 663.740524425252,
+            "deaths": 7,
+            "kills": 8,
+            "turf": 336.448987365281
+          },
+          "team": 0,
+          "travel_m": 288.307537763845,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 2.4666666666666,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03354740142822,
+          "id": 6,
+          "item": "echo_decoy",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 473.166666666667,
+            "deaths": 4,
+            "kills": 4,
+            "turf": 330.609138982955
+          },
+          "team": 1,
+          "travel_m": 371.344162407913,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 1.8666666666666,
+          "enemy_swim_seconds": 1.56666666666662,
+          "height_max": 5.36733293533325,
+          "id": 7,
+          "item": "echo_decoy",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 469.966666666667,
+            "deaths": 5,
+            "kills": 2,
+            "turf": 289.783016805765
+          },
+          "team": 1,
+          "travel_m": 352.083596047363,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 1.49999999999996,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.38151979446411,
+          "id": 8,
+          "item": "echo_decoy",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 661.383387308756,
+            "deaths": 5,
+            "kills": 5,
+            "turf": 287.144297887144
+          },
+          "team": 1,
+          "travel_m": 346.961843978148,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 71.066666666667,
+          "enemy_ink_seconds": 2.19999999999997,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03120589256287,
+          "id": 9,
+          "item": "echo_decoy",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 682.035644999186,
+            "deaths": 4,
+            "kills": 8,
+            "turf": 439.620157401177
+          },
+          "team": 1,
+          "travel_m": 350.568323981715,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000007,
+          "enemy_ink_seconds": 3.13333333333328,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03368926048279,
+          "id": 10,
+          "item": "echo_decoy",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 598.847634358724,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 384.071506922908
+          },
+          "team": 1,
+          "travel_m": 344.898015062034,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 6,
+      "comeback_events": 0,
+      "coverage": [
+        0.202008717074095,
+        0.205498705072326
+      ],
+      "decoy_fooled": 51,
+      "item": "echo_decoy",
+      "map": "prism_gallery",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1928.19330503129,
+        1731.22811799994
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 90.0,
+          "enemy_ink_seconds": 0.90000000000002,
+          "enemy_swim_seconds": 0.166666666666686,
+          "height_max": 5.18555593490601,
+          "id": 1,
+          "item": "supply_box",
+          "item_cd_starts": 2,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 388.866764107305
+          },
+          "team": 0,
+          "travel_m": 396.627851055237,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 64.3666666666648,
+          "enemy_ink_seconds": 3.53333333333327,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.24057698249817,
+          "id": 2,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 653.499112571207,
+            "deaths": 7,
+            "kills": 9,
+            "turf": 382.237788084849
+          },
+          "team": 0,
+          "travel_m": 319.143545975676,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.0000000000007,
+          "enemy_ink_seconds": 2.43333333333328,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03291034698486,
+          "id": 3,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 784.150999273274,
+            "deaths": 6,
+            "kills": 3,
+            "turf": 407.325485950432
+          },
+          "team": 0,
+          "travel_m": 327.125723261794,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 60.6666666666651,
+          "enemy_ink_seconds": 2.03333333333333,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.40948581695557,
+          "id": 4,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 776.264077429688,
+            "deaths": 8,
+            "kills": 4,
+            "turf": 433.132507839285
+          },
+          "team": 0,
+          "travel_m": 287.478401308879,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.7999999999984,
+          "enemy_ink_seconds": 2.23333333333323,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03143072128296,
+          "id": 5,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 718.927434368408,
+            "deaths": 6,
+            "kills": 7,
+            "turf": 369.285657785402
+          },
+          "team": 0,
+          "travel_m": 329.473404623277,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 68.5666666666646,
+          "enemy_ink_seconds": 4.66666666666662,
+          "enemy_swim_seconds": 3.26666666666664,
+          "height_max": 3.01573586463928,
+          "id": 6,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 836.158671439615,
+            "deaths": 6,
+            "kills": 4,
+            "turf": 265.795955484785
+          },
+          "team": 1,
+          "travel_m": 347.830304770381,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 68.3666666666647,
+          "enemy_ink_seconds": 2.56666666666663,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 6.00755786895752,
+          "id": 7,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 841.901757943522,
+            "deaths": 6,
+            "kills": 7,
+            "turf": 380.276342286425
+          },
+          "team": 1,
+          "travel_m": 337.517729716492,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 71.0666666666675,
+          "enemy_ink_seconds": 1.39999999999992,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.3670597076416,
+          "id": 8,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 678.660808959961,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 409.902983206108
+          },
+          "team": 1,
+          "travel_m": 357.374415087514,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 3.50000000000252,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03120589256287,
+          "id": 9,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 802.79266597585,
+            "deaths": 5,
+            "kills": 11,
+            "turf": 501.167370771814
+          },
+          "team": 1,
+          "travel_m": 349.497304676333,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 82.0000000000005,
+          "enemy_ink_seconds": 1.79999999999993,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03508710861206,
+          "id": 10,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 376.191228953043,
+            "deaths": 2,
+            "kills": 2,
+            "turf": 283.004794661468
+          },
+          "team": 1,
+          "travel_m": 384.800743658103,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 7,
+      "comeback_events": 0,
+      "coverage": [
+        0.203082559535089,
+        0.205024951045417
+      ],
+      "decoy_fooled": 0,
+      "item": "supply_box",
+      "map": "prism_gallery",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "supply_received": 1,
+      "team_cumulative_turf_m2": [
+        1980.84820376727,
+        1840.14744641059
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 80.4666666666665,
+          "enemy_ink_seconds": 1.5,
+          "enemy_swim_seconds": 0.200000000000003,
+          "height_max": 6.5,
+          "id": 1,
+          "item": "ink_wings",
+          "item_cd_starts": 3,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 2,
+            "kills": 0,
+            "turf": 307.68725337152
+          },
+          "team": 0,
+          "travel_m": 396.231073866831,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 62.4666666666647,
+          "enemy_ink_seconds": 4.13333333333324,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.5608549118042,
+          "id": 2,
+          "item": "ink_wings",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 796.51332631429,
+            "deaths": 7,
+            "kills": 4,
+            "turf": 351.678419814486
+          },
+          "team": 0,
+          "travel_m": 301.338740828913,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 68.8666666666648,
+          "enemy_ink_seconds": 3.96666666666668,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03930640220642,
+          "id": 3,
+          "item": "ink_wings",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 728.195047749023,
+            "deaths": 6,
+            "kills": 6,
+            "turf": 452.413241110645
+          },
+          "team": 0,
+          "travel_m": 313.404821204487,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 1.73333333333328,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.15390872955322,
+          "id": 4,
+          "item": "ink_wings",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 551.579006938476,
+            "deaths": 5,
+            "kills": 4,
+            "turf": 446.066943314285
+          },
+          "team": 0,
+          "travel_m": 323.426888763031,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.0000000000007,
+          "enemy_ink_seconds": 6.86666666666658,
+          "enemy_swim_seconds": 5.30000000000001,
+          "height_max": 4.60999774932861,
+          "id": 5,
+          "item": "ink_wings",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 687.999244893392,
+            "deaths": 6,
+            "kills": 6,
+            "turf": 356.358555652574
+          },
+          "team": 0,
+          "travel_m": 308.923182314669,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 1.60000000000001,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 4.00036954879761,
+          "id": 6,
+          "item": "ink_wings",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 645.288834042968,
+            "deaths": 5,
+            "kills": 3,
+            "turf": 312.320289251994
+          },
+          "team": 1,
+          "travel_m": 350.74321391189,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 75.8000000000003,
+          "enemy_ink_seconds": 1.33333333333329,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.56110668182373,
+          "id": 7,
+          "item": "ink_wings",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 694.426470082804,
+            "deaths": 3,
+            "kills": 4,
+            "turf": 276.770102926464
+          },
+          "team": 1,
+          "travel_m": 351.253941011644,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 3.79999999999983,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 7.59377765655518,
+          "id": 8,
+          "item": "ink_wings",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 685.266666666666,
+            "deaths": 4,
+            "kills": 6,
+            "turf": 435.028005808818
+          },
+          "team": 1,
+          "travel_m": 349.391023288248,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.2999999999979,
+          "enemy_ink_seconds": 2.09999999999992,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.5608549118042,
+          "id": 9,
+          "item": "ink_wings",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 674.871452215983,
+            "deaths": 5,
+            "kills": 8,
+            "turf": 417.90018714715
+          },
+          "team": 1,
+          "travel_m": 339.724361487199,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "enemy_ink_seconds": 1.39999999999996,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 4.000563621521,
+          "id": 10,
+          "item": "ink_wings",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 1,
+          "stats": {
+            "damage": 510.695433942464,
+            "deaths": 3,
+            "kills": 5,
+            "specials": 1,
+            "turf": 463.378450846367
+          },
+          "team": 1,
+          "travel_m": 355.774066685233,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 8,
+      "comeback_events": 0,
+      "coverage": [
+        0.210915292779989,
+        0.206841008148569
+      ],
+      "decoy_fooled": 0,
+      "item": "ink_wings",
+      "map": "prism_gallery",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 701,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1914.20441326351,
+        1905.39703598079
+      ],
+      "wing_casts": 37
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 85.2333333333336,
+          "enemy_ink_seconds": 1.79999999999995,
+          "enemy_swim_seconds": 0.133333333333326,
+          "height_max": 4.45833253860474,
+          "id": 1,
+          "item": "bomb",
+          "item_cd_starts": 2,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 332.880412916805
+          },
+          "team": 0,
+          "travel_m": 405.111694381572,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000001,
+          "enemy_ink_seconds": 1.83333333333331,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.0338397026062,
+          "id": 2,
+          "item": "bomb",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 443.357084430116,
+            "deaths": 3,
+            "kills": 4,
+            "turf": 283.394005227107
+          },
+          "team": 0,
+          "travel_m": 385.20931229915,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 2.40000000000001,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02428603172302,
+          "id": 3,
+          "item": "bomb",
+          "item_cd_starts": 6,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 643.366372210329,
+            "deaths": 5,
+            "kills": 4,
+            "turf": 490.26983950037
+          },
+          "team": 0,
+          "travel_m": 349.95060634159,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 67.9333333333314,
+          "enemy_ink_seconds": 4.2333333333332,
+          "enemy_swim_seconds": 3.86666666666653,
+          "height_max": 3.03105497360229,
+          "id": 4,
+          "item": "bomb",
+          "item_cd_starts": 6,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 912.899813405933,
+            "deaths": 6,
+            "kills": 5,
+            "turf": 502.779841745302
+          },
+          "team": 0,
+          "travel_m": 345.874591189087,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000007,
+          "enemy_ink_seconds": 2.16666666666669,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.01608657836914,
+          "id": 5,
+          "item": "bomb",
+          "item_cd_starts": 6,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 456.142948032235,
+            "deaths": 3,
+            "kills": 7,
+            "turf": 405.802238717188
+          },
+          "team": 0,
+          "travel_m": 394.895507581823,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.1999999999982,
+          "enemy_ink_seconds": 2.99999999999997,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02007412910461,
+          "id": 6,
+          "item": "bomb",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 388.987961752852,
+            "deaths": 4,
+            "kills": 2,
+            "turf": 353.682003481951
+          },
+          "team": 1,
+          "travel_m": 379.179219606798,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000006,
+          "enemy_ink_seconds": 1.56666666666665,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.80733346939087,
+          "id": 7,
+          "item": "bomb",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 634.960310738766,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 379.407179756244
+          },
+          "team": 1,
+          "travel_m": 379.714582432527,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 2.73333333333333,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03113555908203,
+          "id": 8,
+          "item": "bomb",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 646.24193058137,
+            "deaths": 4,
+            "kills": 4,
+            "turf": 531.115678887665
+          },
+          "team": 1,
+          "travel_m": 372.199068482034,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 71.5999999999976,
+          "enemy_ink_seconds": 1.93333333333337,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03228735923767,
+          "id": 9,
+          "item": "bomb",
+          "item_cd_starts": 6,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 561.25171704892,
+            "deaths": 5,
+            "kills": 5,
+            "turf": 375.01971903258
+          },
+          "team": 1,
+          "travel_m": 347.540748975007,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "enemy_ink_seconds": 1.63333333333583,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 6.00899314880371,
+          "id": 10,
+          "item": "bomb",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 295.933333333333,
+            "deaths": 3,
+            "kills": 2,
+            "turf": 376.945093588423
+          },
+          "team": 1,
+          "travel_m": 372.648923922214,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 9,
+      "comeback_events": 0,
+      "coverage": [
+        0.186568173823633,
+        0.21027139648781
+      ],
+      "decoy_fooled": 0,
+      "item": "bomb",
+      "map": "terrace_garden",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 801,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        2015.12633810677,
+        2016.16967474686
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 85.2333333333336,
+          "enemy_ink_seconds": 0.333333333333314,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.32813048362732,
+          "id": 1,
+          "item": "intel_mist",
+          "item_cd_starts": 2,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 28.4980989667765,
+            "deaths": 1,
+            "kills": 1,
+            "turf": 347.28294796949
+          },
+          "team": 0,
+          "travel_m": 388.069508278975,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000005,
+          "enemy_ink_seconds": 2.49999999999986,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02330493927002,
+          "id": 2,
+          "item": "intel_mist",
+          "item_cd_starts": 2,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 1,
+          "stats": {
+            "damage": 560.089550887294,
+            "deaths": 3,
+            "kills": 5,
+            "specials": 1,
+            "turf": 368.38105902957
+          },
+          "team": 0,
+          "travel_m": 386.785886525409,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.8999999999979,
+          "enemy_ink_seconds": 2.76666666666654,
+          "enemy_swim_seconds": 2.43333333333322,
+          "height_max": 3.02565884590149,
+          "id": 3,
+          "item": "intel_mist",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 1,
+          "stats": {
+            "damage": 653.928717158203,
+            "deaths": 5,
+            "kills": 4,
+            "specials": 1,
+            "turf": 492.7046906113
+          },
+          "team": 0,
+          "travel_m": 360.329499846906,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000007,
+          "enemy_ink_seconds": 2.76666666666659,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03711414337158,
+          "id": 4,
+          "item": "intel_mist",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 1182.20765053609,
+            "deaths": 5,
+            "kills": 9,
+            "turf": 384.16703043946
+          },
+          "team": 0,
+          "travel_m": 349.610059895902,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 71.0666666666673,
+          "enemy_ink_seconds": 3.56666666666656,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03181600570679,
+          "id": 5,
+          "item": "intel_mist",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 462.256283915765,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 295.396256394564
+          },
+          "team": 0,
+          "travel_m": 361.880917362229,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000003,
+          "enemy_ink_seconds": 1.56666666666662,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.04999995231628,
+          "id": 6,
+          "item": "intel_mist",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 656.314349570312,
+            "deaths": 5,
+            "kills": 5,
+            "turf": 404.41567039909
+          },
+          "team": 1,
+          "travel_m": 346.282230252749,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000006,
+          "enemy_ink_seconds": 2.09999999999997,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02440571784973,
+          "id": 7,
+          "item": "intel_mist",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 290.081378203688,
+            "deaths": 4,
+            "kills": 4,
+            "turf": 299.437956041959
+          },
+          "team": 1,
+          "travel_m": 376.335133797838,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 2.09999999999992,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03159689903259,
+          "id": 8,
+          "item": "intel_mist",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 396.327042025838,
+            "deaths": 5,
+            "kills": 2,
+            "turf": 354.982861500021
+          },
+          "team": 1,
+          "travel_m": 353.928243427537,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000005,
+          "enemy_ink_seconds": 1.59999999999992,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.01953148841858,
+          "id": 9,
+          "item": "intel_mist",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 1,
+          "stats": {
+            "damage": 560.48316786288,
+            "deaths": 4,
+            "kills": 4,
+            "specials": 1,
+            "turf": 426.253961942884
+          },
+          "team": 1,
+          "travel_m": 363.908769610192,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000006,
+          "enemy_ink_seconds": 2.19999999999995,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.01858377456665,
+          "id": 10,
+          "item": "intel_mist",
+          "item_cd_starts": 2,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 370.761784994629,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 208.791486792651
+          },
+          "team": 1,
+          "travel_m": 369.745991534728,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 10,
+      "comeback_events": 0,
+      "coverage": [
+        0.181657060908624,
+        0.153069783802798
+      ],
+      "decoy_fooled": 0,
+      "item": "intel_mist",
+      "map": "terrace_garden",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 801,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1887.93198444438,
+        1693.88193667661
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 85.2333333333336,
+          "enemy_ink_seconds": 1.09999999999995,
+          "enemy_swim_seconds": 0.0333333333333314,
+          "height_max": 3.98855519294739,
+          "id": 1,
+          "item": "beacon",
+          "item_cd_starts": 3,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 273.072866568176
+          },
+          "team": 0,
+          "travel_m": 400.720551550388,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 5.89999999999977,
+          "enemy_swim_seconds": 5.5999999999998,
+          "height_max": 3.02464818954468,
+          "id": 2,
+          "item": "beacon",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 585.049694425455,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 293.562017209964
+          },
+          "team": 0,
+          "travel_m": 380.029579826747,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 1.8666666666666,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.89428925514221,
+          "id": 3,
+          "item": "beacon",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 561.64,
+            "deaths": 5,
+            "kills": 3,
+            "turf": 329.06497630024
+          },
+          "team": 0,
+          "travel_m": 356.916705720127,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.333333333334,
+          "enemy_ink_seconds": 3.13333333333327,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.01153111457825,
+          "id": 4,
+          "item": "beacon",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 768.346711264608,
+            "deaths": 5,
+            "kills": 6,
+            "turf": 383.463956749434
+          },
+          "team": 0,
+          "travel_m": 332.932779604977,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "enemy_ink_seconds": 1.89999999999995,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02200508117676,
+          "id": 5,
+          "item": "beacon",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 430.650305574544,
+            "deaths": 3,
+            "kills": 5,
+            "turf": 303.31936581848
+          },
+          "team": 0,
+          "travel_m": 379.487662133062,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 73.8333333333315,
+          "enemy_ink_seconds": 2.66666666666658,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.01338386535645,
+          "id": 6,
+          "item": "beacon",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 544.244893690094,
+            "deaths": 5,
+            "kills": 4,
+            "turf": 321.577282716252
+          },
+          "team": 1,
+          "travel_m": 366.757923692989,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "enemy_ink_seconds": 1.39999999999996,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03300857543945,
+          "id": 7,
+          "item": "beacon",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 510.267782981771,
+            "deaths": 3,
+            "kills": 6,
+            "turf": 386.147903302565
+          },
+          "team": 1,
+          "travel_m": 393.64352714055,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 1.23333333333333,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.04999995231628,
+          "id": 8,
+          "item": "beacon",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 484.283333333333,
+            "deaths": 4,
+            "kills": 4,
+            "turf": 343.768785987414
+          },
+          "team": 1,
+          "travel_m": 377.855299179209,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000007,
+          "enemy_ink_seconds": 1.43333333333329,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02712154388428,
+          "id": 9,
+          "item": "beacon",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 366.448557802734,
+            "deaths": 3,
+            "kills": 2,
+            "turf": 359.364642774573
+          },
+          "team": 1,
+          "travel_m": 398.548567894846,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 4.76666666666667,
+          "enemy_swim_seconds": 3.9666666666667,
+          "height_max": 3.02181792259216,
+          "id": 10,
+          "item": "beacon",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 435.198952907959,
+            "deaths": 4,
+            "kills": 2,
+            "turf": 253.539254668754
+          },
+          "team": 1,
+          "travel_m": 382.154414436809,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 11,
+      "comeback_events": 0,
+      "coverage": [
+        0.160822036420705,
+        0.181440593121736
+      ],
+      "decoy_fooled": 0,
+      "item": "beacon",
+      "map": "terrace_garden",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 801,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1582.48318264629,
+        1664.39786944956
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 85.2333333333333,
+          "enemy_ink_seconds": 0.0,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.27722191810608,
+          "id": 1,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 292.137221234463
+          },
+          "team": 0,
+          "travel_m": 391.788534082705,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "enemy_ink_seconds": 0.66666666666665,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03146195411682,
+          "id": 2,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 558.846666666666,
+            "deaths": 3,
+            "kills": 5,
+            "turf": 249.267443919208
+          },
+          "team": 0,
+          "travel_m": 389.08180436556,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 75.8000000000002,
+          "enemy_ink_seconds": 0.833333333333314,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.0267653465271,
+          "id": 3,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 842.795736648722,
+            "deaths": 3,
+            "kills": 6,
+            "turf": 367.575541503992
+          },
+          "team": 0,
+          "travel_m": 381.185437521315,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000007,
+          "enemy_ink_seconds": 2.46666666666664,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03164601325989,
+          "id": 4,
+          "item": "recall",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 593.453333333333,
+            "deaths": 4,
+            "kills": 6,
+            "turf": 511.685773173246
+          },
+          "team": 0,
+          "travel_m": 378.277965901769,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 75.433333333331,
+          "enemy_ink_seconds": 1.09999999999998,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.57270669937134,
+          "id": 5,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 327.366666666667,
+            "deaths": 4,
+            "kills": 2,
+            "turf": 192.874725158844
+          },
+          "team": 0,
+          "travel_m": 377.189747582597,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "enemy_ink_seconds": 1.19999999999997,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.04999995231628,
+          "id": 6,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 355.092957987467,
+            "deaths": 3,
+            "kills": 3,
+            "turf": 169.080901049654
+          },
+          "team": 1,
+          "travel_m": 382.740370836953,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 3.13333333333323,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.01595711708069,
+          "id": 7,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 485.252308078776,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 419.359914220743
+          },
+          "team": 1,
+          "travel_m": 371.127562136389,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000004,
+          "enemy_ink_seconds": 1.06666666666663,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02333807945251,
+          "id": 8,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 469.963926958822,
+            "deaths": 3,
+            "kills": 2,
+            "turf": 351.604468367086
+          },
+          "team": 1,
+          "travel_m": 397.942720025661,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 68.4666666666646,
+          "enemy_ink_seconds": 4.56666666666662,
+          "enemy_swim_seconds": 3.09999999999996,
+          "height_max": 2.04999995231628,
+          "id": 9,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 671.431740246582,
+            "deaths": 6,
+            "kills": 3,
+            "turf": 270.968423988924
+          },
+          "team": 1,
+          "travel_m": 346.514461470826,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "enemy_ink_seconds": 1.09999999999999,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.45250558853149,
+          "id": 10,
+          "item": "recall",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 292.803812589518,
+            "deaths": 3,
+            "kills": 1,
+            "turf": 158.474886221203
+          },
+          "team": 1,
+          "travel_m": 403.047918046766,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 12,
+      "comeback_events": 0,
+      "coverage": [
+        0.170563086830641,
+        0.158873826338718
+      ],
+      "decoy_fooled": 0,
+      "item": "recall",
+      "map": "terrace_garden",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 801,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1613.54070498975,
+        1369.48859384761
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 90.0,
+          "enemy_ink_seconds": 0.46666666666664,
+          "enemy_swim_seconds": 0.0666666666666629,
+          "height_max": 3.27722191810608,
+          "id": 1,
+          "item": "sonar",
+          "item_cd_starts": 3,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 338.305125227152
+          },
+          "team": 0,
+          "travel_m": 420.353639696259,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.5999999999982,
+          "enemy_ink_seconds": 2.09999999999992,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.01650142669678,
+          "id": 2,
+          "item": "sonar",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 692.948274906029,
+            "deaths": 5,
+            "kills": 6,
+            "turf": 303.996174857274
+          },
+          "team": 0,
+          "travel_m": 322.626510642818,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 67.9666666666644,
+          "enemy_ink_seconds": 1.46666666666658,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.04999995231628,
+          "id": 3,
+          "item": "sonar",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 645.773333333333,
+            "deaths": 6,
+            "kills": 5,
+            "turf": 312.099778629634
+          },
+          "team": 0,
+          "travel_m": 340.362726715975,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 65.6666666666648,
+          "enemy_ink_seconds": 3.1999999999999,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.0227198600769,
+          "id": 4,
+          "item": "sonar",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 871.761749007036,
+            "deaths": 7,
+            "kills": 6,
+            "turf": 410.66130595823
+          },
+          "team": 0,
+          "travel_m": 326.725398600684,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 1.06666666666662,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03210544586182,
+          "id": 5,
+          "item": "sonar",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 436.166666666666,
+            "deaths": 5,
+            "kills": 4,
+            "turf": 231.73329758318
+          },
+          "team": 0,
+          "travel_m": 351.757254438126,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000005,
+          "enemy_ink_seconds": 0.966666666666633,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.04999995231628,
+          "id": 6,
+          "item": "sonar",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 468.944998311361,
+            "deaths": 4,
+            "kills": 1,
+            "turf": 294.63907225407
+          },
+          "team": 1,
+          "travel_m": 370.733971954905,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000005,
+          "enemy_ink_seconds": 2.33333333333333,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.0248908996582,
+          "id": 7,
+          "item": "sonar",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 578.864111610921,
+            "deaths": 3,
+            "kills": 7,
+            "turf": 329.825959146971
+          },
+          "team": 1,
+          "travel_m": 389.611408496334,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 67.9999999999979,
+          "enemy_ink_seconds": 1.43333333333332,
+          "enemy_swim_seconds": 1.16666666666666,
+          "height_max": 3.03684329986572,
+          "id": 8,
+          "item": "sonar",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 640.866666666667,
+            "deaths": 6,
+            "kills": 5,
+            "turf": 300.718777379954
+          },
+          "team": 1,
+          "travel_m": 341.61003907409,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 73.6999999999979,
+          "enemy_ink_seconds": 2.23333333333328,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02810144424438,
+          "id": 9,
+          "item": "sonar",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 680.671947794596,
+            "deaths": 5,
+            "kills": 5,
+            "turf": 280.49409430816
+          },
+          "team": 1,
+          "travel_m": 373.329942414071,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 75.9666666666642,
+          "enemy_ink_seconds": 2.93333333333337,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.43994903564453,
+          "id": 10,
+          "item": "sonar",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 424.195138142904,
+            "deaths": 3,
+            "kills": 5,
+            "turf": 319.622123603194
+          },
+          "team": 1,
+          "travel_m": 382.61073236767,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 13,
+      "comeback_events": 0,
+      "coverage": [
+        0.160253808480126,
+        0.158440890764943
+      ],
+      "decoy_fooled": 0,
+      "item": "sonar",
+      "map": "terrace_garden",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 801,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1596.79568225547,
+        1525.30002669235
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 80.4666666666672,
+          "enemy_ink_seconds": 0.533333333333303,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.62806129455566,
+          "id": 1,
+          "item": "mine",
+          "item_cd_starts": 4,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 2,
+            "kills": 0,
+            "turf": 337.724347036052
+          },
+          "team": 0,
+          "travel_m": 375.765051123337,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 2.26666666666657,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.04999995231628,
+          "id": 2,
+          "item": "mine",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 534.227682970921,
+            "deaths": 5,
+            "kills": 7,
+            "turf": 327.069105428192
+          },
+          "team": 0,
+          "travel_m": 340.514849709463,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.1666666666648,
+          "enemy_ink_seconds": 3.79999999999988,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02470135688782,
+          "id": 3,
+          "item": "mine",
+          "item_cd_starts": 6,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 565.955451098204,
+            "deaths": 6,
+            "kills": 2,
+            "turf": 379.9280673774
+          },
+          "team": 0,
+          "travel_m": 331.447981482779,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.0000000000007,
+          "enemy_ink_seconds": 3.99999999999989,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.92426490783691,
+          "id": 4,
+          "item": "mine",
+          "item_cd_starts": 6,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 730.071055105563,
+            "deaths": 6,
+            "kills": 4,
+            "turf": 411.21193024951
+          },
+          "team": 0,
+          "travel_m": 332.189539738698,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000007,
+          "enemy_ink_seconds": 2.26666666666658,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03301334381104,
+          "id": 5,
+          "item": "mine",
+          "item_cd_starts": 2,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 665.026465473668,
+            "deaths": 4,
+            "kills": 6,
+            "turf": 365.821248614122
+          },
+          "team": 0,
+          "travel_m": 372.686283887364,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000007,
+          "enemy_ink_seconds": 2.36666666666663,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.04999995231628,
+          "id": 6,
+          "item": "mine",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 666.6153132724,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 384.272269324632
+          },
+          "team": 1,
+          "travel_m": 372.345018771652,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000005,
+          "enemy_ink_seconds": 2.99999999999986,
+          "enemy_swim_seconds": 2.36666666666655,
+          "height_max": 3.03557682037354,
+          "id": 7,
+          "item": "mine",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 473.022292470214,
+            "deaths": 3,
+            "kills": 4,
+            "turf": 386.363649138104
+          },
+          "team": 1,
+          "travel_m": 403.136455595901,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000007,
+          "enemy_ink_seconds": 2.99999999999989,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.55309629440308,
+          "id": 8,
+          "item": "mine",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 640.822328654925,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 505.593453574019
+          },
+          "team": 1,
+          "travel_m": 372.60237322835,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.3333333333339,
+          "enemy_ink_seconds": 2.19999999999998,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.81436014175415,
+          "id": 9,
+          "item": "mine",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 486.074279787858,
+            "deaths": 5,
+            "kills": 4,
+            "turf": 331.849691154433
+          },
+          "team": 1,
+          "travel_m": 335.340987418895,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000005,
+          "enemy_ink_seconds": 0.333333333333343,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03383898735046,
+          "id": 10,
+          "item": "mine",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 507.303619668165,
+            "deaths": 3,
+            "kills": 5,
+            "turf": 261.447645528242
+          },
+          "team": 1,
+          "travel_m": 392.600905113504,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 14,
+      "comeback_events": 0,
+      "coverage": [
+        0.167410774684092,
+        0.18647346916687
+      ],
+      "decoy_fooled": 0,
+      "item": "mine",
+      "map": "terrace_garden",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 801,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1821.75469870528,
+        1869.52670871943
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 85.2333333333336,
+          "enemy_ink_seconds": 0.93333333333328,
+          "enemy_swim_seconds": 0.0999999999999943,
+          "height_max": 4.66608381271362,
+          "id": 1,
+          "item": "echo_decoy",
+          "item_cd_starts": 5,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 1,
+            "kills": 0,
+            "turf": 352.119620948627
+          },
+          "team": 0,
+          "travel_m": 398.417656147387,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000005,
+          "enemy_ink_seconds": 2.63333333333327,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03203201293945,
+          "id": 2,
+          "item": "echo_decoy",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 425.104051244273,
+            "deaths": 4,
+            "kills": 2,
+            "turf": 256.569622046522
+          },
+          "team": 0,
+          "travel_m": 373.881464637001,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000006,
+          "enemy_ink_seconds": 2.29999999999996,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02373671531677,
+          "id": 3,
+          "item": "echo_decoy",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 604.530259144124,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 335.506398829512
+          },
+          "team": 0,
+          "travel_m": 358.273033145641,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.0000000000007,
+          "enemy_ink_seconds": 3.43333333333325,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.0227222442627,
+          "id": 4,
+          "item": "echo_decoy",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 734.312276545451,
+            "deaths": 6,
+            "kills": 6,
+            "turf": 357.787312628174
+          },
+          "team": 0,
+          "travel_m": 329.073780307197,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 66.0000000000003,
+          "enemy_ink_seconds": 2.5333333333332,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03113198280334,
+          "id": 5,
+          "item": "echo_decoy",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 672.367112002106,
+            "deaths": 6,
+            "kills": 7,
+            "turf": 317.707539136972
+          },
+          "team": 0,
+          "travel_m": 319.796429165581,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000007,
+          "enemy_ink_seconds": 1.86666666666915,
+          "enemy_swim_seconds": 1.10000000000252,
+          "height_max": 3.04030394554138,
+          "id": 6,
+          "item": "echo_decoy",
+          "item_cd_starts": 2,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 428.090559247215,
+            "deaths": 3,
+            "kills": 4,
+            "turf": 287.889647241088
+          },
+          "team": 1,
+          "travel_m": 385.359443505411,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 1.19999999999995,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.03584408760071,
+          "id": 7,
+          "item": "echo_decoy",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 663.688071762085,
+            "deaths": 4,
+            "kills": 6,
+            "turf": 357.214080752868
+          },
+          "team": 1,
+          "travel_m": 356.538647745911,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 71.066666666667,
+          "enemy_ink_seconds": 1.19999999999999,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02326083183289,
+          "id": 8,
+          "item": "echo_decoy",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 598.652249023437,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 422.951649695096
+          },
+          "team": 1,
+          "travel_m": 359.868451818067,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 2.03333333333333,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.0315306186676,
+          "id": 9,
+          "item": "echo_decoy",
+          "item_cd_starts": 5,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 699.023646088663,
+            "deaths": 5,
+            "kills": 6,
+            "turf": 328.116631615791
+          },
+          "team": 1,
+          "travel_m": 355.491039874381,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 77.8666666666645,
+          "enemy_ink_seconds": 1.03333333333332,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.0235698223114,
+          "id": 10,
+          "item": "echo_decoy",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 517.594252776591,
+            "deaths": 4,
+            "kills": 2,
+            "turf": 208.862383489573
+          },
+          "team": 1,
+          "travel_m": 383.731634279364,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 15,
+      "comeback_events": 0,
+      "coverage": [
+        0.170576616067321,
+        0.166301377276294
+      ],
+      "decoy_fooled": 53,
+      "item": "echo_decoy",
+      "map": "terrace_garden",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 801,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1619.69049358981,
+        1605.03439279441
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 90.0,
+          "enemy_ink_seconds": 1.23333333333329,
+          "enemy_swim_seconds": 0.333333333333314,
+          "height_max": 3.93666672706604,
+          "id": 1,
+          "item": "supply_box",
+          "item_cd_starts": 2,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 236.12616122088
+          },
+          "team": 0,
+          "travel_m": 378.12115527736,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 82.0,
+          "enemy_ink_seconds": 0.766666666666666,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02046012878418,
+          "id": 2,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 381.478864302572,
+            "deaths": 2,
+            "kills": 5,
+            "turf": 258.461746845925
+          },
+          "team": 0,
+          "travel_m": 409.405775306339,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000008,
+          "enemy_ink_seconds": 1.76666666666658,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.04999995231628,
+          "id": 3,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 386.817957682292,
+            "deaths": 5,
+            "kills": 2,
+            "turf": 309.038382928392
+          },
+          "team": 0,
+          "travel_m": 347.101113899669,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 70.0000000000005,
+          "enemy_ink_seconds": 2.69999999999987,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02391743659973,
+          "id": 4,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 619.911137674967,
+            "deaths": 5,
+            "kills": 4,
+            "turf": 319.84711531418
+          },
+          "team": 0,
+          "travel_m": 349.725243004446,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 83.3666666666641,
+          "enemy_ink_seconds": 4.06666666666653,
+          "enemy_swim_seconds": 3.56666666666651,
+          "height_max": 5.80736064910889,
+          "id": 5,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 485.986831281535,
+            "deaths": 2,
+            "kills": 4,
+            "turf": 310.071574570944
+          },
+          "team": 0,
+          "travel_m": 422.851759042242,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000003,
+          "enemy_ink_seconds": 2.0333333333334,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 2.22514677047729,
+          "id": 6,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 426.408337317912,
+            "deaths": 4,
+            "kills": 2,
+            "turf": 264.421100512649
+          },
+          "team": 1,
+          "travel_m": 376.330728339031,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 75.8000000000006,
+          "enemy_ink_seconds": 0.933333333333323,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02674055099487,
+          "id": 7,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 427.688910845296,
+            "deaths": 3,
+            "kills": 4,
+            "turf": 313.681052114094
+          },
+          "team": 1,
+          "travel_m": 379.430400652927,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 80.1666666666641,
+          "enemy_ink_seconds": 2.66666666666658,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.02621579170227,
+          "id": 8,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 1,
+          "stats": {
+            "damage": 547.372630126953,
+            "deaths": 3,
+            "kills": 5,
+            "specials": 1,
+            "turf": 435.467952725326
+          },
+          "team": 1,
+          "travel_m": 401.444472918694,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 82.0000000000005,
+          "enemy_ink_seconds": 0.499999999999972,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.0403037071228,
+          "id": 9,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 362.641468368327,
+            "deaths": 2,
+            "kills": 1,
+            "turf": 259.458037665747
+          },
+          "team": 1,
+          "travel_m": 402.049678893411,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000002,
+          "enemy_ink_seconds": 0.96666666666664,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.01077222824097,
+          "id": 10,
+          "item": "supply_box",
+          "item_cd_starts": 0,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 360.0,
+            "deaths": 3,
+            "kills": 2,
+            "turf": 247.309549906521
+          },
+          "team": 1,
+          "travel_m": 385.133121588675,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 16,
+      "comeback_events": 0,
+      "coverage": [
+        0.144681657060909,
+        0.173796574397273
+      ],
+      "decoy_fooled": 0,
+      "item": "supply_box",
+      "map": "terrace_garden",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 801,
+      "simulation_seconds": 90.0,
+      "supply_received": 2,
+      "team_cumulative_turf_m2": [
+        1433.54498088032,
+        1520.33769292434
+      ],
+      "wing_casts": 0
+    },
+    {
+      "actors": [
+        {
+          "alive_seconds": 90.0,
+          "enemy_ink_seconds": 2.06666666666659,
+          "enemy_swim_seconds": 0.366666666666646,
+          "height_max": 5.53543043136597,
+          "id": 1,
+          "item": "ink_wings",
+          "item_cd_starts": 4,
+          "local_player": true,
+          "perk": "enemy_swim",
+          "special_casts": null,
+          "stats": {
+            "damage": 0.0,
+            "deaths": 0,
+            "kills": 0,
+            "turf": 243.263063158
+          },
+          "team": 0,
+          "travel_m": 429.768751209136,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000005,
+          "enemy_ink_seconds": 2.93333333333326,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.0037317276001,
+          "id": 2,
+          "item": "ink_wings",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 532.06899839274,
+            "deaths": 4,
+            "kills": 6,
+            "turf": 242.3568074867
+          },
+          "team": 0,
+          "travel_m": 355.170839624014,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.6666666666644,
+          "enemy_ink_seconds": 0.99999999999995,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.08192777633667,
+          "id": 3,
+          "item": "ink_wings",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "leech",
+          "special_casts": 0,
+          "stats": {
+            "damage": 490.1,
+            "deaths": 4,
+            "kills": 5,
+            "turf": 366.011295603709
+          },
+          "team": 0,
+          "travel_m": 356.976429402814,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 65.6999999999982,
+          "enemy_ink_seconds": 6.49999999999985,
+          "enemy_swim_seconds": 5.06666666666658,
+          "height_max": 3.03064680099487,
+          "id": 4,
+          "item": "ink_wings",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "enemy_swim",
+          "special_casts": 0,
+          "stats": {
+            "damage": 726.875249439493,
+            "deaths": 7,
+            "kills": 5,
+            "turf": 475.05057744149
+          },
+          "team": 0,
+          "travel_m": 334.071542303951,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.0000000000004,
+          "enemy_ink_seconds": 2.89999999999985,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.56085538864136,
+          "id": 5,
+          "item": "ink_wings",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "vault_runner",
+          "special_casts": 0,
+          "stats": {
+            "damage": 631.644926870728,
+            "deaths": 4,
+            "kills": 2,
+            "turf": 313.622682675268
+          },
+          "team": 0,
+          "travel_m": 346.847112498537,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 75.8000000000004,
+          "enemy_ink_seconds": 0.933333333333323,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 3.94988751411438,
+          "id": 6,
+          "item": "ink_wings",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "last_ink",
+          "special_casts": 0,
+          "stats": {
+            "damage": 542.141505295817,
+            "deaths": 3,
+            "kills": 5,
+            "turf": 314.475540452014
+          },
+          "team": 1,
+          "travel_m": 366.9689201687,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 79.6666666666646,
+          "enemy_ink_seconds": 1.8,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 4.92568254470825,
+          "id": 7,
+          "item": "ink_wings",
+          "item_cd_starts": 3,
+          "local_player": false,
+          "perk": "dry_focus",
+          "special_casts": 0,
+          "stats": {
+            "damage": 265.450386213226,
+            "deaths": 3,
+            "kills": 4,
+            "turf": 331.244746966639
+          },
+          "team": 1,
+          "travel_m": 389.749388001102,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 73.7666666666646,
+          "enemy_ink_seconds": 1.76666666666661,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 4.60999774932861,
+          "id": 8,
+          "item": "ink_wings",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "turf_engine",
+          "special_casts": 0,
+          "stats": {
+            "damage": 502.013809450277,
+            "deaths": 5,
+            "kills": 3,
+            "turf": 320.726075919706
+          },
+          "team": 1,
+          "travel_m": 351.834728513728,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 78.0000000000003,
+          "enemy_ink_seconds": 0.766666666666652,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 4.28085660934448,
+          "id": 9,
+          "item": "ink_wings",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "balanced",
+          "special_casts": 0,
+          "stats": {
+            "damage": 610.52892152771,
+            "deaths": 3,
+            "kills": 4,
+            "turf": 279.242498479452
+          },
+          "team": 1,
+          "travel_m": 342.093372795149,
+          "weapon": "shooter"
+        },
+        {
+          "alive_seconds": 74.2999999999977,
+          "enemy_ink_seconds": 0.833333333333343,
+          "enemy_swim_seconds": 0.0,
+          "height_max": 5.56085538864136,
+          "id": 10,
+          "item": "ink_wings",
+          "item_cd_starts": 4,
+          "local_player": false,
+          "perk": "adrenaline",
+          "special_casts": 0,
+          "stats": {
+            "damage": 612.452159126585,
+            "deaths": 4,
+            "kills": 3,
+            "turf": 371.808419291516
+          },
+          "team": 1,
+          "travel_m": 352.093532800442,
+          "weapon": "shooter"
+        }
+      ],
+      "case": 17,
+      "comeback_events": 0,
+      "coverage": [
+        0.164028465513976,
+        0.185431717942474
+      ],
+      "decoy_fooled": 0,
+      "item": "ink_wings",
+      "map": "terrace_garden",
+      "physics_frames": 2701,
+      "results": true,
+      "seed": 801,
+      "simulation_seconds": 90.0,
+      "supply_received": 0,
+      "team_cumulative_turf_m2": [
+        1640.30442636517,
+        1617.49728110933
+      ],
+      "wing_casts": 37
+    }
+  ],
+  "source_sha256": {
+    "equipment_catalog.gd": "08b1be727287a75633c3a8c943fc1dbd7c888c40a5b1529ce72a55ca77f59885",
+    "gameplay_rules.gd": "2b93eddd99b8639c61d8dd37382e9d5e1cec87c3b701924c8187116eb5e7dc36",
+    "ink_disc_mesh.gd": "02559201fa16ea81eb0d708721d5c5820f79dfc58884bb2590ee19ec60830b70",
+    "ink_equipment_mesh.gd": "856473263aef80304887bdc66d50549e9956418833b39882105732c39deea478",
+    "loadout_details.gd": "fcf893f5b63dbef389160c97f9a048760f32c4218155aaea4ba427b2817f287f",
+    "loadout_icons.gd": "a9b970f892857a71e1433e756e7068fa8c1dbdf7ca7db27ccd09904c0e6ecb62",
+    "loadout_strip.gd": "933436d762676fc7f0a832c17d243adf761c412db845a6322d7eea2cf8b26ccd",
+    "main.gd": "1f53c17fc948e4280b078b7184266c3ba79f83af37227107a407e34db238d2a0",
+    "map_catalog.gd": "f2a65d65943f3e4fabd78ac5c3e0c5810fd7068840a0a1bdf1e7adad0a48788a",
+    "match_setup.gd": "88eef8960a7e399cc9abffd7666f744f7cd5b0e3ec9453e209f0e58fdfe1966f",
+    "menu_character_preview.gd": "01f3fcf306a7bcf7b34b003aa78fac4e82f299925e52a4ce3de60c71556d3cab",
+    "menu_stage_preview.gd": "20accb72efe768c6dd2491ae7bf6dd549770a503ee4172a6cb4f63c269181955",
+    "paint_field.gd": "33181cc508ef6ddd1a8cee559be4c0da3fa8e25111e9432ee7251b71273c6cae",
+    "surface_ink.gd": "2018992c9e5b4ad5711408d74ac33bda30095fc58b7a5da95a05e650f0a10bde",
+    "surface_ink_view.gd": "f2ab35567fbbfd70b9fa4581f913b1bb713df913937d67fade06b60e6abe59bb",
+    "team_navigation.gd": "810b1b6778b2c4a651934bd18a8f88111e707ff3ce67d0ca5c828f786ecd89d3",
+    "team_palette.gd": "49b110acd9c71b7b4d48a01586ec174d104ac9fbd94a45eab4ce11217955ba33",
+    "tidewater_audio.gd": "2418a29a463bd4f47e780360f7888bfddb1e90c8d398de59bb4e094fbe9191be",
+    "tidewater_bot.gd": "6f90977d3576317c4763b52b655ead59c115b09255dd685e27a4d651e412a64b",
+    "tidewater_bot_specials.gd": "8119318dd54a30b73c349d5899de9b2017ccdc35f1ff3b916fc5f00a892561ef",
+    "tidewater_bow.gd": "4a80f810c13556d2e01d78b3c83572ec6ab3fa05826fa2d987e5914603ca620d",
+    "tidewater_canopy.gd": "042b3f3a882b4a30a07415657c88192f96c7e08df32d45598228957d544d61e2",
+    "tidewater_character_visual.gd": "6805379f0847430ad8f07b3f722742720c32086777494ef00428e365b561f4ad",
+    "tidewater_cinematic.gd": "736bc7035da99e418fcc338bec08a8d6595651a75590408c89c7746084df5056",
+    "tidewater_combat.gd": "492eb3b3ee9d7833c2c64a42ab2f0f21c593b293a3152a43fa6c47e8d7266c93",
+    "tidewater_comeback.gd": "9b9fc14c331f48847df125eb94adf2d7df7885240d4c39ddef4baba6f55a251f",
+    "tidewater_counter.gd": "3bd9548eef5fa17c33ebe3d7054420f71277bfc74b1540d140e6e4452a523db6",
+    "tidewater_decoys.gd": "e4c25ff7282b3df2b2ddb15f5818a06b90d20e1d1cad27c6e1aae6af2b0efb57",
+    "tidewater_deployment.gd": "edb49028c3c843b11d2fa6feed3df63254cc265b2f3137beb307781dae0e469e",
+    "tidewater_discs.gd": "59b73d620a6e640dc707fdf6eea1886b1eadd02a1bc902cefa1e165720d8162f",
+    "tidewater_feedback_fx.gd": "2d470dc3d8948f39dfdad73a4e955fd9cd3fe7ab6d7ef78d0552d7b9867e15fc",
+    "tidewater_frontend.gd": "d45c4ae8a24a875f0174167ab2a5384ce6434ff9310830659539732c4092820b",
+    "tidewater_hud_layout.gd": "ac257c721306585cf2aa63f3a823ae545a600cd6bcfafad9e976e629a00e2fd8",
+    "tidewater_intel.gd": "11df7319cdbd2e77cdc629619eb9ca4d47ac52b31f824b74fb763e552a5e512d",
+    "tidewater_items.gd": "50a7462d78d03e4b97ab43571e0e3fa43de24f8bd09956fe1bcb9175e90a62e8",
+    "tidewater_jump_selector.gd": "465d2cc1bbc1b9495918797454d3cf2b9b458f022001529402b2f7d987cc7d5d",
+    "tidewater_map.gd": "6e1be5664f48633cb4283eca9e4a058e353b0d30f4cb56ed456153c04d9b461c",
+    "tidewater_mines.gd": "88cb07d64d8580f6e37d16c56dcd05ed7b220bf525d17fefc9b0e22673b9472a",
+    "tidewater_mist.gd": "f64c875773e55f7e1d3bd0d089c6bd2b212385b8a678cc3f4c8dc557cc30c99b",
+    "tidewater_mobility.gd": "1696aeba728690e70715bec5a6ad789a6b5d9dfdd4748b2c0c55486f6740a3c2",
+    "tidewater_perks.gd": "9e6d3f905424ff89f946f5c760e55b351348751b7c02b89c4e9df9d29c0887f5",
+    "tidewater_play.gd": "597eb92312c473e236b8b8b64949cd00b05726a7bfc72d6033dd6e9f05e40ff4",
+    "tidewater_presentation.gd": "40e6c28386e7865bd94573a4a80a05a3e52b36a4c9f374116725898f4327aea1",
+    "tidewater_rain_arrows.gd": "89777fb6c8f8e005a7224f601ffa33688d48f7096a2f3f7c25bda9c4d831f1c6",
+    "tidewater_recall.gd": "3b760ed97dca1febeebaba9562909d2dfd8b3e816a218e6950fda642e6d448d7",
+    "tidewater_scenery.gd": "66a8484d7daec8beee91894806421f50067f5395344e9adab4ca6b7d5aac7fc3",
+    "tidewater_settings.gd": "51e23888ccf95532e1b399ef01e8db855b429f4ab8b19f2285404d7e697a2282",
+    "tidewater_settings_panel.gd": "f10b4ca94796a82068e03271f582f90b814d120ece7621cac7307d8c364423cf",
+    "tidewater_sonar.gd": "35aa1b12a9a50b8619347baa3f4ed356d3d30ad55a8d879256e9ad103fa094cc",
+    "tidewater_supply.gd": "32a243a66252dd58bdf2cb34d8e0b0f4806ed096cd596b42cbba008de7d94a44",
+    "tidewater_tactics.gd": "660748cb1b95f38fcd4605783fb66d87e933c04aa0f9e4d019f5bc5cfd8dd795",
+    "tidewater_walker.gd": "299ca6140c7936a9c88ffb2758d41601a7a12586f4621f13db9e11fa1db67f70",
+    "tidewater_wings.gd": "aae9d3b0888182779c5379548575735140807c74ac07b61e96d1e43b5751580c",
+    "turf_minimap.gd": "641b7b45128502f11aae0e598005852a1cebc96e4fcbd4e886d910f3ff2fc4fc",
+    "ui_fonts.gd": "949e6cb2c7b96cddc4b27545424479e289a0b665dce06c7e8678dba294a03e5e",
+    "weapon_profile.gd": "64b44bd1fc66b9e2a66498436917dfbef46c584584429467fce5a42ca6b30b8e"
+  }
+}

@@ -1,0 +1,19 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-10-01 12:18:08.242 Godot[92023:7622829] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+AUDIT: start tidewater 180.0 seconds / native input / 5v5
+AUDIT: tidewater elapsed=0 remaining=180 deaths=0
+AUDIT: tidewater elapsed=20 remaining=160 deaths=1
+AUDIT: tidewater elapsed=40 remaining=140 deaths=2
+AUDIT: tidewater elapsed=60 remaining=120 deaths=3
+AUDIT: tidewater elapsed=80 remaining=100 deaths=5
+AUDIT: tidewater elapsed=100 remaining=80 deaths=6
+AUDIT: tidewater elapsed=120 remaining=60 deaths=7
+AUDIT: tidewater elapsed=140 remaining=40 deaths=8
+AUDIT: tidewater elapsed=160 remaining=20 deaths=9
+SCRIPT ERROR: Invalid access to property or key 'weapon_id' on a base object of type 'CharacterBody3D (tidewater_walker.gd)'.
+          at: _run (res://tools/capture_gameplay_matches.gd:163)
+          GDScript backtrace (most recent call first):
+              [0] _run (res://tools/capture_gameplay_matches.gd:163)
+              [1] _frames (res://tools/capture_gameplay_matches.gd:179)

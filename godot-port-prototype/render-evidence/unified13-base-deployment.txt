@@ -1,0 +1,7 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+AUDIT: tidewater landing=(-1.65, 0.05, -32.575) HP=120 shield=60 storm=42 DPS launcher respawn
+AUDIT: kelpline landing=(-1.65, 0.05, -37.375) HP=120 shield=60 storm=42 DPS launcher respawn
+PASS: both maps, equal health, real item absorption/heal/cooldowns, launcher respawn and invalidation, special damage/ink/expiry, final map and kill ledger

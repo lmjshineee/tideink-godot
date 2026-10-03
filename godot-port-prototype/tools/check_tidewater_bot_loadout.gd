@@ -106,7 +106,7 @@ func _check() -> void:
 	roller_bot.call("select_weapon", "roller")
 	roller_bot.global_position = Vector3(0.0, 0.05, 25.0)
 	roller_walker.global_position = Vector3(0.0, 0.05, 22.0)
-	roller_bot.call("tick", 0.1)
+	for step in 3: roller_bot.call("tick", 1.0/30.0)
 	var roller_combat: Node3D = roller_scene.get_node("Combat")
 	var drops: Array = roller_combat.get("projectiles")
 	if drops.size() != int(weapons["roller"]["flickDrops"]) \

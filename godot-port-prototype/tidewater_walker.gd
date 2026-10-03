@@ -47,6 +47,7 @@ var ink: RefCounted
 var ink_owner := -1
 var active := true
 var auto_respawn := true
+var action_move_limit := INF
 var firing_speed_limit := INF
 var external_speed_factor:=1.0
 var climbing := false
@@ -54,6 +55,10 @@ var wall_normal := Vector3.ZERO
 var climb_velocity := 0.0
 var climb_exit := 0.0
 var player_config: Dictionary = {}
+var enemy_swim_enabled := false
+var mobility: Node
+var wings: Node3D
+var perk_rules: RefCounted
 var squid_form := false
 var camera_yaw := 0.0
 var camera_pitch := -0.1
@@ -122,6 +127,7 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if active and event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_SPACE or event.physical_keycode == KEY_SPACE):
+		if mobility != null and mobility.request_player_roll(): return
 		jump_requested = true
 	if active and look_enabled and event is InputEventMouseMotion:
 		apply_look_delta(event.relative)
@@ -164,6 +170,8 @@ func _physics_process(delta: float) -> void:
 	if not slam_phase.is_empty():
 		_advance_slam(delta)
 		return
+	if wings != null and wings.busy(self):
+		wings.move_player(self,delta); return
 	var axis := Vector2.ZERO
 	if Input.is_physical_key_pressed(KEY_A): axis.x -= 1.0
 	if Input.is_physical_key_pressed(KEY_D): axis.x += 1.0
@@ -195,7 +203,14 @@ func _physics_process(delta: float) -> void:
 		_face(delta, squid, axis, submerged)
 		_update_camera()
 		return
-	_horizontal_step(delta, axis, squid, on_enemy, was_grounded)
+	if mobility != null and mobility.rolling(self):
+		var movement: Vector3 = mobility.velocity_for(self)
+		_set_horizontal(Vector2(movement.x, movement.z))
+		jump_buffer = 0.0
+	elif mobility != null and mobility.recovering(self):
+		_set_horizontal(Vector2.ZERO)
+	else:
+		_horizontal_step(delta, axis, squid, on_enemy, was_grounded)
 	var jumped := _vertical_step(delta, squid, was_grounded, submerged, on_enemy)
 	var stick := was_grounded and not jumped
 	if stick:
@@ -312,6 +327,7 @@ func reset_movement_state() -> void:
 func update_intent(delta: float, fire: bool, squid_request: bool, weapon_busy: bool,
 		firing: bool = false, sub: bool = false) -> void:
 	intent_driven = true
+	weapon_busy = weapon_busy or (mobility != null and mobility.busy(self))
 	firing_pose = firing
 	sub_intent = sub
 	weapon_busy_state = weapon_busy
@@ -348,7 +364,7 @@ func can_dive() -> bool:
 		return true
 	if squid_form and not grounded:
 		return true # Keep the form through a jump, then re-evaluate at touchdown.
-	if grounded and _floor_ink_owner() == team:
+	if grounded and (_floor_ink_owner() == team or (enemy_swim_enabled and _floor_ink_owner() == 1 - team)):
 		return true
 	var axis := Vector2.ZERO
 	if Input.is_physical_key_pressed(KEY_A): axis.x -= 1.0
@@ -485,8 +501,9 @@ func _horizontal_step(delta: float, axis: Vector2, squid: bool, on_enemy: bool, 
 	var deceleration_min: float
 	var deceleration_knee: float
 	var turn_rate: float
-	if squid and ink_owner == 0:
-		target_speed = float(p["swimSpeed"])
+	var enemy_swimming := squid and on_enemy and enemy_swim_enabled
+	if squid and (ink_owner == 0 or enemy_swimming):
+		target_speed = 8.0 * external_speed_factor if enemy_swimming else float(p["swimSpeed"])
 		acceleration = float(p["swimAccel"])
 		acceleration_in = float(p["swimAccelIn"])
 		in_knee = 3.0
@@ -506,7 +523,7 @@ func _horizontal_step(delta: float, axis: Vector2, squid: bool, on_enemy: bool, 
 		deceleration_knee = 2.0
 		turn_rate = float(p["squidTurn"])
 	else:
-		target_speed = minf(float(p["runSpeed"]), firing_speed_limit)
+		target_speed = minf(float(p["runSpeed"])*(perk_rules.vault_factor(self) if perk_rules != null else 1.0), firing_speed_limit)
 		# Recovery weight after a hard landing; squid branches above are untouched
 		# because the source applies this only to the kid ground branch.
 		if hard_land > 0.0:
@@ -519,7 +536,7 @@ func _horizontal_step(delta: float, axis: Vector2, squid: bool, on_enemy: bool, 
 		deceleration_min = float(p["runDecelMin"])
 		deceleration_knee = float(p["runDecelKnee"])
 		turn_rate = float(p["turnRate"])
-	if on_enemy:
+	if on_enemy and not enemy_swimming:
 		target_speed = minf(target_speed, float(p["enemyInkSpeed"]))
 		acceleration = minf(acceleration, float(p["enemyInkAccel"]))
 		deceleration = maxf(float(p["enemyInkDecel"]), 0.0)
@@ -553,6 +570,7 @@ func _horizontal_step(delta: float, axis: Vector2, squid: bool, on_enemy: bool, 
 
 
 func _set_horizontal(value: Vector2) -> void:
+	value = value.limit_length(action_move_limit)
 	velocity.x = value.x
 	velocity.z = value.y
 
@@ -632,6 +650,8 @@ func _is_own_wall_hit(hit: Dictionary) -> bool:
 
 
 func _set_climbing(on: bool) -> void:
+	if on and not climbing: set_meta("climb_start_height",global_position.y)
+	if not on and has_meta("climb_start_height"): remove_meta("climb_start_height")
 	climbing = on
 	floor_snap_length = 0.0 if on else step_down
 	if on:
@@ -836,6 +856,9 @@ func _resolve_ground(squid: bool, previous_y: float, stick: bool, fall_speed: fl
 # actor.js:506-511 _onLand. Only the hard-landing weight is reproduced here; the
 # land event, camera dip and audio hook live outside this controller.
 func _on_land(fall_speed: float) -> void:
+	if has_meta("vault_origin"):
+		if perk_rules != null and global_position.y > float(get_meta("vault_origin"))+.25: perk_rules.on_vault(self)
+		remove_meta("vault_origin")
 	land_speed = fall_speed
 	var threshold := float(player_config["hardLandSpeed"])
 	if land_speed > threshold:
@@ -851,11 +874,13 @@ func _ledge_pop(direction: Vector3) -> void:
 	var gravity := float(player_config["gravity"]) * float(player_config["apexGravityMul"])
 	var rise := maxf(0.25, top + float(player_config["ledgePopClear"]) - global_position.y)
 	var previous_climb_velocity := climb_velocity
+	var start_height: float = get_meta("climb_start_height",global_position.y)
 	_set_climbing(false)
 	velocity.y = maxf(sqrt(2.0 * gravity * rise), minf(previous_climb_velocity, 6.5))
 	velocity.x = direction.x * float(player_config["ledgePopCarry"])
 	velocity.z = direction.z * float(player_config["ledgePopCarry"])
 	climb_exit = 0.3
+	set_meta("vault_origin",start_height)
 
 
 func _floor_ink_owner() -> int:

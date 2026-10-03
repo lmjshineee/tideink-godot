@@ -3,6 +3,7 @@ const CATEGORIES := [["range","射程"],["damage","伤害"],["rate","射速"],["
 static func rating(weapon: Dictionary, key: String) -> int:
 	if key=="damage":
 		var damage := float(weapon.get("damage",weapon.get("directDamage",weapon.get("damageMax",weapon.get("flickDamageNear",0)))))
+		if weapon.kind=="canopy": damage*=float(weapon.pellets)
 		return clampi(roundi(damage/100.0*5.0),1,5)
 	return clampi(roundi(float(weapon["stats"][key])*5.0),1,5)
 static func stars(weapon: Dictionary) -> String:

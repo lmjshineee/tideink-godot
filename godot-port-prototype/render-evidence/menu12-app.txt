@@ -1,0 +1,4 @@
+2026-10-01 14:50:49.573 INKWAVE Demo[6559:7792793] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
