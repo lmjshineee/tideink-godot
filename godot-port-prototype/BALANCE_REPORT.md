@@ -4,13 +4,13 @@
 
 先修复远程机器人统一 8 米的攻击限制，再记录这批基线。蓄力狙与长管的涂地均值分别为 494.6／521.3 m²，有效伤害 1213.7／903.6；这些是自动机器人样本，阵营／路线、武器大招和机器人直接瞄准都会影响结果。不能直接推断真人武器强弱，因此本批保留伤害数值。天赋／道具、高层地图与人工手感继续列 BAL-03。
 
-个人新占面积完整归属到出手者，八局个人账本之和与两队总账一致。case 0 单独重复后战绩／移动／存活／覆盖率完全相同；无渲染加速模拟不提供原生帧率／温度证据。报告内有分组数量与复现命令，生成均值用 `tools/summarize_match_loadouts.py`。
+个人新占面积完整归属到出手者，八局个人账本之和与两队总账一致。case 0 单独重复后战绩／移动／存活／覆盖率完全相同；无渲染加速模拟不提供原生帧率／温度证据。报告内有分组数量与复现命令，生成均值用 `tools/measure/summarize_match_loadouts.py`。
 
 下面保留 preview.14 及之前的受控靶场记录。
 
 # 受控配装测量 · preview.14 · 2026-10-01
 
-本轮扩展至 **182 组生产攻击与 84 组墨量配置**，原始 [JSON](render-evidence/expand14-loadout-measurement.json)、[日志](render-evidence/expand14-measure_expand14.txt)和 `tools/measure_expand14.gd` 可复核。168 组为七武器 × 十二防守天赋 × 两个距离，另 14 组是逆境攻击方半血。同轮双持实际发射两弹，次数按触发轮次计；四个原武器生产伤害保持原值。
+本轮扩展至 **182 组生产攻击与 84 组墨量配置**，原始 [JSON](render-evidence/expand14-loadout-measurement.json)、[日志](render-evidence/expand14-measure_expand14.txt)和 `tools/measure/measure_expand14.gd` 可复核。168 组为七武器 × 十二防守天赋 × 两个距离，另 14 组是逆境攻击方半血。同轮双持实际发射两弹，次数按触发轮次计；四个原武器生产伤害保持原值。
 
 条件为静止胶囊、隔离高处通道、瞄准躯干且无护盾／回复；弹道仍可命中其他高度，实际部位见 JSON。间隔、蓄力、弹道与目标死亡使用生产代码，每组限 12 秒，击倒时已发射但未到达的弹丸也计次数。字段“满墨容量”为配置取整，不包含回墨、道具、大招。它不能证明真人命中率、近远强弱或对局公平。
 
@@ -30,7 +30,7 @@
 
 # 受控配装测量 · preview.13 · 2026-10-01
 
-本批完成 72 组实际攻击测量与 32 组天赋／武器配置记录，没有据此修改生产伤害数值。原始 [JSON](render-evidence/unified13-loadout-measurement.json)、[日志](render-evidence/unified13-loadout-measurement.txt) 与 `tools/measure_loadouts.gd` 可复核。
+本批完成 72 组实际攻击测量与 32 组天赋／武器配置记录，没有据此修改生产伤害数值。原始 [JSON](render-evidence/unified13-loadout-measurement.json)、[日志](render-evidence/unified13-loadout-measurement.txt) 与 `tools/measure/measure_loadouts.gd` 可复核。
 
 ## 测量条件
 

@@ -2,6 +2,8 @@
 
 5v5 涂墨对战，最多10人，每队5人，空位由机器人补齐。保留原游戏画面、武器、地图、规则和中文界面。
 
+原生移植见 [Godot Demo](godot-port-prototype/README.md)：运行、验证、项目结构和当前状态统一从该页进入。
+
 ## 联机方式
 
 - 浏览器直连入口：`/?mode=public&lobby=1`。加载原游戏后自动打开大厅；分享链接携带 `mode=public&room=...&lobby=1`，朋友不会误入 WSS。使用真实 PeerJS Cloud 信令与 WebRTC；信令超时会显示错误并允许手动重试，不保证所有 NAT 都能连接。

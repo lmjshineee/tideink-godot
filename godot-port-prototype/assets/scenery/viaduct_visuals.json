@@ -35,7 +35,7 @@
     "public/game/assets/fonts/Rubik-latin.woff2": "99ec7ccb40cf143f977c893649deece6cc2dcc7c0ff82ebf84b6584090f207ea",
     "godot-port-prototype/tools/lib/arena_layouts.mjs": "7ed50280e5c827d1519d33d7f54dc6ed26dd505c9b86b1ee72448c3b0f29d734",
     "godot-port-prototype/tools/lib/export_visual_scene.js": "e27e39b98181ed4fe466f71c67dc22365948b127e09179aa3376fa0474c07dfd",
-    "godot-port-prototype/tools/export_tidewater_visuals.mjs": "08743f954d206da607fa1148a43cb57ee9f54d73fa7d70fb373f25eaf0dc7179"
+    "godot-port-prototype/tools/exporters/export_tidewater_visuals.mjs": "a48cb2d40e26c94ba7e5d7e09796b888dc345d5464912c230e9445885628aaf7"
   },
   "outputs": {
     "viaduct_visuals.glb": "6f830338dcf05145ca5f058bb56b108295e042c02c5b98cf021ede67045e1cf8",

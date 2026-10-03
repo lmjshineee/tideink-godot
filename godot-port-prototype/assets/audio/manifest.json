@@ -6,7 +6,7 @@
     "public/game/src/audio/audio.js": "55a816beb0b01c307c936457bc274f3c3b279090dc2d187890990ac5763fc3bf",
     "public/game/src/audio/music.js": "f6fc0ce83fdaa853dbd45c08b3b0c5efa4d9b8631e31269424f5c67e978138d6",
     "public/game/src/config.js": "7908f3cdb1c636cede95c6c013d3c9ed588361ba26b8e8694dcdfe458947abfc",
-    "godot-port-prototype/tools/export_audio.mjs": "313f08a7b1495684ee579aee86b520d62dfa0de0b2587782642d0f03787b129b"
+    "godot-port-prototype/tools/exporters/export_audio.mjs": "c001880366b3e9ce078006979911657e1fb9f49208d79adcba45d6819fae2e88"
   },
   "sounds": {
     "ui_hover": {

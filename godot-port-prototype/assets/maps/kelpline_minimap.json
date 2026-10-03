@@ -11,7 +11,7 @@
     "public/game/src/world/level.js": "fd8048cbcc207bebe9ad8111aadd5ac60c22c8ed96cdd61c0cabfd22c1f29980",
     "public/game/src/world/props.js": "87f099f298e4be854f0a1f85975d3036663e8e08d275c44d4486f5ce4be8dcd8",
     "public/game/src/world/dressing.js": "f3af731135b45f71ab596647e5aff632e3ab0f715eee15634fc952100487fdda",
-    "godot-port-prototype/tools/export_minimap.mjs": "a0953475bd95db3eb6d5f02690a7cfb1844fcf86bce813b341f0d8f0bcf40e85",
+    "godot-port-prototype/tools/exporters/export_minimap.mjs": "2c3e0e0fd0bded236659ed30cb3553e97a2e0505554f62d4eeb830c1235a4197",
     "godot-port-prototype/assets/maps/tidewater_surfaces.json": "715604cc67e9aebc755fea9b6c49458c8fc067b178965c1a5d6267d1c0c227c3",
     "godot-port-prototype/assets/maps/kelpline_surfaces.json": "4d6d5aa060ed312ff3d3b148f19c6c289e855f9145d61d04cd5731e6d488b8a4",
     "godot-port-prototype/tools/lib/arena_layouts.mjs": "7ed50280e5c827d1519d33d7f54dc6ed26dd505c9b86b1ee72448c3b0f29d734"

@@ -4,19 +4,13 @@ set -eu
 PROJECT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 OUTPUT_APP="$PROJECT_DIR/build/INKWAVE Demo.app"
 
-if [ -x /Applications/Godot.app/Contents/MacOS/Godot ]; then
-  GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot
-elif command -v godot >/dev/null 2>&1; then
-  GODOT_BIN=$(command -v godot)
-else
-  printf '%s\n' 'Godot 4.8 未找到；请安装 Godot.app 到 /Applications。' >&2
-  exit 1
-fi
-
-mkdir -p "$PROJECT_DIR/build" "$PROJECT_DIR/.godot"
-python3 "$PROJECT_DIR/tools/prepare_arm64_template.py" "$("$GODOT_BIN" --version)"
-"$GODOT_BIN" --headless --log-file "$PROJECT_DIR/.godot/import.log" --path "$PROJECT_DIR" --import
-"$GODOT_BIN" --headless --log-file "$PROJECT_DIR/.godot/export.log" --path "$PROJECT_DIR" \
+INKWAVE_PROJECT_DIR="$PROJECT_DIR"
+. "$PROJECT_DIR/tools/lib/runtime.sh"
+inkwave_find_godot
+mkdir -p "$PROJECT_DIR/build"
+python3 "$PROJECT_DIR/tools/release/prepare_arm64_template.py" "$("$GODOT" --version)"
+inkwave_import_assets force
+"$GODOT" --headless --log-file "$PROJECT_DIR/.godot/export.log" --path "$PROJECT_DIR" \
   --export-release macOS "$OUTPUT_APP"
 
 APP_EXEC=$(find "$OUTPUT_APP/Contents/MacOS" -type f -perm -111 -print -quit 2>/dev/null || true)

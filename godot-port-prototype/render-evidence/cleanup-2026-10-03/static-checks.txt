@@ -1,0 +1,4 @@
+PASS: source/scene/tool/test literal resources resolve
+PASS: 230 moved UIDs preserved; no root gameplay scripts/scenes/shaders
+PASS: original 2219 files unchanged
+PASS: current documentation links resolve

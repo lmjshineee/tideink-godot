@@ -1,13 +1,13 @@
 {
   "sources": {
-    "../../public/game/src/game/character-mats.js": "53cf4fdd2db474eef730d7c447c7c07a0aa2bc94baae8c0f081759cdde4e95a1",
-    "./export_character_materials.mjs": "fd69bdafbaa1bec1ee08459086c2860e66bf8e0a21bdb6dc7acf1d770748da9d",
-    "./lib/character_ornaments.mjs": "ef1050ca4bba2419f1d925d1f23521a05b3e9bb4b936faf525eb11887ff2a867"
+    "../../../public/game/src/game/character-mats.js": "53cf4fdd2db474eef730d7c447c7c07a0aa2bc94baae8c0f081759cdde4e95a1",
+    "./export_character_materials.mjs": "ef915385421d74697ce232e3068decbea95dad6a193f9b7f6042253947959abf",
+    "../lib/character_ornaments.mjs": "ef1050ca4bba2419f1d925d1f23521a05b3e9bb4b936faf525eb11887ff2a867"
   },
   "outputs": {
-    "character_cloth.gdshader": "9dc7483c63074faab9e8197aab95f606b2b00e748be851370fbace54210a3023",
-    "character_skin.gdshader": "9f4f0c2d8f64dd57d5d17a704b5469d9d7b5059e7ed903d1f89a3d2e0ddcae14",
-    "character_eyes.gdshader": "27af8e329fe18fa24d4cb0e5b869d2a36786138d25c7d7bded86a747a396cd47"
+    "shaders/characters/character_cloth.gdshader": "9dc7483c63074faab9e8197aab95f606b2b00e748be851370fbace54210a3023",
+    "shaders/characters/character_skin.gdshader": "9f4f0c2d8f64dd57d5d17a704b5469d9d7b5059e7ed903d1f89a3d2e0ddcae14",
+    "shaders/characters/character_eyes.gdshader": "27af8e329fe18fa24d4cb0e5b869d2a36786138d25c7d7bded86a747a396cd47"
   },
   "limitations": "Original skin/eye/cloth and micro-normal height field, with local randomized cheek ornaments replacing the visor; Godot PBR lighting does not duplicate Three.js sheen/neutral tone mapping; hurt/flash/glow remain separate"
 }

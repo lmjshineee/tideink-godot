@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://c8gvrnxldy88x"]
-
-[ext_resource type="Script" uid="uid://dfjgb47f3isro" path="res://main.gd" id="1_main"]
-
-[node name="InkWavePrototype" type="Node3D" unique_id=662368000]
-script = ExtResource("1_main")
