@@ -2,7 +2,7 @@ extends Node3D
 
 # PROTOTYPE QUESTION: can INKWAVE's movement, four weapon behaviors, ground ink,
 # and turf scoring be played natively in Godot before committing to a full port?
-const PaintField = preload("res://src/legacy/paint_field.gd")
+const PaintField = preload("res://src/world/paint_field.gd")
 const GROUND_SHADER = preload("res://shaders/world/ink_ground.gdshader")
 # From the exported palette, like the match scene: main.gd used to keep its own copy.
 const TeamPalette := preload("res://src/core/team_palette.gd")

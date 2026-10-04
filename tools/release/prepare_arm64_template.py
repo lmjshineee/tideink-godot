@@ -44,7 +44,11 @@ def main() -> None:
                 for entry in archive.infolist():
                     if "Contents/MacOS/godot_macos_" in entry.filename:
                         continue
-                    target.writestr(entry, archive.read(entry))
+                    content = archive.read(entry)
+                    if entry.filename.endswith('/Info.plist'):
+                        content = content.replace(b'\t\t<string>x86_64</string>\n', b'')
+                        content = content.replace(b'\t\t<key>x86_64</key>\n\t\t<string>$min_version_x86_64</string>\n', b'')
+                    target.writestr(entry, content)
                 binary = zipfile.ZipInfo(prefix + "arm64")
                 binary.external_attr = 0o100755 << 16
                 binary.compress_type = zipfile.ZIP_DEFLATED

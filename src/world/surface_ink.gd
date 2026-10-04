@@ -1,7 +1,7 @@
 extends RefCounted
 
 # CPU-only port of the source game's per-face ownership grid. Rendering comes later.
-const PaintField = preload("res://src/legacy/paint_field.gd")
+const PaintField = preload("res://src/world/paint_field.gd")
 const WOB_MAX := 1.5
 const EMPTY := 0
 

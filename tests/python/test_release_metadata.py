@@ -7,7 +7,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'tools/release'))
-from build_metadata import identity, inventory, production_files, fingerprint
+from build_metadata import identity, inventory, production_files, fingerprint, validate_export_dependencies
 from package_macos import validate_release, evidence_paths
 
 
@@ -18,6 +18,7 @@ class ReleaseIntegrity(unittest.TestCase):
         (self.root / 'project.godot').write_text('; Engine configuration\nconfig_version=5\n\n[application]\nconfig/name="TideInk"\nconfig/version="0.3.0-preview.16"\n')
         (self.root / 'export_presets.cfg').write_text('''[preset.0]
 export_path="build/TideInk.app"
+exclude_filter="src/legacy/*,scenes/legacy/*,tests/*,tools/*"
 [preset.0.options]
 application/short_version="0.3.0"
 application/version="0.3.16"
@@ -101,6 +102,14 @@ binary_format/architecture="arm64"
         before = fingerprint(production_files(self.root))
         (self.root / 'src/new.gd').write_text('extends Node\n')
         self.assertNotEqual(before, fingerprint(production_files(self.root)))
+
+    def test_excluded_runtime_dependency_is_rejected_before_export(self):
+        path = self.root / 'src/play.gd'
+        path.write_text('extends Node\nconst Shared = preload("res://src/legacy/shared.gd")\n')
+        with self.assertRaisesRegex(ValueError, 'depends on excluded export input'):
+            validate_export_dependencies(self.root)
+        path.write_text('extends Node\nconst Shared = preload("res://src/world/shared.gd")\n')
+        validate_export_dependencies(self.root)
 
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@
 """Bind a native export to committed production inputs and exact app bytes."""
 import argparse
 import configparser
+import fnmatch
 import hashlib
 import json
 import os
@@ -75,6 +76,19 @@ def fingerprint(files):
     return hashlib.sha256(json.dumps(files, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
 
 
+def validate_export_dependencies(project):
+    preset = read_config(project / 'export_presets.cfg')
+    filters = json.loads(preset['preset.0'].get('exclude_filter', '""')).split(',')
+    excluded = lambda name: any(fnmatch.fnmatchcase(name, rule) for rule in filters if rule)
+    for directory in ('src', 'scenes', 'shaders'):
+        for path in (project / directory).rglob('*'):
+            if path.suffix not in ('.gd', '.tscn', '.gdshader', '.tres') or excluded(path.relative_to(project).as_posix()):
+                continue
+            for target in re.findall(r'[\"\']res://([^\"\']+)[\"\']', path.read_text()):
+                if excluded(target):
+                    raise ValueError(f'{path.relative_to(project)} depends on excluded export input {target}')
+
+
 def validate_receipt(receipt, metadata, sources, app_files):
     if receipt['identity'] != metadata:
         raise ValueError('export identity/version is stale; export again')
@@ -88,6 +102,7 @@ def validate_receipt(receipt, metadata, sources, app_files):
 
 def prepare(project, engine):
     metadata = identity(project)
+    validate_export_dependencies(project)
     dirty = subprocess.check_output(['git', '-C', str(project), 'status', '--porcelain',
                                      '--untracked-files=all', '--', *PRODUCTION], text=True)
     if dirty.strip():
@@ -111,6 +126,10 @@ def finish(project):
     app = project / 'build' / receipt['identity']['app_name']
     plist = plistlib.loads((app / 'Contents/Info.plist').read_bytes())
     metadata = receipt['identity']
+    if plist.get('CFBundleName') != metadata['name'] or plist.get('CFBundleDisplayName') != metadata['name']:
+        raise ValueError('exported bundle name differs from project identity')
+    if plist.get('LSArchitecturePriority') != ['arm64'] or set(plist.get('LSMinimumSystemVersionByArchitecture', {})) != {'arm64'}:
+        raise ValueError('exported plist must advertise arm64 only')
     if (plist['CFBundleShortVersionString'], plist['CFBundleVersion'], plist['CFBundleIdentifier']) != (
             metadata['bundle_short_version'], metadata['bundle_build'], metadata['bundle_identifier']):
         raise ValueError('exported plist differs from project identity')

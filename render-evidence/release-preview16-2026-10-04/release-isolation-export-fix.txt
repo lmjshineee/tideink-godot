@@ -1,0 +1,16 @@
+test_added_app_file_rejected (__main__.ReleaseIntegrity.test_added_app_file_rejected) ... ok
+test_architecture_rejected (__main__.ReleaseIntegrity.test_architecture_rejected) ... ok
+test_changed_pack_rejected (__main__.ReleaseIntegrity.test_changed_pack_rejected) ... ok
+test_changed_source_rejected (__main__.ReleaseIntegrity.test_changed_source_rejected) ... ok
+test_current_export_and_actual_source_override (__main__.ReleaseIntegrity.test_current_export_and_actual_source_override) ... ok
+test_evidence_path_cannot_escape (__main__.ReleaseIntegrity.test_evidence_path_cannot_escape) ... ok
+test_excluded_runtime_dependency_is_rejected_before_export (__main__.ReleaseIntegrity.test_excluded_runtime_dependency_is_rejected_before_export) ... ok
+test_fingerprint_covers_added_source_and_import_settings (__main__.ReleaseIntegrity.test_fingerprint_covers_added_source_and_import_settings) ... ok
+test_identity_must_agree_with_export_preset (__main__.ReleaseIntegrity.test_identity_must_agree_with_export_preset) ... ok
+test_stale_identity_rejected (__main__.ReleaseIntegrity.test_stale_identity_rejected) ... ok
+test_wrong_tag_and_false_commit_rejected (__main__.ReleaseIntegrity.test_wrong_tag_and_false_commit_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.021s
+
+OK
