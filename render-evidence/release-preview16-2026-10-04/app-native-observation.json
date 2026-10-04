@@ -1,0 +1,6 @@
+{
+  "method": "open -n build/TideInk.app; CUA getApp(TideInk), read-only screenshot",
+  "observed": "TideInk window; rendered live Tidewater match and explicit respawn selection; actual main app, no external test script",
+  "input_actions": 0,
+  "limits": "Screenshot observation is not a full manual-match or human-balance acceptance. Image is in the conversation tool result; local PCK screenshots are separate fixtures."
+}

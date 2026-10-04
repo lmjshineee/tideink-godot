@@ -10,5 +10,6 @@
     "check_tidewater_match_stats"
   ],
   "fixture": "/private/tmp/tideink-preview16-probes",
-  "method": "External test fixture; production res:// resources loaded from actual app PCK."
+  "method": "External test fixture; production res:// resources loaded from actual app PCK.",
+  "status": "superseded preparation; not executed; final eight cases are listed in exported-app/verification.json"
 }

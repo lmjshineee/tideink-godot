@@ -1,0 +1,64 @@
+{
+  "source_head": "c96df23eb7710753b199eba04c4c7dd7fce9b578",
+  "pck_sha256": "df2c7ad3612d8e7ae17f9a464dfe4f90c0bff73334305bce3918b3953f226fe5",
+  "method": "Matching native Godot editor loads the explicit exported PCK for external rule/UI fixtures. Working directory is temporary. Actual app startup is separately checked without path/script overrides.",
+  "cases": [
+    {
+      "name": "check_tidewater_turf_points",
+      "source_sha256": "cb5cd63c983368a38950ada85b01d6c0ccf2e04f5c56557cac1a7f11bd924417",
+      "external_sha256": "cb5cd63c983368a38950ada85b01d6c0ccf2e04f5c56557cac1a7f11bd924417",
+      "status": "passed"
+    },
+    {
+      "name": "check_gameplay_deployment",
+      "source_sha256": "9705e62f81b6cdfa4083990b8736aa459fc58963f5b47c6994ddd21a291988f4",
+      "external_sha256": "9705e62f81b6cdfa4083990b8736aa459fc58963f5b47c6994ddd21a291988f4",
+      "status": "passed"
+    },
+    {
+      "name": "check_expanded_loadouts",
+      "source_sha256": "d9ed70e1401dba437aecefe8cc6ca04d24df13bbb4e25f27a7c9bcad7fb4042c",
+      "external_sha256": "d9ed70e1401dba437aecefe8cc6ca04d24df13bbb4e25f27a7c9bcad7fb4042c",
+      "status": "passed"
+    },
+    {
+      "name": "check_bow_precision",
+      "source_sha256": "d1af77c265bae5a8b86640ff98d1ec35d6215d180a7cf81985c5c5b0046a026a",
+      "external_sha256": "00cf988b9401db1df3d3af14de91d48d91f898e1cad8609037cb41b79bba8e84",
+      "status": "passed"
+    },
+    {
+      "name": "check_canopy_push",
+      "source_sha256": "aa4b39354be05860c8bbbbb98f955266e7f2fe1b4b707048d86c2efc934c9e51",
+      "external_sha256": "62bd316668daabd4875bd6e1e36bfdcedabd985c66aa46ed89efaff05cea8a14",
+      "status": "passed"
+    },
+    {
+      "name": "check_creative_wings",
+      "source_sha256": "25abe5364274e9baac3f57ee2e7d292586c3e67a6730dac4ceba7783e58b4a86",
+      "external_sha256": "8fbd489d6e080041d38007debacc65fa43ebc4905330f3f09595ac2f61857170",
+      "status": "passed"
+    },
+    {
+      "name": "check_vertical_combat",
+      "source_sha256": "9e66df8279c9c8893e93b2a385d6eefa420a8f621d981596cc160293c20c824d",
+      "external_sha256": "8fdf45a8df836b7612c2560e56de821b608c7d3c5831a3ca22e75b4610c4b8bb",
+      "status": "passed"
+    },
+    {
+      "name": "check_actor_turf_credit",
+      "source_sha256": "45577598c8b004421c5fdd584dd05d85f35cc35446fe7094f4f5c719d893933f",
+      "external_sha256": "45577598c8b004421c5fdd584dd05d85f35cc35446fe7094f4f5c719d893933f",
+      "status": "passed"
+    }
+  ],
+  "native": {
+    "status": "passed",
+    "fixture_sha256": "1d927118490d1c9755176f466b6211d05a0f0833cf2664b70e97d2a45ca4b4f3"
+  },
+  "app_startup": {
+    "exit": 0,
+    "path_overrides": false,
+    "script_overrides": false
+  }
+}

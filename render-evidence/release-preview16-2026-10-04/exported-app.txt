@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/Users/yunni/Joy/inkwave-game-cleaned/tools/release/verify_app.py", line 67, in <module>
+    main()
+    ~~~~^^
+  File "/Users/yunni/Joy/inkwave-game-cleaned/tools/release/verify_app.py", line 43, in main
+    run(common + ['--headless', '--script', str(script), '--log-file', str(output / (name + '.engine.txt'))],
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        fixture, output / (name + '.txt'))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yunni/Joy/inkwave-game-cleaned/tools/release/verify_app.py", line 63, in run
+    raise RuntimeError(f'export verification failed: {output}; exit={result.returncode}; {errors[:3]}')
+RuntimeError: export verification failed: /Users/yunni/Joy/inkwave-game-cleaned/render-evidence/release-preview16-2026-10-04/exported-app/check_tidewater_turf_points.txt; exit=1; ['ERROR: `--main-pack` was specified on the command line, but this Godot binary was compiled without support for path overrides. Aborting.']

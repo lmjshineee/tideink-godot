@@ -19,6 +19,7 @@ CASES = ('check_tidewater_turf_points', 'check_gameplay_deployment', 'check_expa
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--output', required=True, help='New evidence subdirectory')
+    parser.add_argument('--godot', default='/Applications/Godot.app/Contents/MacOS/Godot', help='Matching native editor executable for PCK fixtures')
     args = parser.parse_args()
     project = Path(__file__).resolve().parents[2]
     output = (project / args.output).resolve()
@@ -28,13 +29,15 @@ def main():
     app = project / 'build' / receipt['identity']['app_name']
     validate_receipt(receipt, identity(project), production_files(project), inventory([app], app))
     output.mkdir(parents=True)
+    if subprocess.check_output([args.godot, '--version'], text=True).strip() != receipt['engine']:
+        raise ValueError('PCK verification engine differs from export engine')
     report = {'source_head': receipt['source_head'], 'pck_sha256': receipt['pck_sha256'],
-              'method': 'External fixtures; explicit exported PCK; working directory is a temporary directory, not the checkout.',
+              'method': 'Matching native Godot editor loads the explicit exported PCK for external rule/UI fixtures. Working directory is temporary. Actual app startup is separately checked without path/script overrides.',
               'cases': [], 'native': None}
     with tempfile.TemporaryDirectory(prefix='tideink-pck-') as temp:
         fixture = Path(temp)
         shutil.copy2(project / 'tests/godot/helpers/creative_fixture.gd', fixture / 'creative_fixture.gd')
-        common = [str(app / receipt['executable']), '--main-pack', str(app / receipt['pck'])]
+        common = [args.godot, '--main-pack', str(app / receipt['pck'])]
         for name in CASES:
             source = project / 'tests/godot' / (name + '.gd')
             script = fixture / source.name
@@ -50,8 +53,16 @@ def main():
                       '--log-file', str(output / 'native.engine.txt'), '--',
                       '--require-pack', '--output=' + str(output / 'native')], fixture, output / 'native.txt')
         report['native'] = {'status': 'passed', 'fixture_sha256': sha(native)}
+        smoke = output / 'app-startup.txt'
+        with smoke.open('w') as log:
+            result = subprocess.run([str(app / receipt['executable']), '--headless', '--quit-after', '4',
+                                     '--log-file', str(output / 'app-startup.engine.txt')],
+                                    cwd=fixture, stdout=log, stderr=subprocess.STDOUT, timeout=30)
+        if result.returncode != 0 or re.search(r'^(SCRIPT ERROR:|ERROR:)', smoke.read_text(), re.M):
+            raise RuntimeError('actual app startup failed; see ' + str(smoke))
+        report['app_startup'] = {'exit': result.returncode, 'path_overrides': False, 'script_overrides': False}
     (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
-    print('PASS: eight exported PCK rules and native app verification')
+    print('PASS: eight exported PCK rules, native PCK UI and actual app startup')
 
 
 def run(command, cwd, output):

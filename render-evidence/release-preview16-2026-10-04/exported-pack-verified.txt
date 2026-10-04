@@ -1,0 +1,9 @@
+PASS exported PCK: check_tidewater_turf_points
+PASS exported PCK: check_gameplay_deployment
+PASS exported PCK: check_expanded_loadouts
+PASS exported PCK: check_bow_precision
+PASS exported PCK: check_canopy_push
+PASS exported PCK: check_creative_wings
+PASS exported PCK: check_vertical_combat
+PASS exported PCK: check_actor_turf_credit
+PASS: eight exported PCK rules, native PCK UI and actual app startup

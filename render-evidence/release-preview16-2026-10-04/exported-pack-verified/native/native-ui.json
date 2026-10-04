@@ -1,0 +1,31 @@
+{
+  "catalog": [
+    8,
+    9,
+    8
+  ],
+  "environment": {
+    "adapter": "Apple M5 (Apple9)",
+    "arm64": true,
+    "display": "macOS",
+    "engine": {
+      "build": "official",
+      "hash": "8898c2b3db32adf6f92c694ffb6dac19af672e5f",
+      "hex": 264192,
+      "major": 4,
+      "minor": 8,
+      "patch": 0,
+      "status": "dev6",
+      "string": "4.8-dev6 (official)",
+      "timestamp": 0
+    },
+    "graphics_api": "4.0",
+    "require_pack": true
+  },
+  "method": "Controlled native home/setup/input/results/restart; short timer, not a natural full match.",
+  "name": "TideInk",
+  "result_summary": "你的涂地  38 m² · 积分 38 p",
+  "status": "passed",
+  "travel_m": 5.16596221923828,
+  "version": "0.3.0-preview.16"
+}

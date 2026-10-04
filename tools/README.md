@@ -65,9 +65,12 @@ JavaScript 转换器已删除。旧来源记录仅说明资源历史；未来维
 ```sh
 python3 tests/python/test_release_metadata.py
 ./export_macos.sh
+python3 tools/release/verify_app.py --output render-evidence/<新批次>/exported-pack
 python3 tools/release/package_macos.py --version v0.3.0-preview.16 \
   --evidence render-evidence/native-match-2026-10-04 \
   --evidence render-evidence/release-preview16-2026-10-04
 ```
 
 打包工具会核对生产输入及所有应用文件与收据一致；拒绝任意改变的源码、PCK、版本或伪造的 `--source-commit`。随包 `BUILD.json` 记录引擎、源码提交、输入／应用／证据文件哈希，ZIP 附 SHA256SUMS。原生画面与解压后的实际启动另行验证；临时签名不表示 Apple 公证。
+
+`verify_app.py` 要求新的证据子目录：同版本原生编辑器从临时工作目录显式加载导出 PCK，运行八项外部规则和原生 UI 检查；再单独运行实际应用、不添加路径／脚本覆盖参数。标准发行模板禁用路径覆盖，不能把 `--main-pack` 传给发行应用。默认编辑器可用 `--godot` 指定。

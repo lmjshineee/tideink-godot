@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "zip_sha256": "a84767308322f292a7497f8d21425f25a1e0ee6cdd391917e5e18c95ec596496",
+  "bytes": 153101499,
+  "source_head": "c96df23eb7710753b199eba04c4c7dd7fce9b578",
+  "architecture": "arm64",
+  "signature": "deep/strict verified after extraction",
+  "app_files_verified": 7,
+  "evidence_files_verified": 137,
+  "unpacked_app_startup_exit": 0,
+  "startup_warnings": [],
+  "pck_sha256": "df2c7ad3612d8e7ae17f9a464dfe4f90c0bff73334305bce3918b3953f226fe5"
+}

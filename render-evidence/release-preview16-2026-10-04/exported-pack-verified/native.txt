@@ -1,0 +1,5 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-10-05 00:08:33.541 Godot[29103:10625280] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+PASS: TideInk native identity, 8/9/8, two sizes, real input, controlled results and restart
