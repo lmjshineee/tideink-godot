@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "/Users/yunni/Joy/inkwave-game-cleaned/tools/release/build_metadata.py", line 148, in <module>
+    main()
+    ~~~~^^
+  File "/Users/yunni/Joy/inkwave-game-cleaned/tools/release/build_metadata.py", line 139, in main
+    metadata = identity(project)
+  File "/Users/yunni/Joy/inkwave-game-cleaned/tools/release/build_metadata.py", line 33, in identity
+    config = read_config(project / 'project.godot')
+  File "/Users/yunni/Joy/inkwave-game-cleaned/tools/release/build_metadata.py", line 28, in read_config
+    config.read(path)
+    ~~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/configparser.py", line 761, in read
+    self._read(fp, filename)
+    ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/configparser.py", line 1079, in _read
+    ParsingError._raise_all(self._read_inner(fp, fpname))
+                            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/configparser.py", line 1107, in _read_inner
+    self._handle_rest(st, line, fpname)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/configparser.py", line 1131, in _handle_rest
+    raise MissingSectionHeaderError(fpname, st.lineno, line)
+configparser.MissingSectionHeaderError: File contains no section headers.
+file: PosixPath('/Users/yunni/Joy/inkwave-game-cleaned/project.godot'), line: 9
+'config_version=5\n'

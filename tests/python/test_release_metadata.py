@@ -15,7 +15,7 @@ class ReleaseIntegrity(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='tideink-release-test-')
         self.root = Path(self.temp.name).resolve()
-        (self.root / 'project.godot').write_text('[application]\nconfig/name="TideInk"\nconfig/version="0.3.0-preview.16"\n')
+        (self.root / 'project.godot').write_text('; Engine configuration\nconfig_version=5\n\n[application]\nconfig/name="TideInk"\nconfig/version="0.3.0-preview.16"\n')
         (self.root / 'export_presets.cfg').write_text('''[preset.0]
 export_path="build/TideInk.app"
 [preset.0.options]

@@ -25,7 +25,9 @@ def sha(path):
 
 def read_config(path):
     config = configparser.ConfigParser(interpolation=None, strict=False)
-    config.read(path)
+    # Godot has config_version before its first INI section. A synthetic root
+    # works on all supported Python versions, including strict configparser.
+    config.read_string('[godot_root]\n' + path.read_text(), source=str(path))
     return config
 
 

@@ -10,6 +10,6 @@ test_stale_identity_rejected (__main__.ReleaseIntegrity.test_stale_identity_reje
 test_wrong_tag_and_false_commit_rejected (__main__.ReleaseIntegrity.test_wrong_tag_and_false_commit_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 10 tests in 0.019s
+Ran 10 tests in 0.021s
 
 OK
