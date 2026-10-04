@@ -1,0 +1,25 @@
+{
+  "status": "verified",
+  "private": true,
+  "repository": "https://github.com/lmjshineee/tideink-godot",
+  "release": "https://github.com/lmjshineee/tideink-godot/releases/tag/v0.3.0-preview.16",
+  "prerelease": true,
+  "draft": false,
+  "source_tag_commit": "c96df23eb7710753b199eba04c4c7dd7fce9b578",
+  "assets": [
+    {
+      "name": "TideInk-v0.3.0-preview.16-macOS-arm64.zip",
+      "state": "uploaded",
+      "size": 153101499,
+      "digest": "sha256:a84767308322f292a7497f8d21425f25a1e0ee6cdd391917e5e18c95ec596496",
+      "browser_download_url": "https://github.com/lmjshineee/tideink-godot/releases/download/v0.3.0-preview.16/TideInk-v0.3.0-preview.16-macOS-arm64.zip"
+    },
+    {
+      "name": "TideInk-v0.3.0-preview.16-macOS-arm64-SHA256SUMS.txt",
+      "state": "uploaded",
+      "size": 108,
+      "digest": "sha256:f002c33b39eed90419cee84e5822eb7358301eef37f3356b3ef5b574ea50db6a",
+      "browser_download_url": "https://github.com/lmjshineee/tideink-godot/releases/download/v0.3.0-preview.16/TideInk-v0.3.0-preview.16-macOS-arm64-SHA256SUMS.txt"
+    }
+  ]
+}
