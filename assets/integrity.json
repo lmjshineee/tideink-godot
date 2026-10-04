@@ -1,0 +1,1067 @@
+{
+  "schema_version": 1,
+  "origin_baseline": "aaf038c",
+  "scope": "Local Godot assets; imported metadata and this manifest are excluded",
+  "files": {
+    "assets/audio/ally_splatted.wav": {
+      "sha256": "17dfb794ed9f34d30c46c1c92e65581b77e6c506c405e143ce9b6c6a03edaad7",
+      "bytes": 27520
+    },
+    "assets/audio/battle.wav": {
+      "sha256": "12d949b39a10100dbdf898da6f77e95a1fe1368bc4204a4e5007dce61b40e0a5",
+      "bytes": 5362604
+    },
+    "assets/audio/battle_final.wav": {
+      "sha256": "00b8732450ddac544c1179f22435ad52ad5e824abcdf36d00c913c70efc9d0d1",
+      "bytes": 2963564
+    },
+    "assets/audio/blaster_boom.wav": {
+      "sha256": "7b03d10c7bb7442e0bf0b2dddaecdbc9a5f2e731a6ea6261794d13f21f1d2956",
+      "bytes": 27476
+    },
+    "assets/audio/bomb_beep.wav": {
+      "sha256": "7aae55abd154d70bde3a600203865da9eb915446d484aaa3a1fcbd572acf5a6d",
+      "bytes": 10188
+    },
+    "assets/audio/bomb_explode.wav": {
+      "sha256": "b621e1c931c7ca6610beee805ebe288b4a115a5f9e860289c8ecfac568a1d39b",
+      "bytes": 41410
+    },
+    "assets/audio/bomb_throw.wav": {
+      "sha256": "bb75964d263d02d3f95e26fc7d0f01995eca44be076f477a98a7947a2e554d76",
+      "bytes": 15832
+    },
+    "assets/audio/charger_charge.wav": {
+      "sha256": "0e34eb142ebc21bf11c34023af53e03ca3ffe39e03e3bf676bac2b10a994b71b",
+      "bytes": 132344
+    },
+    "assets/audio/charger_full.wav": {
+      "sha256": "da203f00732e4257348577b6f9e91747a7643a24dc9755f94ca5bd67ef547ab4",
+      "bytes": 45864
+    },
+    "assets/audio/climb.wav": {
+      "sha256": "5e3b7b552d14942d082f31337105076e7931713f7c267f9e6d29a3e709ad5363",
+      "bytes": 132344
+    },
+    "assets/audio/countdown_tick.wav": {
+      "sha256": "3f36abd7cc65c6387e5c4faca81f1532ea4b0afc43831a759c40b9ae56388198",
+      "bytes": 11026
+    },
+    "assets/audio/defeat_jingle.wav": {
+      "sha256": "35cb81fa2f179751d45fc6b1dbde39bb57428a72e84ca4a854fdfcfb6a11d93c",
+      "bytes": 104526
+    },
+    "assets/audio/empty_click.wav": {
+      "sha256": "dcc690b2e648fef713479ac20b3ea565507111c1210b885cf3015d88af6821c9",
+      "bytes": 7600
+    },
+    "assets/audio/enemy_ink_sizzle.wav": {
+      "sha256": "146d2df607957d496e1746d887bcc3b68edec26afa0f4c99d6eca4a0030d2e8b",
+      "bytes": 132344
+    },
+    "assets/audio/final_count.wav": {
+      "sha256": "e61ada6b9d75e1852427889e26be4856203c12099bbc4436f69519a9fca957b8",
+      "bytes": 13230
+    },
+    "assets/audio/go_horn.wav": {
+      "sha256": "2f69a1aafc090954ad296364b9b0d442a7b9fa18b95865c0603f49019df52128",
+      "bytes": 76734
+    },
+    "assets/audio/gull.wav": {
+      "sha256": "2427f3effbc6783d4b52a8c9ebd83368f1b6eee52466edad5147bb0b9e2667d0",
+      "bytes": 29944
+    },
+    "assets/audio/harbor_ambience.wav": {
+      "sha256": "65bba297769f8124b5306f107012b333f9d2b0ff251316a05f5b376e744f7493",
+      "bytes": 132344
+    },
+    "assets/audio/hit_marker.wav": {
+      "sha256": "7247672d3fb6059656080d9f9de5505844fc20275239f966139f7d10b19b4255",
+      "bytes": 8372
+    },
+    "assets/audio/hurt.wav": {
+      "sha256": "fb9cabfe65896f8c7e3103117d13c7f0d063d7be224b3fb58a08acb2d312620c",
+      "bytes": 14156
+    },
+    "assets/audio/ink_drip.wav": {
+      "sha256": "428fa8f7384d47e1c0a207fceec4d52a297ce9d59d9e6d4985f9789350785bff",
+      "bytes": 7432
+    },
+    "assets/audio/ink_hit_wall.wav": {
+      "sha256": "151ba018efcfac27a339c64fedea1372aa84ecf512fc506fbc6025349287641a",
+      "bytes": 9262
+    },
+    "assets/audio/judge_drumroll.wav": {
+      "sha256": "e678ea459cf4b04db9610c5810117dec3ff554cf09cd20a2953e8ca888351bbe",
+      "bytes": 132344
+    },
+    "assets/audio/judge_reveal.wav": {
+      "sha256": "7ecb177647f2ea52e214e567a948e5714f2a8da8fdbb4c90e281e0d062570f2b",
+      "bytes": 94374
+    },
+    "assets/audio/jump.wav": {
+      "sha256": "551d5d2d63a7eb94d8f561e04e95509f85ea0bdc0faa4c87d4713d78e372a48a",
+      "bytes": 10674
+    },
+    "assets/audio/land.wav": {
+      "sha256": "7cc318d7cc12fa6b26732a6b66b5241c3fca40167118a81de5ab785c1602f066",
+      "bytes": 10584
+    },
+    "assets/audio/level_up.wav": {
+      "sha256": "e4599aecd11ffafc9ac3687495024d3f5e95b1afdb7fc6bb005b6a1765092531",
+      "bytes": 61256
+    },
+    "assets/audio/low_ink.wav": {
+      "sha256": "d722199e8a392b5ce62d59616c0b7be47bf72a02c25f482b233295f0f6cfcc19",
+      "bytes": 17244
+    },
+    "assets/audio/manifest.json": {
+      "sha256": "bade773a0ef1f49eb025ad4f113d4c8a4f2bb370d7eb7d8520895a70fc54e083",
+      "bytes": 23954
+    },
+    "assets/audio/menu.wav": {
+      "sha256": "ec1600b45878f9c7059bff125c09e2a4453e680aac69c4d1cd5a74519242111f",
+      "bytes": 5241644
+    },
+    "assets/audio/one_minute.wav": {
+      "sha256": "a31e01de66af28e976734991dc7e52655ffe875f60e61c7566c57d58ae253178",
+      "bytes": 40220
+    },
+    "assets/audio/ready.wav": {
+      "sha256": "d973447aa14c45db1f5b4a892d0e52d738685d7c94ff996e887fa90b2a55aefd",
+      "bytes": 61344
+    },
+    "assets/audio/refill_full.wav": {
+      "sha256": "98fe597623a872a9d65d98c03fe8762ee25697396e6c7f53b7285f7165ba230d",
+      "bytes": 35280
+    },
+    "assets/audio/respawn.wav": {
+      "sha256": "6622363e952122025c4cc66663e0fdb98b07b3df5ce9fc82e1de0b1c151bb2e1",
+      "bytes": 50716
+    },
+    "assets/audio/results_lose.wav": {
+      "sha256": "e644dc34a4d323ef4e5d00220fb1c4aecbd6dc7092ba51a210bf5091901a65f0",
+      "bytes": 2016044
+    },
+    "assets/audio/results_win.wav": {
+      "sha256": "4108a5d4cc01d4b0ad15147f6aa771e1adc743cb3fc2d38280dabb0f02003fbb",
+      "bytes": 1365720
+    },
+    "assets/audio/roll.wav": {
+      "sha256": "08b72518a2a4de5d49386649dd623b245545dde1f5b32be6323f2abc68f683a6",
+      "bytes": 132344
+    },
+    "assets/audio/roller_flick.wav": {
+      "sha256": "778a4f7bac6718c51e15ddcc9ce45d878f30e86c8ccdbccdf8b7b012e9d6a7e9",
+      "bytes": 35678
+    },
+    "assets/audio/shoot_blaster.wav": {
+      "sha256": "e9e589f7c8683dea34f557bb514cec10bf8ee38350ac49ddf54774b0217288f2",
+      "bytes": 19448
+    },
+    "assets/audio/shoot_charger.wav": {
+      "sha256": "725911454a5bfb95673fa25e1cdda4f825c214f8255f0d7cf8a678fa703979a6",
+      "bytes": 32150
+    },
+    "assets/audio/shoot_shooter.wav": {
+      "sha256": "15a6f69d278a54554959388ff5137dfa52de4e6973e30d28de009332769be6e4",
+      "bytes": 11688
+    },
+    "assets/audio/special_activate.wav": {
+      "sha256": "831d31f05021df056f5a80eb8a6ae84ef8477ee1572b3e663b06cb4658291896",
+      "bytes": 34884
+    },
+    "assets/audio/special_ready.wav": {
+      "sha256": "edca03784c31359708c70d1afd24f12eb4687b6fc1c3c155985fa1fb8ca6b921",
+      "bytes": 51156
+    },
+    "assets/audio/special_slam.wav": {
+      "sha256": "5764073ab5be3036b4044e248d484c46e1d840cbf7963dde8c6e8c9c6342163f",
+      "bytes": 54730
+    },
+    "assets/audio/splat_big.wav": {
+      "sha256": "e2d1c012b3ac49eb23a0e8726ff1c53b69adb019b54f914d24016b7781cdb33b",
+      "bytes": 21786
+    },
+    "assets/audio/splat_enemy.wav": {
+      "sha256": "7a39cba614a4c7d03f6dfad7435ced95eab1fc09d3b48332fe128400b955e825",
+      "bytes": 28886
+    },
+    "assets/audio/splat_small.wav": {
+      "sha256": "edd7aafbcc87efee4cf2b921c2f593a2a456bae2782335ba8a05eda84f8f5c9c",
+      "bytes": 10584
+    },
+    "assets/audio/splatted_self.wav": {
+      "sha256": "dff46dd5f4e2954fbde23c9baaf5cbaa378eacb3c3c470c37b52ca7b4f966d52",
+      "bytes": 62138
+    },
+    "assets/audio/squid_in.wav": {
+      "sha256": "3f2b82bddb56ab02abb74a6c3d24d3fa50085ff2db8234757283784d6203bca5",
+      "bytes": 11510
+    },
+    "assets/audio/squid_out.wav": {
+      "sha256": "f6895227e09d22f5111ba092a6e715d378958e3a997daed12e3900cedaae70b5",
+      "bytes": 10188
+    },
+    "assets/audio/step_dry.wav": {
+      "sha256": "6d6059c68f0d8ca29889da6f44bc9e9d6cd53bdfeaaa068542360a9e5f5b12fd",
+      "bytes": 8160
+    },
+    "assets/audio/step_enemy.wav": {
+      "sha256": "1f4b75b1f1c45ed00c1219ae440c3e4849a5804caae26bb22aa80508c59bd54b",
+      "bytes": 10718
+    },
+    "assets/audio/step_ink.wav": {
+      "sha256": "19d5f340d5714222d748bc9260c81227c16a1cd5b9716955a53956c49d1e23cf",
+      "bytes": 9580
+    },
+    "assets/audio/storm_rain.wav": {
+      "sha256": "c4c532388d117861611bbdd12f2c7f768e125ce8e985bff49419588c5d923458",
+      "bytes": 132344
+    },
+    "assets/audio/storm_thunder.wav": {
+      "sha256": "1dfa9ee4fcc3594f942d92fff044de406c4e90c659dbb4650105e288e40a3a86",
+      "bytes": 113382
+    },
+    "assets/audio/super_jump.wav": {
+      "sha256": "c1cc0299d419b0ff21f1e2f72c70e3476724be836001a8c78d20d0e117268d61",
+      "bytes": 39206
+    },
+    "assets/audio/swim.wav": {
+      "sha256": "bbda1c22b67d7a1680a7fc48979f0748a3553552f585f363805c898391b72445",
+      "bytes": 132344
+    },
+    "assets/audio/swim_splash.wav": {
+      "sha256": "32301e85fc232998c3dc4ebf087301cb6d3d4dfda75e0c7497558ad9ea11d572",
+      "bytes": 13276
+    },
+    "assets/audio/times_up.wav": {
+      "sha256": "258285ce489cf4edfb95fd984c0951d2f0fdf14993a3ad7712ae85bdcadcb5a8",
+      "bytes": 108486
+    },
+    "assets/audio/title.wav": {
+      "sha256": "774006c28e27740da97c57a8c2aa9ed06cc1d162bb8578992287423bb5cda23a",
+      "bytes": 6615044
+    },
+    "assets/audio/ui_back.wav": {
+      "sha256": "ddae52e08f8e0baf2e89ef1ca8474ea9e455b8e404cf6bdd058ddfae6f05cfe8",
+      "bytes": 18126
+    },
+    "assets/audio/ui_click.wav": {
+      "sha256": "1000f8968066b4f0998d4e6c24755d59ad9e7cb36d8c88775d696d29d738bf2c",
+      "bytes": 9526
+    },
+    "assets/audio/ui_confirm.wav": {
+      "sha256": "b3061bbc34bd9d62e21d67f36355724d5d6944388e8816c1d6af1856623afbb6",
+      "bytes": 18346
+    },
+    "assets/audio/ui_error.wav": {
+      "sha256": "e4246574b95c8e83708a12c157f5c005f8be305972de5ead79ff178692de37c9",
+      "bytes": 15348
+    },
+    "assets/audio/ui_hover.wav": {
+      "sha256": "6b75f5090a8905260f48ec820c3aa2e95516e9c341b57a238c6aacd7b2176b7d",
+      "bytes": 8424
+    },
+    "assets/audio/ui_slider.wav": {
+      "sha256": "db3fdca5c9fad98abd2f533cc7b0e92685d11feefe319534a0c4102015849e84",
+      "bytes": 7146
+    },
+    "assets/audio/ui_toggle.wav": {
+      "sha256": "03606c4f68d50d1ba43f4208567423b225ed5dbc0d19201a0fee084f67fab43c",
+      "bytes": 8380
+    },
+    "assets/audio/victory_fanfare.wav": {
+      "sha256": "1adfd6d8b7dd4ca1ba29a91b188576cc1263d1e04bc18349e04400ad27f997d9",
+      "bytes": 174556
+    },
+    "assets/audio/xp_tick.wav": {
+      "sha256": "92ebed42e517a9fcdff2dc0eb3de0dae5eb003b22b0e324ddd04b1e78344e65a",
+      "bytes": 7476
+    },
+    "assets/characters/actions.json": {
+      "sha256": "02e3d21a9bd3b55e15a279f232fc13e3d751f38123871782be427226c47871b4",
+      "bytes": 17425917
+    },
+    "assets/characters/kid_0.glb": {
+      "sha256": "104333dff2e5c5b8d0461c6603392cdc09400a39d08799a455f8e07742e8cd64",
+      "bytes": 4590708
+    },
+    "assets/characters/kid_1.glb": {
+      "sha256": "6b9f4777ff375fa8c17c7e91f7325f7240a26d6808238b863bb901b7dd626fe0",
+      "bytes": 4636428
+    },
+    "assets/characters/kid_2.glb": {
+      "sha256": "e5c429b8ff39721b10b2759b1dc533c6c580733fa2745b9fe0761ed2aba44e0f",
+      "bytes": 4599612
+    },
+    "assets/characters/kid_3.glb": {
+      "sha256": "dba6e3e1f74390f34012d6f356b6a123f1a2f4fc90692662c460143f8499ee0c",
+      "bytes": 4625252
+    },
+    "assets/characters/manifest.json": {
+      "sha256": "729193528cf7573a174a79784e362e70d708d9aecf281dcc7ac6d2f6a51e044a",
+      "bytes": 4424
+    },
+    "assets/characters/materials.json": {
+      "sha256": "5519a91bd4b0cdfd035246fd14a024778663528346492448b52c8e62bc5a54d2",
+      "bytes": 974
+    },
+    "assets/characters/weapon_poses.json": {
+      "sha256": "511619627dccd31e82932fa96b99ad0d4966024d86d65f1c6a4a075e4d4cca3f",
+      "bytes": 216399
+    },
+    "assets/fonts/NotoSansSC.ttf": {
+      "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+      "bytes": 17772300
+    },
+    "assets/fonts/Rubik-latin.woff2": {
+      "sha256": "99ec7ccb40cf143f977c893649deece6cc2dcc7c0ff82ebf84b6584090f207ea",
+      "bytes": 35324
+    },
+    "assets/fonts/TitanOne-latin.woff2": {
+      "sha256": "f5f3f60e9246f7e78242697ef18f1fa78467dc4135312208b693e33678e78c4c",
+      "bytes": 10732
+    },
+    "assets/fonts/noto-provenance.json": {
+      "sha256": "72d8bc22f55de53eeafe917d5a8c784447f02ca04e464d748b6099bd7c5a61b8",
+      "bytes": 516
+    },
+    "assets/maps/coral_market.json": {
+      "sha256": "d1fd61c0a29ae811ca98eb179661e2dd0e2a55f38a8af13ed0d3bbc1d8ef3af2",
+      "bytes": 28368
+    },
+    "assets/maps/coral_market_minimap.json": {
+      "sha256": "de96cf5324614d7e848b0f30bb2820fd2aec4645ffc34bd83fb8a0e465426b08",
+      "bytes": 1415
+    },
+    "assets/maps/coral_market_minimap.png": {
+      "sha256": "aa329ac7059adfdfab3161681fec4ab7a16fac62ccf0316017b3b33ce490161a",
+      "bytes": 25653
+    },
+    "assets/maps/coral_market_minimap_lookup.bin": {
+      "sha256": "d6109df8ba081fa888e1a0fc315ec1571cf14cbf52b3b4d13407c0b1020aaaf8",
+      "bytes": 2621696
+    },
+    "assets/maps/coral_market_nav.json": {
+      "sha256": "7603767047b419578d11d25dff63b33a30fef318b5ade39bd354f2db41c109a6",
+      "bytes": 1034756
+    },
+    "assets/maps/coral_market_surfaces.json": {
+      "sha256": "3c3b52517c38df1c8df0a95d11ea3cd9142ef24100c03728a3e1eba88c93bee9",
+      "bytes": 145188
+    },
+    "assets/maps/kelpline.json": {
+      "sha256": "1ee1c2b2f990f87c44741d8e5e1e667f6d7befd62e4849c7d8e78e094e4793fa",
+      "bytes": 88093
+    },
+    "assets/maps/kelpline_minimap.json": {
+      "sha256": "f114da9c5bd1834e63026fa17b3e36f3c586415b159277fa0366c7e649040aa5",
+      "bytes": 1403
+    },
+    "assets/maps/kelpline_minimap.png": {
+      "sha256": "58760637d06608843d15d391b5f22963b9503feb8111d2145f44893e4f7ae69f",
+      "bytes": 45010
+    },
+    "assets/maps/kelpline_minimap_lookup.bin": {
+      "sha256": "8481b782fb393989ff6c408468d024b5cba94b1e57d4bab7f275614d1103ee05",
+      "bytes": 3612672
+    },
+    "assets/maps/kelpline_nav.json": {
+      "sha256": "3e9e483def649875572319d644b532c7baae78dc5c9435706be35fa9f60fef76",
+      "bytes": 1498465
+    },
+    "assets/maps/kelpline_surfaces.json": {
+      "sha256": "4d6d5aa060ed312ff3d3b148f19c6c289e855f9145d61d04cd5731e6d488b8a4",
+      "bytes": 270969
+    },
+    "assets/maps/kelpline_v1.json": {
+      "sha256": "d3284af526070b46e68b6c1dc52d0134fef2cc3d66c71de9a8d091a485df9f1c",
+      "bytes": 90586
+    },
+    "assets/maps/kelpline_v1_minimap.json": {
+      "sha256": "1a289082b6cc7e2c1474a74780933f6ced37f1009bbb880f0238a22989775fa2",
+      "bytes": 1412
+    },
+    "assets/maps/kelpline_v1_minimap.png": {
+      "sha256": "446bfe22d1332bbaf5be85560d02ad9224fe28a6a8c8ae8809977e377820b84f",
+      "bytes": 45906
+    },
+    "assets/maps/kelpline_v1_minimap_lookup.bin": {
+      "sha256": "81b961cfcfc664240a2c6b41b05122a5c4078b220dbae2958ed4417d7884063e",
+      "bytes": 3612672
+    },
+    "assets/maps/kelpline_v1_nav.json": {
+      "sha256": "b2229bf56a0e19c8379458639633633c54f5d21a61fe6a1015008290330ca7ed",
+      "bytes": 1491940
+    },
+    "assets/maps/kelpline_v1_surfaces.json": {
+      "sha256": "73bf30093f1dd780ec604133f00c7bfa6b663a14db94d5d9000b3f30720115d2",
+      "bytes": 282620
+    },
+    "assets/maps/kelpline_v2.json": {
+      "sha256": "ef55febcffc64f31e175953cfc43f935ddb08d7e13b505f52c4343ea602a7e60",
+      "bytes": 90618
+    },
+    "assets/maps/kelpline_v2_minimap.json": {
+      "sha256": "47eecff473b6a95378700fc1694bea53f2d0796f9316c640c064440b3c100a2f",
+      "bytes": 1412
+    },
+    "assets/maps/kelpline_v2_minimap.png": {
+      "sha256": "7ebf1b505d8952f5d6ec17c24ee21a596054a3cfffb8be516942d534db65929c",
+      "bytes": 45633
+    },
+    "assets/maps/kelpline_v2_minimap_lookup.bin": {
+      "sha256": "3444ac7277028740a5562bc9ac51df7222997f4d2725a540bb4221ccf2d962a3",
+      "bytes": 3612672
+    },
+    "assets/maps/kelpline_v2_nav.json": {
+      "sha256": "5eda63613db46174aefacd39338490f43f9f7e4b522606a090997b2c7eca484b",
+      "bytes": 1497386
+    },
+    "assets/maps/kelpline_v2_surfaces.json": {
+      "sha256": "ece22057ee606eabdd89a66313f8eb12225bc24e4388bacf66c65dd3876e624a",
+      "bytes": 281484
+    },
+    "assets/maps/modular_harbor.json": {
+      "sha256": "62654ff05f61f963b08b5c3f9f1f630b75e1b74efcebf55a089e240458b62baa",
+      "bytes": 20136
+    },
+    "assets/maps/modular_harbor_minimap.json": {
+      "sha256": "591a17647a1c63e7a43fbd1c67939c627427a94e6cffa007a156916a9a82e4b3",
+      "bytes": 1421
+    },
+    "assets/maps/modular_harbor_minimap.png": {
+      "sha256": "f81b410ae7a7713b0486d48e00b37a6dd1ce3038dda05ca035b762dba78b4d52",
+      "bytes": 19858
+    },
+    "assets/maps/modular_harbor_minimap_lookup.bin": {
+      "sha256": "fd1a9581f3b8819c7cefbf48a892df86426bef16ef4fe3c148b31b8e8c3692bb",
+      "bytes": 3424512
+    },
+    "assets/maps/modular_harbor_nav.json": {
+      "sha256": "9ff83b72ae1e42a54c26ff67f9e2a37dcbf16d064ff1e7dcb74c3fd5e1587e80",
+      "bytes": 1515623
+    },
+    "assets/maps/modular_harbor_surfaces.json": {
+      "sha256": "c94c97752597b8c4d1ff83f9fd6e49a58390d66f01ded65e5d8afd55fc08ac65",
+      "bytes": 87992
+    },
+    "assets/maps/modular_harbor_v1.json": {
+      "sha256": "3922e1516b690f0db988b2280b867e4de9896e267e830fa3baaa00f55605165e",
+      "bytes": 21525
+    },
+    "assets/maps/modular_harbor_v1_minimap.json": {
+      "sha256": "c186657745a543abe751a0ffefff1d502b72bfc6cf73d9fa603c842dd438ef2f",
+      "bytes": 1430
+    },
+    "assets/maps/modular_harbor_v1_minimap.png": {
+      "sha256": "186ea9dc60b244d65abe3f14e07202b55973416e961c164719fce15186c3fe4a",
+      "bytes": 22289
+    },
+    "assets/maps/modular_harbor_v1_minimap_lookup.bin": {
+      "sha256": "a75ca0761bd767542c925fabbbc44099f4bea0d7be0660b16d821de3b23cad81",
+      "bytes": 3424512
+    },
+    "assets/maps/modular_harbor_v1_nav.json": {
+      "sha256": "569c59926787d362f403d0535ec44e9b6303b9112079acdf1b9209d068c1d9bf",
+      "bytes": 1493318
+    },
+    "assets/maps/modular_harbor_v1_surfaces.json": {
+      "sha256": "47afec848a908e9ed74bf9af8e1b0445cc54a7717b1dca38a97ee92a6cc131e2",
+      "bytes": 104643
+    },
+    "assets/maps/modular_harbor_v2.json": {
+      "sha256": "2ea08d58231c8c1f7ff264be22f6bfe4607f8f23c01343d5e7b57a9ee68e317d",
+      "bytes": 22835
+    },
+    "assets/maps/modular_harbor_v2_minimap.json": {
+      "sha256": "0a11a802a5b8996ec175f4521db6e03d049b1fcf5cfa1f56f66dcf2a621c23a6",
+      "bytes": 1430
+    },
+    "assets/maps/modular_harbor_v2_minimap.png": {
+      "sha256": "d37e97db73bdfe5f7506444cfd4ced0485ad6f062bc1e7cc45bed9c6cf0cb7e8",
+      "bytes": 22302
+    },
+    "assets/maps/modular_harbor_v2_minimap_lookup.bin": {
+      "sha256": "bad0e00a0c2cb703b9530cf5c856b3977e0344b1f4b70e4a0f4420a22ccfd416",
+      "bytes": 3424512
+    },
+    "assets/maps/modular_harbor_v2_nav.json": {
+      "sha256": "7a99b773f5feb835b05aaf4b0f97912aca0eb32f3fc6166b31cd0df1534b930f",
+      "bytes": 1489273
+    },
+    "assets/maps/modular_harbor_v2_surfaces.json": {
+      "sha256": "95a1a8c83ee265195656feaa32e1bcc98fb24c2611fe6f4c32bb990c8cf4becd",
+      "bytes": 110658
+    },
+    "assets/maps/modular_harbor_v3.json": {
+      "sha256": "4b028d581eafb6e31122275d5ae6db4953a741cc4671d89609dd155914498ea8",
+      "bytes": 21569
+    },
+    "assets/maps/modular_harbor_v3_minimap.json": {
+      "sha256": "8d83e832938576c6bfe1c8caf68acbb67f0af26152fdb4f0c31499951b1ec2d3",
+      "bytes": 1430
+    },
+    "assets/maps/modular_harbor_v3_minimap.png": {
+      "sha256": "7d890e978e9bcbe0d536cd3730df54d7fe229f78cb6a298fd88ea22c8056829b",
+      "bytes": 22747
+    },
+    "assets/maps/modular_harbor_v3_minimap_lookup.bin": {
+      "sha256": "f5486e618f14e4eb806fb778619b8affe94cb1a0de5ef8f7d40254183de3df03",
+      "bytes": 3424512
+    },
+    "assets/maps/modular_harbor_v3_nav.json": {
+      "sha256": "a39de3d29f47a770cfca9c4ade78ca74796ff066dd0d9a9178cb5bc210be0685",
+      "bytes": 1494650
+    },
+    "assets/maps/modular_harbor_v3_surfaces.json": {
+      "sha256": "dc5e918f5e666e79b7e3b9c4e2e18f56f3474a98596b68f9eedd1110b159cba3",
+      "bytes": 105774
+    },
+    "assets/maps/modular_harbor_v4.json": {
+      "sha256": "60949e78e7d2c51fd4f3e0f5e8a719e30a03807585b9014044a9a67e8e6e6b8b",
+      "bytes": 22952
+    },
+    "assets/maps/modular_harbor_v4_minimap.json": {
+      "sha256": "bd44920a2af69ffd92bab7c0b57d647c82d087ff3d664296fef1b05d32cb10fd",
+      "bytes": 1430
+    },
+    "assets/maps/modular_harbor_v4_minimap.png": {
+      "sha256": "485474d8af6cc17f56ece30af77862879f63a180a901598afffb5d7783c26c73",
+      "bytes": 25140
+    },
+    "assets/maps/modular_harbor_v4_minimap_lookup.bin": {
+      "sha256": "44e66c6ffda3ebd5c1a757c1bcd5c8a2db729be8916998fd827303ab717a0fa3",
+      "bytes": 3424512
+    },
+    "assets/maps/modular_harbor_v4_nav.json": {
+      "sha256": "95a32cba84a8bca8d5ef2a986c124845435ffb9664041ca8ba57bd7b9413b589",
+      "bytes": 1472342
+    },
+    "assets/maps/modular_harbor_v4_surfaces.json": {
+      "sha256": "fb37a648288861f3e821cb5d5d956c1a35afbc47411cc60b363b2a8edf51c945",
+      "bytes": 122421
+    },
+    "assets/maps/modular_harbor_v5.json": {
+      "sha256": "7be9f6095db8007f0b29a8e6a25ed91ac0aff782e56768125654262576f21e2d",
+      "bytes": 24262
+    },
+    "assets/maps/modular_harbor_v5_minimap.json": {
+      "sha256": "d183f2c85a68a265ba9ce4d61ff33226d52699a304017e8e9c11d507e2b7d0f8",
+      "bytes": 1430
+    },
+    "assets/maps/modular_harbor_v5_minimap.png": {
+      "sha256": "11e54330585cb012b21726b34a4e01f374acab68b6b7bc727d5779edee955209",
+      "bytes": 25206
+    },
+    "assets/maps/modular_harbor_v5_minimap_lookup.bin": {
+      "sha256": "a0e75c7705c2c4b8c15d32e43eb3d4f3e4080c386e1ee1fee012befd4a6b2133",
+      "bytes": 3424512
+    },
+    "assets/maps/modular_harbor_v5_nav.json": {
+      "sha256": "0aa1329aa6583a6a8e7892ce808c93ba5a8b728595b4f811d72d7b91bf5ad2ba",
+      "bytes": 1468297
+    },
+    "assets/maps/modular_harbor_v5_surfaces.json": {
+      "sha256": "5ddde2e6c4c9ca957017d8ae7ccfeec5aced043020af4e6d9b5029b9e6c0c913",
+      "bytes": 128440
+    },
+    "assets/maps/modular_harbor_v6.json": {
+      "sha256": "5a9db17d003916c1697f509a13f92d1621b550236eb48b97cb37f61faa5b7e0f",
+      "bytes": 22170
+    },
+    "assets/maps/modular_harbor_v6_minimap.json": {
+      "sha256": "b4dfdf5f778e0d7e08a38e8a46617f615285bf2a3ed4ea24f0bb1aec9e30d679",
+      "bytes": 1430
+    },
+    "assets/maps/modular_harbor_v6_minimap.png": {
+      "sha256": "32cc4169cb7455f606d096245d74530fbd9ceb50435ef0654895e30ff161e25c",
+      "bytes": 22277
+    },
+    "assets/maps/modular_harbor_v6_minimap_lookup.bin": {
+      "sha256": "2c9155ae117c46ec0228842bcb81c6d31ae6883c89000e21468419f8f171f4ea",
+      "bytes": 3424512
+    },
+    "assets/maps/modular_harbor_v6_nav.json": {
+      "sha256": "ac22acf3c6790c9039df2ade18cf57c689048b83562499ec369da41a61e6e6b0",
+      "bytes": 1489850
+    },
+    "assets/maps/modular_harbor_v6_surfaces.json": {
+      "sha256": "9bafd3059facdc632cd373c706f9d8916cca7c875630d747d309d1993eb12fa7",
+      "bytes": 108518
+    },
+    "assets/maps/modular_harbor_v7.json": {
+      "sha256": "dfec0dd0125a81a1a391865e697772434c92244274bd1c4b213757384cb02803",
+      "bytes": 23553
+    },
+    "assets/maps/modular_harbor_v7_minimap.json": {
+      "sha256": "3011e4aa1fb2ee961ceba62e2c237900ec523088b79279282c8ee11db3d2e976",
+      "bytes": 1430
+    },
+    "assets/maps/modular_harbor_v7_minimap.png": {
+      "sha256": "60318826fb06d18d47d6f635e2807a6a4834ee817759646ea7eb9181072662d1",
+      "bytes": 24686
+    },
+    "assets/maps/modular_harbor_v7_minimap_lookup.bin": {
+      "sha256": "2ed020ac360f81fa1539fbd97a5cce02776a83399748a0f493c3147902aef38c",
+      "bytes": 3424512
+    },
+    "assets/maps/modular_harbor_v7_nav.json": {
+      "sha256": "720e47fbf722ceb336af0de169627822a6e8bb7c46cfd57a2763e3906b4cb548",
+      "bytes": 1467542
+    },
+    "assets/maps/modular_harbor_v7_surfaces.json": {
+      "sha256": "662a26c5b220e40df36b03cc55a1717478c61f7809f2ed0ea33bec06ed1e3041",
+      "bytes": 125165
+    },
+    "assets/maps/modular_harbor_v8.json": {
+      "sha256": "43befc109e401610f0b549eee1e6eeb908078993073d39806cb26382df001acb",
+      "bytes": 24863
+    },
+    "assets/maps/modular_harbor_v8_minimap.json": {
+      "sha256": "c30be77f78054ff76a7e166a41e50680aea972c8904a5ee3b3344b049f5f5f80",
+      "bytes": 1430
+    },
+    "assets/maps/modular_harbor_v8_minimap.png": {
+      "sha256": "bf15e9b440b86f85e5c2129cb6c9404fd5d83fc32da52d0093203498e525e91b",
+      "bytes": 24690
+    },
+    "assets/maps/modular_harbor_v8_minimap_lookup.bin": {
+      "sha256": "157932c981e3295ed30ffe8dba7714daac62a3f3bb230061b3c657731854596c",
+      "bytes": 3424512
+    },
+    "assets/maps/modular_harbor_v8_nav.json": {
+      "sha256": "5ddcfc0919959c1e2e2a34589259a8d780c5b05d315c35350af90ab16b34c9a2",
+      "bytes": 1463497
+    },
+    "assets/maps/modular_harbor_v8_surfaces.json": {
+      "sha256": "cac8e68ae49f8053a0f7222ad904ef62d623277395e006c6bbc0218f8c0f824a",
+      "bytes": 131189
+    },
+    "assets/maps/prism_gallery.json": {
+      "sha256": "e1da0a712debd37242aa32b2c55031c35343bb560b8115cd8cfa7e648a18a3e6",
+      "bytes": 31828
+    },
+    "assets/maps/prism_gallery_minimap.json": {
+      "sha256": "3eb319a3ebe2d1c81cd0695293299ab2dddd6ac2aa1da245317f1d6d937b8381",
+      "bytes": 1418
+    },
+    "assets/maps/prism_gallery_minimap.png": {
+      "sha256": "86b72a1823d138dc04220d69b1f91c3e9a22995053f94652ee3bbe0f9bd0da66",
+      "bytes": 28326
+    },
+    "assets/maps/prism_gallery_minimap_lookup.bin": {
+      "sha256": "c788017a6402aefc2979bfcade0e657c90254eefb0697ab9799128719ba969b1",
+      "bytes": 2822400
+    },
+    "assets/maps/prism_gallery_nav.json": {
+      "sha256": "62160b939416e34fdd63121add30cabbaabe86d3e196fbc3e6b0231a92634bcd",
+      "bytes": 1206543
+    },
+    "assets/maps/prism_gallery_surfaces.json": {
+      "sha256": "46426b58dd7898fa4abaf5314f6b4cf8157747e4880755ce3647fab2cb8b4ea4",
+      "bytes": 164989
+    },
+    "assets/maps/terrace_garden.json": {
+      "sha256": "85ae89a9b2895f2aef0997549b80861d2dbae76712a9842da6c63b19259a5bf5",
+      "bytes": 28799
+    },
+    "assets/maps/terrace_garden_minimap.json": {
+      "sha256": "686d24f55cc030cabbb4a69260a3e5d845742c5ddb1ec7cd0dd00af0d4f9b88f",
+      "bytes": 1421
+    },
+    "assets/maps/terrace_garden_minimap.png": {
+      "sha256": "a40f72d25ee954d5547b5686f5e318977dfc7bbffa7d49e9facb62b51c9e0c60",
+      "bytes": 33438
+    },
+    "assets/maps/terrace_garden_minimap_lookup.bin": {
+      "sha256": "eb33326f6185066a9b1687e7df6a2caf4f425a03561a87aa9c03301f15fbb206",
+      "bytes": 3386880
+    },
+    "assets/maps/terrace_garden_nav.json": {
+      "sha256": "bef565ee08598ffe77c84d25cfc83192fbeb872cb8730eb945161c1de1d4dea3",
+      "bytes": 1477342
+    },
+    "assets/maps/terrace_garden_surfaces.json": {
+      "sha256": "922c88af894891a6869a002bae0f6204cda8fc1254328e8d418a23510c8de00b",
+      "bytes": 162857
+    },
+    "assets/maps/tidewater.json": {
+      "sha256": "2770aa1049f1acd8428e6b7b357448ecf2b44b0631d2e9ec513391e600663bd9",
+      "bytes": 89318
+    },
+    "assets/maps/tidewater_minimap.json": {
+      "sha256": "704aea6d2846e0b7187bdf4a0417f772233db326675ef7937e1fac7f81bdbfa7",
+      "bytes": 1406
+    },
+    "assets/maps/tidewater_minimap.png": {
+      "sha256": "64248106e29e88102be0569a4bd14acc11167e37a1f2caa1cf5f2e872d46ebd8",
+      "bytes": 47270
+    },
+    "assets/maps/tidewater_minimap_lookup.bin": {
+      "sha256": "e426a9d2fa55a5ccb53201ded6eaaede662841b428986631603a267e8b3c26cd",
+      "bytes": 3449600
+    },
+    "assets/maps/tidewater_nav.json": {
+      "sha256": "cff00fe470cd350f9bba568f9e8d4b9393b38e7a02b770bd72246214e09bc36a",
+      "bytes": 1338712
+    },
+    "assets/maps/tidewater_surfaces.json": {
+      "sha256": "715604cc67e9aebc755fea9b6c49458c8fc067b178965c1a5d6267d1c0c227c3",
+      "bytes": 259521
+    },
+    "assets/maps/tidewater_v1.json": {
+      "sha256": "9bd73f0ac16a6efeb7e016f11bb1f8953548d87d849768e6cc2d42269734a5c0",
+      "bytes": 91811
+    },
+    "assets/maps/tidewater_v1_minimap.json": {
+      "sha256": "2d3d3adee763317a0c354c14830812d8488e52993092e19351f38895b267541f",
+      "bytes": 1415
+    },
+    "assets/maps/tidewater_v1_minimap.png": {
+      "sha256": "1bec520a966c8c74d28100708043c1122112f2977480ef83f8c05f93f9d751e3",
+      "bytes": 47998
+    },
+    "assets/maps/tidewater_v1_minimap_lookup.bin": {
+      "sha256": "e1e1e88861e625dc66b30aba19f974920db2aee3f98448c615928a4d6f51f4af",
+      "bytes": 3449600
+    },
+    "assets/maps/tidewater_v1_nav.json": {
+      "sha256": "b4acfd96ce8912ea15653631830687021fc0f2345a3f0f4d2d80f9a98b916c07",
+      "bytes": 1337419
+    },
+    "assets/maps/tidewater_v1_surfaces.json": {
+      "sha256": "ca44ad8b15169b7c4274264d9f0d2b81dfd7f17f5b7b77152e3b3b023309aee1",
+      "bytes": 271729
+    },
+    "assets/maps/tidewater_v2.json": {
+      "sha256": "986a7fd109e1b0f60c74608ddb187c45594487ba57142fbfce7814de80882f0b",
+      "bytes": 91843
+    },
+    "assets/maps/tidewater_v2_minimap.json": {
+      "sha256": "593863938d15cd110ef186d195409ce30af40f024511f13ec2828d69583f28f8",
+      "bytes": 1415
+    },
+    "assets/maps/tidewater_v2_minimap.png": {
+      "sha256": "17d6b8328dee60d0c96dd51e8177ae16a90f394c0b31502dae612a54b98a8af3",
+      "bytes": 48119
+    },
+    "assets/maps/tidewater_v2_minimap_lookup.bin": {
+      "sha256": "c1a93d85668701ca6323a9ae48bd2dd7ad2f72425458dae4f639642637b0c92d",
+      "bytes": 3449600
+    },
+    "assets/maps/tidewater_v2_nav.json": {
+      "sha256": "54eec5530bebf08ab572aa4add434610b0f9a7f05d91969888de71dbdcf4982a",
+      "bytes": 1331853
+    },
+    "assets/maps/tidewater_v2_surfaces.json": {
+      "sha256": "48ea3ac0e2ae30d7dfadcdaed44c0c32a11ce71498ad0b49ea6d39170f6b29f4",
+      "bytes": 272209
+    },
+    "assets/maps/viaduct.json": {
+      "sha256": "07bf79c82b12ba19f14831fe7cfdf6efafe22b1b11a7994084922e54a84ac31e",
+      "bytes": 34224
+    },
+    "assets/maps/viaduct_minimap.json": {
+      "sha256": "284eb0e965a312d9a65e2f6ad69d5112d7c5307605b5d185ca772483767286b0",
+      "bytes": 1400
+    },
+    "assets/maps/viaduct_minimap.png": {
+      "sha256": "3dd800b81436d1edfc819055b8164eb3cefd6b5fbcb261ecdb6b76423bd1da71",
+      "bytes": 25842
+    },
+    "assets/maps/viaduct_minimap_lookup.bin": {
+      "sha256": "a439e2fb15a13b457c87ea8754a1f4251d8f7d7c24acc06a1a3f07da52c812ac",
+      "bytes": 2596608
+    },
+    "assets/maps/viaduct_nav.json": {
+      "sha256": "335b7a527450816ec4f9e2fe7d624693c8147b010fef81d4bb8b2a6baf8ddb3e",
+      "bytes": 1181701
+    },
+    "assets/maps/viaduct_surfaces.json": {
+      "sha256": "d208b82e25df27d699c09778baac13270fba069bc28f436c34ede4377ba74f1f",
+      "bytes": 155742
+    },
+    "assets/scenery/coral_market_visuals.glb": {
+      "sha256": "9ba9929338b4fcac47e5b73d5d69cf13c3ab7447afe04d7568af369e7892eb9c",
+      "bytes": 29024408
+    },
+    "assets/scenery/coral_market_visuals.json": {
+      "sha256": "eaaf9cc80fb3f291f7ff56ae7baeec1ab8396e3e3f3425bdd14a97994b2885b8",
+      "bytes": 2535
+    },
+    "assets/scenery/coral_market_visuals_0.png": {
+      "sha256": "e256ec15d4ff559b30fe7bd237e3dde9de636cf9a1876fc03feed0dbe28a704e",
+      "bytes": 1926380
+    },
+    "assets/scenery/coral_market_visuals_1.png": {
+      "sha256": "27d8021abeb07368d99d085e1c2fea45d7672179b4677709ceca245a9e14325f",
+      "bytes": 22556
+    },
+    "assets/scenery/kelpline_visuals.glb": {
+      "sha256": "6405ac577378f5a0fcee7467ae7f429d76f7911034fe46d51da255ac04da563d",
+      "bytes": 38342808
+    },
+    "assets/scenery/kelpline_visuals.json": {
+      "sha256": "bbd7bcf7cce947443c5432368a74b1eedc0178754e186d3e1e827f664866fabb",
+      "bytes": 2534
+    },
+    "assets/scenery/kelpline_visuals_0.png": {
+      "sha256": "e256ec15d4ff559b30fe7bd237e3dde9de636cf9a1876fc03feed0dbe28a704e",
+      "bytes": 1926380
+    },
+    "assets/scenery/kelpline_visuals_1.png": {
+      "sha256": "53f901e66ed0b5dc33dac1bd89e861b16d103e344f11ef71f5ec3af83ba7d059",
+      "bytes": 1527
+    },
+    "assets/scenery/kelpline_visuals_2.png": {
+      "sha256": "27d8021abeb07368d99d085e1c2fea45d7672179b4677709ceca245a9e14325f",
+      "bytes": 22556
+    },
+    "assets/scenery/modular_harbor_visuals.glb": {
+      "sha256": "783f7166cba4c7e7ed395ec8948a7bb26a1ef1159bd6cf282664532729dee2bf",
+      "bytes": 29074960
+    },
+    "assets/scenery/modular_harbor_visuals.json": {
+      "sha256": "0047d78661087a99c31cdd49bc8841ffb9aae7f3bc4aba60f24da53f5a26dbea",
+      "bytes": 2537
+    },
+    "assets/scenery/modular_harbor_visuals_0.png": {
+      "sha256": "e256ec15d4ff559b30fe7bd237e3dde9de636cf9a1876fc03feed0dbe28a704e",
+      "bytes": 1926380
+    },
+    "assets/scenery/modular_harbor_visuals_1.png": {
+      "sha256": "27d8021abeb07368d99d085e1c2fea45d7672179b4677709ceca245a9e14325f",
+      "bytes": 22556
+    },
+    "assets/scenery/murals.png": {
+      "sha256": "4cb7b9ff30e43a6de41fa1b1baf3f65a7fd122a9ba1ef1148149b672059b8ee9",
+      "bytes": 165915
+    },
+    "assets/scenery/prism_gallery_visuals.glb": {
+      "sha256": "9b87ab44c7030887d68605481e91b2524ca03fcdaf3ca6503e1bc032b008b2a7",
+      "bytes": 28080536
+    },
+    "assets/scenery/prism_gallery_visuals.json": {
+      "sha256": "53cbc664d043a4ee611c4ad019b656d12d75464230b84694c9bd05744c2bfef9",
+      "bytes": 2536
+    },
+    "assets/scenery/prism_gallery_visuals_0.png": {
+      "sha256": "e256ec15d4ff559b30fe7bd237e3dde9de636cf9a1876fc03feed0dbe28a704e",
+      "bytes": 1926380
+    },
+    "assets/scenery/prism_gallery_visuals_1.png": {
+      "sha256": "27d8021abeb07368d99d085e1c2fea45d7672179b4677709ceca245a9e14325f",
+      "bytes": 22556
+    },
+    "assets/scenery/terrace_garden_visuals.glb": {
+      "sha256": "3029109d4b1da248f94d5f350e99ecbc5252450ec20367d26ae1c4abc33bf91f",
+      "bytes": 28052132
+    },
+    "assets/scenery/terrace_garden_visuals.json": {
+      "sha256": "d8c6cc9fde354c3756fb53d279015b1a51175d573603686a33cfb657e97848c0",
+      "bytes": 2537
+    },
+    "assets/scenery/terrace_garden_visuals_0.png": {
+      "sha256": "e256ec15d4ff559b30fe7bd237e3dde9de636cf9a1876fc03feed0dbe28a704e",
+      "bytes": 1926380
+    },
+    "assets/scenery/terrace_garden_visuals_1.png": {
+      "sha256": "27d8021abeb07368d99d085e1c2fea45d7672179b4677709ceca245a9e14325f",
+      "bytes": 22556
+    },
+    "assets/scenery/tidewater_visuals.glb": {
+      "sha256": "bc4b376c43d9d7e86c4550a6d9a35e5375ba86befff93a794c420098b072ec57",
+      "bytes": 39948016
+    },
+    "assets/scenery/tidewater_visuals.json": {
+      "sha256": "681725df49a30c4418d6d8d68ce44567d55b6efc3747a61ad8c2b20a8bda8ac3",
+      "bytes": 2535
+    },
+    "assets/scenery/tidewater_visuals_0.png": {
+      "sha256": "e256ec15d4ff559b30fe7bd237e3dde9de636cf9a1876fc03feed0dbe28a704e",
+      "bytes": 1926380
+    },
+    "assets/scenery/tidewater_visuals_1.png": {
+      "sha256": "53f901e66ed0b5dc33dac1bd89e861b16d103e344f11ef71f5ec3af83ba7d059",
+      "bytes": 1527
+    },
+    "assets/scenery/tidewater_visuals_2.png": {
+      "sha256": "27d8021abeb07368d99d085e1c2fea45d7672179b4677709ceca245a9e14325f",
+      "bytes": 22556
+    },
+    "assets/scenery/viaduct_visuals.glb": {
+      "sha256": "6f830338dcf05145ca5f058bb56b108295e042c02c5b98cf021ede67045e1cf8",
+      "bytes": 28310512
+    },
+    "assets/scenery/viaduct_visuals.json": {
+      "sha256": "12104a0e512d3e94bd000a553af691d73058cfc523dabe6824a5d44befb3d906",
+      "bytes": 2529
+    },
+    "assets/scenery/viaduct_visuals_0.png": {
+      "sha256": "e256ec15d4ff559b30fe7bd237e3dde9de636cf9a1876fc03feed0dbe28a704e",
+      "bytes": 1926380
+    },
+    "assets/scenery/viaduct_visuals_1.png": {
+      "sha256": "27d8021abeb07368d99d085e1c2fea45d7672179b4677709ceca245a9e14325f",
+      "bytes": 22556
+    },
+    "assets/ui/blaster.svg": {
+      "sha256": "32f05cb97ec55a74ab05e08949cfe690a2af535a7815ce435983b5dce20c3a0c",
+      "bytes": 740
+    },
+    "assets/ui/bow.svg": {
+      "sha256": "2ba2c826338cc731aae531e1a647827e6b267c8a41cfde67eb12453fb2f3d833",
+      "bytes": 242
+    },
+    "assets/ui/canopy.svg": {
+      "sha256": "997d6370a0e14c0091b26c932d6a6d3328ae769627f774991f505bbf2ddbc91d",
+      "bytes": 270
+    },
+    "assets/ui/charger.svg": {
+      "sha256": "208cac92c5090391414fd3000d64ed31fa5ff5f5128f89cfe60a416e122c3de9",
+      "bytes": 1054
+    },
+    "assets/ui/disc.svg": {
+      "sha256": "78045bb41f6034a93ea26fd35453372540f41dd3c0b3d0b3f4123f03932e7ecd",
+      "bytes": 438
+    },
+    "assets/ui/dualie.svg": {
+      "sha256": "5ad1c0372d5df4efc2a968f32fac69dee2d93f1711428baee3687e193d932d47",
+      "bytes": 1866
+    },
+    "assets/ui/heavy.svg": {
+      "sha256": "9005b520233ca6af95ac77f86b6d084d4c43066f539bb128293c9a635e7133e3",
+      "bytes": 993
+    },
+    "assets/ui/item-beacon.svg": {
+      "sha256": "b75fe8fa025c23f0da15ba9bf9aa70795d08e70072109e32ef63bfca699796f3",
+      "bytes": 329
+    },
+    "assets/ui/item-bomb.svg": {
+      "sha256": "55241dc009ac45812da3d668f61c7850a8211376460afcea012bc9036ccfc483",
+      "bytes": 339
+    },
+    "assets/ui/item-echo_decoy.svg": {
+      "sha256": "2a3d24064760708604094ae0cf20d25f6d00163acb1b87d5acdee673e942b450",
+      "bytes": 386
+    },
+    "assets/ui/item-ink_wings.svg": {
+      "sha256": "8f7692880adc80b4e6e669b9d1c2c117ff965862ea73e52ddd0c545f3532f380",
+      "bytes": 341
+    },
+    "assets/ui/item-intel_mist.svg": {
+      "sha256": "33090d03ac7fb65957accb999bb06723e55e535ea374b66b81f205a3b2a1b90b",
+      "bytes": 326
+    },
+    "assets/ui/item-mine.svg": {
+      "sha256": "8351af2c90b3c754d1b53f6fde79fd6071b12d20602964209835494e5654cb13",
+      "bytes": 342
+    },
+    "assets/ui/item-recall.svg": {
+      "sha256": "6fb21d1bb65c060ba62dc280e34e9b07e760b34e5671f51388a95e390ecabdc6",
+      "bytes": 287
+    },
+    "assets/ui/item-sonar.svg": {
+      "sha256": "6d19115bd156cf91724e805ebb4683d73f203a6e26ede12e564ae7dd9e03c0aa",
+      "bytes": 329
+    },
+    "assets/ui/item-supply_box.svg": {
+      "sha256": "81753e897a008bbb8a0b687e3e3b1bf6d88979a0e37854e41c5c83fccdd339ac",
+      "bytes": 316
+    },
+    "assets/ui/logo-a.svg": {
+      "sha256": "357edfd5ce9be59fe586e59d7fe03d7bc5437e48ff4715b362b5c97c4e3562d7",
+      "bytes": 4286
+    },
+    "assets/ui/logo-b.svg": {
+      "sha256": "98f5f675461e8ec86f79165d8d55df1035571ee6cb4ca09b195905d4a7f0e609",
+      "bytes": 4269
+    },
+    "assets/ui/nav-gear.svg": {
+      "sha256": "119f5b274ddd9231970ec4aaffd0c92d8b2934e6954cb405f27260aabda115bf",
+      "bytes": 544
+    },
+    "assets/ui/nav-play.svg": {
+      "sha256": "a21d43e978f6581f557ec703be77f0d76fdb219049a7e0ab1af3c4f38a329193",
+      "bytes": 193
+    },
+    "assets/ui/nav-question.svg": {
+      "sha256": "f5e5a924c71f022a8948f6f2ae905eb352bd13a4f195f0cfd00b7ad488fb8f88",
+      "bytes": 356
+    },
+    "assets/ui/nav-star.svg": {
+      "sha256": "2749b8674d236798b7d0056f5e9b98f322d7601ee6772c05809c35a54776b34b",
+      "bytes": 256
+    },
+    "assets/ui/perk-adrenaline.svg": {
+      "sha256": "5680f7f30f16f815697dbe3027c419dd1f7cdd3b37300cf7b7342bb0c291eeee",
+      "bytes": 338
+    },
+    "assets/ui/perk-balanced.svg": {
+      "sha256": "8197a094014e3bb3c9ddf0284e2edf96b91f449c000bcc05aa63b719ed525947",
+      "bytes": 322
+    },
+    "assets/ui/perk-dry_focus.svg": {
+      "sha256": "5bea82bd6fc05c26576671e8db768aaa2f8c389b199b97f596bb8ac24f622612",
+      "bytes": 360
+    },
+    "assets/ui/perk-enemy_swim.svg": {
+      "sha256": "0a21dcf7d3f2051899714e3a873f079e11034dff5e4f6805db1c29fa81a30882",
+      "bytes": 379
+    },
+    "assets/ui/perk-last_ink.svg": {
+      "sha256": "06b0a8367a8ffafa95b3e323b275b7f1db78b36b218e552b7ade5f8ffec9c227",
+      "bytes": 347
+    },
+    "assets/ui/perk-leech.svg": {
+      "sha256": "88b477062efdc14d1cae08ae260be40cca4de5ef6077d27148c31954c219be5e",
+      "bytes": 312
+    },
+    "assets/ui/perk-turf_engine.svg": {
+      "sha256": "7ced76323a5e1fc0ad828ede99f4ca504fefaec88c56047ba29bc0b73ed82aec",
+      "bytes": 301
+    },
+    "assets/ui/perk-vault_runner.svg": {
+      "sha256": "14288e5ac248221d2a19eb2b9372876a5e6943ac5ea5cfbef2b019676bb5162e",
+      "bytes": 306
+    },
+    "assets/ui/rapid.svg": {
+      "sha256": "d6bdd7499905244e5af1151e8b7e538e85000347a3e23d712aa589f9ed176433",
+      "bytes": 827
+    },
+    "assets/ui/roller.svg": {
+      "sha256": "6b120854472ed50016d5b1b46d8c8db6e92d8986cf7cc326466b1653496e01aa",
+      "bytes": 1109
+    },
+    "assets/ui/shooter.svg": {
+      "sha256": "75bbe22a3c21399b8277f0b7b17735ba031199c325419328230f52bd6ec595fe",
+      "bytes": 933
+    },
+    "assets/ui/special-absorb_counter.svg": {
+      "sha256": "89bed38e00a6065f0471a3dfb4045837b06c69bdf0938503a1ba6b5737ed1c8f",
+      "bytes": 325
+    },
+    "assets/ui/special-rain_arrows.svg": {
+      "sha256": "c460026930b64c40ff64389781d07249b0508270cec1257d0a1feda9c2cc6d76",
+      "bytes": 361
+    },
+    "assets/ui/special-slam.svg": {
+      "sha256": "4e25e1f32143a1011b1fa5c36dd119e381ba002d064c4b4a2032a27b243db52c",
+      "bytes": 319
+    },
+    "assets/ui/special-storm.svg": {
+      "sha256": "0cff4f580d69759dbfe9cea258d0aecd6779daefee44e0b147759b911bb5656a",
+      "bytes": 311
+    },
+    "assets/ui/special-twin_discs.svg": {
+      "sha256": "8417208e9b3933bc30fc542ac247137f3bfcfb211b8ac072b0c29cb440e99fd5",
+      "bytes": 498
+    },
+    "assets/weapons.json": {
+      "sha256": "f366ba9858680f4b03bbc39b0bda21a87abd76bfa3eda1fdd6eaeaaff3c29c6b",
+      "bytes": 8696
+    }
+  }
+}

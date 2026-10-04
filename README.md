@@ -1,35 +1,39 @@
-# INKWAVE · 墨浪对战
+# INKWAVE · Godot
 
-5v5 涂墨对战，最多10人，每队5人，空位由机器人补齐。保留原游戏画面、武器、地图、规则和中文界面。
+独立的 Godot 4.8.dev6 原生涂墨对战项目。项目入口 `project.godot` 就在仓库根目录；当前单机支持 1v1 / 5v5、90 / 180 秒、七张地图、八武器、九道具和八天赋。
 
-原生移植见 [Godot Demo](godot-port-prototype/README.md)：运行、验证、项目结构和当前状态统一从该页进入。
+运行、检查与导出均不使用网页源码、Node、Next.js、Three.js 或浏览器服务。角色、地图、字体与声音的 Godot 资源以及许可证保留在本项目中。
 
-## 联机方式
+## 运行
 
-- 浏览器直连入口：`/?mode=public&lobby=1`。加载原游戏后自动打开大厅；分享链接携带 `mode=public&room=...&lobby=1`，朋友不会误入 WSS。使用真实 PeerJS Cloud 信令与 WebRTC；信令超时会显示错误并允许手动重试，不保证所有 NAT 都能连接。
-- WSS：`socket-server.app.teable.cn:8443/ws`，独立 `inkwave` 房间协议，邀请携带 `mode=wss&server=...&room=...&key=...&lobby=1`。显式 WSS 邀请不会静默降级。
-- 未指定模式时，应用只查询固定默认服务器的 `/status`；`inkwaveProtocol:1` 才选择 WSS，否则选中浏览器直连并明确区分服务器待部署与状态未知。默认选择不是连接成功声明。服务器和口令字段只在 WSS 模式显示。
-- WebRTC 使用独立无序、不重传位置通道，按角色只保留最新值；战斗事件可靠发送。连接管理参考指定的旧运输船应用 `appxgqUvkYHpGGkXtuu/lib/public-peer-client.ts`：区分信令与直连阶段、每条连接30秒超时、最多3次信令恢复且间隔至少5秒。恢复信令不会重复创建玩家连接。
-- 大厅可导出连接日志：本机保留最近7天内5次会话，每次最多400条；只记录连接阶段与ICE状态，不记录SDP、候选IP、密钥和游戏包。
-- 局域网：大厅选择局域网服务器；下载 `/downloads/inkwave-local.zip`，解压执行 `node server.mjs`，所有人访问同一台电脑。下载包也支持10人，直连失败可回退HTTP中转。
+```sh
+./run.sh
+./run.sh --compatibility
+```
 
-WSS 保留浏览器游戏模拟，房主计算机器人。服务器转发消息，客户端跳过旧的房主二次广播。开局将完整10角色名单随请求原子提交。位置按角色合并，涂墨每包最多256项、48KiB。断线明确退出，不声明完整墨迹恢复。服务器地址可在大厅修改。
+默认 Forward+ / Metal，第二条使用兼容渲染。设置 `GODOT=/path/to/godot` 可指定引擎；首次运行自动导入资源。也可打开 `project.godot` 按 F5。
 
-对局开始时，如果浏览器还未允许鼠标锁定，会显示「点击进入对战」。每位玩家需自己点击，随后按住左键射击；网络消息不能替代这次用户手势。权限失败可再次点击，Esc 后仍通过原暂停菜单继续。
+WASD 移动、鼠标瞄准、左键射击、Shift 潜墨、空格跳跃、E / 右键道具、F / Q 大招、J 选择队友／信标跳跃、Tab 战术地图、Esc 暂停。死亡后主动选择复活目标。默认 30 FPS / 75% 精度，可在设置中调整。
 
-对局左下角显示帧率、延迟、实际通道和拥堵提示。键盘1–4跳向四位队友，5返回基地。
+## 检查与构建
 
-## 验证与边界
+```sh
+./tools/run_checks.sh
+python3 tests/python/test_parse_gate.py
+python3 tests/python/test_asset_integrity.py
+python3 tests/python/test_runtime.py
+python3 tests/python/test_visual_config.py
+./export_macos.sh
+python3 tools/release/package_macos.py --version <版本号>
+```
 
-- `node tests/ten-player-wss.cjs`：模拟WebSocket的10席位协议测试、原子开局、位置合并与转换、涂墨拆包、断线和旧服务器拒绝；真实本地API测试10人、拒绝第11人与满5人队伍。模拟协议不等于生产端到端验证。
-- `node tests/multiplayer-smoke.cjs`：真实公共信令双客户端WebRTC、独立位置通道、拥堵合并、旧包拒绝与房间操作。
-- `node tests/relay-smoke.cjs`：本地HTTP中转。
-- `node tests/lobby-entry.cjs`：邀请模式优先级、能力状态、WSS字段显隐、URL清理，以及客人先完成加载和切地图后的涂墨绑定。
-- `node tests/public-scene.cjs`：原游戏完整加载、真实公共信令与WebRTC双浏览器分享加入、10角色开局、就绪同步、角色位置与一次涂墨同步；软件GPU下手动步进模拟，不代表设备帧率评测。
-- `node tests/remote-visibility.cjs`：复现并修复首个位置包前隐藏角色后未恢复显示的问题，同时验证死亡和复活。
-- `node tests/peer-lifecycle.cjs`：确定性模拟信令生命周期，验证超时阶段、有限重连、恢复后无重复玩家连接及日志保存；真实通信由独立测试覆盖。
-- `node tests/pointer-control.cjs`：鼠标权限拒绝与手动重试、真实点击取得锁定、按下/松开射击键、退出锁定清理、暂停菜单与手柄兼容。
-- `node tests/public-shooting.cjs`：真实PeerJS/WebRTC原场景双人射击，等待客人点击的用户激活失效再由房主开局；通过真实鼠标输入验证子弹、耗墨与对端接收，不注入fire状态。设置 `GAME_BASE_URL` 可对正式站验收；软件GPU下模拟步进不代表帧率测试。
-- `node tests/game-smoke.cjs`：软件GPU加载游戏、局域网建房、10角色开局。
+统一入口只要求 Godot 和系统 shell：导入 → 生产脚本编译 → 本地资源完整性 → 规则／场景检查。Python 用于隔离负例、资源清单更新和 arm64 打包。日志保存在 `.godot/`；macOS 构建输出在 `build/`。
 
-WSS 服务器部署由 PLAYROOM 应用单独处理。此网页发布不代表服务器已部署或10台真实设备性能验收通过。游戏模拟与GPU负载仍取决于玩家设备，尤其是机器人所在房主。
+## 项目入口
+
+- [Web 差异与 AI 维护规范](docs/GODOT_MAINTENANCE.md)：当前规范，AI 从根目录 [AGENTS.md](AGENTS.md) 进入。
+- [文件结构](docs/STRUCTURE.md)、[模块与权威边界](docs/MIGRATION.md)、[显示边界](docs/RENDERING.md)。
+- [玩法](docs/GAMEPLAY.md)、[创意配装](docs/CREATIVE_LOADOUTS.md)、[工作状态](docs/COORDINATION.md)。
+- [验证与工具](tools/README.md)、[本次独立工程验证](docs/CLEANUP.md)、[许可证](THIRD_PARTY_NOTICES.md)。
+
+`docs/history/`、`render-evidence/` 和 `experiments/` 保留 Godot 历史记录与人物实验，正式导出排除。真实手感、长期温度、机器人自动队友／信标跳跃与联网仍有后续工作；当前源码尚未重新导出新 `.app`。

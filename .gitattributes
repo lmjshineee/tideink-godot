@@ -1,0 +1,6 @@
+licenses/* -whitespace
+
+shaders/characters/character_skin.gdshader -whitespace
+shaders/characters/character_eyes.gdshader -whitespace
+shaders/characters/character_cloth.gdshader -whitespace
+render-evidence/*.txt -whitespace
