@@ -37,6 +37,7 @@ func setup(owner_game: Node3D) -> void:
 	for team in range(2):
 		coverage_labels.append(_label(self,28))
 	hint = _label(self,12)
+	hint.mouse_filter = MOUSE_FILTER_PASS
 	panel = Panel.new()
 	panel.mouse_filter = MOUSE_FILTER_IGNORE
 	panel.add_theme_stylebox_override("panel",game._ui_style(Color("111a29"),Color("34445e"),1,16))
@@ -136,7 +137,9 @@ func _layout_results() -> void:
 		label.text = "%s  %.1f%%" % [game.team_names[team],float(game.judged_coverage[team])*100]
 	hint.position = Vector2(size.x*0.035,size.y*0.855)
 	hint.size = Vector2(size.x*0.425,20)
-	hint.text = "你的涂地  %.0f p" % game.turf_total
+	var personal_stats: Dictionary = game.get_node("World/Walker").get_meta("match_stats",{})
+	hint.text = "你的涂地  %.0f m² · 积分 %.0f p" % [float(personal_stats.get("turf",0.0)),game.turf_total]
+	hint.tooltip_text = "累计涂地包含阵亡后生效的墨迹；积分只计算存活时的有效涂地。"
 	hint.add_theme_color_override("font_color",MUTED)
 	var inner_width := panel.size.x-20.0
 	var row_height: float = maxf(18.0,(panel.size.y-20.0-header_height-2*team_height)/maxi(1,roster.size()))

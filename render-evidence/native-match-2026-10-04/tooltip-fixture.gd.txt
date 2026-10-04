@@ -1,0 +1,45 @@
+extends SceneTree
+func _initialize() -> void:
+ call_deferred("_run")
+func _run() -> void:
+ root.size=Vector2i(1280,720)
+ var setup=preload("res://src/core/match_setup.gd")
+ setup.screen="setup"
+ setup.team_size=5
+ setup.pending_loadout={"settings_path":"/private/tmp/inkwave-tooltip-isolated.cfg"}
+ var game=(load("res://scenes/match/tidewater_play.tscn") as PackedScene).instantiate()
+ root.add_child(game)
+ current_scene=game
+ for i in 12:await process_frame
+ game.set_physics_process(false)
+ var walker:Node3D=game.get_node("World/Walker")
+ var stats:Dictionary=walker.get_meta("match_stats").duplicate()
+ stats.turf=12.0
+ walker.set_meta("match_stats",stats)
+ game.turf_total=42.0
+ game._judge_round()
+ for i in 12:await process_frame
+ var label:Label=game.tactics.hint
+ var at:Vector2=label.get_global_transform_with_canvas()*(label.size*.5)
+ root.grab_focus()
+ Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
+ Input.warp_mouse(at)
+ await create_timer(.2).timeout
+ for attempt in 3:
+  var error:Vector2=at-root.get_mouse_position()
+  if error.length()<2:break
+  Input.warp_mouse(at+error)
+  await create_timer(.2).timeout
+ var motion=InputEventMouseMotion.new()
+ motion.position=at
+ motion.global_position=at
+ motion.relative=Vector2.ONE
+ root.push_input(motion,true)
+ await create_timer(1.2).timeout
+ await RenderingServer.frame_post_draw
+ var hovered=root.gui_get_hovered_control()
+ print("AUDIT: hovered=",hovered.get_path() if hovered else "none", " tooltip=",hovered.tooltip_text if hovered else "none")
+ print("AUDIT: hint=",label.text," rect=",label.get_global_rect()," mouse=",root.get_mouse_position()," filter=",label.mouse_filter)
+ root.get_texture().get_image().save_png("res://render-evidence/native-match-2026-10-04/tooltip-visible.png")
+ print("PASS: isolated native tooltip fixture captured; not a match or performance sample")
+ quit()

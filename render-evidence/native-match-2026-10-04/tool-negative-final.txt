@@ -1,0 +1,3 @@
+PASS: headless rejected with exit=1
+PASS: existing-output rejected with exit=1
+PASS: outside-evidence rejected with exit=1

@@ -1,0 +1,36 @@
+diff --git a/project.godot b/project.godot
+index be1c674..f131135 100644
+--- a/project.godot
++++ b/project.godot
+@@ -13,12 +13,8 @@ config_version=5
+ config/name="INKWAVE Demo"
+ config/version="0.3.0-preview.15"
+ run/main_scene="res://scenes/match/tidewater_play.tscn"
+-run/max_fps=30
+ config/features=PackedStringArray("4.8", "Forward Plus")
+-
+-[physics]
+-
+-common/physics_ticks_per_second=30
++run/max_fps=30
+ 
+ [display]
+ 
+@@ -26,11 +22,14 @@ window/size/viewport_width=1280
+ window/size/viewport_height=720
+ window/stretch/mode="canvas_items"
+ 
++[physics]
++
++common/physics_ticks_per_second=30
++
+ [rendering]
+ 
+-renderer/rendering_method="forward_plus"
+ renderer/rendering_method.mobile="forward_plus"
+-anti_aliasing/quality/msaa_3d=1
++textures/vram_compression/import_etc2_astc=true
+ lights_and_shadows/directional_shadow/size=1024
+ lights_and_shadows/directional_shadow/soft_shadow_filter_quality=0
+-textures/vram_compression/import_etc2_astc=true
++anti_aliasing/quality/msaa_3d=1

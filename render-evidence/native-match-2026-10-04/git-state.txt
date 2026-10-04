@@ -1,0 +1,10 @@
+HEAD: 8f61d6d5c55d56b9717bcef170c41681b7a7045d
+
+ M docs/GAMEPLAY.md
+ M project.godot
+ M src/ui/tidewater_tactics.gd
+ M tests/godot/check_tidewater_turf_points.gd
+ M tools/README.md
+?? render-evidence/native-match-2026-10-04/
+?? tools/measure/measure_native_match.gd
+?? tools/measure/measure_native_match.gd.uid

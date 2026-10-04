@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "frame_quantiles_recalculated": true,
+  "eleven_confirmed_respawns": true,
+  "team_and_personal_area_recalculated": true,
+  "png_sizes_checked": true,
+  "production_sources_match_capture": true,
+  "pre_existing_project_diff_preserved": true,
+  "captured_driver_snapshot": "captured-driver.gd.txt",
+  "capture_driver_changed_after_match": "Only final-result tooltip event global_position/relative and window focus were added after measurement; separately verified in tooltip-visible.png. Match/physics/frame sampling unchanged.",
+  "current_driver_sha256": "06ebe6d047f6cc7bae3b54f3f345d47fd09301752dad6d56fb8c0d2d9a35f078"
+}

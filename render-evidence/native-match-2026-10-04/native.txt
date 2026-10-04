@@ -1,0 +1,22 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-10-04 22:38:42.792 Godot[18058:10507951] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+AUDIT: phase home
+AUDIT: phase setup
+AUDIT: phase intro
+AUDIT: phase playing
+AUDIT: game=0 wall=0 deaths=0
+AUDIT: game=20 wall=20 deaths=0
+AUDIT: game=40 wall=40 deaths=1
+AUDIT: game=60 wall=60 deaths=3
+AUDIT: game=80 wall=80 deaths=4
+AUDIT: game=100 wall=100 deaths=5
+AUDIT: game=120 wall=120 deaths=7
+AUDIT: game=140 wall=140 deaths=8
+AUDIT: game=160 wall=160 deaths=10
+AUDIT: game=180 wall=180 deaths=10
+AUDIT: phase finish
+AUDIT: phase results
+AUDIT: phase home
+PASS: native arm64 full 180-second 5v5; natural death, explicit respawn, results, ledger and restart; res://render-evidence/native-match-2026-10-04

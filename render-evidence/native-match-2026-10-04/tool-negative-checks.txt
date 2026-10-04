@@ -1,0 +1,4 @@
+PASS: headless rejected with exit=1
+PASS: existing-output rejected with exit=1
+PASS: outside-evidence rejected with exit=1
+PASS: historical report retained byte-for-byte; invalid output wrote no asset report

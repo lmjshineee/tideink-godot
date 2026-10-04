@@ -1,0 +1,1 @@
+The first final run was deliberately stopped before completion to enable the new summary tooltip. native-final.txt and verified/ are retained partial evidence, not acceptance.

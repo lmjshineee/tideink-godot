@@ -1,4 +1,4 @@
-# INKWAVE Godot · AI 工作入口
+# TideInk Godot · AI 工作入口
 
 ## 必须先读
 

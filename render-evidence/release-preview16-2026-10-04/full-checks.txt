@@ -1,0 +1,11 @@
+Godot: 4.8.dev6.official.8898c2b3d
+
+FAIL  check_scripts_parse (exit=0)
+      ERROR: Could not create directory: '/Users/yunni/Library/Application Support/Godot/app_userdata/TideInk'.
+      ERROR: Error attempting to create data dir: /Users/yunni/Library/Application Support/Godot/app_userdata/TideInk.
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      ERROR: Could not create directory: '/Users/yunni/Library/Application Support/Godot/app_userdata/TideInk'.
+      ERROR: Error attempting to create data dir: /Users/yunni/Library/Application Support/Godot/app_userdata/TideInk.
+
+解析预检失败，停止后续规则短测。通过 0，失败 1
+日志保留在 /Users/yunni/Joy/inkwave-game-cleaned/.godot/*.log

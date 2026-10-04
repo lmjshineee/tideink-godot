@@ -1,0 +1,5 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-10-04 23:46:47.795 Godot[24778:10583964] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+FAIL: area/points units missing from exported results

@@ -1,0 +1,23 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+AUDIT: phase home
+AUDIT: phase setup
+AUDIT: phase intro
+AUDIT: phase playing
+AUDIT: game=0 wall=0 deaths=0
+AUDIT: game=20 wall=20 deaths=1
+AUDIT: game=40 wall=40 deaths=2
+AUDIT: controlled replay resumes focus pause at 59.67
+AUDIT: game=60 wall=60 deaths=4
+AUDIT: game=80 wall=80 deaths=5
+AUDIT: game=100 wall=100 deaths=6
+AUDIT: controlled replay resumes focus pause at 111.77
+AUDIT: game=120 wall=121 deaths=8
+AUDIT: game=140 wall=141 deaths=9
+AUDIT: game=160 wall=161 deaths=10
+AUDIT: game=180 wall=181 deaths=11
+AUDIT: phase finish
+AUDIT: phase results
+AUDIT: phase home
+PASS: native arm64 full 180-second 5v5; natural death, explicit respawn, results, ledger and restart; res://render-evidence/native-match-2026-10-04/verified-final

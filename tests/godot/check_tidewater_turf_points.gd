@@ -69,6 +69,7 @@ func _check() -> void:
 	# 4. a splatted player's paint still counts as area but not as points (hud.js `_live()`).
 	scene.set("player_respawn", 3.0)
 	var area_before := float((scene.get("turf_area") as Array)[0])
+	var personal_before := float(walker.get_meta("match_stats")["turf"])
 	before_total = float(scene.get("turf_total"))
 	var dead_area := _paint_at(feet.x + 2.5, feet.z, 0)
 	if absf(float((scene.get("turf_area") as Array)[0]) - area_before - dead_area) > 0.0001:
@@ -77,6 +78,10 @@ func _check() -> void:
 	if absf(float(scene.get("turf_total")) - before_total) > 0.0001:
 		_fail("a splatted player still earned points")
 		return
+	if absf(float(walker.get_meta("match_stats")["turf"]) - personal_before - dead_area) > 0.0001:
+		_fail("delayed paint lost the splatted player's personal area attribution")
+		return
+	print("AUDIT: delayed paint after death adds ",dead_area," m2 to personal/team area and zero live points")
 	scene.set("player_respawn", 0.0)
 
 	# 5. the shown value climbs toward the total (6/s or 7x the gap) and never overshoots.
@@ -117,9 +122,21 @@ func _check() -> void:
 	if not result_text.contains("12.5") or not result_text.contains("8.0"):
 		_fail("the results panel does not show the raw area per team: %s" % result_text)
 		return
+	# A real delayed hit can make personal area differ from live-only points even
+	# with a multiplier of one. The overview must identify both units and ledgers.
+	var stats: Dictionary = walker.get_meta("match_stats").duplicate()
+	stats["turf"] = 12.0
+	walker.set_meta("match_stats",stats)
+	scene.tactics._process(0.0)
+	if scene.tactics.hint.text != "你的涂地  12 m² · 积分 42 p":
+		_fail("results confuse personal area with live points: "+scene.tactics.hint.text)
+		return
+	if not scene.tactics.hint.tooltip_text.contains("阵亡后") or scene.tactics.hint.mouse_filter == Control.MOUSE_FILTER_IGNORE:
+		_fail("results do not explain delayed paint versus live-only points")
+		return
 
 	print("PASS: turf area and points ledger (scale from match.pointsPerM2), team split, "
-		+ "splatted-player guard, display chase and HUD/results text")
+		+ "splatted-player guard, delayed ownership, display chase and separate area/points results")
 	quit()
 
 

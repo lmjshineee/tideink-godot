@@ -66,7 +66,7 @@ func setup(owner_game:Node3D) -> void:
 	game=owner_game;mouse_filter=MOUSE_FILTER_IGNORE
 	home=Control.new();preparation=Control.new();home.mouse_filter=MOUSE_FILTER_IGNORE;preparation.mouse_filter=MOUSE_FILTER_IGNORE;add_child(home);add_child(preparation)
 	logo_a=load("res://assets/ui/logo-a.svg");logo_b=load("res://assets/ui/logo-b.svg")
-	heading=_label(self,"INKWAVE",66,true);heading.rotation=-0.045
+	heading=_label(self,String(ProjectSettings.get_setting("application/config/name")).to_upper(),66,true);heading.rotation=-0.045
 	heading.add_theme_constant_override("outline_size",8);heading.add_theme_color_override("font_outline_color",Color("15121c"));heading.add_theme_color_override("font_shadow_color",Color.BLACK);heading.add_theme_constant_override("shadow_offset_y",4)
 	subtitle=_label(self,"TURF RIOT / 涂地争夺战",16)
 	footer=_label(self,"Enter 开战 · Esc 返回",13)

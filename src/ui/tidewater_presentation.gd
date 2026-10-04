@@ -154,7 +154,7 @@ func _draw() -> void:
 	match display_phase:
 		"setup":
 			_splat(Vector2(size.x*0.12,size.y*0.07),92,Color(team,0.7),11)
-			_text("INKWAVE",Vector2(size.x*0.14,size.y*0.075),38,Color.WHITE,true)
+			_text(String(ProjectSettings.get_setting("application/config/name")).to_upper(),Vector2(size.x*0.14,size.y*0.075),38,Color.WHITE,true)
 		"intro":
 			_backdrop(team,0.46 if phase_time < 2.9 else 0.18)
 			if phase_time < 2.9:

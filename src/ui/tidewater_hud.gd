@@ -139,7 +139,7 @@ func _build_weapon_menu(layer: Node) -> void:
 	game.menu_panel.add_theme_stylebox_override("panel", _ui_style(game.UI_PANEL, Color(1.0, 1.0, 1.0, 0.22), 3, 22))
 	layer.add_child(game.menu_panel)
 	var title := Label.new()
-	title.text = "INKWAVE"
+	title.text = String(ProjectSettings.get_setting("application/config/name")).to_upper()
 	title.position = Vector2(0.0, 17.0)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_override("font", load("res://assets/fonts/TitanOne-latin.woff2") as Font)

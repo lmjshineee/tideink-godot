@@ -2,6 +2,8 @@
 
 更新：2026-10-04。适用项目：`/Users/yunni/Joy/inkwave-game-cleaned`，Godot 4.8.dev6，Apple Silicon / arm64。入口在根目录 `project.godot`。
 
+游戏现名 TideInk（潮墨），原 INKWAVE 来源与历史记录保留。
+
 本项目已经独立维护。当前工作树不包含 Web 页面、服务器、浏览器测试、JavaScript 转换器、Three.js 模块、Node 包或网页构建配置。Godot 源码、资源、检查与导出均不读取旧项目。Git 早期提交与部分历史文档／资源清单仍记录移植来源；这些记录不作为当前可执行流程。
 
 ## 1. 差异对照与边界
@@ -22,7 +24,7 @@
 | UI | Web DOM / CSS 菜单与 HUD | 原生 Control / CanvasLayer，同页配装、3D 地图／人物预览、响应式 HUD 与 Tab 战术图 |
 | 墨迹和战绩 | Web 的墨面／计分实现 | CPU 墨格是覆盖率和累计涂地的权威；墨迹材质、小地图、HUD 只读这些状态 |
 | 资源检查 | JS 转换器对照 Web 源码与输出哈希 | 本地 `assets/integrity.json` 检查内容、体积与完整清单；规则／场景检查验证语义 |
-| 构建 | 网页构建与服务器发布 | Godot arm64 `.app`；当前工程拆分没有重新导出或公开发布新包 |
+| 构建 | 网页构建与服务器发布 | Godot arm64 `.app`；实际新包证据见本次发布验收 |
 
 以上伤害／时间是本次基线举例，后续平衡以实际 Godot 代码、数据、测试和玩法文档为准。禁止为追求“忠实移植”直接恢复 Web 数值。已退出选择池的 heavy、rapid、旧恢复／护盾道具和部分旧天赋数据是兼容记录，不表示它们仍可选。
 
@@ -92,11 +94,14 @@
 ## 7. 导出、提交与交付
 
 - 仅 Apple Silicon / arm64。不得添加 x86_64、Universal 或 Rosetta 构建／导出／测试。
-- `./export_macos.sh` 输出 `build/INKWAVE Demo.app`，模板缓存只在 `.godot/`；`tools/release/package_macos.py` 使用项目自身 Git HEAD。
+- `./export_macos.sh` 输出 `build/TideInk.app`，模板缓存只在 `.godot/`。导出前生产输入须已提交；`build/export-receipt.json` 记录当时的提交、输入与应用文件哈希。
+- `tools/release/package_macos.py` 核对该收据；源码、版本或应用字节改变均拒绝打包。`--source-commit` 只用于断言真实导出提交，不能覆盖它；文档／证据后续提交不会改变构建来源。
 - 导出后才检查架构、签名、包内容／完整性、启动和日志，再记录包哈希及源码提交。当前源码测试通过不等于旧 `.app` 包含最新修改。
 - Git 提交围绕一个经过验证的工作目标；写明具体行为、验证和未完成项。提交／推送／发布遵循用户授权，不自动公开发布。
 - 当前工程位于新文件夹；不得覆盖 `/Users/yunni/Joy/inkwave-game` 的原始源码。根目录 README、当前工作状态和本文件应随入口、权威或玩法变化更新。
 
 ## 8. 已知后续工作
+
+2026-10-04 已完成潮水码头 180 秒 5v5 的受控原生基线与结算面积／积分展示修正，证据见 [本轮验收](../render-evidence/native-match-2026-10-04/summary.md)；该基线不等于真人、长期性能／温度或全地图验收。
 
 优先验证完整实机对局、配装平衡、帧时间与长期温度，并定位未知位置桥梁漏染。机器人普通移动／跳跃已有实现；自动队友／信标跳跃仍待做。坡面脚部 IK、音乐分层／过渡、原生资源生成工具可分别推进。联网与任意运行时地图组合需要独立设计，不把 Web 协议直接当成现成 Godot 功能。
