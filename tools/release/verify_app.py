@@ -13,7 +13,9 @@ from build_metadata import identity, inventory, production_files, sha, validate_
 CA_NOISE = 'ERROR: Condition "ret != noErr" is true. Returning: ""'
 CASES = ('check_tidewater_turf_points', 'check_gameplay_deployment', 'check_expanded_loadouts',
          'check_bow_precision', 'check_canopy_push', 'check_creative_wings',
-         'check_vertical_combat', 'check_actor_turf_credit')
+         'check_vertical_combat', 'check_actor_turf_credit',
+         'check_bot_high_ground', 'check_experience_balance',
+         'check_weapon_specials', 'check_combat_readability')
 
 
 def main():
@@ -51,7 +53,8 @@ def main():
         shutil.copy2(project / 'tools/capture/verify_release_ui.gd', native)
         run(common + ['--rendering-driver', 'metal', '--script', str(native),
                       '--log-file', str(output / 'native.engine.txt'), '--',
-                      '--require-pack', '--output=' + str(output / 'native')], fixture, output / 'native.txt')
+                      '--require-pack', '--expected-version=' + receipt['identity']['version'],
+                      '--output=' + str(output / 'native')], fixture, output / 'native.txt')
         report['native'] = {'status': 'passed', 'fixture_sha256': sha(native)}
         smoke = output / 'app-startup.txt'
         with smoke.open('w') as log:
@@ -62,7 +65,7 @@ def main():
             raise RuntimeError('actual app startup failed; see ' + str(smoke))
         report['app_startup'] = {'exit': result.returncode, 'path_overrides': False, 'script_overrides': False}
     (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
-    print('PASS: eight exported PCK rules, native PCK UI and actual app startup')
+    print('PASS: twelve exported PCK rules, native PCK UI and actual app startup')
 
 
 def run(command, cwd, output):

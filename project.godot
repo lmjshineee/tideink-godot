@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="TideInk"
-config/version="0.3.0-preview.16"
+config/version="0.3.0-preview.17"
 run/main_scene="res://scenes/match/tidewater_play.tscn"
 config/features=PackedStringArray("4.8", "Forward Plus")
 run/max_fps=30
@@ -31,5 +31,4 @@ common/physics_ticks_per_second=30
 renderer/rendering_method.mobile="forward_plus"
 textures/vram_compression/import_etc2_astc=true
 lights_and_shadows/directional_shadow/size=2048
-lights_and_shadows/directional_shadow/soft_shadow_filter_quality=2
 anti_aliasing/quality/msaa_3d=2

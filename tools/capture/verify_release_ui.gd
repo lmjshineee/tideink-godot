@@ -4,6 +4,7 @@ extends SceneTree
 # this is not a full match or a performance/human-play acceptance test.
 var output := ""
 var require_pack := false
+var expected_version := ""
 var game: Node3D
 var report := {"method":"Controlled native home/setup/input/results/restart; short timer, not a natural full match.","status":"running"}
 
@@ -14,11 +15,12 @@ func _run() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--output="): output = arg.trim_prefix("--output=")
 		if arg == "--require-pack": require_pack = true
+		if arg.begins_with("--expected-version="):expected_version=arg.trim_prefix("--expected-version=")
 	if not output.is_absolute_path() or FileAccess.file_exists(output.path_join("native-ui.json")):
 		_fail("use a new absolute output directory");return
 	if DisplayServer.get_name() == "headless" or not OS.has_feature("arm64"):
 		_fail("native arm64 display required");return
-	if ProjectSettings.get_setting("application/config/name") != "TideInk" or ProjectSettings.get_setting("application/config/version") != "0.3.0-preview.16":
+	if ProjectSettings.get_setting("application/config/name") != "TideInk" or expected_version.is_empty() or ProjectSettings.get_setting("application/config/version") != expected_version:
 		_fail("unexpected exported project identity");return
 	if require_pack and (FileAccess.file_exists("res://tools/run_checks.sh") or DirAccess.dir_exists_absolute("res://tests") or DirAccess.dir_exists_absolute("res://experiments")):
 		_fail("pack includes excluded maintenance/experimental files");return
@@ -39,7 +41,7 @@ func _run() -> void:
 	report["name"] = ProjectSettings.get_setting("application/config/name")
 	report["version"] = ProjectSettings.get_setting("application/config/version")
 	report["catalog"] = [game.weapon_order.size(),game.items.KINDS.size(),game.perks.ORDER.size()]
-	if report.catalog != [8,9,8]: _fail("incorrect active catalog");return
+	if report.catalog != [8,10,8]: _fail("incorrect active catalog");return
 	await _snapshot("home")
 	_tap(KEY_ENTER);await _frames(8)
 	if game.phase != "setup": _fail("Enter failed to open setup");return
@@ -80,7 +82,7 @@ func _run() -> void:
 	if game.phase != "home": _fail("results Enter failed to return home");return
 	report["status"] = "passed"
 	_write()
-	print("PASS: TideInk native identity, 8/9/8, two sizes, real input, controlled results and restart")
+	print("PASS: TideInk native identity, 8/10/8, two sizes, real input, controlled results and restart")
 	quit()
 
 func _key(code: Key, pressed: bool) -> void:
