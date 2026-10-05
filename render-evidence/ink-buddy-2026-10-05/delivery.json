@@ -1,0 +1,17 @@
+{
+  "source_head": "a06d17c67b06f5fd5e491f33da0c19d75944e23d",
+  "version": "0.3.0-preview.20",
+  "architecture": "arm64",
+  "app_startup_metal": {
+    "exit": 0,
+    "cwd": "/private/tmp",
+    "path_override": false,
+    "script_override": false,
+    "frames": 45
+  },
+  "template_cache_sha256": "daf43479c6c792c06d47e22e59bdbac39170d27b6bc5e739871d17601ba2fce7",
+  "pck_sha256": "b8cd750d9dd90caf46a277249941a833106d3f859661e4ebd98d90061bf7b0d5",
+  "app_bytes": 319632485,
+  "rules": 103,
+  "exported_rules": 22
+}

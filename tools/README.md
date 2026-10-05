@@ -89,6 +89,6 @@ python3 tools/release/package_macos.py --version v0.3.0-preview.16 \
 
 打包工具会核对生产输入及所有应用文件与收据一致；拒绝任意改变的源码、PCK、版本或伪造的 `--source-commit`。随包 `BUILD.json` 记录引擎、源码提交、输入／应用／证据文件哈希，ZIP 附 SHA256SUMS。原生画面与解压后的实际启动另行验证；临时签名不表示 Apple 公证。
 
-`verify_app.py` 要求新的证据子目录：同版本原生编辑器从临时工作目录显式加载导出 PCK，运行指定外部规则（当前 22 项）和原生 UI 检查；再单独运行实际应用、不添加路径／脚本覆盖参数。标准发行模板禁用路径覆盖，不能把 `--main-pack` 传给发行应用。默认编辑器可用 `--godot` 指定。
+`verify_app.py` 要求新的证据子目录：同版本原生编辑器从临时工作目录显式加载导出 PCK，运行指定外部规则（当前 22 项）、原生 UI 与伙伴／投放专用实际输入检查；再单独运行实际应用、不添加路径／脚本覆盖参数。标准发行模板禁用路径覆盖，不能把 `--main-pack` 传给发行应用。默认编辑器可用 `--godot` 指定。
 
 用户要求只导出 `.app`、不创建压缩包时，使用 `build_metadata.py prepare` → Godot `--export-release macOS <新临时目录>/TideInk.app` → 保留旧应用并替换 `build/TideInk.app` → `build_metadata.py finish` → `verify_app.py`。复用已验证的 arm64 模板缓存，不能运行会生成 ZIP 的 `export_macos.sh` 或 `package_macos.py`；生产输入提交和收据验证要求保持不变。
