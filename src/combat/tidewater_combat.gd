@@ -287,7 +287,7 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 	var item_state: Dictionary = game.get("items").call("state",walker)
 	if squid:
 		aiming_sub = false
-	elif item_state["kind"]=="bomb":
+	elif item_state["kind"] in ["bomb","ink_buddy"]:
 		if sub:
 			aiming_sub = true
 		elif sub_released and aiming_sub:
@@ -843,20 +843,8 @@ func throw_actor_bomb(actor: Node3D, override:Dictionary={}) -> void:
 	var team: int = game.call("actor_team",actor)
 	_sound("bomb_throw",actor.global_position)
 	actor.get_node("Body").call("set_action","throw")
-	var at := actor.global_position+Vector3.UP*1.35
-	var direction := Vector3.FORWARD
-	if actor==walker:
-		direction = _aim_direction(at,18.0)
-	else:
-		var closest := INF
-		for enemy in game.call("enemies",team):
-			var d := at.distance_squared_to(enemy.global_position+Vector3.UP*0.5)
-			if d<closest:
-				closest = d
-				direction = (enemy.global_position+Vector3.UP*0.5-at).normalized()
-	var velocity := (direction+Vector3.UP*0.28).normalized()*float(config["throwSpeed"])+Vector3.UP*1.5
-	if actor==walker:
-		velocity += walker.velocity*0.4
+	var shot:=bomb_launch(actor,config)
+	var at:Vector3=shot.position;var velocity:Vector3=shot.velocity
 	var visual := MeshInstance3D.new()
 	var mesh := SphereMesh.new()
 	mesh.radius = 0.2
@@ -871,22 +859,44 @@ func throw_actor_bomb(actor: Node3D, override:Dictionary={}) -> void:
 	bombs.append({"visual":visual,"position":at,"velocity":velocity,"fuse":-1.0,"age":0.0,"team":team,"source_actor":actor,"config":config.duplicate(),"source_weapon":String(config.get("id","bomb"))})
 
 
+func bomb_launch(actor:Node3D, config:Dictionary) -> Dictionary:
+	var team:int=game.actor_team(actor)
+	var at := actor.global_position+Vector3.UP*1.35
+	var direction := Vector3.FORWARD
+	if actor==walker:
+		direction = _aim_direction(at,18.0)
+	else:
+		var closest := INF
+		for enemy in game.call("enemies",team):
+			var d := at.distance_squared_to(enemy.global_position+Vector3.UP*0.5)
+			if d<closest:
+				closest = d
+				direction = (enemy.global_position+Vector3.UP*0.5-at).normalized()
+	var velocity := (direction+Vector3.UP*0.28).normalized()*float(config["throwSpeed"])+Vector3.UP*1.5
+	if actor==walker:
+		velocity += walker.velocity*0.4
+	return {"position":at,"velocity":velocity}
+
+
+func bomb_step(position:Vector3, velocity:Vector3, delta:float, fuse:float, config:Dictionary) -> Dictionary:
+	velocity.y-=24.0*delta
+	var next:=position+velocity*delta
+	var hit:=get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(position,next,1))
+	if not hit.is_empty():
+		next=hit.position+hit.normal*.21
+		velocity=(velocity-hit.normal*velocity.dot(hit.normal)*1.35)*(.45 if hit.normal.y>.6 else .6)
+		if hit.normal.y>.6 and fuse<0:fuse=float(config.fuse)
+	return {"position":next,"velocity":velocity,"fuse":fuse}
+
+
 func _update_bombs(delta: float) -> void:
 	for index in range(bombs.size() - 1, -1, -1):
 		var bomb: Dictionary = bombs[index]
 		var config:Dictionary=bomb.get("config",weapon_data["sub"]["bomb"])
 		var position: Vector3 = bomb["position"]
 		var velocity: Vector3 = bomb["velocity"]
-		velocity.y -= 24.0 * delta
-		var next := position + velocity * delta
-		var query := PhysicsRayQueryParameters3D.create(position, next, 1)
-		var hit := get_world_3d().direct_space_state.intersect_ray(query)
-		if not hit.is_empty():
-			next = hit["position"] + hit["normal"] * 0.21
-			var normal: Vector3 = hit["normal"]
-			velocity = (velocity - normal * velocity.dot(normal) * 1.35) * (0.45 if normal.y > 0.6 else 0.6)
-			if normal.y > 0.6 and float(bomb["fuse"]) < 0.0:
-				bomb["fuse"] = float(config["fuse"])
+		var step:=bomb_step(position,velocity,delta,float(bomb.fuse),config)
+		var next:Vector3=step.position;velocity=step.velocity;bomb.fuse=step.fuse
 		bomb["position"] = next
 		bomb["velocity"] = velocity
 		bomb["age"] = float(bomb["age"]) + delta
@@ -1336,6 +1346,7 @@ func world_mask(team: int) -> int:
 	return 1 | (16 | 64 | 256 | 1024 | 4096 | 16384 if team == 1 else 32 | 128 | 512 | 2048 | 8192 | 32768)
 
 func damage_cover_hit(hit: Dictionary, amount: float, team: int) -> void:
+	game.items.buddies.damage_hit(hit,amount,team)
 	game.items.decoys.damage_hit(hit,amount,team)
 	game.items.supply.damage_hit(hit,amount,team)
 	game.items.mines.damage_hit(hit,amount,team)
@@ -1344,6 +1355,7 @@ func damage_cover_hit(hit: Dictionary, amount: float, team: int) -> void:
 	canopy.damage_hit(hit,amount,team)
 
 func damage_cover_area(at: Vector3, radius: float, amount: float, team: int) -> void:
+	game.items.buddies.damage_area(at,radius,amount,team)
 	game.items.decoys.damage_area(at,radius,amount,team)
 	game.items.supply.damage_area(at,radius,amount,team)
 	game.items.mines.damage_area(at,radius,amount,team)

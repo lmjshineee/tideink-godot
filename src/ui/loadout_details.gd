@@ -49,9 +49,10 @@ static func weapon(game: Node3D,id: String) -> Dictionary:
 static func item(game: Node3D,id: String) -> Dictionary:
 	var text: String
 	match id:
+		"ink_buddy":text="按住右键看抛物线，松开投出；E 快投。\n消耗 45 墨水，45 HP，最多存活 12 秒，每人一只。\n落地后在 8m 内寻找可见敌人，4.2m/s 追击。\n近身提示 0.22 秒后扑击 18 伤害，后摇 0.38 秒。\n敌弹／爆破可击毁；不穿墙或楼板，无友伤。\n远处潜墨敌人隐藏，声呐和开火可暴露；无敌时跟随主人。\n主人死亡、到时或落水退场，冷却跨死亡／换装保留。"
 		"bomb":
 			var w: Dictionary=game.get_node("Combat").weapon_data["sub"]["bomb"]
-			text="按住右键瞄准，松开投掷；E 快投。\n伤害 %.0f → %.0f · 爆炸半径 %.1f m\n消耗 %.0f 墨水 · 引信 %.2f 秒\n距离与遮挡影响伤害，不造成友伤。" % [w.damageMax,w.damageMin,w.radius,w.inkCost,w.fuse]
+			text="按住右键看弹跳轨迹、预计爆点与爆炸范围，松开投掷；E 快投。\n伤害 %.0f → %.0f · 爆炸半径 %.1f m\n消耗 %.0f 墨水 · 引信 %.2f 秒\n距离与遮挡影响伤害，不造成友伤。" % [w.damageMax,w.damageMin,w.radius,w.inkCost,w.fuse]
 		"ink_wings":text="站立时展开墨翼背包，消耗 40 墨水，最多 4 秒。\nWASD 空中移动，空格上升、Shift 下降，松开垂直悬停。\n相对起点最高 4.5m，墙与屋顶实际阻挡；水平上限 7m/s。\n空中可用主武器，射击移速限制继续生效；每秒额外耗墨 6。\n墨水耗尽、到时或死亡结束，之后正常下落。\n飞行时不能潜墨、自然回墨、使用其他道具或大招。\n没有额外护甲；冷却跨死亡／换装保留。"
 		"echo_decoy":text="向准星 8m 内可见地面放置自己的回声假身。\n消耗 25 墨水，20 HP，持续 8 秒，每人最多一个。\n假身模拟射击声和动作，骗取敌方瞄准与真实弹药。\n没有伤害、涂墨或大招充能，不占队伍人数或战绩。\n己方可辨认；敌方声呐可识破，此后机器人不再被骗。\n墙、楼板和信息墨雾遮挡发现，大小地图使用相同情报。\n敌弹和爆破可拆除；部署者死亡后仍保留。"
 		"supply_box":text="脚下布置两份墨水，消耗 40 墨水，60 HP，持续 14 秒。\n人形站在 1.6m 内停留 0.6 秒，每份恢复最多 35 墨水。\n每名角色对同一盒只可领取一次；自己、队友、敌人都能拿。\n移动、潜墨、开火、受伤或跳跃打断领取，墙和楼板挡领取。\n至少缺 10 墨水才领取，领取后 0.25 秒不能攻击。\n不回血、不涂地、不充能，敌弹／爆破可以拆除。\n每人最多一盒，部署者死亡后持续；耗尽／过期后消失。"
@@ -65,6 +66,7 @@ static func item(game: Node3D,id: String) -> Dictionary:
 		"mist":text="在瞄准方向附近放置 4 m 减速墨雾。\n消耗 45 墨水，持续 6 秒，敌方移动速度 -35%。\n逐次涂墨，不直接扣血；地形隔开时不影响目标。"
 		"healing":text="脚下放置 4 m 医疗领域，持续 5 秒。\n消耗 35 墨水，同层且无遮挡队友恢复 12 HP / 秒。\n不复活、不越过生命上限；施放者死亡后领域持续。"
 		"shield":text="吸收 60 伤害，最多持续 6 秒。\n耗尽或到时消失，可阻挡武器与爆炸。\n先扣护盾，再扣生命。"
+	if id in ["mine","sonar","supply_box","beacon","echo_decoy","intel_mist"]:text+="\n人形瞄准时显示放置点；红色表示无效或暂不可用。"
 	text+="\n冷却 %.0f 秒 · 右键 / E 使用\n死亡或重新配装不会清除冷却。" % game.perks.item_cooldown(game.get_node("World/Walker"),game.items.COOLDOWNS[id])
 	return {"title":game.items.LABELS[id]+" · 道具","body":text}
 

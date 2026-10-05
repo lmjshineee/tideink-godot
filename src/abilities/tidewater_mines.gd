@@ -16,12 +16,18 @@ var explosions_total := 0
 
 func setup(owner_game: Node3D) -> void: game = owner_game
 
+func target(actor:Node3D) -> Dictionary:
+	var checked:Dictionary=game.items.ground_target(actor)
+	if checked.is_empty():return {}
+	for m in mines.values():
+		if m.owner==actor and m.point.distance_to(checked.point)<.8:return {}
+	return checked
+
 func place(actor: Node3D) -> bool:
 	var tank: Node = game.get_node("Combat") if actor == game.get_node("World/Walker") else actor
 	if float(tank.ink_amount) < COST: return false
-	var from := actor.global_position
-	var checked: Dictionary = game.deployment.landing(Vector2(from.x,from.z),false,from.y,game.actor_team(actor),actor)
-	if checked.is_empty() or absf(checked.point.y - from.y) > .25: return false
+	var checked:=target(actor)
+	if checked.is_empty():return false
 	var owned := []
 	for id in mines:
 		if mines[id].owner == actor:

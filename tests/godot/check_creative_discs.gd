@@ -4,7 +4,7 @@ func _initialize() -> void: call_deferred("_run")
 func _run() -> void:
 	await prepare()
 	expect(game.weapon_order == ["shooter", "roller", "charger", "blaster", "dualie", "disc", "bow", "canopy"], "active catalog retires duplicate guns")
-	expect(game.items.KINDS == ["bomb", "shield", "intel_mist", "beacon", "recall", "sonar", "mine", "echo_decoy", "supply_box", "ink_wings"] and game.perks.ORDER.size() == 8, "active item/perk pools")
+	expect(game.items.KINDS == ["bomb", "shield", "ink_buddy", "intel_mist", "beacon", "recall", "sonar", "mine", "echo_decoy", "supply_box", "ink_wings"] and game.perks.ORDER.size() == 8, "active item/perk pools")
 	for i in 30:
 		game.randomize_player_kit()
 		expect(game.weapon_order.has(combat.selected_id) and game.items.KINDS.has(game.items.state(walker).kind), "reroll only active kits")

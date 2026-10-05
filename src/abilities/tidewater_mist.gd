@@ -25,22 +25,29 @@ func use(actor: Node3D) -> bool:
 		if info.is_empty(): return false
 		# Contacts can be frozen last positions; deployment never tracks the actor.
 		desired = info.point + Vector3.UP * .85
-	desired = from + (desired-from).limit_length(RANGE)
-	var query := PhysicsRayQueryParameters3D.create(desired+Vector3.UP*.2, desired-Vector3.UP*4, 1)
-	var hit := get_world_3d().direct_space_state.intersect_ray(query)
-	if hit.is_empty() or float(hit.normal.y) < .68: return false
-	var point: Vector3 = hit.position
-	var map: Node3D = game.get_node("World/Map")
-	if not map.map_bounds.has_point(Vector2(point.x,point.z)) or from.distance_to(point+Vector3.UP*.85) > RANGE+.01: return false
-	if not combat._unblocked(from, point+Vector3.UP*.15): return false
-	var ceiling := get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(point+Vector3.UP*.12, point+Vector3.UP*HEIGHT, 1))
-	var height := HEIGHT if ceiling.is_empty() else minf(HEIGHT, float(ceiling.position.y)-point.y-.05)
-	if height < .6: return false
+	var checked:=target(from,desired)
+	if checked.is_empty():return false
+	var point:Vector3=checked.point;var height:float=checked.height
 	create_volume(actor,point,height)
 	tank.ink_amount -= COST
 	tank.last_fire_time = 0
 	casts_total += 1
 	return true
+
+func target(from:Vector3,desired:Vector3) -> Dictionary:
+	var combat:Node3D=game.get_node("Combat")
+	desired = from + (desired-from).limit_length(RANGE)
+	var query := PhysicsRayQueryParameters3D.create(desired+Vector3.UP*.2, desired-Vector3.UP*4, 1)
+	var hit := get_world_3d().direct_space_state.intersect_ray(query)
+	if hit.is_empty() or float(hit.normal.y) < .68: return {}
+	var point: Vector3 = hit.position
+	var map: Node3D = game.get_node("World/Map")
+	if not map.map_bounds.has_point(Vector2(point.x,point.z)) or from.distance_to(point+Vector3.UP*.85) > RANGE+.01: return {}
+	if not combat._unblocked(from, point+Vector3.UP*.15): return {}
+	var ceiling := get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(point+Vector3.UP*.12, point+Vector3.UP*HEIGHT, 1))
+	var height := HEIGHT if ceiling.is_empty() else minf(HEIGHT, float(ceiling.position.y)-point.y-.05)
+	if height < .6: return {}
+	return {"point":point,"height":height}
 
 func create_volume(actor: Node3D, point: Vector3, height: float = HEIGHT) -> void:
 	for i in range(volumes.size()-1,-1,-1):

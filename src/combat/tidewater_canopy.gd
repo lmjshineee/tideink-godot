@@ -262,7 +262,8 @@ func bot_input(actor: Node3D, delta: float, target: Node3D) -> void:
 	var at := actor.global_position+Vector3.UP*1.05
 	var aim := at+(s.direction as Vector3)*9
 	if target!=null:
-		aim=preload("res://src/core/bot_difficulty.gd").aim(at,target.global_position+Vector3.UP*.8,game.ai_level)
+		var height:=.35 if target.has_meta("buddy_key") else .8
+		aim=preload("res://src/core/bot_difficulty.gd").aim(at,target.global_position+Vector3.UP*height,game.ai_level)
 		# Briefly reset between volleys. Under fire, hold long enough to deploy cover.
 		var recent:float=game.bot_last_damage if actor==game.get_node("Bot") else actor.last_damage
 		fire=s.launched or holding(actor) or (recent<1.5 and s.cooldown<=0) or (s.shot_cd<=0 and not s.fire)

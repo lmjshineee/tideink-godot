@@ -13,9 +13,8 @@ func setup(owner_game: Node3D) -> void: game = owner_game
 func place(actor: Node3D) -> bool:
 	var tank: Node = game.get_node("Combat") if actor == game.get_node("World/Walker") else actor
 	if float(tank.ink_amount) < COST: return false
-	var at := actor.global_position
-	var checked: Dictionary = game.deployment.landing(Vector2(at.x, at.z), false, at.y, game.actor_team(actor), actor)
-	if checked.is_empty() or absf(float(checked.point.y) - at.y) > .25: return false
+	var checked:Dictionary=game.items.ground_target(actor)
+	if checked.is_empty():return false
 	var key := actor.get_instance_id()
 	_remove(key)
 	var team: int = game.actor_team(actor)

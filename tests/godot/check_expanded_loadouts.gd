@@ -11,7 +11,7 @@ func _run() -> void:
 	var walker:CharacterBody3D=game.get_node("World/Walker");walker.set_physics_process(false)
 	var combat:Node3D=game.get_node("Combat");var bot:Node3D=game.get_node("Bot")
 	for actor in game.all_actors():game.perks.choices[actor.get_instance_id()]="balanced"
-	expect(game.weapon_order.size()==8 and game.items.KINDS.size()==10 and game.perks.ORDER.size()==8,"expanded catalogs reach actual match rules")
+	expect(game.weapon_order.size()==8 and game.items.KINDS.size()==11 and game.perks.ORDER.size()==8,"expanded catalogs reach actual match rules")
 	for id in game.weapon_order:
 		game.weapon_buttons[id].pressed.emit();var body:Node3D=walker.get_node("Body")
 		body._physics_process(.1)

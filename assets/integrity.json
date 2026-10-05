@@ -947,6 +947,10 @@
       "sha256": "2a3d24064760708604094ae0cf20d25f6d00163acb1b87d5acdee673e942b450",
       "bytes": 386
     },
+    "assets/ui/item-ink_buddy.svg": {
+      "sha256": "2bb500f0eaa0bb7fb905b620676919354d8f45c2447cb905a7ce567bbf409c03",
+      "bytes": 466
+    },
     "assets/ui/item-ink_wings.svg": {
       "sha256": "8f7692880adc80b4e6e669b9d1c2c117ff965862ea73e52ddd0c545f3532f380",
       "bytes": 341

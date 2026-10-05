@@ -488,6 +488,8 @@ func _finish_round() -> void:
 	$Combat.rain_arrows.clear_all()
 	items.mines.clear_all()
 	items.decoys.clear_all()
+	items.buddies.clear_all()
+	items.placement_preview.visible=false
 	items.supply.clear_all()
 	wings.clear_all()
 	perks.clear_bursts()
@@ -981,7 +983,7 @@ func _attacker_description(actor: Node3D, weapon_id: String = "") -> String:
 		return "未知来源"
 	if weapon_id.is_empty():
 		weapon_id = selected_weapon if actor == $World/Walker else String(actor.get("weapon_id"))
-	var names := {"last_ink":"残墨引爆", "mine":"感应墨雷", "rain_arrows":"雨箭齐射", "absorb_counter":"吸墨反击", "bomb":"炸弹","slam":"砸地","storm":"远程墨雨", "overdrive":"潮流速射", "ink_vortex":"回旋墨环", "siege_shell":"压力连炮","twin_discs":"双镖突进"}
+	var names := {"ink_buddy":"墨仔伙伴", "last_ink":"残墨引爆", "mine":"感应墨雷", "rain_arrows":"雨箭齐射", "absorb_counter":"吸墨反击", "bomb":"炸弹","slam":"砸地","storm":"远程墨雨", "overdrive":"潮流速射", "ink_vortex":"回旋墨环", "siege_shell":"压力连炮","twin_discs":"双镖突进"}
 	var weapon := String(names.get(weapon_id,_weapon_text(weapon_id)))
 	return "%s · %s" % [_actor_name(actor),weapon]
 

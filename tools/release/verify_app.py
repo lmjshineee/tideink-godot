@@ -18,7 +18,7 @@ CASES = ('check_tidewater_turf_points', 'check_gameplay_deployment', 'check_expa
          'check_weapon_specials', 'check_combat_readability', 'check_ink_hazard_feedback',
          'check_bot_patrol_commitment', 'check_bot_route_clearance',
          'check_bot_map_platforms', 'check_team_navigation_motion', 'check_map_routes26',
-         'check_bot_beacon_placement')
+         'check_bot_beacon_placement', 'check_ink_buddy_combat', 'check_ink_buddy_lifecycle', 'check_item_previews')
 
 
 def main():
@@ -59,6 +59,23 @@ def main():
                       '--require-pack', '--expected-version=' + receipt['identity']['version'],
                       '--output=' + str(output / 'native')], fixture, output / 'native.txt')
         report['native'] = {'status': 'passed', 'fixture_sha256': sha(native)}
+        buddy_source = project / 'tools/capture/verify_ink_buddy.gd'
+        buddy = fixture / 'buddy_native.gd'
+        # Tools are excluded from production PCKs. The enclosing receipt supplies
+        # the pack identity; remove only the source-only inventory dependency.
+        original = buddy_source.read_text()
+        external = original.replace('res://tests/godot/helpers/creative_fixture.gd',
+                                    str(fixture / 'creative_fixture.gd'))
+        external = external.replace('const Inventory:=preload("res://tools/lib/source_inventory.gd")\n', '')
+        begin = external.index('\treport.source_sha256={}\n')
+        end = external.index('\tfor actor in game.all_actors():', begin)
+        external = external[:begin] + '\treport.verification="explicit exported PCK; receipt supplies pack identity"\n' + external[end:]
+        buddy.write_text(external)
+        run(common + ['--rendering-driver', 'metal', '--script', str(buddy),
+                      '--log-file', str(output / 'buddy-native.engine.txt'), '--',
+                      '--output=' + str(output / 'buddy-native')], fixture, output / 'buddy-native.txt')
+        report['buddy_native'] = {'status': 'passed', 'source_sha256': sha(buddy_source),
+                                  'external_sha256': sha(buddy), 'pck_sha256': receipt['pck_sha256']}
         smoke = output / 'app-startup.txt'
         with smoke.open('w') as log:
             result = subprocess.run([str(app / receipt['executable']), '--headless', '--quit-after', '4',
@@ -68,7 +85,7 @@ def main():
             raise RuntimeError('actual app startup failed; see ' + str(smoke))
         report['app_startup'] = {'exit': result.returncode, 'path_overrides': False, 'script_overrides': False}
     (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
-    print(f'PASS: {len(CASES)} exported PCK rules, native PCK UI and actual app startup')
+    print(f'PASS: {len(CASES)} exported PCK rules, native PCK UI/creature/throw previews and actual app startup')
 
 
 def run(command, cwd, output):

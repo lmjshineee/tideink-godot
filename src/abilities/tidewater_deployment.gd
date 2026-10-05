@@ -203,10 +203,15 @@ func selected_label() -> String:
 		if choice.key==selected_key:return choice.label
 	return "基地"
 
-func place_beacon(actor:Node3D) -> bool:
+func beacon_target(actor:Node3D) -> Dictionary:
 	var team:int=game.actor_team(actor);var at:Vector3=actor.global_position
 	var checked:=landing(Vector2(at.x+1.3,at.z),true,at.y,team)
 	if checked.is_empty():checked=landing(Vector2(at.x-1.3,at.z),true,at.y,team)
+	return checked
+
+func place_beacon(actor:Node3D) -> bool:
+	var team:int=game.actor_team(actor);var at:Vector3=actor.global_position
+	var checked:=beacon_target(actor)
 	if checked.is_empty():return false
 	for i in range(beacons.size()-1,-1,-1):
 		if beacons[i].owner==actor:beacons[i].visual.queue_free();beacons.remove_at(i)

@@ -41,7 +41,7 @@ func _run() -> void:
 	report["name"] = ProjectSettings.get_setting("application/config/name")
 	report["version"] = ProjectSettings.get_setting("application/config/version")
 	report["catalog"] = [game.weapon_order.size(),game.items.KINDS.size(),game.perks.ORDER.size()]
-	if report.catalog != [8,10,8]: _fail("incorrect active catalog");return
+	if report.catalog != [8,11,8]: _fail("incorrect active catalog");return
 	await _snapshot("home")
 	_tap(KEY_ENTER);await _frames(8)
 	if game.phase != "setup": _fail("Enter failed to open setup");return
@@ -82,7 +82,7 @@ func _run() -> void:
 	if game.phase != "home": _fail("results Enter failed to return home");return
 	report["status"] = "passed"
 	_write()
-	print("PASS: TideInk native identity, 8/10/8, two sizes, real input, controlled results and restart")
+	print("PASS: TideInk native identity, 8/11/8, two sizes, real input, controlled results and restart")
 	quit()
 
 func _key(code: Key, pressed: bool) -> void:

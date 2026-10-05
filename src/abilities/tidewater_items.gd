@@ -1,10 +1,10 @@
 extends Node3D
 
 const Palette := preload("res://src/core/team_palette.gd")
-const KINDS := ["bomb","shield","intel_mist","beacon","recall","sonar","mine","echo_decoy","supply_box","ink_wings"]
-const COOLDOWNS := {"ink_wings":18.0,"echo_decoy":12.0,"supply_box":20.0,"mine":10.0,"intel_mist":15.0,"sonar":18.0,"recall":14.0,"bomb":6.0,"refill":12.0,"shield":16.0,"beacon":18.0,"cluster":10.0,"mist":15.0,"healing":18.0}
-const LABELS := {"ink_wings":"墨翼背包","echo_decoy":"回声诱饵","supply_box":"接力补给盒","mine":"感应墨雷","intel_mist":"信息墨雾","sonar":"脉冲声呐","recall":"回溯锚","bomb":"墨水手雷","refill":"补充剂","shield":"护盾","beacon":"跳跃信标","cluster":"爆墨瓶","mist":"减速墨雾","healing":"医疗领域"}
-const BLURBS:={"ink_wings":"升降悬停 / 空中主射","echo_decoy":"假身诱敌 / 声呐识破","supply_box":"停留领取 / 敌方可抢","mine":"埋伏 / 可拆 / 位置标记","intel_mist":"遮断视野 / 声呐反制","sonar":"扩散探测 / 队伍标记","recall":"标记 / 瞬间返回","bomb":"范围伤害","refill":"回血 / 回墨","shield":"60 点护盾","beacon":"队伍跳跃点","cluster":"短引信爆破","mist":"区域减速","healing":"队伍恢复"}
+const KINDS := ["bomb","shield","ink_buddy","intel_mist","beacon","recall","sonar","mine","echo_decoy","supply_box","ink_wings"]
+const COOLDOWNS := {"ink_buddy":18.0,"ink_wings":18.0,"echo_decoy":12.0,"supply_box":20.0,"mine":10.0,"intel_mist":15.0,"sonar":18.0,"recall":14.0,"bomb":6.0,"refill":12.0,"shield":16.0,"beacon":18.0,"cluster":10.0,"mist":15.0,"healing":18.0}
+const LABELS := {"ink_buddy":"墨仔伙伴","ink_wings":"墨翼背包","echo_decoy":"回声诱饵","supply_box":"接力补给盒","mine":"感应墨雷","intel_mist":"信息墨雾","sonar":"脉冲声呐","recall":"回溯锚","bomb":"墨水手雷","refill":"补充剂","shield":"护盾","beacon":"跳跃信标","cluster":"爆墨瓶","mist":"减速墨雾","healing":"医疗领域"}
+const BLURBS:={"ink_buddy":"投掷召唤 / 追敌扑击","ink_wings":"升降悬停 / 空中主射","echo_decoy":"假身诱敌 / 声呐识破","supply_box":"停留领取 / 敌方可抢","mine":"埋伏 / 可拆 / 位置标记","intel_mist":"遮断视野 / 声呐反制","sonar":"扩散探测 / 队伍标记","recall":"标记 / 瞬间返回","bomb":"范围伤害","refill":"回血 / 回墨","shield":"60 点护盾","beacon":"队伍跳跃点","cluster":"短引信爆破","mist":"区域减速","healing":"队伍恢复"}
 var fields:Array[Dictionary]=[]
 var field_step:=0.0
 var recall: Node3D
@@ -13,6 +13,8 @@ var sonar: Node3D
 var mines: Node3D
 var decoys: Node3D
 var supply: Node3D
+var placement_preview: Node3D
+var buddies: Node3D
 var game: Node3D
 var states: Dictionary = {}
 
@@ -32,6 +34,8 @@ func setup(owner_game: Node3D) -> void:
 	mines.setup(game)
 	decoys = preload("res://src/abilities/tidewater_decoys.gd").new(); add_child(decoys); decoys.setup(game)
 	supply = preload("res://src/abilities/tidewater_supply.gd").new(); add_child(supply); supply.setup(game)
+	placement_preview=preload("res://src/presentation/tidewater_item_preview.gd").new();add_child(placement_preview);placement_preview.setup(game)
+	buddies = preload("res://src/abilities/tidewater_buddies.gd").new(); add_child(buddies); buddies.setup(game)
 	if not KINDS.has(preload("res://src/core/match_setup.gd").selected_item): preload("res://src/core/match_setup.gd").selected_item = "bomb"
 	for actor in game.call("all_actors"):
 		var cooldowns:={};for id in COOLDOWNS:cooldowns[id]=0.0
@@ -45,6 +49,11 @@ func equip(actor: Node3D, kind: String) -> void:
 	if COOLDOWNS.has(kind):
 		state(actor)["kind"] = kind
 	# Cooldowns are per kind and survive rerolls/respawns; reroll cannot bypass CD.
+
+func ground_target(actor:Node3D) -> Dictionary:
+	var at:=actor.global_position
+	var checked:Dictionary=game.deployment.landing(Vector2(at.x,at.z),false,at.y,game.actor_team(actor),actor)
+	return {} if checked.is_empty() or absf(checked.point.y-at.y)>.25 else checked
 
 func use(actor: Node3D, requested: String = "") -> bool:
 	if game.get("phase")!="playing" or game.paused or not bool(game.call("actor_alive",actor)) or game.mobility.busy(actor) or game.wings.busy(actor):
@@ -60,6 +69,8 @@ func use(actor: Node3D, requested: String = "") -> bool:
 	var ink_node: Node = game.get_node("Combat") if local else actor
 	if kind == "ink_wings":
 		if not game.wings.begin(actor): return false
+	elif kind == "ink_buddy":
+		if not buddies.summon(actor): return false
 	elif kind == "echo_decoy":
 		if not decoys.place(actor): return false
 	elif kind == "supply_box":
@@ -117,7 +128,7 @@ func use(actor: Node3D, requested: String = "") -> bool:
 	if kind!="bomb":
 		game.call("play_sound","special_activate",actor.global_position)
 	if local and kind!="bomb":
-		game.get("presentation").call("notify_ability",{"ink_wings":"墨翼展开 · 4 秒 · 空格上升 / Shift 下降 · 可主射", "echo_decoy":"诱饵部署 · 8 秒 · 声呐可以识破", "supply_box":"补给部署 · 两份墨水 · 停留 0.6 秒领取 / 敌方可抢", "mine":"墨雷部署 · 0.8s 布防 / 30s · 敌弹可拆", "intel_mist":"信息墨雾 · 遮断敌方视野 6 秒 · 声呐可标记", "sonar":"声呐部署 · 12m 脉冲 / 8 秒 · 墙与楼板遮挡", "refill":"补充剂：恢复墨水与生命","shield":"护盾：吸收 60 伤害 · 6 秒","beacon":"已设置信标 · J 跳跃 · 2 次 / 45 秒","cluster":"爆墨瓶投出","mist":"减速墨雾 · 6 秒","healing":"医疗领域 · 5 秒"}[kind])
+		game.get("presentation").call("notify_ability",{"ink_buddy":"墨仔出动 · 12 秒 · 追敌扑击 / 可被击毁", "ink_wings":"墨翼展开 · 4 秒 · 空格上升 / Shift 下降 · 可主射", "echo_decoy":"诱饵部署 · 8 秒 · 声呐可以识破", "supply_box":"补给部署 · 两份墨水 · 停留 0.6 秒领取 / 敌方可抢", "mine":"墨雷部署 · 0.8s 布防 / 30s · 敌弹可拆", "intel_mist":"信息墨雾 · 遮断敌方视野 6 秒 · 声呐可标记", "sonar":"声呐部署 · 12m 脉冲 / 8 秒 · 墙与楼板遮挡", "refill":"补充剂：恢复墨水与生命","shield":"护盾：吸收 60 伤害 · 6 秒","beacon":"已设置信标 · J 跳跃 · 2 次 / 45 秒","cluster":"爆墨瓶投出","mist":"减速墨雾 · 6 秒","healing":"医疗领域 · 5 秒"}[kind])
 	return true
 
 func absorb(actor: Node3D, amount: float) -> float:
@@ -130,6 +141,7 @@ func absorb(actor: Node3D, amount: float) -> float:
 
 func on_death(actor: Node3D) -> void:
 	game.intel.forget(actor)
+	buddies.cancel(actor)
 	supply.cancel(actor)
 	game.wings.cancel(actor)
 	game.perks.on_death(actor)
@@ -156,6 +168,8 @@ func tick(delta: float) -> void:
 	mines.tick(delta)
 	decoys.tick(delta)
 	supply.tick(delta)
+	buddies.tick(delta)
+	placement_preview.tick(delta)
 	game.deployment.advance_beacons(delta)
 	_advance_fields(delta)
 	for actor in game.call("all_actors"):
@@ -185,6 +199,9 @@ func tick(delta: float) -> void:
 		elif kind == "echo_decoy":
 			var info: Dictionary = game.intel.nearest_contact(actor)
 			if not info.is_empty() and actor.global_position.distance_to(info.point) <= 10 and game.actor_health(actor) <= 100: use(actor)
+		elif kind == "ink_buddy":
+			var info:Dictionary=game.intel.nearest_contact(actor)
+			if not info.is_empty() and info.status!="last" and actor.global_position.distance_to(info.point)<=12:use(actor)
 		elif kind == "supply_box":
 			if actor.ink_amount >= 40 and actor.ink_amount <= 65 and actor.target_actor == null: use(actor)
 		elif kind == "mine":
@@ -232,6 +249,7 @@ func _bot_beacon_useful(actor: Node3D) -> bool:
 	return true
 
 func hud_text() -> String:
+	var walker:Node3D=game.get_node("World/Walker")
 	var s := state(game.get_node("World/Walker"))
 	var kind: String = s["kind"]
 	var cd := float(s["cooldowns"][kind])
@@ -243,6 +261,9 @@ func hud_text() -> String:
 	if kind == "echo_decoy":
 		for d in decoys.decoys.values():
 			if d.owner.get_instance_id() == key: return game.perks.hud_text()+"  |  诱饵 %.1fs · %.0f HP · CD %.1fs" % [d.time,d.health,cd]
+	if kind=="ink_buddy" and buddies.owned(walker)>0:
+		var b:Dictionary=buddies.buddies[buddies.owned(walker)]
+		return game.perks.hud_text()+"  |  墨仔 %.1fs · %.0f HP · %s · CD %.1fs" % [b.time,b.health,{"flying":"投掷","chase":"追敌","windup":"扑击蓄势","search":"搜寻","follow":"跟随"}.get(b.mode,"搜寻"),cd]
 	if kind == "supply_box":
 		for b in supply.boxes.values():
 			if b.owner.get_instance_id() == key: return game.perks.hud_text()+"  |  补给 %d / 2 · %.1fs · %.0f HP · CD %.1fs" % [b.stock,b.time,b.health,cd]
@@ -286,12 +307,12 @@ func hud_status() -> Dictionary:
 		var channel: String = supply.channel_text(walker)
 		if not channel.is_empty():
 			status.detail = channel; status.state = "active"
-		elif kind in ["echo_decoy","supply_box","mine","intel_mist","sonar"]:
+		elif kind in ["ink_buddy","echo_decoy","supply_box","mine","intel_mist","sonar"]:
 			var raw := hud_text().get_slice("  |  ",1)
 			if not raw.begins_with("右键"):
 				status.detail = raw; status.state = "active"
 	if status.state == "ready":
-		var costs := {"bomb":float(combat.weapon_data.sub.bomb.inkCost),"beacon":35.0,"recall":preload("res://src/abilities/tidewater_recall.gd").COST,"intel_mist":preload("res://src/abilities/tidewater_mist.gd").COST,"sonar":preload("res://src/abilities/tidewater_sonar.gd").COST,"mine":preload("res://src/abilities/tidewater_mines.gd").COST,"echo_decoy":preload("res://src/abilities/tidewater_decoys.gd").COST,"supply_box":preload("res://src/abilities/tidewater_supply.gd").COST,"ink_wings":preload("res://src/abilities/tidewater_wings.gd").COST}
+		var costs := {"ink_buddy":buddies.COST,"bomb":float(combat.weapon_data.sub.bomb.inkCost),"beacon":35.0,"recall":preload("res://src/abilities/tidewater_recall.gd").COST,"intel_mist":preload("res://src/abilities/tidewater_mist.gd").COST,"sonar":preload("res://src/abilities/tidewater_sonar.gd").COST,"mine":preload("res://src/abilities/tidewater_mines.gd").COST,"echo_decoy":preload("res://src/abilities/tidewater_decoys.gd").COST,"supply_box":preload("res://src/abilities/tidewater_supply.gd").COST,"ink_wings":preload("res://src/abilities/tidewater_wings.gd").COST}
 		if combat.ink_amount < float(costs.get(kind,0)):
 			status.state = "blocked"; status.detail = "墨水不足 · 需要 %.0f" % costs[kind]
 		elif game.deployment.active or combat.special_active!="" or combat.action_lock>0 or game.mobility.busy(walker):

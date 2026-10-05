@@ -498,6 +498,10 @@ func _tick_team(delta: float) -> void:
 		target_actor = null; best = global_position.distance_to(lure.point)
 		if int(get_meta("decoy_target",0)) != int(lure.id): game.items.decoys.fooled_total += 1
 	set_meta("decoy_target",int(lure.id) if not lure.is_empty() else 0)
+	var threat:Dictionary=game.items.buddies.threat_for(self,best)
+	if not threat.is_empty():
+		target_actor=null;lure=threat;best=global_position.distance_to(threat.point);set_meta("decoy_target",0)
+	set_meta("buddy_target",int(threat.get("id",0)))
 	var fighting := target_actor != null or not lure.is_empty()
 	var resupply: Dictionary = game.items.supply.destination(self) if not fighting and ink_amount <= 45 else {}
 	chasing = fighting
@@ -511,7 +515,7 @@ func _tick_team(delta: float) -> void:
 	var contact: Dictionary = game.intel.nearest_contact(self)
 	var purpose := "patrol"
 	if escape != Vector3.ZERO: purpose = "escape"
-	elif not lure.is_empty(): purpose = "decoy:%d" % int(lure.id)
+	elif not lure.is_empty(): purpose = ("buddy:%d" if lure.get("buddy",false) else "decoy:%d") % int(lure.id)
 	elif target_actor != null: purpose = "enemy:%d" % game.actor_id(target_actor)
 	elif not resupply.is_empty(): purpose = "supply:%d" % int(resupply.id)
 	elif not contact.is_empty(): purpose = "contact"
@@ -633,7 +637,7 @@ func _tick_team(delta: float) -> void:
 		charge_time = 0.0
 		return
 	var from := global_position + Vector3.UP * 1.05
-	var target: Vector3 = (lure.point if not lure.is_empty() else target_actor.global_position)+Vector3.UP*.8
+	var target: Vector3 = (lure.point if not lure.is_empty() else target_actor.global_position)+Vector3.UP*(.35 if lure.get("buddy",false) else .8)
 	target = Difficulty.aim(from,target,game.ai_level)
 	var attack_range := _weapon_reach(weapon)
 	if from.distance_to(target) > attack_range or attack_cooldown > 0.0:
