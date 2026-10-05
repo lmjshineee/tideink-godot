@@ -206,12 +206,30 @@ func tick(delta: float) -> void:
 			s["beacon_try"]=float(s.get("beacon_try",0))-delta
 			if float(s["beacon_try"])<=0:
 				s["beacon_try"]=2.0
-				use(actor)
+				if _bot_beacon_useful(actor): use(actor)
 		elif kind in ["bomb","cluster","mist"]:
 			for enemy in game.call("enemies",int(game.call("actor_team",actor))):
 				if enemy.global_position.distance_to(actor.global_position)<12.0:
 					use(actor)
 					break
+
+func _bot_beacon_useful(actor: Node3D) -> bool:
+	var team: int = game.actor_team(actor)
+	var pads: Array = game.get_node("World/Map").spawn_pads
+	var base: Vector3 = pads[team]
+	var axis: Vector3 = pads[1-team]-base
+	axis.y = 0
+	var offset := actor.global_position-base
+	offset.y = 0
+	# A support point must save a real trip from base. Moving sideways around
+	# the spawn pad or standing on its roof is not forward progress.
+	if offset.dot(axis.normalized()) < 12: return false
+	var contact: Dictionary = game.intel.nearest_contact(actor)
+	if not contact.is_empty() and actor.global_position.distance_to(contact.point)<8: return false
+	for beacon in game.deployment.beacons:
+		if beacon.team==team and beacon.time>0 and beacon.uses>0 and beacon.available and actor.global_position.distance_to(beacon.point)<8:
+			return false
+	return true
 
 func hud_text() -> String:
 	var s := state(game.get_node("World/Walker"))

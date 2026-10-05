@@ -17,7 +17,8 @@ CASES = ('check_tidewater_turf_points', 'check_gameplay_deployment', 'check_expa
          'check_bot_high_ground', 'check_experience_balance',
          'check_weapon_specials', 'check_combat_readability', 'check_ink_hazard_feedback',
          'check_bot_patrol_commitment', 'check_bot_route_clearance',
-         'check_bot_map_platforms', 'check_team_navigation_motion', 'check_map_routes26')
+         'check_bot_map_platforms', 'check_team_navigation_motion', 'check_map_routes26',
+         'check_bot_beacon_placement')
 
 
 def main():
