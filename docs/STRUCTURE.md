@@ -37,3 +37,5 @@ inkwave-game-cleaned/
 运行 `./run.sh`，默认场景 `scenes/match/tidewater_play.tscn`；`--flat` 仅用于旧样机。测试放 `tests/godot/`，工具按职责分组。新增玩法脚本不放根目录。
 
 更改地图需同步碰撞、墨面、导航、小地图与布景；更改资产先验证实际场景和相关规则，再更新 `assets/integrity.json`。跨模块权威见 [MIGRATION.md](MIGRATION.md)，完整维护规范见 [GODOT_MAINTENANCE.md](GODOT_MAINTENANCE.md)。
+
+部署模块位于 `src/abilities/`：`tidewater_deployment.gd` 拥有玩家选择／镜头及共用落位查询、信标账本；`tidewater_bot_deployment.gd` 拥有机器人复活后的自动选择／蓄力／飞行。`match/tidewater_play.gd` 转发真实复活、死亡、暂停与终场生命周期；小地图仅显示可见落点。

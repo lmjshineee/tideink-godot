@@ -11,7 +11,7 @@ func setup(owner_game: Node3D) -> void:
 	game = owner_game
 
 func use(actor: Node3D) -> bool:
-	if (actor == game.get_node("World/Walker") and (game.deployment.live_jump or game.deployment.flying)) or game.mobility.busy(actor):
+	if (actor == game.get_node("World/Walker") and (game.deployment.live_jump or game.deployment.flying)) or game.bot_deployment.busy(actor) or game.mobility.busy(actor):
 		return false
 	var key := actor.get_instance_id()
 	if anchors.has(key):

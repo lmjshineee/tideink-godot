@@ -111,6 +111,7 @@ var sound: Node
 var _fire_pressed_pending := false
 var _sub_pressed_pending := false
 var deployment: Node3D
+var bot_deployment: Node3D
 var items: Node3D
 var intel: Node3D
 var tactics: Control
@@ -202,6 +203,9 @@ func _ready() -> void:
 	deployment = preload("res://src/abilities/tidewater_deployment.gd").new()
 	add_child(deployment)
 	deployment.call("setup",self)
+	bot_deployment = preload("res://src/abilities/tidewater_bot_deployment.gd").new()
+	add_child(bot_deployment)
+	bot_deployment.setup(self)
 	intel = preload("res://src/abilities/tidewater_intel.gd").new()
 	add_child(intel)
 	intel.setup(self)
@@ -358,6 +362,7 @@ func _begin_intro() -> void:
 
 
 func _start_round() -> void:
+	bot_deployment.clear_all()
 	perks.locked = true
 	phase = "playing"
 	comeback.reset()
@@ -429,6 +434,7 @@ func _physics_process(delta: float) -> void:
 		_update_hud()
 		return
 	deployment.tick_live(delta)
+	bot_deployment.tick(delta)
 	var inspecting_jump:bool=deployment.selector_open or deployment.live_jump
 	var firing := pointer_locked and not inspecting_jump and (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or _fire_pressed_pending)
 	var throwing := pointer_locked and not inspecting_jump and (Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) or _sub_pressed_pending)
@@ -486,6 +492,7 @@ func _finish_round() -> void:
 	for w in $Combat.discs.windups.values(): w.visual.queue_free()
 	$Combat.discs.windups.clear()
 	deployment.clear()
+	bot_deployment.clear_all()
 	phase = "finish"
 	phase_time = 0.0
 	$World/Walker.set("active", false)
@@ -558,6 +565,7 @@ func damage_bot(amount: float, source_actor: Node3D = null, source_weapon: Strin
 		_record_splat($Bot, 0,source_actor if source_actor != null else $World/Walker,source_weapon)
 		$Combat.call("_paint_player", $Bot.global_position + Vector3.UP * 0.35, 1.7, randf(),Vector3.ZERO,0.0,source_actor)
 		bot_respawn = float($Combat.get("weapon_data")["player"]["respawnTime"])
+		bot_deployment.cancel($Bot)
 		$Bot.visible = false
 		$Bot.call("clear_attack_visual")
 		items.call("on_death",$Bot)
@@ -727,8 +735,10 @@ func _update_bot(delta: float) -> void:
 			bot.call("reset")
 			if MatchSetup.reroll_bots:
 				randomize_bot_kit(bot)
+			bot_deployment.on_respawn(bot)
 		return
 	_update_bot_vitals(delta)
+	if bot_deployment.update(bot,delta): return
 	bot_painting = true
 	painting_actor = bot
 	if not bool(bot_specials.call("busy",bot)) or String(bot_specials.state(bot).get("kind","")) in ["absorb_counter","rain_arrows"]:
@@ -859,6 +869,7 @@ func damage_actor(actor: Node3D, amount: float, source_team: int, source_actor: 
 			_record_splat(actor, source_team,source_actor,source_weapon)
 			paint_at_world(actor.global_position + Vector3.UP * 0.35, source_team, 1.7, randf(),Vector3.ZERO,0.0,source_actor)
 			actor.set("respawn_time", float($Combat.get("weapon_data")["player"]["respawnTime"]))
+			bot_deployment.cancel(actor)
 			actor.visible = false
 			actor.call("clear_attack_visual")
 			items.call("on_death",actor)
@@ -889,6 +900,7 @@ func _update_team_actor(actor: Node3D, delta: float) -> void:
 			items.call("on_respawn",actor)
 			if MatchSetup.reroll_bots:
 				randomize_bot_kit(actor)
+			bot_deployment.on_respawn(actor)
 		return
 	actor.set("invuln", maxf(0.0, float(actor.get("invuln")) - delta))
 	actor.set("last_damage", float(actor.get("last_damage")) + delta)
@@ -905,6 +917,7 @@ func _update_team_actor(actor: Node3D, delta: float) -> void:
 		actor.set("ink_damage", maxf(0.0, suffered - delta * 30.0))
 	if float(actor.get("last_damage")) > perks.regen_delay(actor,float(config["regenDelay"])):
 		actor.set("health", minf(actor_max_health(actor), actor_health(actor) + perks.regen_rate(actor,float(config["regenRate"])) * delta))
+	if bot_deployment.update(actor,delta): return
 	bot_painting = true
 	painting_actor = actor
 	if not bool(bot_specials.call("busy",actor)) or String(bot_specials.state(actor).get("kind","")) in ["absorb_counter","rain_arrows"]:

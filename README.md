@@ -19,6 +19,8 @@
 
 WASD 移动、鼠标瞄准、左键射击、Shift 潜墨、空格跳跃、E / 右键道具、F / Q 大招、J 选择队友／信标跳跃、Tab 战术地图、Esc 暂停。死亡后主动选择复活目标。默认 30 FPS / 75% 精度，可在设置中调整。
 
+机器人完成复活倒计时后，可从出生区自动跳向前方队友或己方信标；蓄力、公开预告、实际楼层和失效回退见 [玩法](docs/GAMEPLAY.md)。玩家继续手动选择。
+
 ## 检查与构建
 
 ```sh
@@ -42,5 +44,6 @@ python3 tools/release/package_macos.py --version v0.3.0-preview.16
 - [玩法](docs/GAMEPLAY.md)、[创意配装](docs/CREATIVE_LOADOUTS.md)、[工作状态](docs/COORDINATION.md)。
 - [验证与工具](tools/README.md)、[本次独立工程验证](docs/CLEANUP.md)、[许可证](THIRD_PARTY_NOTICES.md)。
 - [原生完整对局与结算验收](render-evidence/native-match-2026-10-04/summary.md)：180 秒 5v5 受控基线、帧间隔及面积／积分展示修正。
+- [机器人出场跳跃验收](render-evidence/bot-deployment-2026-10-05/summary.md)：91 项统一检查、两队负例与两个原生 Metal 受控场景。
 
-`docs/history/`、`render-evidence/` 和 `experiments/` 保留 Godot 历史记录与人物实验，正式导出排除。真实手感、长期温度、机器人自动队友／信标跳跃与联网仍有后续工作。当前 arm64 包与私有仓库交付状态见 [发布验收](render-evidence/release-preview16-2026-10-04/summary.md)。
+`docs/history/`、`render-evidence/` 和 `experiments/` 保留 Godot 历史记录与人物实验，正式导出排除。真实手感、长期温度、全地图机器人跳跃策略与联网仍需验收。已有 arm64 包与私有仓库交付状态见 [2026-10-04 发布验收](render-evidence/release-preview16-2026-10-04/summary.md)；本轮只提交源码，不导出新应用、压缩包或 Release。

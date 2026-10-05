@@ -9,7 +9,7 @@ func setup(owner_game: Node3D) -> void: game = owner_game
 func busy(actor: Node3D) -> bool: return flights.has(actor.get_instance_id())
 func begin(actor: Node3D) -> bool:
 	var local := actor == game.get_node("World/Walker"); var tank: Node = game.get_node("Combat") if local else actor
-	if busy(actor) or tank.ink_amount < COST: return false
+	if busy(actor) or game.bot_deployment.busy(actor) or tank.ink_amount < COST: return false
 	var from := actor.global_position
 	var checked: Dictionary = game.deployment.landing(Vector2(from.x,from.z),false,from.y,game.actor_team(actor),actor)
 	if checked.is_empty() or absf(checked.point.y-from.y) > .25: return false

@@ -51,7 +51,7 @@ func eligible(actor: Node3D) -> bool:
 	if tank.ink_amount > game.actor_ink_max(actor)-10 or tank.last_fire_time < CHANNEL: return false
 	if local:
 		if actor.squid_form or game.deployment.active or tank.special_active != "" or tank.is_busy() or tank.action_lock > 0 or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT): return false
-	elif actor.get_meta("enemy_swimming",false) or actor.target_actor != null or int(actor.get_meta("decoy_target",0)) != 0 or game.bot_specials.busy(actor): return false
+	elif game.bot_deployment.busy(actor) or actor.get_meta("enemy_swimming",false) or actor.target_actor != null or int(actor.get_meta("decoy_target",0)) != 0 or game.bot_specials.busy(actor): return false
 	var recent: float = game.player_last_damage if local else game.bot_last_damage if actor == game.get_node("Bot") else actor.last_damage
 	if recent < CHANNEL: return false
 	var hit := get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(actor.global_position+Vector3.UP*.15,actor.global_position-Vector3.UP*.2,1))

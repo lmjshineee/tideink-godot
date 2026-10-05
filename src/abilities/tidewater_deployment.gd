@@ -59,23 +59,32 @@ func _resolve_target() -> void:
 	marker.global_position=target+Vector3.UP*.07
 
 func _actor_destination(actor:Node3D) -> Dictionary:
-	if actor==game.get_node("World/Walker") or game.actor_team(actor)!=0 or not game.actor_alive(actor) or game.actor_health(actor)<=0:return {}
-	var mover:CharacterBody3D=actor.get("team_mover")
+	return teammate_destination(game.get_node("World/Walker"),actor)
+
+# Read-only query shared with bots; player selection/camera remain player-owned.
+func teammate_destination(requester:Node3D, actor:Node3D) -> Dictionary:
+	if actor==requester or game.actor_team(actor)!=game.actor_team(requester) or not game.actor_alive(actor) or game.actor_health(actor)<=0:return {}
+	if actor==game.get_node("World/Walker") and active:return {}
+	if game.bot_deployment!=null and game.bot_deployment.busy(actor):return {}
+	var mover:CharacterBody3D=actor if actor==game.get_node("World/Walker") else actor.get("team_mover")
 	if mover!=null and absf(mover.velocity.y)>1.2:return {}
 	for offset in [Vector2(1.3,0),Vector2(-1.3,0),Vector2(0,1.3),Vector2(0,-1.3),Vector2(.95,.95),Vector2(-.95,-.95)]:
-		var point:Vector3=actor.global_position;var checked:=landing(Vector2(point.x,point.z)+offset,false,point.y)
+		var point:Vector3=actor.global_position;var checked:=landing(Vector2(point.x,point.z)+offset,false,point.y,game.actor_team(requester),requester)
 		if not checked.is_empty():return checked
 	return {}
 
 func _destination(key:String) -> Dictionary:
 	if key=="base":return landing(Vector2(target.x,target.z),false) if active and not live_jump else {"point":base_position()}
+	return destination_for(game.get_node("World/Walker"),key)
+
+func destination_for(requester:Node3D, key:String) -> Dictionary:
 	if key.begins_with("actor:"):
 		for actor in game.all_actors():
-			if game.actor_id(actor)==int(key.get_slice(":",1)):return _actor_destination(actor)
+			if game.actor_id(actor)==int(key.get_slice(":",1)):return teammate_destination(requester,actor)
 	else:
 		for beacon in beacons:
-			if key=="beacon:%d" % beacon.id and beacon.team==0 and beacon.uses>0:
-				return landing(Vector2(beacon.point.x,beacon.point.z),true,beacon.point.y,0)
+			if key=="beacon:%d" % beacon.id and beacon.team==game.actor_team(requester) and beacon.uses>0 and beacon.time>0:
+				return landing(Vector2(beacon.point.x,beacon.point.z),true,beacon.point.y,beacon.team,requester)
 	return {}
 
 func destinations() -> Array:

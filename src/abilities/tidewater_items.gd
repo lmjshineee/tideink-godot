@@ -55,7 +55,7 @@ func use(actor: Node3D, requested: String = "") -> bool:
 		return false
 	var local: bool = actor==game.get_node("World/Walker")
 	if local and (game.deployment.active or game.get_node("Combat").special_active != "" or game.get_node("Combat").action_lock > 0): return false
-	if not local and game.bot_specials.busy(actor): return false
+	if not local and (game.bot_specials.busy(actor) or game.bot_deployment.busy(actor)): return false
 	if kind == "recall": return recall.use(actor)
 	var ink_node: Node = game.get_node("Combat") if local else actor
 	if kind == "ink_wings":
@@ -171,6 +171,7 @@ func tick(delta: float) -> void:
 			visual.global_position = actor.global_position+Vector3.UP*0.75
 		if actor==game.get_node("World/Walker") or not bool(game.call("actor_alive",actor)):
 			continue
+		if game.bot_deployment.busy(actor): continue
 		var kind: String = s["kind"]
 		if kind == "recall":
 			s["recall_try"] = float(s.get("recall_try", 0)) - delta

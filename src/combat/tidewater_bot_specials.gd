@@ -35,6 +35,7 @@ func tick(delta: float) -> void:
 		if s.is_empty(): continue
 		s["cooldown"] = maxf(0,float(s["cooldown"])-delta)
 		if not bool(game.call("actor_alive",actor)): continue
+		if game.bot_deployment.busy(actor): continue
 		if bool(s.active) and String(s.get("kind","")) == "rain_arrows":
 			s.active = combat.rain_arrows.busy(actor)
 			continue

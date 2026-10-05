@@ -17,6 +17,7 @@
 | `update_asset_integrity.py --write` | 有意资源修改验证后，记录新的本地资产基线 |
 | `capture/`、`measure/` | 原生画面、回放和受控测量，按输出路径保留证据 |
 | `measure/measure_native_match.gd` | 原生 180 秒 5v5、自然死亡／显式复活确认、计分核对、帧间隔与新证据目录 |
+| `capture/verify_bot_deployment.gd` | 两图原生受控机器人复活／队友／信标跳跃及玩家 J／Esc；新绝对证据目录，无导出或打包 |
 | `release/` | arm64 模板与本地打包 |
 
 单项检查：
@@ -39,6 +40,18 @@ git diff -- assets/integrity.json
 原生截图不用 `--headless`；旧工具可能覆盖历史证据，先检查／指定新输出路径。`capture/legacy/` 保存旧分页菜单脚本，仅用于相应历史提交；历史测量汇总可能因源码变更而拒绝复用，不能改旧数据哈希伪造新的结果。
 
 JavaScript 转换器已删除。旧来源记录仅说明资源历史；未来维护本地资产，若需新的原生生成器，独立实现并补同步产物检查。
+
+机器人跳跃单独验收（固定放置／强制伤害，仅算受控原生证据）：
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . \
+  --rendering-method forward_plus --rendering-driver metal \
+  --log-file /tmp/tideink-bot-deployment.engine.log \
+  --script res://tools/capture/verify_bot_deployment.gd -- \
+  --output=/绝对路径/新的证据目录
+```
+
+输出必须是尚不存在的绝对目录。工具拒绝 headless，记录 arm64 环境、生产源码哈希、键盘选择／取消、真实复活控制器驱动的蓄力／飞行／落地和任何夹具失焦恢复；不创建应用或压缩包。规则负例在 `tests/godot/check_bot_deployment.gd`，覆盖两队、死亡／暂停、净空、隐藏情报、信标失效和最后一次使用竞争。
 
 ## 原生完整对局与帧时间基线
 

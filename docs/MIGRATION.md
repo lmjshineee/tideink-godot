@@ -12,7 +12,7 @@
 | 战斗、弹丸、专用武器/大招 | `src/combat/tidewater_combat.gd`、`src/combat/tidewater_bow.gd`、`src/combat/tidewater_canopy.gd` 等 |
 | 移动、墨墙、形态与跳跃 | `src/actors/tidewater_walker.gd` |
 | 机器人、导航与大招 | `src/actors/tidewater_bot.gd`、`src/world/team_navigation.gd`、`src/combat/tidewater_bot_specials.gd` |
-| 道具、天赋与复活/跳跃 | `src/abilities/tidewater_items.gd`、`src/abilities/tidewater_perks.gd`、`src/abilities/tidewater_deployment.gd` |
+| 道具、天赋与复活/跳跃 | `src/abilities/tidewater_items.gd`、`src/abilities/tidewater_perks.gd`、`src/abilities/tidewater_deployment.gd`；机器人出场状态在 `tidewater_bot_deployment.gd` |
 | CPU 墨格与显示 | `src/world/surface_ink.gd`、`src/world/surface_ink_view.gd` |
 | 战绩/地图、动态表现、声音 | `src/ui/tidewater_tactics.gd`、`src/ui/tidewater_presentation.gd`、`src/presentation/tidewater_audio.gd` |
 | 配置与地图选择 | `assets/weapons.json`、`src/core/gameplay_rules.gd`、`src/core/match_setup.gd`、`src/core/map_catalog.gd` |
@@ -27,6 +27,7 @@
 4. 阶段为 home → setup → intro → playing → finish → results；终场暂停 2.6 秒后直接展示最终结果。历史 judge 展示不再适用。
 5. UI 尺寸布局在窗口/设置变化时更新，每帧只刷新实时状态。隐藏战术名单不查询敌方情报或格式化行文字。
 6. 复活继续由玩家选择，道具冷却跨死亡/重摇保留，天赋整局锁定。
+7. 玩家部署模块提供只读队友／信标落位查询。机器人自动选择、蓄力和飞行状态独立，仅真实复活后启用；信标时间／次数仍只有一份账本，UI 不消费次数。机器人选择不读取隐藏敌方位置。
 
 ## 验证与交付
 

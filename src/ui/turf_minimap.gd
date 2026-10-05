@@ -151,6 +151,9 @@ func _draw() -> void:
    if expanded:draw_string(font,p+Vector2(7,4),"信%d" % beacon.uses,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color.WHITE)
   if game.deployment.active and game.deployment.marker.visible:
    var p:=_project(game.deployment.target);draw_arc(p,11,0,TAU,24,Color.WHITE,2,true)
+ if game.get("bot_deployment")!=null:
+  for mark in game.bot_deployment.marks_for(0):
+   draw_arc(_project(mark.point),11,0,TAU,24,TeamPalette.color(mark.team).lightened(.3),2,true)
  if game.get("items") != null:
   for mark in game.items.decoys.marks_for(0):
    var p := _project(mark.point); var color := TeamPalette.color(mark.team).lightened(.3)
