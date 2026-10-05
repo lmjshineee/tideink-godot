@@ -1,0 +1,94 @@
+{
+  "source_head": "7393c7209dfa81c1906668cad1874f2c1fc7e5f7",
+  "pck_sha256": "4916deb458a09b2849ccbabee9fb271031621dc9aa81c19a352f9bd52c63f26c",
+  "method": "Matching native Godot editor loads the explicit exported PCK for external rule/UI fixtures. Working directory is temporary. Actual app startup is separately checked without path/script overrides.",
+  "cases": [
+    {
+      "name": "check_tidewater_turf_points",
+      "source_sha256": "cb5cd63c983368a38950ada85b01d6c0ccf2e04f5c56557cac1a7f11bd924417",
+      "external_sha256": "cb5cd63c983368a38950ada85b01d6c0ccf2e04f5c56557cac1a7f11bd924417",
+      "status": "passed"
+    },
+    {
+      "name": "check_gameplay_deployment",
+      "source_sha256": "01822c8819d4f8ff5c351014c03ce00880c907490f74317b9dd21f72c5057f53",
+      "external_sha256": "01822c8819d4f8ff5c351014c03ce00880c907490f74317b9dd21f72c5057f53",
+      "status": "passed"
+    },
+    {
+      "name": "check_expanded_loadouts",
+      "source_sha256": "7c0bc332fcca0f8f26169694387751af4a08a2ca2d7963391d6547a536284d4c",
+      "external_sha256": "7c0bc332fcca0f8f26169694387751af4a08a2ca2d7963391d6547a536284d4c",
+      "status": "passed"
+    },
+    {
+      "name": "check_bow_precision",
+      "source_sha256": "cb56d6d8f8177d38c3703d69a8e604e0ff254e46fa4c5c77ef3956df65397716",
+      "external_sha256": "3dc604e7c3a78f32f539922e6216b91628864f8e99a5145227c7987e8b1f27c2",
+      "status": "passed"
+    },
+    {
+      "name": "check_canopy_push",
+      "source_sha256": "aa4b39354be05860c8bbbbb98f955266e7f2fe1b4b707048d86c2efc934c9e51",
+      "external_sha256": "4c116a3f506a8003c28acc29f0f1c35138859ee9878d24b19a9f5998a31312cf",
+      "status": "passed"
+    },
+    {
+      "name": "check_creative_wings",
+      "source_sha256": "25abe5364274e9baac3f57ee2e7d292586c3e67a6730dac4ceba7783e58b4a86",
+      "external_sha256": "a5145984eb7127f7d950ab9963f2eb03adbd2813d5768ef25e4be6f59dcba6df",
+      "status": "passed"
+    },
+    {
+      "name": "check_vertical_combat",
+      "source_sha256": "9e66df8279c9c8893e93b2a385d6eefa420a8f621d981596cc160293c20c824d",
+      "external_sha256": "ae1ba9f3bd0b42565749cb1870e94f5990f9dc151c108b0810c87eabad0fe064",
+      "status": "passed"
+    },
+    {
+      "name": "check_actor_turf_credit",
+      "source_sha256": "45577598c8b004421c5fdd584dd05d85f35cc35446fe7094f4f5c719d893933f",
+      "external_sha256": "45577598c8b004421c5fdd584dd05d85f35cc35446fe7094f4f5c719d893933f",
+      "status": "passed"
+    },
+    {
+      "name": "check_bot_high_ground",
+      "source_sha256": "84456bbcb7507d14b846dcd3b69defb7b6e1bd6a2718eea914db0696d92f38fd",
+      "external_sha256": "dac13a9c5d521479c4db298b334a2d6b8d0a036465bc73253905484fbcffd501",
+      "status": "passed"
+    },
+    {
+      "name": "check_experience_balance",
+      "source_sha256": "79f46e12a1da9553be69e93344fde37f466dc9e47237704b1ab8fb192a0b6c32",
+      "external_sha256": "c6107899168a88a02012373c162c29caf7f8759f26cd78e6bfbb4215f54d73b1",
+      "status": "passed"
+    },
+    {
+      "name": "check_weapon_specials",
+      "source_sha256": "e41cfcadf93eb9e8a2f0cb8c6cf171b9cd07c19d5566f9c09e62e61dc5d542f2",
+      "external_sha256": "140e56288c2bdc872f51603179a24a9c053415d0d78b88f6803e88769258e9de",
+      "status": "passed"
+    },
+    {
+      "name": "check_combat_readability",
+      "source_sha256": "8c597bf84a8bd4eccb0021bab33a461dced13b4f7c345ed59a1d5df52c6d6e1a",
+      "external_sha256": "f49cb5f3409f6e6163d0ed413ade0cf38f19f7d01dda38bd83ecb82c289b8d9d",
+      "status": "passed"
+    },
+    {
+      "name": "check_ink_hazard_feedback",
+      "source_sha256": "a86818076383436c1b70aa3f2f7658233e1129deb004bfb5ac8b617110264ed7",
+      "external_sha256": "15454b139725b192c0ca640e6e9e238d1a33bc812a77ff23eec4ecbd06efbcb0",
+      "status": "passed"
+    }
+  ],
+  "native": {
+    "status": "passed",
+    "fixture_sha256": "53369edfb1d3657b236943e57f7ac518a6adb766b22e54cc259de4ac329c961b"
+  },
+  "app_startup": {
+    "exit": 0,
+    "path_overrides": false,
+    "script_overrides": false
+  }
+}

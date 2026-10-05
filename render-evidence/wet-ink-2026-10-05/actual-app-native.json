@@ -1,0 +1,9 @@
+{
+  "exit": 0,
+  "source_head": "7393c7209dfa81c1906668cad1874f2c1fc7e5f7",
+  "pck_sha256": "4916deb458a09b2849ccbabee9fb271031621dc9aa81c19a352f9bd52c63f26c",
+  "path_overrides": false,
+  "script_overrides": false,
+  "driver": "Metal 4.0 / Apple M5",
+  "quit_after_frames": 45
+}

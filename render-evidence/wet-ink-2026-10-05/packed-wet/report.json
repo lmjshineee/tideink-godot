@@ -1,0 +1,17 @@
+{
+  "adapter": "Apple M5 (Apple9)",
+  "architecture": "arm64",
+  "failures": [],
+  "fixture_focus_pause_overridden": true,
+  "frame_median_ms": 16.682,
+  "frame_p95_ms": 17.351,
+  "frame_sample_count": 120,
+  "kind": "controlled fixed native ink views, uncapped warmed frame sample and real vitals feedback",
+  "pck_sha256": "4916deb458a09b2849ccbabee9fb271031621dc9aa81c19a352f9bd52c63f26c",
+  "renderer": "4.0",
+  "source_head": "7393c7209dfa81c1906668cad1874f2c1fc7e5f7",
+  "verify_feedback": true,
+  "method": "Matching native editor loads explicit actual PCK outside checkout. External fixture changes only its helper path and receipt provenance; test/capture logic is unchanged.",
+  "original_fixture_sha256": "d1176facd8b7eb0cf80d2985980d93c959f9c8250b297690e5c40e474471aadf",
+  "external_fixture_sha256": "ef85ed2c17bb7851be21e44d2ef5bf41a4c3ac612550717ee83078a2c5ca8e8e"
+}
