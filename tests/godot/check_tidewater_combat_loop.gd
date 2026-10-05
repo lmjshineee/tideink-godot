@@ -83,10 +83,11 @@ func _check() -> void:
 	# Isolate torso damage from random spread; body-zone and spread tests are separate.
 	shooter["spreadBaseGround"]=0.0
 	var bot_ink_before := float(bot.get("ink_amount"))
+	bot.reaction_target = walker; bot.reaction_time = 0
 	scene.call("_update_bot", 0.1)
 	var bot_shots: Array = combat.get("projectiles")
 	if bot_shots.is_empty() or int((bot_shots.back() as Dictionary)["team"]) != 1 \
-			or absf(float(bot.get("ink_amount")) - bot_ink_before + float(shooter["inkPerShot"])) > 0.01:
+			or absf(float(bot.get("ink_amount")) - bot_ink_before + float(shooter["inkPerShot"]) + 0.6) > 0.01:
 		_fail("bot did not fire a source-configured shooter projectile")
 		return
 	combat.call("advance_effects", 0.1)

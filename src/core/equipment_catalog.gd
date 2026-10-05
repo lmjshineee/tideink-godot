@@ -12,7 +12,7 @@ static func extend(data:Dictionary) -> void:
 		w.id=id;w.model=BASE[id]
 		match id:
 			"dualie":
-				w.merge({"damage":16.5,"shots":2,"fireInterval":.16,"inkPerShot":1.4,"range":10.5,"moveSpeedFiring":5.3,"impactRadius":.65,"specialCost":150},true)
+				w.merge({"damage":18.0,"shots":2,"fireInterval":.16,"inkPerShot":1.4,"range":10.5,"moveSpeedFiring":5.3,"impactRadius":.65,"special":"ink_vortex","specialCost":130},true)
 				w.stats={"range":.4,"damage":.33,"rate":.9,"mobility":.9,"paint":.7}
 			"heavy":
 				w.merge({"damage":43,"fireInterval":.22,"inkPerShot":1.9,"range":17,"projSpeed":40,"straightTime":.18,"moveSpeedFiring":3.4,"impactRadius":.95,"spreadBaseGround":3.3,"spreadBaseAir":7,"special":"storm","specialCost":165},true)
@@ -26,16 +26,16 @@ static func extend(data:Dictionary) -> void:
 
 	var disc: Dictionary = data.weapons.shooter.duplicate(true)
 	disc.merge({"id":"disc", "kind":"disc", "model":"roller", "damage":48.0, "returnDamage":34.0,
-		"range":13.0, "fireInterval":0.3, "inkPerShot":8.0, "moveSpeedFiring":5.0,
-		"special":"twin_discs", "specialCost":180.0}, true)
+		"range":13.0, "fireInterval":0.3, "inkPerShot":6.0, "moveSpeedFiring":5.0,
+		"special":"twin_discs", "specialCost":140.0}, true)
 	disc.stats = {"range":0.55, "damage":0.48, "rate":0.35, "mobility":0.8, "paint":0.7}
 	data.weapons.disc = disc
 	data.text.weapons.disc = "回旋飞镖"
 	var bow: Dictionary = data.weapons.charger.duplicate(true)
 	bow.merge({"id":"bow", "kind":"bow", "model":"charger", "chargeTime":0.8,
 		"rangeMin":12.0, "rangeMax":26.0, "damageMin":51.0, "damageMax":108.0,
-		"arrowDamageMin":17.0, "arrowDamageMax":36.0, "inkMin":3.0, "inkFull":7.0,
-		"moveSpeedFiring":4.6, "special":"rain_arrows", "specialCost":170.0,
+		"arrowDamageMin":17.0, "arrowDamageMax":36.0, "inkMin":2.5, "inkFull":6.0,
+		"moveSpeedFiring":4.6, "special":"rain_arrows", "specialCost":140.0,
 		"blastDamage":40.0, "blastRadius":1.9, "blastDelay":0.5,
 		"plantCharge":0.5, "releaseMin":0.22, "releaseFull":0.20,
 		"arrowSpeedMin":34.0, "arrowSpeedFull":58.0, "arrowRadius":0.09}, true)
@@ -44,10 +44,10 @@ static func extend(data:Dictionary) -> void:
 	data.text.weapons.bow = "三弦墨弓"
 	var canopy: Dictionary = data.weapons.shooter.duplicate(true)
 	canopy.merge({"id":"canopy", "kind":"canopy", "model":"shooter", "damage":15.0,
-		"pellets":6, "range":11.0, "projSpeed":38.0, "fireInterval":0.48, "inkPerShot":5.0,
-		"moveSpeedFiring":4.8, "impactRadius":0.55, "special":"absorb_counter", "specialCost":150.0,
-		"coverHealth":220.0, "openTime":0.20, "launchTime":0.85, "launchInk":8.0,
-		"coverDrain":1.4, "coverCooldown":4.5, "coverSpeed":6.5, "coverLife":3.4}, true)
+		"pellets":6, "range":11.0, "projSpeed":38.0, "fireInterval":0.48, "inkPerShot":4.5,
+		"moveSpeedFiring":4.8, "impactRadius":0.55, "special":"absorb_counter", "specialCost":125.0,
+		"coverHealth":220.0, "openTime":0.20, "launchTime":0.85, "launchInk":6.0,
+		"coverDrain":0.9, "coverCooldown":4.5, "coverSpeed":6.5, "coverLife":3.4}, true)
 	canopy.stats = {"range":0.4, "damage":0.84, "rate":0.35, "mobility":0.6, "paint":0.7}
 	data.weapons.canopy = canopy
 	data.text.weapons.canopy = "推进挡墨伞"

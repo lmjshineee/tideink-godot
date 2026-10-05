@@ -59,7 +59,7 @@ func _shot(actor: Node3D, direction: Vector3, weapon: Dictionary) -> bool:
 	if float(tank.ink_amount)<float(weapon.inkPerShot): return false
 	tank.ink_amount -= float(weapon.inkPerShot)
 	tank.last_fire_time = 0.0
-	state(actor).shot_cd = float(weapon.fireInterval)
+	state(actor).shot_cd = float(weapon.fireInterval) * (float(preload("res://src/core/bot_difficulty.gd").profile(game.ai_level).cadence) if actor!=combat.walker else 1.0)
 	var at := actor.global_position+Vector3.UP*1.05
 	var basis: Array = combat._perpendicular_basis(direction)
 	for i in range(int(weapon.pellets)):
@@ -262,7 +262,7 @@ func bot_input(actor: Node3D, delta: float, target: Node3D) -> void:
 	var at := actor.global_position+Vector3.UP*1.05
 	var aim := at+(s.direction as Vector3)*9
 	if target!=null:
-		aim=target.global_position+Vector3.UP*.8
+		aim=preload("res://src/core/bot_difficulty.gd").aim(at,target.global_position+Vector3.UP*.8,game.ai_level)
 		# Briefly reset between volleys. Under fire, hold long enough to deploy cover.
 		var recent:float=game.bot_last_damage if actor==game.get_node("Bot") else actor.last_damage
 		fire=s.launched or holding(actor) or (recent<1.5 and s.cooldown<=0) or (s.shot_cd<=0 and not s.fire)

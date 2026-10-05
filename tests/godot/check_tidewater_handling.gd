@@ -56,7 +56,7 @@ func _check() -> void:
 	walker.set("ink_owner", 1)
 	for i in range(30):
 		walker.call("_horizontal_step", STEP, forward, true, true, true)
-	if _speed(walker) > 1.91 or _speed(walker) < 1.6:
+	if _speed(walker) > 2.91 or _speed(walker) < 2.7:
 		_fail("enemy ink squid speed is not limited")
 		return
 	walker.velocity = Vector3(6.0, 0.0, 0.0)

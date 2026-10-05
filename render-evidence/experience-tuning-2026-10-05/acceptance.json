@@ -1,0 +1,52 @@
+{
+  "render-accepted": {
+    "report_sha256": "57733a83f529723b953328f931dda84bd64bc33d28886add53b1bfc6cbc7d2d6",
+    "source_hashes_match": true,
+    "images": {
+      "arena.png": "054cc0eb667821201cdf4e8886553aa4362ddd36a400e4e397e5583d8d3fdfd2",
+      "character.png": "e9cd0db1f95da25d5ad433d20ccb49cae9b343a105529a1918307f27f7733789",
+      "ink.png": "a4e505c19e4ce8fc8937adf4bb94895cdb27d257dbb13125b3de4eccb9b092af",
+      "setup.png": "079ac76910210ca360ed29ba426537bb23ef00e0a0a21fcc70e5691a596fe770"
+    }
+  },
+  "controls-completed": {
+    "report_sha256": "764e8b41b6575761348691a9ffc3a42349f85ab11ee0ec8efcfa39e3d46f9dc7",
+    "source_hashes_match": true,
+    "images": {
+      "high-ground-casual.png": "a9261300ff787a523bdd241195b75c7594bc2bf27bda24a037cb61f9a6474f34",
+      "high-ground-standard.png": "6c5566c91899e5b53b751e9fa6bcddbde2f43ac9e67ec3209c1ffb8ed7727092",
+      "high-ground-veteran.png": "e0a7bb94bf678e03e9224109a3563cbdccf78f5d0f9d71a9e372dddcad32db08",
+      "setup-960-shield-veteran.png": "9b5f417973670f631d97ec97336db947c937945b9e5b8e70197b52c39b2c6412",
+      "special-blaster.png": "c738a651e7cbb326056b7e698b9ca39cd7bf4f9b42c9e8f6206e59e34d563851",
+      "special-bow.png": "4724a73db825d8253f550f2148a29826d4e2cf70fff77cc8e97193e5e2ed2e40",
+      "special-canopy.png": "ddf374a17984c642f9088e46e0454743caffce4eee93223f760b35f84a39d733",
+      "special-charger.png": "d768ec85f8ddc68aaa640cbfbee988c14a66922d0cae1ab37c696f66f05b51cb",
+      "special-disc.png": "864e6443151342b177b0973d3426c20bb4cb43bb15cde6c985935379218a2f9c",
+      "special-dualie.png": "ab8a73b5c76f9249ed92d8e05a094f4f5079e2a2a87aded207facc2e987f310f",
+      "special-roller.png": "141fd5038d58e768236a6c34139221a9b965f61759c1d5a15896c0fea9ebab39",
+      "special-shooter.png": "1c4d0a2a7cd2861911b6eca796fb31d871f4f661c8ca1c9163c2b9b6caf25587"
+    }
+  },
+  "readability-accepted": {
+    "report_sha256": "22e96059ced71f11dd9a8160e66ec955a1632937576cefea38daff196df411f8",
+    "source_hashes_match": true,
+    "images": {
+      "attacker-direction.png": "de7b3ec2e612e0370aa5d708d6f0c3510197970381e587c18104334f0b5a3a2e",
+      "bomb-warning.png": "00fec1f31f24975934295144a105af3ef2c76e12c86f75b09fea91a2840535bf",
+      "charger-preaim.png": "db43a07b99e1b952081a80f7037824bf3ac08057bb7aaa135be323b270dfe828",
+      "hostile-trail.png": "fd91263e0d9b8a3f71e104416fb44e52352b426cf9d5bef185ebef9b975a4727"
+    }
+  },
+  "native-match": {
+    "report_sha256": "2f55594ce09f5502855bfefd88e007bf04c4a1a397b79bcf7f5972cd570fa0fb",
+    "post_round_help_text_only": [
+      "src/ui/loadout_details.gd"
+    ]
+  },
+  "asset_semantics": "four explicit drawable 64x64 SVG icons; integrity gate and six isolated positive/negative cases passed",
+  "capture_tool_sha256": {
+    "tools/capture/capture_experience.gd": "9d7f0dae69fcb7a66906e7a1105ab3a374a7eb9997491184a20ed3f6fa35d21e",
+    "tools/capture/capture_experience_actions.gd": "f29fb42ed62544fa87c51f7e6f565c217886812c00ee76a37e5e420f0092e367",
+    "tools/capture/capture_combat_readability.gd": "0c8d90d7aea51c83c3d039a301380ddaea1e29fbec720a9fc0b5a6bffb670fbd"
+  }
+}

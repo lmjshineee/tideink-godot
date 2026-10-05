@@ -10,7 +10,7 @@ func _run() -> void:
 	var canopy:Node3D=combat.canopy
 	var target:=bot.global_position+Vector3.UP
 	canopy.update_input(walker,.01,true,target)
-	expect(combat.projectiles.size()==6 and combat.ink_amount==95,"tap emits six pellets and pays once")
+	expect(combat.projectiles.size()==6 and combat.ink_amount==95.5,"tap emits six pellets and pays once")
 	for i in 10:combat._update_projectiles(1.0/30)
 	expect(game.bot_health<120 and game.bot_health>0,"actual pellets damage while leaving reaction HP")
 	canopy.update_input(walker,.12,true,target)
@@ -21,7 +21,7 @@ func _run() -> void:
 	var s:Dictionary=canopy.state(walker)
 	var before:float=combat.ink_amount
 	canopy.tick(.2)
-	expect(is_equal_approx(before-combat.ink_amount,.28) and combat.is_busy(),"holding drains ink and prevents passive refill/dive")
+	expect(is_equal_approx(before-combat.ink_amount,.18) and combat.is_busy(),"holding drains ink and prevents passive refill/dive")
 	game.player_health=120
 	combat.fire_bot_charger(bot.global_position+Vector3.UP,walker.global_position+Vector3.UP,1,1,bot)
 	expect(game.player_health==120 and is_equal_approx(s.hp,120),"enemy full charge hits cover rather than owner")
@@ -48,7 +48,7 @@ func _run() -> void:
 	var start:Vector3=s.cover.global_position
 	var ink_before:float=combat.ink_amount
 	canopy.update_input(walker,1,true,target)
-	expect(s.launched and is_equal_approx(ink_before-combat.ink_amount,8),"hold to 0.85 seconds launches with extra ink")
+	expect(s.launched and is_equal_approx(ink_before-combat.ink_amount,6),"hold to 0.85 seconds launches with extra ink")
 	canopy.tick(.5)
 	expect(s.cover.global_position.distance_to(start)>2.9,"released cover advances in 3D")
 	var barrier:=wall(s.cover.global_position+Vector3(0,0,1),Vector3(8,8,.3))
@@ -70,7 +70,9 @@ func _run() -> void:
 	bot.ink_amount=100
 	game.bot_respawn=0;game.bot_health=120;bot.health=120;game.bot_invuln=0
 	game.damage_bot(10,walker,"shooter")
+	# Isolate weapon handling after target acquisition; reaction has a separate regression.
+	bot.reaction_target=walker;bot.reaction_time=0
 	for i in 11:bot.tick(1.0/30)
-	expect(canopy.holding(bot) and bot.ink_amount<=95,"bot uses real cover under fire")
+	expect(canopy.holding(bot) and bot.ink_amount<=95.5,"bot uses real cover under fire")
 	canopy.clear_all()
 	await finish("canopy real pellet volley, windup/ink, hostile blocking and break, friendly passage, exposed flank, cooldown retention, launch/wall, pitched cover and bot defense")

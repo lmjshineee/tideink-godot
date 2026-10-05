@@ -292,7 +292,10 @@ func _update_hud() -> void:
 	var special_percent := int(round(float(combat.call("special_fraction")) * 100.0))
 	game.special_bar.value = special_percent
 	game.special_label.text = "大招就绪 · F/Q" if ready else "大招  %d%%" % special_percent
-	if combat.counter.busy(game.get_node("World/Walker")):
+	if combat.weapon_specials.active(game.get_node("World/Walker")):
+		var active:Dictionary=combat.weapon_specials.states[game.get_node("World/Walker").get_instance_id()]
+		game.special_label.text="大招生效 · %.1fs" % active.time
+	elif combat.counter.busy(game.get_node("World/Walker")):
 		var intake: Dictionary = combat.counter.intakes[game.get_node("World/Walker").get_instance_id()]
 		game.special_label.text = "吸墨 %.0f / 100 · %.1fs" % [intake.charge,intake.time] if intake.phase == "intake" else "反击蓄势 · %.1fs" % intake.time
 	game.special_label.add_theme_color_override("font_color", game.orange_color.lightened(0.45) if ready else Color.WHITE)

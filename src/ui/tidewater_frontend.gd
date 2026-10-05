@@ -32,6 +32,7 @@ var pose_buttons:Dictionary={}
 var map_choice:OptionButton
 var duration_choice:OptionButton
 var mode_choice:OptionButton
+var ai_choice:OptionButton
 var perk_choice:OptionButton
 var perk_description:Label
 var map_roll:Button
@@ -120,6 +121,13 @@ func setup(owner_game:Node3D) -> void:
 	for duration in game.get_node("Combat").weapon_data["match"]["durations"]:duration_choice.add_item("%d 秒" % int(duration))
 	duration_choice.select(Setup.duration_index);duration_choice.item_selected.connect(func(i):game._change_duration(i))
 	mode_choice=OptionButton.new();mode_choice.add_item("5 对 5");mode_choice.add_item("1 对 1");preparation.add_child(mode_choice);mode_choice.select(0 if Setup.team_size==5 else 1);mode_choice.item_selected.connect(_select_mode)
+	ai_choice=OptionButton.new();preparation.add_child(ai_choice)
+	var levels:=preload("res://src/core/bot_difficulty.gd")
+	for label in levels.LABELS:ai_choice.add_item(label)
+	ai_choice.select(maxi(0,levels.IDS.find(Setup.ai_level)))
+	ai_choice.tooltip_text="双方机器人共用难度：反应、瞄准误差、射击节奏和移动策略。生命、伤害、墨量与视野规则一致。"
+	ai_choice.item_selected.connect(func(i):
+		if game.phase=="setup":Setup.ai_level=levels.IDS[i];game.ai_level=Setup.ai_level)
 	random_map=CheckButton.new();random_map.text="地图随机布置";preparation.add_child(random_map);random_map.disabled=not Catalog.supports_random(Setup.map_id);random_map.set_pressed_no_signal(Setup.random_map);random_map.toggled.connect(_toggle_random_map)
 	map_roll=_button(preparation,"换图",func():Catalog.reroll();_reload_preparation())
 	reroll=CheckButton.new();reroll.text="机器人复活重摇装备";preparation.add_child(reroll);reroll.set_pressed_no_signal(Setup.reroll_bots);reroll.toggled.connect(func(value):Setup.reroll_bots=value)
@@ -276,10 +284,11 @@ func _layout_preparation(u:float) -> void:
 		if perk_buttons.has(seen_perk): strips.perk.call_deferred("ensure_control_visible",perk_buttons[seen_perk])
 	_place(duration_choice,Vector2(size.x*.75,size.y*.741),Vector2(size.x*.09,30*u),maxi(11,int(14*u)))
 	_place(mode_choice,Vector2(size.x*.857,size.y*.741),Vector2(size.x*.10,30*u),maxi(11,int(14*u)))
-	_place(random_map,Vector2(size.x*.746,size.y*.805),Vector2(size.x*.165,28*u),maxi(11,int(13*u)))
+	_place(ai_choice,Vector2(size.x*.75,size.y*.790),Vector2(size.x*.21,30*u),maxi(11,int(14*u)))
+	_place(random_map,Vector2(size.x*.746,size.y*.838),Vector2(size.x*.165,28*u),maxi(11,int(13*u)))
 	map_roll.disabled=not Setup.random_map or not Catalog.supports_random(Setup.map_id)
-	_place(map_roll,Vector2(size.x*.92,size.y*.803),Vector2(size.x*.052,30*u),maxi(11,int(13*u)))
-	_place(reroll,Vector2(size.x*.746,size.y*.862),Vector2(size.x*.225,28*u),maxi(10,int(12*u)))
+	_place(map_roll,Vector2(size.x*.92,size.y*.838),Vector2(size.x*.052,30*u),maxi(11,int(13*u)))
+	_place(reroll,Vector2(size.x*.746,size.y*.883),Vector2(size.x*.225,28*u),maxi(10,int(12*u)))
 	_place(back_button,Vector2(size.x*.03,size.y*.932),Vector2(96*u,40*u),maxi(12,int(17*u)))
 	_place(settings_button,Vector2(size.x*.115,size.y*.932),Vector2(96*u,40*u),maxi(12,int(17*u)))
 	_place(start_button,Vector2(size.x*.74,size.y*.932),Vector2(size.x*.23,40*u),maxi(13,int(18*u)))
@@ -312,3 +321,8 @@ func _draw() -> void:
 		var blob:=Rect2(size.x*.335,size.y*.32,size.x*.36,size.y*.43);draw_texture_rect(logo_b,blob,false,Color(Palette.color(1),.65));draw_texture_rect(logo_a,Rect2(blob.position+Vector2(0,22),blob.size),false,Color(Palette.color(0),.45))
 		draw_style_box(game._ui_style(Color("241c32"),Color("4a405b"),2,18),Rect2(size.x*.69,size.y*.155,size.x*.28,size.y*.22))
 		draw_style_box(game._ui_style(Color("241c32"),Palette.color(0).darkened(.35),2,18),Rect2(size.x*.69,size.y*.40,size.x*.28,size.y*.41))
+
+func popup_open() -> bool:
+	for choice in [duration_choice,mode_choice,ai_choice,map_choice,perk_choice]:
+		if choice!=null and choice.get_popup().visible:return true
+	return false

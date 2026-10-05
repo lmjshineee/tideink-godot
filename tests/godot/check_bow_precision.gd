@@ -36,8 +36,8 @@ func _run() -> void:
 	combat.tick(.4,true,false)
 	expect(is_equal_approx(combat.charge_fraction,.5) and combat.ink_amount==100,"half draw ready in 0.4 seconds without upfront ink spend")
 	combat.tick(.001,false,false)
-	expect(combat.bow.arrows.size()==3 and is_equal_approx(combat.ink_amount,95),"half-draw actual release costs 5 ink")
-	reset_draw(Vector3(0,40,23));combat.ink_amount=4
+	expect(combat.bow.arrows.size()==3 and is_equal_approx(combat.ink_amount,95.75),"half-draw actual release costs 4.25 ink")
+	reset_draw(Vector3(0,40,23));combat.ink_amount=3.8
 	combat.tick(.8,true,false)
 	expect(combat.charge_fraction<.5,"low ink cannot claim explosive-ready draw")
 	combat.tick(.001,false,false)
@@ -65,7 +65,7 @@ func _run() -> void:
 	expect(combined>direct_damage and combined<=110,"actual direct and blast combine under one volley budget")
 	barrier.queue_free();combat.bow.clear_all();await physics_frame
 	# The same production bot dispatch chooses affordable close/partial shots.
-	for scenario in [{"distance":4.0,"ink":100.0,"cost":3.0,"draw":0.0},{"distance":8.0,"ink":6.5,"cost":5.0,"draw":.5}]:
+	for scenario in [{"distance":4.0,"ink":100.0,"cost":2.5,"draw":0.0},{"distance":8.0,"ink":5.5,"cost":4.25,"draw":.5}]:
 		reset_draw(Vector3(0,40,scenario.distance));bot.select_weapon("bow")
 		bot.ink_amount=scenario.ink;bot.charge_time=0;bot.attack_cooldown=0;bot.last_fire_time=0
 		for i in 15:

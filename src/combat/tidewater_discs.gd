@@ -97,6 +97,7 @@ func tick(delta: float) -> void:
 		if not hit.is_empty():
 			finish = start.lerp(finish, hit.fraction)
 			combat.damage_cover_hit(hit, 85.0 if disc.special else float(disc.weapon.damage), disc.team)
+		combat.feedback.trail(start,finish,disc.team,.16 if disc.special else .10)
 		_hits(disc, start, finish)
 		var travelled := start.distance_to(finish)
 		disc.distance += travelled

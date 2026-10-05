@@ -33,6 +33,7 @@ func _run() -> void:
 			actor.global_position = Vector3(60,30,60)
 		# Eliminate random aim misses, without changing the production range or cadence.
 		combat.weapons.heavy.spreadBaseGround = 0.0
+		game.ai_level="veteran"
 		for spec in [["heavy",14.0,true],["charger",22.0,true],["dualie",14.0,false],["heavy",19.0,false],["charger",29.0,false]]:
 			for field in ["projectiles","beams","bursts"]:
 				for effect in combat.get(field):
@@ -46,7 +47,7 @@ func _run() -> void:
 			walker.global_position = Vector3(0,30,float(spec[1]))
 			bot.global_position = Vector3(0,30,0)
 			await physics_frame
-			for step in range(65 if spec[0] == "charger" else 1):
+			for step in range(100 if spec[0] == "charger" else 25):
 				bot.global_position = Vector3(0,30,0)
 				bot.route = PackedVector3Array([bot.global_position])
 				bot.route_index = 0

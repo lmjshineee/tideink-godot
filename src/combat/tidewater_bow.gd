@@ -57,8 +57,10 @@ func tick(delta: float) -> void:
 	for i in range(planted.size()-1,-1,-1):
 		var arrow: Dictionary = planted[i]
 		arrow.fuse -= delta
+		combat.feedback.warning(arrow.visual.get_instance_id(),arrow.at,arrow.normal,float(arrow.weapon.blastRadius),float(arrow.fuse),int(arrow.team))
 		arrow.visual.scale = Vector3.ONE*(1.0+.12*sin(arrow.fuse*35))
 		if arrow.fuse <= 0:
+			combat.feedback.remove_warning(arrow.visual.get_instance_id())
 			_explode(arrow)
 			arrow.visual.queue_free()
 			planted.remove_at(i)
@@ -82,6 +84,7 @@ func tick(delta: float) -> void:
 		if not body_hit.is_empty() and start.distance_to(body_hit.point) < start.distance_to(stop): stop = body_hit.point
 		if combat.counter.consume(start,stop,arrow.team,float(arrow.damage)):
 			arrow.visual.queue_free(); arrows.remove_at(i); continue
+		combat.feedback.trail(start,stop,arrow.team,.05)
 		if not body_hit.is_empty() and (world_hit.is_empty() or body_hit.distance < start.distance_to(world_hit.position)):
 			_damage(arrow,body_hit.actor,float(arrow.damage),false,body_hit.point)
 			remove = true
@@ -92,6 +95,7 @@ func tick(delta: float) -> void:
 			if arrow.charge >= float(arrow.weapon.plantCharge) and (int(world_hit.collider.collision_layer) & 1) != 0:
 				arrow.visual.global_position = at
 				arrow.at = at
+				arrow.normal = world_hit.normal
 				arrow.fuse = float(arrow.weapon.blastDelay)
 				planted.append(arrow)
 				arrows.remove_at(i)
@@ -141,6 +145,7 @@ func _explode(arrow: Dictionary) -> void:
 
 func clear_all() -> void:
 	for arrow in arrows: arrow.visual.queue_free()
-	for arrow in planted: arrow.visual.queue_free()
+	for arrow in planted:
+		combat.feedback.remove_warning(arrow.visual.get_instance_id());arrow.visual.queue_free()
 	arrows.clear()
 	planted.clear()

@@ -14,8 +14,8 @@ func _check() -> void:
 	front.play_button.pressed.emit()
 	if scene.phase!="setup" or not front.preparation.visible or front.home.visible:
 		fail("PLAY enters preparation");return
-	if scene.weapon_cards.size()!=8 or front.item_buttons.size()!=9:
-		fail("eight weapons and eight distinct pre-match items");return
+	if scene.weapon_cards.size()!=8 or front.item_buttons.size()!=10:
+		fail("eight weapons and ten distinct pre-match items");return
 	for id in scene.weapon_order:
 		if scene.weapon_cards[id].get_child(0).texture==null:
 			fail("missing source weapon icon");return

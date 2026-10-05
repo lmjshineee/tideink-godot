@@ -14,19 +14,19 @@ func _run() -> void:
 		game.player_health=120; game.player_ink_damage=0; game.player_invuln=0; game.player_last_damage=99
 		for i in hz: game._update_player_vitals(1.0/hz)
 		print("AUDIT: ",hz," Hz enemy ink loss/s=",120-game.player_health)
-		expect(absf(game.player_health-114)<.01,"enemy ink drains six HP per second independently of tick rate")
+		expect(absf(game.player_health-117.6)<.01,"enemy ink drains 2.4 HP per second independently of tick rate")
 		for i in hz*10: game._update_player_vitals(1.0/hz)
 		print("AUDIT: sustained enemy ink health=",game.player_health," accumulated=",game.player_ink_damage)
-		expect(absf(game.player_health-100)<.01 and absf(game.player_ink_damage-20)<.01,"talent enemy ink loss caps at twenty with no in-ink regeneration")
+		expect(absf(game.player_health-108)<.01 and absf(game.player_ink_damage-12)<.01,"talent enemy ink loss caps at twelve with no in-ink regeneration")
 	game.player_health=120; game.player_respawn=0; game.player_invuln=0
 	walker.global_position=Vector3(0,20,36); walker.squid_form=false; walker.get_node("Body").set_form(false)
 	var from: Vector3=walker.global_position+Vector3(0,.9,-4)
 	combat.fire_bot_charger(from,walker.global_position+Vector3.UP*.9,1,1,bot)
 	print("AUDIT: real full charger torso hit health=",game.player_health," respawn=",game.player_respawn)
-	expect(game.player_respawn<=0 and absf(game.player_health-10)<.01,"one normal torso charge cannot one-shot the full-health talent")
+	expect(game.player_respawn<=0 and absf(game.player_health-15)<.01,"one normal torso charge cannot one-shot the full-health talent")
 	game.player_health=120; game.player_respawn=0; game.player_invuln=0
 	game.damage_player(30,false,bot,"shooter")
-	expect(absf(game.player_health-87)<.01,"enemy attacks retain ten percent extra damage")
+	expect(absf(game.player_health-88.5)<.01,"enemy attacks retain five percent extra damage")
 	game.perks.choices[bot.get_instance_id()]="adrenaline"; game.bot_health=50
 	game.player_health=120
 	game.damage_player(108,false,bot,"charger","头部",4)
@@ -45,9 +45,9 @@ func _run() -> void:
 	game.perks.choices[walker.get_instance_id()]="balanced"; walker.grounded=true; walker.ink_owner=1
 	game.player_health=120; game.player_ink_damage=0
 	game._update_player_vitals(1)
-	expect(game.player_health==100,"ordinary enemy-ink DPS remains twenty")
+	expect(game.player_health==112,"ordinary enemy-ink DPS is eight")
 	game._update_player_vitals(9)
-	expect(game.player_health==80 and game.player_ink_damage==40,"ordinary enemy-ink damage cap remains forty")
+	expect(game.player_health==96 and game.player_ink_damage==24,"ordinary enemy-ink damage cap is twenty-four")
 	# Both production bot-vitals paths use the same talent limit.
 	var home := Vector3(0,.05,-20)
 	bot.global_position=home; bot.team_mover.position=Vector3.ZERO
@@ -55,9 +55,9 @@ func _run() -> void:
 	game.perks.choices[bot.get_instance_id()]="enemy_swim"; game.bot_health=120; game.bot_ink_damage=0; game.bot_invuln=0
 	expect(bot.floor_ink_owner()==0,"primary opponent stands on actual hostile ink")
 	game._update_bot_vitals(1)
-	expect(absf(game.bot_health-114)<.01,"primary opponent shares six HP/s")
+	expect(absf(game.bot_health-117.6)<.01,"primary opponent shares 2.4 HP/s")
 	game._update_bot_vitals(9)
-	expect(absf(game.bot_health-100)<.01 and game.bot_ink_damage==20,"primary opponent shares twenty-HP cap")
+	expect(absf(game.bot_health-108)<.01 and game.bot_ink_damage==12,"primary opponent shares twelve-HP cap")
 	var ally: Node3D=game.extra_bots[0]
 	bot.global_position=Vector3(70,40,70); walker.global_position=Vector3(90,40,90)
 	game.perks.choices[ally.get_instance_id()]="enemy_swim"; ally.health=120; ally.ink_damage=0; ally.invuln=0; ally.respawn_time=0
@@ -68,11 +68,11 @@ func _run() -> void:
 	ally.global_position=ally.team_mover.global_position; ally.team_mover.position=Vector3.ZERO
 	game.perks.bot_form(ally,false)
 	expect(ally.get_meta("enemy_swimming",false),"team actor is physically grounded before environment trial")
-	for i in 120:
+	for i in 180:
 		ally.global_position=home; ally.team_mover.position=Vector3.ZERO
 		game._update_team_actor(ally,1.0/30)
 		if i==29:
 			print("AUDIT: team actor HP/s=",120-ally.health," ink budget=",ally.ink_damage)
-			expect(absf(ally.health-114)<.01,"team actor shares six HP/s")
-	expect(absf(ally.health-100)<.01 and ally.ink_damage==20,"team actor shares twenty-HP cap")
-	await finish("enemy-swim six HP/s and twenty-HP cap at three tick rates; actual charge ray, attack disadvantage and final normal-shot ceiling")
+			expect(absf(ally.health-117.6)<.01,"team actor shares 2.4 HP/s")
+	expect(absf(ally.health-108)<.01 and absf(ally.ink_damage-12)<.01,"team actor shares twelve-HP cap")
+	await finish("enemy-swim 2.4 HP/s and twelve-HP cap at three tick rates; actual charge ray, attack disadvantage and final normal-shot ceiling")

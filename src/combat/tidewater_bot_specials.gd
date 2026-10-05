@@ -19,12 +19,15 @@ func charge(actor: Node3D, area: float) -> void:
 	s["points"] = minf(float(weapon["specialCost"]),float(s["points"])+maxf(0,area)*game.perks.charge(actor))
 func busy(actor: Node3D) -> bool:
 	return bool(state(actor).get("active",false))
+func locks_primary(actor: Node3D) -> bool:
+	return busy(actor) and String(state(actor).get("kind","")) not in ["overdrive","ink_vortex"]
 func on_death(actor: Node3D) -> void:
 	var s := state(actor)
 	if s.is_empty(): return
 	game.get_node("Combat").counter.cancel(actor)
 	game.get_node("Combat").rain_arrows.cancel(actor)
-	s["points"] = float(s["points"])*0.5
+	game.get_node("Combat").weapon_specials.cancel(actor)
+	# Death preserves unspent progress. Activated casts already have zero points.
 	s["active"] = false
 	s["windup"] = 0.0
 	actor.get_node("Body").position.y = 0.0
@@ -36,6 +39,9 @@ func tick(delta: float) -> void:
 		s["cooldown"] = maxf(0,float(s["cooldown"])-delta)
 		if not bool(game.call("actor_alive",actor)): continue
 		if game.bot_deployment.busy(actor): continue
+		if bool(s.active) and String(s.get("kind","")) in combat.weapon_specials.KINDS:
+			s.active = combat.weapon_specials.active(actor)
+			continue
 		if bool(s.active) and String(s.get("kind","")) == "rain_arrows":
 			s.active = combat.rain_arrows.busy(actor)
 			continue
@@ -57,7 +63,7 @@ func tick(delta: float) -> void:
 		if float(s["points"])<float(weapon["specialCost"]) or float(s["cooldown"])>0 or game.mobility.busy(actor) or game.wings.busy(actor):
 			continue
 		var nearest: Node3D = null
-		var range_limit := 5.0 if weapon["special"]=="slam" else (23.0 if weapon.special == "rain_arrows" else 18.0 if weapon.special == "twin_discs" else 14.0)
+		var range_limit := 5.0 if weapon["special"]=="slam" else (8.0 if weapon.special == "ink_vortex" else 23.0 if weapon.special in ["rain_arrows","siege_shell","storm"] else 18.0 if weapon.special == "twin_discs" else 14.0)
 		for enemy in game.call("enemies",int(game.call("actor_team",actor))):
 			var distance: float = enemy.global_position.distance_to(actor.global_position)
 			if distance<range_limit and game.intel.can_see(actor,enemy):
@@ -65,6 +71,7 @@ func tick(delta: float) -> void:
 				range_limit = distance
 		if nearest==null: continue
 		if weapon.special == "rain_arrows" and not combat.rain_arrows.begin(actor,game.intel.point(nearest)): continue
+		if weapon.special in combat.weapon_specials.KINDS and not combat.weapon_specials.begin(actor,weapon.special,(game.intel.point(nearest)-(actor.global_position+Vector3.UP*1.05)).normalized()): continue
 		s["points"] = 0.0
 		s["cooldown"] = 12.0
 		s["casts"] = int(s["casts"])+1
@@ -74,7 +81,9 @@ func tick(delta: float) -> void:
 		game.call("play_sound","special_activate",actor.global_position)
 		var team: int = game.call("actor_team",actor)
 		s.kind = weapon.special
-		if weapon.special == "rain_arrows":
+		if weapon.special in combat.weapon_specials.KINDS:
+			s.active = true
+		elif weapon.special == "rain_arrows":
 			s.active = true
 		elif weapon.special == "absorb_counter":
 			s.active = true
@@ -91,7 +100,7 @@ func tick(delta: float) -> void:
 			var from: Vector3 = actor.global_position+Vector3.UP*1.45
 			var direction: Vector3 = (nearest.global_position+Vector3.UP*0.8-from).normalized()
 			combat.call("throw_actor_storm",actor,direction)
-		game.get("presentation").call("notify_ability",String(game.call("_actor_name",actor))+" · "+{"rain_arrows":"雨箭齐射", "absorb_counter":"吸墨反击", "slam":"潮汐重击","storm":"墨水风暴","twin_discs":"双镖突进"}[weapon.special])
+		game.get("presentation").call("notify_ability",String(game.call("_actor_name",actor))+" · "+{"rain_arrows":"雨箭齐射", "absorb_counter":"吸墨反击", "slam":"潮汐重击","storm":"远程墨雨", "overdrive":"潮流速射", "ink_vortex":"回旋墨环", "siege_shell":"压力连炮","twin_discs":"双镖突进"}[weapon.special])
 func escape(actor: Node3D) -> Vector3:
 	var combat := game.get_node("Combat")
 	var residual_escape: Vector3 = game.perks.escape_burst(actor)

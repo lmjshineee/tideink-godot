@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode cull_disabled, diffuse_burley, specular_schlick_ggx;
+render_mode cull_disabled, diffuse_burley, specular_schlick_ggx, alpha_to_coverage;
 
 // Ownership remains CPU-authoritative. This filtered mask only rounds the
 // displayed boundary (at most half a grid cell); it never drives scoring.
@@ -8,8 +8,16 @@ uniform vec2 surface_size = vec2(1.0);
 uniform vec4 team_a : source_color = vec4(1.0);
 uniform vec4 team_b : source_color = vec4(1.0);
 
+// Compact tent reconstruction smooths the 0.25m ledger silhouette locally.
+// Support stays within half a cell; no new mask or ownership data is written.
+vec4 filtered_mask(vec2 uv) {
+ vec2 d = vec2(0.085) / surface_size;
+ return texture(ink_texture,uv)*0.5 +
+  (texture(ink_texture,uv+vec2(d.x,d.y)) + texture(ink_texture,uv-vec2(d.x,d.y)) +
+   texture(ink_texture,uv+vec2(d.x,-d.y)) + texture(ink_texture,uv+vec2(-d.x,d.y)))*0.125;
+}
 void fragment() {
-	vec4 mask = texture(ink_texture, UV);
+	vec4 mask = filtered_mask(UV);
 	// Decode filtered ownership data independently of the display palette.
 	// A majority contour rounds enemy-overpaint edges too, without a purple band.
 	float blue_weight = mask.g / max(mask.a, 0.001);
@@ -37,6 +45,9 @@ void fragment() {
 	SPECULAR = 0.65;
 	CLEARCOAT = 0.85;
 	CLEARCOAT_ROUGHNESS = 0.14;
-	ALPHA = mask.a;
+	float coverage_width = max(fwidth(mask.a),0.012);
+	ALPHA = smoothstep(0.5-coverage_width,0.5+coverage_width,mask.a);
 	ALPHA_SCISSOR_THRESHOLD = 0.5;
+	ALPHA_ANTIALIASING_EDGE = 0.45;
+	ALPHA_TEXTURE_COORDINATE = UV * vec2(textureSize(ink_texture,0));
 }

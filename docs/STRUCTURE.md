@@ -39,3 +39,5 @@ inkwave-game-cleaned/
 更改地图需同步碰撞、墨面、导航、小地图与布景；更改资产先验证实际场景和相关规则，再更新 `assets/integrity.json`。跨模块权威见 [MIGRATION.md](MIGRATION.md)，完整维护规范见 [GODOT_MAINTENANCE.md](GODOT_MAINTENANCE.md)。
 
 部署模块位于 `src/abilities/`：`tidewater_deployment.gd` 拥有玩家选择／镜头及共用落位查询、信标账本；`tidewater_bot_deployment.gd` 拥有机器人复活后的自动选择／蓄力／飞行。`match/tidewater_play.gd` 转发真实复活、死亡、暂停与终场生命周期；小地图仅显示可见落点。
+
+战斗体验模块：`core/bot_difficulty.gd` 给出双方共用难度参数；`combat/tidewater_weapon_specials.gd` 拥有速射、墨环和压力炮状态／真实弹丸，其余大招仍归各专属模块；`ui/incoming_attack.gd` 只持有命中时冻结的反馈，不创建队伍情报；`presentation/tidewater_feedback_fx.gd` 管理有限轨迹和预警显示。平衡与验收见 [EXPERIENCE_TUNING.md](EXPERIENCE_TUNING.md)。

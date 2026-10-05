@@ -25,6 +25,7 @@ func _check() -> void:
 	for actor in scene.all_actors(): scene.perks.choices[actor.get_instance_id()]="balanced"
 	scene.call("_start_round")
 	walker.global_position = bot.global_position + Vector3(0.0, 0.05, -3.2)
+	bot.reaction_target = walker; bot.reaction_time = 0
 	bot.call("tick", 0.1)
 	var shots: Array = combat.get("projectiles")
 	if shots.size() != 1 or String((shots[0] as Dictionary)["kind"]) != "blaster" \
@@ -106,6 +107,7 @@ func _check() -> void:
 	roller_bot.call("select_weapon", "roller")
 	roller_bot.global_position = Vector3(0.0, 0.05, 25.0)
 	roller_walker.global_position = Vector3(0.0, 0.05, 22.0)
+	roller_bot.reaction_target=roller_walker;roller_bot.reaction_time=0
 	for step in 3: roller_bot.call("tick", 1.0/30.0)
 	var roller_combat: Node3D = roller_scene.get_node("Combat")
 	var drops: Array = roller_combat.get("projectiles")

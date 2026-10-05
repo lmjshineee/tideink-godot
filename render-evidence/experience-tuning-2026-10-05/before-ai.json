@@ -1,0 +1,21 @@
+{
+	"kind": "seeded live physics bot idle diagnosis",
+	"maps": [
+		{
+			"map": "tidewater",
+			"seconds": 20,
+			"unexplained_stops": []
+		},
+		{
+			"map": "prism_gallery",
+			"seconds": 20,
+			"unexplained_stops": []
+		},
+		{
+			"map": "viaduct",
+			"seconds": 20,
+			"unexplained_stops": []
+		}
+	],
+	"seed": 731
+}

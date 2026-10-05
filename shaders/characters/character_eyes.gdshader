@@ -57,8 +57,9 @@ void fragment(){
         }
       
  ALBEDO=diffuseColor.rgb;
- EMISSION=iwEyeEmit*0.25;
+ EMISSION=iwEyeEmit*0.45;
  ROUGHNESS=mix(0.28,0.45,iwEyeRim);
- CLEARCOAT=0.25;
+ SPECULAR=0.35;
+ CLEARCOAT=0.35;
  CLEARCOAT_ROUGHNESS=0.2;
 }

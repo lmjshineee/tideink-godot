@@ -19,7 +19,7 @@ func _run() -> void:
 	game.perks.select_player("runner")
 	expect(absf(walker.player_config["runSpeed"]-6.6)<0.01,"runner uses actual movement config")
 	game.perks.select_player("saver")
-	expect(absf(game.perks.weapon(walker,combat.weapons["shooter"])["inkPerShot"]-0.76)<0.01,"ink saver transforms main costs")
+	expect(absf(game.perks.weapon(walker,combat.weapons["shooter"])["inkPerShot"]-0.68)<0.01,"ink saver transforms main costs")
 	game.perks.select_player("adrenaline")
 	var bots:=[]
 	for actor in game.all_actors():bots.append(game.perks.kind(actor))

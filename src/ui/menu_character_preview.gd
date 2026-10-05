@@ -26,9 +26,9 @@ func setup(game: Node3D) -> void:
 	view.msaa_3d=Viewport.MSAA_4X
 	var environment:=WorldEnvironment.new();environment.environment=Environment.new()
 	environment.environment.ambient_light_source=Environment.AMBIENT_SOURCE_COLOR
-	environment.environment.ambient_light_color=Color("d7e6ff");environment.environment.ambient_light_energy=0.65
+	environment.environment.ambient_light_color=Color("edf0ff");environment.environment.ambient_light_energy=0.48
 	view.add_child(environment)
-	var key:=DirectionalLight3D.new();key.rotation_degrees=Vector3(-35,-35,0);key.light_energy=1.6;key.shadow_enabled=true;key.directional_shadow_max_distance=8;view.add_child(key)
+	var key:=DirectionalLight3D.new();key.rotation_degrees=Vector3(-35,-35,0);key.light_energy=1.05;key.shadow_enabled=true;key.directional_shadow_max_distance=8;view.add_child(key)
 	var rim:=OmniLight3D.new();rim.position=Vector3(-2,2,-2);rim.light_color=preload("res://src/core/team_palette.gd").color(1).lightened(0.4);rim.light_energy=0.8;rim.omni_range=5;view.add_child(rim)
 	var plinth:=MeshInstance3D.new();var cylinder:=CylinderMesh.new();cylinder.top_radius=0.72;cylinder.bottom_radius=0.8;cylinder.height=0.12;plinth.mesh=cylinder;plinth.position.y=-0.07
 	var material:=StandardMaterial3D.new();material.albedo_color=preload("res://src/core/team_palette.gd").color(0).darkened(0.45);material.roughness=0.55;plinth.material_override=material;view.add_child(plinth)

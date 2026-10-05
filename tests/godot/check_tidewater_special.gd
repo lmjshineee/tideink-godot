@@ -25,12 +25,13 @@ func _check() -> void:
 	if float(combat.get("special_points")) <= 0.0:
 		_fail("player turf did not charge the special")
 		return
+	combat.select_weapon("roller")
 	combat.set("special_points", 190.0)
 	var activate := InputEventKey.new()
 	activate.keycode = KEY_F
 	activate.pressed = true
 	if not bool(combat.call("special_ready")):
-		_fail("shooter slam did not activate at its source cost")
+		_fail("roller slam did not activate at its source cost")
 		return
 	scene.call("_input", activate)
 	if combat.get("special_active") != "slam" or walker.get("slam_phase") != "rise" or float(combat.get("special_points")) != 0.0:
@@ -82,14 +83,15 @@ func _check() -> void:
 		return
 	combat.set("special_points", 100.0)
 	combat.call("on_death")
-	if absf(float(combat.get("special_points")) - 50.0) > 0.001:
-		_fail("death should halve retained special points")
+	if absf(float(combat.get("special_points")) - 100.0) > 0.001:
+		_fail("death should retain all unspent special points")
 		return
 	var timeline := (load("res://scenes/match/tidewater_play.tscn") as PackedScene).instantiate()
 	root.add_child(timeline)
 	await physics_frame
 	timeline.call("_start_round")
 	var real_combat: Node3D = timeline.get_node("Combat")
+	real_combat.select_weapon("roller")
 	real_combat.set("special_points", 190.0)
 	if not bool(real_combat.call("try_special")):
 		_fail("live slam activation")

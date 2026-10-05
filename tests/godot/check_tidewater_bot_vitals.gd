@@ -23,14 +23,14 @@ func _check() -> void:
 	if int(bot.call("floor_ink_owner")) != 0:
 		_fail("bot did not sample enemy ink from the shared surface grid")
 		return
-	for i in range(5):
+	for i in range(6):
 		scene.call("_update_bot_vitals", 0.5)
-	if not _near(float(scene.get("bot_health")), 80.0) \
+	if not _near(float(scene.get("bot_health")), 96.0) \
 			or not _near(float(scene.get("bot_ink_damage")), float(config["enemyInkDamageCap"])):
 		_fail("enemy ink damage or cap")
 		return
 	scene.call("_update_bot_vitals", 1.0)
-	if not _near(float(scene.get("bot_health")), 80.0):
+	if not _near(float(scene.get("bot_health")), 96.0):
 		_fail("enemy ink should stop at cap without regenerating")
 		return
 	scene.call("paint_at_world", bot.global_position + Vector3.UP * 0.12, 1, 1.5, 0.5)
@@ -40,17 +40,17 @@ func _check() -> void:
 	scene.call("_update_bot_vitals", 0.5)
 	scene.call("_update_bot_vitals", 0.5)
 	scene.call("_update_bot_vitals", 0.5)
-	if not _near(float(scene.get("bot_health")), 92.0) \
+	if not _near(float(scene.get("bot_health")), 108.0) \
 			or not _near(float(scene.get("bot_ink_damage")), 0.0):
 		_fail("delayed normal regeneration or ink damage decay")
 		return
 	scene.call("damage_bot", 10.0)
 	scene.call("_update_bot_vitals", 1.0)
-	if not _near(float(scene.get("bot_health")), 82.0):
+	if not _near(float(scene.get("bot_health")), 98.0):
 		_fail("direct hit should restart regeneration delay")
 		return
 	scene.call("_update_bot_vitals", 0.81)
-	if float(scene.get("bot_health")) <= 82.0:
+	if float(scene.get("bot_health")) <= 98.0:
 		_fail("direct hit regeneration did not resume")
 		return
 	scene.call("damage_bot", float(scene.get("bot_health")))

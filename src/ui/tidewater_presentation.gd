@@ -7,6 +7,7 @@ const Visual := preload("res://src/actors/tidewater_character_visual.gd")
 var game: Node3D
 var display_phase := ""
 var clock := 0.0
+var incoming:=preload("res://src/ui/incoming_attack.gd").new()
 var damage_flash := 0.0
 var hit_flash := 0.0
 var kill_flash := false
@@ -74,6 +75,7 @@ func setup(owner_game: Node3D) -> void:
 		models.append(model)
 
 func _process(delta: float) -> void:
+	if game.phase=="playing" and not game.paused:incoming.tick(delta)
 	clock += delta
 	damage_flash = maxf(0.0,damage_flash-delta*2.5)
 	hit_flash = maxf(0.0,hit_flash-delta)
@@ -191,8 +193,7 @@ func _draw() -> void:
 				_text("点队友 / 信标排队 · J 查看地图 · Esc 回基地 · R 重摇",Vector2(center.x,size.y*0.80),22)
 				_text("正在飞向："+game.deployment.selected_label() if game.deployment.flying else ("已准备："+game.deployment.selected_label()+" · 倒计时结束发射" if queued and not bool(game.get("respawn_ready")) else "左键 / 空格 出场 · 可在倒计时期间提前准备"),Vector2(center.x,size.y*0.86),21)
 			elif not bool(game.get("paused")):
-				if Time.get_ticks_msec()<int(game.get("last_damage_until")):
-					_hud_text(game.get("last_damage_text"),Vector2(center.x,size.y*0.75),12,Color("ffb4cb"))
+				_draw_incoming(enemy)
 				_draw_roster(team,enemy)
 				_draw_vitals(team)
 				if bool(game.get("pointer_locked")):
@@ -262,7 +263,12 @@ func _draw_special(team: Color) -> void:
 	var caption := "F / Q  就绪" if fraction >= 1 else "大招充能"
 	var remaining := ""
 	var walker: Node3D = game.get_node("World/Walker")
-	if combat.counter.busy(walker):
+	if combat.weapon_specials.active(walker):
+		var active:Dictionary=combat.weapon_specials.states[walker.get_instance_id()]
+		ring_fraction=float(active.time)/(1.35 if active.kind=="siege_shell" else 6.0)
+		value="%.1f" % active.time;unit="s";caption="连炮发射" if active.kind=="siege_shell" else "大招生效"
+		remaining="%d / 3" % active.count if active.kind=="siege_shell" else "可继续主射"
+	elif combat.counter.busy(walker):
 		var intake: Dictionary = combat.counter.intakes[walker.get_instance_id()]
 		ring_fraction = float(intake.charge)/100
 		value = "%.0f" % intake.charge
@@ -371,3 +377,23 @@ func _draw_fog_tags() -> void:
 		draw_arc(at,8,0,TAU,24,Color.WHITE,2,true)
 		draw_circle(at,3,Palette.color(1))
 		_text("声呐 · %.0fm" % mark.height,at+Vector2(0,22),16)
+
+func _draw_incoming(enemy:Color) -> void:
+	var camera:Camera3D=game.get_node("World/Walker/Camera3D")
+	var player:Vector3=game.get_node("World/Walker").global_position
+	for i in range(incoming.entries.size()):
+		var entry:Dictionary=incoming.entries[i]
+		var alpha:float=minf(1,float(entry.time)/.45)
+		var point:=Vector2(size.x*.5,size.y*.70+i*32)
+		var text:="受击 · %s  −%.0f" % [entry.label,entry.amount]
+		var width:float=minf(size.x*.82,maxf(280,text.length()*14+28))
+		draw_style_box(game._ui_style(Color(.07,.045,.10,.86*alpha),Color(enemy,alpha),2,8),Rect2(point-Vector2(width*.5,19),Vector2(width,29)))
+		_hud_text(text,point,17,Color(Color.WHITE,alpha))
+		var direction:Vector2=incoming.direction(entry,camera,player)
+		if direction==Vector2.ZERO:continue
+		# Off-screen/behind attacks use the same camera-relative compass; the
+		# frozen position is not a contact on the team map or an enemy name tag.
+		var tip:=size*.5+direction*minf(155,size.y*.26)
+		var side:=Vector2(-direction.y,direction.x)
+		draw_colored_polygon(PackedVector2Array([tip+direction*13,tip-direction*10+side*9,tip-direction*10-side*9]),Color(enemy,alpha))
+		draw_polyline(PackedVector2Array([tip+direction*13,tip-direction*10+side*9,tip-direction*10-side*9,tip+direction*13]),Color(.08,.04,.10,alpha),2,true)

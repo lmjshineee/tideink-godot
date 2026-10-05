@@ -3,11 +3,11 @@ render_mode cull_disabled;
 uniform vec4 team_color : source_color;
 // Source strand tint, cap grooves and underside suction cups, carried by UV2.
 void fragment() {
- vec3 tc=team_color.rgb,light=mix(tc,vec3(1.0),0.55),dark=tc*0.5;
+ vec3 tc=team_color.rgb,light=mix(tc,vec3(1.0),0.55),dark=tc*0.65;
  vec3 col=tc;
  float cup=0.0;
  ROUGHNESS=0.3;
- CLEARCOAT=0.65;
+ CLEARCOAT=0.45;
  if(UV2.x<=-1.5) {
   col=mix(COLOR.rgb,COLOR.rgb*tc,COLOR.a);
   float cls=floor(-UV2.x-2.0+0.5);
@@ -37,5 +37,7 @@ void fragment() {
   ROUGHNESS=mix(0.3,0.42,cup);
  }
  ALBEDO=col;
- CLEARCOAT_ROUGHNESS=0.16;
+ SPECULAR=0.4;
+ BACKLIGHT=col*0.08;
+ CLEARCOAT_ROUGHNESS=0.22;
 }

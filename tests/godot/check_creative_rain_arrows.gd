@@ -43,11 +43,11 @@ func _run() -> void:
 	s = rain.casts[walker.get_instance_id()]; s.next = .01
 	rain.tick(.02); rain.cancel(walker)
 	simulate(2)
-	expect(game.bot_health >= 75 and game.bot_health < 120,"one actual wave stays below 45 outgoing damage")
+	expect(game.bot_health >= 65 and game.bot_health < 120,"one actual wave stays below 55 outgoing damage")
 	clear(); game.perks.choices[walker.get_instance_id()] = "adrenaline"; game.player_health = 120
 	var a := {"owner":walker,"team":0,"budget":{"hits":{}}}
 	rain._damage(a,bot,28); game.player_health = 50; rain._damage(a,bot,28)
-	expect(is_equal_approx(game.bot_health,75),"changing outgoing perk mid-flight cannot exceed per-wave cap")
+	expect(is_equal_approx(game.bot_health,65),"changing outgoing perk mid-flight cannot exceed per-wave cap")
 	game.perks.choices[walker.get_instance_id()] = "balanced"; game.player_health = 120
 	clear(); bot.global_position = Vector3(0,.05,-14)
 	var roof := wall(Vector3(0,2.4,-17),Vector3(10,.12,12)); await physics_frame
@@ -116,11 +116,11 @@ func _run() -> void:
 			for i in 215: combat.bow.tick(.01)
 			rounds += 1
 		if combat.special_ready(): break
-	expect(combat.special_ready() and combat.special_points == 170,"actual primary arrows/explosions on fresh turf fill 170-point rain meter")
+	expect(combat.special_ready() and combat.special_points == 140,"actual primary arrows/explosions on fresh turf fill 140-point rain meter")
 	print("AUDIT: rain charged by ",rounds," actual bow volleys / controlled positions and ink")
 	walker.global_position = home; await physics_frame
 	camera.global_position = home+Vector3(0,2,-3); camera.look_at(home+Vector3(0,0,6))
 	key(KEY_F,true); key(KEY_F,false)
 	expect(rain.busy(walker) and combat.special_points == 0,"real F consumes legitimately paint-charged bow meter")
 	game._finish_round(); expect(rain.casts.is_empty() and rain.arrows.is_empty(),"round end clears pending/flying rain arrows")
-	await finish("rain arrows F input/target validity/cost, announced ballistic volleys, action locks, actual impacts/45 cap/perk change, roof/wall/thin-deck occlusion, death projectile ownership, AI dispatch and cleanup")
+	await finish("rain arrows F input/target validity/cost, announced ballistic volleys, action locks, actual impacts/55 cap/perk change, roof/wall/thin-deck occlusion, death projectile ownership, AI dispatch and cleanup")

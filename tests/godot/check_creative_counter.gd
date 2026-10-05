@@ -35,7 +35,7 @@ func _run() -> void:
 			for i in 12: combat._update_projectiles(.033)
 			rounds += 1
 		if combat.special_ready(): break
-	expect(combat.special_ready() and combat.special_points == 150,"actual canopy pellets on fresh turf fill the 150-point counter meter")
+	expect(combat.special_ready() and combat.special_points == 125,"actual canopy pellets on fresh turf fill the 125-point counter meter")
 	print("AUDIT: counter charged by ",rounds," real pellet volleys / controlled terrain positions and ink")
 	game.pointer_locked = true
 	key(KEY_F,true); key(KEY_F,false)
@@ -52,10 +52,10 @@ func _run() -> void:
 	game.items.equip(walker,"bomb")
 	expect(not game.items.use(walker) and not combat.try_special(), "cannot stack items or another special during counter")
 	walker.update_intent(.1,false,true,combat.is_busy())
-	expect(not walker.squid_form and walker.firing_speed_limit == 2.5, "counter prevents dive and applies movement limit")
+	expect(not walker.squid_form and walker.firing_speed_limit == 3.0, "counter prevents dive and applies movement limit")
 	walker.velocity = Vector3(11,2,0)
 	for i in 30: walker._horizontal_step(.033,Vector2.RIGHT,false,false,false)
-	expect(Vector2(walker.velocity.x,walker.velocity.z).length() <= 2.5001 and walker.velocity.y == 2,"airborne counter clamps inherited momentum/air minimum without removing vertical motion")
+	expect(Vector2(walker.velocity.x,walker.velocity.z).length() <= 3.0001 and walker.velocity.y == 2,"airborne counter clamps inherited momentum/air minimum without removing vertical motion")
 	walker.velocity = Vector3.ZERO
 	combat.tick(.01,true,false)
 	expect(combat.projectiles.is_empty() and combat.ink_amount == 100, "left trigger cannot emit pellets or spend ink during intake")
@@ -103,19 +103,19 @@ func _run() -> void:
 	expect(combat.bow.arrows.is_empty() and combat.bow.planted.is_empty() and s.absorbed == 3 and is_equal_approx(s.charge,100), "actual three arrows fill capped intake and never leave delayed explosions")
 	combat._spawn_projectile("shooter",Vector3(0,41.05,6),Vector3(0,0,-40),combat.weapons.shooter,1,bot)
 	combat._update_projectiles(.03)
-	expect(s.charge == 100 and s.phase == "windup" and s.time == .4, "full capacity closes mouth with a visible exposed windup")
+	expect(s.charge == 100 and s.phase == "windup" and s.time == .3, "full capacity closes mouth with a visible exposed windup")
 	game.player_health = 120
 	combat._spawn_projectile("shooter",Vector3(0,41.05,3),Vector3(0,0,-40),combat.weapons.shooter,1,bot)
 	for i in 10: combat._update_projectiles(.01)
 	expect(game.player_health < 120, "windup stops absorption rather than granting immunity")
 	clear_shots(); game.bot_health = 120; bot.health = 120
 	s.direction = Vector3(0,0,1)
-	counter.tick(.39)
+	counter.tick(.29)
 	expect(combat.projectiles.is_empty() and counter.busy(walker), "counter shot waits full windup")
 	counter.tick(.011)
-	expect(not counter.busy(walker) and walker.action_move_limit == INF and combat.projectiles.size() == 1 and combat.projectiles[0].weapon.damage == 100, "one full-charge counter shot releases and restores movement")
+	expect(not counter.busy(walker) and walker.action_move_limit == INF and combat.projectiles.size() == 1 and combat.projectiles[0].weapon.damage == 120, "one full-charge counter shot releases and restores movement")
 	for i in 30: combat._update_projectiles(.01)
-	expect(is_equal_approx(game.bot_health,20), "actual direct counter hit is 100 without head/splash stacking")
+	expect(is_equal_approx(game.bot_health,0), "actual direct counter hit is 120 without head/splash stacking")
 	expect(game._attacker_description(walker,"absorb_counter").contains("吸墨反击"), "counter has readable source name")
 	# Empty intake times out into a weak shot; actual map collision stops it.
 	start(); s = counter.intakes[walker.get_instance_id()]
@@ -131,7 +131,7 @@ func _run() -> void:
 	expect(counter.intakes.is_empty() and combat.projectiles.is_empty() and combat.special_active == "", "death cancels pending counter without postmortem release")
 	# A bot starts the same intake only on acquired vision and keeps a physical body.
 	walker.global_position = Vector3(0,.05,-20); walker.update_form(false)
-	bot.global_position = Vector3(3,.05,-20); bot.select_weapon("canopy"); game.bot_health = 120; bot.health = 120
+	bot.global_position = Vector3(3,.05,-20); bot.select_weapon("canopy"); game.bot_respawn=0; game.bot_health = 120; bot.health = 120
 	var bs: Dictionary = game.bot_specials.state(bot)
 	bs.points = 150; bs.cooldown = 0; bs.active = false
 	game.intel.clear_all(); game.intel.refresh()
@@ -139,7 +139,7 @@ func _run() -> void:
 	expect(bs.active and bs.kind == "absorb_counter" and counter.busy(bot) and bs.points == 0, "AI spends actual canopy meter on same directional counter")
 	var old := bot.global_position
 	game._update_bot(.033)
-	expect(bot.global_position.distance_to(old) <= .033*2.5+.03 and not bot.get_meta("enemy_swimming",false), "bot remains physical and respects counter speed/form limit")
+	expect(bot.global_position.distance_to(old) <= .033*3.0+.03 and not bot.get_meta("enemy_swimming",false), "bot remains physical and respects counter speed/form limit")
 	game.player_health = 120; game.player_invuln = 0
 	counter.tick(3.01); counter.tick(.41)
 	for i in 20: combat._update_projectiles(.01)

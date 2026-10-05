@@ -25,16 +25,16 @@ func _run() -> void:
 	game.player_health = 120
 	game.player_ink_damage = 0
 	game._update_player_vitals(1)
-	expect(game.player_health == 114, "enemy ink damage reduces to six HP per second")
+	expect(absf(game.player_health-117.6)<.01, "enemy ink damage reduces to 2.4 HP per second")
 	combat.ink_amount = 50
 	combat.last_fire_time = 99
 	combat.tick(0.2, false, true)
 	expect(combat.ink_amount == 50, "enemy diving cannot refill ink")
 	game.damage_player(30, false, bot, "shooter")
-	expect(absf(game.player_health-81)<.01, "incoming weapon damage rises ten percent")
+	expect(absf(game.player_health-86.1)<.01, "incoming weapon damage rises five percent")
 	game.player_last_damage = 99
 	game._update_player_vitals(0.1)
-	expect(game.player_health < 81, "enemy ground prevents health regen")
+	expect(game.player_health < 86.1, "enemy ground prevents health regen")
 	walker.grounded = false
 	walker.update_form(false)
 	expect(not walker.can_dive(), "enemy talent does not enable an airborne dive")

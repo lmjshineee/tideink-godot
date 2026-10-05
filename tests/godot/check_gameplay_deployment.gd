@@ -95,6 +95,7 @@ func _run() -> void:
 		bot.global_position = place+Vector3(0.1,0,0)
 		game.bot_invuln = 0
 		game.bot_health = 120
+		combat.select_weapon("roller")
 		combat.set("ink_amount",1)
 		combat.set("special_points",combat.call("special_cost"))
 		expect(combat.call("try_special"),"special activation accepted")
@@ -111,7 +112,7 @@ func _run() -> void:
 		combat.call("_spawn_cloud",place,Vector3.ZERO)
 		combat.set("special_points",0)
 		combat.call("_update_clouds",1.0)
-		expect(absf(game.bot_health-78)<0.01,"storm applies 42 DPS at exposed target")
+		expect(absf(game.bot_health-72)<0.01,"storm applies 48 DPS at exposed target")
 		expect(combat.get("special_points")==0,"storm cannot recharge its own special")
 		combat.call("_spawn_cloud",place,Vector3.ZERO)
 		combat.call("_spawn_cloud",place,Vector3.ZERO)
@@ -130,7 +131,7 @@ func _run() -> void:
 			var stats: Dictionary = actor.get_meta("match_stats")
 			var cells: Array = game.tactics.row_cells[index]
 			expect(cells[0].text.begins_with("%02d" % game.actor_id(actor)) and cells[2].text==str(int(stats.kills)) and cells[3].text==str(int(stats.deaths)) and cells[4].text=="%.0f" % float(stats.damage) and cells[5].text=="%.0f" % float(stats.turf),"each result row displays the corresponding actor's recorded stats")
-		print("AUDIT: ",map_id," landing=",chosen," HP=120 shield=60 storm=42 DPS launcher respawn")
+		print("AUDIT: ",map_id," landing=",chosen," HP=120 shield=60 storm=48 DPS launcher respawn")
 		game.queue_free()
 		await process_frame
 	if failures.is_empty():

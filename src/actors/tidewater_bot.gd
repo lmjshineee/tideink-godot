@@ -1,5 +1,6 @@
 extends Node3D
 
+const Difficulty := preload("res://src/core/bot_difficulty.gd")
 const TeamPalette := preload("res://src/core/team_palette.gd")
 
 # Tidewater 1v1 opponent. Patrol the clear right lane, pursue a visible nearby
@@ -28,6 +29,13 @@ var route_index := 0
 var repath_time := 0.0
 var jump_time := 0.0
 var jumps_started := 0
+var reaction_target: Node3D
+var reaction_time := 0.0
+var strafe_sign := 1.0
+var strafe_time := 0.0
+var blocked_time := 0.0
+var recovery_time := 0.0
+var recovery_direction := Vector3.ZERO
 var target_actor: Node3D
 var game: Node3D
 var walker: CharacterBody3D
@@ -85,6 +93,10 @@ func reset() -> void:
 	if team_mover != null:
 		team_mover.position = Vector3.ZERO
 		team_mover.velocity = Vector3.ZERO
+	reaction_target = null
+	reaction_time = 0.0
+	blocked_time = 0.0
+	recovery_time = 0.0
 	route.clear()
 	repath_time = 0.0
 	jump_time = 0.0
@@ -109,6 +121,13 @@ func reset() -> void:
 func select_weapon(id: String) -> bool:
 	if not game.get_node("Combat").get("weapons").has(id):
 		return false
+	var combat: Node3D = game.get_node("Combat")
+	if game.bot_specials != null:
+		var meter: Dictionary = game.bot_specials.state(self)
+		if not meter.is_empty():
+			var fraction := float(meter.points) / float(combat.weapons[weapon_id].specialCost)
+			game.bot_specials.on_death(self)
+			meter.points = clampf(fraction,0,1) * float(combat.weapons[id].specialCost)
 	weapon_id = id
 	attack_cooldown = 0.0
 	charge_time = 0.0
@@ -348,18 +367,22 @@ func _update_health_visual() -> void:
 		health_bar.look_at(camera.global_position, Vector3.RIGHT if absf(toward.normalized().y) > 0.99 else Vector3.UP, true)
 
 
-func _show_attack(target: Vector3 = Vector3.INF) -> void:
+func _show_attack(target: Vector3 = Vector3.INF, preaim:bool=false) -> void:
 	var from := global_position + Vector3.UP * 1.1
 	var to := target if target.is_finite() else walker.global_position + Vector3.UP * 1.0
+	var ray:=PhysicsRayQueryParameters3D.create(from,to,game.get_node("Combat").world_mask(team))
+	var hit:=get_world_3d().direct_space_state.intersect_ray(ray)
+	if not hit.is_empty():to=hit.position
+	if weapon_id!="charger" and not preaim:to=from+(to-from).limit_length(1.6)
 	var length := from.distance_to(to)
 	if length < 0.01:
 		return
-	attack_tracer_mesh.size = Vector3(0.055, 0.055, length)
+	attack_tracer_mesh.size = Vector3(.035 if preaim else .085,.035 if preaim else .085,length)
 	attack_tracer.global_position = (from + to) * 0.5
 	var up := Vector3.RIGHT if absf((to - from).normalized().dot(Vector3.UP)) > 0.98 else Vector3.UP
 	attack_tracer.look_at(to, up)
 	attack_tracer.visible = true
-	attack_visual_time = 0.14
+	attack_visual_time = .08 if preaim else .22
 
 
 func _return_step(distance: float) -> void:
@@ -445,14 +468,15 @@ func _tick_team(delta: float) -> void:
 	var combat: Node3D = game.get_node("Combat")
 	var config: Dictionary = combat.get("weapon_data")["player"]
 	roll_hit_cooldown = maxf(0, roll_hit_cooldown - delta)
-	var weapon: Dictionary = game.perks.weapon(self,combat.get("weapons")[weapon_id])
+	var profile := Difficulty.profile(game.ai_level)
+	var weapon: Dictionary = combat.weapon_specials.modify_weapon(self,game.perks.weapon(self,combat.get("weapons")[weapon_id]))
 	attack_cooldown = maxf(0.0, attack_cooldown - delta)
 	$Body.call("set_expression_state",ink_amount/float(game.call("actor_ink_max",self)),float(game.call("actor_health",self))/float(game.call("actor_max_health",self)),charge_time/maxf(0.01,float(weapon.get("chargeTime",1.0))),false)
 	attack_visual_time = maxf(0.0, attack_visual_time - delta)
 	attack_tracer.visible = attack_visual_time > 0.0
 	game.perks.bot_form(self, target_actor != null)
 	last_fire_time += delta
-	if not game.wings.busy(self) and not bool(get_meta("enemy_swimming", false)) and last_fire_time > float(config["inkRefillDelay"]):
+	if charge_time <= 0 and not combat.canopy.holding(self) and not game.bot_specials.locks_primary(self) and not game.wings.busy(self) and not bool(get_meta("enemy_swimming", false)) and last_fire_time > float(config["inkRefillDelay"]):
 		ink_amount = minf(float(game.call("actor_ink_max",self)), ink_amount + float(config["inkRefillKid"]) * game.perks.refill(self) * delta)
 	_update_health_visual()
 	# Visibility and opponent selection belong to each bot, never to the local player alone.
@@ -463,6 +487,10 @@ func _tick_team(delta: float) -> void:
 		if distance < best and _visible_actor(enemy):
 			best = distance
 			target_actor = enemy
+	if target_actor != reaction_target:
+		reaction_target = target_actor
+		reaction_time = float(profile.reaction)
+	reaction_time = maxf(0,reaction_time-delta)
 	var lure: Dictionary = game.items.decoys.target_for(self,best)
 	if not lure.is_empty():
 		target_actor = null; best = global_position.distance_to(lure.point)
@@ -488,7 +516,7 @@ func _tick_team(delta: float) -> void:
 		elif not contact.is_empty(): route = nav.route(global_position, contact.point, team)
 		else: route = nav.patrol(global_position, team, slot)
 		route_index = 1 if route.size() > 1 else 0
-		repath_time = randf_range(1.0, 2.0)
+		repath_time = float(profile.repath) * randf_range(.9,1.2)
 	var old := global_position
 	var travel := Vector3.ZERO
 	var jump_edge := false
@@ -507,6 +535,23 @@ func _tick_team(delta: float) -> void:
 				# Source walk edges allow 0.5m rises, but the collision body cannot
 				# step sideways through a ramp's vertical edge. Hop these small lips.
 				jump_edge = transition in ["jump","walk"] and offset.y > 0.4 and horizontal.length() < 2.5
+	# Visible in-range enemies still permit collision-safe lateral movement.
+	# Chargers/bows slow while drawing; easier AI moves more slowly.
+	strafe_time -= delta
+	if strafe_time <= 0:
+		strafe_time = 1.5
+		strafe_sign = -strafe_sign
+	if fighting and best <= _engagement_distance(weapon) and float(profile.strafe) > 0 and weapon_id != "roller":
+		var focus: Vector3 = lure.point if not lure.is_empty() else target_actor.global_position
+		var facing := Vector3(focus.x-global_position.x,0,focus.z-global_position.z).normalized()
+		var side := facing.cross(Vector3.UP) * strafe_sign
+		travel = _safe_combat_step(side, float(profile.strafe) * (.55 if charge_time > 0 else 1.0))
+		if travel == Vector3.ZERO:
+			strafe_sign = -strafe_sign
+			travel = _safe_combat_step(-side,float(profile.strafe))
+	if recovery_time > 0:
+		recovery_time -= delta
+		travel = _safe_combat_step(recovery_direction,2.0)
 	# A collision body owns support, walls and gravity; the source graph can include
 	# drop edges without teleporting through geometry or refusing every ledge.
 	if game.mobility.rolling(self):
@@ -545,7 +590,15 @@ func _tick_team(delta: float) -> void:
 		remove_meta("vault_origin")
 	team_mover.position = Vector3.ZERO
 	if jump_time <= 0.0 and travel.length_squared() > 0.01 and global_position.distance_to(old) < delta * 0.15:
-		repath_time = 0.0
+		blocked_time += delta
+		if blocked_time > 1.1:
+			# Step aside, then retry the route; never teleport through a wall.
+			recovery_direction = travel.normalized().cross(Vector3.UP) * strafe_sign
+			recovery_time = .65
+			repath_time = 0.0
+			blocked_time = 0
+	else:
+		blocked_time = 0
 	var movement := global_position - old
 	var aim: Vector3 = lure.point-global_position if not lure.is_empty() else target_actor.global_position-global_position if target_actor != null else movement
 	if aim.length_squared() > 0.001:
@@ -561,24 +614,25 @@ func _tick_team(delta: float) -> void:
 		ink_amount = maxf(0.0, ink_amount - 0.6)
 	if weapon_id=="canopy":
 		var candidate: Node3D = lure.visual if not lure.is_empty() else target_actor
-		combat.canopy.bot_input(self,delta,candidate if not game.mobility.busy(self) and not game.bot_specials.busy(self) else null)
+		combat.canopy.bot_input(self,delta,candidate if not game.mobility.busy(self) and not game.bot_specials.locks_primary(self) and reaction_time <= 0 else null)
 		return
-	if not fighting or game.mobility.busy(self) or game.bot_specials.busy(self):
+	if not fighting or game.mobility.busy(self) or game.bot_specials.locks_primary(self) or reaction_time > 0:
 		charge_time = 0.0
 		return
 	var from := global_position + Vector3.UP * 1.05
 	var target: Vector3 = (lure.point if not lure.is_empty() else target_actor.global_position)+Vector3.UP*.8
+	target = Difficulty.aim(from,target,game.ai_level)
 	var attack_range := _weapon_reach(weapon)
 	if from.distance_to(target) > attack_range or attack_cooldown > 0.0:
 		return
 	match String(weapon["kind"]):
 		"disc":
-			if combat.discs.throw_primary(self, target): attack_cooldown = float(weapon.fireInterval)
+			if combat.discs.throw_primary(self, target): attack_cooldown = float(weapon.fireInterval) * float(profile.cadence)
 		"shooter", "blaster":
 			if ink_amount < float(weapon["inkPerShot"]):
 				return
 			ink_amount -= float(weapon["inkPerShot"])
-			attack_cooldown = float(weapon["fireInterval"])
+			attack_cooldown = float(weapon["fireInterval"]) * float(profile.cadence)
 			combat.call("spawn_bot_shot", from, target, weapon_id, team,self)
 		"bow":
 			if ink_amount<float(weapon.inkMin): return
@@ -586,22 +640,23 @@ func _tick_team(delta: float) -> void:
 			charge_time+=delta
 			if charge_time<float(weapon.chargeTime)*draw: return
 			charge_time=0
-			if combat.bow.fire(self,target,draw): attack_cooldown=lerpf(float(weapon.releaseMin),float(weapon.releaseFull),draw)
+			if combat.bow.fire(self,target,draw): attack_cooldown=lerpf(float(weapon.releaseMin),float(weapon.releaseFull),draw)*float(profile.cadence)
 		"charger":
 			if ink_amount < float(weapon["inkFull"]):
 				return
 			charge_time += delta
 			if charge_time < float(weapon["chargeTime"]):
+				_show_attack(target,true)
 				return
 			charge_time = 0.0
 			ink_amount -= float(weapon["inkFull"])
-			attack_cooldown = 0.28
+			attack_cooldown = 0.28 * float(profile.cadence)
 			combat.call("fire_bot_charger", from, target, 1.0, team,self)
 		"roller":
 			if ink_amount < float(weapon["flickInk"]):
 				return
 			ink_amount -= float(weapon["flickInk"])
-			attack_cooldown = float(weapon["flickInterval"])
+			attack_cooldown = float(weapon["flickInterval"]) * float(profile.cadence)
 			combat.call("spawn_bot_flick", from, target, team,self)
 	last_fire_time = 0.0
 	$Body.call("set_action", "flick" if weapon_id == "roller" else "shoot")
@@ -612,3 +667,13 @@ func _visible_actor(actor: Node3D) -> bool:
 	if game.intel != null: return game.intel.can_see(self, actor)
 	var query := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP, actor.global_position + Vector3.UP * 0.8, 1)
 	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
+
+
+func _safe_combat_step(direction: Vector3, speed: float) -> Vector3:
+	var at := global_position + direction * .75
+	var checked: Dictionary = game.deployment.landing(Vector2(at.x,at.z),false,global_position.y,team,self)
+	if checked.is_empty(): return Vector3.ZERO
+	return direction * minf(speed*game.perks.movement(self)*game.perks.vault_factor(self)*game.items.move_factor(self),combat_move_limit())
+
+func combat_move_limit() -> float:
+	return game.get_node("Combat").counter.move_limit(self)

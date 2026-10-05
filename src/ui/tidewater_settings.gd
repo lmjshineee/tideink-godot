@@ -12,7 +12,8 @@ const MIN_LOOK_SENSITIVITY := 0.0005
 const MAX_LOOK_SENSITIVITY := 0.006
 
 const RENDER_SCALE_OPTIONS := [0.75, 1.0]
-var render_scale := 0.75
+const DEFAULT_RENDER_SCALE := 1.0
+var render_scale := DEFAULT_RENDER_SCALE
 var fps_cap := DEFAULT_FPS
 var ui_scale := DEFAULT_UI_SCALE
 var mouse_sensitivity := DEFAULT_LOOK_SENSITIVITY
@@ -34,8 +35,8 @@ func load_from(path: String = USER_PATH) -> bool:
 	var saved_sensitivity: Variant = config.get_value("controls", "mouse_sensitivity", DEFAULT_LOOK_SENSITIVITY)
 	mouse_sensitivity = clampf(float(saved_sensitivity), MIN_LOOK_SENSITIVITY, MAX_LOOK_SENSITIVITY) \
 		if saved_sensitivity is float or saved_sensitivity is int else DEFAULT_LOOK_SENSITIVITY
-	var saved_render: Variant = config.get_value("display", "render_scale", 0.75)
-	render_scale = float(saved_render) if (saved_render is float or saved_render is int) and RENDER_SCALE_OPTIONS.has(float(saved_render)) else 0.75
+	var saved_render: Variant = config.get_value("display", "render_scale", DEFAULT_RENDER_SCALE)
+	render_scale = float(saved_render) if (saved_render is float or saved_render is int) and RENDER_SCALE_OPTIONS.has(float(saved_render)) else DEFAULT_RENDER_SCALE
 	for key in ["master_volume","music_volume","sfx_volume"]:
 		var value: Variant = config.get_value("audio",key,get(key))
 		if (value is int or value is float) and is_finite(float(value)):

@@ -66,7 +66,7 @@ func _check() -> void:
 	combat.call("select_weapon", "shooter")
 	var before := float(combat.get("ink_amount"))
 	combat.call("tick", 1.0/30.0, true, false)
-	if (combat.get("projectiles") as Array).size() != 1 or absf(float(combat.get("ink_amount")) - before + 0.95) > 0.001:
+	if (combat.get("projectiles") as Array).size() != 1 or absf(float(combat.get("ink_amount")) - before + 0.85) > 0.001:
 		_fail("shooter projectile or source ink cost")
 		return
 	var launched: Dictionary = (combat.get("projectiles") as Array)[0]
@@ -167,7 +167,7 @@ func _check() -> void:
 	combat.call("select_weapon", "blaster")
 	before = float(combat.get("ink_amount"))
 	combat.call("tick", 0.05, true, false)
-	if absf(float(combat.get("ink_amount")) - before + 9.0) > 0.001 or not _has_projectile(combat, "blaster"):
+	if absf(float(combat.get("ink_amount")) - before + 7.0) > 0.001 or not _has_projectile(combat, "blaster"):
 		_fail("blaster projectile or source ink cost")
 		return
 	var paint_version := int(ink.get("version"))
@@ -183,7 +183,7 @@ func _check() -> void:
 	combat.call("tick", 0.5, true, false)
 	before = float(combat.get("ink_amount"))
 	combat.call("tick", 0.01, false, false)
-	if (combat.get("beams") as Array).is_empty() or float(combat.get("ink_amount")) > before - 17.0:
+	if (combat.get("beams") as Array).is_empty() or float(combat.get("ink_amount")) > before - 13.0:
 		_fail("charger release, beam or ink cost")
 		return
 	paint_version = int(ink.get("version"))

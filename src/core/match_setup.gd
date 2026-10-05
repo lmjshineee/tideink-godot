@@ -13,6 +13,7 @@ static var random_map := false
 static var map_variant := 0
 static var map_seed := -1
 static var reroll_bots := true
+static var ai_level := "standard"
 static var screen := "home"
 static var randomized := false
 static var pending_loadout: Dictionary = {}

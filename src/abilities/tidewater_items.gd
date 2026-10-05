@@ -1,7 +1,7 @@
 extends Node3D
 
 const Palette := preload("res://src/core/team_palette.gd")
-const KINDS := ["bomb","intel_mist","beacon","recall","sonar","mine","echo_decoy","supply_box","ink_wings"]
+const KINDS := ["bomb","shield","intel_mist","beacon","recall","sonar","mine","echo_decoy","supply_box","ink_wings"]
 const COOLDOWNS := {"ink_wings":18.0,"echo_decoy":12.0,"supply_box":20.0,"mine":10.0,"intel_mist":15.0,"sonar":18.0,"recall":14.0,"bomb":6.0,"refill":12.0,"shield":16.0,"beacon":18.0,"cluster":10.0,"mist":15.0,"healing":18.0}
 const LABELS := {"ink_wings":"墨翼背包","echo_decoy":"回声诱饵","supply_box":"接力补给盒","mine":"感应墨雷","intel_mist":"信息墨雾","sonar":"脉冲声呐","recall":"回溯锚","bomb":"墨水手雷","refill":"补充剂","shield":"护盾","beacon":"跳跃信标","cluster":"爆墨瓶","mist":"减速墨雾","healing":"医疗领域"}
 const BLURBS:={"ink_wings":"升降悬停 / 空中主射","echo_decoy":"假身诱敌 / 声呐识破","supply_box":"停留领取 / 敌方可抢","mine":"埋伏 / 可拆 / 位置标记","intel_mist":"遮断视野 / 声呐反制","sonar":"扩散探测 / 队伍标记","recall":"标记 / 瞬间返回","bomb":"范围伤害","refill":"回血 / 回墨","shield":"60 点护盾","beacon":"队伍跳跃点","cluster":"短引信爆破","mist":"区域减速","healing":"队伍恢复"}

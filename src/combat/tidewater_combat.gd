@@ -8,6 +8,7 @@ func _sound(id: String, at: Vector3) -> void:
 # Projectiles hit map collision and the visible bot; detailed effects are simplified.
 const TeamPalette := preload("res://src/core/team_palette.gd")
 
+var weapon_specials: Node3D
 var rain_arrows: Node3D
 var counter: Node3D
 var bow: Node3D
@@ -51,7 +52,7 @@ var special_time := 0.0
 
 # weapons.js:42 — a weapon mid-charge or mid-flick keeps the actor a kid.
 func is_busy() -> bool:
-	return game.wings.busy(walker) or charging or flick_time >= 0.0 or (canopy != null and canopy.holding(walker)) or (counter != null and counter.busy(walker)) or (rain_arrows != null and rain_arrows.busy(walker))
+	return weapon_specials.locks_primary(walker) or game.wings.busy(walker) or charging or flick_time >= 0.0 or (canopy != null and canopy.holding(walker)) or (counter != null and counter.busy(walker)) or (rain_arrows != null and rain_arrows.busy(walker))
 
 
 func special_cost() -> float:
@@ -110,6 +111,9 @@ func setup(owner: Node3D, avatar: CharacterBody3D) -> void:
 	rain_arrows = preload("res://src/combat/tidewater_rain_arrows.gd").new()
 	add_child(rain_arrows)
 	rain_arrows.setup(game,self)
+	weapon_specials = preload("res://src/combat/tidewater_weapon_specials.gd").new()
+	add_child(weapon_specials)
+	weapon_specials.setup(game,self)
 	ink_amount = float(game.call("actor_ink_max",walker)) if game.has_method("actor_ink_max") else float(weapon_data["player"]["inkMax"])
 	last_roll_position = walker.global_position
 
@@ -117,11 +121,14 @@ func setup(owner: Node3D, avatar: CharacterBody3D) -> void:
 func select_weapon(weapon_id: String) -> bool:
 	if not weapons.has(weapon_id):
 		return false
+	var retained_fraction := special_fraction()
+	if weapon_specials != null: weapon_specials.cancel(walker)
 	if canopy != null: canopy.cancel(walker)
 	if counter != null: counter.cancel(walker)
 	if rain_arrows != null: rain_arrows.cancel(walker)
-	if special_active in ["absorb_counter","rain_arrows"]: special_active = ""
+	if special_active in ["absorb_counter","rain_arrows","overdrive","ink_vortex","siege_shell"]: special_active = ""
 	selected_id = weapon_id
+	special_points = retained_fraction * special_cost()
 	bloom = 0.0
 	roll_time = 0.0
 	flick_recover = 0.0
@@ -144,7 +151,8 @@ func on_death() -> void:
 	counter.cancel(walker)
 	canopy.cancel(walker)
 	action_lock = 0.0
-	special_points *= 0.5
+	weapon_specials.cancel(walker)
+	# Unspent progress survives death; an activated special has already spent it.
 	special_active = ""
 	special_time = 0.0
 	walker.call("cancel_slam")
@@ -165,6 +173,7 @@ func on_death() -> void:
 
 func advance_effects(delta: float) -> void:
 	action_lock = maxf(0, action_lock - delta)
+	weapon_specials.tick(delta)
 	counter.tick(delta)
 	rain_arrows.tick(delta)
 	discs.tick(delta)
@@ -189,6 +198,7 @@ func try_special() -> bool:
 	var weapon: Dictionary = weapons[selected_id]
 	var id := String(weapon["special"])
 	if id == "rain_arrows" and not rain_arrows.begin(walker,_aim_target(walker.global_position+Vector3.UP*1.05,24)): return false
+	if id in weapon_specials.KINDS and not weapon_specials.begin(walker,id,_aim_direction(walker.global_position+Vector3.UP*1.05,24)): return false
 	canopy.cancel(walker)
 	charging=false
 	charge_time=0
@@ -206,17 +216,19 @@ func try_special() -> bool:
 		walker.firing_speed_limit = counter.MOVE_LIMIT
 	elif id == "twin_discs":
 		discs.begin_twins(walker, _aim_direction(walker.global_position + Vector3.UP, 20.0))
-	elif id == "rain_arrows":
+	elif id == "rain_arrows" or id in weapon_specials.KINDS:
 		pass # Floor target already validated before spending meter.
 	else:
 		_throw_storm(weapon_data["specials"]["storm"])
 	if game.get("presentation")!=null:
-		game.get("presentation").call("notify_ability",{"rain_arrows":"雨箭齐射 · 落点锁定 · 三轮抛射 / 屋顶可挡箭", "absorb_counter":"吸墨反击 · 正面吸墨 3 秒 · 侧后方仍可受击", "slam":"潮汐重击 · 近身清场", "storm":"墨水风暴 · 持续控场 8 秒", "twin_discs":"双镖开道 · 双轨前掷 · 不穿墙"}[id])
+		game.get("presentation").call("notify_ability",{"rain_arrows":"雨箭齐射 · 落点锁定 · 三轮抛射 / 屋顶可挡箭", "absorb_counter":"吸墨反击 · 正面吸墨 3 秒 · 侧后方仍可受击", "slam":"潮汐重击 · 近身清场", "storm":"远程墨雨 · 持续控场 9 秒", "overdrive":"潮流速射 · 连射加速 6 秒 / 耗墨减半", "ink_vortex":"回旋墨环 · 跟随自身 6 秒 / 遮挡有效", "siege_shell":"压力连炮 · 三发破阵 / 同目标总伤害最多 150", "twin_discs":"双镖开道 · 双轨前掷 · 不穿墙"}[id])
 	return true
 
 
 func _update_special(delta: float) -> void:
-	if special_active == "rain_arrows":
+	if special_active in weapon_specials.KINDS:
+		if not weapon_specials.active(walker): special_active = ""
+	elif special_active == "rain_arrows":
 		if not rain_arrows.busy(walker): special_active = ""
 	elif special_active == "absorb_counter":
 		if not counter.busy(walker): special_active = ""
@@ -244,7 +256,7 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 	firing_time = maxf(0.0, firing_time - delta)
 	flick_recover = maxf(0.0, flick_recover - delta)
 	advance_effects(delta)
-	if not special_active.is_empty():
+	if not special_active.is_empty() and special_active not in ["overdrive","ink_vortex"]:
 		walker.set("firing_speed_limit", counter.move_limit(walker))
 		return
 	var player_config: Dictionary = weapon_data["player"].duplicate()
@@ -258,10 +270,12 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 	# trigger never refilled and the player was stuck dry until they let go.
 	# Same reason as the vitals: the lifted squid body never reports engine floor
 	# contact, so the probe state is what decides the 42/s swim refill.
+	var draw_cost:float=float(weapons[selected_id].get("inkMin",float(weapons[selected_id].get("inkFull",0))*.2))
+	var starting_draw:bool=fire and not squid and String(weapons[selected_id].kind) in ["bow","charger"] and cooldown<=0 and ink_amount>=draw_cost
 	var submerged := squid and bool(walker.get("grounded")) and int(walker.get("ink_owner")) == 0
 	if submerged or bool(walker.get("climbing")):
 		ink_amount = minf(float(player_config["inkMax"]), ink_amount + float(player_config["inkRefillSwim"]) * delta)
-	elif not squid and last_fire_time > float(player_config["inkRefillDelay"]) and not is_busy():
+	elif not squid and last_fire_time > float(player_config["inkRefillDelay"]) and not is_busy() and not starting_draw:
 		ink_amount = minf(float(player_config["inkMax"]), ink_amount + float(player_config["inkRefillKid"]) * delta)
 	elif squid and not (int(walker.ink_owner) == 1 and game.perks.kind(walker) == "enemy_swim"):
 		# A squid on dry ground still trickles at half the kid rate (actor.js:314).
@@ -287,7 +301,7 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 	if action_lock > 0 or game.mobility.busy(walker):
 		walker.firing_speed_limit = 0.0
 		return
-	var weapon: Dictionary = game.perks.weapon(walker,weapons[selected_id])
+	var weapon: Dictionary = weapon_specials.modify_weapon(walker,game.perks.weapon(walker,weapons[selected_id]))
 	var speed_limit := INF
 	if not squid:
 		match String(weapon["kind"]):
@@ -390,7 +404,7 @@ func spawn_bot_shot(from: Vector3, target: Vector3, weapon_id: String = "shooter
 	_sound("shoot_"+String(weapons[weapon_id]["kind"]),from)
 	if not weapons.has(weapon_id) or String(weapons[weapon_id]["kind"]) not in ["shooter","blaster"]:
 		return
-	var weapon: Dictionary = game.perks.weapon(source_actor,weapons[weapon_id]) if source_actor!=null else weapons[weapon_id]
+	var weapon: Dictionary = weapon_specials.modify_weapon(source_actor,game.perks.weapon(source_actor,weapons[weapon_id])) if source_actor!=null else weapons[weapon_id]
 	var direction := (target - from).normalized()
 	if direction.length_squared() < 0.01:
 		return
@@ -650,6 +664,7 @@ func _update_projectiles(delta: float) -> void:
 					if not ground.is_empty():
 						_paint_team(ground["position"] + ground["normal"] * 0.1, team,
 							float(shot["trail_radius"]) * (0.8 + randf() * 0.4), randf())
+		feedback.trail(previous,stop if done else next,team,.09 if kind=="blaster" else .045)
 		visual.global_position = next
 		if done:
 			visual.queue_free()
@@ -790,6 +805,7 @@ func _fire_charger_ray(weapon: Dictionary, charge: float, muzzle: Vector3,
 	if not hit.is_empty() and target_hit.is_empty():
 		_paint_team(hit["position"] + hit["normal"] * 0.12, team,
 			float(weapon["impactRadius"]) * (0.6 + 0.4 * charge), randf(), direction, 0.6)
+	feedback.trail(muzzle,muzzle+direction*length,team,.085)
 	_add_beam(muzzle, direction, length, charge, team)
 
 
@@ -877,8 +893,12 @@ func _update_bombs(delta: float) -> void:
 		var visual: MeshInstance3D = bomb["visual"]
 		visual.global_position = next
 		if float(bomb["fuse"]) >= 0.0:
+			var floor_ray:=PhysicsRayQueryParameters3D.create(next,next-Vector3.UP*.7,1)
+			var floor_hit:=get_world_3d().direct_space_state.intersect_ray(floor_ray)
+			if not floor_hit.is_empty():feedback.warning(visual.get_instance_id(),floor_hit.position,floor_hit.normal,float(config.radius),float(bomb.fuse),int(bomb.team))
 			bomb["fuse"] = float(bomb["fuse"]) - delta
 			if float(bomb["fuse"]) <= 0.0:
+				feedback.remove_warning(visual.get_instance_id())
 				_explode_bomb(next, config,int(bomb.get("team",0)),bomb.get("source_actor",walker))
 				visual.queue_free()
 				bombs.remove_at(index)

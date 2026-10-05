@@ -7,7 +7,7 @@ const GRAVITY := 24.0
 const WINDUP := .6
 const INTERVAL := .45
 const RADIUS := 2.4
-const WAVE_CAP := 45.0
+const WAVE_CAP := 55.0
 var game: Node3D
 var combat: Node3D
 var casts: Dictionary = {}
@@ -77,6 +77,7 @@ func tick(delta: float) -> void:
 		if not body.is_empty() and start.distance_to(body.point) < start.distance_to(stop): stop = body.point
 		if combat.counter.consume(start,stop,a.team,28.0):
 			a.visual.queue_free(); arrows.remove_at(i); continue
+		combat.feedback.trail(start,stop,a.team,.07)
 		var done := false
 		if not body.is_empty() and (hit.is_empty() or body.distance < start.distance_to(hit.position)):
 			_damage(a,body.actor,28,"躯干"); _impact(a,body.point,Vector3.UP,body.actor); done = true

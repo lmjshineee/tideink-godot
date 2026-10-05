@@ -60,6 +60,7 @@ func _check() -> void:
 	var opponent: Node3D = scene.get_node("Bot")
 	opponent.call("select_weapon","shooter")
 	walker.global_position = opponent.global_position + Vector3(2.0, 0.0, 0.0)
+	opponent.reaction_target=walker;opponent.reaction_time=0
 	scene.call("_update_bot", 0.1)
 	var tracer: MeshInstance3D = scene.get_node("BotAttackTracer")
 	var shots: Array = combat.get("projectiles")
@@ -73,7 +74,7 @@ func _check() -> void:
 		_fail("opponent health bar did not track damage")
 		return
 	scene.set("player_respawn", 1.0)
-	scene.call("_update_bot", 0.2)
+	scene.call("_update_bot", 0.25)
 	if tracer.visible:
 		_fail("opponent attack trace did not expire")
 		return

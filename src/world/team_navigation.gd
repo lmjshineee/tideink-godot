@@ -56,6 +56,11 @@ func patrol(from: Vector3, team: int, lane: int) -> PackedVector3Array:
   var path := route(from,target,team)
   if path.size() > 1:
    return path
+ # Random lane preference must not turn into an idle interval.
+ for id in goals[team]:
+  if graph.get_point_position(id).distance_to(from) < 3: continue
+  var fallback := route(from,graph.get_point_position(id),team)
+  if fallback.size() > 1: return fallback
  return PackedVector3Array()
 
 func transition(from: Vector3, target: Vector3, team: int) -> String:

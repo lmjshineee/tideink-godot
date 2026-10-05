@@ -112,6 +112,7 @@ var _fire_pressed_pending := false
 var _sub_pressed_pending := false
 var deployment: Node3D
 var bot_deployment: Node3D
+var ai_level := "standard"
 var items: Node3D
 var intel: Node3D
 var tactics: Control
@@ -138,6 +139,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	ai_level = MatchSetup.ai_level
 	var loadout := MatchSetup.take_loadout()
 	settings_path = String(loadout.get("settings_path", settings_path))
 	selected_weapon = String(loadout.get("player", "shooter"))
@@ -281,6 +283,8 @@ func _input(event: InputEvent) -> void:
 			if slot < weapon_order.size() and (phase == "setup" or (phase == "playing" and player_respawn > 0.0)):
 				_choose_player_weapon(String(weapon_order[slot]))
 		KEY_ENTER:
+			# A menu selection must reach the GUI before the match-start shortcut.
+			if phase=="setup" and frontend!=null and frontend.popup_open():return
 			if phase == "setup":
 				_begin_intro()
 			elif phase == "results":
@@ -370,6 +374,7 @@ func _start_round() -> void:
 	phase_time = 0.0
 	round_left = round_time
 	damage_history.clear()
+	if presentation!=null:presentation.incoming.entries.clear()
 	last_damage_until = 0
 	player_respawn = 0.0
 	bot_respawn = 0.0
@@ -473,6 +478,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _finish_round() -> void:
+	$Combat.weapon_specials.clear()
 	comeback.reset()
 	intel.clear_all()
 	items.sonar.clear_all()
@@ -741,7 +747,7 @@ func _update_bot(delta: float) -> void:
 	if bot_deployment.update(bot,delta): return
 	bot_painting = true
 	painting_actor = bot
-	if not bool(bot_specials.call("busy",bot)) or String(bot_specials.state(bot).get("kind","")) in ["absorb_counter","rain_arrows"]:
+	if not bool(bot_specials.call("busy",bot)) or String(bot_specials.state(bot).get("kind","")) in ["absorb_counter","rain_arrows","overdrive","ink_vortex"]:
 		bot.call("tick",delta)
 	painting_actor = null
 	bot_painting = false
@@ -920,7 +926,7 @@ func _update_team_actor(actor: Node3D, delta: float) -> void:
 	if bot_deployment.update(actor,delta): return
 	bot_painting = true
 	painting_actor = actor
-	if not bool(bot_specials.call("busy",actor)) or String(bot_specials.state(actor).get("kind","")) in ["absorb_counter","rain_arrows"]:
+	if not bool(bot_specials.call("busy",actor)) or String(bot_specials.state(actor).get("kind","")) in ["absorb_counter","rain_arrows","overdrive","ink_vortex"]:
 		actor.call("tick",delta)
 	painting_actor = null
 	bot_painting = false
@@ -971,7 +977,7 @@ func _attacker_description(actor: Node3D, weapon_id: String = "") -> String:
 		return "未知来源"
 	if weapon_id.is_empty():
 		weapon_id = selected_weapon if actor == $World/Walker else String(actor.get("weapon_id"))
-	var names := {"last_ink":"残墨引爆", "mine":"感应墨雷", "rain_arrows":"雨箭齐射", "absorb_counter":"吸墨反击", "bomb":"炸弹","slam":"砸地","storm":"墨雨","twin_discs":"双镖突进"}
+	var names := {"last_ink":"残墨引爆", "mine":"感应墨雷", "rain_arrows":"雨箭齐射", "absorb_counter":"吸墨反击", "bomb":"炸弹","slam":"砸地","storm":"远程墨雨", "overdrive":"潮流速射", "ink_vortex":"回旋墨环", "siege_shell":"压力连炮","twin_discs":"双镖突进"}
 	var weapon := String(names.get(weapon_id,_weapon_text(weapon_id)))
 	return "%s · %s" % [_actor_name(actor),weapon]
 
@@ -1024,7 +1030,9 @@ func _record_damage(amount: float, source: Node3D, weapon: String, region: Strin
 	damage_history.append({"time":now,"source":label,"cause":cause,"amount":actual})
 	while damage_history.size()>16: damage_history.pop_front()
 	last_damage_text = "受击 −%.0f · %s" % [actual,label]
-	last_damage_until = now+1600
+	last_damage_until = now+2800
+	if presentation!=null:
+		presentation.incoming.record(cause,actual,source.global_position if is_instance_valid(source) else Vector3.INF)
 
 func damage_summary() -> String:
 	var totals := {}

@@ -32,29 +32,29 @@ func _check() -> void:
 		return
 	scene.set("player_health", 120.0)
 	scene.set("player_last_damage", 99.0)
-	for i in range(5):
+	for i in range(6):
 		scene.call("_update_player_vitals", 0.5)
-	if absf(float(scene.get("player_health")) - 80.0) > 0.01 or absf(float(scene.get("player_ink_damage")) - 40.0) > 0.01:
+	if absf(float(scene.get("player_health")) - 96.0) > 0.01 or absf(float(scene.get("player_ink_damage")) - 24.0) > 0.01:
 		_fail("enemy ink did not stop at the source damage cap")
 		return
 	scene.call("_update_player_vitals", 1.0)
-	if absf(float(scene.get("player_health")) - 80.0) > 0.01:
+	if absf(float(scene.get("player_health")) - 96.0) > 0.01:
 		_fail("standing on enemy ink caused extra damage or regeneration")
 		return
 	walker.set("ink_owner", -1)
 	scene.call("_update_player_vitals", 0.5)
-	if absf(float(scene.get("player_health")) - 80.0) > 0.01 or float(scene.get("player_ink_damage")) >= 40.0:
+	if absf(float(scene.get("player_health")) - 96.0) > 0.01 or float(scene.get("player_ink_damage")) >= 24.0:
 		_fail("leaving enemy ink did not decay its damage counter")
 		return
 	scene.call("_update_player_vitals", 0.5)
 	scene.call("_update_player_vitals", 0.5)
-	if absf(float(scene.get("player_health")) - 92.0) > 0.01:
+	if absf(float(scene.get("player_health")) - 108.0) > 0.01:
 		_fail("normal regeneration did not wait for the source delay")
 		return
 	walker.set("ink_owner", 0)
 	walker.call("update_form", true)
 	scene.call("_update_player_vitals", 0.2)
-	if absf(float(scene.get("player_health")) - 105.0) > 0.01:
+	if absf(float(scene.get("player_health")) - 120.0) > 0.01:
 		_fail("own ink swim regeneration is not using the source rate")
 		return
 	walker.set("ink_owner", 1)

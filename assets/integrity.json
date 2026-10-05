@@ -963,6 +963,10 @@
       "sha256": "6fb21d1bb65c060ba62dc280e34e9b07e760b34e5671f51388a95e390ecabdc6",
       "bytes": 287
     },
+    "assets/ui/item-shield.svg": {
+      "sha256": "5de7ea13aa9ea48ef5312d2620529a2d540a2f4dc3540bacf730048da197df2e",
+      "bytes": 271
+    },
     "assets/ui/item-sonar.svg": {
       "sha256": "6d19115bd156cf91724e805ebb4683d73f203a6e26ede12e564ae7dd9e03c0aa",
       "bytes": 329
@@ -1043,9 +1047,21 @@
       "sha256": "89bed38e00a6065f0471a3dfb4045837b06c69bdf0938503a1ba6b5737ed1c8f",
       "bytes": 325
     },
+    "assets/ui/special-ink_vortex.svg": {
+      "sha256": "0e2072ad08121f08301ea013e0ae0135b5e56a12d9b116fef9783e1f98dbb341",
+      "bytes": 266
+    },
+    "assets/ui/special-overdrive.svg": {
+      "sha256": "4a8ccd21d35d6e6fa5a53cfb8a9883d3794060c6dcbe880d43fbd6cc3d757666",
+      "bytes": 223
+    },
     "assets/ui/special-rain_arrows.svg": {
       "sha256": "c460026930b64c40ff64389781d07249b0508270cec1257d0a1feda9c2cc6d76",
       "bytes": 361
+    },
+    "assets/ui/special-siege_shell.svg": {
+      "sha256": "7db831cec3fa316c344d26b54e042d2cd61341fc8f1962438f2c02371fe420a6",
+      "bytes": 180
     },
     "assets/ui/special-slam.svg": {
       "sha256": "4e25e1f32143a1011b1fa5c36dd119e381ba002d064c4b4a2032a27b243db52c",

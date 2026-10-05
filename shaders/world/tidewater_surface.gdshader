@@ -28,7 +28,7 @@ void fragment() {
 	vec2 size = n.y > 0.5 ? block_size.xz : (n.x > n.z ? block_size.zy : block_size.xy);
 	vec2 p = (n.y > 0.5 ? local_position.xz : (n.x > n.z ? local_position.zy : local_position.xy)) + size * 0.5;
 	float edge = min(min(p.x, size.x - p.x), min(p.y, size.y - p.y));
-	vec3 base = base_color.rgb;
+	vec3 base = base_color.rgb * 0.88;
 	float rough = 0.83;
 	vec2 micro = vec2(sin(p.x * 51.0 + sin(p.y * 27.0)), cos(p.y * 43.0 + sin(p.x * 19.0))) * 0.018;
 	if (pattern == 1 || pattern == 2 || pattern == 8) {
@@ -94,8 +94,11 @@ void fragment() {
 		float seam=max(grid_line(p.x,0.8,0.015),grid_line(p.y,0.8,0.015));
 		base*=(0.92+hash2(floor(p/0.8))*0.09)*(1.0-seam*0.19);rough=0.26;
 	}
+	// Subpixel microdetail fades before it can shimmer across distant tiles.
+	float detail = 1.0 - smoothstep(0.018,0.065,max(length(dFdx(p)),length(dFdy(p))));
+	micro *= detail;
 	ALBEDO = base;
 	NORMAL_MAP = normalize(vec3(micro,1.0)) * 0.5 + 0.5;
-	ROUGHNESS = clamp(rough + hash2(floor(p * 8.0)) * 0.035,0.1,1.0);
+	ROUGHNESS = clamp(rough + hash2(floor(p * 8.0)) * 0.035 * detail,0.1,1.0);
 	SPECULAR = 0.25;
 }

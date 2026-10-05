@@ -3,10 +3,10 @@ extends Node3D
 # A finite, directional projectile intake. Rays, bombs, discs and melee never
 # enter this path. The caller limits the segment to its first map/body collision.
 const DURATION := 3.0
-const WINDUP := .4
-const REACH := 6.0
+const WINDUP := .3
+const REACH := 7.0
 const CAPACITY := 100.0
-const MOVE_LIMIT := 2.5
+const MOVE_LIMIT := 3.0
 var game: Node3D
 var combat: Node3D
 var intakes: Dictionary = {}
@@ -30,7 +30,7 @@ func begin(actor: Node3D, direction: Vector3) -> bool:
 	var visual := Node3D.new()
 	add_child(visual)
 	var color: Color = preload("res://src/core/team_palette.gd").color(game.actor_team(actor)).lightened(.35)
-	for z in [.65, 2.0, 4.0, 6.0]:
+	for z in [.65, 2.0, 4.0, REACH]:
 		var ring := MeshInstance3D.new()
 		var mesh := TorusMesh.new()
 		mesh.inner_radius = .94; mesh.outer_radius = 1.0
@@ -108,7 +108,7 @@ func _windup(s: Dictionary) -> void:
 	combat._ability_ring(s.actor.global_position, 2.2, WINDUP, s.team)
 
 func _fire(s: Dictionary) -> void:
-	var amount := 40.0 + .6 * float(s.charge)
+	var amount := 45.0 + .75 * float(s.charge)
 	var weapon := {"id":"absorb_counter", "damage":amount, "directDamage":amount,
 		"splashDamageMax":amount*.5, "splashDamageMin":amount*.25, "splashRadius":2.3,
 		"burstRadius":2.3, "impactRadius":2.3}

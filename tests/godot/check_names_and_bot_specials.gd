@@ -47,7 +47,7 @@ func _run() -> void:
 		for actor in game.extra_bots: actor.global_position=Vector3(60,30,60)
 		walker.global_position = Vector3(0,2.25,36)
 		bot.global_position = walker.global_position+Vector3(0.1,0,0)
-		bot.call("select_weapon","shooter")
+		bot.call("select_weapon","roller")
 		game.bot_specials.charge(bot,160)
 		game.bot_specials.tick(0.01)
 		expect(game.bot_specials.busy(bot),"charged enemy starts slam windup")
@@ -66,7 +66,7 @@ func _run() -> void:
 		var bot_hp: float = game.bot_health
 		combat._spawn_cloud(walker.global_position,Vector3.ZERO,1,bot)
 		combat._update_clouds(1.0)
-		expect(absf(game.player_health-78)<0.01 and game.bot_health==bot_hp,"enemy rain hurts opponents only at shared 42 DPS")
+		expect(absf(game.player_health-72)<0.01 and game.bot_health==bot_hp,"enemy rain hurts opponents only at shared 48 DPS")
 		expect(game.bot_specials.state(bot)["points"]==0,"enemy rain cannot charge meter")
 		var ally: Node3D = game.extra_bots[0]
 		ally.global_position=walker.global_position

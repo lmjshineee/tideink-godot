@@ -8,7 +8,7 @@ const DESCRIPTIONS := {
 	"last_ink":"被击倒后原地预告 .65 秒，再引爆残墨，半径 2.6m、伤害 32→16，涂墨半径 1.3m；墙与楼板遮挡、无友伤、不充能。代价是复活额外 .75 秒；敌人能在预告期间离开",
 	"dry_focus":"墨水不超过 20 时，主武器消耗减少 35%、伤害减少 20%；墨量回到 20 以上恢复常态。道具、大招、墨翼耗墨与护伞耗墨保持原值；伤害按发射时低墨状态保存",
 	"turf_engine":"每次实际新增涂地的大招充能 +25%，攻击伤害 -10%；重涂己方墨和大招自身涂地仍不充能。可与逆风支援同时生效",
-	"enemy_swim":"敌墨地面可潜泳（8 m/s）；敌墨每秒伤害 6、累计最多失血 20，敌人攻击伤害 +10%；敌墨中不回墨、不回血，保留可见扰动",
+	"enemy_swim":"敌墨地面可潜泳（8 m/s）；敌墨每秒伤害 2.4、累计最多失血 12，敌人攻击伤害 +5%；敌墨中不回墨、不回血，保留可见扰动",
 	"balanced":"标准 120 生命 / 100 墨水，无额外加成",
 	"vitality":"最大生命 +25%（150），墨水与伤害不变",
 	"runner":"奔跑与潜泳速度 +10%",
@@ -83,7 +83,7 @@ func outgoing(actor: Node3D) -> float:
 
 func incoming(actor: Node3D, source: String) -> float:
 	if kind(actor) == "vault_runner" and float(actor.get_meta("vault_boost",0)) > 0 and source != "enemy_ink": return 1.15
-	if kind(actor) == "enemy_swim" and source != "enemy_ink": return 1.1
+	if kind(actor) == "enemy_swim" and source != "enemy_ink": return 1.05
 	return 0.8 if kind(actor)=="bulwark" and source in ["blaster","rapid","bomb","cluster","slam","storm"] else 1.0
 
 func refill(actor: Node3D) -> float:

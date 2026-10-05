@@ -44,6 +44,8 @@ func emit(kind: String, at: Vector3, team: int, normal: Vector3 = Vector3.UP) ->
   particles[team*CAPACITY+slot] = {"p":at,"v":velocity,"life":life,"total":life}
 
 func advance(delta: float) -> void:
+ advance_trails(delta)
+ advance_warnings(delta)
  for i in range(particles.size()):
   var particle := particles[i]
   if float(particle["life"]) <= 0.0:
@@ -103,3 +105,65 @@ func advance_damage(delta: float) -> void:
   label.global_position=pop["origin"]+Vector3.UP*(age*0.75+sin(age/0.8*PI)*0.18)
   label.scale=Vector3.ONE*(1+0.24*exp(-age*16))
   label.modulate=Color(Palette.color(int(pop["team"])),clampf((0.8-age)/0.25,0,1))
+
+# Actual swept movement only, with depth testing. Two bounded batches per team
+# give bright cores a dark silhouette against both ink and pale architecture.
+const TRAIL_CAPACITY := 96
+var trail_pools: Array[MultiMesh] = []
+var trail_states: Array[Dictionary] = []
+var trail_cursor := [0,0]
+func _prepare_trails() -> void:
+ if not trail_pools.is_empty():return
+ var mesh:=CylinderMesh.new();mesh.top_radius=1;mesh.bottom_radius=1;mesh.height=1;mesh.radial_segments=6
+ for team in range(2):
+  for core in range(2):
+   var batch:=MultiMesh.new();batch.transform_format=MultiMesh.TRANSFORM_3D;batch.mesh=mesh;batch.instance_count=TRAIL_CAPACITY
+   var visual:=MultiMeshInstance3D.new();visual.multimesh=batch;visual.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+   var mat:=StandardMaterial3D.new();mat.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED
+   mat.albedo_color=Palette.color(team).darkened(.6) if core==0 else Palette.color(team).lightened(.65)
+   if core==0:mat.cull_mode=BaseMaterial3D.CULL_FRONT
+   visual.material_override=mat;add_child(visual);trail_pools.append(batch)
+   for slot in range(TRAIL_CAPACITY):batch.set_instance_transform(slot,Transform3D(Basis.IDENTITY.scaled(Vector3.ONE*.001),Vector3(0,-1000,0)))
+ for i in range(2*TRAIL_CAPACITY):trail_states.append({"life":0.0})
+func trail(from:Vector3, to:Vector3, team:int, width:float=.045) -> void:
+ if from.distance_to(to)<.01:return
+ _prepare_trails();team=clampi(team,0,1)
+ var slot:int=trail_cursor[team];trail_cursor[team]=(slot+1)%TRAIL_CAPACITY
+ var direction:Vector3=(to-from).normalized();var right:=direction.cross(Vector3.UP).normalized()
+ if right.length_squared()<.01:right=Vector3.RIGHT
+ var basis:=Basis(right,direction,right.cross(direction).normalized())
+ var center:Vector3=(from+to)*.5
+ for core in range(2):
+  var radius:float=width*(.45 if core==1 else .75)
+  trail_pools[team*2+core].set_instance_transform(slot,Transform3D(basis*Basis.from_scale(Vector3(radius,from.distance_to(to),radius)),center))
+ trail_states[team*TRAIL_CAPACITY+slot]={"life":.22,"from":from,"to":to}
+func advance_trails(delta:float) -> void:
+ for i in range(trail_states.size()):
+  if float(trail_states[i].life)<=0:continue
+  trail_states[i].life-=delta
+  if trail_states[i].life<=0:
+   for core in range(2):trail_pools[(i/TRAIL_CAPACITY)*2+core].set_instance_transform(i%TRAIL_CAPACITY,Transform3D(Basis.IDENTITY.scaled(Vector3.ONE*.001),Vector3(0,-1000,0)))
+
+# Only confirmed contact surfaces receive blast outlines. They expire unless
+# refreshed by the real fuse, use depth testing, and never predict through walls.
+const WARNING_CAPACITY := 32
+var warnings: Dictionary = {}
+func warning(key:int, at:Vector3, normal:Vector3, radius:float, fuse:float, team:int) -> void:
+ if not warnings.has(key):
+  if warnings.size()>=WARNING_CAPACITY:remove_warning(warnings.keys()[0])
+  var visual:=MeshInstance3D.new();var mesh:=TorusMesh.new()
+  mesh.inner_radius=.98;mesh.outer_radius=1.02;mesh.rings=48;mesh.ring_segments=6;visual.mesh=mesh
+  var mat:=StandardMaterial3D.new();mat.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED
+  visual.material_override=mat;visual.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+  add_child(visual);warnings[key]={"visual":visual,"life":.12}
+ var state:Dictionary=warnings[key];state.life=.12
+ var y:Vector3=normal.normalized();var x:=y.cross(Vector3.FORWARD).normalized()
+ if x.length_squared()<.01:x=Vector3.RIGHT
+ state.visual.global_transform=Transform3D(Basis(x,y,x.cross(y))*Basis.from_scale(Vector3(radius,.4,radius)),at+y*.045)
+ state.visual.material_override.albedo_color=Palette.color(clampi(team,0,1)).lightened(.35+.45*(.5+.5*sin(fuse*28)))
+func remove_warning(key:int) -> void:
+ if warnings.has(key):warnings[key].visual.queue_free();warnings.erase(key)
+func advance_warnings(delta:float) -> void:
+ for key in warnings.keys():
+  warnings[key].life-=delta
+  if warnings[key].life<=0:remove_warning(key)

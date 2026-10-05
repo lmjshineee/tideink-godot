@@ -25,13 +25,13 @@ func _run() -> void:
 		combat.tick(1,true,false)
 		expect(combat.charging and combat.charge_fraction==1 and combat.bow.arrows.is_empty(),"charge holds three arrows")
 		combat.tick(.001,false,false)
-		expect(combat.bow.arrows.size()==3 and is_equal_approx(combat.ink_amount,93),"full bow costs 7 on release")
+		expect(combat.bow.arrows.size()==3 and is_equal_approx(combat.ink_amount,94),"full bow costs 6 on release")
 		for i in 45: combat.bow.tick(1.0/30)
 		print("AUDIT: bow crosshair height=",height," remainingHP=",game.bot_health)
 		expect(game.bot_health<120 and game.bot_health>=12,"actual bow hits crosshair at "+str(height)+" without full-HP one shot")
 	reset_target(Vector3(0,40,8))
 	combat.bow.fire(walker,bot.global_position+Vector3.UP,0)
-	expect(is_equal_approx(combat.ink_amount,97),"tap costs 3")
+	expect(is_equal_approx(combat.ink_amount,97.5),"tap costs 2.5")
 	var ground_first: Vector3=combat.bow.arrows[0].velocity
 	var ground_last: Vector3=combat.bow.arrows[2].velocity
 	expect(absf(ground_first.x-ground_last.x)>4 and absf(ground_first.y-ground_last.y)<.01,"ground fan is horizontal")
@@ -82,7 +82,8 @@ func _run() -> void:
 	bot.global_position=Vector3(0,40,6)
 	bot.ink_amount=100
 	bot.attack_cooldown=0
+	bot.reaction_target=walker;bot.reaction_time=0
 	for i in 31:bot.tick(1.0/30)
-	expect(not combat.bow.arrows.is_empty() and bot.ink_amount<=93,"bot charges and pays for real arrows")
+	expect(not combat.bow.arrows.is_empty() and bot.ink_amount<=94,"bot charges and pays for real arrows")
 	combat.bow.clear_all()
 	await finish("bow actual reticle release at four heights, charge/cost, ground-air fans, delayed shared-budget blast, deck/wall occlusion, low-HP boost and bot dispatch")
