@@ -1,0 +1,9 @@
+{
+  "exit": 0,
+  "executable": "/Users/yunni/Joy/inkwave-game-cleaned/build/TideInk.app/Contents/MacOS/TideInk",
+  "working_directory": "temporary outside checkout",
+  "path_overrides": false,
+  "script_overrides": false,
+  "driver": "Metal 4.0 / Apple M5",
+  "quit_after_frames": 45
+}
