@@ -9,6 +9,7 @@ func _run() -> void:
    bot.team_mover.velocity = Vector3.ZERO
    var destination := Vector3(8.5, 6, 3)
    bot.route = game.navigation.route(bot.global_position, destination, 1)
+   bot.route_purpose = "patrol"
    bot.route_index = 1
    bot.repath_time = 999
    walker.global_position = Vector3(70, 40, 70)

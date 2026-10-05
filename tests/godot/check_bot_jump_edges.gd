@@ -35,6 +35,7 @@ func _run() -> void:
     bot.set("route",PackedVector3Array([a,b]))
     bot.set("route_index",1)
     bot.set("repath_time",999.0)
+    bot.set("route_purpose","patrol")
     bot.set("jump_time",0.0)
     var jumps := int(bot.get("jumps_started"))
     for step in range(45):

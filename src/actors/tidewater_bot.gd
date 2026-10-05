@@ -27,6 +27,7 @@ var ink_damage := 0.0
 var route := PackedVector3Array()
 var route_index := 0
 var repath_time := 0.0
+var route_purpose := ""
 var jump_time := 0.0
 var jumps_started := 0
 var reaction_target: Node3D
@@ -98,6 +99,7 @@ func reset() -> void:
 	blocked_time = 0.0
 	recovery_time = 0.0
 	route.clear()
+	route_purpose = ""
 	repath_time = 0.0
 	jump_time = 0.0
 	waypoint_index = 0
@@ -506,15 +508,26 @@ func _tick_team(delta: float) -> void:
 	if escape!=Vector3.ZERO:
 		target_actor = null; lure = {}; resupply = {}; fighting = false; set_meta("decoy_target",0)
 	repath_time -= delta
-	if jump_time <= 0.0 and (repath_time <= 0.0 or route_index >= route.size()):
+	var contact: Dictionary = game.intel.nearest_contact(self)
+	var purpose := "patrol"
+	if escape != Vector3.ZERO: purpose = "escape"
+	elif not lure.is_empty(): purpose = "decoy:%d" % int(lure.id)
+	elif target_actor != null: purpose = "enemy:%d" % game.actor_id(target_actor)
+	elif not resupply.is_empty(): purpose = "supply:%d" % int(resupply.id)
+	elif not contact.is_empty(): purpose = "contact"
+	if jump_time <= 0.0 and (repath_time <= 0.0 or route_index >= route.size() or purpose != route_purpose):
 		var nav: RefCounted = game.get("navigation")
-		var contact: Dictionary = game.intel.nearest_contact(self)
 		if escape != Vector3.ZERO: route = nav.route(global_position, global_position + escape, team)
 		elif not lure.is_empty(): route = nav.route(global_position,lure.point,team)
 		elif target_actor != null: route = nav.route(global_position, target_actor.global_position, team)
 		elif not resupply.is_empty(): route = nav.route(global_position,resupply.point,team)
 		elif not contact.is_empty(): route = nav.route(global_position, contact.point, team)
+		elif route_purpose == "patrol" and route_index < route.size():
+			# Refresh the path to the same objective. A periodic path query must
+			# not reroll the destination and turn around halfway up a ramp.
+			route = nav.route(global_position, route[-1], team)
 		else: route = nav.patrol(global_position, team, slot)
+		route_purpose = purpose
 		route_index = 1 if route.size() > 1 else 0
 		repath_time = float(profile.repath) * randf_range(.9,1.2)
 	var old := global_position

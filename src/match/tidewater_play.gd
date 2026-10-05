@@ -788,7 +788,7 @@ func team_mode() -> bool:
 
 func _build_roster() -> void:
 	navigation = preload("res://src/world/team_navigation.gd").new()
-	navigation.call("setup", preload("res://src/core/map_catalog.gd").asset_id())
+	navigation.call("setup", preload("res://src/core/map_catalog.gd").asset_id(),$World/Map,float($Combat.weapon_data.player.height))
 	if not team_mode():
 		return
 	var bot_script := preload("res://src/actors/tidewater_bot.gd")

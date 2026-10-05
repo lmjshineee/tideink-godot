@@ -5,6 +5,7 @@ extends SceneTree
 const Setup := preload("res://src/core/match_setup.gd")
 const Inventory := preload("res://tools/lib/source_inventory.gd")
 var output := ""
+var map_id := "tidewater"
 var game: Node3D
 var walker: CharacterBody3D
 var combat: Node3D
@@ -34,6 +35,9 @@ func _run() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--output="):
 			output = arg.trim_prefix("--output=").simplify_path()
+		if arg.begins_with("--map="): map_id=arg.trim_prefix("--map=")
+	if not preload("res://src/core/map_catalog.gd").IDS.has(map_id):
+		_fail("unknown map");return
 	if not output.begins_with("res://render-evidence/") or output == "res://render-evidence/":
 		output = ""
 		_fail("--output must name a new subdirectory of res://render-evidence/")
@@ -53,7 +57,7 @@ func _run() -> void:
 		return
 	root.size = Vector2i(1280,720)
 	Setup.screen = "home"
-	Setup.map_id = "tidewater"
+	Setup.map_id = map_id
 	Setup.map_seed = 731
 	Setup.map_variant = 0
 	Setup.random_map = false

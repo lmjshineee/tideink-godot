@@ -3,6 +3,8 @@ func _initialize() -> void:call_deferred("_run")
 func reach(actor:Node3D,target:Vector3,label:String) -> void:
 	actor.route=game.navigation.route(actor.global_position,target,game.actor_team(actor))
 	expect(actor.route.size()>3,label+" has a navigation path")
+	# This fixture owns a patrol route; suppress ordinary timer replanning.
+	actor.route_purpose="patrol"
 	actor.route_index=1;actor.repath_time=999;actor.team_mover.velocity=Vector3.ZERO
 	for i in 1300:
 		await physics_frame
