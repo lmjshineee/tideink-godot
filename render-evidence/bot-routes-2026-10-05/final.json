@@ -1,0 +1,753 @@
+{
+	"kind": "seeded live physics bot idle diagnosis",
+	"maps": [
+		{
+			"actors": [
+				{
+					"actor": 6,
+					"furthest_from_start": 37.9601135253906,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "charger"
+				},
+				{
+					"actor": 2,
+					"furthest_from_start": 49.089111328125,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 0.166666666666667,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "canopy"
+				},
+				{
+					"actor": 3,
+					"furthest_from_start": 41.6348915100098,
+					"item": "sonar",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "disc"
+				},
+				{
+					"actor": 4,
+					"furthest_from_start": 44.9284934997559,
+					"item": "supply_box",
+					"longest_unexplained_stop": 0.633333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "roller"
+				},
+				{
+					"actor": 5,
+					"furthest_from_start": 28.9640827178955,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "blaster"
+				},
+				{
+					"actor": 7,
+					"furthest_from_start": 32.1391372680664,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "disc"
+				},
+				{
+					"actor": 8,
+					"furthest_from_start": 41.4786720275879,
+					"item": "mine",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "roller"
+				},
+				{
+					"actor": 9,
+					"furthest_from_start": 51.9330863952637,
+					"item": "bomb",
+					"longest_unexplained_stop": 1.1,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "shooter"
+				},
+				{
+					"actor": 10,
+					"furthest_from_start": 49.9319763183594,
+					"item": "sonar",
+					"longest_unexplained_stop": 2.16666666666667,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "canopy"
+				}
+			],
+			"map": "tidewater",
+			"seconds": 20.0,
+			"trace": [],
+			"unexplained_stops": [
+				{
+					"actor": 10,
+					"enemy_swim": false,
+					"goal": null,
+					"ink": 100.0,
+					"on_wall": false,
+					"position": "(-0.161581, 0.000836, 12.46653)",
+					"route_index": 0,
+					"route_size": 0,
+					"second": 10.7,
+					"target": -1,
+					"velocity": "(0.0, 0.0, 0.0)",
+					"weapon": "canopy"
+				}
+			]
+		},
+		{
+			"actors": [
+				{
+					"actor": 6,
+					"furthest_from_start": 46.8940887451172,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "charger"
+				},
+				{
+					"actor": 2,
+					"furthest_from_start": 51.5566864013672,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 3.23333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "canopy"
+				},
+				{
+					"actor": 3,
+					"furthest_from_start": 50.7093124389648,
+					"item": "sonar",
+					"longest_unexplained_stop": 0.266666666666667,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "disc"
+				},
+				{
+					"actor": 4,
+					"furthest_from_start": 42.6211738586426,
+					"item": "supply_box",
+					"longest_unexplained_stop": 0.6,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "roller"
+				},
+				{
+					"actor": 5,
+					"furthest_from_start": 45.7562103271484,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "blaster"
+				},
+				{
+					"actor": 7,
+					"furthest_from_start": 46.428295135498,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "disc"
+				},
+				{
+					"actor": 8,
+					"furthest_from_start": 40.1453857421875,
+					"item": "mine",
+					"longest_unexplained_stop": 0.8,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "roller"
+				},
+				{
+					"actor": 9,
+					"furthest_from_start": 58.5329437255859,
+					"item": "bomb",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "shooter"
+				},
+				{
+					"actor": 10,
+					"furthest_from_start": 39.0834045410156,
+					"item": "sonar",
+					"longest_unexplained_stop": 1.16666666666667,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "canopy"
+				}
+			],
+			"map": "kelpline",
+			"seconds": 20.0,
+			"trace": [],
+			"unexplained_stops": [
+				{
+					"actor": 2,
+					"enemy_swim": false,
+					"goal": "(-6.5, 0.0, 3.5)",
+					"ink": 23.7,
+					"on_wall": true,
+					"position": "(-6.4999, 2.800835, 3.499985)",
+					"route_index": 1,
+					"route_size": 6,
+					"second": 17.9333333333333,
+					"target": -1,
+					"velocity": "(0.0, 0.0, 0.0)",
+					"weapon": "canopy"
+				}
+			]
+		},
+		{
+			"actors": [
+				{
+					"actor": 6,
+					"furthest_from_start": 39.6272583007812,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 0.766666666666667,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "charger"
+				},
+				{
+					"actor": 2,
+					"furthest_from_start": 30.682258605957,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "canopy"
+				},
+				{
+					"actor": 3,
+					"furthest_from_start": 37.0757484436035,
+					"item": "sonar",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "disc"
+				},
+				{
+					"actor": 4,
+					"furthest_from_start": 27.9771976470947,
+					"item": "supply_box",
+					"longest_unexplained_stop": 0.6,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "roller"
+				},
+				{
+					"actor": 5,
+					"furthest_from_start": 29.3078308105469,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.633333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "blaster"
+				},
+				{
+					"actor": 7,
+					"furthest_from_start": 36.0703315734863,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "disc"
+				},
+				{
+					"actor": 8,
+					"furthest_from_start": 37.107177734375,
+					"item": "mine",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "roller"
+				},
+				{
+					"actor": 9,
+					"furthest_from_start": 36.3944549560547,
+					"item": "bomb",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "shooter"
+				},
+				{
+					"actor": 10,
+					"furthest_from_start": 38.9100914001465,
+					"item": "sonar",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "canopy"
+				}
+			],
+			"map": "coral_market",
+			"seconds": 20.0,
+			"trace": [],
+			"unexplained_stops": []
+		},
+		{
+			"actors": [
+				{
+					"actor": 6,
+					"furthest_from_start": 52.8723068237305,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "charger"
+				},
+				{
+					"actor": 2,
+					"furthest_from_start": 38.3633422851562,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 0.166666666666667,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "canopy"
+				},
+				{
+					"actor": 3,
+					"furthest_from_start": 40.1404304504395,
+					"item": "sonar",
+					"longest_unexplained_stop": 0.9,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "disc"
+				},
+				{
+					"actor": 4,
+					"furthest_from_start": 31.4924774169922,
+					"item": "supply_box",
+					"longest_unexplained_stop": 0.6,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "roller"
+				},
+				{
+					"actor": 5,
+					"furthest_from_start": 38.755485534668,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.933333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "blaster"
+				},
+				{
+					"actor": 7,
+					"furthest_from_start": 59.309196472168,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "disc"
+				},
+				{
+					"actor": 8,
+					"furthest_from_start": 27.0014781951904,
+					"item": "mine",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "roller"
+				},
+				{
+					"actor": 9,
+					"furthest_from_start": 59.1734962463379,
+					"item": "bomb",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "shooter"
+				},
+				{
+					"actor": 10,
+					"furthest_from_start": 29.0522956848145,
+					"item": "sonar",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "canopy"
+				}
+			],
+			"map": "prism_gallery",
+			"seconds": 20.0,
+			"trace": [],
+			"unexplained_stops": []
+		},
+		{
+			"actors": [
+				{
+					"actor": 6,
+					"furthest_from_start": 45.2137336730957,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "charger"
+				},
+				{
+					"actor": 2,
+					"furthest_from_start": 26.1243152618408,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "canopy"
+				},
+				{
+					"actor": 3,
+					"furthest_from_start": 48.3468170166016,
+					"item": "sonar",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "disc"
+				},
+				{
+					"actor": 4,
+					"furthest_from_start": 37.4386291503906,
+					"item": "supply_box",
+					"longest_unexplained_stop": 0.6,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "roller"
+				},
+				{
+					"actor": 5,
+					"furthest_from_start": 39.8887062072754,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "blaster"
+				},
+				{
+					"actor": 7,
+					"furthest_from_start": 53.373462677002,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "disc"
+				},
+				{
+					"actor": 8,
+					"furthest_from_start": 50.6326904296875,
+					"item": "mine",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "roller"
+				},
+				{
+					"actor": 9,
+					"furthest_from_start": 35.376651763916,
+					"item": "bomb",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "shooter"
+				},
+				{
+					"actor": 10,
+					"furthest_from_start": 56.0969619750977,
+					"item": "sonar",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "canopy"
+				}
+			],
+			"map": "viaduct",
+			"seconds": 20.0,
+			"trace": [],
+			"unexplained_stops": []
+		},
+		{
+			"actors": [
+				{
+					"actor": 6,
+					"furthest_from_start": 45.0291290283203,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "charger"
+				},
+				{
+					"actor": 2,
+					"furthest_from_start": 33.7595291137695,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "canopy"
+				},
+				{
+					"actor": 3,
+					"furthest_from_start": 34.3251876831055,
+					"item": "sonar",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "disc"
+				},
+				{
+					"actor": 4,
+					"furthest_from_start": 32.0437393188477,
+					"item": "supply_box",
+					"longest_unexplained_stop": 0.266666666666667,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "roller"
+				},
+				{
+					"actor": 5,
+					"furthest_from_start": 34.3027839660645,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "blaster"
+				},
+				{
+					"actor": 7,
+					"furthest_from_start": 46.7574806213379,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "disc"
+				},
+				{
+					"actor": 8,
+					"furthest_from_start": 50.479190826416,
+					"item": "mine",
+					"longest_unexplained_stop": 0.6,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "roller"
+				},
+				{
+					"actor": 9,
+					"furthest_from_start": 49.9376258850098,
+					"item": "bomb",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "shooter"
+				},
+				{
+					"actor": 10,
+					"furthest_from_start": 57.7989196777344,
+					"item": "sonar",
+					"longest_unexplained_stop": 1.33333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "canopy"
+				}
+			],
+			"map": "modular_harbor",
+			"seconds": 20.0,
+			"trace": [],
+			"unexplained_stops": []
+		},
+		{
+			"actors": [
+				{
+					"actor": 6,
+					"furthest_from_start": 37.1131172180176,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 0.0666666666666667,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "charger"
+				},
+				{
+					"actor": 2,
+					"furthest_from_start": 31.1697845458984,
+					"item": "ink_wings",
+					"longest_unexplained_stop": 0.0666666666666667,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "canopy"
+				},
+				{
+					"actor": 3,
+					"furthest_from_start": 23.083776473999,
+					"item": "sonar",
+					"longest_unexplained_stop": 0.266666666666667,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "disc"
+				},
+				{
+					"actor": 4,
+					"furthest_from_start": 26.9522132873535,
+					"item": "supply_box",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "roller"
+				},
+				{
+					"actor": 5,
+					"furthest_from_start": 32.5763206481934,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.166666666666667,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "blaster"
+				},
+				{
+					"actor": 7,
+					"furthest_from_start": 39.7078132629395,
+					"item": "echo_decoy",
+					"longest_unexplained_stop": 0.3,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "disc"
+				},
+				{
+					"actor": 8,
+					"furthest_from_start": 40.7092704772949,
+					"item": "mine",
+					"longest_unexplained_stop": 0.0333333333333333,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "roller"
+				},
+				{
+					"actor": 9,
+					"furthest_from_start": 55.3570365905762,
+					"item": "bomb",
+					"longest_unexplained_stop": 2.6,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "shooter"
+				},
+				{
+					"actor": 10,
+					"furthest_from_start": 56.8447875976562,
+					"item": "sonar",
+					"longest_unexplained_stop": 2.8,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "canopy"
+				}
+			],
+			"map": "terrace_garden",
+			"seconds": 20.0,
+			"trace": [],
+			"unexplained_stops": [
+				{
+					"actor": 10,
+					"enemy_swim": false,
+					"goal": null,
+					"ink": 63.6899999999997,
+					"on_wall": false,
+					"position": "(-6.49963, 0.000836, -14.2274)",
+					"route_index": 0,
+					"route_size": 0,
+					"second": 12.7,
+					"target": -1,
+					"velocity": "(0.0, 0.0, 0.0)",
+					"weapon": "canopy"
+				},
+				{
+					"actor": 9,
+					"enemy_swim": false,
+					"goal": null,
+					"ink": 43.2499999999998,
+					"on_wall": false,
+					"position": "(-5.860429, 0.000842, -14.0669)",
+					"route_index": 0,
+					"route_size": 0,
+					"second": 12.9,
+					"target": -1,
+					"velocity": "(0.0, 0.0, 0.0)",
+					"weapon": "shooter"
+				}
+			]
+		}
+	],
+	"physics_hz": 120,
+	"seed": 731,
+	"source_sha256": {
+		"res://src/abilities/tidewater_bot_deployment.gd": "c590f2993e2d14d7042369562e8fd78053a306b0e6cc4f3a272235c9f8f5abeb",
+		"res://src/abilities/tidewater_comeback.gd": "9b9fc14c331f48847df125eb94adf2d7df7885240d4c39ddef4baba6f55a251f",
+		"res://src/abilities/tidewater_decoys.gd": "3671e81bf1421b05db27dfa812d4fe97c81d632e4e8aa698ec0cf219e6444cb6",
+		"res://src/abilities/tidewater_deployment.gd": "15e9d96a65a4421a41553d35e1469a4160611a64d41a68c3c52a5d43245c2b70",
+		"res://src/abilities/tidewater_intel.gd": "c1ae57f44f8edeef1db865fbc0db4ddfe9bcc315b33052cf9fd3601ac7a0d4bc",
+		"res://src/abilities/tidewater_items.gd": "15d3a0371bc7ed73dfd69375f3ba5c165d3e2ce9d48264e5f4549e717cf9dc4f",
+		"res://src/abilities/tidewater_mines.gd": "12fb9b906d8497f0952e797c488f3866fbb9a8f3eabb865daa5c6321e982b50a",
+		"res://src/abilities/tidewater_mist.gd": "52e7f97bd380ad298a325ceb62362d2fcb1368edce1c2f42fb7830fa37a6b4f1",
+		"res://src/abilities/tidewater_mobility.gd": "b99be669783d2c9792c20cc7667c801608159f24e5c26ee2915603eab2a76bca",
+		"res://src/abilities/tidewater_perks.gd": "0bfff2d8798755e69a54911e0eb5137e5af4f716c5a3c6279f6e8edc99f50973",
+		"res://src/abilities/tidewater_recall.gd": "a3cac5accfbc26121c97b88095e3cb3a8d33f8a5b56fe06f63b81fe4ad6cb2ff",
+		"res://src/abilities/tidewater_sonar.gd": "ad2b0ab8f42f387d1e2c55d89d0f23ae7db0fd962289c61d2b5868a9f325f63e",
+		"res://src/abilities/tidewater_supply.gd": "d01604dbe960a4676e2661765d83669d78a6b544a4ed4486be5b44c2f06be0df",
+		"res://src/abilities/tidewater_wings.gd": "7fa402f7b26bf8a13df17043b83a3941578791d54beb1728750033dcc71679c7",
+		"res://src/actors/tidewater_bot.gd": "f35ac3eb8bf7e2a4d38a62397da526fe6ae41ff6517500ae9e68672566252421",
+		"res://src/actors/tidewater_character_visual.gd": "bdbea5dd3e648c5a8d9f77f6308d083acdd4eba6a94fc4c888d670cbf9745c29",
+		"res://src/actors/tidewater_walker.gd": "a574954aec365deae14f4407e6a9fddeb0acbbe6e69be142b0888cd82d08023c",
+		"res://src/combat/ink_disc_mesh.gd": "c14cfb0d0db7cd90809a3cd8c82a39d5bf5ede93d45272e8028625c1baf7c44a",
+		"res://src/combat/ink_equipment_mesh.gd": "ea0257cd78cf3330dd22d7706213eb6467f14c09ea262f72d40e18c8a29f44dd",
+		"res://src/combat/tidewater_bot_specials.gd": "8fcba544e0af52b4430435ed4f41c0620270e713bb55e13288ccd6eb445f45b2",
+		"res://src/combat/tidewater_bow.gd": "5f142ebf3af41a3d26c1709d0d1549e397ddee21b4e8c73dc1d9d03c67c87d20",
+		"res://src/combat/tidewater_canopy.gd": "7348aaf2c6ed3434bd9a4f36b795caf09d96a7c72c32aafd6deca6f6f02f8b18",
+		"res://src/combat/tidewater_combat.gd": "b12a8815aaea88770532ea696c99ff11a9e1eafc28c457d25b519e6008639221",
+		"res://src/combat/tidewater_counter.gd": "2c2555d073939e4b3f43d9e74973ae18f01ef19adf7ee37a0fc7aa781ae1497b",
+		"res://src/combat/tidewater_discs.gd": "916aa4e7d188c08a1cc8a3921e5abaa0322f6ab9ab058d4cac136a611fcf2492",
+		"res://src/combat/tidewater_rain_arrows.gd": "25a83de5e5104edf28a3f9403ace78bfcf4c017abe7d87b79f0e786a511dcb2a",
+		"res://src/combat/tidewater_weapon_specials.gd": "aabdaf66aba6072b335d53d116314e7ebca5aced241be065ba70ae5e243ed263",
+		"res://src/core/bot_difficulty.gd": "c1db58880e33f343c67434707e5d80b87451130323ee64f65467803f7a2aea08",
+		"res://src/core/equipment_catalog.gd": "8c28252e48f7d41af40ed2a23a4529931d5241061eae0391977f396bd4ef6387",
+		"res://src/core/gameplay_rules.gd": "2f7d6fe00685969480b465251ef0e1df94cb750d99cdff9ade656260c1f1261b",
+		"res://src/core/map_catalog.gd": "16dd892ee7b3d92f398d48630c7f5dfe55829e35be896040eecd56c67ba912c7",
+		"res://src/core/match_setup.gd": "724f29472c5d8445293614a20cf75287007e7face7cebdec49d7424924a35c1a",
+		"res://src/core/team_palette.gd": "49b110acd9c71b7b4d48a01586ec174d104ac9fbd94a45eab4ce11217955ba33",
+		"res://src/core/weapon_profile.gd": "64b44bd1fc66b9e2a66498436917dfbef46c584584429467fce5a42ca6b30b8e",
+		"res://src/legacy/main.gd": "b37556ff4f2fb6f4e49289af6ba30c8ddfd4fd7e6a7eb4b892f0ccb7e3dad232",
+		"res://src/match/tidewater_play.gd": "8c39fd735ec92f42bcf95caf03d0ef5cf7a85a875dc8469e10652f83731d782b",
+		"res://src/presentation/tidewater_audio.gd": "2418a29a463bd4f47e780360f7888bfddb1e90c8d398de59bb4e094fbe9191be",
+		"res://src/presentation/tidewater_cinematic.gd": "736bc7035da99e418fcc338bec08a8d6595651a75590408c89c7746084df5056",
+		"res://src/presentation/tidewater_feedback_fx.gd": "a86053c8bcfaaa4b454691eafa628732fc38192222b1cca4541cc13a6ccae5ba",
+		"res://src/ui/incoming_attack.gd": "85f21fddfafaf98a6d427b2bbbd4f5410a392a8340ea6342a320eba3bfd409de",
+		"res://src/ui/loadout_details.gd": "0c7ee2ab09fc184cefd21d8d183bd33f0816914108f0a5b9c3a8d43ebdf2c561",
+		"res://src/ui/loadout_icons.gd": "c92c73de2505a9054b3cc83d17d634be2febcf2845a0726e9f3a97127d97f393",
+		"res://src/ui/loadout_strip.gd": "933436d762676fc7f0a832c17d243adf761c412db845a6322d7eea2cf8b26ccd",
+		"res://src/ui/menu_character_preview.gd": "af908c4f80bc9cb4925654235638d280159aedec69315c4dc1d49d60cbbc5db2",
+		"res://src/ui/menu_stage_preview.gd": "a153419b0ab4e42fd037c2a5047418bada26c8b748795ac117f5d988a80203fe",
+		"res://src/ui/tidewater_frontend.gd": "8bef3e3b76303599ca7ac4e5ceaa8ce7f9e68d3447fba8f23d736819286bb0c1",
+		"res://src/ui/tidewater_hud.gd": "f1e1629d3a931a3572bb39bdeab0ec497eba76706c010934aa92a6497640a1d1",
+		"res://src/ui/tidewater_hud_layout.gd": "ac257c721306585cf2aa63f3a823ae545a600cd6bcfafad9e976e629a00e2fd8",
+		"res://src/ui/tidewater_jump_selector.gd": "83150afeb22f8b687fcf5954fec387dc292151b20cdcf5a5ca1a8b150d12fb18",
+		"res://src/ui/tidewater_presentation.gd": "41e1b2db145f1cf577fd1b87cf14ebd58e95b34888c1bacb1d765ca407d890f5",
+		"res://src/ui/tidewater_settings.gd": "ecf9edc2e435298582e5f4c4a94a6511fec97c1145e08cfdfb904e74b79d2681",
+		"res://src/ui/tidewater_settings_panel.gd": "e2a81463221cfb9f3bc5562aca47ed3718455ccd1bf28fbf7babf5cbfd0a63e8",
+		"res://src/ui/tidewater_tactics.gd": "fa97042eebb738cfc0672d5c790d69d97d04830f17933a0d365ada28b6666d45",
+		"res://src/ui/turf_minimap.gd": "9d96383e5eaa231a0536b770098944c37625810f6fa7bd58f6f543e0d58646cf",
+		"res://src/ui/ui_fonts.gd": "949e6cb2c7b96cddc4b27545424479e289a0b665dce06c7e8678dba294a03e5e",
+		"res://src/world/paint_field.gd": "6dcaa6ce7bcac14904563a9ee60a1409995a8904dc868398cf8287bed51f8228",
+		"res://src/world/surface_ink.gd": "cbc770c6fa86ca9b1f51cba6dd993c4e9adb9ed19c4deb0759f7a6a76ae7e400",
+		"res://src/world/surface_ink_view.gd": "1453d616ff12fad2ba2541e33a5e2cdb4ca59c3f13664daea462073bbc247c3b",
+		"res://src/world/team_navigation.gd": "ad7d889e6038206a6cbe04be9b83871bfe24bf8ee744d5e640bc0bc06e85973c",
+		"res://src/world/tidewater_map.gd": "b2c4e6a20467e835b66c04feed2a7828b6cd373d052f9549df4eba2e849137e3",
+		"res://src/world/tidewater_scenery.gd": "adf56b0210525428df3a643e53b881f3ce8d1a3807af8d1210fc99811bbdafad"
+	},
+	"time_scale": 4.0
+}

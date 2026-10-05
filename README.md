@@ -1,6 +1,6 @@
 # TideInk（潮墨）· Godot
 
-独立的 Godot 4.8.dev6 原生涂墨对战项目。项目入口 `project.godot` 就在仓库根目录；当前单机支持 1v1 / 5v5、90 / 180 秒、七张地图、八武器、九道具和八天赋。
+独立的 Godot 4.8.dev6 原生涂墨对战项目。项目入口 `project.godot` 就在仓库根目录；当前单机支持 1v1 / 5v5、90 / 180 秒、七张地图、八武器、十道具和八天赋。
 
 原 INKWAVE 原生项目现名 TideInk。资源来源、许可证和历史记录保留；本地工程目录仍为 `inkwave-game-cleaned`。
 
@@ -17,9 +17,11 @@
 
 默认 Forward+ / Metal，第二条使用兼容渲染。设置 `GODOT=/path/to/godot` 可指定引擎；首次运行自动导入资源。也可打开 `project.godot` 按 F5。
 
-WASD 移动、鼠标瞄准、左键射击、Shift 潜墨、空格跳跃、E / 右键道具、F / Q 大招、J 选择队友／信标跳跃、Tab 战术地图、Esc 暂停。死亡后主动选择复活目标。默认 30 FPS / 75% 精度，可在设置中调整。
+WASD 移动、鼠标瞄准、左键射击、Shift 潜墨、空格跳跃、E / 右键道具、F / Q 大招、J 选择队友／信标跳跃、Tab 战术地图、Esc 暂停。死亡后主动选择复活目标。新设置默认 30 FPS / 100% 精度，保留已有用户设置，可在设置中调整。
 
 机器人完成复活倒计时后，可从出生区自动跳向前方队友或己方信标；蓄力、公开预告、实际楼层和失效回退见 [玩法](docs/GAMEPLAY.md)。玩家继续手动选择。
+
+机器人巡逻保持目的地，发现敌人、补给或危险时切换路线；导航按实际胶囊头顶净空绕开低坡道底部；信标在推进后尝试部署，避免基地浪费和近旁重复放置。全十九套布局出生区、七地图选定平台与双层高架原生整局记录见 [AI 通行验收](render-evidence/bot-routes-2026-10-05/summary.md)。
 
 ## 检查与构建
 
@@ -46,4 +48,4 @@ python3 tools/release/package_macos.py --version v0.3.0-preview.16
 - [原生完整对局与结算验收](render-evidence/native-match-2026-10-04/summary.md)：180 秒 5v5 受控基线、帧间隔及面积／积分展示修正。
 - [机器人出场跳跃验收](render-evidence/bot-deployment-2026-10-05/summary.md)：91 项统一检查、两队负例与两个原生 Metal 受控场景。
 
-`docs/history/`、`render-evidence/` 和 `experiments/` 保留 Godot 历史记录与人物实验，正式导出排除。真实手感、长期温度、全地图机器人跳跃策略与联网仍需验收。已有 arm64 包与私有仓库交付状态见 [2026-10-04 发布验收](render-evidence/release-preview16-2026-10-04/summary.md)；本轮只提交源码，不导出新应用、压缩包或 Release。
+`docs/history/`、`render-evidence/` 和 `experiments/` 保留 Godot 历史记录与人物实验，正式导出排除。真实手感、长期温度、全地图长时机器人策略与联网仍需验收。最新应用为 `build/TideInk.app`，交付状态见 [当前状态](docs/COORDINATION.md)；本轮仅本地提交与 arm64 应用导出，没有创建压缩包、推送或发布 Release。

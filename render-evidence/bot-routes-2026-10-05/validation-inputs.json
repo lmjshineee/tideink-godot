@@ -1,0 +1,22 @@
+{
+  "production_commit": "cbf60124cd566ca389567e39f0fa419753968837",
+  "checks": 100,
+  "checks_failed": 0,
+  "receipt_isolation_checks": 11,
+  "source_sha256": {
+    "src/actors/tidewater_bot.gd": "f35ac3eb8bf7e2a4d38a62397da526fe6ae41ff6517500ae9e68672566252421",
+    "src/world/team_navigation.gd": "ad7d889e6038206a6cbe04be9b83871bfe24bf8ee744d5e640bc0bc06e85973c",
+    "src/match/tidewater_play.gd": "8c39fd735ec92f42bcf95caf03d0ef5cf7a85a875dc8469e10652f83731d782b",
+    "src/abilities/tidewater_items.gd": "5d9ddd9104f7023dfc7660a0600273e9b5fdb07c84671feec80bad2538f5c84d",
+    "project.godot": "34f9b6957f52519645711270bdf4b04e8ba581e5577dd860aa01a715a1d87c45",
+    "tests/godot/check_bot_patrol_commitment.gd": "aee5b7cd843d48e9f46911cbd761b7400736e898a2ac8922873cf35c342c5d11",
+    "tests/godot/check_bot_route_clearance.gd": "e26d8fdc7875b8768027dcda9c319d906048c6d4f45a29f7c1093055e1ea03f0",
+    "tests/godot/check_bot_map_platforms.gd": "e62f9749d5a337d8777602f504cfd1fc9826a1f5b6b68765642bbdba984a093e",
+    "tests/godot/check_team_navigation_motion.gd": "b1e7d6ca6389df1d442c64cdd380e8ff0364261178210297ba5f6ef0ddf1c619",
+    "tests/godot/check_bot_beacon_placement.gd": "8f8a8b4a73a321a6c3e9ec11be0564566388da05a158e6b6706c5ac961df095c",
+    "tools/capture/verify_bot_beacons.gd": "3520f81a1e8dbea52f7dee6c63d16ee9007afa762cd6b1bb73b59f202d5c0195",
+    "tools/measure/measure_bot_idle.gd": "47a73a4ce9336d72b0e12edd2ab772c3945c3fa632acc5e971ff4f7a36196ef1",
+    "tools/measure/measure_native_match.gd": "f596630a6c7bbb2ad442bc03bde06fcdccb6de0d219efb44aec133a93915e4af",
+    "tools/release/verify_app.py": "7dd7d7c79222245d5996805b0f0c714c800c9ae3dc360d9a5cef679b870c5890"
+  }
+}

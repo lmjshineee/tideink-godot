@@ -1,0 +1,7 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+FAIL: bot crosses the low-ramp area using a route with actual standing clearance
+FAIL: ground route avoids wedging the actor's head into a ramp underside
+AUDIT: low-ramp goal=(5.5, 0.0, 24.5) nearest_m=8.81258106231689 ceiling_contact=true

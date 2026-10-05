@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "exit": 0,
+  "method": "Actual arm64 app, working directory /private/tmp, --rendering-driver metal --quit-after 45. No project path, script or main-pack overrides.",
+  "source_head": "cbf60124cd566ca389567e39f0fa419753968837",
+  "executable_sha256": "4b75c65bfa3b2f51153a9610bc1801ab55310e0e0d5d109f81a0fa60d203e393",
+  "pck_sha256": "57e47e958f3db6b27d43db45b3c138e35cc8e17e229029d9fd110d31288ea794",
+  "log_sha256": "78a714bb9730de5d20c1d66d7e970542de0bdb9c7fa0ca20c78cee3c38619725"
+}
