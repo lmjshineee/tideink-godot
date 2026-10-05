@@ -310,7 +310,7 @@ func _draw_vitals(team: Color) -> void:
 	for i in 2:
 		var y := size.y-78+i*29
 		var color: Color = rows[i][3]
-		var current: int = int(ceil(rows[i][1]))
+		var current: int = game.hud_view.displayed_amount(rows[i][1])
 		var maximum: int = int(rows[i][2])
 		var ratio := clampf(float(rows[i][1])/maxf(1,rows[i][2]),0,1)
 		var label: String = rows[i][0]
@@ -379,6 +379,13 @@ func _draw_fog_tags() -> void:
 		_text("声呐 · %.0fm" % mark.height,at+Vector2(0,22),16)
 
 func _draw_incoming(enemy:Color) -> void:
+	var scale_factor: float = minf(size.x/1280.0,size.y/720.0)
+	for i in range(incoming.numeric_pops.size()):
+		var pop: Dictionary = incoming.numeric_pops[i]
+		var age: float = pop.age
+		var rise: float = (age*.75 + sin(age/incoming.NUMBER_LIFETIME*PI)*.18)*28*scale_factor
+		var at := Vector2(size.x*.5+(40+i*24)*scale_factor,size.y*.58-rise)
+		_hud_text(incoming.number_text(pop.amount),at,23,Color(enemy,clampf((incoming.NUMBER_LIFETIME-age)/.22,0,1)))
 	var camera:Camera3D=game.get_node("World/Walker/Camera3D")
 	var player:Vector3=game.get_node("World/Walker").global_position
 	for i in range(incoming.entries.size()):

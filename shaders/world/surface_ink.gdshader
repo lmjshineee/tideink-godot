@@ -37,14 +37,18 @@ void fragment() {
 	float a = p.x * 2.3 + p.y * 1.7 + TIME * 0.22;
 	float b = p.y * 3.1 - p.x * 1.4 - TIME * 0.17;
 	float c = p.x * 6.2 + p.y * 4.6 + sin(p.y * 1.3) + TIME * 0.11;
+	float pixel_footprint = max(length(dFdx(p)), length(dFdy(p)));
+	float detail = 1.0 - smoothstep(0.06, 0.24, pixel_footprint);
 	vec2 folds = vec2(cos(a) * 0.075 - cos(b) * 0.026,
-		cos(a) * 0.047 + cos(b) * 0.066) + vec2(cos(c), sin(c)) * 0.014;
+		cos(a) * 0.047 + cos(b) * 0.066) + vec2(cos(c), sin(c)) * 0.014 * detail;
 	NORMAL_MAP = normalize(vec3(-bevel * 0.62 + folds, 1.0)) * 0.5 + 0.5;
-	ALBEDO = ink_color * (0.94 - 0.08 * rim);
-	ROUGHNESS = 0.20 + 0.025 * sin(a + b) + 0.08 * rim;
-	SPECULAR = 0.65;
-	CLEARCOAT = 0.85;
-	CLEARCOAT_ROUGHNESS = 0.14;
+	ALBEDO = ink_color * (0.90 + 0.018 * sin(a + b) - 0.035 * rim);
+	// A smooth pigmented body under a thin wet coat; distance raises roughness
+	// as fine normals disappear, preventing tiny specular sparkles in motion.
+	ROUGHNESS = 0.105 + 0.018 * sin(a + b) + 0.075 * rim + 0.055 * (1.0-detail);
+	SPECULAR = 0.78;
+	CLEARCOAT = 0.95;
+	CLEARCOAT_ROUGHNESS = 0.085 + 0.055 * (1.0-detail);
 	float coverage_width = max(fwidth(mask.a),0.012);
 	ALPHA = smoothstep(0.5-coverage_width,0.5+coverage_width,mask.a);
 	ALPHA_SCISSOR_THRESHOLD = 0.5;

@@ -14,8 +14,8 @@ func _run() -> void:
 		game.player_health=120; game.player_ink_damage=0; game.player_invuln=0; game.player_last_damage=99
 		for i in hz: game._update_player_vitals(1.0/hz)
 		print("AUDIT: ",hz," Hz enemy ink loss/s=",120-game.player_health)
-		expect(absf(game.player_health-117.6)<.01,"enemy ink drains 2.4 HP per second independently of tick rate")
-		for i in hz*10: game._update_player_vitals(1.0/hz)
+		expect(absf(game.player_health-119.4)<.01,"enemy ink drains 0.6 HP per second independently of tick rate")
+		for i in hz*20: game._update_player_vitals(1.0/hz)
 		print("AUDIT: sustained enemy ink health=",game.player_health," accumulated=",game.player_ink_damage)
 		expect(absf(game.player_health-108)<.01 and absf(game.player_ink_damage-12)<.01,"talent enemy ink loss caps at twelve with no in-ink regeneration")
 	game.player_health=120; game.player_respawn=0; game.player_invuln=0
@@ -34,7 +34,7 @@ func _run() -> void:
 	game.damage_player(10,false,bot,"shooter")
 	expect(game.player_respawn>0,"ordinary follow-up damage remains lethal")
 	game.player_respawn=0; game.player_health=3; game.player_ink_damage=0; walker.grounded=true; walker.ink_owner=1
-	game._update_player_vitals(1)
+	game._update_player_vitals(4)
 	expect(game.player_health==1 and game.player_respawn==0,"enemy ink alone never kills a low-health actor")
 	game.player_health=120; game.player_ink_damage=0; game.player_invuln=1
 	game._update_player_vitals(.1)
@@ -45,8 +45,8 @@ func _run() -> void:
 	game.perks.choices[walker.get_instance_id()]="balanced"; walker.grounded=true; walker.ink_owner=1
 	game.player_health=120; game.player_ink_damage=0
 	game._update_player_vitals(1)
-	expect(game.player_health==112,"ordinary enemy-ink DPS is eight")
-	game._update_player_vitals(9)
+	expect(game.player_health==118,"ordinary enemy-ink DPS is two")
+	game._update_player_vitals(12)
 	expect(game.player_health==96 and game.player_ink_damage==24,"ordinary enemy-ink damage cap is twenty-four")
 	# Both production bot-vitals paths use the same talent limit.
 	var home := Vector3(0,.05,-20)
@@ -55,8 +55,8 @@ func _run() -> void:
 	game.perks.choices[bot.get_instance_id()]="enemy_swim"; game.bot_health=120; game.bot_ink_damage=0; game.bot_invuln=0
 	expect(bot.floor_ink_owner()==0,"primary opponent stands on actual hostile ink")
 	game._update_bot_vitals(1)
-	expect(absf(game.bot_health-117.6)<.01,"primary opponent shares 2.4 HP/s")
-	game._update_bot_vitals(9)
+	expect(absf(game.bot_health-119.4)<.01,"primary opponent shares 0.6 HP/s")
+	game._update_bot_vitals(20)
 	expect(absf(game.bot_health-108)<.01 and game.bot_ink_damage==12,"primary opponent shares twelve-HP cap")
 	var ally: Node3D=game.extra_bots[0]
 	bot.global_position=Vector3(70,40,70); walker.global_position=Vector3(90,40,90)
@@ -68,11 +68,11 @@ func _run() -> void:
 	ally.global_position=ally.team_mover.global_position; ally.team_mover.position=Vector3.ZERO
 	game.perks.bot_form(ally,false)
 	expect(ally.get_meta("enemy_swimming",false),"team actor is physically grounded before environment trial")
-	for i in 180:
+	for i in 660:
 		ally.global_position=home; ally.team_mover.position=Vector3.ZERO
 		game._update_team_actor(ally,1.0/30)
 		if i==29:
 			print("AUDIT: team actor HP/s=",120-ally.health," ink budget=",ally.ink_damage)
-			expect(absf(ally.health-117.6)<.01,"team actor shares 2.4 HP/s")
+			expect(absf(ally.health-119.4)<.01,"team actor shares 0.6 HP/s")
 	expect(absf(ally.health-108)<.01 and absf(ally.ink_damage-12)<.01,"team actor shares twelve-HP cap")
-	await finish("enemy-swim 2.4 HP/s and twelve-HP cap at three tick rates; actual charge ray, attack disadvantage and final normal-shot ceiling")
+	await finish("enemy-swim 0.6 HP/s and twelve-HP cap at three tick rates; actual charge ray, attack disadvantage and final normal-shot ceiling")

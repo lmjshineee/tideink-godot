@@ -374,7 +374,8 @@ func _start_round() -> void:
 	phase_time = 0.0
 	round_left = round_time
 	damage_history.clear()
-	if presentation!=null:presentation.incoming.entries.clear()
+	if presentation!=null:presentation.incoming.clear()
+	ink_damage_trace = 0.0
 	last_damage_until = 0
 	player_respawn = 0.0
 	bot_respawn = 0.0
@@ -598,6 +599,8 @@ func damage_player(amount: float, bypass_invuln: bool = false, source_actor: Nod
 	player_health = maxf(0.0, player_health - amount)
 	$Combat.get("feedback").call("emit","hit",$World/Walker.global_position+Vector3.UP,1)
 	if player_health <= 0.0:
+		_flush_ink_damage()
+		presentation.incoming.numeric_pops.clear()
 		$Combat.get("feedback").call("emit","splat",$World/Walker.global_position+Vector3.UP*0.5,1)
 		play_sound("splatted_self")
 		var by := "落入海水" if bypass_invuln else _attacker_description(source_actor if source_actor != null else $Bot,source_weapon)
@@ -642,11 +645,11 @@ func _update_player_vitals(delta: float) -> void:
 			var hp_before := player_health
 			player_health = maxf(1.0, player_health - damage)
 			ink_damage_trace += hp_before-player_health
-			if ink_damage_trace>=5:
-				_record_damage(ink_damage_trace,null,"enemy_ink")
-				ink_damage_trace = 0
+			if ink_damage_trace >= 2.0 - 0.0001:
+				_flush_ink_damage()
 		player_last_damage = minf(player_last_damage, 0.4)
 	else:
+		_flush_ink_damage()
 		player_ink_damage = maxf(0.0, player_ink_damage - delta * 30.0)
 	if player_last_damage > perks.regen_delay($World/Walker,float(player_config["regenDelay"])) and player_health < actor_max_health($World/Walker):
 		var rate := float(player_config["regenRateSwim"]) if submerged else float(player_config["regenRate"])
@@ -678,6 +681,7 @@ func _update_player_respawn(delta: float) -> void:
 	player_invuln = deployment.landing_protection
 	player_last_damage = 99.0
 	player_ink_damage = 0.0
+	ink_damage_trace = 0.0
 	$Combat.set("ink_amount",actor_ink_max($World/Walker))
 	$Combat.call("select_weapon",selected_weapon)
 	items.call("on_respawn",walker)
@@ -1020,19 +1024,25 @@ func actor_max_health(actor: Node3D) -> float:
 func actor_ink_max(actor: Node3D) -> float:
 	return float(perks.max_ink(actor)) if perks!=null else float($Combat.get("weapon_data")["player"]["inkMax"])
 
+func _flush_ink_damage() -> void:
+	if ink_damage_trace > 0.0001:
+		_record_damage(ink_damage_trace, null, "enemy_ink")
+	ink_damage_trace = 0.0
+
 func _record_damage(amount: float, source: Node3D, weapon: String, region: String = "", hit_distance: float = -1) -> void:
 	var now := Time.get_ticks_msec()
 	var cause := _attacker_description(source,weapon) if source!=null else ("敌方墨面" if weapon=="enemy_ink" else "环境")
 	var label := cause
 	if not region.is_empty(): label += " · "+region
 	if hit_distance>=0: label += " / %.1fm" % hit_distance
-	var actual := minf(amount,player_health)
+	# Enemy-ink traces already contain actual HP lost; health is now post-hit.
+	var actual := amount if weapon == "enemy_ink" else minf(amount,player_health)
 	damage_history.append({"time":now,"source":label,"cause":cause,"amount":actual})
 	while damage_history.size()>16: damage_history.pop_front()
-	last_damage_text = "受击 −%.0f · %s" % [actual,label]
+	last_damage_text = preload("res://src/ui/incoming_attack.gd").number_text(actual) if weapon == "enemy_ink" else "受击 −%.0f · %s" % [actual,label]
 	last_damage_until = now+2800
 	if presentation!=null:
-		presentation.incoming.record(cause,actual,source.global_position if is_instance_valid(source) else Vector3.INF)
+		presentation.incoming.record(cause,actual,source.global_position if is_instance_valid(source) else Vector3.INF,weapon == "enemy_ink")
 
 func damage_summary() -> String:
 	var totals := {}

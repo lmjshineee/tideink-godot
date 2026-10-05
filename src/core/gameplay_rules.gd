@@ -4,7 +4,7 @@ extends RefCounted
 # The current Godot data and rules are authoritative; no web config is read.
 static func apply(data: Dictionary) -> void:
 	data["player"].merge({"hp":120,"regenDelay":1.8,"regenRate":24,"regenRateSwim":65,
-		"respawnTime":4.0,"climbSpeed":9.5,"climbAccel":58,"enemyInkDps":8.0,"enemyInkDamageCap":24.0,"enemyInkSpeed":3.8,"inkRefillDelay":.7},true)
+		"respawnTime":4.0,"climbSpeed":9.5,"climbAccel":58,"enemyInkDps":2.0,"enemyInkDamageCap":24.0,"enemyInkSpeed":3.8,"inkRefillDelay":.7},true)
 	data["weapons"]["shooter"].merge({"specialCost":120,"damage":30,"inkPerShot":.85,"special":"overdrive"},true)
 	data["weapons"]["roller"].merge({"rollDamage":60,"flickDamageNear":72,"flickDamageFar":22},true)
 	data["weapons"]["charger"].merge({"damageMin":32,"damageMax":100,"inkFull":14.0},true)

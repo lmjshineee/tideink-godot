@@ -4,6 +4,10 @@ extends RefCounted
 const SettingsPanel := preload("res://src/ui/tidewater_settings_panel.gd")
 var game: Node3D
 
+static func displayed_amount(value: float) -> int:
+	# Continuous DPS/refill can leave an exact integer a few ulps above it.
+	return maxi(0, ceili(value - 0.0001))
+
 func _init(owner_game: Node3D) -> void:
 	game = owner_game
 
@@ -284,8 +288,8 @@ func _update_hud() -> void:
 	game.turf_label.visible = game.special_panel.visible
 	var max_health: float = game.actor_max_health(game.get_node("World/Walker"))
 	var max_ink: float = game.actor_ink_max(game.get_node("World/Walker"))
-	game.ink_label.text = "墨量  %d / %d" % [int(ceil(float(combat.get("ink_amount")))), int(max_ink)]
-	game.health_label.text = "生命  %d / %d" % [int(ceil(game.player_health)), int(max_health)]
+	game.ink_label.text = "墨量  %d / %d" % [displayed_amount(float(combat.get("ink_amount"))), int(max_ink)]
+	game.health_label.text = "生命  %d / %d" % [displayed_amount(game.player_health), int(max_health)]
 	game.ink_bar.value = float(combat.get("ink_amount")) / max_ink * 100.0
 	game.health_bar.value = game.player_health / max_health * 100.0
 	var ready := bool(combat.call("special_ready"))

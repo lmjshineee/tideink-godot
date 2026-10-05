@@ -23,7 +23,7 @@ func _check() -> void:
 	if int(bot.call("floor_ink_owner")) != 0:
 		_fail("bot did not sample enemy ink from the shared surface grid")
 		return
-	for i in range(6):
+	for i in range(24):
 		scene.call("_update_bot_vitals", 0.5)
 	if not _near(float(scene.get("bot_health")), 96.0) \
 			or not _near(float(scene.get("bot_ink_damage")), float(config["enemyInkDamageCap"])):

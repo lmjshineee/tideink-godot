@@ -32,7 +32,7 @@ func _check() -> void:
 		return
 	scene.set("player_health", 120.0)
 	scene.set("player_last_damage", 99.0)
-	for i in range(6):
+	for i in range(24):
 		scene.call("_update_player_vitals", 0.5)
 	if absf(float(scene.get("player_health")) - 96.0) > 0.01 or absf(float(scene.get("player_ink_damage")) - 24.0) > 0.01:
 		_fail("enemy ink did not stop at the source damage cap")
@@ -60,7 +60,7 @@ func _check() -> void:
 	walker.set("ink_owner", 1)
 	scene.set("player_health", 5.0)
 	scene.set("player_ink_damage", 0.0)
-	scene.call("_update_player_vitals", 1.0)
+	scene.call("_update_player_vitals", 2.0)
 	if absf(float(scene.get("player_health")) - 1.0) > 0.01 or float(scene.get("player_respawn")) > 0.0:
 		_fail("enemy ink should stop at one HP without causing a splat")
 		return

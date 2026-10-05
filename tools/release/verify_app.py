@@ -15,7 +15,7 @@ CASES = ('check_tidewater_turf_points', 'check_gameplay_deployment', 'check_expa
          'check_bow_precision', 'check_canopy_push', 'check_creative_wings',
          'check_vertical_combat', 'check_actor_turf_credit',
          'check_bot_high_ground', 'check_experience_balance',
-         'check_weapon_specials', 'check_combat_readability')
+         'check_weapon_specials', 'check_combat_readability', 'check_ink_hazard_feedback')
 
 
 def main():
@@ -65,7 +65,7 @@ def main():
             raise RuntimeError('actual app startup failed; see ' + str(smoke))
         report['app_startup'] = {'exit': result.returncode, 'path_overrides': False, 'script_overrides': False}
     (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
-    print('PASS: twelve exported PCK rules, native PCK UI and actual app startup')
+    print('PASS: thirteen exported PCK rules, native PCK UI and actual app startup')
 
 
 def run(command, cwd, output):
