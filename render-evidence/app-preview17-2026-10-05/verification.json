@@ -1,0 +1,88 @@
+{
+  "source_head": "285dc3762be654fff069355b0f83e05a37bda4a7",
+  "pck_sha256": "339f6aee4fe800f51f6dc6492c6e4cccd27b8b807cb4a3ed9d965b3a9259004f",
+  "method": "Matching native Godot editor loads the explicit exported PCK for external rule/UI fixtures. Working directory is temporary. Actual app startup is separately checked without path/script overrides.",
+  "cases": [
+    {
+      "name": "check_tidewater_turf_points",
+      "source_sha256": "cb5cd63c983368a38950ada85b01d6c0ccf2e04f5c56557cac1a7f11bd924417",
+      "external_sha256": "cb5cd63c983368a38950ada85b01d6c0ccf2e04f5c56557cac1a7f11bd924417",
+      "status": "passed"
+    },
+    {
+      "name": "check_gameplay_deployment",
+      "source_sha256": "01822c8819d4f8ff5c351014c03ce00880c907490f74317b9dd21f72c5057f53",
+      "external_sha256": "01822c8819d4f8ff5c351014c03ce00880c907490f74317b9dd21f72c5057f53",
+      "status": "passed"
+    },
+    {
+      "name": "check_expanded_loadouts",
+      "source_sha256": "7c0bc332fcca0f8f26169694387751af4a08a2ca2d7963391d6547a536284d4c",
+      "external_sha256": "7c0bc332fcca0f8f26169694387751af4a08a2ca2d7963391d6547a536284d4c",
+      "status": "passed"
+    },
+    {
+      "name": "check_bow_precision",
+      "source_sha256": "cb56d6d8f8177d38c3703d69a8e604e0ff254e46fa4c5c77ef3956df65397716",
+      "external_sha256": "fb4dfeeeffa17b80cdbb13a3c4545fdc59d6e31d0ec86520e11b7bff8e4362e2",
+      "status": "passed"
+    },
+    {
+      "name": "check_canopy_push",
+      "source_sha256": "aa4b39354be05860c8bbbbb98f955266e7f2fe1b4b707048d86c2efc934c9e51",
+      "external_sha256": "476a64c19e7d917a0b428831751dab6b1eb35667515deccf1d6c35384fd3a3c2",
+      "status": "passed"
+    },
+    {
+      "name": "check_creative_wings",
+      "source_sha256": "25abe5364274e9baac3f57ee2e7d292586c3e67a6730dac4ceba7783e58b4a86",
+      "external_sha256": "38b827f737a0cf0cd59b5198f478074359ca0997af7d32afaec3a62c35f1a24c",
+      "status": "passed"
+    },
+    {
+      "name": "check_vertical_combat",
+      "source_sha256": "9e66df8279c9c8893e93b2a385d6eefa420a8f621d981596cc160293c20c824d",
+      "external_sha256": "37abdba1e8906dc4c85bd75a80dd342f1d3e70160b6f3a1a276235c203e655db",
+      "status": "passed"
+    },
+    {
+      "name": "check_actor_turf_credit",
+      "source_sha256": "45577598c8b004421c5fdd584dd05d85f35cc35446fe7094f4f5c719d893933f",
+      "external_sha256": "45577598c8b004421c5fdd584dd05d85f35cc35446fe7094f4f5c719d893933f",
+      "status": "passed"
+    },
+    {
+      "name": "check_bot_high_ground",
+      "source_sha256": "84456bbcb7507d14b846dcd3b69defb7b6e1bd6a2718eea914db0696d92f38fd",
+      "external_sha256": "afdfb50ebdf536cc57d340fe27f067d8c016eac99c4f65dcd6b1e21ab1a7893f",
+      "status": "passed"
+    },
+    {
+      "name": "check_experience_balance",
+      "source_sha256": "79f46e12a1da9553be69e93344fde37f466dc9e47237704b1ab8fb192a0b6c32",
+      "external_sha256": "95ce48c3599b2ced1c86f5d8f5206f7cab2559cfc08a63de5ffc4b8dd63b0dc8",
+      "status": "passed"
+    },
+    {
+      "name": "check_weapon_specials",
+      "source_sha256": "e41cfcadf93eb9e8a2f0cb8c6cf171b9cd07c19d5566f9c09e62e61dc5d542f2",
+      "external_sha256": "3c288e6e4110529a7706d1bba99565bf43b5ff58fb795816ade7277cd065f6b5",
+      "status": "passed"
+    },
+    {
+      "name": "check_combat_readability",
+      "source_sha256": "8c597bf84a8bd4eccb0021bab33a461dced13b4f7c345ed59a1d5df52c6d6e1a",
+      "external_sha256": "ea883b93618f9b9eb2fd0be66eacf701bda44752a7bc70c5a17d90362fa3f7d5",
+      "status": "passed"
+    }
+  ],
+  "native": {
+    "status": "passed",
+    "fixture_sha256": "53369edfb1d3657b236943e57f7ac518a6adb766b22e54cc259de4ac329c961b"
+  },
+  "app_startup": {
+    "exit": 0,
+    "path_overrides": false,
+    "script_overrides": false
+  }
+}
