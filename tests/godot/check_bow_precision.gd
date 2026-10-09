@@ -14,7 +14,7 @@ func _run() -> void:
 		for i in 40:combat.bow.tick(1.0/30)
 		var dealt:float=120-game.bot_health
 		print("AUDIT: full bow range=",range_m," damage=",dealt)
-		expect(is_equal_approx(dealt,120),"full draw converges three arrows at "+str(range_m)+"m, with an unshielded splat")
+		expect(is_equal_approx(dealt,105),"full draw converges three arrows at "+str(range_m)+"m, while retaining follow-up HP")
 	# Offensive and defensive perks, including activation during flight, share
 	# the whole volley cap. Each arrow still travels and hits the actual capsule.
 	for late_boost in [false,true]:
@@ -29,7 +29,7 @@ func _run() -> void:
 			game.perks.choices[walker.get_instance_id()]="adrenaline";game.player_health=50
 		for i in 40:combat.bow.tick(1.0/30)
 		print("AUDIT: vulnerable target late_boost=",late_boost," damage=",300-game.bot_health)
-		expect(is_equal_approx(game.bot_health,160),"boost plus vulnerable defender shares final 140 cap, including mid-flight activation")
+		expect(is_equal_approx(game.bot_health,173.2125),"boost plus vulnerable defender applies 126.7875 damage below final 130 cap, including mid-flight activation")
 	reset_draw(Vector3(0,40,23))
 	var camera:Camera3D=walker.get_node("Camera3D")
 	camera.global_position=walker.global_position+Vector3(3,3,-5);camera.look_at(bot.global_position+Vector3.UP*.8)
@@ -63,7 +63,7 @@ func _run() -> void:
 	for i in 24:combat.bow.tick(1.0/30)
 	var combined:float=120-game.bot_health
 	print("AUDIT: half draw direct=",direct_damage," direct plus delayed blast=",combined)
-	expect(combined>direct_damage and combined<=130,"actual direct and blast combine under one volley budget")
+	expect(combined>direct_damage and combined<=120,"actual direct and blast combine under one volley budget")
 	barrier.queue_free();combat.bow.clear_all();await physics_frame
 	# The same production bot dispatch chooses affordable close/partial shots.
 	for scenario in [{"distance":4.0,"ink":100.0,"cost":2.5,"draw":0.0},{"distance":8.0,"ink":5.5,"cost":4.25,"draw":.5}]:

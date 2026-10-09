@@ -25,7 +25,7 @@ func _run() -> void:
 	walker.global_position.x += .15; await physics_frame; advance(.3); expect(combat.ink_amount == 30,"movement resets channel")
 	advance(.31); expect(combat.ink_amount == 65 and b.stock == 1 and combat.action_lock >= .25,"completed real channel returns one pack and locks attack briefly")
 	combat.action_lock = 0; combat.last_fire_time = 99; advance(1)
-	expect(combat.ink_amount == 65 and b.stock == 1 and combat.special_points == meter and game.player_health == 120,"same actor cannot repeatedly draw or heal/charge")
+	expect(combat.ink_amount == 65 and b.stock == 1 and combat.special_points == meter and is_equal_approx(game.player_health,game.actor_max_health(walker)),"same actor cannot repeatedly draw or heal/charge")
 	bot.global_position = b.point+Vector3(.8,.05,0); bot.target_actor = null; bot.set_meta("decoy_target",0); bot.set_meta("enemy_swimming",false); bot.last_fire_time = 99; bot.ink_amount = 20; game.bot_last_damage = 99
 	await physics_frame; advance(.61)
 	expect(bot.ink_amount == 55 and supply.stolen_total == 1 and supply.boxes.is_empty(),"enemy can steal final pack and exhausted box disappears")
@@ -45,8 +45,8 @@ func _run() -> void:
 		if actor.ink_amount == 20: unchanged += 1
 		actor.global_position = Vector3(70,40,70)
 	expect(unchanged == 1 and combat.ink_amount == 55,"owner and one teammate take exactly two packs; third receives none")
-	b = await deploy(); combat.ink_amount = 92; advance(1); expect(b.stock == 2,"near-full tanks do not waste stock")
-	combat.ink_amount = 80; advance(.61); expect(combat.ink_amount == 100 and b.stock == 1,"partial pack respects real capacity")
+	b = await deploy(); combat.ink_amount = game.actor_ink_max(walker)-8; advance(1); expect(b.stock == 2,"near-full tanks do not waste stock")
+	combat.ink_amount = game.actor_ink_max(walker)-20; advance(.61); expect(is_equal_approx(combat.ink_amount,game.actor_ink_max(walker)) and b.stock == 1,"partial pack respects real capacity")
 	b = await deploy(); combat.ink_amount = 20; advance(.3); combat.last_fire_time = 0; advance(.6); expect(combat.ink_amount == 20,"firing resets and prevents refill channel")
 	combat.last_fire_time = 99; advance(.3); game.player_last_damage = 0; advance(.6); expect(combat.ink_amount == 20,"incoming damage interrupts channel")
 	game.player_last_damage = 99; walker.update_form(true); advance(.7); expect(combat.ink_amount == 20,"squid cannot receive")

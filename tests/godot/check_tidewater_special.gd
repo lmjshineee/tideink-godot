@@ -38,7 +38,7 @@ func _check() -> void:
 		_fail("slam did not enter rise or consume the meter")
 		return
 	scene.call("damage_player", 40.0)
-	if absf(float(scene.get("player_health")) - 110.0) > 0.01:
+	if absf(float(scene.get("player_health")) - 122.0) > 0.01:
 		_fail("slam armor should reduce direct damage to one quarter")
 		return
 	walker.global_position = bot.global_position + Vector3(1.0, 0.0, 0.0)

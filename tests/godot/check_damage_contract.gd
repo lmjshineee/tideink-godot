@@ -51,23 +51,28 @@ func _run() -> void:
 		for height in [.25,.9,1.28]:
 			reset_fight(victim,attacker)
 			for count in 2: shoot("shooter",attacker,victim,height)
-			expect(is_equal_approx(game.actor_health(victim),36),"two near shots leave 36 HP at every height/path")
+			expect(is_equal_approx(game.actor_health(victim),52),"two near shots leave 52 HP at every height/path")
 			shoot("shooter",attacker,victim,height)
-			expect(not game.actor_alive(victim),"third near shot splats at every height/path")
+			expect(is_equal_approx(game.actor_health(victim),18),"third near shot still leaves reaction HP")
+			shoot("shooter",attacker,victim,height)
+			expect(not game.actor_alive(victim),"fourth near shot splats at every height/path")
 			observe("near shooter actor %d height %.2f" % [game.actor_id(victim),height],victim)
 		for id in ["charger","blaster"]:
 			reset_fight(victim,attacker)
 			if id=="charger":combat.fire_bot_charger(attacker.global_position+Vector3.UP*.9,victim.global_position+Vector3.UP*.9,1,game.actor_team(attacker),attacker)
-			else:shoot(id,attacker,victim)
+			else:
+				shoot(id,attacker,victim)
+				expect(is_equal_approx(game.actor_health(victim),25),"blaster direct requires follow-up")
+				shoot(id,attacker,victim)
 			expect(not game.actor_alive(victim),id+" direct splats through every actor path")
 			expect(is_equal_approx(float(attacker.get_meta("match_stats").damage),120),"overkill ledger records only actual 120 HP loss")
 			observe(id+" actor "+str(game.actor_id(victim)),victim)
 	# Far shooter, partial charge, finite shield and walls remain real counterplay.
 	reset_fight(bot,walker);bot.global_position.z=12
-	for count in 3:shoot("shooter",walker,bot)
-	expect(game.actor_alive(bot) and game.bot_health>0,"three distant shots do not claim near-range splat")
-	observe("far shooter after three",bot)
-	shoot("shooter",walker,bot);expect(not game.actor_alive(bot),"four distant accurate shots splat")
+	for count in 4:shoot("shooter",walker,bot)
+	expect(game.actor_alive(bot) and game.bot_health>0,"four distant shots do not claim near-range splat")
+	observe("far shooter after four",bot)
+	shoot("shooter",walker,bot);expect(not game.actor_alive(bot),"five distant accurate shots splat")
 	reset_fight(bot,walker)
 	combat._fire_charger_ray(combat.weapons.charger,.98,walker.global_position+Vector3.UP*.9,Vector3.BACK,0,walker)
 	expect(game.actor_alive(bot) and game.bot_health>25,"almost-full charge still cannot splat")
@@ -76,7 +81,7 @@ func _run() -> void:
 		reset_fight(bot,walker);game.items.state(bot).armor=60
 		if id=="charger":combat.fire_bot_charger(walker.global_position+Vector3.UP*.9,bot.global_position+Vector3.UP*.9,1,0,walker)
 		else:shoot(id,walker,bot)
-		var expected: float = 30.0 if id=="charger" else 55.0
+		var expected: float = 30.0 if id=="charger" else 85.0
 		expect(is_equal_approx(game.bot_health,expected) and game.items.state(bot).armor==0,"finite shield protects once from "+id)
 		observe("shield vs "+id,bot)
 	reset_fight(bot,walker)
@@ -100,7 +105,7 @@ func _run() -> void:
 		var volley: Dictionary = combat.projectiles[0].volley
 		for i in 100:combat._update_projectiles(.01)
 		var dealt: float = 300-game.bot_health
-		var cap: float = 112.0 if perk=="dry_focus" else 140.0
+		var cap: float = 84.0 if perk=="dry_focus" else 105.0
 		expect(dealt>0 and dealt<=cap+.001,"shared post-perk flick cap: "+perk)
 		expect(is_equal_approx(float(volley.final_hits.get(bot.get_instance_id(),0)),dealt),"final volley budget matches actual pre-armour result")
 		observe("flick shared cap "+perk,bot,300)
@@ -115,12 +120,12 @@ func _run() -> void:
 	game.perks.choices[bot.get_instance_id()]="enemy_swim"
 	combat._spawn_projectile("drop",Vector3(0,40.9,3.3),Vector3.BACK*20,combat.weapons.roller,0,walker,shared)
 	combat._update_projectiles(.04)
-	expect(300-game.bot_health<=140.001,"late attacker and defender modifiers cannot bypass one volley cap")
+	expect(300-game.bot_health<=105.001,"late attacker and defender modifiers cannot bypass one volley cap")
 	observe("flick late boost",bot,300)
 	reset_fight(bot,walker);bot.global_position.z=1.1
 	combat.spawn_bot_flick(walker.global_position+Vector3.UP*.9,bot.global_position+Vector3.UP*.9,0,walker)
 	for i in 100:combat._update_projectiles(.01)
-	expect(not game.actor_alive(bot),"near accurate flick earns a splat")
+	expect(is_equal_approx(game.bot_health,15),"near flick leaves HP for a follow-up")
 	observe("near flick",bot)
 	reset_fight(walker,bot);game.perks.choices[bot.get_instance_id()]="dry_focus";bot.ink_amount=10
 	combat.fire_bot_charger(bot.global_position+Vector3.UP*.9,walker.global_position+Vector3.UP*.9,.98,1,bot)
@@ -137,6 +142,6 @@ func _run() -> void:
 		else:
 			walker.get_node("Body").rotation.y=0;walker.velocity=Vector3.BACK*4.4
 			combat._roll_damage(combat.weapons.roller)
-		expect(not game.actor_alive(victim),"moving roller contact splats for both teams")
+		expect(is_equal_approx(game.actor_health(victim),25),"moving roller contact leaves reaction HP for both teams")
 		observe("roller contact bot="+str(attacking_bot),victim)
 	await finish("primary role thresholds on all actor paths, equal regions, distance/charge/shield/wall/range counterplay, actual HP ledger, shared finite boosted flick and effective bot perk")

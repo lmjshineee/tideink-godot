@@ -11,7 +11,7 @@ func _run() -> void:
 	game._start_round()
 	var walker:Node3D=game.get_node("World/Walker");var bot:Node3D=game.get_node("Bot");var fx:Node3D=game.get_node("Combat").feedback;fx.set_process(false)
 	game.items.equip(walker,"shield");game.items.use(walker);game.damage_player(82,false,bot,"blaster")
-	expect(game.player_health==98 and fx.damage_pops.size()==1 and fx.damage_pops[0]["value"]==22,"number equals shield-adjusted actual HP lost")
+	expect(is_equal_approx(game.player_health,game.actor_max_health(walker)-22) and fx.damage_pops.size()==1 and fx.damage_pops[0]["value"]==22,"number equals shield-adjusted actual HP lost")
 	expect(fx.damage_pops[0]["label"].modulate==Palette.color(1),"incoming number follows current attacker team palette")
 	game.bot_health=7;game.damage_bot(30,walker,"shooter")
 	expect(fx.damage_pops.back()["value"]==7 and fx.damage_pops.back()["label"].modulate==Palette.color(0),"overkill clamps to remaining HP with local team color")

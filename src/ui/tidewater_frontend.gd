@@ -5,6 +5,7 @@ const Palette:=preload("res://src/core/team_palette.gd")
 const Catalog:=preload("res://src/core/map_catalog.gd")
 const Perks:=preload("res://src/abilities/tidewater_perks.gd")
 const Details:=preload("res://src/ui/loadout_details.gd")
+const Loadouts:=preload("res://src/core/loadout_rules.gd")
 const Icons:=preload("res://src/ui/loadout_icons.gd")
 var game:Node3D
 var home:Control
@@ -19,6 +20,9 @@ var kit:Label
 var home_stats:Label
 var home_weapon:Button
 var profile:Label
+var kit_mode:Button
+var rule_choice:Button
+var roll_button:Button
 var random_button:Button
 var play_button:Button
 var settings_button:Button
@@ -104,7 +108,7 @@ func setup(owner_game:Node3D) -> void:
 	for id in Perks.ORDER:
 		var button:=_button(perk_area,Perks.LABELS[id],_select_perk.bind(Perks.ORDER.find(id)));perk_buttons[id]=button;_bind_hover(button,"perk",id)
 		button.icon=Icons.icon("perk",id)
-	for pair in [["weapon","主武器"],["item","道具"],["perk","天赋"]]:
+	for pair in [["weapon","主武器"],["item","副武器"],["perk","天赋"]]:
 		group_labels[pair[0]]=_label(preparation,pair[1],15)
 	for pair in [["map",map_area],["weapon",weapon_area],["item",item_area],["perk",perk_area]]:
 		var strip:=preload("res://src/ui/loadout_strip.gd").new();preparation.add_child(strip);pair[1].reparent(strip);strips[pair[0]]=strip
@@ -132,6 +136,16 @@ func setup(owner_game:Node3D) -> void:
 	map_roll=_button(preparation,"换图",func():Catalog.reroll();_reload_preparation())
 	reroll=CheckButton.new();reroll.text="机器人复活重摇装备";preparation.add_child(reroll);reroll.set_pressed_no_signal(Setup.reroll_bots);reroll.toggled.connect(func(value):Setup.reroll_bots=value)
 	back_button=_button(preparation,"返回",func():game.show_home());settings_button=_button(preparation,"设置",func():game._open_settings());start_button=_button(preparation,"LET'S GO! 开战",func():game._begin_intro())
+	kit_mode=Button.new();preparation.add_child(kit_mode)
+	kit_mode.tooltip_text="点击切换固定套装／自定义配装"
+	kit_mode.pressed.connect(func():game.set_loadout_mode("custom" if Setup.loadout_mode=="kit" else "kit");sync())
+	rule_choice=Button.new();preparation.add_child(rule_choice)
+	rule_choice.tooltip_text="点击切换全图涂地战／中央区域争夺"
+	rule_choice.pressed.connect(func():
+		if game.phase not in ["home","setup"] or game.perks.locked:return
+		Setup.battle_rule="area" if Setup.battle_rule=="turf" else "turf";_reload_preparation())
+	roll_button=_button(preparation,"ROLL · 随机配装",func():game.roll_setup_loadout();sync())
+	roll_button.tooltip_text="一次重摇主武器、天赋和副武器；固定套装的副武器随主武器。开战后锁定。"
 	_build_hover();sync()
 
 func _label(parent:Node,text:String,px:int,display:bool=false) -> Label:
@@ -175,6 +189,8 @@ func _layout_hover() -> void:
 func _select_pose(id:String) -> void:
 	preview.set_pose(id);sync()
 func _select_item(id:String) -> void:
+	if game.phase not in ["home","setup"] or game.perks.locked:return
+	Setup.loadout_mode="custom"
 	Setup.selected_item=id;game.items.equip(game.get_node("World/Walker"),id);sync()
 func _select_perk(index:int) -> void:
 	if game.perks.select_player(Perks.ORDER[index]):perk_choice.select(index);sync()
@@ -208,7 +224,7 @@ func sync() -> void:
 	_place(subtitle,Vector2(size.x*.045,size.y*(.115 if preparing else .145)),Vector2(380*u,28*u),maxi(12,int(15*u)))
 	subtitle.text="STAGE SELECT / 战场与配装" if preparing else "TURF RIOT / 涂地争夺战"
 	footer.visible=preparing;_place(footer,Vector2(size.x*.32,size.y*.943),Vector2(size.x*.39,30*u),maxi(10,int(13*u)))
-	footer.text="滚轮 / 双指滑动选择 · 悬停详情 · Enter 开战"
+	footer.text="点选副武器切换自定义 · 悬停详情 · Enter 开战"
 	play_button.add_theme_stylebox_override("normal",game._ui_style(Palette.color(0),Palette.color(0).lightened(.25),2,14));play_button.add_theme_color_override("font_color",Color("15121c"))
 	var nav:Control=home.get_node("MainNavigation");nav.position=Vector2(size.x*.05,size.y*.33);nav.scale=Vector2.ONE*u
 	for i in nav.get_child_count():
@@ -222,9 +238,11 @@ func sync() -> void:
 		var button:Button=pose_buttons[["idle","run","shoot"][i]];button.visible=preparing
 		_place(button,Vector2(size.x*.747+i*size.x*.075,size.y*.617),Vector2(size.x*.068,28*u),maxi(11,int(13*u)));_selected(button,preview.pose==["idle","run","shoot"][i])
 	_place(random_button,Vector2(size.x*(.74 if preparing else .37),size.y*(.664 if preparing else .91)),Vector2(size.x*(.23 if preparing else .28),40*u),maxi(12,int(17*u)))
-	_place(profile,Vector2(size.x*.715,size.y*.19),Vector2(size.x*.245,size.y*.19),int(20*u));profile.text="#01 "+Setup.player_name+"\nTURF WAR · "+("5 v 5" if Setup.team_size==5 else "1 v 1")
-	_place(kit,Vector2(size.x*(.37 if preparing else .715),size.y*(.058 if preparing else .435)),Vector2(size.x*(.60 if preparing else .235),size.y*.13),maxi(12,int(16*u)))
-	kit.text=("当前配装  " if preparing else "CURRENT LOADOUT\n")+game._weapon_text(game.selected_weapon)+" / "+game.items.LABELS[Setup.selected_item]+"\n天赋 "+Perks.LABELS[Setup.selected_perk]+(" · 整局锁定" if preparing else "")
+	_place(profile,Vector2(size.x*.715,size.y*.19),Vector2(size.x*.245,size.y*.19),int(20*u));profile.text="#01 "+Setup.player_name+"\n"+("AREA CONTROL" if Setup.battle_rule=="area" else "TURF WAR")+" · "+("5 v 5" if Setup.team_size==5 else "1 v 1")
+	_place(kit,Vector2(size.x*(.37 if preparing else .715),size.y*(.058 if preparing else .435)),Vector2(size.x*(.60 if preparing else .235),size.y*.13),maxi(11,int(16*u)))
+	var main_detail:Dictionary=Details.weapon(game,game.selected_weapon)
+	var walker:Node3D=game.get_node("World/Walker")
+	kit.text=("主 " if preparing else "CURRENT LOADOUT\n")+game._weapon_text(game.selected_weapon)+" / 副 "+game.items.LABELS[Setup.selected_item]+"\n大招 "+String(main_detail.body).split("大招：")[1].split(" · ")[0]+" · 天赋 "+Perks.LABELS[Setup.selected_perk]+"\n生命 %.0f · 墨量 %.0f · 跑速 %.1f · 潜泳 %.1f" % [game.actor_max_health(walker),game.actor_ink_max(walker),walker.player_config.runSpeed,walker.player_config.swimSpeed]
 	_place(home_stats,Vector2(size.x*.715,size.y*.595),Vector2(size.x*.24,30*u),int(14*u));home_stats.text="悬停查看星级与数值 · 点击进入配装"
 	_place(home_weapon,Vector2(size.x*.715,size.y*.65),Vector2(size.x*.23,62*u),int(19*u));home_weapon.text=game._weapon_text(game.selected_weapon);home_weapon.icon=load("res://assets/ui/%s.svg" % game.selected_weapon)
 	preview.set_weapon(game.selected_weapon)
@@ -251,7 +269,7 @@ func _layout_preparation(u:float) -> void:
 		strip.position=Vector2(size.x*.13,size.y*pair[1])
 		_place(group_labels[key],Vector2(size.x*.033,size.y*pair[1]+3*u),Vector2(size.x*.088,45*u),maxi(11,int(14*u)))
 	group_labels.weapon.text="主武器\n%d · 滚动" % game.weapon_order.size()
-	group_labels.item.text="道具\n%d · 滚动" % item_buttons.size()
+	group_labels.item.text="副武器\n%d · 滚动" % item_buttons.size()
 	group_labels.perk.text="天赋\n%d · 滚动" % Perks.ORDER.size()
 	var width:float=178*u
 	weapon_area.custom_minimum_size=Vector2(game.weapon_order.size()*(width+8*u),46*u);weapon_area.visible=true
@@ -282,6 +300,15 @@ func _layout_preparation(u:float) -> void:
 	if seen_perk!=Setup.selected_perk:
 		seen_perk=Setup.selected_perk
 		if perk_buttons.has(seen_perk): strips.perk.call_deferred("ensure_control_visible",perk_buttons[seen_perk])
+	_place(kit_mode,Vector2(size.x*.13,size.y*.890),Vector2(size.x*.20,30*u),maxi(11,int(14*u)))
+	kit_mode.text="固定套装 ↔" if Setup.loadout_mode=="kit" else "自定义配装 ↔"
+	kit_mode.disabled=game.perks.locked
+	_place(rule_choice,Vector2(size.x*.342,size.y*.890),Vector2(size.x*.183,30*u),maxi(11,int(14*u)))
+	rule_choice.text="全图涂地战 ↔" if Setup.battle_rule=="turf" else "中央区域争夺 ↔"
+	rule_choice.disabled=game.perks.locked
+	_place(roll_button,Vector2(size.x*.536,size.y*.890),Vector2(size.x*.174,30*u),maxi(11,int(14*u)))
+	roll_button.disabled=game.perks.locked
+	map_hint.text="可涂面留墨；墨墙可攀但不计分"+(" · 黄色框内争夺，控制后计数递减" if Setup.battle_rule=="area" else " · 全图地面／坡面计分")
 	_place(duration_choice,Vector2(size.x*.75,size.y*.741),Vector2(size.x*.09,30*u),maxi(11,int(14*u)))
 	_place(mode_choice,Vector2(size.x*.857,size.y*.741),Vector2(size.x*.10,30*u),maxi(11,int(14*u)))
 	_place(ai_choice,Vector2(size.x*.75,size.y*.790),Vector2(size.x*.21,30*u),maxi(11,int(14*u)))

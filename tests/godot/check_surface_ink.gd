@@ -59,7 +59,7 @@ func _check() -> void:
 	var before: Array = ink.counts.duplicate()
 	var wall_u := float(wall["su"]) * 0.5
 	var wall_v := float(wall["sv"]) * 0.5
-	if ink.splat_face(int(wall["id"]), wall_u, wall_v, 0.7, 0, 0.5) <= 0.0 or ink.counts != before:
+	if ink.splat_face(int(wall["id"]), wall_u, wall_v, 0.7, 0, 0.5) != 0.0 or ink.counts != before or ink.owner_at(int(wall["id"]),wall_u,wall_v)!=0:
 		printerr("FAIL: wall paint changed turf score")
 		quit(1)
 		return

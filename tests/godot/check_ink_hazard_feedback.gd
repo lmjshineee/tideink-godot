@@ -11,7 +11,7 @@ func _run() -> void:
 		game._start_round()
 		game.player_invuln = 0
 		for i in hz: game._update_player_vitals(1.0 / hz)
-		expect(absf(game.player_health - 118) < .01, "ordinary enemy ink costs two HP/s at %s Hz" % hz)
+		expect(absf(game.player_health - (game.actor_max_health(walker)-2)) < .01, "ordinary enemy ink costs two HP/s at %s Hz" % hz)
 	# Leaving a short contact must finish its own report, not carry it into the next.
 	game._start_round()
 	game._update_player_vitals(.25)
@@ -39,7 +39,7 @@ func _run() -> void:
 	game._start_round()
 	game.player_invuln = 2
 	game._update_player_vitals(.5)
-	expect(game.player_health == 120 and game.damage_history.is_empty(), "protection blocks hazard and feedback")
+	expect(is_equal_approx(game.player_health,game.actor_max_health(walker)) and game.damage_history.is_empty(), "protection blocks hazard and feedback")
 	# Environmental numbers cannot push an attributed shot out of the HUD.
 	var feedback: RefCounted = game.presentation.incoming
 	feedback.record("visible shooter", 12, Vector3.RIGHT)
@@ -55,6 +55,6 @@ func _run() -> void:
 	game.player_health = 118.00000000001
 	combat.ink_amount = 98.00000000001
 	game._update_hud()
-	expect(game.health_label.text == "生命  118 / 120" and game.ink_label.text == "墨量  98 / 100", "HUD does not round floating-point noise up by one")
+	expect(game.health_label.text == "生命  118 / 132" and game.ink_label.text == "墨量  98 / 110", "HUD does not round floating-point noise up by one")
 	expect(game.hud_view.displayed_amount(118.3) == 119, "real fractions keep the existing ceiling convention")
 	await finish("two HP/s at three rates, short-contact/death reset, exact low-HP loss and blocked-hazard negatives")

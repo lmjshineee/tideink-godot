@@ -28,7 +28,7 @@ func _run() -> void:
 		expect(combat.bow.arrows.size()==3 and is_equal_approx(combat.ink_amount,94),"full bow costs 6 on release")
 		for i in 45: combat.bow.tick(1.0/30)
 		print("AUDIT: bow crosshair height=",height," remainingHP=",game.bot_health)
-		expect(game.bot_health==0 and game.bot_respawn>0,"actual bow hits crosshair at "+str(height)+" with a full-draw splat")
+		expect(is_equal_approx(game.bot_health,15) and game.bot_respawn==0,"actual bow hits crosshair at "+str(height)+" with 105 full-draw damage")
 	reset_target(Vector3(0,40,8))
 	combat.bow.fire(walker,bot.global_position+Vector3.UP,0)
 	expect(is_equal_approx(combat.ink_amount,97.5),"tap costs 2.5")

@@ -19,7 +19,7 @@ func _check() -> void:
 		_fail("bomb spawned before right-button release")
 		return
 	combat.call("tick", 0.01, false, false, false)
-	if (combat.get("bombs") as Array).size() != 1 or absf(float(combat.get("ink_amount")) - 30.0) > 0.01:
+	if (combat.get("bombs") as Array).size() != 1 or absf(float(combat.get("ink_amount")) - 40.0) > 0.01:
 		_fail("bomb release did not use source ink cost")
 		return
 	var bomb: Dictionary = (combat.get("bombs") as Array)[0]
@@ -34,7 +34,7 @@ func _check() -> void:
 	if (combat.get("bombs") as Array).size() != 0 or float(ink.call("coverage", 0)) <= 0.0:
 		_fail("bomb explosion did not paint scoring turf")
 		return
-	if float(scene.get("bot_health")) >= 120.0 or float(scene.get("bot_respawn")) > 0.0:
+	if float(scene.get("bot_health")) >= 132.0 or float(scene.get("bot_respawn")) > 0.0:
 		_fail("bomb blast did not damage the nearby opponent")
 		return
 	combat.set("ink_amount", 69.0)

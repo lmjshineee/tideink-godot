@@ -33,8 +33,8 @@ func _check() -> void:
 		_fail("blue blaster did not fire a team 1 projectile")
 		return
 	combat.call("advance_effects", 0.15)
-	if float(scene.get("player_respawn")) <= 0.0 or float(scene.get("player_health"))!=0.0:
-		_fail("blue blaster direct must splat an unshielded target")
+	if float(scene.get("player_respawn")) > 0.0 or not is_equal_approx(float(scene.get("player_health")),37):
+		_fail("blue blaster direct leaves 37 HP for follow-up")
 		return
 	var bursts: Array = combat.get("bursts")
 	if bursts.is_empty() or not _near(float(((bursts[0] as Dictionary)["visual"] as MeshInstance3D).mesh.radius),
@@ -59,14 +59,14 @@ func _check() -> void:
 	var blue_before := float(splash_scene.get("ink").call("coverage", 1))
 	splash_combat.call("_burst_blaster", splash_walker.global_position + Vector3(1.0, 0.8, 0.0),
 		weapons["blaster"], false, 1)
-	if float(splash_scene.get("player_health")) >= 120.0 \
+	if float(splash_scene.get("player_health")) >= 132.0 \
 			or float(splash_scene.get("ink").call("coverage", 1)) <= blue_before:
 		_fail("blue blaster splash did not damage and paint for team 1")
 		return
 	var splash_bot: Node3D = splash_scene.get_node("Bot")
 	splash_combat.call("_burst_blaster", splash_bot.global_position + Vector3(1.0, 0.8, 0.0),
 		weapons["blaster"], false, 0)
-	if float(splash_scene.get("bot_health")) >= 120.0:
+	if float(splash_scene.get("bot_health")) >= 132.0:
 		_fail("orange blaster splash regressed after team sharing")
 		return
 	var charger_scene := (load("res://scenes/match/tidewater_play.tscn") as PackedScene).instantiate()
@@ -81,14 +81,14 @@ func _check() -> void:
 	charger_bot.call("select_weapon", "charger")
 	charger_walker.global_position = charger_bot.global_position + Vector3(0.0, 0.05, -3.0)
 	charger_bot.call("tick", 0.5)
-	if float(charger_scene.get("player_health")) < 120.0:
+	if float(charger_scene.get("player_health")) < 132.0:
 		_fail("charger fired before completing its charge")
 		return
 	charger_bot.call("tick", 0.51)
 	var charger_combat: Node3D = charger_scene.get_node("Combat")
 	if float(charger_scene.get("player_respawn")) <= 0.0 or float(charger_scene.get("player_health")) != 0.0 \
 			or (charger_combat.get("beams") as Array).size() != 1 \
-			or float(charger_bot.get("ink_amount")) > 100.0 - float(weapons["charger"]["inkFull"]):
+			or float(charger_bot.get("ink_amount")) > 110.0 - float(weapons["charger"]["inkFull"]):
 		_fail("blue charger charge, beam, ink cost or hit")
 		return
 	var beam: MeshInstance3D = (charger_combat.get("beams") as Array)[0]["visual"]
@@ -118,8 +118,8 @@ func _check() -> void:
 		return
 	roller_walker.global_position = roller_bot.global_position + Vector3(0.0, 0.0, -1.0)
 	roller_bot.call("tick", 0.1)
-	if float(roller_scene.get("player_respawn")) <= 0.0 or float(roller_scene.get("player_health"))!=0.0:
-		_fail("blue roller moving contact must splat an unshielded target")
+	if float(roller_scene.get("player_respawn")) > 0.0 or not is_equal_approx(float(roller_scene.get("player_health")),37):
+		_fail("blue roller contact leaves 37 HP for follow-up")
 		return
 	print("PASS: setup bot loadout, blue blaster direct/splash, charger, roller and respawn persistence")
 	# Retire audio from all four short-lived scenes before ending the test.

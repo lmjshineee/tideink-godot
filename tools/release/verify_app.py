@@ -20,7 +20,7 @@ CASES = ('check_tidewater_turf_points', 'check_gameplay_deployment', 'check_expa
          'check_bot_map_platforms', 'check_team_navigation_motion', 'check_map_routes26',
          'check_bot_beacon_placement', 'check_ink_buddy_combat', 'check_ink_buddy_lifecycle', 'check_item_previews',
          'check_damage_contract', 'check_damage_regions', 'check_bot_ink_refill',
-         'check_roller_surface_contact', 'check_extended_damage')
+         'check_roller_surface_contact', 'check_extended_damage', 'check_loadout_tuning', 'check_area_rules')
 
 
 def main():
@@ -102,6 +102,23 @@ def main():
                       '--output=' + str(output / 'primary-native')], fixture, output / 'primary-native.txt')
         report['primary_native'] = {'status': 'passed', 'source_sha256': sha(primary_source),
                                     'external_sha256': sha(primary), 'pck_sha256': receipt['pck_sha256']}
+        loadout_source = project / 'tools/capture/verify_loadout_tuning.gd'
+        loadout = fixture / 'loadout_native.gd'
+        external = external_test(loadout_source.read_text())
+        begin = external.index('\treport.source_sha256={}')
+        end = external.index('\troot.size=', begin)
+        external = external[:begin] + (
+            '\treport.verification="explicit exported PCK; receipt supplies pack identity"\n'
+            '\tif ProjectSettings.get_setting("application/config/version") != '
+            + json.dumps(receipt['identity']['version']) + ':\n'
+            '\t\tprinterr("FAIL: wrong exported version");quit(1);return\n'
+        ) + external[end:]
+        loadout.write_text(external)
+        run(common + ['--rendering-driver', 'metal', '--script', str(loadout),
+                      '--log-file', str(output / 'loadout-native.engine.txt'), '--',
+                      '--output=' + str(output / 'loadout-native')], fixture, output / 'loadout-native.txt')
+        report['loadout_native'] = {'status': 'passed', 'source_sha256': sha(loadout_source),
+                                    'external_sha256': sha(loadout), 'pck_sha256': receipt['pck_sha256']}
         smoke = output / 'app-startup.txt'
         with smoke.open('w') as log:
             result = subprocess.run([str(app / receipt['executable']), '--headless', '--quit-after', '4',

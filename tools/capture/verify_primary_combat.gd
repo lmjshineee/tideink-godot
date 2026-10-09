@@ -34,7 +34,7 @@ func snap(label: String) -> void:
 	if picture!=null:expect(picture.save_png(output.path_join(label+".png"))==OK,"save "+label)
 
 func finish(label: String) -> void:
-	reset_fight(bot,walker)
+	reset_fight(bot,walker,132)
 	walker.set_process_input(false) # Fixed aim fixture: ignore native cursor warp motion.
 	game.deployment.clear();game.presentation.incoming.clear();game.damage_history.clear()
 	walker.global_position=Vector3(0,.05,-28);walker.reset_movement_state();walker.active=true;walker.grounded=true
@@ -46,23 +46,23 @@ func finish(label: String) -> void:
 	camera.look_at(bot.global_position+Vector3.UP*.9);camera.current=true
 	for i in 31:
 		await physics_frame;input_tick(true)
-	expect(combat.charging and combat.charge_fraction==1 and game.bot_health==120,"real mouse hold charges without premature damage")
+	expect(combat.charging and combat.charge_fraction==1 and game.bot_health==132,"real mouse hold charges without premature damage")
 	await snap("mouse-full-charge")
 	input_tick(false)
 	expect(game.bot_health==0 and game.bot_respawn>0 and is_equal_approx(combat.ink_amount,86),"real mouse release costs 14 and splats full health")
 	native_report.mouse_full_charge={"hold_ticks":31,"release":"left mouse up","ink_after":combat.ink_amount,"target_hp":game.bot_health,"target_respawn":game.bot_respawn}
 	await snap("mouse-full-charge-splat")
 	# Actual shield activation protects a fresh target from the same input.
-	game.bot_health=120;game.bot_respawn=0;game.bot_invuln=0;bot.visible=true
+	game.bot_health=132;game.bot_respawn=0;game.bot_invuln=0;bot.visible=true
 	game.items.equip(bot,"shield");expect(game.items.use(bot),"actual target shield activation")
 	combat.cooldown=0;combat.ink_amount=100;combat.last_fire_time=0
 	for i in 31:
 		await physics_frame;input_tick(true)
 	input_tick(false)
-	expect(is_equal_approx(game.bot_health,30) and game.items.state(bot).armor==0,"real shield absorbs 60 before mouse-fired HP damage")
+	expect(is_equal_approx(game.bot_health,42) and game.items.state(bot).armor==0,"real shield absorbs 60 before mouse-fired HP damage")
 	native_report.mouse_shield={"target_hp":game.bot_health,"remaining_armor":game.items.state(bot).armor,"ink_after":combat.ink_amount}
 	await snap("mouse-shield-counterplay")
-	reset_fight(bot,walker)
+	reset_fight(bot,walker,132)
 	walker.set_process_input(false) # Fixed aim fixture: ignore native cursor warp motion.
 	game.deployment.clear();game.presentation.incoming.clear();game.damage_history.clear()
 	walker.global_position=Vector3(0,.05,-28);walker.reset_movement_state();walker.active=true;walker.grounded=true
@@ -72,14 +72,22 @@ func finish(label: String) -> void:
 	camera.look_at(bot.global_position+Vector3.UP*.9)
 	for i in 25:
 		await physics_frame;input_tick(true)
-	expect(combat.charge_fraction==1 and game.bot_health==120,"real bow hold completes draw without premature arrows")
+	expect(combat.charge_fraction==1 and game.bot_health==132,"real bow hold completes draw without premature arrows")
 	await snap("bow-full-draw")
 	input_tick(false)
 	var bow_release_ink: float=combat.ink_amount
 	expect(is_equal_approx(bow_release_ink,94) and combat.bow.arrows.size()==3,"real bow release creates three arrows and costs six")
 	for i in 30:
 		await physics_frame;input_tick(false)
-	expect(game.bot_health==0 and game.bot_respawn>0,"real full bow mouse release splats an unshielded target")
+	expect(is_equal_approx(game.bot_health,27) and game.bot_respawn==0,"real full bow mouse release leaves 27 HP for follow-up")
+	await snap("bow-full-draw-followup")
+	combat.cooldown=0
+	for i in 25:
+		await physics_frame;input_tick(true)
+	input_tick(false)
+	for i in 30:
+		await physics_frame;input_tick(false)
+	expect(game.bot_health==0 and game.bot_respawn>0,"real bow charged follow-up finishes target")
 	native_report.mouse_bow={"hold_ticks":25,"ink_at_release":bow_release_ink,"target_hp":game.bot_health}
 	await snap("bow-full-draw-splat")
 	game.show_preparation()
@@ -94,7 +102,7 @@ func finish(label: String) -> void:
 		game.frontend.strips.weapon.ensure_control_visible(game.weapon_buttons[id])
 		for i in 6:await process_frame
 		var detail:Dictionary=preload("res://src/ui/loadout_details.gd").weapon(game,id)
-		var required: String="150" if id=="charger" else ("126" if id=="bow" else "3 轮")
+		var required: String="150" if id=="charger" else ("105" if id=="bow" else "4 轮")
 		expect(String(detail.body).contains(required),"loadout explains effective reward "+id)
 		var motion:=InputEventMouseMotion.new()
 		motion.position=game.weapon_buttons[id].get_global_rect().get_center()

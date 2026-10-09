@@ -11,9 +11,11 @@ func expect(ok: bool, message: String) -> void:
 		failures.append(message)
 		printerr("FAIL: ", message)
 
-func prepare(match_size: int = 5, map_id: String = "modular_harbor") -> void:
+func prepare(match_size: int = 5, map_id: String = "modular_harbor", rule: String = "turf", mode: String = "custom") -> void:
 	var setup := preload("res://src/core/match_setup.gd")
 	setup.screen = "setup"
+	setup.battle_rule = rule
+	setup.loadout_mode = mode
 	setup.map_id = map_id
 	setup.random_map = false
 	setup.map_variant = 6
@@ -36,7 +38,12 @@ func prepare(match_size: int = 5, map_id: String = "modular_harbor") -> void:
 		if actor != walker:
 			actor.global_position = Vector3(70 + game.actor_id(actor) * 3, 40, 70)
 			actor.invuln = 0
+			actor.health = game.actor_max_health(actor)
+			actor.ink_amount = game.actor_ink_max(actor)
 	game.perks.apply_movement()
+	game.player_health = game.actor_max_health(walker)
+	game.bot_health = game.actor_max_health(bot)
+	combat.ink_amount = game.actor_ink_max(walker)
 	game.player_invuln = 0
 	game.bot_invuln = 0
 	game.bot_respawn = 0

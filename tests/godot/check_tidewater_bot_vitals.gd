@@ -15,7 +15,7 @@ func _check() -> void:
 	scene.set_physics_process(false)
 	var bot: Node3D = scene.get_node("Bot")
 	var config: Dictionary = scene.get_node("Combat").get("weapon_data")["player"]
-	if float(scene.get("bot_invuln")) != 0.0 or float(scene.get("bot_health")) != float(config["hp"]):
+	if float(scene.get("bot_invuln")) != 0.0 or float(scene.get("bot_health")) != float(scene.actor_max_health(bot)):
 		_fail("initial bot lineup state")
 		return
 	# Stop bot movement so each step samples the same actual map surface.
@@ -25,12 +25,12 @@ func _check() -> void:
 		return
 	for i in range(24):
 		scene.call("_update_bot_vitals", 0.5)
-	if not _near(float(scene.get("bot_health")), 96.0) \
+	if not _near(float(scene.get("bot_health")), 108.0) \
 			or not _near(float(scene.get("bot_ink_damage")), float(config["enemyInkDamageCap"])):
 		_fail("enemy ink damage or cap")
 		return
 	scene.call("_update_bot_vitals", 1.0)
-	if not _near(float(scene.get("bot_health")), 96.0):
+	if not _near(float(scene.get("bot_health")), 108.0):
 		_fail("enemy ink should stop at cap without regenerating")
 		return
 	scene.call("paint_at_world", bot.global_position + Vector3.UP * 0.12, 1, 1.5, 0.5)
@@ -40,17 +40,17 @@ func _check() -> void:
 	scene.call("_update_bot_vitals", 0.5)
 	scene.call("_update_bot_vitals", 0.5)
 	scene.call("_update_bot_vitals", 0.5)
-	if not _near(float(scene.get("bot_health")), 108.0) \
+	if not _near(float(scene.get("bot_health")), 120.0) \
 			or not _near(float(scene.get("bot_ink_damage")), 0.0):
 		_fail("delayed normal regeneration or ink damage decay")
 		return
 	scene.call("damage_bot", 10.0)
 	scene.call("_update_bot_vitals", 1.0)
-	if not _near(float(scene.get("bot_health")), 98.0):
+	if not _near(float(scene.get("bot_health")), 110.0):
 		_fail("direct hit should restart regeneration delay")
 		return
 	scene.call("_update_bot_vitals", 0.81)
-	if float(scene.get("bot_health")) <= 98.0:
+	if float(scene.get("bot_health")) <= 110.0:
 		_fail("direct hit regeneration did not resume")
 		return
 	scene.call("damage_bot", float(scene.get("bot_health")))
@@ -58,26 +58,26 @@ func _check() -> void:
 		_fail("bot death should use player respawn duration")
 		return
 	scene.call("_update_bot", float(config["respawnTime"]) + 0.1)
-	if not bot.visible or not _near(float(scene.get("bot_health")), float(config["hp"])) \
+	if not bot.visible or not _near(float(scene.get("bot_health")), float(scene.actor_max_health(bot))) \
 			or not _near(float(scene.get("bot_invuln")), float(config["spawnInvuln"])) \
 			or not _near(float(scene.get("bot_ink_damage")), 0.0):
 		_fail("bot respawn state")
 		return
 	scene.call("damage_bot", 50.0)
-	if not _near(float(scene.get("bot_health")), float(config["hp"])):
+	if not _near(float(scene.get("bot_health")), float(scene.actor_max_health(bot))):
 		_fail("respawn protection should block direct hits")
 		return
 	scene.call("paint_at_world", bot.global_position + Vector3.UP * 0.12, 0, 1.5, 0.5)
 	scene.call("_update_bot_vitals", 0.5)
-	if not _near(float(scene.get("bot_health")), float(config["hp"])):
+	if not _near(float(scene.get("bot_health")), float(scene.actor_max_health(bot))):
 		_fail("respawn protection should block enemy ink")
 		return
 	scene.call("_update_bot_vitals", float(config["spawnInvuln"]) - 0.7)
-	if not _near(float(scene.get("bot_health")), float(config["hp"])):
+	if not _near(float(scene.get("bot_health")), float(scene.actor_max_health(bot))):
 		_fail("enemy ink should stay blocked until protection expires")
 		return
 	scene.call("_update_bot_vitals", 0.25)
-	if not _near(float(scene.get("bot_health")), float(config["hp"]) - float(config["enemyInkDps"]) * 0.25):
+	if not _near(float(scene.get("bot_health")), float(scene.actor_max_health(bot)) - float(config["enemyInkDps"]) * 0.25):
 		_fail("enemy ink should resume after protection expires")
 		return
 	print("PASS: bot enemy ink damage/cap, delayed regeneration, death, respawn and protection")

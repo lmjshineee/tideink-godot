@@ -38,8 +38,8 @@ func _check() -> void:
 	if absf(float((scene.get("orange_bar") as ProgressBar).value) - float(ink.call("coverage", 0)) * 100.0) > 0.01:
 		_fail("score bar does not read authoritative ink coverage")
 		return
-	if absf(float((scene.get("ink_bar") as ProgressBar).value) - 37.0) > 0.01 \
-		or absf(float((scene.get("health_bar") as ProgressBar).value) - (64.0/120.0*100.0)) > 0.01:
+	if absf(float((scene.get("ink_bar") as ProgressBar).value) - (37.0/110.0*100.0)) > 0.01 \
+		or absf(float((scene.get("health_bar") as ProgressBar).value) - (64.0/132.0*100.0)) > 0.01:
 		_fail("ink or health meter does not read live combat state")
 		return
 	if absf(float((scene.get("special_bar") as ProgressBar).value) - 100.0) > 0.01 \

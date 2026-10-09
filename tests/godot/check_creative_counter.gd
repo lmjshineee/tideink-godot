@@ -43,7 +43,7 @@ func _run() -> void:
 	counter.cancel(walker); combat.special_active = ""
 	walker.global_position = Vector3(0,40,0); combat.ink_amount = 20
 	start()
-	expect(combat.special_points == 0 and combat.ink_amount == 100 and combat.is_busy(), "meter consumed, tank refill and human-form action lock")
+	expect(combat.special_points == 0 and is_equal_approx(combat.ink_amount,game.actor_ink_max(walker)) and combat.is_busy(), "meter consumed, tank refill and human-form action lock")
 	var s: Dictionary = counter.intakes[walker.get_instance_id()]
 	combat._spawn_projectile("shooter", Vector3(0,41.05,8),Vector3(0,0,-40),combat.weapons.shooter,1,bot)
 	combat._update_projectiles(.2)
@@ -58,7 +58,7 @@ func _run() -> void:
 	expect(Vector2(walker.velocity.x,walker.velocity.z).length() <= 3.0001 and walker.velocity.y == 2,"airborne counter clamps inherited momentum/air minimum without removing vertical motion")
 	walker.velocity = Vector3.ZERO
 	combat.tick(.01,true,false)
-	expect(combat.projectiles.is_empty() and combat.ink_amount == 100, "left trigger cannot emit pellets or spend ink during intake")
+	expect(combat.projectiles.is_empty() and is_equal_approx(combat.ink_amount,game.actor_ink_max(walker)), "left trigger cannot emit pellets or spend ink during intake")
 	s.direction = Vector3(0,0,1)
 	combat._spawn_projectile("shooter",Vector3(0,41.05,3),Vector3(0,0,40),combat.weapons.shooter,1,bot)
 	combat._update_projectiles(.03)

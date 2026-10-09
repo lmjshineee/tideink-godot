@@ -17,7 +17,7 @@ func _run() -> void:
 	front.preview.set_pose("run");front.preview._process(0.1);front.model._physics_process(0.1)
 	expect(front.model.animation_state()["moving"] and front.model.gait_weight>0,"inspection stage uses source gait")
 	expect(game.get_node("World/Walker").global_position==initial,"preview never moves match character")
-	expect(Details.weapon(game,"shooter")["body"].contains("伤害 42") and Details.item(game,"bomb")["body"].contains("消耗 70"),"hover reads adjusted combat data")
+	expect(Details.weapon(game,"shooter")["body"].contains("伤害 34") and Details.item(game,"bomb")["body"].contains("消耗 70"),"hover reads adjusted combat data")
 	game.perks.select_player("saver")
 	expect(Details.weapon(game,"shooter")["body"].contains("0.68") and Details.weapon(game,"shooter")["body"].contains("节墨"),"hover reflects actual selected talent cost")
 	for id in game.weapon_order:

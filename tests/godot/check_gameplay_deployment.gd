@@ -24,9 +24,9 @@ func _run() -> void:
 		game._start_round()
 		var combat: Node3D = game.get_node("Combat")
 		var bot: Node3D = game.get_node("Bot")
-		expect(game.player_health==120 and game.bot_health==120,"equal 120 HP for player/main opponent")
+		expect(is_equal_approx(game.player_health,132) and is_equal_approx(game.bot_health,132),"equal boosted baseline HP for player/main opponent")
 		for actor in game.extra_bots:
-			expect(game.actor_health(actor)==120,"equal 120 HP for every ally/opponent")
+			expect(is_equal_approx(game.actor_health(actor),132),"equal boosted baseline HP for every ally/opponent")
 		var walker_items: Dictionary = game.items.state(walker)
 		var place := Vector3(0,2.25,36)
 		game.player_health = 85
@@ -99,7 +99,7 @@ func _run() -> void:
 		combat.set("ink_amount",1)
 		combat.set("special_points",combat.call("special_cost"))
 		expect(combat.call("try_special"),"special activation accepted")
-		expect(combat.get("ink_amount")==100,"special restores ink")
+		expect(is_equal_approx(float(combat.get("ink_amount")),game.actor_ink_max(walker)),"special restores ink")
 		walker.set("slam_impact_pending",true)
 		combat.call("_update_special",0.02)
 		expect(game.bot_respawn>0,"slam close core kills")

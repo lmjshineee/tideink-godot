@@ -28,7 +28,7 @@ func _run() -> void:
 	expect(intel.marker(bot,0).is_empty(), "pulse has deployment prelude")
 	for i in 16: sonar.tick(.033)
 	expect(not intel.marker(bot,0).is_empty() and intel.marker(bot,0).status == "sonar", "travelling wave reveals submerged enemy")
-	expect(game.bot_health == 120 and game.player_health == 120, "sonar does not cause damage")
+	expect(is_equal_approx(game.bot_health,game.actor_max_health(bot)) and is_equal_approx(game.player_health,game.actor_max_health(walker)), "sonar does not cause damage")
 	intel.tick(2.1)
 	expect(intel.marker(bot,0).is_empty(), "sonar reveal expires without continuous scan")
 	# Restart pulse at the same actual device; this time an opaque wall intervenes.

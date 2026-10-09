@@ -22,15 +22,15 @@ func _check() -> void:
 	var shooter: Dictionary = weapon_data["weapons"]["shooter"]
 	combat.call("_spawn_projectile", "shooter", Vector3(0.0, 3.0, 37.2), Vector3(0.0, 0.0, 34.0), shooter)
 	combat.call("_update_projectiles", 0.1)
-	if absf(float(scene.get("bot_health")) - 78.0) > 0.01:
+	if absf(float(scene.get("bot_health")) - (132.0-float(shooter.damage))) > 0.01:
 		_fail("shooter shot missed visible bot or damage differs from source")
 		return
-	scene.call("damage_bot", 90.0)
+	scene.call("damage_bot", 200.0)
 	if float(scene.get("bot_respawn")) <= 0.0 or bot.visible:
 		_fail("bot death")
 		return
 	_respawn_bot(scene)
-	if float(scene.get("bot_health")) != 120.0 or not bot.visible:
+	if float(scene.get("bot_health")) != 132.0 or not bot.visible:
 		_fail("bot respawn")
 		return
 	walker.global_position = Vector3(0.0, 2.25, 31.2)
@@ -43,8 +43,8 @@ func _check() -> void:
 	var blaster: Dictionary = weapon_data["weapons"]["blaster"]
 	combat.call("_spawn_projectile", "blaster", Vector3(0.0, 3.0, 37.2), Vector3(0.0, 0.0, 23.0), blaster)
 	combat.call("_update_projectiles", 0.1)
-	if float(scene.get("bot_respawn")) <= 0.0 or float(scene.get("bot_health"))!=0:
-		_fail("blaster direct must splat an unshielded target")
+	if float(scene.get("bot_respawn")) > 0.0 or not is_equal_approx(float(scene.get("bot_health")),37):
+		_fail("blaster direct leaves 37 HP for follow-up")
 		return
 	_respawn_bot(scene)
 	# Roller crushing damage (weapons.js:200-207): the drum must be moving, the victim
@@ -57,25 +57,25 @@ func _check() -> void:
 	walker.velocity = Vector3(0.0, 0.0, 4.4)
 	scene.set("bot_health",300.0) # Isolate the repeat-hit cooldown from a lethal first contact.
 	combat.call("_roll_damage", roller)
-	if float(scene.get("bot_respawn")) > 0.0 or absf(float(scene.get("bot_health"))-175.0)>0.01:
-		_fail("first roller contact must spend exactly 125 HP")
+	if float(scene.get("bot_respawn")) > 0.0 or absf(float(scene.get("bot_health"))-205.0)>0.01:
+		_fail("first roller contact must spend exactly 95 HP")
 		return
 	# A standing drum deals nothing.
 	walker.velocity = Vector3.ZERO
 	combat.call("_roll_damage", roller)
-	if float(scene.get("bot_respawn")) > 0.0 or float(scene.get("bot_health")) != 175.0:
+	if float(scene.get("bot_respawn")) > 0.0 or float(scene.get("bot_health")) != 205.0:
 		_fail("standing roller should not damage")
 		return
 	# Second pass inside the cooldown window: still nothing.
 	walker.velocity = Vector3(0.0, 0.0, 4.4)
 	combat.call("_roll_damage", roller)
-	if float(scene.get("bot_respawn")) > 0.0 or float(scene.get("bot_health")) != 175.0:
+	if float(scene.get("bot_respawn")) > 0.0 or float(scene.get("bot_health")) != 205.0:
 		_fail("roller cooldown did not limit the second hit")
 		return
 	# Past the cooldown the drum bites again.
 	combat.set("elapsed", float(combat.get("elapsed")) + 0.6)
 	combat.call("_roll_damage", roller)
-	if float(scene.get("bot_respawn")) > 0.0 or float(scene.get("bot_health")) != 50.0:
+	if float(scene.get("bot_respawn")) > 0.0 or float(scene.get("bot_health")) != 110.0:
 		_fail("roller cooldown never expired")
 		return
 	_respawn_bot(scene)
@@ -92,7 +92,7 @@ func _check() -> void:
 		_fail("bot did not fire a source-configured shooter projectile")
 		return
 	combat.call("advance_effects", 0.1)
-	if absf(float(scene.get("player_health")) - (120.0 - float(shooter["damage"]))) > 0.01:
+	if absf(float(scene.get("player_health")) - (132.0 - float(shooter["damage"]))) > 0.01:
 		_fail("bot projectile did not reach the player with source damage")
 		return
 	var blue_before := float(scene.get("ink").call("coverage", 1))
@@ -126,13 +126,13 @@ func _check() -> void:
 		return
 	scene.call("launch_respawn")
 	scene.call("_update_player_respawn", 5.6)
-	if float(scene.get("player_respawn")) != 0.0 or float(scene.get("player_health")) != 120.0 \
+	if float(scene.get("player_respawn")) != 0.0 or float(scene.get("player_health")) != 132.0 \
 		or not walker.visible or not bool(walker.get("active")) or combat.get("selected_id") != "blaster" \
 		or float(scene.get("player_invuln")) <= 0.0:
 		_fail("player respawn state")
 		return
 	scene.call("damage_player", 50.0)
-	if float(scene.get("player_health")) != 120.0:
+	if float(scene.get("player_health")) != 132.0:
 		_fail("respawn protection did not block direct damage")
 		return
 	select.keycode = KEY_1

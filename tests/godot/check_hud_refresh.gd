@@ -73,7 +73,7 @@ func _run() -> void:
 			"opening Tab reads current health immediately")
 		tab(false)
 		expect(not game.scoreboard_panel.visible, "releasing Tab closes tactical list")
-		expect(absf(game.health_bar.value - 55.0 / 120.0 * 100.0) < .01,
+		expect(absf(game.health_bar.value - 55.0 / game.actor_max_health(game.get_node("World/Walker")) * 100.0) < .01,
 			"live health bindings remain intact")
 		await capture("playing-%d" % dimensions.x)
 		game._finish_round()

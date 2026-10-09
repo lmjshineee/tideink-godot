@@ -28,7 +28,7 @@ func _run() -> void:
 	mines.tick(.02); expect(mines.mines.is_empty() and game.bot_health == 120 and game.intel.marker(bot,0).is_empty(),"escaping radius avoids damage and tag")
 	m = await deploy(); bot.global_position = home + Vector3(1,.05,0); await physics_frame
 	mines.tick(.81); mines.tick(.46)
-	expect(game.bot_health < 95 and game.bot_health > 70 and game.player_health == 120,"single mine has falloff, is nonlethal and causes no friendly fire")
+	expect(game.bot_health < 95 and game.bot_health > 70 and is_equal_approx(game.player_health,game.actor_max_health(walker)),"single mine has falloff, is nonlethal and causes no friendly fire")
 	expect(game.intel.marker(bot,0).status == "sonar" and game._attacker_description(walker,"mine").contains("感应墨雷"),"actual explosion shares temporary position tag and readable source")
 	bot.global_position = Vector3(70,40,70); game.intel.tick(2.1)
 	expect(game.intel.marker(bot,0).is_empty(),"mine mark expires normally")
@@ -50,7 +50,7 @@ func _run() -> void:
 	var count: int = mines.explosions_total
 	walker.global_position = home + Vector3(4,.05,0); await physics_frame
 	combat._fire_charger_ray(combat.weapons.charger,1,bot.global_position+Vector3.UP,(m.point+Vector3.UP*.12-bot.global_position-Vector3.UP).normalized(),1,bot)
-	expect(mines.mines.is_empty() and mines.explosions_total == count and game.player_health == 120,"real enemy ray safely destroys physical device without triggering it")
+	expect(mines.mines.is_empty() and mines.explosions_total == count and is_equal_approx(game.player_health,game.actor_max_health(walker)),"real enemy ray safely destroys physical device without triggering it")
 	m = await deploy(); bot.global_position = home + Vector3(1,.05,0); await physics_frame
 	mines.tick(.81); mines.damage_area(home+Vector3.UP*.2,1,25,1)
 	mines.tick(.5); expect(mines.mines.is_empty() and mines.explosions_total == count,"warning-period explosive disarm cancels blast")

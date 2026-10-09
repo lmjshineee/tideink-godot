@@ -41,6 +41,8 @@ var blue_color := Color.WHITE
 var team_names: Array[String] = []
 const UI_PANEL := Color(0.035, 0.045, 0.075, 0.92)
 
+var area := preload("res://src/match/area_control.gd").new()
+var zone_label: Label
 var ink: RefCounted
 var phase := "home"
 var phase_time := 0.0
@@ -156,7 +158,12 @@ func _ready() -> void:
 	settings.call("apply_to", $World/Walker)
 	Engine.physics_ticks_per_second = 30
 	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/%s_surfaces.json" % preload("res://src/core/map_catalog.gd").asset_id()))
-	ink = SurfaceInk.new(data)
+	area.enabled = MatchSetup.battle_rule=="area"
+	area.region = preload("res://src/match/area_control.gd").central_region(data,JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/%s_nav.json" % preload("res://src/core/map_catalog.gd").asset_id())),$World/Map.spawn_pads) if area.enabled else {}
+	if area.enabled and area.region.is_empty():
+		push_error("No valid central area on selected map");return
+	ink = SurfaceInk.new(data,area.region)
+	area.add_marker($World/Map)
 	$InkView.call("setup", ink)
 	$World/Walker.global_position = ($World/Map.get("spawn_pads")[0] as Vector3) + Vector3.UP * 0.05
 	$World/Walker.set("ink", ink)
@@ -214,6 +221,9 @@ func _ready() -> void:
 	items = preload("res://src/abilities/tidewater_items.gd").new()
 	add_child(items)
 	items.call("setup",self)
+	if MatchSetup.loadout_mode=="kit":
+		MatchSetup.selected_item=preload("res://src/core/loadout_rules.gd").sub_for(selected_weapon)
+		items.equip($World/Walker,MatchSetup.selected_item)
 	for actor in all_actors():
 		if actor != $World/Walker:
 			randomize_bot_kit(actor)
@@ -284,7 +294,7 @@ func _input(event: InputEvent) -> void:
 				_choose_player_weapon(String(weapon_order[slot]))
 		KEY_ENTER:
 			# A menu selection must reach the GUI before the match-start shortcut.
-			if phase=="setup" and frontend!=null and frontend.popup_open():return
+			if phase=="setup" and frontend!=null and (frontend.popup_open() or get_viewport().gui_get_focus_owner() is OptionButton or get_viewport().gui_get_focus_owner() in [frontend.kit_mode,frontend.rule_choice,frontend.roll_button]):return
 			if phase == "setup":
 				_begin_intro()
 			elif phase == "results":
@@ -307,10 +317,13 @@ func _input(event: InputEvent) -> void:
 
 
 func _choose_player_weapon(id: String) -> void:
-	if not (phase == "setup" or (phase == "playing" and player_respawn > 0.0)) or not weapon_order.has(id):
+	if not (phase in ["home","setup"] or (phase == "playing" and player_respawn > 0.0)) or not weapon_order.has(id):
 		return
 	selected_weapon = id
 	$Combat.call("select_weapon", id)
+	if MatchSetup.loadout_mode=="kit":
+		MatchSetup.selected_item=preload("res://src/core/loadout_rules.gd").sub_for(id)
+		items.equip($World/Walker,MatchSetup.selected_item)
 	_update_hud()
 
 
@@ -370,6 +383,7 @@ func _start_round() -> void:
 	perks.locked = true
 	phase = "playing"
 	comeback.reset()
+	area.reset()
 	paused = false
 	phase_time = 0.0
 	round_left = round_time
@@ -434,8 +448,9 @@ func _physics_process(delta: float) -> void:
 	perks.tick(delta)
 	items.call("tick",delta)
 	bot_specials.call("tick",delta)
+	area.tick(delta,[ink.coverage(0),ink.coverage(1)])
 	round_left = maxf(0.0, round_left - delta)
-	if round_left <= 0.0:
+	if area.winner>=0 or (round_left<=0 and not area.overtime()):
 		_finish_round()
 		_update_hud()
 		return
@@ -515,7 +530,8 @@ func _finish_round() -> void:
 func _judge_round() -> void:
 	judged_coverage = [float(ink.call("coverage", 0)), float(ink.call("coverage", 1))]
 	winner = randi_range(0, 1) if judged_coverage[0] == judged_coverage[1] else (0 if judged_coverage[0] > judged_coverage[1] else 1)
-	result = "%s胜利" % team_names[winner]
+	if area.enabled:winner=area.decide(judged_coverage)
+	result = "平局" if winner<0 else "%s胜利" % team_names[winner]
 	phase = "results"
 	phase_time = 0.0
 	_update_hud()
@@ -702,12 +718,40 @@ func randomize_bot_kit(actor: Node3D) -> void:
 	actor.call("select_weapon",weapon)
 	if actor==$Bot:
 		selected_bot_weapon = weapon
-	items.call("equip",actor,items.get("KINDS")[equipment_rng.randi_range(0, items.KINDS.size() - 1)])
+	items.call("equip",actor,preload("res://src/core/loadout_rules.gd").sub_for(weapon) if MatchSetup.loadout_mode=="kit" else items.get("KINDS")[equipment_rng.randi_range(0, items.KINDS.size() - 1)])
+
+
+func set_loadout_mode(id: String) -> bool:
+	if phase not in ["home","setup"] or perks.locked or not preload("res://src/core/loadout_rules.gd").MODES.has(id):return false
+	MatchSetup.loadout_mode=id
+	if id=="kit":
+		MatchSetup.selected_item=preload("res://src/core/loadout_rules.gd").sub_for(selected_weapon)
+		items.equip($World/Walker,MatchSetup.selected_item)
+		for actor in all_actors():
+			if actor!=$World/Walker:items.equip(actor,preload("res://src/core/loadout_rules.gd").sub_for(actor.weapon_id))
+	_update_hud()
+	return true
+
+func roll_setup_loadout() -> bool:
+	if phase not in ["home","setup"] or perks.locked:return false
+	var previous := [selected_weapon,MatchSetup.selected_perk,MatchSetup.selected_item]
+	var chosen: Array = previous
+	for attempt in 32:
+		var main: String=weapon_order[equipment_rng.randi_range(0,weapon_order.size()-1)]
+		var perk: String=perks.ORDER[equipment_rng.randi_range(0,perks.ORDER.size()-1)]
+		var sub: String=preload("res://src/core/loadout_rules.gd").sub_for(main) if MatchSetup.loadout_mode=="kit" else items.KINDS[equipment_rng.randi_range(0,items.KINDS.size()-1)]
+		chosen=[main,perk,sub]
+		if chosen!=previous:break
+	_choose_player_weapon(chosen[0])
+	perks.select_player(chosen[1])
+	MatchSetup.selected_item=chosen[2];items.equip($World/Walker,chosen[2])
+	_update_hud()
+	return chosen!=previous
 
 
 func randomize_player_kit() -> void:
 	selected_weapon = weapon_order[equipment_rng.randi_range(0,weapon_order.size()-1)]
-	MatchSetup.selected_item = items.get("KINDS")[equipment_rng.randi_range(0, items.KINDS.size() - 1)]
+	MatchSetup.selected_item = preload("res://src/core/loadout_rules.gd").sub_for(selected_weapon) if MatchSetup.loadout_mode=="kit" else items.get("KINDS")[equipment_rng.randi_range(0, items.KINDS.size() - 1)]
 	$Combat.call("select_weapon",selected_weapon)
 	items.call("equip",$World/Walker,MatchSetup.selected_item)
 	presentation.call("notify_ability","配装已重摇：%s / %s · 天赋 %s（固定）" % [_weapon_text(selected_weapon),items.LABELS[MatchSetup.selected_item],perks.LABELS[perks.kind($World/Walker)]],2.5)

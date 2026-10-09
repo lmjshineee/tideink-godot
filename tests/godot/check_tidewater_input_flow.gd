@@ -39,7 +39,7 @@ func _check() -> void:
 	_mouse(MOUSE_BUTTON_LEFT, true)
 	scene.call("_physics_process", 0.01)
 	_mouse(MOUSE_BUTTON_LEFT, false)
-	if (combat.get("projectiles") as Array).is_empty() or float(combat.get("ink_amount")) > 93.01:
+	if (combat.get("projectiles") as Array).is_empty() or float(combat.get("ink_amount")) > 103.01:
 		_fail("left mouse button did not fire: projectiles=%d ink=%.2f paused=%s locked=%s" % [
 			(combat.get("projectiles") as Array).size(), float(combat.get("ink_amount")),
 			str(scene.get("paused")), str(scene.get("pointer_locked"))])
@@ -60,7 +60,7 @@ func _check() -> void:
 		return
 	_mouse(MOUSE_BUTTON_RIGHT, false)
 	scene.call("_physics_process", 0.01)
-	if (combat.get("bombs") as Array).size() != 1 or float(combat.get("ink_amount")) > 23.01:
+	if (combat.get("bombs") as Array).size() != 1 or float(combat.get("ink_amount")) > 33.01:
 		_fail("right mouse release did not throw a bomb")
 		return
 	scene.call("damage_player", 200.0)

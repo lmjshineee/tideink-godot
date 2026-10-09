@@ -47,3 +47,6 @@ inkwave-game-cleaned/
 `actors/tidewater_bot_ink.gd` 只持有低墨回补决策与有限的局部导航缓存，读取 CPU 墨格，不移动、涂墨或补资源；`tidewater_bot.gd` 执行物理移动、停火和真实回墨，`tidewater_perks.gd` 统一两种潜墨的形态／胶囊，情报和命中消费者读取此形态。见 [回墨验收](../render-evidence/bot-ink-2026-10-09/summary.md)。
 
 主武器基础击倒门槛与单次上限归 `core/gameplay_rules.gd`；`match/tidewater_play.gd` 统一天赋／护盾／实际扣血账本，`combat/tidewater_combat.gd` 拥有真实命中、距离衰减、墙面溅射和滚筒整轮预算。部位标签只做反馈。见 [主武器比较](COMBAT_BALANCE.md)。
+
+
+preview.22 新增：`src/core/loadout_rules.gd` 定义本地主武器／固定副武器映射；`src/match/area_control.gd` 根据可涂面和双方可达导航选中央区域，维护控制、倒数、罚分与加时。`src/world/surface_ink.gd` 仍是唯一涂墨账本，分别维护可奖励格与当前规则可计分格；墙壁视觉更新不依赖奖励值。

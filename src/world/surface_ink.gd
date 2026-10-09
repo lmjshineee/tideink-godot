@@ -8,19 +8,23 @@ const EMPTY := 0
 var surfaces: Array[Dictionary] = []
 var owners: Array[PackedByteArray] = []
 var buried: Array[PackedByteArray] = []
+var credit_masks: Array[PackedByteArray] = []
+var score_masks: Array[PackedByteArray] = []
 var turf_total := 0
 var counts := [0, 0]
 var version := 0
 var _dirty_cells: Dictionary = {}
 
 
-func _init(surface_data: Dictionary) -> void:
-	turf_total = int(surface_data["turfCells"])
+func _init(surface_data: Dictionary, region: Dictionary = {}) -> void:
+	turf_total = int(surface_data["turfCells"]) if region.is_empty() else 0
 	for face in surface_data["faces"]:
 		surfaces.append(face)
 		var grid: Variant = face["grid"]
 		var ownership := PackedByteArray()
 		var dead := PackedByteArray()
+		var credit := PackedByteArray()
+		var score := PackedByteArray()
 		if grid is Dictionary:
 			var cells := int(grid["nu"]) * int(grid["nv"])
 			ownership.resize(cells)
@@ -30,8 +34,18 @@ func _init(surface_data: Dictionary) -> void:
 			for run in grid["deadRuns"]:
 				for index in range(int(run[0]), int(run[0]) + int(run[1])):
 					dead[index] = 1
+			credit.resize(cells);score.resize(cells)
+			for index in cells:
+				credit[index] = int(bool(face.paintable) and bool(face.turf) and dead[index]==0)
+				score[index] = credit[index]
+				if credit[index] and not region.is_empty():
+					var point := _vector(face.origin)+_vector(face.u)*(float(index%int(grid.nu))+.5)*float(grid.cu)+_vector(face.v)*(float(index/int(grid.nu))+.5)*float(grid.cv)
+					var relative: Vector3 = point-region.center
+					score[index] = int(absf(relative.dot(region.u))<=float(region.half_u) and absf(relative.dot(region.v))<=float(region.half_v) and absf(relative.dot(region.n))<=.75)
+				if not region.is_empty():turf_total+=int(score[index])
 		owners.append(ownership)
 		buried.append(dead)
+		credit_masks.append(credit);score_masks.append(score)
 
 
 func owner_at(face_id: int, local_u: float, local_v: float) -> int:
@@ -45,7 +59,7 @@ func owner_at(face_id: int, local_u: float, local_v: float) -> int:
 
 
 func coverage(team: int) -> float:
-	return float(counts[team]) / float(turf_total)
+	return float(counts[team]) / float(maxi(1,turf_total))
 
 
 # The visual layer consumes only changed cells and uploads each affected face once.
@@ -105,6 +119,7 @@ func splat_face(face_id: int, local_u: float, local_v: float, radius: float, tea
 	if radius <= 0.02:
 		return 0.0
 	var face: Dictionary = surfaces[face_id]
+	if not bool(face.paintable):return 0.0
 	var grid: Variant = face["grid"]
 	if not grid is Dictionary:
 		return 0.0
@@ -145,12 +160,12 @@ func splat_face(face_id: int, local_u: float, local_v: float, radius: float, tea
 				continue
 			pixels[index] = team + 1
 			changed.append(index)
-			claimed += cu * cv
-			if bool(face["turf"]) and dead[index] == 0:
+			if credit_masks[face_id][index]:claimed += cu * cv
+			if score_masks[face_id][index]:
 				if before != EMPTY:
 					counts[before - 1] -= 1
 				counts[team] += 1
-	if claimed > 0.0:
+	if not changed.is_empty():
 		owners[face_id] = pixels
 		if _dirty_cells.has(face_id):
 			var pending: PackedInt32Array = _dirty_cells[face_id]

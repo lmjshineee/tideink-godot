@@ -9,7 +9,7 @@ const DESCRIPTIONS := {
 	"dry_focus":"墨水不超过 20 时，主武器消耗减少 35%、伤害减少 20%；墨量回到 20 以上恢复常态。道具、大招、墨翼耗墨与护伞耗墨保持原值；伤害按发射时低墨状态保存",
 	"turf_engine":"每次实际新增涂地的大招充能 +25%，攻击伤害 -10%；重涂己方墨和大招自身涂地仍不充能。可与逆风支援同时生效",
 	"enemy_swim":"敌墨地面可潜泳（8 m/s）；敌墨每秒伤害 0.6、累计最多失血 12，敌人攻击伤害 +5%；敌墨中不回墨、不回血，保留可见扰动",
-	"balanced":"标准 120 生命 / 100 墨水，无额外加成",
+	"balanced":"基础强化：最大生命 +10%（132）、最大墨水 +10%（110）、奔跑／潜泳速度 +5%；不增加攻击伤害",
 	"vitality":"最大生命 +25%（150），墨水与伤害不变",
 	"runner":"奔跑与潜泳速度 +10%",
 	"saver":"主武器墨水消耗 -20%",
@@ -55,14 +55,14 @@ func select_player(id: String) -> bool:
 
 func max_health(actor: Node3D) -> float:
 	var base := float(game.get_node("Combat").get("weapon_data")["player"]["hp"])
-	return base*1.25 if kind(actor)=="vitality" else base
+	return base*1.1 if kind(actor)=="balanced" else base*1.25 if kind(actor)=="vitality" else base
 
 func max_ink(actor: Node3D) -> float:
 	var base := float(game.get_node("Combat").get("weapon_data")["player"]["inkMax"])
-	return base*1.25 if kind(actor)=="reserve" else base
+	return base*1.1 if kind(actor)=="balanced" else base*1.25 if kind(actor)=="reserve" else base
 
 func movement(actor: Node3D) -> float:
-	return 1.1 if kind(actor)=="runner" else 1.0
+	return 1.05 if kind(actor)=="balanced" else 1.1 if kind(actor)=="runner" else 1.0
 
 func apply_movement() -> void:
 	var actor := game.get_node("World/Walker")

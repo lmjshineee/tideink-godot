@@ -6,7 +6,7 @@ func _run() -> void:
  var blocker:=wall(Vector3(0,1.5,-25),Vector3(4,3,.5));await physics_frame
  combat._spawn_projectile("shooter",Vector3(0,1.1,-22),Vector3(0,0,-60),combat.weapons.shooter,1,bot)
  combat._update_projectiles(.1)
- expect(combat.projectiles.is_empty() and game.player_health==120,"real wall stops hostile projectile and damage")
+ expect(combat.projectiles.is_empty() and is_equal_approx(game.player_health,game.actor_max_health(walker)),"real wall stops hostile projectile and damage")
  var segment:Dictionary=combat.feedback.trail_states[96]
  expect(absf(segment.to.z-(-24.75))<.01,"visible trail ends at actual wall face")
  combat.feedback.advance(.3);expect(segment.life<=0,"trail expires")

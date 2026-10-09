@@ -20,14 +20,14 @@ func _run() -> void:
 	expect(combat.charging and combat.charge_fraction == .5,"refused special target does not cancel existing primary charge")
 	camera.look_at(bot.global_position + Vector3.UP*.2)
 	key(KEY_F,true); key(KEY_F,false)
-	expect(rain.busy(walker) and combat.special_active == "rain_arrows" and combat.special_points == 0 and combat.ink_amount == 100,"actual F input spends bow's own meter on rain arrows")
+	expect(rain.busy(walker) and combat.special_active == "rain_arrows" and combat.special_points == 0 and is_equal_approx(combat.ink_amount,game.actor_ink_max(walker)),"actual F input spends bow's own meter on rain arrows")
 	if not rain.busy(walker): await finish("rain arrows actual input"); return
 	var s: Dictionary = rain.casts[walker.get_instance_id()]
 	var locked: Vector3 = s.point
 	expect(combat.is_busy() and s.wave == 0,"announced target and form/action lock start before firing")
 	walker.update_intent(.01,false,true,combat.is_busy()); expect(not walker.squid_form,"rain windup cannot dive")
 	game.items.equip(walker,"mine"); expect(not game.items.use(walker),"special locks item use")
-	combat.tick(.1,true,false); expect(combat.bow.arrows.is_empty() and combat.ink_amount == 100,"primary trigger cannot charge or spend ink during special")
+	combat.tick(.1,true,false); expect(combat.bow.arrows.is_empty() and is_equal_approx(combat.ink_amount,game.actor_ink_max(walker)),"primary trigger cannot charge or spend ink during special")
 	rain.tick(.49); expect(rain.arrows.is_empty(),"full 0.6s prewarning")
 	rain.tick(.02); expect(rain.arrows.size() == 9 and s.wave == 1 and s.point == locked,"first nine arrows fly from real bow towards fixed target")
 	expect(rain.arrows[0].visual.global_position.distance_to(home) < 2,"no rain spawns above or behind target")

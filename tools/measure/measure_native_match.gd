@@ -7,6 +7,7 @@ const Inventory := preload("res://tools/lib/source_inventory.gd")
 var output := ""
 var map_id := "tidewater"
 var weapon_id := "shooter"
+var battle_rule := "turf"
 var game: Node3D
 var walker: CharacterBody3D
 var combat: Node3D
@@ -40,6 +41,9 @@ func _run() -> void:
 			output = arg.trim_prefix("--output=").simplify_path()
 		if arg.begins_with("--map="): map_id=arg.trim_prefix("--map=")
 		if arg.begins_with("--weapon="): weapon_id=arg.trim_prefix("--weapon=")
+		if arg.begins_with("--rule="):battle_rule=arg.trim_prefix("--rule=")
+	if battle_rule not in ["turf","area"]:
+		_fail("unknown battle rule");return
 	if not preload("res://src/core/map_catalog.gd").IDS.has(map_id):
 		_fail("unknown map");return
 	if not preload("res://src/core/equipment_catalog.gd").ACTIVE.has(weapon_id):
@@ -63,6 +67,10 @@ func _run() -> void:
 		return
 	root.size = Vector2i(1280,720)
 	Setup.screen = "home"
+	Setup.battle_rule=battle_rule
+	Setup.loadout_mode="custom"
+	report.battle_rule=battle_rule
+	if battle_rule=="area":report.method="Native wall-clock 5v5 area round; automated keyboard/mouse, production bots, natural timer or area knockout/results/restart."
 	Setup.map_id = map_id
 	Setup.map_seed = 731
 	Setup.map_variant = 0
@@ -146,6 +154,7 @@ func _run() -> void:
 			report.timeline.append({"wall_seconds":wall,"game_seconds":elapsed,
 				"remaining_seconds":game.round_left,"deaths":game.local_deaths,
 				"health":game.player_health,"ink":combat.ink_amount,
+				"area_owner":game.area.owner,"area_remaining":game.area.remaining.duplicate(),"area_coverage":[game.ink.coverage(0),game.ink.coverage(1)],
 				"process_ms":Performance.get_monitor(Performance.TIME_PROCESS)*1000,
 				"physics_ms":Performance.get_monitor(Performance.TIME_PHYSICS_PROCESS)*1000,
 				"static_memory_mib":Performance.get_monitor(Performance.MEMORY_STATIC)/1048576})
@@ -165,8 +174,8 @@ func _run() -> void:
 	_release()
 	report["play_wall_seconds"] = float(Time.get_ticks_usec()-start)/1000000.0
 	_phase(String(game.phase),report.play_wall_seconds)
-	if game.phase != "finish" or game.round_left != 0.0:
-		_fail("round must end naturally through finish at zero time")
+	if game.phase != "finish" or (game.round_left != 0.0 and game.area.winner<0):
+		_fail("round must end naturally through timer or area knockout")
 		return
 	while game.phase == "finish" and float(Time.get_ticks_usec()-start)/1000000.0 < 405.0:
 		await process_frame
@@ -218,6 +227,7 @@ func _run() -> void:
 	report["points_per_m2"] = game._points_per_m2
 	report["results_summary"] = game.tactics.hint.text
 	report["final_roster"] = roster
+	if battle_rule=="area":report.area={"remaining":game.area.remaining.duplicate(),"best":game.area.best.duplicate(),"penalty":game.area.penalty.duplicate(),"owner":game.area.owner,"winner":game.winner,"cells":game.ink.turf_total}
 	report["coverage"] = game.judged_coverage.duplicate()
 	report["team_cumulative_turf_m2"] = totals
 	report["player_natural_deaths"] = game.local_deaths
@@ -257,11 +267,11 @@ func _run() -> void:
 	_phase("home",float(Time.get_ticks_usec()-start)/1000000.0)
 	if not (await _snapshot("restart-home")): return
 	report["status"] = "passed"
-	report["checks"] = ["home/setup/intro input", "180-second natural timer", "ten actors",
+	report["checks"] = ["home/setup/intro input", "natural timer or area knockout", "ten actors",
 		"explicit respawn confirmation after wait", "finish/results/home",
 		"individual-to-team turf ledger", "CPU coverage matches results", "ten result rows", "separate personal area and live points"]
 	if not _write_report(): return
-	print("PASS: native arm64 full 180-second 5v5; natural death, explicit respawn, results, ledger and restart; ",output)
+	print("PASS: native arm64 natural 5v5 ",battle_rule,"; natural death, explicit respawn, results, ledger and restart; ",output)
 	quit()
 
 func _observe_bot_ink(elapsed: float) -> void:
@@ -309,7 +319,7 @@ func _drive(elapsed: float) -> void:
 	if combat.special_ready(): _tap(KEY_F)
 	if elapsed > 10.0 and fmod(elapsed,18.0) < .05: _tap(KEY_E)
 	if route.is_empty() or route_index >= route.size():
-		var goal := Vector3(6.0 if goal_index%2 == 0 else -6.0,0.0,[0.0,-10.0,10.0][goal_index%3])
+		var goal:Vector3 = game.area.goal(goal_index) if game.area.enabled else Vector3(6.0 if goal_index%2 == 0 else -6.0,0.0,[0.0,-10.0,10.0][goal_index%3])
 		route = game.navigation.route(walker.global_position,goal,0)
 		route_index = 1 if route.size() > 1 else 0
 		goal_index += 1

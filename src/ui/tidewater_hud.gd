@@ -23,6 +23,8 @@ func _build_hud() -> void:
 	game.orange_score = _hud_label(game.score_panel, "OrangeScore", game.orange_color, 18)
 	game.blue_score = _hud_label(game.score_panel, "BlueScore", game.blue_color.lightened(0.45), 18)
 	game.timer_label = _hud_label(game.score_panel, "Timer", Color.WHITE, 34)
+	game.zone_label=_hud_label(layer,"ZoneCount",Color("ffe27a"),15)
+	game.zone_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	game.timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var number_font := load("res://assets/fonts/TitanOne-latin.woff2") as Font
 	game.timer_label.add_theme_font_override("font", number_font)
@@ -281,7 +283,11 @@ func _update_hud() -> void:
 	game.orange_bar.value = orange_percent
 	game.blue_bar.value = blue_percent
 	var seconds := int(ceil(game.round_left))
-	game.timer_label.text = "%d:%02d" % [int(seconds / 60), seconds % 60]
+	game.timer_label.text = "加时" if game.area.enabled and seconds==0 and game.phase=="playing" else "%d:%02d" % [int(seconds / 60), seconds % 60]
+	game.zone_label.visible=game.area.enabled and game.phase=="playing"
+	game.zone_label.position=Vector2(game.hud_root.size.x*.32,58)
+	game.zone_label.size=Vector2(game.hud_root.size.x*.36,24)
+	game.zone_label.text="计数 %d (+%d) : %d (+%d) · %s" % [ceili(game.area.remaining[0]),ceili(game.area.penalty[0]),ceili(game.area.remaining[1]),ceili(game.area.penalty[1]),"争夺中" if game.area.owner<0 else game.team_names[game.area.owner]+"控制"]
 	game.timer_label.add_theme_color_override("font_color", Color("ffe27a") if game.phase == "playing" and seconds <= game.final_countdown else Color.WHITE)
 	game.vitals_panel.visible = game.phase == "playing" and game.player_respawn <= 0.0
 	game.special_panel.visible = game.phase == "playing" and game.player_respawn <= 0.0
@@ -314,6 +320,7 @@ func _update_hud() -> void:
 		game.result_label.text = "%s\n%s %.1f%%   %s %.1f%%\n涂地 %s %.1f m²   %s %.1f m²" % [
 			game.result, game.team_names[0], game.judged_coverage[0] * 100.0, game.team_names[1], game.judged_coverage[1] * 100.0,
 			game.team_names[0], game.turf_area[0], game.team_names[1], game.turf_area[1]]
+	if game.area.enabled and game.phase=="results":game.result_label.text+="\n最佳计数 %d : %d" % [ceili(game.area.best[0]),ceili(game.area.best[1])]
 	if game.phase == "setup":
 		game.hud.text = "赛前按 1–8 选%s武器 · B 切换%s武器 · Enter 开始" % game.team_names
 	elif game.phase == "intro":

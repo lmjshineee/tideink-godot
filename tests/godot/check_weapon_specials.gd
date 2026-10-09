@@ -21,7 +21,7 @@ func _run() -> void:
 	combat.select_weapon("shooter");combat.special_points=combat.special_cost()
 	expect(combat.try_special(),"shooter overdrive activation")
 	var count:int=combat.projectiles.size();combat.tick(.1,true,false)
-	expect(combat.projectiles.size()>count and combat.ink_amount<100 and combat.ink_amount>99,"overdrive allows primary and spends half-cost ink")
+	expect(combat.projectiles.size()>count and combat.ink_amount<game.actor_ink_max(walker) and combat.ink_amount>game.actor_ink_max(walker)-1,"overdrive allows primary and spends half-cost ink")
 	combat.special_points=0;combat.advance_effects(6.1)
 	expect(combat.special_active=="" and combat.special_points==0,"overdrive expires and special cannot recharge itself")
 	combat.on_death()

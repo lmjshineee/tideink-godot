@@ -49,7 +49,7 @@ func _run() -> void:
 		game.items.state(actor).cooldowns.bomb=4
 		game.items.tick(.5)
 		expect(is_equal_approx(game.items.state(actor).cooldowns.bomb,3.5),"item cooldown still ticks while refilling")
-		actor.ink_amount=60
+		actor.ink_amount=game.actor_ink_max(actor)*.6
 		await _step(actor)
 		expect(not actor.ink_brain.active and not actor.get_meta("friendly_swimming",true),"ready tank surfaces and leaves refill state")
 		await _place(actor,Vector3(0,.05,-20))

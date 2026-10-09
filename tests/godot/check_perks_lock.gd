@@ -11,7 +11,7 @@ func _run() -> void:
 	root.add_child(game);await physics_frame;game.set_physics_process(false)
 	var walker: Node3D=game.get_node("World/Walker");walker.set_physics_process(false)
 	var combat: Node3D=game.get_node("Combat")
-	expect(game.actor_max_health(walker)==120 and game.player_health==120 and game.perks.kind(walker)=="balanced","retired saved talent falls back to active baseline")
+	expect(is_equal_approx(game.actor_max_health(walker),132) and is_equal_approx(game.player_health,132) and game.perks.kind(walker)=="balanced","retired saved talent falls back to active baseline")
 	game.perks.select_player("vitality")
 	expect(game.actor_max_health(walker)==150 and game.player_health==150,"legacy talent remains readable through compatibility API")
 	game.perks.select_player("reserve")

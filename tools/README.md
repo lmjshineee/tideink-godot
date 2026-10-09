@@ -16,9 +16,12 @@
 | `../tests/python/test_release_metadata.py` | 旧版本、变更源码／PCK、错误源码提交与证据目录隔离负例 |
 | `update_asset_integrity.py --write` | 有意资源修改验证后，记录新的本地资产基线 |
 | `capture/`、`measure/` | 原生画面、回放和受控测量，按输出路径保留证据 |
-| `measure/measure_native_match.gd` | 原生 180 秒 5v5，可用 `--map=<id>`、`--weapon=<id>` 指定地图与玩家武器，默认潮水码头／喷枪；自然死亡／显式复活确认、计分核对、机器人回墨只读观察、帧间隔与新证据目录 |
+| `measure/measure_native_match.gd` | 原生 180 秒 5v5，可用 `--map=<id>`、`--weapon=<id>`、`--rule=turf|area` 指定地图、玩家武器与规则，默认潮水码头／喷枪；自然死亡／显式复活确认、计分核对、机器人回墨只读观察、帧间隔与新证据目录 |
 | `measure/measure_bot_idle.gd` | 七图受控移动记录，固定配装 RNG／均衡天赋，排除战斗、技能、补给与死亡等待；可指定 `--map`、`--seconds`、`--trace-actor`，必须使用新的绝对输出文件 |
 | `capture/verify_bot_deployment.gd` | 两图原生受控机器人复活／队友／信标跳跃及玩家 J／Esc；新绝对证据目录，无导出或打包 |
+| `capture/verify_loadout_tuning.gd` | 原生两尺寸／110% 画布输入、固定／自定义／ROLL、规则切换保留配装、CPU 区域倒数／罚分／结算；固定角色与人工涂墨，只算受控原生证据 |
+| `../tests/godot/check_loadout_tuning.gd` | 真实 132 HP 下四／五轮射击、弓追击与最终上限，200 次配装随机、锁定／冷却、两尺寸布局 |
+| `../tests/godot/check_area_rules.gd` | 不可涂／遮蔽／墨墙反例、区域外资源与区域内计分、控制／罚分／加时、十九布局、场景结果与重开 |
 | `capture/verify_ink_buddy.gd` | 原生两尺寸伙伴选择、实际右键／E、双方真实追击伤害、手雷预测与实爆对照、投放提示；固定角色和逐帧控制，只算受控原生证据 |
 | `capture/verify_tidewater_ink_loop.gd` | 原生潮水码头 61 个计分面抽样、CPU／纹理／覆盖率核对；实际滚涂上下坡、潜墨回墨、干地／敌墨拒绝与爬墙越沿；固定位置和墨量、冻结机器人，只算受控原生证据 |
 | `capture/verify_bot_ink_refill.gd` | 原生两队低墨寻路／停火／潜墨回补／恢复行动、干地敌墨与互斥负例、玩家实际 Shift 输入；固定资源与加速物理，只算受控原生证据 |
