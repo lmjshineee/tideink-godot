@@ -124,6 +124,7 @@ var appearance_rng := RandomNumberGenerator.new()
 var equipment_rng := RandomNumberGenerator.new()
 var mobility: Node
 var perks: RefCounted
+var gear: RefCounted
 var comeback: Node
 var wings: Node3D
 var damage_history: Array[Dictionary] = []
@@ -195,6 +196,8 @@ func _ready() -> void:
 	bot_health = player_health
 	_build_roster()
 	_assign_names()
+	gear = preload("res://src/abilities/tidewater_gear.gd").new()
+	gear.setup(self)
 	perks = preload("res://src/abilities/tidewater_perks.gd").new()
 	perks.call("setup",self)
 	player_health = actor_max_health($World/Walker)
@@ -251,6 +254,11 @@ func _input(event: InputEvent) -> void:
 		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 			settings_panel.call("close_panel")
 		return
+	if frontend != null and frontend.gear_editor.visible:
+		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+			frontend.gear_editor.close()
+			get_viewport().set_input_as_handled()
+		return
 	if phase == "home":
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ENTER:
 			show_preparation()
@@ -294,7 +302,7 @@ func _input(event: InputEvent) -> void:
 				_choose_player_weapon(String(weapon_order[slot]))
 		KEY_ENTER:
 			# A menu selection must reach the GUI before the match-start shortcut.
-			if phase=="setup" and frontend!=null and (frontend.popup_open() or get_viewport().gui_get_focus_owner() is OptionButton or get_viewport().gui_get_focus_owner() in [frontend.kit_mode,frontend.rule_choice,frontend.roll_button]):return
+			if phase=="setup" and frontend!=null and (frontend.popup_open() or get_viewport().gui_get_focus_owner() is OptionButton or get_viewport().gui_get_focus_owner() in [frontend.kit_mode,frontend.rule_choice,frontend.roll_button,frontend.gear_button]):return
 			if phase == "setup":
 				_begin_intro()
 			elif phase == "results":
@@ -368,6 +376,7 @@ func _notification(what: int) -> void:
 
 
 func _begin_intro() -> void:
+	gear.prepare_bots()
 	perks.locked = true
 	phase = "intro"
 	phase_time = 0.0
@@ -380,6 +389,7 @@ func _begin_intro() -> void:
 
 func _start_round() -> void:
 	bot_deployment.clear_all()
+	gear.prepare_bots()
 	perks.locked = true
 	phase = "playing"
 	comeback.reset()
@@ -745,6 +755,7 @@ func roll_setup_loadout() -> bool:
 	_choose_player_weapon(chosen[0])
 	perks.select_player(chosen[1])
 	MatchSetup.selected_item=chosen[2];items.equip($World/Walker,chosen[2])
+	gear.roll_player()
 	_update_hud()
 	return chosen!=previous
 

@@ -50,3 +50,5 @@ inkwave-game-cleaned/
 
 
 preview.22 新增：`src/core/loadout_rules.gd` 定义本地主武器／固定副武器映射；`src/match/area_control.gd` 根据可涂面和双方可达导航选中央区域，维护控制、倒数、罚分与加时。`src/world/surface_ink.gd` 仍是唯一涂墨账本，分别维护可奖励格与当前规则可计分格；墙壁视觉更新不依赖奖励值。
+
+preview.23 装备能力：`core/gear_catalog.gd` 维护三件／十二槽及本地递减规则，`abilities/tidewater_gear.gd` 持有只生成一次的演员配置快照与点数缓存；`ui/gear_editor.gd` 只走合法编辑 API。实际效果通过既有 `tidewater_perks.gd` 路径应用，机器人开战时按玩家启用槽位取得相同预算。见 [装备能力](GEAR_ABILITIES.md)。

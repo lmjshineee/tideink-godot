@@ -22,6 +22,7 @@ func prepare(match_size: int = 5, map_id: String = "modular_harbor", rule: Strin
 	setup.team_size = match_size
 	setup.selected_perk = "balanced"
 	setup.selected_item = "bomb"
+	setup.selected_gear = preload("res://src/core/gear_catalog.gd").empty()
 	game = (load("res://scenes/match/tidewater_play.tscn") as PackedScene).instantiate()
 	root.add_child(game)
 	await physics_frame
@@ -32,6 +33,7 @@ func prepare(match_size: int = 5, map_id: String = "modular_harbor", rule: Strin
 	bot = game.get_node("Bot")
 	game._start_round()
 	for actor in game.all_actors():
+		game.gear._store(actor, preload("res://src/core/gear_catalog.gd").empty())
 		game.perks.choices[actor.get_instance_id()] = "balanced"
 		game.items.state(actor).kind = "bomb"
 		game.items.state(actor).armor = 0.0

@@ -270,7 +270,8 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 	# trigger never refilled and the player was stuck dry until they let go.
 	# Same reason as the vitals: the lifted squid body never reports engine floor
 	# contact, so the probe state is what decides the 42/s swim refill.
-	var draw_cost:float=float(weapons[selected_id].get("inkMin",float(weapons[selected_id].get("inkFull",0))*.2))
+	var draw_weapon: Dictionary = game.perks.weapon(walker,weapons[selected_id])
+	var draw_cost:float=float(draw_weapon.get("inkMin",float(draw_weapon.get("inkFull",0))*.2))
 	var starting_draw:bool=fire and not squid and String(weapons[selected_id].kind) in ["bow","charger"] and cooldown<=0 and ink_amount>=draw_cost
 	var submerged := squid and bool(walker.get("grounded")) and int(walker.get("ink_owner")) == 0
 	if submerged or bool(walker.get("climbing")):

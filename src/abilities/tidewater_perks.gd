@@ -61,14 +61,15 @@ func max_ink(actor: Node3D) -> float:
 	var base := float(game.get_node("Combat").get("weapon_data")["player"]["inkMax"])
 	return base*1.1 if kind(actor)=="balanced" else base*1.25 if kind(actor)=="reserve" else base
 
-func movement(actor: Node3D) -> float:
-	return 1.05 if kind(actor)=="balanced" else 1.1 if kind(actor)=="runner" else 1.0
+func movement(actor: Node3D, swimming: bool = false) -> float:
+	var base := 1.05 if kind(actor)=="balanced" else 1.1 if kind(actor)=="runner" else 1.0
+	return base * (1 + game.gear.bonus(actor, "swim_speed" if swimming else "run_speed"))
 
 func apply_movement() -> void:
 	var actor := game.get_node("World/Walker")
 	var config: Dictionary = game.get_node("Combat").get("weapon_data")["player"].duplicate(true)
 	for field in ["runSpeed","swimSpeed","squidDrySpeed"]:
-		config[field] = float(config[field])*movement(actor)
+		config[field] = float(config[field])*movement(actor, field=="swimSpeed")
 	actor.set("player_config",config)
 	actor.enemy_swim_enabled = kind(actor) == "enemy_swim"
 	actor.perk_rules = self
@@ -88,13 +89,13 @@ func incoming(actor: Node3D, source: String) -> float:
 
 func refill(actor: Node3D) -> float:
 	var base := 1.25 if kind(actor)=="recycler" else 1.5 if kind(actor)=="adrenaline" and active(actor) else 1.0
-	return base * game.comeback.refill(actor)
+	return base * game.comeback.refill(actor) * (1 + game.gear.bonus(actor, "ink_recovery"))
 
 func charge(actor: Node3D) -> float:
-	return game.comeback.charge(actor) * (1.25 if kind(actor) == "turf_engine" else 1.0)
+	return game.comeback.charge(actor) * (1.25 if kind(actor) == "turf_engine" else 1.0) * (1 + game.gear.bonus(actor, "special_charge"))
 
 func item_cooldown(actor:Node3D,base:float) -> float:
-	return base*.8 if kind(actor)=="subtech" else base
+	return base * (.8 if kind(actor)=="subtech" else 1.0) * (1 - game.gear.bonus(actor, "sub_cooldown"))
 
 func on_hit(actor:Node3D,damage:float,source:String) -> void:
 	if is_instance_valid(actor) and game.actor_alive(actor) and kind(actor)=="leech" and game.get_node("Combat").weapons.has(source):
@@ -108,20 +109,23 @@ func regen_rate(actor: Node3D, base: float) -> float:
 
 func weapon(actor: Node3D, original: Dictionary) -> Dictionary:
 	var low := dry_active(actor)
-	if kind(actor) not in ["saver","focus"] and not low: return original
-	if low:
-		var reduced := original.duplicate()
-		for field in ["inkPerShot","inkFull","flickInk","rollInkPerMeter","inkMin"]:
-			if reduced.has(field): reduced[field] = float(reduced[field])*.65
-		for field in ["damage","returnDamage","damageMin","damageMax","directDamage","splashDamageMax","splashDamageMin","flickDamageNear","flickDamageFar","rollDamage","arrowDamageMin","arrowDamageMax","blastDamage"]:
-			if reduced.has(field): reduced[field] = float(reduced[field])*.8
-		return reduced
+	var saving: float = game.gear.bonus(actor, "main_saver")
+	if kind(actor) not in ["saver","focus"] and not low and saving==0: return original
 	var result := original.duplicate()
+	for field in ["inkPerShot","inkFull","flickInk","rollInkPerMeter","inkMin"]:
+		if result.has(field): result[field] = float(result[field]) * (1 - saving)
+	if low:
+		for field in ["inkPerShot","inkFull","flickInk","rollInkPerMeter","inkMin"]:
+			if result.has(field): result[field] = float(result[field])*.65
+		for field in ["damage","returnDamage","damageMin","damageMax","directDamage","splashDamageMax","splashDamageMin","flickDamageNear","flickDamageFar","rollDamage","arrowDamageMin","arrowDamageMax","blastDamage"]:
+			if result.has(field): result[field] = float(result[field])*.8
+		return result
 	if kind(actor)=="focus":
 		result["spreadBaseGround"]=float(result.get("spreadBaseGround",0))*.65
 		return result
-	for field in ["inkPerShot","inkFull","flickInk","rollInkPerMeter","inkMin","launchInk","coverDrain"]:
-		if result.has(field): result[field] = float(result[field])*0.8
+	if kind(actor)=="saver":
+		for field in ["inkPerShot","inkFull","flickInk","rollInkPerMeter","inkMin","launchInk","coverDrain"]:
+			if result.has(field): result[field] = float(result[field])*0.8
 	return result
 
 func hud_text() -> String:

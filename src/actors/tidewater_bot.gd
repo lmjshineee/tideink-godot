@@ -187,7 +187,8 @@ func tick(delta: float) -> void:
 	var current := Vector2(global_position.x, global_position.z)
 	var player := Vector2(walker.global_position.x, walker.global_position.z)
 	var speed := float(weapon["rollSpeed"]) if weapon_id == "roller" and ink_amount > 0.5 else float(player_config["runSpeed"])
-	speed = minf(game.perks.travel_speed(self, speed) * game.perks.movement(self)*game.perks.vault_factor(self)*game.items.move_factor(self), combat.counter.move_limit(self))
+	var gear_speed: float = 1.0 if bool(get_meta("enemy_swimming", false)) else game.perks.movement(self)
+	speed = minf(game.perks.travel_speed(self, speed) * gear_speed*game.perks.vault_factor(self)*game.items.move_factor(self), combat.counter.move_limit(self))
 	var chase_stop := _engagement_distance(weapon)
 	var can_chase := float(game.get("player_respawn")) <= 0.0 and current.distance_to(player) <= maxf(CHASE_RANGE, _weapon_reach(weapon)) \
 		and _can_see_player()
@@ -572,7 +573,8 @@ func _tick_team(delta: float) -> void:
 			route_index += 1
 		else:
 			var speed := float(weapon["rollSpeed"]) if weapon_id == "roller" and ink_amount > 1.0 else float(config["runSpeed"])
-			speed = minf(game.perks.travel_speed(self, speed) * game.perks.movement(self)*game.perks.vault_factor(self)*game.items.move_factor(self), combat.counter.move_limit(self))
+			var gear_speed: float = 1.0 if bool(get_meta("enemy_swimming", false)) else game.perks.movement(self, game.perks.bot_swimming(self))
+			speed = minf(game.perks.travel_speed(self, speed) * gear_speed*game.perks.vault_factor(self)*game.items.move_factor(self), combat.counter.move_limit(self))
 			travel = horizontal.normalized() * minf(speed, horizontal.length() / maxf(delta,0.001))
 			if route_index > 0 and jump_time <= 0.0:
 				var transition:=String(game.get("navigation").call("transition",route[route_index-1],next,team))

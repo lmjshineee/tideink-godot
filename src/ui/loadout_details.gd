@@ -18,7 +18,7 @@ static func weapon(game: Node3D,id: String) -> Dictionary:
 		"bow":
 			text="按住左键蓄力，松开射出三支墨箭。\n"+attribute(w,"range","%.0f → %.0f m" % [w.rangeMin,w.rangeMax])+"\n"+attribute(w,"damage","每箭 %.0f → %.0f；三箭满蓄 %.0f" % [w.arrowDamageMin,w.arrowDamageMax,w.damageMax])+"\n"+attribute(w,"rate","满蓄 %.1f 秒；释放间隔 %.2f → %.2f 秒" % [w.chargeTime,w.releaseMin,w.releaseFull])+"\n"+attribute(w,"mobility","蓄力 %.1f m/s" % w.moveSpeedFiring)+"\n"+attribute(w,"paint","轻点涂地；半蓄布置爆裂箭")+"\n地面横射、空中竖射；满蓄三箭收束。\n耗墨 %.1f → %.1f；%.1f 秒半蓄起留爆裂箭。\n准星半环为爆裂、满环为精准三箭／提示音。\n落点 %.1f 秒后爆裂，半径 %.1f m；同轮溅射共享 %.0f 伤害预算。\n满蓄三箭通常需追击；两箭／半蓄直击伤害更低。\n整轮直击＋爆裂最多 %.0f，强化／易伤后最多 %.0f；墙／楼板遮挡。" % [w.inkMin,w.inkFull,w.chargeTime*w.plantCharge,w.blastDelay,w.blastRadius,w.blastDamage,w.volleyDamageCap,w.finalDamageCap]
 		"canopy":
-			text="点按六颗散弹；按住开伞，推出后持续射击。\n"+attribute(w,"range","11 m")+"\n"+attribute(w,"damage","每弹 15；六弹躯干 90")+"\n"+attribute(w,"rate","0.48 秒 / 轮")+"\n"+attribute(w,"mobility","射击 / 持伞 4.8 m/s")+"\n"+attribute(w,"paint","推进留下可潜泳的宽墨路")+"\n每轮耗墨 4.5；按住 0.20 秒开伞，持伞每秒耗墨 0.9。\n伞面耐久 220，挡敌弹，友方射击可穿过；持伞时暂停射击。\n按住至 0.85 秒，额外耗墨 6 推出：6.5 m/s、最多 3.4 秒。\n地面推出沿平地／坡道走，离地推出保留高低瞄准；墙和窄障碍实际阻挡。\n推出即开始 4.5 秒冷却，跟进时持续按住可连射；松开后可以潜墨回墨。\n提前收伞／持伞被破也冷却 4.5 秒，死亡／重摇不能清除。\n敌人可以绕侧、绕后或从上方攻击。"
+			text="点按六颗散弹；按住开伞，推出后持续射击。\n"+attribute(w,"range","11 m")+"\n"+attribute(w,"damage","每弹 15；六弹躯干 90")+"\n"+attribute(w,"rate","0.48 秒 / 轮")+"\n"+attribute(w,"mobility","射击 / 持伞 4.8 m/s")+"\n"+attribute(w,"paint","推进留下可潜泳的宽墨路")+"\n每轮耗墨 %.2f；按住 0.20 秒开伞，持伞每秒耗墨 %.2f。\n伞面耐久 220，挡敌弹，友方射击可穿过；持伞时暂停射击。\n按住至 0.85 秒，额外耗墨 %.1f 推出：6.5 m/s、最多 3.4 秒。\n地面推出沿平地／坡道走，离地推出保留高低瞄准；墙和窄障碍实际阻挡。\n推出即开始 4.5 秒冷却，跟进时持续按住可连射；松开后可以潜墨回墨。\n提前收伞／持伞被破也冷却 4.5 秒，死亡／重摇不能清除。\n敌人可以绕侧、绕后或从上方攻击。" % [w.inkPerShot,w.coverDrain,w.launchInk]
 		"disc":
 			text=attribute(w,"range","13 m")+"\n"+attribute(w,"damage","去程 / 回程")+"\n"+attribute(w,"rate","接回后再投")+"\n"+attribute(w,"mobility","投后移动改变回程")+"\n"+attribute(w,"paint","沿轨迹涂墨")+"\n点按投出一枚回旋飞镖，去程直飞，回程追向你的位置。\n射程 13 m · 去程 48 / 回程 34 伤害\n每次消耗 %.1f 墨水，场上同时 1 枚。\n同一目标每段最多命中一次；墙壁挡住飞镖。\n投出后横移，改变回程路线；接回后再次投掷。" % w.inkPerShot
 		"roller":
@@ -44,6 +44,9 @@ static func weapon(game: Node3D,id: String) -> Dictionary:
 	text+="\n%s按体积命中，不叠加头部倍率。" % ("箭矢" if w.kind=="bow" else "飞镖") if w.kind in ["disc","bow"] else "\n主武器直接命中：头部 / 躯干 / 腿部均为 ×1"
 	text+="\n星级用于相对比较；伤害为基础躯干值。"
 	if game.perks.kind(game.get_node("World/Walker"))=="saver":text+="\n墨水消耗已计入节墨天赋。"
+	var saving: float = game.gear.bonus(game.get_node("World/Walker"),"main_saver")
+	if saving > 0:
+		text+="\n装备省墨 %.1f%%，当前主射耗墨已计入：%.2f%s。" % [saving*100,float(w.get("inkFull",w.get("flickInk",w.get("inkPerShot",0)))),"（满蓄）" if w.has("inkFull") else "（每轮）"]
 	return {"title":game._weapon_text(id)+" · 主武器","body":text}
 
 static func item(game: Node3D,id: String) -> Dictionary:
@@ -67,7 +70,7 @@ static func item(game: Node3D,id: String) -> Dictionary:
 		"healing":text="脚下放置 4 m 医疗领域，持续 5 秒。\n消耗 35 墨水，同层且无遮挡队友恢复 12 HP / 秒。\n不复活、不越过生命上限；施放者死亡后领域持续。"
 		"shield":text="吸收 60 伤害，最多持续 6 秒。\n耗尽或到时消失，可阻挡武器与爆炸。\n先扣护盾，再扣生命。"
 	if id in ["mine","sonar","supply_box","beacon","echo_decoy","intel_mist"]:text+="\n人形瞄准时显示放置点；红色表示无效或暂不可用。"
-	text+="\n冷却 %.0f 秒 · 右键 / E 使用\n死亡或重新配装不会清除冷却。" % game.perks.item_cooldown(game.get_node("World/Walker"),game.items.COOLDOWNS[id])
+	text+="\n冷却 %.1f 秒 · 右键 / E 使用\n死亡或重新配装不会清除冷却。" % game.perks.item_cooldown(game.get_node("World/Walker"),game.items.COOLDOWNS[id])
 	return {"title":game.items.LABELS[id]+" · 副武器","body":text}
 
 static func perk(id: String) -> Dictionary:

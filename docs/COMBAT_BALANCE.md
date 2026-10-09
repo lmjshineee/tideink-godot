@@ -6,7 +6,7 @@
 
 [Nintendo 武器入门](https://splatoon.nintendo.com/en/news/beginner-basics-for-splatoon-3-choosing-the-right-weapons/)说明每个武器套装包含一个主武器、一个固定副武器和一个特殊武器。副武器可以是攻击或支援装置；特殊武器通过涂墨积攒。原作不是同时携带数个副武器、临场切换的道具背包。
 
-[Nintendo 装备入门](https://splatoon.nintendo.com/en/news/beginner-basics-for-splatoon-3-choosing-the-right-gear/)说明头、衣、鞋各有一个主能力和最多三个附加能力。因此原作可以叠多种装备能力；本项目目前仍保留整局锁定的一个天赋，没有实现三件装备与十二能力槽。上述入门资料发布于 2024 年，不作为最新数值补丁规格。
+[Nintendo 装备入门](https://splatoon.nintendo.com/en/news/beginner-basics-for-splatoon-3-choosing-the-right-gear/)说明头、衣、鞋各有一个主能力和最多三个附加能力。因此原作可以叠多种装备能力；preview.22 保留一个整局天赋，preview.23 继续增加独立的三件装备／十二能力槽，详见 [装备规则](GEAR_ABILITIES.md)。上述入门资料发布于 2024 年，不作为最新数值补丁规格。
 
 [Nintendo 对战规则入门](https://www.nintendo.com/en-gb/News/2024/December/Beginner-basics-for-Splatoon-3-the-ins-and-outs-of-playing-online-2645154.html)区分全图涂地战与争夺指定区域的占地模式。本批实现对应的两种本地规则；地图区域、80%/40% 门槛、罚分算法与时长是本地设计，不宣称逐项还原原作。
 

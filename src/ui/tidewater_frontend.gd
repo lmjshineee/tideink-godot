@@ -23,6 +23,8 @@ var profile:Label
 var kit_mode:Button
 var rule_choice:Button
 var roll_button:Button
+var gear_button:Button
+var gear_editor:Control
 var random_button:Button
 var play_button:Button
 var settings_button:Button
@@ -134,7 +136,7 @@ func setup(owner_game:Node3D) -> void:
 		if game.phase=="setup":Setup.ai_level=levels.IDS[i];game.ai_level=Setup.ai_level)
 	random_map=CheckButton.new();random_map.text="地图随机布置";preparation.add_child(random_map);random_map.disabled=not Catalog.supports_random(Setup.map_id);random_map.set_pressed_no_signal(Setup.random_map);random_map.toggled.connect(_toggle_random_map)
 	map_roll=_button(preparation,"换图",func():Catalog.reroll();_reload_preparation())
-	reroll=CheckButton.new();reroll.text="机器人复活重摇装备";preparation.add_child(reroll);reroll.set_pressed_no_signal(Setup.reroll_bots);reroll.toggled.connect(func(value):Setup.reroll_bots=value)
+	reroll=CheckButton.new();reroll.text="机器人复活重摇主／副";preparation.add_child(reroll);reroll.set_pressed_no_signal(Setup.reroll_bots);reroll.toggled.connect(func(value):Setup.reroll_bots=value)
 	back_button=_button(preparation,"返回",func():game.show_home());settings_button=_button(preparation,"设置",func():game._open_settings());start_button=_button(preparation,"LET'S GO! 开战",func():game._begin_intro())
 	kit_mode=Button.new();preparation.add_child(kit_mode)
 	kit_mode.tooltip_text="点击切换固定套装／自定义配装"
@@ -145,7 +147,9 @@ func setup(owner_game:Node3D) -> void:
 		if game.phase not in ["home","setup"] or game.perks.locked:return
 		Setup.battle_rule="area" if Setup.battle_rule=="turf" else "turf";_reload_preparation())
 	roll_button=_button(preparation,"ROLL · 随机配装",func():game.roll_setup_loadout();sync())
-	roll_button.tooltip_text="一次重摇主武器、天赋和副武器；固定套装的副武器随主武器。开战后锁定。"
+	roll_button.tooltip_text="一次重摇主武器、天赋、副武器和 12 个装备槽；固定套装的副武器随主武器。开战后锁定。"
+	gear_button=_button(preparation,"装备 · 12槽",func():gear_editor.open())
+	gear_editor=preload("res://src/ui/gear_editor.gd").new();add_child(gear_editor);gear_editor.setup(game,self)
 	_build_hover();sync()
 
 func _label(parent:Node,text:String,px:int,display:bool=false) -> Label:
@@ -212,10 +216,11 @@ func _selected(button:Button,selected:bool) -> void:
 func sync() -> void:
 	if not game.is_inside_tree():return
 	var screen:String=game.phase
+	if screen!="setup":gear_editor.visible=false
 	game.get_viewport().disable_3d=screen in ["home","setup"]
 	visible=screen in ["home","setup"] and not game.settings_panel.visible
 	home.visible=screen=="home";preparation.visible=screen=="setup"
-	preview.visible=visible;preview.set_enabled(visible);stage_preview.set_enabled(visible and preparation.visible)
+	preview.visible=visible;preview.set_enabled(visible and not gear_editor.visible);stage_preview.set_enabled(visible and preparation.visible and not gear_editor.visible)
 	if not visible:_end_hover();return
 	size=game.hud_root.size;home.size=size;preparation.size=size
 	var u:=clampf(minf(size.x/1280.0,size.y/720.0),0.60,1.4)
@@ -237,7 +242,10 @@ func sync() -> void:
 	for i in pose_buttons.size():
 		var button:Button=pose_buttons[["idle","run","shoot"][i]];button.visible=preparing
 		_place(button,Vector2(size.x*.747+i*size.x*.075,size.y*.617),Vector2(size.x*.068,28*u),maxi(11,int(13*u)));_selected(button,preview.pose==["idle","run","shoot"][i])
-	_place(random_button,Vector2(size.x*(.74 if preparing else .37),size.y*(.664 if preparing else .91)),Vector2(size.x*(.23 if preparing else .28),40*u),maxi(12,int(17*u)))
+	random_button.text="随机形象" if preparing else "RANDOM 随机形象"
+	_place(random_button,Vector2(size.x*(.74 if preparing else .37),size.y*(.664 if preparing else .91)),Vector2(size.x*(.11 if preparing else .28),40*u),maxi(11,int(15*u)))
+	_place(gear_button,Vector2(size.x*.859,size.y*.664),Vector2(size.x*.111,40*u),maxi(11,int(15*u)))
+	gear_button.disabled=not game.gear.can_edit()
 	_place(profile,Vector2(size.x*.715,size.y*.19),Vector2(size.x*.245,size.y*.19),int(20*u));profile.text="#01 "+Setup.player_name+"\n"+("AREA CONTROL" if Setup.battle_rule=="area" else "TURF WAR")+" · "+("5 v 5" if Setup.team_size==5 else "1 v 1")
 	_place(kit,Vector2(size.x*(.37 if preparing else .715),size.y*(.058 if preparing else .435)),Vector2(size.x*(.60 if preparing else .235),size.y*.13),maxi(11,int(16*u)))
 	var main_detail:Dictionary=Details.weapon(game,game.selected_weapon)
@@ -247,7 +255,7 @@ func sync() -> void:
 	_place(home_weapon,Vector2(size.x*.715,size.y*.65),Vector2(size.x*.23,62*u),int(19*u));home_weapon.text=game._weapon_text(game.selected_weapon);home_weapon.icon=load("res://assets/ui/%s.svg" % game.selected_weapon)
 	preview.set_weapon(game.selected_weapon)
 	if preparing:_layout_preparation(u)
-	_refresh_hover();_layout_hover();queue_redraw()
+	_refresh_hover();_layout_hover();gear_editor.sync();queue_redraw()
 
 func _layout_preparation(u:float) -> void:
 	_place(stage,Vector2(size.x*.047,size.y*.185),Vector2(size.x*.35,36*u),maxi(16,int(25*u)));stage.text=Catalog.title()
@@ -282,7 +290,7 @@ func _layout_preparation(u:float) -> void:
 		var label:Label=card.get_child(1);_place(label,Vector2(40*u,9*u),Vector2(width-46*u,28*u),maxi(11,int(15*u)))
 	for i in item_buttons.size():
 		var id:String=game.items.KINDS[i]
-		item_buttons[id].text="%s\n冷却 %.0fs" % [game.items.LABELS[id],game.perks.item_cooldown(game.get_node("World/Walker"),game.items.COOLDOWNS[id])]
+		item_buttons[id].text="%s\n冷却 %.1fs" % [game.items.LABELS[id],game.perks.item_cooldown(game.get_node("World/Walker"),game.items.COOLDOWNS[id])]
 		item_buttons[id].add_theme_constant_override("icon_max_width",maxi(18,int(26*u)))
 		_place(item_buttons[id],Vector2(i*(width+8*u),0),Vector2(width,46*u),maxi(11,int(14*u)));_selected(item_buttons[id],Setup.selected_item==id)
 	for i in Perks.ORDER.size():
