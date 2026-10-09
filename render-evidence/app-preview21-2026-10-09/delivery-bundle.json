@@ -1,0 +1,9 @@
+{
+  "previous_bundle_build": "0.3.20",
+  "backup": "/Users/yunni/Joy/inkwave-game-cleaned/build/TideInk-preview.20.app",
+  "previous_pck_sha256": "b8cd750d9dd90caf46a277249941a833106d3f859661e4ebd98d90061bf7b0d5",
+  "new_bundle_build": "0.3.21",
+  "architecture": "arm64",
+  "signature_verified": true,
+  "export_to_new_directory": true
+}

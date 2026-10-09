@@ -32,6 +32,13 @@ func _run() -> void:
 	expect(not front.strips.weapon.get_global_rect().intersects(front.strips.item.get_global_rect()) and not front.strips.item.get_global_rect().intersects(front.strips.perk.get_global_rect()),"small-window loadout rows never overlap")
 	game._begin_intro();expect(not front.preview.enabled and not front.stage_preview.enabled and not front.hover_panel.visible,"inspectors stop and hover closes at match start")
 	expect(not game.perks.select_player("enemy_swim"),"talent still locked at intro")
+	game.set_process(false);game.set_physics_process(false)
+	await create_timer(.2).timeout
+	for voice in game.sound.get_children():
+		if voice.has_method("stop"):
+			voice.stop();voice.stream=null
+	await create_timer(.1).timeout
 	game.queue_free();await process_frame
+	await create_timer(.1).timeout
 	if not failed:print("PASS: stage-first real geometry, isolated source animation, adjusted weapon/item/perk details, live talent costs, simultaneous loadout choices and match visibility/lock")
 	quit(1 if failed else 0)

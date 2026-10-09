@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "version": "0.3.0-preview.21",
+  "source_head": "e8e2c49256e0de84f34c750321b2bdf7063d88b6",
+  "production_inputs_match_receipt": true,
+  "exact_app_bytes_match_receipt": true,
+  "native_source_hashes_match": 69,
+  "old_asset_files_preserved": 432,
+  "old_uids_preserved": 249,
+  "current_runtime_test_tool_uids": 250,
+  "new_test_uids": 1,
+  "template_cache_unchanged": true,
+  "source_suite": {
+    "passed": 106,
+    "failed": 0,
+    "after_suite": "UI wording and fixture timing/cleanup; final targeted parse/menu/native reruns passed"
+  },
+  "pck_rules": 27,
+  "actual_app_headless_exit": 0,
+  "actual_app_native_metal_exit": 0,
+  "actual_app_path_script_overrides": false,
+  "app_opened_pid": 37642,
+  "architecture": "arm64",
+  "signature": "ad-hoc verified",
+  "pck_sha256": "74e2ad68cc7d231e33ad88bd18fcb838f51fec75de1c6e8950510e3892e16ac0",
+  "old_app_preserved": true,
+  "old_fixture_warning_counts": {
+    "check_tidewater_turf_points": 8,
+    "check_gameplay_deployment": 20
+  },
+  "human_balance_natural_full_match_temperature_retested": false
+}
