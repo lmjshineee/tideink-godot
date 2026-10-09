@@ -6,7 +6,7 @@ void fragment() {
  vec3 tc=team_color.rgb,light=mix(tc,vec3(1.0),0.55),dark=tc*0.65;
  vec3 col=tc;
  float cup=0.0;
- ROUGHNESS=0.3;
+ ROUGHNESS=0.48;
  CLEARCOAT=0.45;
  if(UV2.x<=-1.5) {
   col=mix(COLOR.rgb,COLOR.rgb*tc,COLOR.a);
@@ -34,10 +34,10 @@ void fragment() {
    col=mix(col,light,cup*0.8);
    col*=1.0-0.22*(1.0-smoothstep(sz*0.25,sz*0.6,d))*cup;
   }
-  ROUGHNESS=mix(0.3,0.42,cup);
+  ROUGHNESS=mix(0.48,0.58,cup);
  }
  ALBEDO=col;
  SPECULAR=0.4;
  BACKLIGHT=col*0.08;
- CLEARCOAT_ROUGHNESS=0.22;
+ CLEARCOAT_ROUGHNESS=0.4;
 }

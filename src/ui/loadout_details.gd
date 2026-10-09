@@ -44,7 +44,7 @@ static func weapon(game: Node3D,id: String) -> Dictionary:
 	text+="\n%s按体积命中，不叠加头部倍率。" % ("箭矢" if w.kind=="bow" else "飞镖") if w.kind in ["disc","bow"] else "\n主武器直接命中：头部 / 躯干 / 腿部均为 ×1"
 	text+="\n星级用于相对比较；伤害为基础躯干值。"
 	if game.perks.kind(game.get_node("World/Walker"))=="saver":text+="\n墨水消耗已计入节墨天赋。"
-	var saving: float = game.gear.bonus(game.get_node("World/Walker"),"main_saver")
+	var saving: float = game.attributes.bonus(game.get_node("World/Walker"),"main_saver")
 	if saving > 0:
 		text+="\n装备省墨 %.1f%%，当前主射耗墨已计入：%.2f%s。" % [saving*100,float(w.get("inkFull",w.get("flickInk",w.get("inkPerShot",0)))),"（满蓄）" if w.has("inkFull") else "（每轮）"]
 	return {"title":game._weapon_text(id)+" · 主武器","body":text}

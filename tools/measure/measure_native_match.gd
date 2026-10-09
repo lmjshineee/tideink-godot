@@ -8,7 +8,7 @@ var output := ""
 var map_id := "tidewater"
 var weapon_id := "shooter"
 var battle_rule := "turf"
-var gear_roll := false
+var attribute_roll := false
 var game: Node3D
 var walker: CharacterBody3D
 var combat: Node3D
@@ -43,7 +43,7 @@ func _run() -> void:
 		if arg.begins_with("--map="): map_id=arg.trim_prefix("--map=")
 		if arg.begins_with("--weapon="): weapon_id=arg.trim_prefix("--weapon=")
 		if arg.begins_with("--rule="):battle_rule=arg.trim_prefix("--rule=")
-		if arg=="--gear-roll":gear_roll=true
+		if arg=="--attribute-roll":attribute_roll=true
 	if battle_rule not in ["turf","area"]:
 		_fail("unknown battle rule");return
 	if not preload("res://src/core/map_catalog.gd").IDS.has(map_id):
@@ -81,7 +81,7 @@ func _run() -> void:
 	Setup.duration_index = 1
 	Setup.selected_item = "bomb"
 	Setup.selected_perk = "balanced"
-	Setup.selected_gear = preload("res://src/core/gear_catalog.gd").empty()
+	Setup.selected_attributes = preload("res://src/core/attribute_catalog.gd").empty()
 	Setup.reroll_bots = false
 	Setup.pending_loadout = {"player":weapon_id, "settings_path":output.path_join("isolated-settings.cfg")}
 	game = (load("res://scenes/match/tidewater_play.tscn") as PackedScene).instantiate()
@@ -114,11 +114,11 @@ func _run() -> void:
 	if game.phase != "setup":
 		_fail("Enter did not open setup")
 		return
-	if gear_roll:
-		if not game.gear.roll_player():_fail("pre-match gear roll failed");return
+	if attribute_roll:
+		if not game.attributes.roll_player():_fail("pre-match attributes roll failed");return
 		game.frontend.sync()
-		report.gear_at_setup=game.gear.loadout(walker)
-		report.gear_points_at_setup=game.gear.totals(walker)
+		report.attributes_at_setup=game.attributes.loadout(walker)
+		report.attribute_points_at_setup=game.attributes.totals(walker)
 	_phase("setup",0.0)
 	if not (await _snapshot("setup")): return
 	_tap(KEY_ENTER)
@@ -130,14 +130,14 @@ func _run() -> void:
 		_fail("normal intro must enter a 180-second round with ten actors")
 		return
 	_phase("playing",0.0)
-	report.gear_at_start={}
+	report.attributes_at_start={}
 	var budget: int=0
-	for value in game.gear.totals(walker).values():budget+=value
+	for value in game.attributes.totals(walker).values():budget+=value
 	for actor in game.all_actors():
-		report.gear_at_start[str(game.actor_id(actor))]=game.gear.loadout(actor)
+		report.attributes_at_start[str(game.actor_id(actor))]=game.attributes.loadout(actor)
 		var actor_budget: int=0
-		for value in game.gear.totals(actor).values():actor_budget+=value
-		if actor_budget!=budget:_fail("lineup gear budget mismatch");return
+		for value in game.attributes.totals(actor).values():actor_budget+=value
+		if actor_budget!=budget:_fail("lineup attributes budget mismatch");return
 	var start := Time.get_ticks_usec()
 	var previous := start
 	var next_sample := 0.0
@@ -204,7 +204,7 @@ func _run() -> void:
 	var totals := [0.0,0.0]
 	var roster := _roster()
 	for actor in game.all_actors():
-		if game.gear.loadout(actor)!=report.gear_at_start[str(game.actor_id(actor))]:_fail("gear changed during natural match");return
+		if game.attributes.loadout(actor)!=report.attributes_at_start[str(game.actor_id(actor))]:_fail("attributes changed during natural match");return
 	for actor in roster:
 		totals[int(actor.team)] += float(actor.stats.turf)
 	for team in range(2):
@@ -368,7 +368,7 @@ func _roster() -> Array:
 	for actor in game.all_actors():
 		roster.append({"id":game.actor_id(actor),"team":game.actor_team(actor),"local_player":actor==walker,
 			"weapon":game.selected_weapon if actor==walker else actor.weapon_id,
-			"gear":game.gear.loadout(actor),"gear_points":game.gear.totals(actor),
+			"attributes":game.attributes.loadout(actor),"attribute_points":game.attributes.totals(actor),
 			"perk":game.perks.kind(actor),"item":game.items.state(actor).kind,
 			"stats":actor.get_meta("match_stats").duplicate(true)})
 	return roster

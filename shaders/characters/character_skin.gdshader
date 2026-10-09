@@ -2,6 +2,7 @@ shader_type spatial;
 render_mode cull_disabled;
 // Source skin and expressions with small cheek ornaments replacing the dark mask.
 uniform vec4 team_color : source_color;
+uniform vec4 skin_tint : source_color = vec4(1.0);
 uniform vec4 mouth=vec4(0.75,1.0,0.0,0.0);
 uniform bool freckles=false;
 uniform int ornament_pattern=0;
@@ -191,7 +192,7 @@ void fragment(){
           }
         }
       
- ALBEDO=diffuseColor.rgb;
+ ALBEDO=diffuseColor.rgb * skin_tint.rgb;
  ROUGHNESS=mix(0.58,0.48,iwDecor);
  ROUGHNESS=mix(ROUGHNESS,0.35,iwHairP);
  ROUGHNESS=mix(ROUGHNESS,0.22,iwNail);

@@ -55,15 +55,15 @@ func select_player(id: String) -> bool:
 
 func max_health(actor: Node3D) -> float:
 	var base := float(game.get_node("Combat").get("weapon_data")["player"]["hp"])
-	return base*1.1 if kind(actor)=="balanced" else base*1.25 if kind(actor)=="vitality" else base
+	return base * (1.1 if kind(actor)=="balanced" else 1.25 if kind(actor)=="vitality" else 1.0) * (1 + game.attributes.bonus(actor, "health"))
 
 func max_ink(actor: Node3D) -> float:
 	var base := float(game.get_node("Combat").get("weapon_data")["player"]["inkMax"])
-	return base*1.1 if kind(actor)=="balanced" else base*1.25 if kind(actor)=="reserve" else base
+	return base * (1.1 if kind(actor)=="balanced" else 1.25 if kind(actor)=="reserve" else 1.0) * (1 + game.attributes.bonus(actor, "ink_capacity"))
 
 func movement(actor: Node3D, swimming: bool = false) -> float:
 	var base := 1.05 if kind(actor)=="balanced" else 1.1 if kind(actor)=="runner" else 1.0
-	return base * (1 + game.gear.bonus(actor, "swim_speed" if swimming else "run_speed"))
+	return base * (1 + game.attributes.bonus(actor, "swim_speed" if swimming else "run_speed"))
 
 func apply_movement() -> void:
 	var actor := game.get_node("World/Walker")
@@ -89,13 +89,13 @@ func incoming(actor: Node3D, source: String) -> float:
 
 func refill(actor: Node3D) -> float:
 	var base := 1.25 if kind(actor)=="recycler" else 1.5 if kind(actor)=="adrenaline" and active(actor) else 1.0
-	return base * game.comeback.refill(actor) * (1 + game.gear.bonus(actor, "ink_recovery"))
+	return base * game.comeback.refill(actor) * (1 + game.attributes.bonus(actor, "ink_recovery"))
 
 func charge(actor: Node3D) -> float:
-	return game.comeback.charge(actor) * (1.25 if kind(actor) == "turf_engine" else 1.0) * (1 + game.gear.bonus(actor, "special_charge"))
+	return game.comeback.charge(actor) * (1.25 if kind(actor) == "turf_engine" else 1.0) * (1 + game.attributes.bonus(actor, "special_charge"))
 
 func item_cooldown(actor:Node3D,base:float) -> float:
-	return base * (.8 if kind(actor)=="subtech" else 1.0) * (1 - game.gear.bonus(actor, "sub_cooldown"))
+	return base * (.8 if kind(actor)=="subtech" else 1.0) * (1 - game.attributes.bonus(actor, "sub_cooldown"))
 
 func on_hit(actor:Node3D,damage:float,source:String) -> void:
 	if is_instance_valid(actor) and game.actor_alive(actor) and kind(actor)=="leech" and game.get_node("Combat").weapons.has(source):
@@ -109,7 +109,7 @@ func regen_rate(actor: Node3D, base: float) -> float:
 
 func weapon(actor: Node3D, original: Dictionary) -> Dictionary:
 	var low := dry_active(actor)
-	var saving: float = game.gear.bonus(actor, "main_saver")
+	var saving: float = game.attributes.bonus(actor, "main_saver")
 	if kind(actor) not in ["saver","focus"] and not low and saving==0: return original
 	var result := original.duplicate()
 	for field in ["inkPerShot","inkFull","flickInk","rollInkPerMeter","inkMin"]:

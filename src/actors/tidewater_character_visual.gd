@@ -1,7 +1,7 @@
 extends Node3D
 
-# Original web squidkid geometry, 87-bone rig, source fragment details and sampled
-# poses are the default. Feet are y=0, facing +Z. Visuals never own movement,
+# Local archetype geometry uses the preserved 87-bone rig, fragment details and
+# sampled poses. Feet are y=0, facing +Z. Visuals never own movement,
 # collision, ink or damage state. Primitive meshes remain hidden API fallbacks.
 #
 # Source references: public/game/src/game/character.js — the idle layer (breathing,
@@ -27,6 +27,7 @@ var ornament_pattern := 0
 var ornament_color := Color("ffc04a")
 var ornament_pose := Vector4(1,0,0,0)
 var ornament_side := 0
+const Archetypes := preload("res://src/actors/character_archetypes.gd")
 const ORIGINAL_SURFACE := preload("res://shaders/characters/character_surface.gdshader")
 const SKIN_SURFACE := preload("res://shaders/characters/character_skin.gdshader")
 const EYE_SURFACE := preload("res://shaders/characters/character_eyes.gdshader")
@@ -35,10 +36,10 @@ const CLOTH_SURFACE := preload("res://shaders/characters/character_cloth.gdshade
 const IRIS := [Color("ffcf3a"),Color("4ff0dc"),Color("c9a2ff"),Color("a8f56a")]
 const IRIS_DARK := [Color("ff7a00"),Color("0b7fb0"),Color("5b2ad6"),Color("1d9a4a")]
 const OUTFITS := [
-	["f4f2ec","27304a","272b34","f4f2ec","f7f7f4","30343d"],
-	["2b2e36","cfbb92","f3f2ee","c98b4e","f7f7f4","24262c"],
-	["bfc5cf","1f2127","f3f2ee","2a2c33","2a2c33","2a2c33"],
-	["f2e6c9","3a5683","3a3f4b","f4f2ec","f7f7f4","3a3f4b"]
+	["e4e5d1","24394a","284454","e6dfc8","e4e5d1","253542"],
+	["5b536d","303449","373449","aeb8c9","333044","272d3a"],
+	["beac81","83734f","333c43","dad2b9","4b4e42","3a4144"],
+	["b86b6b","29374c","282f40","ebe0c6","e5dac4","303646"]
 ]
 var face_material: ShaderMaterial
 var eye_material: ShaderMaterial
@@ -544,7 +545,7 @@ func _cylinder(parent: Node3D, name_text: String, at: Vector3, radius: float, he
 # Original skinned meshes and 87-bone rig. The primitive builder remains an offline
 # fallback and API adapter; all its meshes are hidden when the source assets load.
 func _install_original() -> void:
-	var path := "res://assets/characters/kid_%d.glb" % posmod(style_index, 4)
+	var path := Archetypes.path(style_index)
 	if not ResourceLoader.exists(path):
 		return
 	var packed := load(path) as PackedScene
@@ -585,6 +586,7 @@ func _install_original() -> void:
 	if squid_root != null:
 		squid_root.reparent(squid)
 		squid_root.position.y = 0.2
+	Archetypes.dress(self)
 	_materialize_original(original_rig)
 	_materialize_original(squid)
 	for id in weapon_models:
@@ -629,6 +631,7 @@ func _hide_primitive_meshes(node: Node) -> void:
 
 func _materialize_original(node: Node) -> void:
 	if node is MeshInstance3D and node.get_parent() != kid:
+		if node.get_meta("procedural_equipment", false): return
 		# Preserve the smooth authored silhouette/face at portrait distances. Godot's
 		# automatic low-detail mesh otherwise collapses cheeks and cap into facets.
 		(node as MeshInstance3D).lod_bias = 6.0
@@ -649,6 +652,7 @@ func _materialize_original(node: Node) -> void:
 				instance_material.shader = SKIN_SURFACE if semantic == "Skin" else EYE_SURFACE
 				instance_material.set_shader_parameter("team_color",TeamPalette.color(team))
 				if semantic == "Skin":
+					instance_material.set_shader_parameter("skin_tint", Archetypes.SKIN_TINT[posmod(style_index, 4)])
 					instance_material.set_shader_parameter("freckles",style_index == 0)
 					instance_material.set_shader_parameter("ornament_pattern",ornament_pattern)
 					instance_material.set_shader_parameter("ornament_color",ornament_color)

@@ -6,7 +6,7 @@
 
 [Nintendo 武器入门](https://splatoon.nintendo.com/en/news/beginner-basics-for-splatoon-3-choosing-the-right-weapons/)说明每个武器套装包含一个主武器、一个固定副武器和一个特殊武器。副武器可以是攻击或支援装置；特殊武器通过涂墨积攒。原作不是同时携带数个副武器、临场切换的道具背包。
 
-[Nintendo 装备入门](https://splatoon.nintendo.com/en/news/beginner-basics-for-splatoon-3-choosing-the-right-gear/)说明头、衣、鞋各有一个主能力和最多三个附加能力。因此原作可以叠多种装备能力；preview.22 保留一个整局天赋，preview.23 继续增加独立的三件装备／十二能力槽，详见 [装备规则](GEAR_ABILITIES.md)。上述入门资料发布于 2024 年，不作为最新数值补丁规格。
+[Nintendo 装备入门](https://splatoon.nintendo.com/en/news/beginner-basics-for-splatoon-3-choosing-the-right-gear/)说明头、衣、鞋各有一个主能力和最多三个附加能力。因此原作可以叠多种装备能力；preview.22 保留一个整局天赋，preview.23 曾加入三件／十二能力槽，preview.24 按用户反馈改为直接属性加点，详见 [当前属性规则](ATTRIBUTES_CHARACTERS.md)。上述入门资料发布于 2024 年，不作为最新数值补丁规格。
 
 [Nintendo 对战规则入门](https://www.nintendo.com/en-gb/News/2024/December/Beginner-basics-for-Splatoon-3-the-ins-and-outs-of-playing-online-2645154.html)区分全图涂地战与争夺指定区域的占地模式。本批实现对应的两种本地规则；地图区域、80%/40% 门槛、罚分算法与时长是本地设计，不宣称逐项还原原作。
 
@@ -65,3 +65,7 @@ CPU 墨格是唯一归属和计分权威：
 规则测试覆盖实际弹丸／箭／射线、三类角色路径、满蓄和追击、墙／楼板／护盾、临时增伤与共享上限。新增测试覆盖配装随机范围、整局锁定、跨死亡冷却、区域反例、十九布局及 UI 输入。原生和实际导出证据见本批验收。
 
 机器人自动输入与受控截图可以证明规则可运行，不能替代真人平衡、审美或长期温度验收。preview.21 的长帧原因仍未完成诊断；本批不据此宣称性能问题已经解决。
+
+## preview.24 属性点与生存
+
+伤害、射速、护盾和单轮伤害封顶不变。未加点的均衡基线仍为 132 HP／110 墨量；生命 8 级最高为 155.76 HP，准确满蓄狙 150 因而不能一发击倒满血的生命专精角色，近距喷枪 34 也需要五次准确命中。这是分配生命点的实际回报，花掉的点数同时不能用于机动和效率；不是额外攻击加成。装备能力槽已移除，详见 [八属性与预算](ATTRIBUTES_CHARACTERS.md)。

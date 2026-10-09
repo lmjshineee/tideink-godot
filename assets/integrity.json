@@ -283,6 +283,22 @@
       "sha256": "02e3d21a9bd3b55e15a279f232fc13e3d751f38123871782be427226c47871b4",
       "bytes": 17425917
     },
+    "assets/characters/archetypes/dock_worker.glb": {
+      "sha256": "f0d939d0c0c17dd9da1c3583e275df3f59ca0369cddd33604b49dd1658912201",
+      "bytes": 4625564
+    },
+    "assets/characters/archetypes/fin_drifter.glb": {
+      "sha256": "4802777651b88ff3299b8751164f36f7ad22ef243bd5bdd0bbeebbbbd427b5e4",
+      "bytes": 4599924
+    },
+    "assets/characters/archetypes/reef_runner.glb": {
+      "sha256": "215b6e94aa76579b062c439e5020e0340214e0b4dbeb12ea201c6ed601049c6a",
+      "bytes": 4591024
+    },
+    "assets/characters/archetypes/spark_writer.glb": {
+      "sha256": "7aeb73ee463047a292555b948e32720a7973c71cb95b188f9b7868a65357aaa0",
+      "bytes": 4636740
+    },
     "assets/characters/kid_0.glb": {
       "sha256": "104333dff2e5c5b8d0461c6603392cdc09400a39d08799a455f8e07742e8cd64",
       "bytes": 4590708

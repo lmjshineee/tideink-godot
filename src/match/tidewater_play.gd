@@ -124,7 +124,7 @@ var appearance_rng := RandomNumberGenerator.new()
 var equipment_rng := RandomNumberGenerator.new()
 var mobility: Node
 var perks: RefCounted
-var gear: RefCounted
+var attributes: RefCounted
 var comeback: Node
 var wings: Node3D
 var damage_history: Array[Dictionary] = []
@@ -196,8 +196,8 @@ func _ready() -> void:
 	bot_health = player_health
 	_build_roster()
 	_assign_names()
-	gear = preload("res://src/abilities/tidewater_gear.gd").new()
-	gear.setup(self)
+	attributes = preload("res://src/abilities/tidewater_attributes.gd").new()
+	attributes.setup(self)
 	perks = preload("res://src/abilities/tidewater_perks.gd").new()
 	perks.call("setup",self)
 	player_health = actor_max_health($World/Walker)
@@ -254,9 +254,9 @@ func _input(event: InputEvent) -> void:
 		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 			settings_panel.call("close_panel")
 		return
-	if frontend != null and frontend.gear_editor.visible:
+	if frontend != null and frontend.attribute_editor.visible:
 		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-			frontend.gear_editor.close()
+			frontend.attribute_editor.close()
 			get_viewport().set_input_as_handled()
 		return
 	if phase == "home":
@@ -302,7 +302,7 @@ func _input(event: InputEvent) -> void:
 				_choose_player_weapon(String(weapon_order[slot]))
 		KEY_ENTER:
 			# A menu selection must reach the GUI before the match-start shortcut.
-			if phase=="setup" and frontend!=null and (frontend.popup_open() or get_viewport().gui_get_focus_owner() is OptionButton or get_viewport().gui_get_focus_owner() in [frontend.kit_mode,frontend.rule_choice,frontend.roll_button,frontend.gear_button]):return
+			if phase=="setup" and frontend!=null and (frontend.popup_open() or get_viewport().gui_get_focus_owner() is OptionButton or get_viewport().gui_get_focus_owner() in [frontend.kit_mode,frontend.rule_choice,frontend.roll_button,frontend.attribute_button,frontend.appearance_choice]):return
 			if phase == "setup":
 				_begin_intro()
 			elif phase == "results":
@@ -376,7 +376,7 @@ func _notification(what: int) -> void:
 
 
 func _begin_intro() -> void:
-	gear.prepare_bots()
+	attributes.prepare_bots()
 	perks.locked = true
 	phase = "intro"
 	phase_time = 0.0
@@ -389,7 +389,7 @@ func _begin_intro() -> void:
 
 func _start_round() -> void:
 	bot_deployment.clear_all()
-	gear.prepare_bots()
+	attributes.prepare_bots()
 	perks.locked = true
 	phase = "playing"
 	comeback.reset()
@@ -424,6 +424,7 @@ func _start_round() -> void:
 	$World/Walker.global_position = deployment.call("initial_position")
 	$World/Walker.visible = true
 	$Combat.call("select_weapon", selected_weapon)
+	$Combat.set("ink_amount",actor_ink_max($World/Walker))
 	_set_pointer_lock(true)
 	_update_hud()
 
@@ -755,7 +756,7 @@ func roll_setup_loadout() -> bool:
 	_choose_player_weapon(chosen[0])
 	perks.select_player(chosen[1])
 	MatchSetup.selected_item=chosen[2];items.equip($World/Walker,chosen[2])
-	gear.roll_player()
+	attributes.roll_player()
 	_update_hud()
 	return chosen!=previous
 
@@ -780,6 +781,13 @@ func show_home() -> void:
 	MatchSetup.screen = phase
 	_update_hud()
 
+
+func choose_appearance(index: int) -> void:
+	if phase not in ["home", "setup"] or perks.locked: return
+	MatchSetup.style_index = clampi(index, 0, 3)
+	MatchSetup.screen = phase
+	MatchSetup.pending_loadout = {"player":selected_weapon, "settings_path":settings_path}
+	get_tree().reload_current_scene()
 
 func randomize_appearance() -> void:
 	MatchSetup.random_appearance()
