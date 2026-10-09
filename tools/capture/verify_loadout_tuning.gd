@@ -62,10 +62,12 @@ func _run() -> void:
 		await click(game.frontend.item_buttons.ink_buddy)
 		expect(Setup.loadout_mode=="custom" and Setup.selected_item=="ink_buddy","actual independent sub click switches custom")
 		game.perks.select_player("balanced");game.frontend.sync()
-		expect(game.frontend.kit.text.contains("132") and game.frontend.kit.text.contains("110"),"native header shows actual baseline bonuses")
+		var expected_caps:String="生命 %.0f · 墨量 %.0f" % [game.actor_max_health(walker),game.actor_ink_max(walker)]
+		expect(game.frontend.kit.text.contains(expected_caps),"native header shows actual talent and rolled-attribute caps")
+		expect(preload("res://src/core/attribute_catalog.gd").spent(game.attributes.loadout(walker))==20,"complete native ROLL assigns twenty points")
 		for control in [game.frontend.kit_mode,game.frontend.rule_choice,game.frontend.roll_button]:
 			expect(Rect2(Vector2.ZERO,Vector2(pixels)).encloses(Rect2(control.get_global_transform_with_canvas()*Vector2.ZERO,control.get_global_transform_with_canvas()*control.size-control.get_global_transform_with_canvas()*Vector2.ZERO)),"native new control fits viewport")
-		report.cases.append({"size":[pixels.x,pixels.y],"mode":Setup.loadout_mode,"main":game.selected_weapon,"sub":Setup.selected_item,"perk":Setup.selected_perk,"header":game.frontend.kit.text})
+		report.cases.append({"size":[pixels.x,pixels.y],"mode":Setup.loadout_mode,"main":game.selected_weapon,"sub":Setup.selected_item,"perk":Setup.selected_perk,"attributes":game.attributes.loadout(walker),"expected_caps":expected_caps,"header":game.frontend.kit.text})
 		var away:=InputEventMouseMotion.new();away.position=Vector2(20,20);root.push_input(away,true);await create_timer(.2).timeout
 		await snap("loadout-%d"%pixels.x)
 	root.size=Vector2i(1280,720);root.content_scale_size=root.size;game.settings.ui_scale=1;await frames(10);game._layout_hud()
