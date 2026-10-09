@@ -1,0 +1,787 @@
+{
+	"cases": [
+		{
+			"case": "surface ownership/visual/scoring",
+			"counts": [
+				0,
+				256
+			],
+			"sample_count": 61,
+			"samples": [
+				{
+					"block": 0,
+					"cell": 337,
+					"face": 2,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 1,
+					"cell": 0,
+					"face": 7,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 2,
+					"cell": 0,
+					"face": 12,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 3,
+					"cell": 32,
+					"face": 16,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 4,
+					"cell": 0,
+					"face": 20,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 5,
+					"cell": 0,
+					"face": 25,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 6,
+					"cell": 0,
+					"face": 29,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 7,
+					"cell": 0,
+					"face": 33,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 8,
+					"cell": 0,
+					"face": 38,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 9,
+					"cell": 0,
+					"face": 42,
+					"normal": [
+						-0.299827,
+						0.953994,
+						0.0
+					]
+				},
+				{
+					"block": 10,
+					"cell": 2,
+					"face": 46,
+					"normal": [
+						0.299827,
+						0.953994,
+						0.0
+					]
+				},
+				{
+					"block": 11,
+					"cell": 0,
+					"face": 50,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 12,
+					"cell": 0,
+					"face": 55,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 13,
+					"cell": 0,
+					"face": 60,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 14,
+					"cell": 0,
+					"face": 65,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 15,
+					"cell": 0,
+					"face": 71,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 16,
+					"cell": 0,
+					"face": 76,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 17,
+					"cell": 0,
+					"face": 81,
+					"normal": [
+						0.0,
+						0.973185,
+						0.230025
+					]
+				},
+				{
+					"block": 18,
+					"cell": 0,
+					"face": 85,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 19,
+					"cell": 3,
+					"face": 89,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 20,
+					"cell": 0,
+					"face": 93,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 21,
+					"cell": 0,
+					"face": 98,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 22,
+					"cell": 0,
+					"face": 104,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 23,
+					"cell": 0,
+					"face": 109,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 24,
+					"cell": 0,
+					"face": 114,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 25,
+					"cell": 0,
+					"face": 119,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 26,
+					"cell": 32,
+					"face": 124,
+					"normal": [
+						0.0,
+						0.960195,
+						-0.27933
+					]
+				},
+				{
+					"block": 27,
+					"cell": 0,
+					"face": 128,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 28,
+					"cell": 28,
+					"face": 133,
+					"normal": [
+						0.0,
+						0.928477,
+						-0.371391
+					]
+				},
+				{
+					"block": 30,
+					"cell": 0,
+					"face": 140,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 31,
+					"cell": 0,
+					"face": 145,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 32,
+					"cell": 0,
+					"face": 149,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 33,
+					"cell": 2,
+					"face": 153,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 34,
+					"cell": 34,
+					"face": 157,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 35,
+					"cell": 0,
+					"face": 162,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 36,
+					"cell": 0,
+					"face": 166,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 37,
+					"cell": 0,
+					"face": 170,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 38,
+					"cell": 11,
+					"face": 175,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 39,
+					"cell": 2,
+					"face": 179,
+					"normal": [
+						0.299827,
+						0.953994,
+						0.0
+					]
+				},
+				{
+					"block": 40,
+					"cell": 0,
+					"face": 183,
+					"normal": [
+						-0.299827,
+						0.953994,
+						0.0
+					]
+				},
+				{
+					"block": 41,
+					"cell": 0,
+					"face": 187,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 42,
+					"cell": 0,
+					"face": 192,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 43,
+					"cell": 0,
+					"face": 197,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 44,
+					"cell": 0,
+					"face": 202,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 45,
+					"cell": 0,
+					"face": 208,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 46,
+					"cell": 0,
+					"face": 213,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 47,
+					"cell": 14,
+					"face": 218,
+					"normal": [
+						0.0,
+						0.973185,
+						-0.230025
+					]
+				},
+				{
+					"block": 48,
+					"cell": 0,
+					"face": 222,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 49,
+					"cell": 0,
+					"face": 226,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 50,
+					"cell": 3,
+					"face": 230,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 51,
+					"cell": 0,
+					"face": 235,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 52,
+					"cell": 0,
+					"face": 241,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 53,
+					"cell": 0,
+					"face": 246,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 54,
+					"cell": 0,
+					"face": 251,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 55,
+					"cell": 0,
+					"face": 256,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 56,
+					"cell": 0,
+					"face": 261,
+					"normal": [
+						0.0,
+						0.960195,
+						0.27933
+					]
+				},
+				{
+					"block": 57,
+					"cell": 0,
+					"face": 265,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 58,
+					"cell": 0,
+					"face": 270,
+					"normal": [
+						0.0,
+						0.928477,
+						0.371391
+					]
+				},
+				{
+					"block": 60,
+					"cell": 0,
+					"face": 277,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 61,
+					"cell": 0,
+					"face": 282,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				},
+				{
+					"block": 62,
+					"cell": 0,
+					"face": 286,
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					]
+				}
+			],
+			"turf_cells": 69366,
+			"upper_deck_leaves_lower_floor_unchanged": true,
+			"wall_score_unchanged": true
+		},
+		{
+			"case": "downhill",
+			"end": [
+				2.20000004768372,
+				0.874139487743378,
+				-9.81465148925781
+			],
+			"floor_owner": 0,
+			"frames": 29,
+			"height_delta_m": -1.37586146593094,
+			"ink": 88.6995358943939,
+			"input": "W + left mouse",
+			"start": [
+				2.20000004768372,
+				2.25000095367432,
+				-6.375
+			],
+			"travel_xz_m": 3.43965148925781
+		},
+		{
+			"case": "uphill",
+			"end": [
+				-2.20000004768372,
+				1.92586207389832,
+				7.18534708023071
+			],
+			"floor_owner": 0,
+			"frames": 29,
+			"height_delta_m": 1.37586200237274,
+			"ink": 88.6995348453522,
+			"input": "W + left mouse",
+			"start": [
+				-2.20000004768372,
+				0.550000071525574,
+				10.625
+			],
+			"travel_xz_m": 3.43965291976929
+		},
+		{
+			"case": "dive/refill/swim",
+			"fixture_ink_start": 35,
+			"ink_gain_after_30_ticks": 42.0,
+			"input": "Shift then S",
+			"squid": true,
+			"travel_m": 2.00654363632202
+		},
+		{
+			"case": "dry/enemy dive rejection",
+			"enemy_floor_owner": 1,
+			"input": "Shift",
+			"squid": false
+		},
+		{
+			"case": "wall climb/ledge",
+			"end": [
+				4.08073997497559,
+				2.79999995231628,
+				-0.0131137343123555
+			],
+			"grounded": true,
+			"input": "Shift + W then release",
+			"peak_y": 3.31184482574463,
+			"start": [
+				5.5,
+				0.0,
+				0.0
+			]
+		}
+	],
+	"environment": {
+		"adapter": "Apple M5 (Apple9)",
+		"api": "4.0",
+		"arm64": true,
+		"display": "macOS",
+		"engine": "4.8-dev6 (official)",
+		"fps_cap": 30,
+		"physics_hz": 30,
+		"render_scale": 1.0,
+		"team_size": 5,
+		"window": [
+			1280,
+			720
+		]
+	},
+	"failures": [],
+	"focus_resumes": 0,
+	"kind": "controlled native Tidewater ink and traversal acceptance",
+	"limits": "Fixed placement, frozen bots and manually advanced production match ticks. Input uses keyboard/mouse events and real walker physics. Not human feel, natural match, all-grid visibility, temperature or export evidence.",
+	"source_sha256": {
+		"res://assets/integrity.json": "915aeef353a9b55bc1f40c42f655c0682c95c5fca8772aff1090d1f08daae107",
+		"res://assets/maps/tidewater.json": "2770aa1049f1acd8428e6b7b357448ecf2b44b0631d2e9ec513391e600663bd9",
+		"res://assets/maps/tidewater_surfaces.json": "715604cc67e9aebc755fea9b6c49458c8fc067b178965c1a5d6267d1c0c227c3",
+		"res://project.godot": "3a210bca6908e9bc7af3f72c4d561fb071e59b0baa3de5bf70a5f3f1d147654f",
+		"res://shaders/world/surface_ink.gdshader": "8937c06f2c30fb01ea381b7144aeb838a5ccaa2512cf57834662515eaed1033e",
+		"res://src/abilities/tidewater_bot_deployment.gd": "c590f2993e2d14d7042369562e8fd78053a306b0e6cc4f3a272235c9f8f5abeb",
+		"res://src/abilities/tidewater_buddies.gd": "6ef0a746552a04d3f66df807e634339c4c131432ab9dcdb85ae0c1e8bd3663fd",
+		"res://src/abilities/tidewater_comeback.gd": "9b9fc14c331f48847df125eb94adf2d7df7885240d4c39ddef4baba6f55a251f",
+		"res://src/abilities/tidewater_decoys.gd": "3671e81bf1421b05db27dfa812d4fe97c81d632e4e8aa698ec0cf219e6444cb6",
+		"res://src/abilities/tidewater_deployment.gd": "8a4893bb776d4c7f10aaa76be1c74fc558f02120b9cc14e942987201fc4ea354",
+		"res://src/abilities/tidewater_intel.gd": "c1ae57f44f8edeef1db865fbc0db4ddfe9bcc315b33052cf9fd3601ac7a0d4bc",
+		"res://src/abilities/tidewater_items.gd": "7207ba0c39916e016ffa689c6454c0647ceb16ef6901970e674c1e6a3b80bda8",
+		"res://src/abilities/tidewater_mines.gd": "31fd22f5506c0639f14568322885ac122caddaecf0bb7f66e981174125e87de1",
+		"res://src/abilities/tidewater_mist.gd": "e71fe5a3e5d02f59dbdcb3cb681b7fc8164909b398fde821030991e778b6484f",
+		"res://src/abilities/tidewater_mobility.gd": "b99be669783d2c9792c20cc7667c801608159f24e5c26ee2915603eab2a76bca",
+		"res://src/abilities/tidewater_perks.gd": "0bfff2d8798755e69a54911e0eb5137e5af4f716c5a3c6279f6e8edc99f50973",
+		"res://src/abilities/tidewater_recall.gd": "a3cac5accfbc26121c97b88095e3cb3a8d33f8a5b56fe06f63b81fe4ad6cb2ff",
+		"res://src/abilities/tidewater_sonar.gd": "65c3d97ff60626bbbf15a5e8932e60db70ae9b7d0881e2a71275f92400f0c4a8",
+		"res://src/abilities/tidewater_supply.gd": "73babc7bd2354e0e9f33127b5ffda0d6c6f915c81afbd6440b501e2957a5d8f3",
+		"res://src/abilities/tidewater_wings.gd": "7fa402f7b26bf8a13df17043b83a3941578791d54beb1728750033dcc71679c7",
+		"res://src/actors/tidewater_bot.gd": "32ce17b78c16ac592abde78663a67de42a4d532c1ee84ec1944fcd6b19ab423d",
+		"res://src/actors/tidewater_character_visual.gd": "bdbea5dd3e648c5a8d9f77f6308d083acdd4eba6a94fc4c888d670cbf9745c29",
+		"res://src/actors/tidewater_walker.gd": "a574954aec365deae14f4407e6a9fddeb0acbbe6e69be142b0888cd82d08023c",
+		"res://src/combat/ink_disc_mesh.gd": "c14cfb0d0db7cd90809a3cd8c82a39d5bf5ede93d45272e8028625c1baf7c44a",
+		"res://src/combat/ink_equipment_mesh.gd": "ea0257cd78cf3330dd22d7706213eb6467f14c09ea262f72d40e18c8a29f44dd",
+		"res://src/combat/tidewater_bot_specials.gd": "8fcba544e0af52b4430435ed4f41c0620270e713bb55e13288ccd6eb445f45b2",
+		"res://src/combat/tidewater_bow.gd": "5f142ebf3af41a3d26c1709d0d1549e397ddee21b4e8c73dc1d9d03c67c87d20",
+		"res://src/combat/tidewater_canopy.gd": "a375f321f1bcbfe495424f9f2c8eb6440d399c581ecda56288a04734e7a4bc32",
+		"res://src/combat/tidewater_combat.gd": "6e56a9a9322a67bfea6db1ab397fda5d5ae2bf839b89641dab17a75a4a0404b7",
+		"res://src/combat/tidewater_counter.gd": "2c2555d073939e4b3f43d9e74973ae18f01ef19adf7ee37a0fc7aa781ae1497b",
+		"res://src/combat/tidewater_discs.gd": "916aa4e7d188c08a1cc8a3921e5abaa0322f6ab9ab058d4cac136a611fcf2492",
+		"res://src/combat/tidewater_rain_arrows.gd": "25a83de5e5104edf28a3f9403ace78bfcf4c017abe7d87b79f0e786a511dcb2a",
+		"res://src/combat/tidewater_weapon_specials.gd": "aabdaf66aba6072b335d53d116314e7ebca5aced241be065ba70ae5e243ed263",
+		"res://src/core/bot_difficulty.gd": "c1db58880e33f343c67434707e5d80b87451130323ee64f65467803f7a2aea08",
+		"res://src/core/equipment_catalog.gd": "8c28252e48f7d41af40ed2a23a4529931d5241061eae0391977f396bd4ef6387",
+		"res://src/core/gameplay_rules.gd": "2f7d6fe00685969480b465251ef0e1df94cb750d99cdff9ade656260c1f1261b",
+		"res://src/core/map_catalog.gd": "16dd892ee7b3d92f398d48630c7f5dfe55829e35be896040eecd56c67ba912c7",
+		"res://src/core/match_setup.gd": "724f29472c5d8445293614a20cf75287007e7face7cebdec49d7424924a35c1a",
+		"res://src/core/team_palette.gd": "49b110acd9c71b7b4d48a01586ec174d104ac9fbd94a45eab4ce11217955ba33",
+		"res://src/core/weapon_profile.gd": "64b44bd1fc66b9e2a66498436917dfbef46c584584429467fce5a42ca6b30b8e",
+		"res://src/legacy/main.gd": "b37556ff4f2fb6f4e49289af6ba30c8ddfd4fd7e6a7eb4b892f0ccb7e3dad232",
+		"res://src/match/tidewater_play.gd": "cf6cee303fe6bec082668919e45ac7ecdea53a2da149f6dd3a089629f60d8b3e",
+		"res://src/presentation/ink_buddy_visual.gd": "aeb30d4a813c7008de310d76c905b357806c7c578913e440c8df714cbceb6a34",
+		"res://src/presentation/tidewater_audio.gd": "2418a29a463bd4f47e780360f7888bfddb1e90c8d398de59bb4e094fbe9191be",
+		"res://src/presentation/tidewater_cinematic.gd": "736bc7035da99e418fcc338bec08a8d6595651a75590408c89c7746084df5056",
+		"res://src/presentation/tidewater_feedback_fx.gd": "a86053c8bcfaaa4b454691eafa628732fc38192222b1cca4541cc13a6ccae5ba",
+		"res://src/presentation/tidewater_item_preview.gd": "12a21dc9a824e10819f78e991c1a977c66949e754c1ad024b600b1f2c568dfdc",
+		"res://src/ui/incoming_attack.gd": "85f21fddfafaf98a6d427b2bbbd4f5410a392a8340ea6342a320eba3bfd409de",
+		"res://src/ui/loadout_details.gd": "128b0a69df3ad319a8635017e44699c1e70af3f02dcb80d5d301d1956fa10d2b",
+		"res://src/ui/loadout_icons.gd": "c92c73de2505a9054b3cc83d17d634be2febcf2845a0726e9f3a97127d97f393",
+		"res://src/ui/loadout_strip.gd": "933436d762676fc7f0a832c17d243adf761c412db845a6322d7eea2cf8b26ccd",
+		"res://src/ui/menu_character_preview.gd": "af908c4f80bc9cb4925654235638d280159aedec69315c4dc1d49d60cbbc5db2",
+		"res://src/ui/menu_stage_preview.gd": "a153419b0ab4e42fd037c2a5047418bada26c8b748795ac117f5d988a80203fe",
+		"res://src/ui/tidewater_frontend.gd": "8bef3e3b76303599ca7ac4e5ceaa8ce7f9e68d3447fba8f23d736819286bb0c1",
+		"res://src/ui/tidewater_hud.gd": "f1e1629d3a931a3572bb39bdeab0ec497eba76706c010934aa92a6497640a1d1",
+		"res://src/ui/tidewater_hud_layout.gd": "ac257c721306585cf2aa63f3a823ae545a600cd6bcfafad9e976e629a00e2fd8",
+		"res://src/ui/tidewater_jump_selector.gd": "83150afeb22f8b687fcf5954fec387dc292151b20cdcf5a5ca1a8b150d12fb18",
+		"res://src/ui/tidewater_presentation.gd": "41e1b2db145f1cf577fd1b87cf14ebd58e95b34888c1bacb1d765ca407d890f5",
+		"res://src/ui/tidewater_settings.gd": "ecf9edc2e435298582e5f4c4a94a6511fec97c1145e08cfdfb904e74b79d2681",
+		"res://src/ui/tidewater_settings_panel.gd": "e2a81463221cfb9f3bc5562aca47ed3718455ccd1bf28fbf7babf5cbfd0a63e8",
+		"res://src/ui/tidewater_tactics.gd": "fa97042eebb738cfc0672d5c790d69d97d04830f17933a0d365ada28b6666d45",
+		"res://src/ui/turf_minimap.gd": "9d96383e5eaa231a0536b770098944c37625810f6fa7bd58f6f543e0d58646cf",
+		"res://src/ui/ui_fonts.gd": "949e6cb2c7b96cddc4b27545424479e289a0b665dce06c7e8678dba294a03e5e",
+		"res://src/world/paint_field.gd": "6dcaa6ce7bcac14904563a9ee60a1409995a8904dc868398cf8287bed51f8228",
+		"res://src/world/surface_ink.gd": "cbc770c6fa86ca9b1f51cba6dd993c4e9adb9ed19c4deb0759f7a6a76ae7e400",
+		"res://src/world/surface_ink_view.gd": "1453d616ff12fad2ba2541e33a5e2cdb4ca59c3f13664daea462073bbc247c3b",
+		"res://src/world/team_navigation.gd": "ad7d889e6038206a6cbe04be9b83871bfe24bf8ee744d5e640bc0bc06e85973c",
+		"res://src/world/tidewater_map.gd": "b2c4e6a20467e835b66c04feed2a7828b6cd373d052f9549df4eba2e849137e3",
+		"res://src/world/tidewater_scenery.gd": "adf56b0210525428df3a643e53b881f3ce8d1a3807af8d1210fc99811bbdafad",
+		"res://tools/capture/verify_tidewater_ink_loop.gd": "1859c4959c0cb1139391e19d74aa492a3016d070e3af349b6a75264e515813fd"
+	},
+	"status": "passed"
+}

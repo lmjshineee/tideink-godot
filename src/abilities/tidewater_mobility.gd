@@ -34,7 +34,7 @@ func request(actor: Node3D, direction: Vector3) -> bool:
 		return false
 	if local and (not actor.grounded or actor.squid_form or game.deployment.active or combat.special_active != "" or combat.action_lock > 0):
 		return false
-	if not local and (game.bot_deployment.busy(actor) or game.bot_specials.busy(actor) or bool(actor.get_meta("enemy_swimming", false)) or (actor.team_mover != null and not actor.team_mover.is_on_floor()) or float(actor.get_meta("action_lock", 0)) > 0):
+	if not local and (game.bot_deployment.busy(actor) or game.bot_specials.busy(actor) or game.perks.bot_swimming(actor) or (actor.team_mover != null and not actor.team_mover.is_on_floor()) or float(actor.get_meta("action_lock", 0)) > 0):
 		return false
 	var s := state(actor)
 	if float(s.time) > 0 or (int(s.count) >= 2 and float(s.chain) > 0):

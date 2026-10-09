@@ -28,7 +28,7 @@ func fire(actor: Node3D, target: Vector3, charge: float) -> bool:
 	var airborne: bool = not bool(combat.walker.grounded) if actor==combat.walker else not actor.team_mover.is_on_floor()
 	var basis: Array = combat._perpendicular_basis(direction)
 	var fan: Vector3 = basis[1] if airborne else basis[0]
-	var budget := {"hits":{},"blasts":{},"final_hits":{},"max":110.0}
+	var budget := {"hits":{},"blasts":{},"final_hits":{},"max":float(weapon.volleyDamageCap),"final_max":float(weapon.finalDamageCap)}
 	# Half draw spreads explosive traps; full draw actually converges all three
 	# arrows within a body-width target at the advertised range.
 	var spread:=lerpf(.105,.07,charge*2) if charge<.5 else lerpf(.07,.008,(charge-.5)*2)
@@ -124,7 +124,7 @@ func _damage(arrow: Dictionary, victim: Node3D, amount: float, blast: bool, at: 
 	if not budget.has("final_hits"):budget.final_hits={}
 	var final_spent:=float(budget.final_hits.get(key,0))
 	var multiplier:float=game.perks.outgoing(arrow.owner)*game.perks.incoming(victim,"bow")
-	amount=minf(amount,maxf(0,115.0-final_spent)/maxf(.001,multiplier))
+	amount=minf(amount,maxf(0,float(budget.get("final_max",arrow.weapon.finalDamageCap))-final_spent)/maxf(.001,multiplier))
 	budget.final_hits[key]=final_spent+float(game._modified_damage(amount,victim,arrow.owner,"bow"))
 	budget.hits[key] = spent+amount
 	if amount>0:

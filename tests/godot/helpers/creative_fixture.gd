@@ -73,7 +73,9 @@ func mouse(down: bool) -> void:
 	Input.flush_buffered_events()
 
 func finish(label: String) -> void:
-	await create_timer(.1).timeout
+	game.set_process(false)
+	game.set_physics_process(false)
+	await create_timer(.2).timeout
 	for voice in game.sound.get_children():
 		if voice.has_method("stop"):
 			voice.stop()
@@ -81,5 +83,7 @@ func finish(label: String) -> void:
 	await create_timer(.1).timeout
 	game.queue_free()
 	await process_frame
+	# Audio playback references retire after the scene has left the tree.
+	await create_timer(.1).timeout
 	if failures.is_empty(): print("PASS: ", label)
 	quit(0 if failures.is_empty() else 1)

@@ -1061,11 +1061,12 @@ func damage_summary() -> String:
 
 func _modified_damage(amount: float,victim: Node3D,source: Node3D,weapon: String) -> float:
 	var result: float = amount*float(perks.outgoing(source))
-	# Precision and low-health boosts cannot silently turn a normal shot into a full-HP one-shot.
-	if $Combat.weapons.has(weapon): result=minf(result,115.0)
+	# Each primary's ceiling preserves its role; slow direct attacks can splat.
+	var cap := float($Combat.weapons[weapon].get("finalDamageCap",115.0)) if $Combat.weapons.has(weapon) else INF
+	result=minf(result,cap)
 	result *= perks.incoming(victim,weapon)
 	# Defender vulnerability must also respect that final damage ceiling.
-	return minf(result,115.0) if $Combat.weapons.has(weapon) else result
+	return minf(result,cap)
 
 # UI entry points retained for input handlers, views and verification tools.
 func _build_hud() -> void:

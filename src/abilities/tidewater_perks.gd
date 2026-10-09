@@ -136,10 +136,16 @@ func ink_hazard(actor: Node3D) -> float:
 func ink_hazard_cap(actor: Node3D, base: float) -> float:
 	return base*0.5 if kind(actor) == "enemy_swim" else base
 
-func bot_form(actor: Node3D, fighting: bool) -> void:
+func bot_swimming(actor: Node3D) -> bool:
+	return bool(actor.get_meta("enemy_swimming",false)) or bool(actor.get_meta("friendly_swimming",false))
+
+func bot_form(actor: Node3D, fighting: bool, refill: bool = false) -> void:
 	var swimming: bool = not game.wings.busy(actor) and kind(actor) == "enemy_swim" and not fighting and not game.bot_specials.busy(actor) and actor.floor_ink_owner() == 1 - game.actor_team(actor)
 	if actor.team_mover != null and not actor.team_mover.is_on_floor(): swimming = false
 	actor.set_meta("enemy_swimming", swimming)
+	var friendly: bool = refill and not game.wings.busy(actor) and not game.mobility.busy(actor) and not game.bot_deployment.busy(actor) and not game.bot_specials.busy(actor) and actor.team_mover != null and actor.team_mover.is_on_floor() and actor.floor_ink_owner() == game.actor_team(actor)
+	actor.set_meta("friendly_swimming",friendly)
+	swimming = swimming or friendly
 	actor.get_node("Body").set_form(swimming)
 	if actor.team_mover != null:
 		var shape: CollisionShape3D = actor.team_mover.get_child(0)

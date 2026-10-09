@@ -112,7 +112,7 @@ func _begin(actor: Node3D, key: String) -> void:
 	actor.team_mover.velocity = Vector3.ZERO
 	actor.charge_time = 0.0
 	actor.clear_attack_visual()
-	actor.set_meta("enemy_swimming",false)
+	game.perks.bot_form(actor,true)
 	actor.get_node("Body").set_form(true)
 	var marker := MeshInstance3D.new()
 	var ring := TorusMesh.new()

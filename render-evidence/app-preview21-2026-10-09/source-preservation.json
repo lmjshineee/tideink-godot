@@ -1,0 +1,30 @@
+{
+  "baseline_head": "ec46144e4d58b0e69a7d9bb295845fff0112b3ae",
+  "changed_from_turn_start": [
+    "src/ui/loadout_details.gd",
+    "src/core/equipment_catalog.gd",
+    "src/combat/tidewater_bow.gd",
+    "tests/godot/check_bow_precision.gd",
+    "tests/godot/check_creative_bow.gd",
+    "tools/README.md",
+    "tools/capture/verify_primary_combat.gd",
+    "tools/release/verify_app.py",
+    "docs/GAMEPLAY.md",
+    "docs/CREATIVE_LOADOUTS.md",
+    "docs/EXPERIENCE_TUNING.md",
+    "docs/COMBAT_BALANCE.md",
+    "project.godot",
+    "export_presets.cfg"
+  ],
+  "production_changed": [
+    "src/ui/loadout_details.gd",
+    "src/core/equipment_catalog.gd",
+    "src/combat/tidewater_bow.gd",
+    "project.godot",
+    "export_presets.cfg"
+  ],
+  "baseline_asset_files_preserved": 432,
+  "baseline_uid_files_preserved": 249,
+  "cached_template_sha256": "daf43479c6c792c06d47e22e59bdbac39170d27b6bc5e739871d17601ba2fce7",
+  "current_uid_count": 275
+}

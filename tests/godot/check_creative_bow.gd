@@ -28,7 +28,7 @@ func _run() -> void:
 		expect(combat.bow.arrows.size()==3 and is_equal_approx(combat.ink_amount,94),"full bow costs 6 on release")
 		for i in 45: combat.bow.tick(1.0/30)
 		print("AUDIT: bow crosshair height=",height," remainingHP=",game.bot_health)
-		expect(game.bot_health<120 and game.bot_health>=12,"actual bow hits crosshair at "+str(height)+" without full-HP one shot")
+		expect(game.bot_health==0 and game.bot_respawn>0,"actual bow hits crosshair at "+str(height)+" with a full-draw splat")
 	reset_target(Vector3(0,40,8))
 	combat.bow.fire(walker,bot.global_position+Vector3.UP,0)
 	expect(is_equal_approx(combat.ink_amount,97.5),"tap costs 2.5")
@@ -64,7 +64,7 @@ func _run() -> void:
 	reset_target(Vector3(0,39.5,6))
 	var first:=preload("res://src/combat/ink_equipment_mesh.gd").bolt(0)
 	combat.bow.add_child(first)
-	var arrow:Dictionary={"visual":first,"at":Vector3(0,40.84,6),"owner":walker,"team":0,"origin":walker.global_position,"weapon":combat.weapons.bow,"budget":{"hits":{},"blasts":{},"max":110}}
+	var arrow:Dictionary={"visual":first,"at":Vector3(0,40.84,6),"owner":walker,"team":0,"origin":walker.global_position,"weapon":combat.weapons.bow,"budget":{"hits":{},"blasts":{},"max":130}}
 	combat.bow._explode(arrow)
 	expect(game.bot_health==120,"explosion cannot cross a deck despite overlapping radius")
 	first.queue_free();deck.queue_free()
@@ -74,10 +74,11 @@ func _run() -> void:
 	game.player_health=50
 	combat.bow.fire(walker,bot.global_position+Vector3.UP,1)
 	for i in 30: combat.bow.tick(1.0/30)
-	expect(game.bot_health>0,"adrenaline three-arrow attack leaves reaction HP")
+	expect(game.bot_health==0 and game.bot_respawn>0,"adrenaline full three-arrow hit remains lethal")
 	game.perks.choices[walker.get_instance_id()]="balanced"
 	combat.ink_amount=2
 	expect(not combat.bow.fire(walker,bot.global_position,0),"dry tank cannot release")
+	reset_target(Vector3(0,40,6))
 	bot.select_weapon("bow")
 	bot.global_position=Vector3(0,40,6)
 	bot.ink_amount=100

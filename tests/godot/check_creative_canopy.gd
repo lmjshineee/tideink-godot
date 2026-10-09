@@ -24,15 +24,13 @@ func _run() -> void:
 	expect(is_equal_approx(before-combat.ink_amount,.18) and combat.is_busy(),"holding drains ink and prevents passive refill/dive")
 	game.player_health=120
 	combat.fire_bot_charger(bot.global_position+Vector3.UP,walker.global_position+Vector3.UP,1,1,bot)
-	expect(game.player_health==120 and is_equal_approx(s.hp,120),"enemy full charge hits cover rather than owner")
-	# A teammate behind the cover can shoot forwards through it.
+	expect(game.player_health==120 and is_equal_approx(s.hp,70),"enemy full charge hits cover rather than owner")
+	# A teammate behind the cover can shoot forwards through it. Use a partial shot so the target stays alive for subsequent cover tests.
 	game.bot_health=120;bot.health=120
-	combat._fire_charger_ray(combat.weapons.charger,1,walker.global_position+Vector3.UP,Vector3(0,0,1),0,walker)
-	expect(game.bot_health<120 and is_equal_approx(s.hp,120),"friendly ray passes cover without damaging it")
+	combat._fire_charger_ray(combat.weapons.charger,.98,walker.global_position+Vector3.UP,Vector3(0,0,1),0,walker)
+	expect(game.bot_health<120 and is_equal_approx(s.hp,70),"friendly ray passes cover without damaging it")
 	combat.fire_bot_charger(bot.global_position+Vector3.UP,walker.global_position+Vector3.UP,1,1,bot)
-	expect(s.cover!=null and s.hp==20,"two full charges leave twenty cover HP")
-	combat.fire_bot_charger(bot.global_position+Vector3.UP,walker.global_position+Vector3.UP,1,1,bot)
-	expect(s.cover==null and s.cooldown==4.5 and game.player_health==120,"third hit breaks cover and begins cooldown; breaking shot stays blocked")
+	expect(s.cover==null and s.cooldown==4.5 and game.player_health==120,"second 150-damage hit breaks 220-HP cover and begins cooldown; breaking shot stays blocked")
 	canopy.cancel(walker)
 	game.randomize_player_kit()
 	combat.select_weapon("canopy")
@@ -42,8 +40,8 @@ func _run() -> void:
 	await physics_frame
 	expect(canopy.holding(walker),"cover returns after cooldown")
 	# A side attack bypasses the finite panel.
-	combat.fire_bot_charger(walker.global_position+Vector3(5,1,0),walker.global_position+Vector3.UP,1,1,bot)
-	expect(game.player_health<120 and s.hp==220,"side ray hits exposed actor rather than an omnidirectional shield")
+	combat.fire_bot_charger(walker.global_position+Vector3(5,1,0),walker.global_position+Vector3.UP,.98,1,bot)
+	expect(game.player_health<120 and game.player_respawn==0 and s.hp==220,"side ray hits exposed actor rather than an omnidirectional shield")
 	game.player_health=120
 	var start:Vector3=s.cover.global_position
 	var ink_before:float=combat.ink_amount

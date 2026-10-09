@@ -18,7 +18,9 @@ CASES = ('check_tidewater_turf_points', 'check_gameplay_deployment', 'check_expa
          'check_weapon_specials', 'check_combat_readability', 'check_ink_hazard_feedback',
          'check_bot_patrol_commitment', 'check_bot_route_clearance',
          'check_bot_map_platforms', 'check_team_navigation_motion', 'check_map_routes26',
-         'check_bot_beacon_placement', 'check_ink_buddy_combat', 'check_ink_buddy_lifecycle', 'check_item_previews')
+         'check_bot_beacon_placement', 'check_ink_buddy_combat', 'check_ink_buddy_lifecycle', 'check_item_previews',
+         'check_damage_contract', 'check_damage_regions', 'check_bot_ink_refill',
+         'check_roller_surface_contact', 'check_extended_damage')
 
 
 def main():
@@ -42,12 +44,19 @@ def main():
     with tempfile.TemporaryDirectory(prefix='tideink-pck-') as temp:
         fixture = Path(temp)
         shutil.copy2(project / 'tests/godot/helpers/creative_fixture.gd', fixture / 'creative_fixture.gd')
+        def external_test(text):
+            return text.replace('res://tests/godot/helpers/creative_fixture.gd',
+                                str(fixture / 'creative_fixture.gd')).replace(
+                                    'res://tests/godot/check_damage_contract.gd',
+                                    str(fixture / 'check_damage_contract.gd'))
+        # A test inherited by the extension and native probe is also external.
+        parent = project / 'tests/godot/check_damage_contract.gd'
+        (fixture / parent.name).write_text(external_test(parent.read_text()))
         common = [args.godot, '--main-pack', str(app / receipt['pck'])]
         for name in CASES:
             source = project / 'tests/godot' / (name + '.gd')
             script = fixture / source.name
-            script.write_text(source.read_text().replace('res://tests/godot/helpers/creative_fixture.gd',
-                                                       str(fixture / 'creative_fixture.gd')))
+            script.write_text(external_test(source.read_text()))
             run(common + ['--headless', '--script', str(script), '--log-file', str(output / (name + '.engine.txt'))],
                 fixture, output / (name + '.txt'))
             report['cases'].append({'name': name, 'source_sha256': sha(source), 'external_sha256': sha(script), 'status': 'passed'})
@@ -76,6 +85,23 @@ def main():
                       '--output=' + str(output / 'buddy-native')], fixture, output / 'buddy-native.txt')
         report['buddy_native'] = {'status': 'passed', 'source_sha256': sha(buddy_source),
                                   'external_sha256': sha(buddy), 'pck_sha256': receipt['pck_sha256']}
+        primary_source = project / 'tools/capture/verify_primary_combat.gd'
+        primary = fixture / 'primary_native.gd'
+        external = external_test(primary_source.read_text())
+        begin = external.index('\tvar paths: Array[String] = ')
+        end = external.index('\tawait super._run()', begin)
+        external = external[:begin] + (
+            '\tnative_report.verification="explicit exported PCK; receipt supplies pack identity"\n'
+            '\tif ProjectSettings.get_setting("application/config/version") != '
+            + json.dumps(receipt['identity']['version']) + ':\n'
+            '\t\tprinterr("FAIL: wrong exported version");quit(1);return\n'
+        ) + external[end:]
+        primary.write_text(external)
+        run(common + ['--rendering-driver', 'metal', '--script', str(primary),
+                      '--log-file', str(output / 'primary-native.engine.txt'), '--',
+                      '--output=' + str(output / 'primary-native')], fixture, output / 'primary-native.txt')
+        report['primary_native'] = {'status': 'passed', 'source_sha256': sha(primary_source),
+                                    'external_sha256': sha(primary), 'pck_sha256': receipt['pck_sha256']}
         smoke = output / 'app-startup.txt'
         with smoke.open('w') as log:
             result = subprocess.run([str(app / receipt['executable']), '--headless', '--quit-after', '4',

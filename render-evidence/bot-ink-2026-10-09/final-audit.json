@@ -1,0 +1,25 @@
+{
+  "checked_on": "2026-10-09",
+  "hash_comparisons": {
+    "full-check-source-sha256.json": {
+      "files": 65,
+      "mismatches": []
+    },
+    "native/bot-ink.json": {
+      "files": 69,
+      "mismatches": []
+    },
+    "match/match.json": {
+      "files": 69,
+      "mismatches": []
+    }
+  },
+  "asset_changes": [],
+  "existing_uids_changed": [],
+  "prior_tests_capture_preserved": {
+    "tests/godot/check_tidewater_bot.gd": true,
+    "tests/godot/check_roller_surface_contact.gd": true,
+    "tools/capture/verify_tidewater_ink_loop.gd": true
+  },
+  "prior_roller_fix_preserved": true
+}

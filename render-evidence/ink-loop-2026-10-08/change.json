@@ -1,0 +1,8 @@
+{
+  "base_commit": "ec46144e4d58b0e69a7d9bb295845fff0112b3ae",
+  "original_combat_sha256": "ec96f592278d134fb21c42fe85c3876fa429e6f194f45eadb03259705431756e",
+  "fixed_combat_sha256": "6e56a9a9322a67bfea6db1ab397fda5d5ae2bf839b89641dab17a75a4a0404b7",
+  "assets_changed": false,
+  "new_export": false,
+  "pushed": false
+}

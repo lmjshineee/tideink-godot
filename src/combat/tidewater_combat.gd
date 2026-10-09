@@ -634,6 +634,12 @@ func _update_projectiles(delta: float) -> void:
 				var spent := float(budget.get(victim_id,0.0))
 				damage = minf(damage,maxf(0.0,float(weapon["flickDamageNear"])-spent))
 				budget[victim_id] = spent+damage
+				# All drops also share the post-perk ceiling, including late boosts.
+				if not budget.has("final_hits"): budget["final_hits"] = {}
+				var final_spent := float(budget.final_hits.get(victim_id,0.0))
+				var factor: float = game._modified_damage(1.0,victim_hit.actor,shot.attacker,"roller")
+				damage = minf(damage,maxf(0.0,float(weapon.flickDamageNear)-final_spent)/maxf(.001,factor))
+				budget.final_hits[victim_id] = final_spent+game._modified_damage(damage,victim_hit.actor,shot.attacker,"roller")
 			if kind != "counter": damage *= region_multiplier(victim_hit["region"])
 			game.call("damage_actor", victim_hit["actor"], damage, team, shot["attacker"], shot["source_weapon"],victim_hit["region"],(shot["origin"] as Vector3).distance_to(victim_hit["point"]))
 			if kind in ["blaster", "counter"]:
@@ -642,7 +648,7 @@ func _update_projectiles(delta: float) -> void:
 		elif not hit.is_empty():
 			_impact(hit, shot)
 			if kind in ["blaster", "counter"]:
-				_burst_blaster(hit["position"], shot["weapon"], false, team,null,shot["attacker"])
+				_burst_blaster(hit["position"], shot["weapon"], false, team,null,shot["attacker"],hit["normal"])
 			done = true
 		elif age >= float(shot["life"]):
 			if kind in ["blaster", "counter"]:
@@ -686,7 +692,7 @@ func _impact(hit: Dictionary, shot: Dictionary) -> void:
 
 
 func _burst_blaster(at: Vector3, weapon: Dictionary, direct_hit_target: bool = false,
-		team: int = 0, direct_actor: Node3D = null, source_actor: Node3D = null) -> void:
+		team: int = 0, direct_actor: Node3D = null, source_actor: Node3D = null, impact_normal: Vector3 = Vector3.ZERO) -> void:
 	damage_cover_area(at, float(weapon.splashRadius), float(weapon.splashDamageMax), team)
 	_sound("blaster_boom",at)
 	_add_burst(at, team, float(weapon["burstRadius"]))
@@ -701,7 +707,10 @@ func _burst_blaster(at: Vector3, weapon: Dictionary, direct_hit_target: bool = f
 			continue
 		var target: Vector3 = actor.global_position + Vector3.UP * 0.8
 		var distance := at.distance_to(target)
-		if distance <= float(weapon["splashRadius"]) and _unblocked(at + (target - at).normalized() * 0.06, target, team):
+		# A wall impact starts outside its real collision face. Moving toward a
+		# target behind a thin wall would put the ray inside it and miss occlusion.
+		var offset := impact_normal if impact_normal != Vector3.ZERO else (target - at).normalized()
+		if distance <= float(weapon["splashRadius"]) and _unblocked(at + offset * 0.06, target, team):
 			var damage := lerpf(float(weapon["splashDamageMax"]), float(weapon["splashDamageMin"]), distance / float(weapon["splashRadius"]))
 			game.call("damage_actor", actor, damage, team, source_actor,String(weapon.get("id","blaster")))
 
@@ -771,7 +780,8 @@ func fire_bot_charger(from: Vector3, target: Vector3, charge: float = 1.0, team:
 	var direction := (target - from).normalized()
 	if direction.length_squared() < 0.01:
 		return
-	_fire_charger_ray(weapons["charger"], charge, from, direction, team,source_actor)
+	var weapon: Dictionary = game.perks.weapon(source_actor,weapons["charger"]) if source_actor != null else weapons["charger"]
+	_fire_charger_ray(weapon, charge, from, direction, team,source_actor)
 
 
 func _fire_charger_ray(weapon: Dictionary, charge: float, muzzle: Vector3,
@@ -1234,11 +1244,40 @@ func paint_bot_roll(position: Vector3, forward: Vector3, team: int = 1) -> void:
 
 func _paint_roll_team(position: Vector3, forward: Vector3, weapon: Dictionary,
 		team: int) -> void:
+	var support := _roller_surface_contact(position)
+	if support.is_empty():
+		return
+	var normal: Vector3 = support.normal
 	var yaw := atan2(forward.x, forward.z)
 	var right := Vector3(cos(yaw), 0.0, -sin(yaw))
 	for offset in [-1.0, 0.0, 1.0]:
-		var at := position + forward * 0.75 + right * float(offset) * float(weapon["rollWidth"]) * 0.33 + Vector3.UP * 0.35
-		_paint_team(at, team, 0.62, randf())
+		var sample := position + forward * 0.75 + right * float(offset) * float(weapon["rollWidth"]) * 0.33
+		# Follow the current support plane before checking the local step range.
+		# Otherwise the 0.75m forward reach falls below a steeper uphill surface.
+		sample.y -= (sample - support.position).dot(normal) / normal.y
+		var contact := _roller_surface_contact(sample)
+		if not contact.is_empty():
+			# The same normal distance preserves the flat-ground footprint on slopes.
+			# A fixed world Y offset shrank downhill splats almost to zero.
+			_paint_team(contact.position + contact.normal * 0.35, team, 0.62, randf())
+
+
+func _roller_surface_contact(sample: Vector3) -> Dictionary:
+	var player: Dictionary = weapon_data["player"]
+	# Use the walker's step range, so the drum cannot paint a different floor or
+	# reach through a drop. Include grates: their unpaintable contact stops the ray.
+	var query := PhysicsRayQueryParameters3D.create(
+		sample + Vector3.UP * (float(player["stepUp"]) + 0.02),
+		sample - Vector3.UP * float(player["stepDown"]), 1 | 8)
+	var hit := get_world_3d().direct_space_state.intersect_ray(query)
+	if hit.is_empty() or float(hit.normal.y) < walker.WALKABLE:
+		return {}
+	var collider: Object = hit.collider
+	if not bool(collider.get_meta("paintable",false)):
+		return {}
+	var map: Node3D = game.get_node("World/Map")
+	var face: Dictionary = map.find_surface(hit.position,hit.normal,int(collider.get_meta("source_id",-1)))
+	return {} if face.is_empty() else hit
 
 
 func _spawn_flick(weapon: Dictionary) -> void:
@@ -1248,7 +1287,8 @@ func _spawn_flick(weapon: Dictionary) -> void:
 
 
 func spawn_bot_flick(from: Vector3, target: Vector3, team: int = 1, source_actor: Node3D = null) -> void:
-	_spawn_flick_from(weapons["roller"], from, target - from, team,source_actor)
+	var weapon: Dictionary = game.perks.weapon(source_actor,weapons["roller"]) if source_actor != null else weapons["roller"]
+	_spawn_flick_from(weapon, from, target - from, team,source_actor)
 
 
 func _spawn_flick_from(weapon: Dictionary, muzzle: Vector3, forward: Vector3,
@@ -1374,7 +1414,7 @@ func _segment_team_hit(start: Vector3, finish: Vector3, radius: float, team: int
 	var nearest: Dictionary = {}
 	for actor in game.call("enemies", team):
 		var height := float(weapon_data["player"]["height"])
-		if (actor == walker and bool(walker.get("squid_form"))) or bool(actor.get_meta("enemy_swimming", false)):
+		if (actor == walker and bool(walker.get("squid_form"))) or game.perks.bot_swimming(actor):
 			height = float(weapon_data["player"]["squidHeight"])
 		var hit := _segment_actor_hit(start, finish, radius, actor.global_position, height)
 		if not hit.is_empty() and (nearest.is_empty() or float(hit["distance"]) < float(nearest["distance"])):
@@ -1388,5 +1428,6 @@ static func hit_region(height_hit: float,height: float,squid: bool=false) -> Str
 	if height_hit>=height*0.8:return "头部"
 	if height_hit<height*0.34:return "腿部"
 	return "躯干"
-static func region_multiplier(region: String) -> float:
-	return 1.08 if region=="头部" else (0.85 if region=="腿部" else 1.0)
+static func region_multiplier(_region: String) -> float:
+	# Height labels remain useful feedback; every part of the real capsule is equal.
+	return 1.0

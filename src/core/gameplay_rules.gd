@@ -5,10 +5,11 @@ extends RefCounted
 static func apply(data: Dictionary) -> void:
 	data["player"].merge({"hp":120,"regenDelay":1.8,"regenRate":24,"regenRateSwim":65,
 		"respawnTime":4.0,"climbSpeed":9.5,"climbAccel":58,"enemyInkDps":2.0,"enemyInkDamageCap":24.0,"enemyInkSpeed":3.8,"inkRefillDelay":.7},true)
-	data["weapons"]["shooter"].merge({"specialCost":120,"damage":30,"inkPerShot":.85,"special":"overdrive"},true)
-	data["weapons"]["roller"].merge({"rollDamage":60,"flickDamageNear":72,"flickDamageFar":22},true)
-	data["weapons"]["charger"].merge({"damageMin":32,"damageMax":100,"inkFull":14.0},true)
-	data["weapons"]["blaster"].merge({"directDamage":82,"splashDamageMax":55,"splashDamageMin":24,"inkPerShot":7.0,"special":"siege_shell"},true)
+	# 120 HP: reliable three-hit shooter; slow precision/contact attacks earn a splat.
+	data["weapons"]["shooter"].merge({"specialCost":120,"damage":42,"inkPerShot":.85,"special":"overdrive"},true)
+	data["weapons"]["roller"].merge({"rollDamage":125,"flickDamageNear":140,"flickDamageFar":22,"finalDamageCap":160.0},true)
+	data["weapons"]["charger"].merge({"damageMin":32,"damageMax":150,"inkFull":14.0,"finalDamageCap":180.0},true)
+	data["weapons"]["blaster"].merge({"directDamage":125,"splashDamageMax":60,"splashDamageMin":24,"inkPerShot":7.0,"special":"siege_shell","finalDamageCap":160.0},true)
 	data["sub"]["bomb"].merge({"damageMax":100,"damageMin":30},true)
 	data["weapons"]["roller"]["specialCost"] = 120
 	data["weapons"]["charger"]["specialCost"] = 130
@@ -18,5 +19,5 @@ static func apply(data: Dictionary) -> void:
 	preload("res://src/core/equipment_catalog.gd").extend(data)
 
 static func shooter_damage(base: float, distance: float, reach: float) -> float:
-	# Keep a strong four-hit core; the last quarter of range rewards closing distance.
+	# The last quarter of range rewards closing distance.
 	return base * lerpf(1.0,0.78,clampf((distance/reach-0.75)/0.25,0.0,1.0))

@@ -18,7 +18,7 @@ func setup(owner_game: Node3D) -> void:
 func concealed(actor: Node3D) -> bool:
 	if actor == game.get_node("World/Walker"):
 		return bool(actor.squid_form) and bool(actor.grounded) and (actor._floor_ink_owner() == 0 or (actor.enemy_swim_enabled and actor._floor_ink_owner() == 1))
-	return bool(actor.get_meta("enemy_swimming", false))
+	return game.perks.bot_swimming(actor)
 
 func point(actor: Node3D) -> Vector3:
 	return actor.global_position + Vector3.UP * (.3 if concealed(actor) else .85)

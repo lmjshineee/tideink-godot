@@ -50,6 +50,7 @@ var charge_time := 0.0
 var weapon_id := "shooter"
 var ink_amount := 100.0
 var last_fire_time := 99.0
+var ink_brain := preload("res://src/actors/tidewater_bot_ink.gd").new()
 var chasing := false
 var returning := false
 var chase_trail: Array[Vector3] = []
@@ -111,6 +112,14 @@ func reset() -> void:
 	var player_config: Dictionary = game.get_node("Combat").get("weapon_data")["player"]
 	ink_amount = float(game.call("actor_ink_max",self)) if game.has_method("actor_ink_max") else float(player_config["inkMax"])
 	last_fire_time = 99.0
+	ink_brain.reset()
+	set_meta("friendly_swimming",false)
+	set_meta("enemy_swimming",false)
+	$Body.set_form(false)
+	if team_mover != null:
+		var shape:CollisionShape3D=team_mover.get_child(0)
+		shape.shape.radius=BODY_RADIUS;shape.shape.height=float(player_config.height)
+		shape.position.y=shape.shape.height*.5
 	chasing = false
 	returning = false
 	chase_trail.clear()
@@ -439,9 +448,15 @@ func _ground_at(at: Vector3) -> Dictionary:
 
 
 func floor_ink_owner() -> int:
-	var hit := _ground_at(global_position)
+	return ink_owner_at(global_position)
+
+
+func ink_owner_at(at: Vector3) -> int:
+	var config: Dictionary = game.get_node("Combat").weapon_data.player
+	var hit := get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
+		at + Vector3.UP * (float(config.stepUp)+.02),at-Vector3.UP*float(config.stepDown),9))
 	if hit.is_empty() or (hit["normal"] as Vector3).y < 0.6 \
-			or absf((hit["position"] as Vector3).y - global_position.y) > 0.6:
+			or not bool(hit.collider.get_meta("paintable",false)):
 		return -1
 	var block_id := int((hit["collider"] as Object).get_meta("source_id", -1))
 	if block_id < 0:
@@ -476,10 +491,7 @@ func _tick_team(delta: float) -> void:
 	$Body.call("set_expression_state",ink_amount/float(game.call("actor_ink_max",self)),float(game.call("actor_health",self))/float(game.call("actor_max_health",self)),charge_time/maxf(0.01,float(weapon.get("chargeTime",1.0))),false)
 	attack_visual_time = maxf(0.0, attack_visual_time - delta)
 	attack_tracer.visible = attack_visual_time > 0.0
-	game.perks.bot_form(self, target_actor != null)
 	last_fire_time += delta
-	if charge_time <= 0 and not combat.canopy.holding(self) and not game.bot_specials.locks_primary(self) and not game.wings.busy(self) and not bool(get_meta("enemy_swimming", false)) and last_fire_time > float(config["inkRefillDelay"]):
-		ink_amount = minf(float(game.call("actor_ink_max",self)), ink_amount + float(config["inkRefillKid"]) * game.perks.refill(self) * delta)
 	_update_health_visual()
 	# Visibility and opponent selection belong to each bot, never to the local player alone.
 	target_actor = null
@@ -504,24 +516,37 @@ func _tick_team(delta: float) -> void:
 	set_meta("buddy_target",int(threat.get("id",0)))
 	var fighting := target_actor != null or not lure.is_empty()
 	var resupply: Dictionary = game.items.supply.destination(self) if not fighting and ink_amount <= 45 else {}
+	var escape: Vector3 = game.get("bot_specials").call("escape",self)
+	var refill_plan: Dictionary = ink_brain.plan(self,delta) if escape == Vector3.ZERO else {}
+	var refilling := not refill_plan.is_empty()
+	if refilling:
+		fighting = false
+		resupply = {}
+		charge_time = 0
 	chasing = fighting
 	returning = false
-	game.perks.bot_form(self, fighting or not resupply.is_empty())
-	game.mobility.consider_bot_roll(self, target_actor)
-	var escape: Vector3 = game.get("bot_specials").call("escape",self)
+	game.perks.bot_form(self, fighting or not resupply.is_empty() or refilling,bool(refill_plan.get("swim",false)))
+	if bool(get_meta("friendly_swimming",false)):
+		ink_amount = minf(float(game.actor_ink_max(self)),ink_amount+float(config.inkRefillSwim)*game.perks.refill(self)*delta)
+	elif charge_time <= 0 and not combat.canopy.holding(self) and not game.bot_specials.locks_primary(self) and not game.wings.busy(self) and not game.perks.bot_swimming(self) and last_fire_time > float(config.inkRefillDelay):
+		ink_amount = minf(float(game.actor_ink_max(self)),ink_amount+float(config.inkRefillKid)*game.perks.refill(self)*delta)
+	if not refilling:game.mobility.consider_bot_roll(self, target_actor)
 	if escape!=Vector3.ZERO:
 		target_actor = null; lure = {}; resupply = {}; fighting = false; set_meta("decoy_target",0)
 	repath_time -= delta
 	var contact: Dictionary = game.intel.nearest_contact(self)
 	var purpose := "patrol"
 	if escape != Vector3.ZERO: purpose = "escape"
+	elif refilling: purpose = "ink"
 	elif not lure.is_empty(): purpose = ("buddy:%d" if lure.get("buddy",false) else "decoy:%d") % int(lure.id)
 	elif target_actor != null: purpose = "enemy:%d" % game.actor_id(target_actor)
 	elif not resupply.is_empty(): purpose = "supply:%d" % int(resupply.id)
 	elif not contact.is_empty(): purpose = "contact"
-	if jump_time <= 0.0 and (repath_time <= 0.0 or route_index >= route.size() or purpose != route_purpose):
+	var refill_path: PackedVector3Array = refill_plan.get("route",PackedVector3Array())
+	if jump_time <= 0.0 and (repath_time <= 0.0 or route_index >= route.size() or purpose != route_purpose or (refilling and refill_path != route)):
 		var nav: RefCounted = game.get("navigation")
 		if escape != Vector3.ZERO: route = nav.route(global_position, global_position + escape, team)
+		elif refilling: route = refill_plan.get("route",PackedVector3Array())
 		elif not lure.is_empty(): route = nav.route(global_position,lure.point,team)
 		elif target_actor != null: route = nav.route(global_position, target_actor.global_position, team)
 		elif not resupply.is_empty(): route = nav.route(global_position,resupply.point,team)
@@ -537,7 +562,7 @@ func _tick_team(delta: float) -> void:
 	var old := global_position
 	var travel := Vector3.ZERO
 	var jump_edge := false
-	if route_index < route.size() and (not fighting or best > _engagement_distance(weapon)) and (resupply.is_empty() or global_position.distance_to(resupply.point) > 1.2):
+	if not bool(refill_plan.get("stop",false)) and route_index < route.size() and (not fighting or best > _engagement_distance(weapon)) and (resupply.is_empty() or global_position.distance_to(resupply.point) > 1.2):
 		var next := route[route_index]
 		var offset := next - global_position
 		var horizontal := Vector3(offset.x,0.0,offset.z)
@@ -566,7 +591,7 @@ func _tick_team(delta: float) -> void:
 		if travel == Vector3.ZERO:
 			strafe_sign = -strafe_sign
 			travel = _safe_combat_step(-side,float(profile.strafe))
-	if recovery_time > 0:
+	if recovery_time > 0 and not bool(refill_plan.get("stop",false)):
 		recovery_time -= delta
 		travel = _safe_combat_step(recovery_direction,2.0)
 	# A collision body owns support, walls and gravity; the source graph can include
@@ -624,13 +649,13 @@ func _tick_team(delta: float) -> void:
 	$Body.call("set_weapon_pose", atan2(aim.y, Vector2(aim.x, aim.z).length()) if fighting else 0.0, weapon_id == "roller" and travel.length_squared() > 0.1)
 	$Body.set_weapon_charge(charge_time/maxf(.01,float(weapon.get("chargeTime",1))))
 	paint_cooldown -= delta
-	if weapon_id == "roller" and not bool(get_meta("enemy_swimming",false)): _update_roll(delta, old, weapon, combat)
-	if weapon_id != "roller" and not bool(get_meta("enemy_swimming", false)) and movement.length() > 0.001 and ink_amount > 1.0 and paint_cooldown <= 0.0:
+	if weapon_id == "roller" and not refilling and not game.perks.bot_swimming(self): _update_roll(delta, old, weapon, combat)
+	if weapon_id != "roller" and not refilling and not game.perks.bot_swimming(self) and movement.length() > 0.001 and ink_amount > 1.0 and paint_cooldown <= 0.0:
 		paint_cooldown = PAINT_INTERVAL
 		game.call("paint_at_world", global_position + Vector3.UP * 0.12, team, 0.8, randf())
 		ink_amount = maxf(0.0, ink_amount - 0.6)
 	if weapon_id=="canopy":
-		var candidate: Node3D = lure.visual if not lure.is_empty() else target_actor
+		var candidate: Node3D = null if refilling else lure.visual if not lure.is_empty() else target_actor
 		combat.canopy.bot_input(self,delta,candidate if not game.mobility.busy(self) and not game.bot_specials.locks_primary(self) and reaction_time <= 0 else null)
 		return
 	if not fighting or game.mobility.busy(self) or game.bot_specials.locks_primary(self) or reaction_time > 0:

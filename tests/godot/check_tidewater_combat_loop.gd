@@ -22,7 +22,7 @@ func _check() -> void:
 	var shooter: Dictionary = weapon_data["weapons"]["shooter"]
 	combat.call("_spawn_projectile", "shooter", Vector3(0.0, 3.0, 37.2), Vector3(0.0, 0.0, 34.0), shooter)
 	combat.call("_update_projectiles", 0.1)
-	if absf(float(scene.get("bot_health")) - 90.0) > 0.01:
+	if absf(float(scene.get("bot_health")) - 78.0) > 0.01:
 		_fail("shooter shot missed visible bot or damage differs from source")
 		return
 	scene.call("damage_bot", 90.0)
@@ -36,15 +36,15 @@ func _check() -> void:
 	walker.global_position = Vector3(0.0, 2.25, 31.2)
 	var charger: Dictionary = weapon_data["weapons"]["charger"]
 	combat.call("_fire_charger", charger, 1.0, Vector3(0.0, 0.0, 1.0))
-	if float(scene.get("bot_respawn")) > 0.0 or absf(float(scene.get("bot_health"))-20.0)>0.01:
-		_fail("full charger must leave 20 HP for counterplay")
+	if float(scene.get("bot_respawn")) <= 0.0 or float(scene.get("bot_health"))!=0:
+		_fail("full charger must splat an unshielded target")
 		return
 	_respawn_bot(scene)
 	var blaster: Dictionary = weapon_data["weapons"]["blaster"]
 	combat.call("_spawn_projectile", "blaster", Vector3(0.0, 3.0, 37.2), Vector3(0.0, 0.0, 23.0), blaster)
 	combat.call("_update_projectiles", 0.1)
-	if float(scene.get("bot_respawn")) > 0.0 or absf(float(scene.get("bot_health"))-38.0)>0.01:
-		_fail("blaster direct must leave 38 HP for counterplay")
+	if float(scene.get("bot_respawn")) <= 0.0 or float(scene.get("bot_health"))!=0:
+		_fail("blaster direct must splat an unshielded target")
 		return
 	_respawn_bot(scene)
 	# Roller crushing damage (weapons.js:200-207): the drum must be moving, the victim
@@ -55,26 +55,27 @@ func _check() -> void:
 	walker.global_position = Vector3(0.0, 2.25, 38.2)
 	walker.get_node("Body").rotation.y = 0.0
 	walker.velocity = Vector3(0.0, 0.0, 4.4)
+	scene.set("bot_health",300.0) # Isolate the repeat-hit cooldown from a lethal first contact.
 	combat.call("_roll_damage", roller)
-	if float(scene.get("bot_respawn")) > 0.0 or absf(float(scene.get("bot_health"))-60.0)>0.01:
-		_fail("first roller contact must leave 60 HP")
+	if float(scene.get("bot_respawn")) > 0.0 or absf(float(scene.get("bot_health"))-175.0)>0.01:
+		_fail("first roller contact must spend exactly 125 HP")
 		return
 	# A standing drum deals nothing.
 	walker.velocity = Vector3.ZERO
 	combat.call("_roll_damage", roller)
-	if float(scene.get("bot_respawn")) > 0.0 or float(scene.get("bot_health")) != 60.0:
+	if float(scene.get("bot_respawn")) > 0.0 or float(scene.get("bot_health")) != 175.0:
 		_fail("standing roller should not damage")
 		return
 	# Second pass inside the cooldown window: still nothing.
 	walker.velocity = Vector3(0.0, 0.0, 4.4)
 	combat.call("_roll_damage", roller)
-	if float(scene.get("bot_respawn")) > 0.0:
+	if float(scene.get("bot_respawn")) > 0.0 or float(scene.get("bot_health")) != 175.0:
 		_fail("roller cooldown did not limit the second hit")
 		return
 	# Past the cooldown the drum bites again.
 	combat.set("elapsed", float(combat.get("elapsed")) + 0.6)
 	combat.call("_roll_damage", roller)
-	if float(scene.get("bot_respawn")) <= 0.0:
+	if float(scene.get("bot_respawn")) > 0.0 or float(scene.get("bot_health")) != 50.0:
 		_fail("roller cooldown never expired")
 		return
 	_respawn_bot(scene)
@@ -145,6 +146,16 @@ func _check() -> void:
 		_fail("sea fall should start respawn")
 		return
 	print("PASS: four weapon damage paths, bot/player respawn, loadout switch and sea fall")
+	# Stop the fixture before letting its audio playback references retire.
+	scene.set_process(false)
+	scene.set_physics_process(false);walker.set_physics_process(false)
+	await create_timer(.2).timeout
+	for voice in scene.sound.get_children():
+		if voice.has_method("stop"):
+			voice.stop();voice.stream=null
+	await create_timer(.1).timeout
+	scene.queue_free();await process_frame
+	await create_timer(.1).timeout
 	quit()
 
 

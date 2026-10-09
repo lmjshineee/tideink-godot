@@ -6,6 +6,7 @@ const Setup := preload("res://src/core/match_setup.gd")
 const Inventory := preload("res://tools/lib/source_inventory.gd")
 var output := ""
 var map_id := "tidewater"
+var weapon_id := "shooter"
 var game: Node3D
 var walker: CharacterBody3D
 var combat: Node3D
@@ -19,6 +20,7 @@ var was_dead := false
 var respawn_confirmed := false
 var last_position := Vector3.ZERO
 var frames := PackedFloat64Array()
+var refill_last := {}
 var report := {
 	"status":"running",
 	"method":"Native wall-clock 180-second 5v5; automated keyboard/mouse input, production bots and natural timer/results/restart.",
@@ -26,6 +28,7 @@ var report := {
 	"temperature_measured":false,
 	"timeline":[], "phase_events":[], "respawns":[], "focus_resumes":[],
 	"travel_m":0.0, "jump_inputs":0, "dive_frames":0,
+	"bot_ink":{"actors":{},"events":[]},
 }
 
 func _initialize() -> void:
@@ -36,8 +39,11 @@ func _run() -> void:
 		if arg.begins_with("--output="):
 			output = arg.trim_prefix("--output=").simplify_path()
 		if arg.begins_with("--map="): map_id=arg.trim_prefix("--map=")
+		if arg.begins_with("--weapon="): weapon_id=arg.trim_prefix("--weapon=")
 	if not preload("res://src/core/map_catalog.gd").IDS.has(map_id):
 		_fail("unknown map");return
+	if not preload("res://src/core/equipment_catalog.gd").ACTIVE.has(weapon_id):
+		_fail("unknown active weapon");return
 	if not output.begins_with("res://render-evidence/") or output == "res://render-evidence/":
 		output = ""
 		_fail("--output must name a new subdirectory of res://render-evidence/")
@@ -66,7 +72,7 @@ func _run() -> void:
 	Setup.selected_item = "bomb"
 	Setup.selected_perk = "balanced"
 	Setup.reroll_bots = false
-	Setup.pending_loadout = {"player":"shooter", "settings_path":output.path_join("isolated-settings.cfg")}
+	Setup.pending_loadout = {"player":weapon_id, "settings_path":output.path_join("isolated-settings.cfg")}
 	game = (load("res://scenes/match/tidewater_play.tscn") as PackedScene).instantiate()
 	root.add_child(game)
 	current_scene = game
@@ -131,6 +137,7 @@ func _run() -> void:
 			print("AUDIT: controlled replay resumes focus pause at ",snappedf(elapsed,.01))
 			game._set_pointer_lock(true)
 		_drive(elapsed)
+		_observe_bot_ink(elapsed)
 		var moved := walker.global_position.distance_to(last_position)
 		if not was_dead and moved < 2.0:
 			report.travel_m += moved
@@ -256,6 +263,23 @@ func _run() -> void:
 	if not _write_report(): return
 	print("PASS: native arm64 full 180-second 5v5; natural death, explicit respawn, results, ledger and restart; ",output)
 	quit()
+
+func _observe_bot_ink(elapsed: float) -> void:
+	# Read-only rendered-frame observations; no forced resource or AI changes.
+	for actor in game.all_actors():
+		if actor == walker:continue
+		var id := str(game.actor_id(actor))
+		var alive:bool=game.actor_alive(actor)
+		var active:bool=alive and actor.ink_brain.active
+		if not report.bot_ink.actors.has(id):
+			report.bot_ink.actors[id]={"team":actor.team,"entries":0,"submerged_render_samples":0}
+		if active != bool(refill_last.get(id,false)):
+			if active:report.bot_ink.actors[id].entries+=1
+			report.bot_ink.events.append({"actor_id":id,"game_seconds":elapsed,"active":active,
+				"alive":alive,"ink":actor.ink_amount,"floor_owner":actor.floor_ink_owner()})
+		refill_last[id]=active
+		if alive and bool(actor.get_meta("friendly_swimming",false)):
+			report.bot_ink.actors[id].submerged_render_samples+=1
 
 func _drive(elapsed: float) -> void:
 	var dead: bool = game.player_respawn > 0.0

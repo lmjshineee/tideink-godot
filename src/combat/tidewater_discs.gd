@@ -127,7 +127,7 @@ func _hits(disc: Dictionary, start: Vector3, finish: Vector3) -> void:
 		if disc.hits.has(key):
 			continue
 		var height: float = combat.weapon_data.player.height
-		if (victim == combat.walker and combat.walker.squid_form) or bool(victim.get_meta("enemy_swimming", false)):
+		if (victim == combat.walker and combat.walker.squid_form) or game.perks.bot_swimming(victim):
 			height = combat.weapon_data.player.squidHeight
 		var hit: Dictionary = combat._segment_actor_hit(start, finish, disc.radius, victim.global_position, height)
 		if hit.is_empty():

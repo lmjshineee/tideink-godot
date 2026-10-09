@@ -16,32 +16,32 @@ static func weapon(game: Node3D,id: String) -> Dictionary:
 			text="连续喷射，适合涂地和近距离压制。\n"+attribute(w,"range","%.1f m；末端衰减" % w.range)+"\n"+attribute(w,"damage","伤害 %.0f → %.1f" % [w.damage,w.damage*0.78])+"\n"+attribute(w,"rate","%.2f 秒 / 发（%.0f 发 / 秒）" % [w.fireInterval,1.0/w.fireInterval])+"\n"+attribute(w,"mobility","射击移速 %.1f m/s" % w.moveSpeedFiring)+"\n"+attribute(w,"paint","命中涂墨半径 %.2f m" % w.impactRadius)
 			text+="\n每发 %.2f 墨水；基础 120 HP 近端约 %d 轮击倒。\n连射扩大散布，跳射更散；停火后恢复精度。" % [w.inkPerShot,ceili(120.0/(w.damage*float(w.get("shots",1))))]
 		"bow":
-			text="按住左键蓄力，松开射出三支墨箭。\n"+attribute(w,"range","%.0f → %.0f m" % [w.rangeMin,w.rangeMax])+"\n"+attribute(w,"damage","每箭 %.0f → %.0f；三箭满蓄 %.0f" % [w.arrowDamageMin,w.arrowDamageMax,w.damageMax])+"\n"+attribute(w,"rate","满蓄 %.1f 秒；释放间隔 %.2f → %.2f 秒" % [w.chargeTime,w.releaseMin,w.releaseFull])+"\n"+attribute(w,"mobility","蓄力 %.1f m/s" % w.moveSpeedFiring)+"\n"+attribute(w,"paint","轻点涂地；半蓄布置爆裂箭")+"\n地面横向散射；跳起后纵向散射。满蓄三箭收束，适合精准远射。\n耗墨 %.1f → %.1f；蓄到一半（%.1f秒）可在地形留下爆裂箭。\n准星半环提示爆裂就绪，满环提示精准三箭并响提示音。\n落点 %.1f 秒后爆裂，半径 %.1f m；同轮溅射共享 %.0f 伤害预算。\n同轮直击＋爆裂基础总伤害最多110；增伤与易伤结算后仍最多115。箭与爆裂受楼板／墙遮挡。" % [w.inkMin,w.inkFull,w.chargeTime*w.plantCharge,w.blastDelay,w.blastRadius,w.blastDamage]
+			text="按住左键蓄力，松开射出三支墨箭。\n"+attribute(w,"range","%.0f → %.0f m" % [w.rangeMin,w.rangeMax])+"\n"+attribute(w,"damage","每箭 %.0f → %.0f；三箭满蓄 %.0f" % [w.arrowDamageMin,w.arrowDamageMax,w.damageMax])+"\n"+attribute(w,"rate","满蓄 %.1f 秒；释放间隔 %.2f → %.2f 秒" % [w.chargeTime,w.releaseMin,w.releaseFull])+"\n"+attribute(w,"mobility","蓄力 %.1f m/s" % w.moveSpeedFiring)+"\n"+attribute(w,"paint","轻点涂地；半蓄布置爆裂箭")+"\n地面横射、空中竖射；满蓄三箭收束。\n耗墨 %.1f → %.1f；%.1f 秒半蓄起留爆裂箭。\n准星半环为爆裂、满环为精准三箭／提示音。\n落点 %.1f 秒后爆裂，半径 %.1f m；同轮溅射共享 %.0f 伤害预算。\n满蓄三箭全中击倒无盾目标；两箭／半蓄直击不足。\n整轮直击＋爆裂最多 %.0f，强化／易伤后最多 %.0f；墙／楼板遮挡。" % [w.inkMin,w.inkFull,w.chargeTime*w.plantCharge,w.blastDelay,w.blastRadius,w.blastDamage,w.volleyDamageCap,w.finalDamageCap]
 		"canopy":
 			text="点按六颗散弹；按住开伞，推出后持续射击。\n"+attribute(w,"range","11 m")+"\n"+attribute(w,"damage","每弹 15；六弹躯干 90")+"\n"+attribute(w,"rate","0.48 秒 / 轮")+"\n"+attribute(w,"mobility","射击 / 持伞 4.8 m/s")+"\n"+attribute(w,"paint","推进留下可潜泳的宽墨路")+"\n每轮耗墨 4.5；按住 0.20 秒开伞，持伞每秒耗墨 0.9。\n伞面耐久 220，挡敌弹，友方射击可穿过；持伞时暂停射击。\n按住至 0.85 秒，额外耗墨 6 推出：6.5 m/s、最多 3.4 秒。\n地面推出沿平地／坡道走，离地推出保留高低瞄准；墙和窄障碍实际阻挡。\n推出即开始 4.5 秒冷却，跟进时持续按住可连射；松开后可以潜墨回墨。\n提前收伞／持伞被破也冷却 4.5 秒，死亡／重摇不能清除。\n敌人可以绕侧、绕后或从上方攻击。"
 		"disc":
 			text=attribute(w,"range","13 m")+"\n"+attribute(w,"damage","去程 / 回程")+"\n"+attribute(w,"rate","接回后再投")+"\n"+attribute(w,"mobility","投后移动改变回程")+"\n"+attribute(w,"paint","沿轨迹涂墨")+"\n点按投出一枚回旋飞镖，去程直飞，回程追向你的位置。\n射程 13 m · 去程 48 / 回程 34 伤害\n每次消耗 %.1f 墨水，场上同时 1 枚。\n同一目标每段最多命中一次；墙壁挡住飞镖。\n投出后横移，改变回程路线；接回后再次投掷。" % w.inkPerShot
 		"roller":
 			text="点按甩墨，按住持续滚刷。\n"+attribute(w,"range","近距接触 / 扇形甩墨")+"\n"+attribute(w,"damage","接触 %.0f；甩墨 %.0f → %.0f" % [w.rollDamage,w.flickDamageNear,w.flickDamageFar])+"\n"+attribute(w,"rate","%.2f 秒 / 轮；前摇 %.2f 秒" % [w.flickInterval,w.flickWindup])+"\n"+attribute(w,"mobility","滚动速度上限 %.1f m/s" % w.rollSpeed)+"\n"+attribute(w,"paint","滚刷宽 %.1f m" % w.rollWidth)
-			text+="\n甩墨每轮 %.1f 墨水；滚动每米 %.2f 墨水。\n同轮墨滴共享目标伤害预算；接触间隔 0.5 秒。" % [w.flickInk,w.rollInkPerMeter]
+			text+="\n甩墨每轮 %.1f 墨水；滚动每米 %.2f 墨水。\n同轮墨滴共享目标伤害预算；接触间隔 0.5 秒。\n无盾目标可被近距准确甩墨或移动接触击倒；停止滚动不造成接触伤害。" % [w.flickInk,w.rollInkPerMeter]
 		"charger":
 			text="按住蓄力，松开释放长射线。\n"+attribute(w,"range","%.0f → %.0f m，随蓄力提升" % [w.rangeMin,w.rangeMax])+"\n"+attribute(w,"damage","伤害 %.0f → %.0f" % [w.damageMin,w.damageMax])+"\n"+attribute(w,"rate","满蓄 %.1f 秒" % w.chargeTime)+"\n"+attribute(w,"mobility","蓄力移速 %.1f m/s" % w.moveSpeedFiring)+"\n"+attribute(w,"paint","射线涂墨半径 %.2f m" % w.lineRadius)
-			text+="\n满蓄消耗 %.1f 墨水；提前松开降低射程和伤害。\n满蓄躯干命中，基础满血目标剩余 20 HP。" % w.inkFull
+			text+="\n满蓄消耗 %.1f 墨水；提前松开降低射程和伤害。\n满蓄命中可击倒无盾满血目标；未蓄满伤害不足。\n墙体阻挡射线，护盾先吸收伤害。" % w.inkFull
 		"blaster":
 			text="慢速爆破，适合逼出掩体与范围压制。\n"+attribute(w,"range","%.1f m" % w.range)+"\n"+attribute(w,"damage","直击 %.0f；溅射 %.0f → %.0f" % [w.directDamage,w.splashDamageMax,w.splashDamageMin])+"\n"+attribute(w,"rate","%.2f 秒 / 发" % w.fireInterval)+"\n"+attribute(w,"mobility","射击移速 %.1f m/s" % w.moveSpeedFiring)+"\n"+attribute(w,"paint","爆开涂墨半径 %.1f m" % w.burstRadius)
-			text+="\n每发 %.1f 墨水；溅射半径 %.1f m。\n直击不叠加同次溅射；溅射受距离和遮挡影响。" % [w.inkPerShot,w.splashRadius]
+			text+="\n每发 %.1f 墨水；溅射半径 %.1f m。\n准确直击可击倒无盾满血目标；溅射只削血。\n直击不叠加同次溅射；溅射受距离和遮挡影响，护盾先吸收伤害。" % [w.inkPerShot,w.splashRadius]
 	if id=="dualie":text+="\n双持每轮两弹，每弹 %.1f；两弹合计 %.2f 墨水，命中分别计算。\n按住左键 + 方向 + 空格滑步，最多连续两次。\n每次耗墨 12，滑步 0.18s，结束停顿 0.16s。\n滑后 0.7s 内散布缩小 65%%；滑步被地形阻挡。" % [w.damage,w.inkPerShot]
 	if id=="heavy":text+="\n长管提高射程与单弹伤害，连射较慢。"
 	if id=="rapid":text+="\n轻量爆破提高频率，单发直击与溅射降低。"
 	if game.perks.kind(game.get_node("World/Walker"))=="focus":text+="\n地面散布已计入稳枪专注。"
 	text+="\n大招：%s · %.0f 涂地点数" % [{"rain_arrows":"雨箭齐射 · 0.6s 前摇 / 三轮抛射", "absorb_counter":"吸墨反击 · 正面吸墨 3s / 反击前摇 0.3s", "slam":"重击","storm":"远程墨雨 · 持续 9s", "overdrive":"潮流速射 · 持续 6s", "ink_vortex":"回旋墨环 · 持续 6s", "siege_shell":"压力连炮 · 三发破阵","twin_discs":"双镖突进 · 前摇 0.4s / 射程 20m / 每枚 85"}[w.special],w.specialCost]
-	if w.special == "rain_arrows": text+="\n锁定准星 24m 内可见地面，提前显示 2.4m 落点圈。\n0.6 秒后发出三轮，每轮九箭、间隔 0.45 秒；轨迹受墙壁与屋顶阻挡。\n每箭直击 28，落点 1.15m 溅射 28 → 14；直击不叠加自身溅射。\n每轮同一目标伤害最多 55（基础出手值，强化不增加上限），不叠加头部倍率。\n发射期间不能主射／潜墨／使用道具；可移动，落点不会跟踪敌人。\n死亡取消尚未发出的箭，已飞出的箭继续；大招涂地不充能。"
+	if w.special == "rain_arrows": text+="\n锁定 24m 可见地面／2.4m 落点圈；0.6秒后三轮九箭，轮间隔0.45秒。\n直击28、1.15m溅射28→14，不叠加；同目标每轮最多55出手伤害，强化不增上限，无部位倍率。\n墙／楼板挡箭；可移动，不能主射／潜墨／道具，落点固定。\n死亡取消未发箭，飞行箭继续；大招涂地不充能。"
 	if w.special == "absorb_counter": text+="\n吸收正前方 7m 锥形区域内的喷枪弹、伞弹、爆破弹和墨箭。\n蓄能最多 100，满后或 3 秒后收口；蓄势 0.3 秒后发射反击弹。\n反击直击 45 → 120；溅射为一半，不叠加直击或头部倍率。\n射程 20m，墙与楼板挡住吸墨和反击；移动上限 3m/s。\n期间不能射击、使用道具或潜墨；侧后方、狙击、飞镖、滚筒和手雷仍可攻击。"
 	if w.special == "overdrive": text+="\n6 秒内喷枪射击间隔 ×0.6，单发耗墨 ×0.5；仍可移动、潜墨和使用道具。\n伤害与射程不变，死亡取消效果。"
 	if w.special == "ink_vortex": text+="\n跟随角色的 3.4m 墨环，持续 6 秒；每秒 24 伤害，墙与楼板可挡。\n可继续双持射击、翻滚与使用道具；没有额外无敌。死亡取消效果。"
 	if w.special == "siege_shell": text+="\n0.25 秒后沿激活时瞄准方向连发三枚压力弹，间隔 0.4 秒、射程 24m。\n直击 70；2.6m 溅射 48 → 24，直击不叠加自身溅射。\n同一次施放对同一目标的最终伤害总量最多 150（计入增伤／易伤）；墙与楼板挡弹。\n发射期间可移动，不能主射／潜墨／使用道具；死亡取消未发出的弹。"
 	text+="\n专属大招随主武器配装；死亡保留未消耗进度，重摇按百分比继承。\n发动时补满墨水；大招涂墨不充能。"
-	text+="\n%s按体积命中，不叠加头部倍率。" % ("箭矢" if w.kind=="bow" else "飞镖") if w.kind in ["disc","bow"] else "\n主武器直接命中：头部 ×1.08 / 躯干 ×1 / 腿部 ×0.85"
+	text+="\n%s按体积命中，不叠加头部倍率。" % ("箭矢" if w.kind=="bow" else "飞镖") if w.kind in ["disc","bow"] else "\n主武器直接命中：头部 / 躯干 / 腿部均为 ×1"
 	text+="\n星级用于相对比较；伤害为基础躯干值。"
 	if game.perks.kind(game.get_node("World/Walker"))=="saver":text+="\n墨水消耗已计入节墨天赋。"
 	return {"title":game._weapon_text(id)+" · 主武器","body":text}

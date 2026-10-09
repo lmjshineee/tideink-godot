@@ -1,0 +1,95 @@
+RUN 0 exit=0
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: physical traversal m=96.032223459566 advance_z=69.5005855560303 grounded_samples=709
+PASS: opponent advances from spawn, follows grounded support, paints real turf and freezes at finish
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+
+RUN 1 exit=0
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: physical traversal m=113.093085642322 advance_z=65.4975128173828 grounded_samples=681
+PASS: opponent advances from spawn, follows grounded support, paints real turf and freezes at finish
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+
+RUN 2 exit=0
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: physical traversal m=123.071826390922 advance_z=69.5575656890869 grounded_samples=709
+PASS: opponent advances from spawn, follows grounded support, paints real turf and freezes at finish
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+
+RUN 3 exit=0
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: physical traversal m=123.071826390922 advance_z=69.5575656890869 grounded_samples=709
+PASS: opponent advances from spawn, follows grounded support, paints real turf and freezes at finish
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+
+RUN 4 exit=0
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: physical traversal m=123.071826390922 advance_z=69.5575656890869 grounded_samples=709
+PASS: opponent advances from spawn, follows grounded support, paints real turf and freezes at finish
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+
+RUN 5 exit=0
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: physical traversal m=96.032223459566 advance_z=69.5005855560303 grounded_samples=709
+PASS: opponent advances from spawn, follows grounded support, paints real turf and freezes at finish
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+
+RUN 6 exit=0
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: physical traversal m=96.032223459566 advance_z=69.5005855560303 grounded_samples=709
+PASS: opponent advances from spawn, follows grounded support, paints real turf and freezes at finish
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+
+RUN 7 exit=0
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: physical traversal m=123.071826390922 advance_z=69.5575656890869 grounded_samples=709
+PASS: opponent advances from spawn, follows grounded support, paints real turf and freezes at finish
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+
+RUN 8 exit=0
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: physical traversal m=123.071826390922 advance_z=69.5575656890869 grounded_samples=709
+PASS: opponent advances from spawn, follows grounded support, paints real turf and freezes at finish
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+
+RUN 9 exit=0
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: physical traversal m=123.071826390922 advance_z=69.5575656890869 grounded_samples=709
+PASS: opponent advances from spawn, follows grounded support, paints real turf and freezes at finish
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+
+RUN 10 exit=0
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: physical traversal m=113.093085642322 advance_z=65.4975128173828 grounded_samples=681
+PASS: opponent advances from spawn, follows grounded support, paints real turf and freezes at finish
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+
+RUN 11 exit=0
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: physical traversal m=123.071826390922 advance_z=69.5575656890869 grounded_samples=709
+PASS: opponent advances from spawn, follows grounded support, paints real turf and freezes at finish
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)

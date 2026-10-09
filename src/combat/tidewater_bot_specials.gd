@@ -60,7 +60,7 @@ func tick(delta: float) -> void:
 				s["active"] = false
 			continue
 		var weapon: Dictionary = combat.get("weapons")[actor.get("weapon_id")]
-		if float(s["points"])<float(weapon["specialCost"]) or float(s["cooldown"])>0 or game.mobility.busy(actor) or game.wings.busy(actor):
+		if float(s["points"])<float(weapon["specialCost"]) or float(s["cooldown"])>0 or game.mobility.busy(actor) or game.wings.busy(actor) or actor.ink_brain.active:
 			continue
 		var nearest: Node3D = null
 		var range_limit := 5.0 if weapon["special"]=="slam" else (8.0 if weapon.special == "ink_vortex" else 23.0 if weapon.special in ["rain_arrows","siege_shell","storm"] else 18.0 if weapon.special == "twin_discs" else 14.0)

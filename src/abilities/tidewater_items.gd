@@ -186,6 +186,9 @@ func tick(delta: float) -> void:
 		if actor==game.get_node("World/Walker") or not bool(game.call("actor_alive",actor)):
 			continue
 		if game.bot_deployment.busy(actor): continue
+		# Keep the low-ink pause from being immediately spent on another AI item.
+		# Existing cooldowns above still tick, including throughout deaths.
+		if actor.ink_brain.active: continue
 		var kind: String = s["kind"]
 		if kind == "recall":
 			s["recall_try"] = float(s.get("recall_try", 0)) - delta

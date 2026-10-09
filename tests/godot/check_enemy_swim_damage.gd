@@ -23,16 +23,16 @@ func _run() -> void:
 	var from: Vector3=walker.global_position+Vector3(0,.9,-4)
 	combat.fire_bot_charger(from,walker.global_position+Vector3.UP*.9,1,1,bot)
 	print("AUDIT: real full charger torso hit health=",game.player_health," respawn=",game.player_respawn)
-	expect(game.player_respawn<=0 and absf(game.player_health-15)<.01,"one normal torso charge cannot one-shot the full-health talent")
+	expect(game.player_respawn>0 and game.player_health==0,"full charge splats an unshielded full-health vulnerable target")
 	game.player_health=120; game.player_respawn=0; game.player_invuln=0
 	game.damage_player(30,false,bot,"shooter")
 	expect(absf(game.player_health-88.5)<.01,"enemy attacks retain five percent extra damage")
 	game.perks.choices[bot.get_instance_id()]="adrenaline"; game.bot_health=50
 	game.player_health=120
 	game.damage_player(108,false,bot,"charger","头部",4)
-	expect(game.player_respawn<=0 and absf(game.player_health-5)<.01,"normal shot limit applies after attacker and defender modifiers")
+	expect(game.player_respawn>0 and game.player_health==0 and is_equal_approx(game._modified_damage(108,walker,bot,"charger"),130.41),"attacker and defender modifiers retain their explicit lethal result")
 	game.damage_player(10,false,bot,"shooter")
-	expect(game.player_respawn>0,"ordinary follow-up damage remains lethal")
+	expect(game.player_respawn>0,"post-death follow-up does not interrupt respawn")
 	game.player_respawn=0; game.player_health=3; game.player_ink_damage=0; walker.grounded=true; walker.ink_owner=1
 	game._update_player_vitals(4)
 	expect(game.player_health==1 and game.player_respawn==0,"enemy ink alone never kills a low-health actor")

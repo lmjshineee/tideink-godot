@@ -16,10 +16,12 @@
 | `../tests/python/test_release_metadata.py` | 旧版本、变更源码／PCK、错误源码提交与证据目录隔离负例 |
 | `update_asset_integrity.py --write` | 有意资源修改验证后，记录新的本地资产基线 |
 | `capture/`、`measure/` | 原生画面、回放和受控测量，按输出路径保留证据 |
-| `measure/measure_native_match.gd` | 原生 180 秒 5v5，可用 `--map=<id>` 指定地图；自然死亡／显式复活确认、计分核对、帧间隔与新证据目录 |
+| `measure/measure_native_match.gd` | 原生 180 秒 5v5，可用 `--map=<id>`、`--weapon=<id>` 指定地图与玩家武器，默认潮水码头／喷枪；自然死亡／显式复活确认、计分核对、机器人回墨只读观察、帧间隔与新证据目录 |
 | `measure/measure_bot_idle.gd` | 七图受控移动记录，固定配装 RNG／均衡天赋，排除战斗、技能、补给与死亡等待；可指定 `--map`、`--seconds`、`--trace-actor`，必须使用新的绝对输出文件 |
 | `capture/verify_bot_deployment.gd` | 两图原生受控机器人复活／队友／信标跳跃及玩家 J／Esc；新绝对证据目录，无导出或打包 |
 | `capture/verify_ink_buddy.gd` | 原生两尺寸伙伴选择、实际右键／E、双方真实追击伤害、手雷预测与实爆对照、投放提示；固定角色和逐帧控制，只算受控原生证据 |
+| `capture/verify_tidewater_ink_loop.gd` | 原生潮水码头 61 个计分面抽样、CPU／纹理／覆盖率核对；实际滚涂上下坡、潜墨回墨、干地／敌墨拒绝与爬墙越沿；固定位置和墨量、冻结机器人，只算受控原生证据 |
+| `capture/verify_bot_ink_refill.gd` | 原生两队低墨寻路／停火／潜墨回补／恢复行动、干地敌墨与互斥负例、玩家实际 Shift 输入；固定资源与加速物理，只算受控原生证据 |
 | `capture/verify_bot_beacons.gd` | 两队 AI 出生点拒绝／前方放置和真实玩家 E 输入；固定坐标、暂停对局物理、实际道具 tick，只算受控原生证据 |
 | `release/` | arm64 模板与本地打包 |
 
@@ -89,6 +91,20 @@ python3 tools/release/package_macos.py --version v0.3.0-preview.16 \
 
 打包工具会核对生产输入及所有应用文件与收据一致；拒绝任意改变的源码、PCK、版本或伪造的 `--source-commit`。随包 `BUILD.json` 记录引擎、源码提交、输入／应用／证据文件哈希，ZIP 附 SHA256SUMS。原生画面与解压后的实际启动另行验证；临时签名不表示 Apple 公证。
 
-`verify_app.py` 要求新的证据子目录：同版本原生编辑器从临时工作目录显式加载导出 PCK，运行指定外部规则（当前 22 项）、原生 UI 与伙伴／投放专用实际输入检查；再单独运行实际应用、不添加路径／脚本覆盖参数。标准发行模板禁用路径覆盖，不能把 `--main-pack` 传给发行应用。默认编辑器可用 `--godot` 指定。
+`verify_app.py` 要求新的证据子目录：同版本原生编辑器从临时工作目录显式加载导出 PCK，运行指定外部规则（当前 27 项）、原生 UI、伙伴／投放及主武器实际鼠标蓄力／护盾／悬停检查；再单独运行实际应用、不添加路径／脚本覆盖参数。标准发行模板禁用路径覆盖，不能把 `--main-pack` 传给发行应用。默认编辑器可用 `--godot` 指定。
 
 用户要求只导出 `.app`、不创建压缩包时，使用 `build_metadata.py prepare` → Godot `--export-release macOS <新临时目录>/TideInk.app` → 保留旧应用并替换 `build/TideInk.app` → `build_metadata.py finish` → `verify_app.py`。复用已验证的 arm64 模板缓存，不能运行会生成 ZIP 的 `export_macos.sh` 或 `package_macos.py`；生产输入提交和收据验证要求保持不变。
+
+## 主武器伤害与原生输入
+
+`tests/godot/check_damage_contract.gd` 覆盖三种角色扣血入口、部位一致性、击倒／非击倒门槛、护盾、薄墙、射程、滚筒共享最终预算与机器人有效天赋。`tools/capture/verify_primary_combat.gd` 复用这些隔离规则，再注入原生鼠标按住／松开，验证蓄力伤害、实际护盾和配装说明；只接受新的绝对输出目录，记录源码散列、环境和截图，不代表自然计时或真人手感。
+
+```sh
+Godot --path . --rendering-method forward_plus --rendering-driver metal \
+  --script res://tools/capture/verify_primary_combat.gd -- \
+  --output=/absolute/path/to/new-evidence-directory
+```
+
+180 秒自然计时对局继续使用 `tools/measure/measure_native_match.gd -- --output=res://render-evidence/<new>/match --map=tidewater --weapon=shooter`，不得与规则回归并行采集帧间隔。
+
+`tests/godot/check_extended_damage.gd` 验证玩家与两队机器人双持／弓击倒门槛，以及漏箭、半蓄、低墨、护盾、共享上限、薄墙和飞镖／伞的定位。`capture/verify_primary_combat.gd` 记录实际鼠标满蓄狙／弓、释放耗墨、护盾以及三种武器详情；自动滚动到卡片属于受控准备，悬停使用鼠标事件。

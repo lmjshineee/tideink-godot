@@ -1,0 +1,27 @@
+{
+  "checked_on": "2026-10-09",
+  "hash_comparisons": {
+    "full_checks": {
+      "files": 64,
+      "mismatches": []
+    },
+    "controlled_native": {
+      "files": 70,
+      "mismatches": []
+    },
+    "natural_match": {
+      "files": 68,
+      "mismatches": []
+    }
+  },
+  "production_changes": [
+    "src/combat/tidewater_combat.gd"
+  ],
+  "asset_changes": [],
+  "final_test_tool_sha256": {
+    "tests/godot/check_tidewater_bot.gd": "012ada3b4adce78ffd9bfa88638b9160481a7af84f7f92eee8d52b6332be0daf",
+    "tests/godot/check_roller_surface_contact.gd": "ab13a83aff0339d5e00029fae91051df66189a4914ea015737c43d22dea190e2",
+    "tools/capture/verify_tidewater_ink_loop.gd": "1859c4959c0cb1139391e19d74aa492a3016d070e3af349b6a75264e515813fd",
+    "tools/measure/measure_native_match.gd": "12226631b29db7d80200d820c1d8fea9fdb209492b2a198f69be813dac6ab0c5"
+  }
+}

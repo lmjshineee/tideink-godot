@@ -33,8 +33,8 @@ func _check() -> void:
 		_fail("blue blaster did not fire a team 1 projectile")
 		return
 	combat.call("advance_effects", 0.15)
-	if float(scene.get("player_respawn")) > 0.0 or float(scene.get("player_health"))>=120.0:
-		_fail("blue blaster must damage while leaving full-health counterplay")
+	if float(scene.get("player_respawn")) <= 0.0 or float(scene.get("player_health"))!=0.0:
+		_fail("blue blaster direct must splat an unshielded target")
 		return
 	var bursts: Array = combat.get("bursts")
 	if bursts.is_empty() or not _near(float(((bursts[0] as Dictionary)["visual"] as MeshInstance3D).mesh.radius),
@@ -86,7 +86,7 @@ func _check() -> void:
 		return
 	charger_bot.call("tick", 0.51)
 	var charger_combat: Node3D = charger_scene.get_node("Combat")
-	if float(charger_scene.get("player_respawn")) > 0.0 or float(charger_scene.get("player_health")) >= 120.0 \
+	if float(charger_scene.get("player_respawn")) <= 0.0 or float(charger_scene.get("player_health")) != 0.0 \
 			or (charger_combat.get("beams") as Array).size() != 1 \
 			or float(charger_bot.get("ink_amount")) > 100.0 - float(weapons["charger"]["inkFull"]):
 		_fail("blue charger charge, beam, ink cost or hit")
@@ -118,10 +118,24 @@ func _check() -> void:
 		return
 	roller_walker.global_position = roller_bot.global_position + Vector3(0.0, 0.0, -1.0)
 	roller_bot.call("tick", 0.1)
-	if float(roller_scene.get("player_respawn")) > 0.0 or float(roller_scene.get("player_health"))>=120.0:
-		_fail("blue roller contact must damage while leaving full-health counterplay")
+	if float(roller_scene.get("player_respawn")) <= 0.0 or float(roller_scene.get("player_health"))!=0.0:
+		_fail("blue roller moving contact must splat an unshielded target")
 		return
 	print("PASS: setup bot loadout, blue blaster direct/splash, charger, roller and respawn persistence")
+	# Retire audio from all four short-lived scenes before ending the test.
+	for fixture in [scene,splash_scene,charger_scene,roller_scene]:
+		fixture.set_process(false)
+		fixture.set_physics_process(false)
+		fixture.get_node("World/Walker").set_physics_process(false)
+	await create_timer(.2).timeout
+	for fixture in [scene,splash_scene,charger_scene,roller_scene]:
+		for voice in fixture.sound.get_children():
+			if voice.has_method("stop"):
+				voice.stop();voice.stream=null
+	await create_timer(.1).timeout
+	for fixture in [scene,splash_scene,charger_scene,roller_scene]:fixture.queue_free()
+	await process_frame
+	await create_timer(.1).timeout
 	quit()
 
 

@@ -1,0 +1,210 @@
+{
+	"cases": [
+		{
+			"floor_owner": 0,
+			"height": 0.540000021457672,
+			"ink": 11.4,
+			"label": "team-0-submerged-floor-0",
+			"position": [
+				0.0,
+				0.000130206346511841,
+				-20.0
+			],
+			"refill_active": true,
+			"submerged": true,
+			"team": 0
+		},
+		{
+			"floor_owner": 0,
+			"height": 1.45000004768372,
+			"ink": 59.7,
+			"label": "team-0-human-floor-0",
+			"position": [
+				0.141421362757683,
+				0.000843137968331575,
+				-19.8585777282715
+			],
+			"refill_active": false,
+			"submerged": false,
+			"team": 0
+		},
+		{
+			"floor_owner": -1,
+			"height": 1.45000004768372,
+			"ink": 10.3,
+			"label": "team-0-human-floor--1",
+			"position": [
+				0.0,
+				0.000944007188081741,
+				-20.0
+			],
+			"refill_active": true,
+			"submerged": false,
+			"team": 0
+		},
+		{
+			"floor_owner": 1,
+			"height": 1.45000004768372,
+			"ink": 10.3,
+			"label": "team-0-human-floor-1",
+			"position": [
+				0.0,
+				0.000944007188081741,
+				-20.0
+			],
+			"refill_active": true,
+			"submerged": false,
+			"team": 0
+		},
+		{
+			"floor_owner": 1,
+			"height": 0.540000021457672,
+			"ink": 11.4,
+			"label": "team-1-submerged-floor-1",
+			"position": [
+				0.0,
+				0.000130206346511841,
+				-20.0
+			],
+			"refill_active": true,
+			"submerged": true,
+			"team": 1
+		},
+		{
+			"floor_owner": 1,
+			"height": 1.45000004768372,
+			"ink": 59.7,
+			"label": "team-1-human-floor-1",
+			"position": [
+				-0.141421362757683,
+				0.000843137968331575,
+				-19.8585777282715
+			],
+			"refill_active": false,
+			"submerged": false,
+			"team": 1
+		},
+		{
+			"floor_owner": -1,
+			"height": 1.45000004768372,
+			"ink": 10.3,
+			"label": "team-1-human-floor--1",
+			"position": [
+				0.0,
+				0.000944007188081741,
+				-20.0
+			],
+			"refill_active": true,
+			"submerged": false,
+			"team": 1
+		},
+		{
+			"floor_owner": 0,
+			"height": 1.45000004768372,
+			"ink": 10.3,
+			"label": "team-1-human-floor-0",
+			"position": [
+				0.0,
+				0.000944007188081741,
+				-20.0
+			],
+			"refill_active": true,
+			"submerged": false,
+			"team": 1
+		}
+	],
+	"environment": {
+		"adapter": "Apple M5 (Apple9)",
+		"api": "4.0",
+		"arm64": true,
+		"display": "macOS",
+		"engine": "4.8-dev6 (official)",
+		"window": [
+			1280,
+			720
+		]
+	},
+	"failures": [],
+	"focus_resumes": 0,
+	"kind": "controlled native both-team low-ink movement and refill",
+	"limits": "Fixed positions/ink, frozen match and other actors, accelerated 30 Hz simulated physics; actual bot decisions and collision movement. Not natural timing, human feel, performance, temperature or export acceptance.",
+	"player_input": {
+		"entry_ticks": 3,
+		"ink_gain": 42.0,
+		"input": "Shift",
+		"sample_ticks": 30,
+		"squid": true
+	},
+	"source_sha256": {
+		"res://assets/integrity.json": "915aeef353a9b55bc1f40c42f655c0682c95c5fca8772aff1090d1f08daae107",
+		"res://project.godot": "3a210bca6908e9bc7af3f72c4d561fb071e59b0baa3de5bf70a5f3f1d147654f",
+		"res://src/abilities/tidewater_bot_deployment.gd": "39067de1362dc317c454411ea95b99867bf1816d417c82fc5d90fccd68d612e5",
+		"res://src/abilities/tidewater_buddies.gd": "6ef0a746552a04d3f66df807e634339c4c131432ab9dcdb85ae0c1e8bd3663fd",
+		"res://src/abilities/tidewater_comeback.gd": "9b9fc14c331f48847df125eb94adf2d7df7885240d4c39ddef4baba6f55a251f",
+		"res://src/abilities/tidewater_decoys.gd": "3671e81bf1421b05db27dfa812d4fe97c81d632e4e8aa698ec0cf219e6444cb6",
+		"res://src/abilities/tidewater_deployment.gd": "8a4893bb776d4c7f10aaa76be1c74fc558f02120b9cc14e942987201fc4ea354",
+		"res://src/abilities/tidewater_intel.gd": "30594ce5da5a9595e26994b598f872efceef200d63b5d0887775c38d58efc899",
+		"res://src/abilities/tidewater_items.gd": "ed14ac21195a636c007737112dc18e653ee8b89d7df256cd1dc6e0af3dde0268",
+		"res://src/abilities/tidewater_mines.gd": "31fd22f5506c0639f14568322885ac122caddaecf0bb7f66e981174125e87de1",
+		"res://src/abilities/tidewater_mist.gd": "e71fe5a3e5d02f59dbdcb3cb681b7fc8164909b398fde821030991e778b6484f",
+		"res://src/abilities/tidewater_mobility.gd": "3582be42821b2db4155d134fd9f1f275d4ae587fd486c3cddccfd4b8c55f2e2d",
+		"res://src/abilities/tidewater_perks.gd": "efb764e9f61e9c1dbf7be59f60925949007e126c9f7cb6c5a560071a3e6c98c9",
+		"res://src/abilities/tidewater_recall.gd": "a3cac5accfbc26121c97b88095e3cb3a8d33f8a5b56fe06f63b81fe4ad6cb2ff",
+		"res://src/abilities/tidewater_sonar.gd": "65c3d97ff60626bbbf15a5e8932e60db70ae9b7d0881e2a71275f92400f0c4a8",
+		"res://src/abilities/tidewater_supply.gd": "c709f1985c62691d987c4272afcff58fc75f19a315b09c3b4b9e46ae90d43c23",
+		"res://src/abilities/tidewater_wings.gd": "2c3492507d1b61171db0bdc56a10d55b8c0aade03e1bf74a722ee76dde7d5a36",
+		"res://src/actors/tidewater_bot.gd": "85fc7165b198dbf20f013cb003ba191ab2ea93c04de0e45006ee7d211d89ed4d",
+		"res://src/actors/tidewater_bot_ink.gd": "c08a44749a70cbaf23638c760d0e903390fcba7d9bb85045ded6877c0360819d",
+		"res://src/actors/tidewater_character_visual.gd": "bdbea5dd3e648c5a8d9f77f6308d083acdd4eba6a94fc4c888d670cbf9745c29",
+		"res://src/actors/tidewater_walker.gd": "a574954aec365deae14f4407e6a9fddeb0acbbe6e69be142b0888cd82d08023c",
+		"res://src/combat/ink_disc_mesh.gd": "c14cfb0d0db7cd90809a3cd8c82a39d5bf5ede93d45272e8028625c1baf7c44a",
+		"res://src/combat/ink_equipment_mesh.gd": "ea0257cd78cf3330dd22d7706213eb6467f14c09ea262f72d40e18c8a29f44dd",
+		"res://src/combat/tidewater_bot_specials.gd": "1f39b4df914f0d3ada4e07c9fc9dc250383acc393f5ce6dc8d3eeaf35f61bc5f",
+		"res://src/combat/tidewater_bow.gd": "5f142ebf3af41a3d26c1709d0d1549e397ddee21b4e8c73dc1d9d03c67c87d20",
+		"res://src/combat/tidewater_canopy.gd": "a375f321f1bcbfe495424f9f2c8eb6440d399c581ecda56288a04734e7a4bc32",
+		"res://src/combat/tidewater_combat.gd": "e4ae4e4f12d9fd497895445f55250910cecd6209ab15705866e1414ccdda739d",
+		"res://src/combat/tidewater_counter.gd": "2c2555d073939e4b3f43d9e74973ae18f01ef19adf7ee37a0fc7aa781ae1497b",
+		"res://src/combat/tidewater_discs.gd": "9486ba6c09f6915491eae0207cbbbb9c06b57a649f7b82344b3bc045eb2af4eb",
+		"res://src/combat/tidewater_rain_arrows.gd": "25a83de5e5104edf28a3f9403ace78bfcf4c017abe7d87b79f0e786a511dcb2a",
+		"res://src/combat/tidewater_weapon_specials.gd": "aabdaf66aba6072b335d53d116314e7ebca5aced241be065ba70ae5e243ed263",
+		"res://src/core/bot_difficulty.gd": "c1db58880e33f343c67434707e5d80b87451130323ee64f65467803f7a2aea08",
+		"res://src/core/equipment_catalog.gd": "8c28252e48f7d41af40ed2a23a4529931d5241061eae0391977f396bd4ef6387",
+		"res://src/core/gameplay_rules.gd": "2f7d6fe00685969480b465251ef0e1df94cb750d99cdff9ade656260c1f1261b",
+		"res://src/core/map_catalog.gd": "16dd892ee7b3d92f398d48630c7f5dfe55829e35be896040eecd56c67ba912c7",
+		"res://src/core/match_setup.gd": "724f29472c5d8445293614a20cf75287007e7face7cebdec49d7424924a35c1a",
+		"res://src/core/team_palette.gd": "49b110acd9c71b7b4d48a01586ec174d104ac9fbd94a45eab4ce11217955ba33",
+		"res://src/core/weapon_profile.gd": "64b44bd1fc66b9e2a66498436917dfbef46c584584429467fce5a42ca6b30b8e",
+		"res://src/legacy/main.gd": "b37556ff4f2fb6f4e49289af6ba30c8ddfd4fd7e6a7eb4b892f0ccb7e3dad232",
+		"res://src/match/tidewater_play.gd": "cf6cee303fe6bec082668919e45ac7ecdea53a2da149f6dd3a089629f60d8b3e",
+		"res://src/presentation/ink_buddy_visual.gd": "aeb30d4a813c7008de310d76c905b357806c7c578913e440c8df714cbceb6a34",
+		"res://src/presentation/tidewater_audio.gd": "2418a29a463bd4f47e780360f7888bfddb1e90c8d398de59bb4e094fbe9191be",
+		"res://src/presentation/tidewater_cinematic.gd": "736bc7035da99e418fcc338bec08a8d6595651a75590408c89c7746084df5056",
+		"res://src/presentation/tidewater_feedback_fx.gd": "a86053c8bcfaaa4b454691eafa628732fc38192222b1cca4541cc13a6ccae5ba",
+		"res://src/presentation/tidewater_item_preview.gd": "12a21dc9a824e10819f78e991c1a977c66949e754c1ad024b600b1f2c568dfdc",
+		"res://src/ui/incoming_attack.gd": "85f21fddfafaf98a6d427b2bbbd4f5410a392a8340ea6342a320eba3bfd409de",
+		"res://src/ui/loadout_details.gd": "128b0a69df3ad319a8635017e44699c1e70af3f02dcb80d5d301d1956fa10d2b",
+		"res://src/ui/loadout_icons.gd": "c92c73de2505a9054b3cc83d17d634be2febcf2845a0726e9f3a97127d97f393",
+		"res://src/ui/loadout_strip.gd": "933436d762676fc7f0a832c17d243adf761c412db845a6322d7eea2cf8b26ccd",
+		"res://src/ui/menu_character_preview.gd": "af908c4f80bc9cb4925654235638d280159aedec69315c4dc1d49d60cbbc5db2",
+		"res://src/ui/menu_stage_preview.gd": "a153419b0ab4e42fd037c2a5047418bada26c8b748795ac117f5d988a80203fe",
+		"res://src/ui/tidewater_frontend.gd": "8bef3e3b76303599ca7ac4e5ceaa8ce7f9e68d3447fba8f23d736819286bb0c1",
+		"res://src/ui/tidewater_hud.gd": "f1e1629d3a931a3572bb39bdeab0ec497eba76706c010934aa92a6497640a1d1",
+		"res://src/ui/tidewater_hud_layout.gd": "ac257c721306585cf2aa63f3a823ae545a600cd6bcfafad9e976e629a00e2fd8",
+		"res://src/ui/tidewater_jump_selector.gd": "83150afeb22f8b687fcf5954fec387dc292151b20cdcf5a5ca1a8b150d12fb18",
+		"res://src/ui/tidewater_presentation.gd": "41e1b2db145f1cf577fd1b87cf14ebd58e95b34888c1bacb1d765ca407d890f5",
+		"res://src/ui/tidewater_settings.gd": "ecf9edc2e435298582e5f4c4a94a6511fec97c1145e08cfdfb904e74b79d2681",
+		"res://src/ui/tidewater_settings_panel.gd": "e2a81463221cfb9f3bc5562aca47ed3718455ccd1bf28fbf7babf5cbfd0a63e8",
+		"res://src/ui/tidewater_tactics.gd": "fa97042eebb738cfc0672d5c790d69d97d04830f17933a0d365ada28b6666d45",
+		"res://src/ui/turf_minimap.gd": "9d96383e5eaa231a0536b770098944c37625810f6fa7bd58f6f543e0d58646cf",
+		"res://src/ui/ui_fonts.gd": "949e6cb2c7b96cddc4b27545424479e289a0b665dce06c7e8678dba294a03e5e",
+		"res://src/world/paint_field.gd": "6dcaa6ce7bcac14904563a9ee60a1409995a8904dc868398cf8287bed51f8228",
+		"res://src/world/surface_ink.gd": "cbc770c6fa86ca9b1f51cba6dd993c4e9adb9ed19c4deb0759f7a6a76ae7e400",
+		"res://src/world/surface_ink_view.gd": "1453d616ff12fad2ba2541e33a5e2cdb4ca59c3f13664daea462073bbc247c3b",
+		"res://src/world/team_navigation.gd": "ad7d889e6038206a6cbe04be9b83871bfe24bf8ee744d5e640bc0bc06e85973c",
+		"res://src/world/tidewater_map.gd": "b2c4e6a20467e835b66c04feed2a7828b6cd373d052f9549df4eba2e849137e3",
+		"res://src/world/tidewater_scenery.gd": "adf56b0210525428df3a643e53b881f3ce8d1a3807af8d1210fc99811bbdafad",
+		"res://tests/godot/check_bot_ink_refill.gd": "5c0429113f1e8799175915d5489c66f201002e5eea13bf191df468dba5f812ce",
+		"res://tools/capture/verify_bot_ink_refill.gd": "c397e3d43b11e8d6bb22be83ce9e8973695f92a32a9061022633759365f6173b"
+	},
+	"status": "passed"
+}

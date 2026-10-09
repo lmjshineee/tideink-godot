@@ -1,0 +1,42 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+AUDIT: roller face=42 team=0 opposite direction cells=136/138
+AUDIT: roller face=42 team=1 opposite direction cells=136/138
+AUDIT: roller face=46 team=0 opposite direction cells=136/138
+AUDIT: roller face=46 team=1 opposite direction cells=136/138
+AUDIT: roller face=81 team=0 opposite direction cells=131/134
+AUDIT: roller face=81 team=1 opposite direction cells=131/134
+AUDIT: roller face=124 team=0 opposite direction cells=135/135
+AUDIT: roller face=124 team=1 opposite direction cells=135/135
+AUDIT: roller face=133 team=0 opposite direction cells=133/133
+AUDIT: roller face=133 team=1 opposite direction cells=133/133
+AUDIT: roller face=179 team=0 opposite direction cells=136/138
+AUDIT: roller face=179 team=1 opposite direction cells=136/138
+AUDIT: roller face=183 team=0 opposite direction cells=136/138
+AUDIT: roller face=183 team=1 opposite direction cells=136/138
+AUDIT: roller face=218 team=0 opposite direction cells=131/134
+AUDIT: roller face=218 team=1 opposite direction cells=131/134
+AUDIT: roller face=261 team=0 opposite direction cells=135/135
+AUDIT: roller face=261 team=1 opposite direction cells=135/135
+AUDIT: roller face=270 team=0 opposite direction cells=133/133
+AUDIT: roller face=270 team=1 opposite direction cells=133/133
+AUDIT: roller face=76 team=0 opposite direction cells=138/134
+AUDIT: roller face=76 team=1 opposite direction cells=138/134
+AUDIT: roller face=119 team=0 opposite direction cells=138/134
+AUDIT: roller face=119 team=1 opposite direction cells=138/134
+AUDIT: shared roller map=kelpline face=61.0 team=0 opposite direction cells=137/139
+AUDIT: shared roller map=kelpline face=61.0 team=1 opposite direction cells=137/139
+FAIL: shared roller slope footprint in coral_market team 0 cells 0/135
+AUDIT: shared roller map=coral_market face=50.0 team=0 opposite direction cells=0/135
+FAIL: shared roller slope footprint in coral_market team 1 cells 0/135
+AUDIT: shared roller map=coral_market face=50.0 team=1 opposite direction cells=0/135
+AUDIT: shared roller map=prism_gallery face=32.0 team=0 opposite direction cells=134/136
+AUDIT: shared roller map=prism_gallery face=32.0 team=1 opposite direction cells=134/136
+AUDIT: shared roller map=viaduct face=43.0 team=0 opposite direction cells=137/139
+AUDIT: shared roller map=viaduct face=43.0 team=1 opposite direction cells=137/139
+AUDIT: shared roller map=modular_harbor face=21.0 team=0 opposite direction cells=134/136
+AUDIT: shared roller map=modular_harbor face=21.0 team=1 opposite direction cells=134/136
+AUDIT: shared roller map=terrace_garden face=27.0 team=0 opposite direction cells=134/136
+AUDIT: shared roller map=terrace_garden face=27.0 team=1 opposite direction cells=134/136

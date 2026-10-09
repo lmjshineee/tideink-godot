@@ -1,0 +1,182 @@
+{
+  "status": "passed",
+  "baseline_head": "ec46144e4d58b0e69a7d9bb295845fff0112b3ae",
+  "changed_existing_files": [
+    "README.md",
+    "docs/COORDINATION.md",
+    "docs/EXPERIENCE_TUNING.md",
+    "docs/GAMEPLAY.md",
+    "docs/GODOT_MAINTENANCE.md",
+    "docs/STRUCTURE.md",
+    "src/combat/tidewater_combat.gd",
+    "src/core/equipment_catalog.gd",
+    "src/core/gameplay_rules.gd",
+    "src/match/tidewater_play.gd",
+    "src/ui/loadout_details.gd",
+    "tests/godot/check_creative_canopy.gd",
+    "tests/godot/check_damage_contract.gd",
+    "tests/godot/check_damage_regions.gd",
+    "tests/godot/check_enemy_swim_damage.gd",
+    "tests/godot/check_menu_inspection.gd",
+    "tests/godot/check_tidewater_bot_loadout.gd",
+    "tests/godot/check_tidewater_combat_loop.gd",
+    "tests/godot/helpers/creative_fixture.gd",
+    "tools/README.md"
+  ],
+  "missing_existing_files": [],
+  "prior_uid_files_unchanged": 234,
+  "prior_asset_files_unchanged": 432,
+  "manifest_assets_verified": 270,
+  "previous_batch_other_files_unchanged": 923,
+  "roller_support_functions_unchanged": [
+    "_paint_roll_at",
+    "_paint_roll_team",
+    "_roller_surface_contact"
+  ],
+  "source_bindings": {
+    "final-source.json": {
+      "recorded_files": 173,
+      "mismatches": [],
+      "report_sha256": "d186a4a721957d975e4fbff2bc9b1ffef4b9b15a44206fff433917706154537a"
+    },
+    "native-verified/combat.json": {
+      "recorded_files": 69,
+      "mismatches": [],
+      "report_sha256": "30ed31eb1cb591c4557ccf2ce35aaa022fa9b5fe4d90062e9f6f955fc001b03f"
+    },
+    "match/match.json": {
+      "recorded_files": 69,
+      "mismatches": [],
+      "report_sha256": "cb1ffd771de4abbf2496ea9b3f75da3a97f78a58c6411b8b772f16ab11be0f15"
+    }
+  },
+  "uniform_snapshot_superseded_teardown_files": [
+    "tests/godot/check_damage_regions.gd",
+    "tests/godot/check_tidewater_bot_loadout.gd",
+    "tests/godot/check_tidewater_combat_loop.gd",
+    "tests/godot/helpers/creative_fixture.gd"
+  ],
+  "uniform_snapshot_exit_warnings_superseded_by_clean_targeted_reruns": {
+    "check_tidewater_bot_loadout.log": [
+      "WARNING: 18 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_combat_loop.log": [
+      "WARNING: 24 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ]
+  },
+  "controlled_native_helper_dependency": {
+    "tests/godot/helpers/creative_fixture.gd": "bb6a25d1a06bdf9e343775cf82a6283986563ca749ba7d0d7bd442df04998ffa"
+  },
+  "final_checks": {
+    "passed": 105,
+    "failed": 0
+  },
+  "final_log_review": {
+    "checks-audited.txt": {
+      "known_macos_ca_messages": 0,
+      "other_engine_errors_or_warnings": []
+    },
+    "native5-engine.txt": {
+      "known_macos_ca_messages": 0,
+      "other_engine_errors_or_warnings": []
+    },
+    "native5-stdout.txt": {
+      "known_macos_ca_messages": 0,
+      "other_engine_errors_or_warnings": []
+    },
+    "match-engine.txt": {
+      "known_macos_ca_messages": 0,
+      "other_engine_errors_or_warnings": []
+    },
+    "match-stdout.txt": {
+      "known_macos_ca_messages": 0,
+      "other_engine_errors_or_warnings": []
+    },
+    "cleanup-final-parse-stdout.txt": {
+      "known_macos_ca_messages": 1,
+      "other_engine_errors_or_warnings": []
+    },
+    "check_damage_contract-cleanup-final-stdout.txt": {
+      "known_macos_ca_messages": 1,
+      "other_engine_errors_or_warnings": []
+    },
+    "check_damage_regions-cleanup-final-stdout.txt": {
+      "known_macos_ca_messages": 1,
+      "other_engine_errors_or_warnings": []
+    },
+    "check_tidewater_bot_loadout-cleanup-final-stdout.txt": {
+      "known_macos_ca_messages": 1,
+      "other_engine_errors_or_warnings": []
+    },
+    "check_tidewater_combat_loop-cleanup-final-stdout.txt": {
+      "known_macos_ca_messages": 1,
+      "other_engine_errors_or_warnings": []
+    },
+    "audited-rule-logs/check_asset_integrity.log": {
+      "known_macos_ca_messages": 1,
+      "other_engine_errors_or_warnings": []
+    },
+    "audited-rule-logs/check_creative_canopy.log": {
+      "known_macos_ca_messages": 1,
+      "other_engine_errors_or_warnings": []
+    },
+    "audited-rule-logs/check_menu_inspection.log": {
+      "known_macos_ca_messages": 1,
+      "other_engine_errors_or_warnings": []
+    },
+    "audited-rule-logs/check_enemy_swim_damage.log": {
+      "known_macos_ca_messages": 1,
+      "other_engine_errors_or_warnings": []
+    }
+  },
+  "git_diff_check": "passed",
+  "controlled_native": {
+    "status": "passed",
+    "focus_resumes": 0,
+    "mouse_full_charge": {
+      "hold_ticks": 31,
+      "ink_after": 86.0,
+      "release": "left mouse up",
+      "target_hp": 0.0,
+      "target_respawn": 4.0
+    },
+    "mouse_shield": {
+      "ink_after": 86.0,
+      "remaining_armor": 0.0,
+      "target_hp": 30.0
+    }
+  },
+  "natural_round": {
+    "status": "passed",
+    "natural_deaths": 10,
+    "confirmed_completed_respawns": 10,
+    "focus_resumes": 0,
+    "play_wall_seconds": 180.538737,
+    "performance": {
+      "frames_over_50ms": 7,
+      "max_frame_ms": 823.229,
+      "mean_fps": 29.8437770270534,
+      "p50_frame_ms": 33.358,
+      "p95_frame_ms": 36.011,
+      "p99_frame_ms": 39.827,
+      "samples": 5239,
+      "warmup_seconds": 5
+    }
+  },
+  "reviewed_images": [
+    "native-verified/updated-loadout.png",
+    "native-verified/mouse-shield-counterplay.png",
+    "match/results.png"
+  ],
+  "limitations": [
+    "823.229 ms long frame is not diagnosed",
+    "Automated single round does not prove human feel or eight-weapon balance",
+    "No GPU timing or temperature measurement",
+    "No new application export; existing application remains preview.20"
+  ],
+  "test_audio_cleanup": "After the uniform suite, only test audio teardown and docs changed; parse gate, four combat targets and controlled native rerun passed without exit warnings",
+  "local_markdown_links": {
+    "checked": 113,
+    "missing": []
+  }
+}

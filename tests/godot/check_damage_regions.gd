@@ -14,25 +14,34 @@ func _run() -> void:
 		game._start_round()
 		for actor in game.all_actors():
 			if actor!=walker:actor.global_position=Vector3(60,30,60);game.perks.choices[actor.get_instance_id()]="balanced"
-		walker.global_position=Vector3(0,2.25,36);game.player_invuln=0
+		walker.global_position=Vector3(0,2.25,36);game.player_invuln=0;game.player_health=300
 		var origin:=walker.global_position+Vector3(0,height,-4)
 		combat.fire_bot_charger(origin,walker.global_position+Vector3.UP*height,1,1,game.get_node("Bot"))
-		observed.append(120-game.player_health)
+		observed.append(300-game.player_health)
 		print("AUDIT: charge impact height=",height," damage=",observed.back()," text=",game.last_damage_text)
-	expect(absf(observed[0]-85)<0.01 and absf(observed[1]-100)<0.01 and absf(observed[2]-108)<0.01,"actual ray distinguishes legs/torso/head")
+	expect(absf(observed[0]-150)<0.01 and absf(observed[1]-150)<0.01 and absf(observed[2]-150)<0.01,"actual ray damage is equal across legs/torso/head")
 	expect(game.last_damage_text.contains("头部") and game.last_damage_text.contains("4.0m"),"hit region and distance visible")
 	var rules:=preload("res://src/core/gameplay_rules.gd")
 	expect(rules.shooter_damage(30,2,12.5)==30 and absf(rules.shooter_damage(30,12.5,12.5)-23.4)<0.01,"near/far falloff retains source behavior")
 	expect(combat.hit_region(0.4,0.55,true)=="潜墨" and combat.region_multiplier("潜墨")==1,"squid capsule has no artificial head zone")
 	var attacker: Node3D=game.get_node("Bot");game.perks.choices[attacker.get_instance_id()]="adrenaline";game.bot_health=60
-	expect(game._modified_damage(108,walker,attacker,"charger")==115,"normal hit remains bounded with head and low-health bonuses")
+	expect(is_equal_approx(game._modified_damage(108,walker,attacker,"charger"),124.2) and game._modified_damage(1000,walker,attacker,"charger")==180,"precision ceiling allows a lethal charge and remains finite")
 	game.player_health=120;game.player_respawn=0;game.items.equip(walker,"shield");game.items.use(walker)
-	game.damage_player(100,false,null,"charger","躯干",4)
-	expect(game.player_health==80 and game.items.state(walker)["armor"]==0,"shield absorbs before HP and provenance shows remaining damage")
+	game.damage_player(150,false,null,"charger","躯干",4)
+	expect(game.player_health==30 and game.items.state(walker)["armor"]==0,"shield absorbs before HP and provenance shows remaining damage")
 	game.damage_history.clear();game.player_health=120;game.perks.choices[attacker.get_instance_id()]="balanced"
 	game.damage_player(10,false,attacker,"shooter","头部",4)
 	game.damage_player(10,false,attacker,"shooter","腿部",5)
 	var summary: String=game.damage_summary()
 	expect(summary.contains("−20") and not summary.contains("头部") and not summary.contains("腿部"),"death summary groups same attacker/weapon across regions and distances")
-	if failures.is_empty():print("PASS: native capsule ray zones, distance falloff, squid form, boosted-shot limit and shield-before-health")
-	game.queue_free();await process_frame;quit(0 if failures.is_empty() else 1)
+	if failures.is_empty():print("PASS: equal capsule ray zones, distance falloff, squid form, per-weapon boosted-shot limit and shield-before-health")
+	# Stop audio before freeing the short-lived fixture; let playback refs retire.
+	game.set_process(false)
+	await create_timer(.2).timeout
+	for voice in game.sound.get_children():
+		if voice.has_method("stop"):
+			voice.stop();voice.stream=null
+	await create_timer(.1).timeout
+	game.queue_free();await process_frame
+	await create_timer(.1).timeout
+	quit(0 if failures.is_empty() else 1)

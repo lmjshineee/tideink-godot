@@ -17,7 +17,7 @@ func begin(actor: Node3D) -> bool:
 		actor.update_form(false)
 		if actor.squid_form or actor.climbing: return false
 		actor.floor_snap_length = 0; actor.jump_requested = false
-	else: actor.team_mover.floor_snap_length = 0; actor.set_meta("enemy_swimming",false); actor.get_node("Body").set_form(false)
+	else: actor.team_mover.floor_snap_length = 0; game.perks.bot_form(actor,true)
 	var visual := Node3D.new(); add_child(visual)
 	var mesh := preload("res://src/combat/ink_equipment_mesh.gd"); var color: Color = preload("res://src/core/team_palette.gd").color(game.actor_team(actor))
 	for sign in [-1,1]:
