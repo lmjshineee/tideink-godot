@@ -46,7 +46,7 @@ static func weapon(game: Node3D,id: String) -> Dictionary:
 	if game.perks.kind(game.get_node("World/Walker"))=="saver":text+="\n墨水消耗已计入节墨天赋。"
 	var saving: float = game.attributes.bonus(game.get_node("World/Walker"),"main_saver")
 	if saving > 0:
-		text+="\n装备省墨 %.1f%%，当前主射耗墨已计入：%.2f%s。" % [saving*100,float(w.get("inkFull",w.get("flickInk",w.get("inkPerShot",0)))),"（满蓄）" if w.has("inkFull") else "（每轮）"]
+		text+="\n属性省墨 %.1f%%，当前主射耗墨已计入：%.2f%s。" % [saving*100,float(w.get("inkFull",w.get("flickInk",w.get("inkPerShot",0)))),"（满蓄）" if w.has("inkFull") else "（每轮）"]
 	return {"title":game._weapon_text(id)+" · 主武器","body":text}
 
 static func item(game: Node3D,id: String) -> Dictionary:
@@ -74,4 +74,4 @@ static func item(game: Node3D,id: String) -> Dictionary:
 	return {"title":game.items.LABELS[id]+" · 副武器","body":text}
 
 static func perk(id: String) -> Dictionary:
-	return {"title":Perks.LABELS[id]+" · 天赋","body":Perks.DESCRIPTIONS[id]+"\n\n赛前选一个，进入入场动画即锁定。\n天赋整局固定，死亡、复活和装备重摇不改变。\n队友与对手独立随机，一局内同样固定。"}
+	return {"title":Perks.LABELS[id]+" · 天赋","body":Perks.DESCRIPTIONS[id]+"\n\n赛前选一个，进入入场动画即锁定。\n天赋整局固定，死亡、复活和配装重摇不改变。\n队友与对手独立随机，一局内同样固定。"}
