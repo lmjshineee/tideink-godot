@@ -1,0 +1,9 @@
+{
+  "protected_assets": 432,
+  "protected_uids": 250,
+  "changes": [],
+  "template_sha256": "daf43479c6c792c06d47e22e59bdbac39170d27b6bc5e739871d17601ba2fce7",
+  "template_binary_members": [
+    "macos_template.app/Contents/MacOS/godot_macos_release.arm64"
+  ]
+}

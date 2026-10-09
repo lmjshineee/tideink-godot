@@ -4,7 +4,7 @@
 
 原 INKWAVE 原生项目现名 TideInk。资源来源、许可证和历史记录保留；本地工程目录仍为 `inkwave-game-cleaned`。
 
-当前可玩应用：`build/TideInk.app`（`0.3.0-preview.21`，arm64），包含坡道涂墨、两队回墨和八武器门槛续批；已通过包内规则／原生输入／实际启动。详见 [应用验收](render-evidence/app-preview21-2026-10-09/summary.md)。
+当前可玩应用：`build/TideInk.app`（`0.3.0-preview.22`，arm64），采用较宽容伤害，新增固定／自定义／随机配装、默认天赋强化与中央争夺。108 项源码检查、29 项实际 PCK 规则、原生输入和实际应用启动通过；旧 preview.21 保留。详见 [本批验收](render-evidence/loadout-tuning-2026-10-09/summary.md)。
 
 私有源码仓库：[lmjshineee/tideink-godot](https://github.com/lmjshineee/tideink-godot)。preview.16 的构建与启动证据见下方发布验收。
 

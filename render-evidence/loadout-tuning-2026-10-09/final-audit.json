@@ -1,0 +1,97 @@
+{
+  "audited_at": "2026-10-09T12:20:39.248350+00:00",
+  "source_head": "2cf1854f2c64c323c55e58dcbccd50f3d80fc57d",
+  "identity": {
+    "name": "TideInk",
+    "version": "0.3.0-preview.22",
+    "app_name": "TideInk.app",
+    "bundle_short_version": "0.3.0",
+    "bundle_build": "0.3.22",
+    "bundle_identifier": "com.yunni.tideink"
+  },
+  "architecture": "arm64",
+  "source_fingerprint": "55f10d5c5660bbe27deda53c5f1512aa0900ad58240f6aca76b2728d5fe663d1",
+  "production_inputs_match_receipt": true,
+  "app_bytes_match_receipt": true,
+  "app": "/Users/yunni/Joy/inkwave-game-cleaned/build/TideInk.app",
+  "app_file_count": 7,
+  "app_file_bytes": 319650565,
+  "pck_sha256": "5b217f946d8214294d1561c395a5ba6af38e2d76c2617ca8c34d49a00f8dbe3c",
+  "source_checks": {
+    "passed": 108,
+    "failed": 0,
+    "evidence": "checks-committable.txt"
+  },
+  "actual_pck_rules": {
+    "passed": 29,
+    "failed": 0,
+    "evidence": "app-verification-final/verification.json"
+  },
+  "actual_pck_native_checks": {
+    "native": "passed",
+    "buddy_native": "passed",
+    "primary_native": "passed",
+    "loadout_native": "passed"
+  },
+  "actual_app_headless_startup": {
+    "exit": 0,
+    "path_overrides": false,
+    "script_overrides": false
+  },
+  "actual_app_metal_startup": {
+    "frames": 45,
+    "exit": 0,
+    "godot_errors": 0,
+    "godot_warnings": 0,
+    "evidence": "app-metal-startup.txt"
+  },
+  "protected_inputs": {
+    "protected_assets": 432,
+    "protected_uids": 250,
+    "changes": [],
+    "template_sha256": "daf43479c6c792c06d47e22e59bdbac39170d27b6bc5e739871d17601ba2fce7",
+    "template_binary_members": [
+      "macos_template.app/Contents/MacOS/godot_macos_release.arm64"
+    ]
+  },
+  "backups_preserved": [
+    "build/TideInk-preview.21.app",
+    "build/TideInk-preview.20.app",
+    "build/export-receipt-preview.21.json",
+    "build/export-source-preview.21.json"
+  ],
+  "warnings": {
+    "headless_rule_exit_references": {
+      "check_actor_turf_credit": 14,
+      "check_gameplay_deployment": 20,
+      "check_expanded_loadouts": 20,
+      "check_map_routes26": 2
+    },
+    "actual_headless_app_exit_references": {
+      "count": 2,
+      "types": [
+        "AudioStreamWAV",
+        "AudioStreamPlaybackWAV"
+      ],
+      "evidence": "app-headless45.txt",
+      "resolved": false
+    },
+    "native_macos_diagnostic": "IMKCFRunLoopWakeUpReliable; retained in log; not a Godot script warning"
+  },
+  "acceptance_limits": [
+    "automatic input rather than human balance acceptance",
+    "one natural 180-second map/mode run",
+    "no long-term thermal sampling",
+    "other maps have rule checks but no full native-match acceptance"
+  ],
+  "negative_checks_evidence": [
+    "release-negative.txt",
+    "parse-negative.txt",
+    "asset-negative.txt"
+  ],
+  "opened_for_user": {
+    "exit": 0,
+    "pid": 49445,
+    "evidence": "app-open.json"
+  }
+}

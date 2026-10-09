@@ -1,0 +1,208 @@
+{
+  "source_head": "2cf1854f2c64c323c55e58dcbccd50f3d80fc57d",
+  "pck_sha256": "5b217f946d8214294d1561c395a5ba6af38e2d76c2617ca8c34d49a00f8dbe3c",
+  "method": "Matching native Godot editor loads the explicit exported PCK for external rule/UI fixtures. Working directory is temporary. Actual app startup is separately checked without path/script overrides.",
+  "cases": [
+    {
+      "name": "check_tidewater_turf_points",
+      "source_sha256": "cb5cd63c983368a38950ada85b01d6c0ccf2e04f5c56557cac1a7f11bd924417",
+      "external_sha256": "cb5cd63c983368a38950ada85b01d6c0ccf2e04f5c56557cac1a7f11bd924417",
+      "status": "passed"
+    },
+    {
+      "name": "check_gameplay_deployment",
+      "source_sha256": "ab9fb3dfeb51ef6c3c3a90cf4f6dd9f365e9b41ecd316aa8f5bad84201f94c36",
+      "external_sha256": "ab9fb3dfeb51ef6c3c3a90cf4f6dd9f365e9b41ecd316aa8f5bad84201f94c36",
+      "status": "passed"
+    },
+    {
+      "name": "check_expanded_loadouts",
+      "source_sha256": "ec8e90456881ea272a78c446ed08f73ad9e061fdda605e90f60a83b796ffb3ec",
+      "external_sha256": "ec8e90456881ea272a78c446ed08f73ad9e061fdda605e90f60a83b796ffb3ec",
+      "status": "passed"
+    },
+    {
+      "name": "check_bow_precision",
+      "source_sha256": "0654048170ba34af9c2fdf3a198f27c8a5d9c6e18ecc3909d51fd25fb6cd7d60",
+      "external_sha256": "3a4b9eb4f9960cb9d29d785ea18c350049bc26d8ffdc3b93942a651e94126ef9",
+      "status": "passed"
+    },
+    {
+      "name": "check_canopy_push",
+      "source_sha256": "aa4b39354be05860c8bbbbb98f955266e7f2fe1b4b707048d86c2efc934c9e51",
+      "external_sha256": "8333b271387b71fa73407aa115b67063e094d641cc79946959eb68ac082f2e5a",
+      "status": "passed"
+    },
+    {
+      "name": "check_creative_wings",
+      "source_sha256": "25abe5364274e9baac3f57ee2e7d292586c3e67a6730dac4ceba7783e58b4a86",
+      "external_sha256": "2d11519b6ef4563c397afc65af4386a3cd383e1f8f5dd69356638ecc0aff5334",
+      "status": "passed"
+    },
+    {
+      "name": "check_vertical_combat",
+      "source_sha256": "9e66df8279c9c8893e93b2a385d6eefa420a8f621d981596cc160293c20c824d",
+      "external_sha256": "c2521c75a0a4e2bf0ec95fa03e35f2e5c01c7d8b471aee8a236ec3a2c01c782e",
+      "status": "passed"
+    },
+    {
+      "name": "check_actor_turf_credit",
+      "source_sha256": "45577598c8b004421c5fdd584dd05d85f35cc35446fe7094f4f5c719d893933f",
+      "external_sha256": "45577598c8b004421c5fdd584dd05d85f35cc35446fe7094f4f5c719d893933f",
+      "status": "passed"
+    },
+    {
+      "name": "check_bot_high_ground",
+      "source_sha256": "84456bbcb7507d14b846dcd3b69defb7b6e1bd6a2718eea914db0696d92f38fd",
+      "external_sha256": "23edfc1710f48277bf7bafea5126e99cf36a36ab7f0da188deaee6c72bcf941c",
+      "status": "passed"
+    },
+    {
+      "name": "check_experience_balance",
+      "source_sha256": "79f46e12a1da9553be69e93344fde37f466dc9e47237704b1ab8fb192a0b6c32",
+      "external_sha256": "088f9a2ff824ea93562d6287eb0d5abc02ef14c4a327442ffa5c5cd40f6338aa",
+      "status": "passed"
+    },
+    {
+      "name": "check_weapon_specials",
+      "source_sha256": "813d0acf2df10091aae57ddb6d9e679cdefbd7dc503ba9ae25bde90cad5761b8",
+      "external_sha256": "a30e71b00da9cee0e1958b586e438acc17ec8a259b061534bc7b38fd6083994e",
+      "status": "passed"
+    },
+    {
+      "name": "check_combat_readability",
+      "source_sha256": "9f22d763f784a76103ce44617138feebfc3cbb43015c7b1d255b9dcae0c128f3",
+      "external_sha256": "7c5994d647e34993362129c1663acab16eab40c282db027fecab6bd14640b2b2",
+      "status": "passed"
+    },
+    {
+      "name": "check_ink_hazard_feedback",
+      "source_sha256": "7b3c5ff716296f89910524690f3ee1947a10b19a2aa36faba5057fc876419ca8",
+      "external_sha256": "e4decacb1ee080a100566bf7b985a5e8260d1673749faea09d3a45ec58e1bf53",
+      "status": "passed"
+    },
+    {
+      "name": "check_bot_patrol_commitment",
+      "source_sha256": "aee5b7cd843d48e9f46911cbd761b7400736e898a2ac8922873cf35c342c5d11",
+      "external_sha256": "7b973a5be3649673ae8a110ebc412bef54ed81e83fda84c4236009ae7823a84d",
+      "status": "passed"
+    },
+    {
+      "name": "check_bot_route_clearance",
+      "source_sha256": "e26d8fdc7875b8768027dcda9c319d906048c6d4f45a29f7c1093055e1ea03f0",
+      "external_sha256": "48e6b6dee87db19ce80f44dbc74a58e7ee654024ae12f35aada5f43e3e8be69e",
+      "status": "passed"
+    },
+    {
+      "name": "check_bot_map_platforms",
+      "source_sha256": "e62f9749d5a337d8777602f504cfd1fc9826a1f5b6b68765642bbdba984a093e",
+      "external_sha256": "82c91972c8e8c0f0fd62a1aa0ffa60266f36f4bf80951f5c52c5a57e78159c5d",
+      "status": "passed"
+    },
+    {
+      "name": "check_team_navigation_motion",
+      "source_sha256": "b1e7d6ca6389df1d442c64cdd380e8ff0364261178210297ba5f6ef0ddf1c619",
+      "external_sha256": "b1e7d6ca6389df1d442c64cdd380e8ff0364261178210297ba5f6ef0ddf1c619",
+      "status": "passed"
+    },
+    {
+      "name": "check_map_routes26",
+      "source_sha256": "c0ab1d15dcb12624a742e25c338ed549e73366fb150f24fd50b7b38f2c31cf0f",
+      "external_sha256": "372cad014ec7bdf8e6763c06efa357f31f64e59766d425682cfb998fe5189c11",
+      "status": "passed"
+    },
+    {
+      "name": "check_bot_beacon_placement",
+      "source_sha256": "8f8a8b4a73a321a6c3e9ec11be0564566388da05a158e6b6706c5ac961df095c",
+      "external_sha256": "7b0770b1883034147d5d95c97af04dd48bb6dfc993919ece37db5bbd5e225b41",
+      "status": "passed"
+    },
+    {
+      "name": "check_ink_buddy_combat",
+      "source_sha256": "0d7ed3a20eab99cf74c21934ee5d492339b7229b0c527272691d202fd2f1376f",
+      "external_sha256": "f9cda8148afdcfd9fdd14673a6f65e64d2060c206cbc7641d0489399ef082fdc",
+      "status": "passed"
+    },
+    {
+      "name": "check_ink_buddy_lifecycle",
+      "source_sha256": "0ee8210c34fb3959431014ad4ff6319f154128fc62ff5c5f6d3deddc942571cc",
+      "external_sha256": "fa0428c3a79a4d810af88f518d746e1bc8d48615d825ff22babb85e177c071fb",
+      "status": "passed"
+    },
+    {
+      "name": "check_item_previews",
+      "source_sha256": "f909589c7f724799b4fe0969643bc478cdb70316e586c6d70e99068be4ef64b2",
+      "external_sha256": "615e3dec2803bc055174195daa43bd80a24f10b00462073bae7915c40cc738ac",
+      "status": "passed"
+    },
+    {
+      "name": "check_damage_contract",
+      "source_sha256": "8985975ac9b55ec0f4078af38cbbc24713a575b70fe91d60337419586cd38045",
+      "external_sha256": "6a6c0da7ce38a60167155f939f088fb49a4f45cb29019a651819120204b61524",
+      "status": "passed"
+    },
+    {
+      "name": "check_damage_regions",
+      "source_sha256": "f678f57536dd12bed6831bacd93204f4e406d4552e14cdb32eabcae4d38e7327",
+      "external_sha256": "f678f57536dd12bed6831bacd93204f4e406d4552e14cdb32eabcae4d38e7327",
+      "status": "passed"
+    },
+    {
+      "name": "check_bot_ink_refill",
+      "source_sha256": "fd6a88aafb63c9c7547a0b8acc38c0960be8fb73f3854cc4469a42ba7b5d2fc4",
+      "external_sha256": "b96df28ca842b9b4179573cdca781ede4e3701dd496c8ab97fd733bf54133e06",
+      "status": "passed"
+    },
+    {
+      "name": "check_roller_surface_contact",
+      "source_sha256": "ab13a83aff0339d5e00029fae91051df66189a4914ea015737c43d22dea190e2",
+      "external_sha256": "6da8995f6ddcbf9ad6d094980841a7f34e1dabdfecabc7e2fd5b3f39b9507a0c",
+      "status": "passed"
+    },
+    {
+      "name": "check_extended_damage",
+      "source_sha256": "93a0987ed9e579876a208d2f0e7ac8b1f14fa9bb7eaad12b4a3e9f126c093e80",
+      "external_sha256": "932faf8f35534a355d359099cdf93c1d17fa7595d04a8fdb2287bf186bf82ac4",
+      "status": "passed"
+    },
+    {
+      "name": "check_loadout_tuning",
+      "source_sha256": "bdf359602987fa52bc032dda26390535ccdf9105cc6a6df3436af17861b35ce8",
+      "external_sha256": "4f64271431e86283c51ec82bfb03d09900ec56525ae7f1557e3c1e01998af714",
+      "status": "passed"
+    },
+    {
+      "name": "check_area_rules",
+      "source_sha256": "013a3135bde732da5df7b18aa397ff909f15a0899b638e095dcfa8c351e6737a",
+      "external_sha256": "11ad218a84a922ae8eaec4d6b2e2b0bac3735d72d16895b0117f65576a5bfe42",
+      "status": "passed"
+    }
+  ],
+  "native": {
+    "status": "passed",
+    "fixture_sha256": "bbe5767b134a5dc49305fe31bf1b3b2e76a2ccf3db8afa9bc8b954df0364c9cb"
+  },
+  "buddy_native": {
+    "status": "passed",
+    "source_sha256": "ceedc09fde51de1b2fbe593d316a2558c97546424906e67b08b7f0cbbf9b58d7",
+    "external_sha256": "c4260e4f0d1feedc4487a3d4efc99105fe8c452c63caac4287593c8de188129f",
+    "pck_sha256": "5b217f946d8214294d1561c395a5ba6af38e2d76c2617ca8c34d49a00f8dbe3c"
+  },
+  "primary_native": {
+    "status": "passed",
+    "source_sha256": "9868da1f9adfc28a1e7ba214ad187a16d6fe85f353d230f038077e50792b254e",
+    "external_sha256": "a38b177fbf0e575064ca00189c7b379e87b9d09b1f7cbc3bb492319c46ec3a1a",
+    "pck_sha256": "5b217f946d8214294d1561c395a5ba6af38e2d76c2617ca8c34d49a00f8dbe3c"
+  },
+  "loadout_native": {
+    "status": "passed",
+    "source_sha256": "9c4126a32c7f37a4872ffbd76122f13cf2e4f55df37281d6156cb26f2c60f138",
+    "external_sha256": "db6e38f01871942c0f4fa336278ff389c4bef479b1bd8f239a6821decabe0f88",
+    "pck_sha256": "5b217f946d8214294d1561c395a5ba6af38e2d76c2617ca8c34d49a00f8dbe3c"
+  },
+  "app_startup": {
+    "exit": 0,
+    "path_overrides": false,
+    "script_overrides": false
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "time": "2026-10-09T12:21:08.525030+00:00",
+  "command": "open -n /Users/yunni/Joy/inkwave-game-cleaned/build/TideInk.app",
+  "exit": 0,
+  "process_check": "pgrep -fl anchored executable path",
+  "observed_process": "49445 /Users/yunni/Joy/inkwave-game-cleaned/build/TideInk.app/Contents/MacOS/TideInk",
+  "scope": "native app launch confirmation; not human gameplay acceptance"
+}

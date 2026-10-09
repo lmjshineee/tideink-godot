@@ -20,11 +20,11 @@ func _run() -> void:
 		if actor==walker:continue
 		if actor==bot:game.bot_respawn=999
 		else:actor.respawn_time=999
-	game.phase="setup";game._set_pointer_lock(false);game.paused=false;game._update_hud()
+	game.phase="setup";game.perks.locked=false;game._set_pointer_lock(false);game.paused=false;game._update_hud()
 	for i in range(5):await process_frame
 	var button:Button=game.frontend.item_buttons.ink_buddy
 	game.frontend.strips.item.ensure_control_visible(button);await process_frame
-	var position:Vector2=button.get_global_rect().get_center()
+	var position:Vector2=button.get_global_transform_with_canvas()*(button.size*.5)
 	var motion:=InputEventMouseMotion.new();motion.position=position;Input.parse_input_event(motion)
 	var click:=InputEventMouseButton.new();click.button_index=MOUSE_BUTTON_LEFT;click.position=position;click.pressed=true;Input.parse_input_event(click);Input.flush_buffered_events()
 	var release:=click.duplicate();release.pressed=false;Input.parse_input_event(release);Input.flush_buffered_events();await process_frame
@@ -38,8 +38,9 @@ func _run() -> void:
 	if not home.is_finite():await finish("native creature corridor");return
 	report.fixture_home=home
 	walker.global_position=home;walker.update_form(false);game.player_respawn=0;game.player_health=120;game._set_pointer_lock(true);game.paused=false
+	walker.set_process_input(false) # Fixed aim ignores native pointer warp; combat still polls actual mouse events.
 	var aim:Camera3D=walker.get_node("Camera3D");aim.global_position=home+Vector3(0,1.4,-2);aim.look_at(home+Vector3(0,0,6))
-	combat.ink_amount=100;game.items.equip(walker,"ink_buddy");game.items.state(walker).cooldowns.ink_buddy=0
+	combat.ink_amount=100;combat.last_fire_time=0;game.items.equip(walker,"ink_buddy");game.items.state(walker).cooldowns.ink_buddy=0
 	# Actual right-button hold is polled by production combat input; no cast yet.
 	right(true);await physics_frame;combat.tick(1.0/30,false,false,Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT));companions.tick(1.0/30)
 	expect(combat.aiming_sub and companions.preview.visible and companions.buddies.is_empty(),"real right-button hold shows a read-only physical throw preview")

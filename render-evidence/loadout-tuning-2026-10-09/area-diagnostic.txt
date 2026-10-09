@@ -1,0 +1,8 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Identifier "path" not declared in the current scope.
+          at: GDScript::reload (res://tests/godot/check_area_rules.gd:54)
+SCRIPT ERROR: Parse Error: Identifier "path" not declared in the current scope.
+          at: GDScript::reload (res://tests/godot/check_area_rules.gd:54)
+ERROR: Failed to load script "res://tests/godot/check_area_rules.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:50)

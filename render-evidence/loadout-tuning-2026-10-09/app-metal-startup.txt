@@ -1,0 +1,4 @@
+2026-10-09 20:11:10.226 TideInk[49186:1300887] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
