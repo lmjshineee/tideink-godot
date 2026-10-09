@@ -1,0 +1,11 @@
+{
+  "protected_asset_files": 432,
+  "protected_uids": 280,
+  "changes": [],
+  "new_production_uids": [
+    "src/ui/gear_editor.gd.uid",
+    "src/core/gear_catalog.gd.uid",
+    "src/abilities/tidewater_gear.gd.uid"
+  ],
+  "uid_scope": "all pre-existing tracked UIDs compared with starting HEAD"
+}

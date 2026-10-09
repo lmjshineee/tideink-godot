@@ -1,0 +1,7 @@
+{
+  "command_exit": 0,
+  "baseline_pgrep_exit": 1,
+  "baseline_processes": [],
+  "process_exit": 0,
+  "processes": "55709 /Users/yunni/Joy/inkwave-game-cleaned/build/TideInk.app/Contents/MacOS/TideInk\n"
+}

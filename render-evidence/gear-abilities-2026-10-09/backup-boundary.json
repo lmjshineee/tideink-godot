@@ -1,0 +1,9 @@
+{
+  "backup_check": "failed before receipt could be loaded",
+  "observed_error": "build/export-receipt.json did not exist at pre-export backup check",
+  "backup_created": false,
+  "old_app_presence_before_export": "not established by the failed check",
+  "export_continued_after_failed_check": true,
+  "current_export": "preview.23; independently checked against new receipt",
+  "old_build_backup_not_claimed": true
+}

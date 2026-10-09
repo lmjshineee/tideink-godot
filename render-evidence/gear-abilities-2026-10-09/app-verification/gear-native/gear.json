@@ -1,0 +1,325 @@
+{
+	"cases": [
+		{
+			"effects": "当前实际加成：潜泳加速 +7.2% · 主武器省墨 −3.2% · 回墨加速 +15.3% · 大招充能 +6.3% · 副武器冷却 −2.6%",
+			"gear": {
+				"clothes": [
+					"swim_speed",
+					"swim_speed",
+					"ink_recovery",
+					"swim_speed"
+				],
+				"head": [
+					"ink_recovery",
+					"ink_recovery",
+					"sub_cooldown",
+					"special_charge"
+				],
+				"shoes": [
+					"ink_recovery",
+					"special_charge",
+					"main_saver",
+					"special_charge"
+				]
+			},
+			"points": {
+				"ink_recovery": 26,
+				"main_saver": 3,
+				"run_speed": 0,
+				"special_charge": 9,
+				"sub_cooldown": 3,
+				"swim_speed": 16
+			},
+			"size": [
+				1280,
+				720
+			],
+			"ui_scale": 1.0
+		},
+		{
+			"effects": "当前实际加成：奔跑加速 +3.7% · 潜泳加速 +2.1% · 主武器省墨 −7.5% · 回墨加速 +12.0% · 大招充能 +6.8% · 副武器冷却 −8.0%",
+			"gear": {
+				"clothes": [
+					"sub_cooldown",
+					"main_saver",
+					"run_speed",
+					"main_saver"
+				],
+				"head": [
+					"ink_recovery",
+					"sub_cooldown",
+					"ink_recovery",
+					"main_saver"
+				],
+				"shoes": [
+					"special_charge",
+					"run_speed",
+					"swim_speed",
+					"ink_recovery"
+				]
+			},
+			"points": {
+				"ink_recovery": 16,
+				"main_saver": 9,
+				"run_speed": 6,
+				"special_charge": 10,
+				"sub_cooldown": 13,
+				"swim_speed": 3
+			},
+			"size": [
+				960,
+				540
+			],
+			"ui_scale": 1.1
+		}
+	],
+	"clicks": [
+		{
+			"button": "装备 · 12槽",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "装备 · 12槽",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(1170.56, 498.08)"
+		},
+		{
+			"button": "清空能力",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "清空能力",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(1141.8, 638.0)"
+		},
+		{
+			"button": "主 10 · 空槽",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "主 10 · 空槽",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(262.8, 209.0)"
+		},
+		{
+			"button": "主武器省墨",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "主武器省墨",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(1064.35, 437.0)"
+		},
+		{
+			"button": "附 1 · 3 · 空槽",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "附 1 · 3 · 空槽",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(639.9999, 257.0)"
+		},
+		{
+			"button": "主武器省墨",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "主武器省墨",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(1064.35, 437.0)"
+		},
+		{
+			"button": "主 10 · 空槽",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "主 10 · 空槽",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(1017.2, 209.0)"
+		},
+		{
+			"button": "奔跑加速",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "奔跑加速",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(498.55, 437.0)"
+		},
+		{
+			"button": "ROLL 全部装备",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "ROLL 全部装备",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(987.8, 638.0)"
+		},
+		{
+			"button": "ROLL · 随机配装",
+			"disabled": false,
+			"editor_open": false,
+			"hovered": "ROLL · 随机配装",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(797.4401, 655.8)"
+		},
+		{
+			"button": "装备 · 12槽",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "装备 · 12槽",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(877.92, 373.56)"
+		},
+		{
+			"button": "清空能力",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "清空能力",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(856.35, 478.5)"
+		},
+		{
+			"button": "主 10 · 空槽",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "主 10 · 空槽",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(197.1, 156.75)"
+		},
+		{
+			"button": "主武器省墨",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "主武器省墨",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(798.2626, 327.75)"
+		},
+		{
+			"button": "附 1 · 3 · 空槽",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "附 1 · 3 · 空槽",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(480.0, 192.75)"
+		},
+		{
+			"button": "主武器省墨",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "主武器省墨",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(798.2626, 327.75)"
+		},
+		{
+			"button": "主 10 · 空槽",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "主 10 · 空槽",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(762.9, 156.75)"
+		},
+		{
+			"button": "奔跑加速",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "奔跑加速",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(373.9125, 327.75)"
+		},
+		{
+			"button": "ROLL 全部装备",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "ROLL 全部装备",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(740.85, 478.5)"
+		},
+		{
+			"button": "ROLL · 随机配装",
+			"disabled": false,
+			"editor_open": false,
+			"hovered": "ROLL · 随机配装",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(598.08, 492.15)"
+		},
+		{
+			"button": "全图涂地战 ↔",
+			"disabled": false,
+			"editor_open": false,
+			"hovered": "全图涂地战 ↔",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "scene reloaded",
+			"point": "(554.88, 655.8)"
+		}
+	],
+	"environment": {
+		"adapter": "Apple M5 (Apple9)",
+		"api": "4.0",
+		"arm64": true,
+		"engine": "4.8-dev6 (official)"
+	},
+	"failures": [],
+	"kind": "controlled native gear input",
+	"limits": "Frozen AI/match and explicit input probes; not human balance, natural timing or thermal acceptance.",
+	"primary": {
+		"effective_cost": 0.781105263157895,
+		"gear": {
+			"clothes": [
+				"none",
+				"none",
+				"none",
+				"none"
+			],
+			"head": [
+				"main_saver",
+				"none",
+				"none",
+				"none"
+			],
+			"shoes": [
+				"none",
+				"none",
+				"none",
+				"none"
+			]
+		},
+		"health_max": 132.0,
+		"ink_after": 99.2188947368421,
+		"mouse_pressed_at_tick": true
+	},
+	"status": "passed",
+	"verification": "explicit exported PCK; receipt supplies pack identity"
+}

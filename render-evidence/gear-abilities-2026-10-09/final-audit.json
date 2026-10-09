@@ -1,0 +1,84 @@
+{
+  "status": "passed",
+  "identity": {
+    "name": "TideInk",
+    "version": "0.3.0-preview.23",
+    "app_name": "TideInk.app",
+    "bundle_short_version": "0.3.0",
+    "bundle_build": "0.3.23",
+    "bundle_identifier": "com.yunni.tideink"
+  },
+  "production_commit": "a213c51988ad7fd874bcdff8af27725d7934c347",
+  "pck_sha256": "5d45246422cbadf1698d72d57b02122148a2c9fd5a3f45019f3e5d5d3d9ab99c",
+  "receipt_current_sources_and_app_bytes": "passed",
+  "production_fingerprint": "4505e62b4a22684742cc4e627166393a5254c452c5a1dada84cd053f1d234d58",
+  "app_file_count": 7,
+  "app_bytes": 319663293,
+  "source_rule_checks": {
+    "passed": 109,
+    "failed": 0,
+    "exit": 0,
+    "log_sha256": "fa0c3650e65607edf1a13dfcfa9e5edb73e708c23e5a20d1d1164def2c9e6978"
+  },
+  "pck_rules_passed": 30,
+  "pck_native_passed": [
+    "native",
+    "buddy_native",
+    "primary_native",
+    "loadout_native",
+    "gear_native"
+  ],
+  "protected_asset_files": 432,
+  "protected_tracked_uids": 280,
+  "protected_changes": [],
+  "natural_match": {
+    "status": "passed",
+    "wall_seconds": 176.50255,
+    "natural_deaths": 15,
+    "completed_confirmed_respawns": 14,
+    "final_source_delta": [
+      "src/ui/tidewater_frontend.gd"
+    ],
+    "parallel_headless_checks": true,
+    "frame_statistics_accepted_as_performance_evidence": false
+  },
+  "app_headless_exit": 0,
+  "app_metal": {
+    "exit": 0,
+    "cwd": "/private/tmp",
+    "path_script_pack_overrides": false,
+    "engine_log_sha256": "deeec035a6648fed63718fb3040274af39214fadf21e75c85f0aa22506533dc5",
+    "godot_errors_or_warnings": [],
+    "system_imk_message_present": true
+  },
+  "app_open": {
+    "command_exit": 0,
+    "baseline_pgrep_exit": 1,
+    "baseline_processes": [],
+    "process_exit": 0,
+    "processes": "55709 /Users/yunni/Joy/inkwave-game-cleaned/build/TideInk.app/Contents/MacOS/TideInk\n"
+  },
+  "observed_pck_headless_warnings": {
+    "check_actor_turf_credit.txt": [
+      "14 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_bot_map_platforms.txt": [
+      "2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_expanded_loadouts.txt": [
+      "20 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_gameplay_deployment.txt": [
+      "20 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "app-startup.txt": [
+      "2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_turf_points.txt": [
+      "8 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ]
+  },
+  "previous_app_backup": "not established; backup check failed before export; see backup-boundary.json",
+  "human_balance_or_aesthetic_review": false,
+  "temperature_measured": false
+}

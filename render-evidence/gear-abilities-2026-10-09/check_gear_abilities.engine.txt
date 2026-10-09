@@ -1,0 +1,5 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:999)
+PASS: three pieces/twelve slots, malformed input/alias/bounds negatives, weighted diminishing caps, 200 reproducible rolls, actual movement/all eight primary costs/player+bot refill/CPU charge/sub cooldown, match/death locks

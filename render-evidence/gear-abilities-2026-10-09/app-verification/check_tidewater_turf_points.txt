@@ -1,0 +1,6 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: delayed paint after death adds 5.62059225 m2 to personal/team area and zero live points
+PASS: turf area and points ledger (scale from match.pointsPerM2), team split, splatted-player guard, delayed ownership, display chase and separate area/points results
+WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2604)
