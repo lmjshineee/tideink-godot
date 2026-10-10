@@ -1,0 +1,6 @@
+{
+	"archetype": "reef_runner",
+	"bones": 87,
+	"model_path": "res://assets/characters/archetypes/reef_runner.glb",
+	"root_scale": "(0.94, 0.94, 0.94)"
+}

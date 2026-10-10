@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "production_head": "7f2368c6a8020539ba28c08df7ab1134a3cd4694",
+  "production_fingerprint": "95e8b407409ab6e93165de00b3f5cb81afbe2f186850d07b2a437a1fbf8a4ad1",
+  "production_count": 630,
+  "pck_sha256": "fbdd6fb729b668526a0b1f6e68267e295c55fa9de309db454272c63e99f87b39",
+  "architecture": "arm64",
+  "source_rules": 112,
+  "python_model_tests": 4,
+  "pck_rules": 33,
+  "native_groups": 7,
+  "art_images": 46,
+  "app_headless_exit": 0,
+  "app_metal_exit": 0,
+  "saved_settings_unchanged": true,
+  "old_backup_seven_files_verified": true,
+  "starting_asset_files": 440,
+  "starting_uids_preserved": 289,
+  "intentional_asset_changes": [
+    "assets/characters/archetypes/dock_worker.glb",
+    "assets/characters/archetypes/fin_drifter.glb",
+    "assets/characters/archetypes/reef_runner.glb",
+    "assets/characters/archetypes/spark_writer.glb",
+    "assets/integrity.json"
+  ],
+  "actual_pck_primitive_reduction_percent": 34.69015863442896,
+  "temperature_measured": false,
+  "human_aesthetic_approval": false,
+  "strict_adhoc_signature": "passed"
+}

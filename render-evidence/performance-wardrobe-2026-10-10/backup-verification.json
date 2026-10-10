@@ -1,0 +1,16 @@
+{
+  "backup": "/Users/yunni/Joy/inkwave-game-cleaned/build/TideInk-before-wardrobe-bb384b6.app",
+  "app_files": {
+    "Contents/Info.plist": "f1d38d6210d9a3796435dd45252fb4f920c41a8d49285145bf19bcebeea86f12",
+    "Contents/MacOS/TideInk": "128af3711772c10cd3b58ee4443f95d2cf5fe9d15ae26e40005aee1b94d4e88a",
+    "Contents/PkgInfo": "7e50a30efad50208a173203ced60818d693bb61266b75aa10927d1a2adce80cb",
+    "Contents/Resources/PrivacyInfo.xcprivacy": "0535353bb08c25b8ce5ed9ac7e442a5994f402e0f6cbc4bed668cfc63c2ceac3",
+    "Contents/Resources/TideInk.pck": "62148277cfecaefc5a7659e2ecbea910a76bdee99ab167c0c47c024bcdef1dc0",
+    "Contents/Resources/icon.icns": "779ff524928785811d6d4c61f47a26491160b1092db9b610e85fcdfd9b2d2b2a",
+    "Contents/_CodeSignature/CodeResources": "c7760b49dd8e7cddff6d98f8b824e1c72774bc921dd2479254625658ed3e44ed"
+  },
+  "old_pck": "62148277cfecaefc5a7659e2ecbea910a76bdee99ab167c0c47c024bcdef1dc0",
+  "old_source_head": "25fa67ecbb86f588e4624fb402a0a2d6356482ad",
+  "new_source_fingerprint": "95e8b407409ab6e93165de00b3f5cb81afbe2f186850d07b2a437a1fbf8a4ad1",
+  "production_count": 630
+}

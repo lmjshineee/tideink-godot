@@ -4,3 +4,6 @@ shaders/characters/character_skin.gdshader -whitespace
 shaders/characters/character_eyes.gdshader -whitespace
 shaders/characters/character_cloth.gdshader -whitespace
 render-evidence/*.txt -whitespace
+# Preserve raw engine output and the byte-identical baseline shader snapshot.
+render-evidence/**/*.txt -whitespace
+render-evidence/performance-wardrobe-2026-10-10/legacy-cloth.gdshader -whitespace

@@ -1,0 +1,10 @@
+{
+  "tools/capture/verify_wardrobe.gd": "4da23e1144e97c7bf590056265f85d755122a645d59292b2363f6d1d2d4cc866",
+  "tools/capture/capture_archetypes.gd": "bcee1c1b176747260c4195b073752bbeb7fd118e5e3228ffa22a4fc1da60b085",
+  "tools/measure/measure_combat_render.gd": "d08dfc1729cc4c4fd940c0fbaf3a24a6531d810f40dbb2f4c51c10d888788088",
+  "tests/godot/check_wardrobe_roll.gd": "6486dcbeaf1e4018295325a3a2ddfcdf374450704852eee4ced775aaee59177d",
+  "tests/godot/check_tidewater_original_character.gd": "52cc0803b0df121508be45b1982eb5353b9db13ada10a47b07f3b203cbaed1f7",
+  "tests/python/test_character_archetypes.py": "e201bad0c97346d3a2a24925a315be04bcea844ac7dc126dd77fc7e9c4aeeb71",
+  "tools/release/verify_app.py": "d95f1f1ebf6fc3947a9cc60c1b129c1abb33e07f483382bbb5657302db346b16",
+  "render-evidence/performance-wardrobe-2026-10-10/complete_pack_verification.py": "83ba5c03050853e2a77ed45253122c4471951d2061a55528df17cd0f87ecad0d"
+}

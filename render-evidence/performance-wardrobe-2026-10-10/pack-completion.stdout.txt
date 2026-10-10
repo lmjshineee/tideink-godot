@@ -1,0 +1,1 @@
+PASS: 33 actual PCK rules, seven native groups, actual App headless/Metal startup; receipt unchanged

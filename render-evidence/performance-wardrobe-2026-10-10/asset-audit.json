@@ -1,0 +1,13 @@
+{
+  "intentional_changes": [
+    "assets/integrity.json",
+    "assets/characters/archetypes/reef_runner.glb",
+    "assets/characters/archetypes/dock_worker.glb",
+    "assets/characters/archetypes/fin_drifter.glb",
+    "assets/characters/archetypes/spark_writer.glb"
+  ],
+  "other_starting_assets_and_uids_unchanged": true,
+  "originals_unchanged": true,
+  "source_count": 630,
+  "source_fingerprint": "95e8b407409ab6e93165de00b3f5cb81afbe2f186850d07b2a437a1fbf8a4ad1"
+}

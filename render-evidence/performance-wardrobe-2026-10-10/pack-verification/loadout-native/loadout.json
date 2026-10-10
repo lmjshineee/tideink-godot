@@ -1,0 +1,71 @@
+{
+	"area": {
+		"cells": 1509,
+		"center": "(-6.125, 0.0, -3.875)",
+		"hud": "计数 90 (+5) : 99 (+0) · 对方控制",
+		"penalty": [
+			5.0,
+			0.0
+		],
+		"remaining": [
+			90.0,
+			0.0
+		]
+	},
+	"cases": [
+		{
+			"attributes": {
+				"health": 5,
+				"ink_capacity": 3,
+				"ink_recovery": 3,
+				"main_saver": 2,
+				"run_speed": 4,
+				"special_charge": 1,
+				"sub_cooldown": 2,
+				"swim_speed": 0
+			},
+			"expected_caps": "生命 152 · 墨量 128",
+			"header": "主 三弦墨弓 / 副 墨仔伙伴\n大招 雨箭齐射 · 天赋 均衡\n生命 152 · 墨量 128 · 跑速 6.9 · 潜泳 12.4",
+			"main": "bow",
+			"mode": "custom",
+			"perk": "balanced",
+			"size": [
+				1280,
+				720
+			],
+			"sub": "ink_buddy"
+		},
+		{
+			"attributes": {
+				"health": 2,
+				"ink_capacity": 4,
+				"ink_recovery": 0,
+				"main_saver": 5,
+				"run_speed": 2,
+				"special_charge": 3,
+				"sub_cooldown": 2,
+				"swim_speed": 2
+			},
+			"expected_caps": "生命 144 · 墨量 131",
+			"header": "主 三弦墨弓 / 副 墨仔伙伴\n大招 雨箭齐射 · 天赋 均衡\n生命 144 · 墨量 131 · 跑速 6.7 · 潜泳 13.1",
+			"main": "bow",
+			"mode": "custom",
+			"perk": "balanced",
+			"size": [
+				960,
+				540
+			],
+			"sub": "ink_buddy"
+		}
+	],
+	"environment": {
+		"api": "4.0",
+		"arm64": true,
+		"engine": "4.8-dev6 (official)"
+	},
+	"failures": [],
+	"kind": "controlled native loadout and area input",
+	"limits": "Frozen match/AI and explicit CPU paint probes. Not human play, natural timing or temperature acceptance.",
+	"status": "passed",
+	"verification": "explicit exported PCK; receipt supplies pack identity"
+}

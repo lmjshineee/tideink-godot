@@ -1,0 +1,233 @@
+{
+	"cases": [
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "near shooter actor 1 height 0.25",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "near shooter actor 1 height 0.90",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "near shooter actor 1 height 1.28",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "charger actor 1",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "blaster actor 1",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "near shooter actor 6 height 0.25",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "near shooter actor 6 height 0.90",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "near shooter actor 6 height 1.28",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "charger actor 6",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "blaster actor 6",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "near shooter actor 2 height 0.25",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "near shooter actor 2 height 0.90",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "near shooter actor 2 height 1.28",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "charger actor 2",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 120.0,
+			"alive": false,
+			"case": "blaster actor 2",
+			"hp": 0.0
+		},
+		{
+			"actual_damage": 110.8672,
+			"alive": true,
+			"case": "far shooter after four",
+			"hp": 9.13279999999998
+		},
+		{
+			"actual_damage": 91.78,
+			"alive": true,
+			"case": "98 percent charge",
+			"hp": 28.22
+		},
+		{
+			"actual_damage": 90.0,
+			"alive": true,
+			"case": "shield vs charger",
+			"hp": 30.0
+		},
+		{
+			"actual_damage": 35.0,
+			"alive": true,
+			"case": "shield vs blaster",
+			"hp": 85.0
+		},
+		{
+			"actual_damage": 105.0,
+			"alive": true,
+			"case": "flick shared cap balanced",
+			"hp": 195.0
+		},
+		{
+			"actual_damage": 105.0,
+			"alive": true,
+			"case": "flick shared cap adrenaline",
+			"hp": 195.0
+		},
+		{
+			"actual_damage": 84.0,
+			"alive": true,
+			"case": "flick shared cap dry_focus",
+			"hp": 216.0
+		},
+		{
+			"actual_damage": 105.0,
+			"alive": true,
+			"case": "flick late boost",
+			"hp": 195.0
+		},
+		{
+			"actual_damage": 105.0,
+			"alive": true,
+			"case": "near flick",
+			"hp": 15.0
+		},
+		{
+			"actual_damage": 95.0,
+			"alive": true,
+			"case": "roller contact bot=false",
+			"hp": 25.0
+		},
+		{
+			"actual_damage": 95.0,
+			"alive": true,
+			"case": "roller contact bot=true",
+			"hp": 25.0
+		}
+	],
+	"environment": {
+		"adapter": "Apple M5 (Apple9)",
+		"api": "4.0",
+		"arm64": true,
+		"display": "macOS",
+		"engine": "4.8-dev6 (official)",
+		"window": [
+			1280,
+			720
+		]
+	},
+	"failures": [],
+	"focus_resumes": 0,
+	"hovers": [
+		{
+			"age": 0.2,
+			"body": "按住蓄力，松开释放长射线。\n射程  ★★★★★  · 11 → 27 m，随蓄力提升\n伤害  ★★★★★  · 伤害 32 → 150\n射速  ★☆☆☆☆  · 满蓄 1.0 秒\n机动  ★★☆☆☆  · 蓄力移速 1.8 m/s\n涂地  ★★☆☆☆  · 射线涂墨半径 0.55 m\n满蓄消耗 14.0 墨水；提前松开降低射程和伤害。\n满蓄命中可击倒无盾满血目标；未蓄满伤害不足。\n墙体阻挡射线，护盾先吸收伤害。\n大招：远程墨雨 · 持续 9s · 130 涂地点数\n专属大招随主武器配装；死亡保留未消耗进度，重摇按百分比继承。\n发动时补满墨水；大招涂墨不充能。\n主武器直接命中：头部 / 躯干 / 腿部均为 ×1\n星级用于相对比较；伤害为基础躯干值。",
+			"hover_id": "charger",
+			"hover_kind": "weapon",
+			"mouse_mode": 0,
+			"required": "150",
+			"target": "(255.4, 474.44)",
+			"viewport_mouse": "(254.0, 474.0)",
+			"visible": true,
+			"weapon": "charger"
+		},
+		{
+			"age": 0.200000000000001,
+			"body": "按住左键蓄力，松开射出三支墨箭。\n射程  ★★★★★  · 12 → 26 m\n伤害  ★★★★★  · 每箭 17 → 35；三箭满蓄 105\n射速  ★★☆☆☆  · 满蓄 0.8 秒；释放间隔 0.22 → 0.20 秒\n机动  ★★★★☆  · 蓄力 4.6 m/s\n涂地  ★★★★☆  · 轻点涂地；半蓄布置爆裂箭\n地面横射、空中竖射；满蓄三箭收束。\n耗墨 2.5 → 6.0；0.4 秒半蓄起留爆裂箭。\n准星半环为爆裂、满环为精准三箭／提示音。\n落点 0.5 秒后爆裂，半径 1.9 m；同轮溅射共享 40 伤害预算。\n满蓄三箭通常需追击；两箭／半蓄直击伤害更低。\n整轮直击＋爆裂最多 120，强化／易伤后最多 130；墙／楼板遮挡。\n大招：雨箭齐射 · 0.6s 前摇 / 三轮抛射 · 140 涂地点数\n锁定 24m 可见地面／2.4m 落点圈；0.6秒后三轮九箭，轮间隔0.45秒。\n直击28、1.15m溅射28→14，不叠加；同目标每轮最多55出手伤害，强化不增上限，无部位倍率。\n墙／楼板挡箭；可移动，不能主射／潜墨／道具，落点固定。\n死亡取消未发箭，飞行箭继续；大招涂地不充能。\n专属大招随主武器配装；死亡保留未消耗进度，重摇按百分比继承。\n发动时补满墨水；大招涂墨不充能。\n箭矢按体积命中，不叠加头部倍率。\n星级用于相对比较；伤害为基础躯干值。",
+			"hover_id": "bow",
+			"hover_kind": "weapon",
+			"mouse_mode": 0,
+			"required": "105",
+			"target": "(820.4, 474.44)",
+			"viewport_mouse": "(820.0, 474.0)",
+			"visible": true,
+			"weapon": "bow"
+		},
+		{
+			"age": 0.199999999999999,
+			"body": "连续喷射，适合涂地和近距离压制。\n射程  ★★☆☆☆  · 10.5 m；末端衰减\n伤害  ★☆☆☆☆  · 伤害 18 → 14.0\n射速  ★★★★★  · 0.16 秒 / 发（6 发 / 秒）\n机动  ★★★★★  · 射击移速 5.3 m/s\n涂地  ★★★★☆  · 命中涂墨半径 0.65 m\n每发 1.40 墨水；当前生命基准近端约 4 轮击倒。\n连射扩大散布，跳射更散；停火后恢复精度。\n双持每轮两弹，每弹 18.0；两弹合计 1.40 墨水，命中分别计算。\n按住左键 + 方向 + 空格滑步，最多连续两次。\n每次耗墨 12，滑步 0.18s，结束停顿 0.16s。\n滑后 0.7s 内散布缩小 65%；滑步被地形阻挡。\n大招：回旋墨环 · 持续 6s · 130 涂地点数\n跟随角色的 3.4m 墨环，持续 6 秒；每秒 24 伤害，墙与楼板可挡。\n可继续双持射击、翻滚与使用道具；没有额外无敌。死亡取消效果。\n专属大招随主武器配装；死亡保留未消耗进度，重摇按百分比继承。\n发动时补满墨水；大招涂墨不充能。\n主武器直接命中：头部 / 躯干 / 腿部均为 ×1\n星级用于相对比较；伤害为基础躯干值。",
+			"hover_id": "dualie",
+			"hover_kind": "weapon",
+			"mouse_mode": 0,
+			"required": "4 轮",
+			"target": "(448.4, 474.44)",
+			"viewport_mouse": "(448.0, 474.0)",
+			"visible": true,
+			"weapon": "dualie"
+		}
+	],
+	"kind": "controlled native primary damage and mouse input",
+	"limits": "Fixed positions, frozen AI/match and explicit input ticks. Not natural timing, human feel, performance/temperature or export acceptance.",
+	"mouse_bow": {
+		"hold_ticks": 25,
+		"ink_at_release": 94.0,
+		"target_hp": 0.0
+	},
+	"mouse_full_charge": {
+		"hold_ticks": 31,
+		"ink_after": 86.0,
+		"release": "left mouse up",
+		"target_hp": 0.0,
+		"target_respawn": 4.0
+	},
+	"mouse_shield": {
+		"ink_after": 86.0,
+		"remaining_armor": 0.0,
+		"target_hp": 42.0
+	},
+	"source_sha256": {},
+	"status": "passed",
+	"verification": "explicit exported PCK; receipt supplies pack identity"
+}

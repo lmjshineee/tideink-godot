@@ -1,0 +1,6 @@
+{
+	"archetype": "dock_worker",
+	"bones": 87,
+	"model_path": "res://assets/characters/archetypes/dock_worker.glb",
+	"root_scale": "(0.97, 0.97, 0.97)"
+}

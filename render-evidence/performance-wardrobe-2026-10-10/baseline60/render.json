@@ -1,0 +1,31 @@
+{
+	"actors": 10,
+	"adapter": "Apple M5 (Apple9)",
+	"api": "4.0",
+	"arm64": true,
+	"characters_hidden": false,
+	"draws_median": 535.0,
+	"engine": {
+		"build": "official",
+		"hash": "8898c2b3db32adf6f92c694ffb6dac19af672e5f",
+		"hex": 264192,
+		"major": 4,
+		"minor": 8,
+		"patch": 0,
+		"status": "dev6",
+		"string": "4.8-dev6 (official)",
+		"timestamp": 0
+	},
+	"fps_cap": 60,
+	"frame_median_ms": 16.634,
+	"frame_p95_ms": 17.893,
+	"lod_override": 6.0,
+	"msaa": 2,
+	"note": "Same frozen ten-actor view; actors/AI/animation paused; render cost excludes startup. Zero GPU timing means unavailable. Frame times include cap. Not a sustained thermal or natural-match result.",
+	"primitives_median": 1601797.0,
+	"render_cpu_median_ms": 1.04299998283386,
+	"render_gpu_median_ms": 11.4289999008179,
+	"render_scale": 1.0,
+	"samples": 240,
+	"temperature_measured": false
+}

@@ -1,0 +1,16 @@
+fatal: path 'tools/capture/verify_attributes.gd' does not exist in '7f2368c6a8020539ba28c08df7ab1134a3cd4694'
+Traceback (most recent call last):
+  File "/Users/yunni/Joy/inkwave-game-cleaned/render-evidence/performance-wardrobe-2026-10-10/complete_pack_verification.py", line 54, in <module>
+    report['native'][name] = {'status': 'passed', 'source_sha256': unchanged_source(relative),
+                                                                   ~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/yunni/Joy/inkwave-game-cleaned/render-evidence/performance-wardrobe-2026-10-10/complete_pack_verification.py", line 39, in unchanged_source
+    committed = subprocess.check_output(['git', '-C', str(PROJECT), 'show', receipt['source_head'] + ':' + relative])
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 473, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               **kwargs).stdout
+               ^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.8/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', '-C', '/Users/yunni/Joy/inkwave-game-cleaned', 'show', '7f2368c6a8020539ba28c08df7ab1134a3cd4694:tools/capture/verify_attributes.gd']' returned non-zero exit status 128.

@@ -18,6 +18,9 @@ func bind_game() -> void:
 func click(control: Control) -> void:
 	root.grab_focus();await frames(3)
 	var point: Vector2=control.get_global_transform_with_canvas()*(control.size*.5)
+	# snap() moves the system cursor off controls. Let its native motion settle
+	# at this target before checking hover or injecting button input.
+	root.warp_mouse(point);await frames(3)
 	var move:=InputEventMouseMotion.new();move.position=point;move.global_position=point;root.push_input(move,true);await frames(2)
 	var hovered:=root.gui_get_hovered_control()
 	expect(hovered==control,"actual mouse reaches "+control.name)
@@ -67,6 +70,7 @@ func _run() -> void:
 		panel.fps_button.select(0);panel.render_scale_button.select(0)
 		await snap("settings-%d"%pixels.x)
 		await click(panel.save_button)
+		expect(not panel.visible,"real save click closes settings panel")
 		expect(Engine.max_fps==30 and is_equal_approx(root.scaling_3d_scale,.75),"save applies explicit 30 FPS / 75%")
 		game._start_round();game._set_pointer_lock(false);game.paused=false;game.pause_panel.hide();game.phase_time=5.0;game._update_hud()
 		expect(game.get_node("World/Walker/Body").wardrobe==look,"actual combat keeps preview's clothes")
