@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/yunni/Joy/inkwave-game-cleaned/render-evidence/app-build-2026-10-10/verify_remaining_native_v2.py", line 67, in <module>
+    run(common + ['--rendering-driver', 'metal', '--script', str(script),
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  '--log-file', str(output / (kind + '.engine.txt')), '--',
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  '--output=' + str(output / kind)], cwd, output / (kind + '.txt'))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yunni/Joy/inkwave-game-cleaned/tools/release/verify_app.py", line 165, in run
+    raise RuntimeError(f'export verification failed: {output}; exit={result.returncode}; {errors[:3]}')
+RuntimeError: export verification failed: /Users/yunni/Joy/inkwave-game-cleaned/render-evidence/app-build-2026-10-10/remaining-native-2/primary.txt; exit=1; ['FAIL: actual native hover shows updated dualie']

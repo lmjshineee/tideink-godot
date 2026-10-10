@@ -33,6 +33,14 @@ func snap(label: String) -> void:
 	expect(picture!=null and not picture.is_empty(),"native image "+label)
 	if picture!=null:expect(picture.save_png(output.path_join(label+".png"))==OK,"save "+label)
 
+func native_motion(point: Vector2) -> void:
+	# Keep the platform cursor at the injected position after captured-mode release.
+	# Otherwise a delayed native motion can immediately undo mouse_entered.
+	root.warp_mouse(point)
+	for i in 2:await process_frame
+	var motion:=InputEventMouseMotion.new();motion.position=point;motion.global_position=point
+	Input.parse_input_event(motion);Input.flush_buffered_events()
+
 func finish(label: String) -> void:
 	reset_fight(bot,walker,132)
 	walker.set_process_input(false) # Fixed aim fixture: ignore native cursor warp motion.
@@ -91,28 +99,31 @@ func finish(label: String) -> void:
 	native_report.mouse_bow={"hold_ticks":25,"ink_at_release":bow_release_ink,"target_hp":game.bot_health}
 	await snap("bow-full-draw-splat")
 	game.show_preparation()
+	# This fixture returns directly from a frozen fight; ordinary menu entry
+	# already has a visible cursor. Release the capture established above.
+	game._set_pointer_lock(false)
+	expect(Input.mouse_mode==Input.MOUSE_MODE_VISIBLE,"native preparation cursor is visible")
 	# Let the selected-weapon deferred scroll and layout settle before each probe.
 	for i in 12:await process_frame
 	native_report.hovers=[]
 	for id in ["charger","bow","dualie"]:
 		# Exit the previous card before scrolling; the next hover needs a fresh enter.
-		var away:=InputEventMouseMotion.new();away.position=Vector2(20,20)
-		Input.parse_input_event(away);Input.flush_buffered_events()
+		await native_motion(Vector2(20,20))
 		for i in 4:await process_frame
 		game.frontend.strips.weapon.ensure_control_visible(game.weapon_buttons[id])
 		for i in 6:await process_frame
 		var detail:Dictionary=preload("res://src/ui/loadout_details.gd").weapon(game,id)
 		var required: String="150" if id=="charger" else ("105" if id=="bow" else "4 轮")
 		expect(String(detail.body).contains(required),"loadout explains effective reward "+id)
-		var motion:=InputEventMouseMotion.new()
-		motion.position=game.weapon_buttons[id].get_global_rect().get_center()
-		Input.parse_input_event(motion);Input.flush_buffered_events()
+		var hover_point: Vector2=game.weapon_buttons[id].get_global_rect().get_center()
+		await native_motion(hover_point)
 		# Hover opens after 0.15s; frame count alone is not a clock on this fixture.
 		for probe in 20:
 			await create_timer(.05).timeout
 			if game.frontend.hover_panel.visible and game.frontend.hover_id==id:break
 		await process_frame
-		native_report.hovers.append({"weapon":id,"hover_id":game.frontend.hover_id,"visible":game.frontend.hover_panel.visible,"age":game.frontend.clock-game.frontend.hover_since,"required":required,"body":game.frontend.hover_body.text})
+		expect(root.get_mouse_position().distance_to(hover_point)<3,"native cursor reaches weapon card "+id)
+		native_report.hovers.append({"weapon":id,"hover_id":game.frontend.hover_id,"hover_kind":game.frontend.hover_kind,"visible":game.frontend.hover_panel.visible,"age":game.frontend.clock-game.frontend.hover_since,"required":required,"body":game.frontend.hover_body.text,"target":hover_point,"viewport_mouse":root.get_mouse_position(),"mouse_mode":Input.mouse_mode})
 		expect(game.frontend.hover_panel.visible and game.frontend.hover_body.text.contains(required),"actual native hover shows updated "+id)
 		expect(game.frontend.hover_body.position.y+game.frontend.hover_body.get_minimum_size().y<=game.frontend.hover_panel.size.y-12,"complete native detail fits panel "+id)
 		await snap("updated-loadout-"+id)

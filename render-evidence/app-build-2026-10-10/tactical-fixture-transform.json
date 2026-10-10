@@ -1,0 +1,6 @@
+{
+  "source_sha256": "fd24953ea5a96ef561356c9f99846e62aba2ee2ce78c0a00bdcd9ad699093246",
+  "external_sha256": "b51eb1a9833be6deaa438f7b7e42abaf30fccf07244443ffa34c08df26ed6515",
+  "helper_sha256": "4e9c07b7b408e0b56054bb2fa4be308ed1ce995dde2052c55b53d138a3201493",
+  "transformation": "External helper path; remove only source inventory dependency from native capture branch. Production resources are loaded exclusively from explicit PCK."
+}

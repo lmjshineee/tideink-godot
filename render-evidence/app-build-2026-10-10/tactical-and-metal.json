@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "source_head": "25fa67ecbb86f588e4624fb402a0a2d6356482ad",
+  "pck_sha256": "62148277cfecaefc5a7659e2ecbea910a76bdee99ab167c0c47c024bcdef1dc0",
+  "tactical": {
+    "images": [
+      "tab-5v5-1280",
+      "tab-5v5-960",
+      "tab-1v1-1280",
+      "tab-1v1-960"
+    ],
+    "environment": {
+      "adapter": "Apple M5 (Apple9)",
+      "api": "4.0",
+      "arm64": true,
+      "engine": "4.8-dev6 (official)"
+    },
+    "fixture": {
+      "source_sha256": "fd24953ea5a96ef561356c9f99846e62aba2ee2ce78c0a00bdcd9ad699093246",
+      "external_sha256": "b51eb1a9833be6deaa438f7b7e42abaf30fccf07244443ffa34c08df26ed6515",
+      "helper_sha256": "4e9c07b7b408e0b56054bb2fa4be308ed1ce995dde2052c55b53d138a3201493",
+      "transformation": "External helper path; remove only source inventory dependency from native capture branch. Production resources are loaded exclusively from explicit PCK."
+    },
+    "working_directory": "temporary outside checkout",
+    "method": "Explicit PCK; external test only; real Tab down/up events, two sizes and 1v1/5v5."
+  },
+  "actual_app_metal": {
+    "exit": 0,
+    "frames": 90,
+    "path_overrides": false,
+    "script_overrides": false,
+    "pack_overrides": false,
+    "working_directory": "temporary outside checkout"
+  },
+  "human_aesthetic_acceptance": false,
+  "natural_match_retested": false,
+  "thermal_retested": false
+}

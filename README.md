@@ -8,7 +8,7 @@
 
 最终 111 项源码检查及两尺寸 1v1／5v5 原生 Tab 输入／画面通过；32 项无界面夹具有退出引用警告，新增专项和最终原生没有 Godot 告警。440 个既有资产文件与 288 个 UID 保持，人工审美、配点平衡和长期性能仍待验收。
 
-已有可玩应用 `build/TideInk.app`（`0.3.0-preview.24`，arm64）保持原七个文件，未重新导出，尚不包含上述 AI 改动及之后的外观修正。该旧包的 110 项源码、31 项实际 PCK 规则、六组原生及 180 秒自动对局证据见 [历史应用验收](render-evidence/attributes-characters-2026-10-09/summary.md)。其外观已被用户否定；新模型仍待专项原生复查与人工审美验收。运行最新源码用下方 `./run.sh`。
+当前可玩应用 `build/TideInk.app` 已按生产提交 `25fa67e` 重新导出，仅 arm64，包含上述 AI／Tab 改动和第七轮外观修正。版本字串保持 `0.3.0-preview.24`，构建身份以源码提交与收据为准；32 项实际 PCK 规则、六组原生、两尺寸 1v1／5v5 Tab 和工程外实际 App headless／Metal 启动通过，见 [本次应用验收](render-evidence/app-build-2026-10-10/summary.md)。新人物已生成专项原生图，人工审美及动态关节质量仍待验收；旧备份目录最终核对时已缺失，原因未确认。旧包的 180 秒对局只算 [历史证据](render-evidence/attributes-characters-2026-10-09/summary.md)。
 
 私有源码仓库：[lmjshineee/tideink-godot](https://github.com/lmjshineee/tideink-godot)。preview.16 的构建与启动证据见下方发布验收。
 
@@ -62,4 +62,4 @@ python3 tests/python/test_character_archetypes.py
 - [原生完整对局与结算验收](render-evidence/native-match-2026-10-04/summary.md)：180 秒 5v5 受控基线、帧间隔及面积／积分展示修正。
 - [机器人出场跳跃验收](render-evidence/bot-deployment-2026-10-05/summary.md)：91 项统一检查、两队负例与两个原生 Metal 受控场景。
 
-`docs/history/`、`render-evidence/` 和 `experiments/` 保留 Godot 历史记录与人物实验，正式导出排除。真实手感、长期温度、全地图长时机器人策略与联网仍需验收。源码与已有应用的交付状态见 [当前状态](docs/COORDINATION.md)；本轮仅本地提交，没有导出、压缩、推送或发布。
+`docs/history/`、`render-evidence/` 和 `experiments/` 保留 Godot 历史记录与人物实验，正式导出排除。真实手感、长期温度、全地图长时机器人策略与联网仍需验收。源码与已有应用的交付状态见 [当前状态](docs/COORDINATION.md)；本次本地导出已完成，没有创建分发压缩包、推送或发布。

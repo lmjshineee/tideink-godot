@@ -1,0 +1,272 @@
+{
+  "source_head": "25fa67ecbb86f588e4624fb402a0a2d6356482ad",
+  "pck_sha256": "62148277cfecaefc5a7659e2ecbea910a76bdee99ab167c0c47c024bcdef1dc0",
+  "cases": [
+    {
+      "name": "check_tidewater_turf_points",
+      "status": "passed",
+      "stdout_sha256": "630c0baaf0d127dcfedaa73e80fd90500491a769b75d3104bc0133b94ab349dc",
+      "source_sha256": "cb5cd63c983368a38950ada85b01d6c0ccf2e04f5c56557cac1a7f11bd924417",
+      "reused": true
+    },
+    {
+      "name": "check_gameplay_deployment",
+      "status": "passed",
+      "stdout_sha256": "b014fc4023810c0e6887a92972b9168e2a30fb09db106707fb4f543a17c54bc2",
+      "source_sha256": "ab9fb3dfeb51ef6c3c3a90cf4f6dd9f365e9b41ecd316aa8f5bad84201f94c36",
+      "reused": true
+    },
+    {
+      "name": "check_expanded_loadouts",
+      "status": "passed",
+      "stdout_sha256": "351d52548a36b745fd251a34dcd4e23f527af4f668d6e86d6e2328d2335b9b3d",
+      "source_sha256": "ec8e90456881ea272a78c446ed08f73ad9e061fdda605e90f60a83b796ffb3ec",
+      "reused": true
+    },
+    {
+      "name": "check_bow_precision",
+      "status": "passed",
+      "stdout_sha256": "d494c3feb811ca00d2f770f5706a9d043c7a30577a87721009ae4bbb340ee7c2",
+      "source_sha256": "0654048170ba34af9c2fdf3a198f27c8a5d9c6e18ecc3909d51fd25fb6cd7d60",
+      "reused": true
+    },
+    {
+      "name": "check_canopy_push",
+      "status": "passed",
+      "stdout_sha256": "93bb23ca68f4b9eaaa718acbe24345109a8807a2e9f2d9b13f97d08602eeae5d",
+      "source_sha256": "aa4b39354be05860c8bbbbb98f955266e7f2fe1b4b707048d86c2efc934c9e51",
+      "reused": true
+    },
+    {
+      "name": "check_creative_wings",
+      "status": "passed",
+      "stdout_sha256": "9004b62226ab0a277bd2b01841bbe6258638c807bc23000ebea2acc82c625f04",
+      "source_sha256": "25abe5364274e9baac3f57ee2e7d292586c3e67a6730dac4ceba7783e58b4a86",
+      "reused": true
+    },
+    {
+      "name": "check_vertical_combat",
+      "status": "passed",
+      "stdout_sha256": "114efd37603b9d1877dc817821a8169d067568b2fe28e5f2bac3a4749b196303",
+      "source_sha256": "9e66df8279c9c8893e93b2a385d6eefa420a8f621d981596cc160293c20c824d",
+      "reused": true
+    },
+    {
+      "name": "check_actor_turf_credit",
+      "status": "passed",
+      "stdout_sha256": "6508b93d4594fd30a703c1c190acdb0b6aef01d65299b34c6ecaac11c8852481",
+      "source_sha256": "45577598c8b004421c5fdd584dd05d85f35cc35446fe7094f4f5c719d893933f",
+      "reused": true
+    },
+    {
+      "name": "check_bot_high_ground",
+      "status": "passed",
+      "stdout_sha256": "41d43ff4247b39e605fba757a26d3c9b528907fa5495cce3cbcf411ac9e793de",
+      "source_sha256": "84456bbcb7507d14b846dcd3b69defb7b6e1bd6a2718eea914db0696d92f38fd",
+      "reused": true
+    },
+    {
+      "name": "check_experience_balance",
+      "status": "passed",
+      "stdout_sha256": "a17cbfc45565e45caad6401675cb03d347134ebc2ff68a94c78655ee38335f32",
+      "source_sha256": "79f46e12a1da9553be69e93344fde37f466dc9e47237704b1ab8fb192a0b6c32",
+      "reused": true
+    },
+    {
+      "name": "check_weapon_specials",
+      "status": "passed",
+      "stdout_sha256": "3060722f5711c95dbcbc118d332bba3e66a7d754c8dd3191e9dad9577306d853",
+      "source_sha256": "813d0acf2df10091aae57ddb6d9e679cdefbd7dc503ba9ae25bde90cad5761b8",
+      "reused": true
+    },
+    {
+      "name": "check_combat_readability",
+      "status": "passed",
+      "stdout_sha256": "95922737f4c48cf1994218116649919c7ebf13e7f29b02731eeac9a35a3cc75a",
+      "source_sha256": "9f22d763f784a76103ce44617138feebfc3cbb43015c7b1d255b9dcae0c128f3",
+      "reused": true
+    },
+    {
+      "name": "check_ink_hazard_feedback",
+      "status": "passed",
+      "stdout_sha256": "ce60213b20269a243aedb2cddd1e7c4a7ef24ba66188c17d591260569a251c94",
+      "source_sha256": "7b3c5ff716296f89910524690f3ee1947a10b19a2aa36faba5057fc876419ca8",
+      "reused": true
+    },
+    {
+      "name": "check_bot_patrol_commitment",
+      "status": "passed",
+      "stdout_sha256": "6cf643fc4cccbf58268cb3991fbfcd9f4dda73e30acc3c65f09eb9227182158e",
+      "source_sha256": "aee5b7cd843d48e9f46911cbd761b7400736e898a2ac8922873cf35c342c5d11",
+      "reused": true
+    },
+    {
+      "name": "check_bot_route_clearance",
+      "status": "passed",
+      "stdout_sha256": "561ac76e4cf5473471741eccc89f2200d17fa55bdc10b10732f835c0e4c80abb",
+      "source_sha256": "e26d8fdc7875b8768027dcda9c319d906048c6d4f45a29f7c1093055e1ea03f0",
+      "reused": true
+    },
+    {
+      "name": "check_bot_map_platforms",
+      "status": "passed",
+      "stdout_sha256": "fa7e2dc131e3c970de4d2530857c778554d2d8a69af585ec0beaab8d37508991",
+      "source_sha256": "e62f9749d5a337d8777602f504cfd1fc9826a1f5b6b68765642bbdba984a093e",
+      "reused": true
+    },
+    {
+      "name": "check_team_navigation_motion",
+      "status": "passed",
+      "stdout_sha256": "cde33fe8a06409744d205c9b7a18d9f0021fd48c65e41f1e5469ec23673e19f6",
+      "source_sha256": "b1e7d6ca6389df1d442c64cdd380e8ff0364261178210297ba5f6ef0ddf1c619",
+      "reused": true
+    },
+    {
+      "name": "check_map_routes26",
+      "status": "passed",
+      "stdout_sha256": "84d46c7175ae7e211e5ee083789c71e80a497f4e77980cbb7c4e0aa48cf2dc9d",
+      "source_sha256": "c0ab1d15dcb12624a742e25c338ed549e73366fb150f24fd50b7b38f2c31cf0f",
+      "reused": true
+    },
+    {
+      "name": "check_bot_beacon_placement",
+      "status": "passed",
+      "stdout_sha256": "8cea626958fa3db9aa7f657305f7eba20e11805b3533c87bc1db3dbacc880ce1",
+      "source_sha256": "8f8a8b4a73a321a6c3e9ec11be0564566388da05a158e6b6706c5ac961df095c",
+      "reused": true
+    },
+    {
+      "name": "check_ink_buddy_combat",
+      "status": "passed",
+      "stdout_sha256": "147b9994275b5d49efffc2153c3bc98a272c2f84ce92bb4e9f2f41d4616d3928",
+      "source_sha256": "0d7ed3a20eab99cf74c21934ee5d492339b7229b0c527272691d202fd2f1376f",
+      "reused": true
+    },
+    {
+      "name": "check_ink_buddy_lifecycle",
+      "status": "passed",
+      "stdout_sha256": "94ecf9eb173396cb62a36c87cd9ca3c99af5eb1fe5c88d0e1b3b133ce005f32f",
+      "source_sha256": "0ee8210c34fb3959431014ad4ff6319f154128fc62ff5c5f6d3deddc942571cc",
+      "reused": true
+    },
+    {
+      "name": "check_item_previews",
+      "status": "passed",
+      "stdout_sha256": "becab42be9aa7f3afe5a11f960824d8eacb67ae0807c7e1bf02353a04305e71c",
+      "source_sha256": "f909589c7f724799b4fe0969643bc478cdb70316e586c6d70e99068be4ef64b2",
+      "reused": true
+    },
+    {
+      "name": "check_damage_contract",
+      "status": "passed",
+      "stdout_sha256": "15148b1986c191d90a75a2737f45aa0e6f8c579cb167b1f46248d2e0cb208ce0",
+      "source_sha256": "8985975ac9b55ec0f4078af38cbbc24713a575b70fe91d60337419586cd38045",
+      "reused": true
+    },
+    {
+      "name": "check_damage_regions",
+      "status": "passed",
+      "stdout_sha256": "5df1bb1e2914f33359482c39ad4320a037887a3b7ad332edbacc0be8fdaeab74",
+      "source_sha256": "f678f57536dd12bed6831bacd93204f4e406d4552e14cdb32eabcae4d38e7327",
+      "reused": true
+    },
+    {
+      "name": "check_bot_ink_refill",
+      "status": "passed",
+      "stdout_sha256": "8ae7623c7fb2db76b01d3139ef376f5fdeba534b06c8a4287d4d2837e96665df",
+      "source_sha256": "fd6a88aafb63c9c7547a0b8acc38c0960be8fb73f3854cc4469a42ba7b5d2fc4",
+      "reused": true
+    },
+    {
+      "name": "check_roller_surface_contact",
+      "status": "passed",
+      "stdout_sha256": "dbd097265fc6444c83ee7577a0d5c86dfd0743d547cfe0384d4f124ee33b663c",
+      "source_sha256": "ab13a83aff0339d5e00029fae91051df66189a4914ea015737c43d22dea190e2",
+      "reused": true
+    },
+    {
+      "name": "check_extended_damage",
+      "status": "passed",
+      "stdout_sha256": "f7ed38696dc66bf70003b3af1f1178ef81447c6154babcf9e807a7d45f5cfcc0",
+      "source_sha256": "93a0987ed9e579876a208d2f0e7ac8b1f14fa9bb7eaad12b4a3e9f126c093e80",
+      "reused": true
+    },
+    {
+      "name": "check_loadout_tuning",
+      "status": "passed",
+      "stdout_sha256": "8b4d2f9c3e367ff3153babbca77488e2202634a1dec41f9a401ae275977aaaac",
+      "source_sha256": "bdf359602987fa52bc032dda26390535ccdf9105cc6a6df3436af17861b35ce8",
+      "reused": true
+    },
+    {
+      "name": "check_area_rules",
+      "status": "passed",
+      "stdout_sha256": "082af84d37d3cec614774e35fc9f9974703c933025b3dcffe7ef75360ba45172",
+      "source_sha256": "013a3135bde732da5df7b18aa397ff909f15a0899b638e095dcfa8c351e6737a",
+      "reused": true
+    },
+    {
+      "name": "check_attribute_allocation",
+      "status": "passed",
+      "stdout_sha256": "f4abda435d956a497d52a473b9a336cbabc9aff83e55a05ef9d73938d122b088",
+      "source_sha256": "dea292a41ed4246f873c21b0ee527864486e3777dbe9d611031cc79e74fab3bd",
+      "reused": true
+    },
+    {
+      "name": "check_bot_attribute_builds",
+      "status": "passed",
+      "stdout_sha256": "912f1d025bd69d9680386c0ac3c0c81608817005d560fb33777d4e4989a4bec3",
+      "source_sha256": "fd24953ea5a96ef561356c9f99846e62aba2ee2ce78c0a00bdcd9ad699093246",
+      "reused": true
+    },
+    {
+      "name": "check_character_archetypes",
+      "status": "passed",
+      "stdout_sha256": "05c51d40d2519432e35fd32b6300778011740476d66da64314a3bcf02a98528d",
+      "source_sha256": "1be72c60b7e16419b3484a9bc1efbf7147760a92e2153332f5112dedb869bd43",
+      "reused": true
+    }
+  ],
+  "preserved_initial_failure": "pack-verification/primary-native.txt",
+  "method": "Reuse the 32 successful rules and two successful native groups from the same unchanged PCK; run the corrected primary fixture and remaining native groups outside the checkout.",
+  "native": {
+    "status": "passed",
+    "stdout_sha256": "9c4b63f57ae78ebe16aa54cc4e144bbd7732e36f16291d6f013053efcdf42749",
+    "source_sha256": "bbe5767b134a5dc49305fe31bf1b3b2e76a2ccf3db8afa9bc8b954df0364c9cb",
+    "reused": true
+  },
+  "buddy_native": {
+    "status": "passed",
+    "stdout_sha256": "63028694f8a7f163cdf3c74c600535bd49dfc74d8cf857b2c4a23f7dea34be2b",
+    "source_sha256": "ceedc09fde51de1b2fbe593d316a2558c97546424906e67b08b7f0cbbf9b58d7",
+    "reused": true
+  },
+  "primary_native": {
+    "status": "passed",
+    "source_sha256": "fefbd74f73dca15cc5e53ad0372473178c4dc1759433dcc48e85393ae26be358",
+    "external_sha256": "a7fdc6b97b60b4201dc4ec8f92784b94010ce8b957ef39e2e4dcc196ffad6df7",
+    "pck_sha256": "62148277cfecaefc5a7659e2ecbea910a76bdee99ab167c0c47c024bcdef1dc0",
+    "reused": false
+  },
+  "loadout_native": {
+    "status": "passed",
+    "source_sha256": "4ced0c609ad7099a65016360db773c0b8e30bfdfa898a166e37b6bd5c39ba59a",
+    "external_sha256": "bf91b67f4d6b4dd18df2a1f699b2449855a170953d7eccee9e19eb8a06d9e7ac",
+    "pck_sha256": "62148277cfecaefc5a7659e2ecbea910a76bdee99ab167c0c47c024bcdef1dc0",
+    "reused": false
+  },
+  "attribute_native": {
+    "status": "passed",
+    "source_sha256": "f23cd92114cb50935a05df787900ee233848381839e26c93929de5397fbef41e",
+    "external_sha256": "c362ef303f57939b59a389b8c022d43e8e7e7ce7539a4a329a25b620e029ab13",
+    "pck_sha256": "62148277cfecaefc5a7659e2ecbea910a76bdee99ab167c0c47c024bcdef1dc0",
+    "reused": false
+  },
+  "art_native": {
+    "status": "passed",
+    "source_sha256": "e6c1b734cb1dc3b3f5e5195f1417781ac5807e8eefd904004fece3b571e3d17d",
+    "external_sha256": "e6c1b734cb1dc3b3f5e5195f1417781ac5807e8eefd904004fece3b571e3d17d",
+    "pck_sha256": "62148277cfecaefc5a7659e2ecbea910a76bdee99ab167c0c47c024bcdef1dc0",
+    "reused": false
+  }
+}

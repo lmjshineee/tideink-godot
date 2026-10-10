@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/yunni/Joy/inkwave-game-cleaned/render-evidence/app-build-2026-10-10/verify_remaining_native.py", line 67, in <module>
+    run(common + ['--rendering-driver', 'metal', '--script', str(script),
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  '--log-file', str(output / (kind + '.engine.txt')), '--',
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  '--output=' + str(output / kind)], cwd, output / (kind + '.txt'))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yunni/Joy/inkwave-game-cleaned/tools/release/verify_app.py", line 165, in run
+    raise RuntimeError(f'export verification failed: {output}; exit={result.returncode}; {errors[:3]}')
+RuntimeError: export verification failed: /Users/yunni/Joy/inkwave-game-cleaned/render-evidence/app-build-2026-10-10/remaining-native/primary.txt; exit=1; ['SCRIPT ERROR: Parse Error: Cannot infer the type of "hover_point" variable because the value doesn\'t have a set type.', 'ERROR: Failed to load script "/Users/yunni/Joy/inkwave-game-cleaned/render-evidence/app-build-2026-10-10/remaining-fixtures/primary.gd" with error "Parse error".']

@@ -1,0 +1,13 @@
+{
+  "missing": [
+    "Contents/Info.plist",
+    "Contents/MacOS/TideInk",
+    "Contents/PkgInfo",
+    "Contents/Resources/PrivacyInfo.xcprivacy",
+    "Contents/Resources/TideInk.pck",
+    "Contents/Resources/icon.icns",
+    "Contents/_CodeSignature/CodeResources"
+  ],
+  "added": {},
+  "changed": {}
+}

@@ -1,0 +1,31 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-10-10 17:42:28.077 Godot[83888:1931115] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+AUDIT: near shooter actor 1 height 0.25 HP=0.0 actual damage=120.0
+AUDIT: near shooter actor 1 height 0.90 HP=0.0 actual damage=120.0
+AUDIT: near shooter actor 1 height 1.28 HP=0.0 actual damage=120.0
+AUDIT: charger actor 1 HP=0.0 actual damage=120.0
+AUDIT: blaster actor 1 HP=0.0 actual damage=120.0
+AUDIT: near shooter actor 6 height 0.25 HP=0.0 actual damage=120.0
+AUDIT: near shooter actor 6 height 0.90 HP=0.0 actual damage=120.0
+AUDIT: near shooter actor 6 height 1.28 HP=0.0 actual damage=120.0
+AUDIT: charger actor 6 HP=0.0 actual damage=120.0
+AUDIT: blaster actor 6 HP=0.0 actual damage=120.0
+AUDIT: near shooter actor 2 height 0.25 HP=0.0 actual damage=120.0
+AUDIT: near shooter actor 2 height 0.90 HP=0.0 actual damage=120.0
+AUDIT: near shooter actor 2 height 1.28 HP=0.0 actual damage=120.0
+AUDIT: charger actor 2 HP=0.0 actual damage=120.0
+AUDIT: blaster actor 2 HP=0.0 actual damage=120.0
+AUDIT: far shooter after four HP=9.13279999999998 actual damage=110.8672
+AUDIT: 98 percent charge HP=28.22 actual damage=91.78
+AUDIT: shield vs charger HP=30.0 actual damage=90.0
+AUDIT: shield vs blaster HP=85.0 actual damage=35.0
+AUDIT: flick shared cap balanced HP=195.0 actual damage=105.0
+AUDIT: flick shared cap adrenaline HP=195.0 actual damage=105.0
+AUDIT: flick shared cap dry_focus HP=216.0 actual damage=84.0
+AUDIT: flick late boost HP=195.0 actual damage=105.0
+AUDIT: near flick HP=15.0 actual damage=105.0
+AUDIT: roller contact bot=false HP=25.0 actual damage=95.0
+AUDIT: roller contact bot=true HP=25.0 actual damage=95.0
+PASS: primary role thresholds on all actor paths, equal regions, distance/charge/shield/wall/range counterplay, actual HP ledger, shared finite boosted flick and effective bot perk; actual native mouse hold/release and shield

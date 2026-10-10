@@ -1,0 +1,326 @@
+{
+	"environment": {
+		"adapter": "Apple M5 (Apple9)",
+		"api": "4.0",
+		"arm64": true,
+		"engine": "4.8-dev6 (official)"
+	},
+	"human_balance_acceptance": false,
+	"images": [
+		"tab-5v5-1280",
+		"tab-5v5-960",
+		"tab-1v1-1280",
+		"tab-1v1-960"
+	],
+	"kind": "weighted bot point allocation and read-only tactical list",
+	"matches": [
+		{
+			"actors": [
+				{
+					"allocation": {
+						"health": 8,
+						"ink_capacity": 0,
+						"ink_recovery": 4,
+						"main_saver": 0,
+						"run_speed": 8,
+						"special_charge": 0,
+						"sub_cooldown": 0,
+						"swim_speed": 0
+					},
+					"id": 1,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "shooter"
+				},
+				{
+					"allocation": {
+						"health": 4,
+						"ink_capacity": 5,
+						"ink_recovery": 0,
+						"main_saver": 2,
+						"run_speed": 5,
+						"special_charge": 0,
+						"sub_cooldown": 2,
+						"swim_speed": 2
+					},
+					"id": 6,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "shooter"
+				},
+				{
+					"allocation": {
+						"health": 1,
+						"ink_capacity": 3,
+						"ink_recovery": 2,
+						"main_saver": 7,
+						"run_speed": 0,
+						"special_charge": 1,
+						"sub_cooldown": 1,
+						"swim_speed": 5
+					},
+					"id": 2,
+					"perk": "adrenaline",
+					"team": 0,
+					"weapon": "roller"
+				},
+				{
+					"allocation": {
+						"health": 4,
+						"ink_capacity": 4,
+						"ink_recovery": 3,
+						"main_saver": 4,
+						"run_speed": 4,
+						"special_charge": 1,
+						"sub_cooldown": 0,
+						"swim_speed": 0
+					},
+					"id": 3,
+					"perk": "leech",
+					"team": 0,
+					"weapon": "charger"
+				},
+				{
+					"allocation": {
+						"health": 4,
+						"ink_capacity": 3,
+						"ink_recovery": 3,
+						"main_saver": 1,
+						"run_speed": 4,
+						"special_charge": 2,
+						"sub_cooldown": 2,
+						"swim_speed": 1
+					},
+					"id": 4,
+					"perk": "enemy_swim",
+					"team": 0,
+					"weapon": "blaster"
+				},
+				{
+					"allocation": {
+						"health": 2,
+						"ink_capacity": 1,
+						"ink_recovery": 4,
+						"main_saver": 3,
+						"run_speed": 6,
+						"special_charge": 2,
+						"sub_cooldown": 1,
+						"swim_speed": 1
+					},
+					"id": 5,
+					"perk": "vault_runner",
+					"team": 0,
+					"weapon": "dualie"
+				},
+				{
+					"allocation": {
+						"health": 6,
+						"ink_capacity": 1,
+						"ink_recovery": 3,
+						"main_saver": 1,
+						"run_speed": 3,
+						"special_charge": 3,
+						"sub_cooldown": 3,
+						"swim_speed": 0
+					},
+					"id": 7,
+					"perk": "last_ink",
+					"team": 1,
+					"weapon": "disc"
+				},
+				{
+					"allocation": {
+						"health": 2,
+						"ink_capacity": 1,
+						"ink_recovery": 7,
+						"main_saver": 4,
+						"run_speed": 1,
+						"special_charge": 2,
+						"sub_cooldown": 2,
+						"swim_speed": 1
+					},
+					"id": 8,
+					"perk": "dry_focus",
+					"team": 1,
+					"weapon": "bow"
+				},
+				{
+					"allocation": {
+						"health": 3,
+						"ink_capacity": 4,
+						"ink_recovery": 2,
+						"main_saver": 4,
+						"run_speed": 1,
+						"special_charge": 5,
+						"sub_cooldown": 0,
+						"swim_speed": 1
+					},
+					"id": 9,
+					"perk": "turf_engine",
+					"team": 1,
+					"weapon": "canopy"
+				},
+				{
+					"allocation": {
+						"health": 2,
+						"ink_capacity": 4,
+						"ink_recovery": 4,
+						"main_saver": 3,
+						"run_speed": 4,
+						"special_charge": 3,
+						"sub_cooldown": 0,
+						"swim_speed": 0
+					},
+					"id": 10,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "shooter"
+				}
+			],
+			"allocation_retained": true,
+			"team_size": 5
+		},
+		{
+			"actors": [
+				{
+					"allocation": {
+						"health": 8,
+						"ink_capacity": 0,
+						"ink_recovery": 4,
+						"main_saver": 0,
+						"run_speed": 8,
+						"special_charge": 0,
+						"sub_cooldown": 0,
+						"swim_speed": 0
+					},
+					"id": 1,
+					"perk": "balanced",
+					"team": 0,
+					"weapon": "shooter"
+				},
+				{
+					"allocation": {
+						"health": 4,
+						"ink_capacity": 5,
+						"ink_recovery": 0,
+						"main_saver": 2,
+						"run_speed": 5,
+						"special_charge": 0,
+						"sub_cooldown": 2,
+						"swim_speed": 2
+					},
+					"id": 2,
+					"perk": "balanced",
+					"team": 1,
+					"weapon": "shooter"
+				}
+			],
+			"allocation_retained": true,
+			"team_size": 1
+		}
+	],
+	"samples": {
+		"blaster/balanced": {
+			"health": 3.07,
+			"ink_capacity": 3.305,
+			"ink_recovery": 3.0075,
+			"main_saver": 4.2075,
+			"run_speed": 3.13,
+			"special_charge": 1.085,
+			"sub_cooldown": 1.1325,
+			"swim_speed": 1.0625
+		},
+		"bow/balanced": {
+			"health": 2.0325,
+			"ink_capacity": 3.3,
+			"ink_recovery": 4.1125,
+			"main_saver": 4.15,
+			"run_speed": 2.15,
+			"special_charge": 2.09,
+			"sub_cooldown": 1.1325,
+			"swim_speed": 1.0325
+		},
+		"canopy/balanced": {
+			"health": 4.1675,
+			"ink_capacity": 4.295,
+			"ink_recovery": 3.0175,
+			"main_saver": 3.1175,
+			"run_speed": 2.0875,
+			"special_charge": 1.075,
+			"sub_cooldown": 1.1375,
+			"swim_speed": 1.1025
+		},
+		"charger/balanced": {
+			"health": 1.0375,
+			"ink_capacity": 4.075,
+			"ink_recovery": 4.0675,
+			"main_saver": 4.91,
+			"run_speed": 1.8675,
+			"special_charge": 1.9925,
+			"sub_cooldown": 0.975,
+			"swim_speed": 1.075
+		},
+		"charger/dry_focus": {
+			"health": 0.9625,
+			"ink_capacity": 0.9925,
+			"ink_recovery": 5.555,
+			"main_saver": 6.6325,
+			"run_speed": 1.8975,
+			"special_charge": 2.0275,
+			"sub_cooldown": 0.9475,
+			"swim_speed": 0.985
+		},
+		"disc/balanced": {
+			"health": 2.3875,
+			"ink_capacity": 2.395,
+			"ink_recovery": 3.54,
+			"main_saver": 3.545,
+			"run_speed": 3.6075,
+			"special_charge": 2.2925,
+			"sub_cooldown": 1.1075,
+			"swim_speed": 1.125
+		},
+		"dualie/balanced": {
+			"health": 3.42,
+			"ink_capacity": 2.1375,
+			"ink_recovery": 2.195,
+			"main_saver": 2.2125,
+			"run_speed": 4.455,
+			"special_charge": 1.145,
+			"sub_cooldown": 1.11,
+			"swim_speed": 3.325
+		},
+		"roller/balanced": {
+			"health": 3.5475,
+			"ink_capacity": 2.3925,
+			"ink_recovery": 2.3,
+			"main_saver": 3.56,
+			"run_speed": 2.4575,
+			"special_charge": 1.1375,
+			"sub_cooldown": 1.095,
+			"swim_speed": 3.51
+		},
+		"shooter/balanced": {
+			"health": 3.545,
+			"ink_capacity": 2.39,
+			"ink_recovery": 2.3025,
+			"main_saver": 2.42,
+			"run_speed": 3.59,
+			"special_charge": 2.28,
+			"sub_cooldown": 1.095,
+			"swim_speed": 2.3775
+		},
+		"shooter/turf_engine": {
+			"health": 2.5725,
+			"ink_capacity": 1.7,
+			"ink_recovery": 2.63,
+			"main_saver": 2.5925,
+			"run_speed": 2.7025,
+			"special_charge": 5.215,
+			"sub_cooldown": 0.885,
+			"swim_speed": 1.7025
+		}
+	},
+	"status": "passed",
+	"verification": "explicit exported PCK; release receipt binds source and application bytes"
+}

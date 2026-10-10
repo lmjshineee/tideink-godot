@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "source_head": "25fa67ecbb86f588e4624fb402a0a2d6356482ad",
+  "source_fingerprint": "3fa5973064f057644eae0612c11845eb7684beb723b5239ed3c798b6b2522cfb",
+  "production_files": 626,
+  "architecture": "arm64",
+  "signature": "ad-hoc; codesign --verify --deep --strict passed",
+  "pck_sha256": "62148277cfecaefc5a7659e2ecbea910a76bdee99ab167c0c47c024bcdef1dc0",
+  "app_files": 7,
+  "source_regression_reused": {
+    "path": "render-evidence/bot-builds-2026-10-10/regression.json",
+    "sha256": "16287018d8b6541390735e2696fc61b1c68f1351398850ec7ffc6837c44a60e9",
+    "passed": 111,
+    "failed": 0
+  },
+  "actual_pck_rules": 32,
+  "actual_pck_warning_cases": {
+    "check_tidewater_turf_points": [
+      "WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_expanded_loadouts": [
+      "WARNING: 20 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_actor_turf_credit": [
+      "WARNING: 14 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_team_navigation_motion": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ]
+  },
+  "native_groups": [
+    "native",
+    "buddy_native",
+    "primary_native",
+    "loadout_native",
+    "attribute_native",
+    "art_native"
+  ],
+  "tactical_images": [
+    "tab-5v5-1280",
+    "tab-5v5-960",
+    "tab-1v1-1280",
+    "tab-1v1-960"
+  ],
+  "export_known_system_ca_diagnostics": {
+    "import.log.txt": [
+      "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+    ],
+    "export.log.txt": [
+      "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+    ],
+    "export-smoke.log.txt": [
+      "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+    ]
+  },
+  "assets_preserved": 440,
+  "uids_preserved": 289,
+  "old_backup_source_head": "6ca5df5f080153c7709fd199acf8b651584a68a2",
+  "old_backup_status": "missing at final audit; matched seven-file inventory before and immediately after export",
+  "old_backup_metadata": {
+    "export-source-preview.24.json": "missing",
+    "export-receipt-preview.24.json": "missing"
+  },
+  "versions_unchanged": true,
+  "natural_match_retested": false,
+  "human_aesthetic_acceptance": false,
+  "thermal_retested": false
+}

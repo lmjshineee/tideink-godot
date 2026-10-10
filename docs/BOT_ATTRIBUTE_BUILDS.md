@@ -33,4 +33,4 @@
 
 `core/attribute_catalog.gd` 定义抽取权重、分配和摘要；`abilities/tidewater_attributes.gd` 保存整局快照，`ui/tidewater_hud.gd` 只读显示。专项 `check_bot_attribute_builds.gd` 覆盖随机分布、预算／等级／别名负例、双方实际 5v5／1v1、死亡和换武器锁定、真实资源上限、情报遮蔽及两尺寸 Tab 输入。检查与实机记录见 [本批验收](../render-evidence/bot-builds-2026-10-10/summary.md)。
 
-本批按功能记录，没有递增版本号或重新导出 App。当前 App 与最新源码的区别以 [工作状态](COORDINATION.md) 为准；随机分布检查和受控原生输入不等于真人平衡、自然整局策略或长期性能验收。
+源码实施批次按功能记录，没有递增版本号；随后用户要求编译 App，已在保持版本字串的情况下按生产提交 `25fa67e` 导出，并通过实际 PCK 的配点与两尺寸 Tab 检查，见 [应用验收](../render-evidence/app-build-2026-10-10/summary.md)。当前 App 的构建身份以 [工作状态](COORDINATION.md) 为准；随机分布检查和受控原生输入不等于真人平衡、自然整局策略或长期性能验收。

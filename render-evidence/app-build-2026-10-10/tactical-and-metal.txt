@@ -1,0 +1,1 @@
+PASS: four actual PCK tactical captures and native Metal application startup outside checkout

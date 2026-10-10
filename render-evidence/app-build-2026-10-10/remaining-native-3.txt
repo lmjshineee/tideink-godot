@@ -1,0 +1,5 @@
+PASS exported PCK native: primary
+PASS exported PCK native: loadout
+PASS exported PCK native: attribute
+PASS exported PCK native: art
+PASS: 32 exported PCK rules, six native input/art groups and actual application headless startup

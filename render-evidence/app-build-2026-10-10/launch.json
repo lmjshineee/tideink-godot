@@ -1,0 +1,11 @@
+{
+  "command": [
+    "open",
+    "-n",
+    "/Users/yunni/Joy/inkwave-game-cleaned/build/TideInk.app"
+  ],
+  "exit": 0,
+  "source_head": "25fa67ecbb86f588e4624fb402a0a2d6356482ad",
+  "pck_sha256": "62148277cfecaefc5a7659e2ecbea910a76bdee99ab167c0c47c024bcdef1dc0",
+  "actual_application_metal_startup": "tactical-and-metal.json"
+}
