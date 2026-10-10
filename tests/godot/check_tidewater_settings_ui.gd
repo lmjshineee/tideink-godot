@@ -55,6 +55,7 @@ func _check() -> void:
 	_click(panel.get("reset_button") as Button)
 	await process_frame
 	if fps.get_selected_id() != 30 or ui_scale.get_selected_id() != 100 \
+			or (panel.get("render_scale_button") as OptionButton).get_selected_id() != int(Settings.DEFAULT_RENDER_SCALE*100) \
 			or absf((panel.get("sensitivity_slider") as HSlider).value - Settings.DEFAULT_LOOK_SENSITIVITY) > 0.00001:
 		_fail("reset did not restore default draft values")
 		return

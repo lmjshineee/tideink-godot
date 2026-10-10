@@ -17,6 +17,26 @@ def accessor(doc,buf,index):
     return b''.join(buf[start+i*stride:start+i*stride+width] for i in range(a['count']))
 
 class Archetypes(unittest.TestCase):
+    def test_mixed_garments_share_their_active_skeletal_bindings(self):
+        reference=None;reference_names=None
+        for profile in builder.PROFILES:
+            doc,buf=read(ROOT/'assets/characters/archetypes'/(profile[0]+'.glb'))
+            names=[doc['nodes'][n]['name'] for n in doc['skins'][0]['joints']]
+            bindings=list(struct.iter_unpack('<16f',accessor(doc,buf,doc['skins'][0]['inverseBindMatrices'])))
+            if reference is None:reference=bindings;reference_names=names
+            self.assertEqual(names,reference_names)
+            for mesh in doc['meshes']:
+                for p in mesh['primitives']:
+                    if doc['materials'][p['material']]['name']!='Cloth':continue
+                    index=p['attributes']['JOINTS_0'];fmt='<4'+('B' if doc['accessors'][index]['componentType']==5121 else 'H')
+                    joints=list(struct.iter_unpack(fmt,accessor(doc,buf,index)))
+                    weights=list(struct.iter_unpack('<4f',accessor(doc,buf,p['attributes']['WEIGHTS_0'])))
+                    active={j for js,ws in zip(joints,weights) for j,w in zip(js,ws) if w>.000001}
+                    for j in active:self.assertLess(max(abs(a-b) for a,b in zip(bindings[j],reference[j])),.00001,names[j])
+                    # Isolated wrong bind matrix would shift a mixed sleeve by 2cm.
+                    bad=list(reference[next(iter(active))]);bad[12]+=.02
+                    self.assertGreater(max(abs(a-b) for a,b in zip(bad,reference[next(iter(active))])),.019)
+
     def seam_distances(self,old,ob,new,nb,primitive):
         idx=primitive['attributes']['POSITION'];tag=primitive['attributes']['TEXCOORD_4']
         before=list(struct.iter_unpack('<3f',accessor(old,ob,idx)))
@@ -74,8 +94,19 @@ class Archetypes(unittest.TestCase):
                                     width=new['accessors'][index]['componentType']
                                     for joints in struct.iter_unpack('<4'+('B' if width==5121 else 'H'),b):
                                         self.assertTrue(all(joint<87 for joint in joints))
+                            elif skinned and semantic=='Cloth':
+                                self.assertEqual(a,b[:len(a)], f'{profile[0]} changed existing {semantic}/{name}')
+                                tags=list(struct.iter_unpack('<2f',accessor(new,nb,np['attributes']['TEXCOORD_4'])))
+                                previous_count=old['accessors'][index]['count']
+                                self.assertTrue(all(round(tag[0])==21 for tag in tags[previous_count:]))
                             else:self.assertEqual(a,b, f'{profile[0]} changed {semantic}/{name}')
-                        self.assertEqual(accessor(old,ob,op['indices']),accessor(new,nb,np['indices']))
+                        old_indices=accessor(old,ob,op['indices']);new_indices=accessor(new,nb,np['indices'])
+                        self.assertEqual(old_indices,new_indices[:len(old_indices)])
+                        if len(new_indices)>len(old_indices):
+                            old_count=old['accessors'][op['attributes']['POSITION']]['count']
+                            extra=list(struct.iter_unpack('<I',new_indices[len(old_indices):]))
+                            self.assertTrue(all(row[0]>=old_count for row in extra))
+                            self.assertEqual(len(extra)//3,594)
                 self.assertEqual(changed,{'Skin','Cloth','Eyes','TeamHair'})
                 self.assertEqual(new['extras']['tideink_archetype']['id'],profile[0]);distinct.append(b''.join(points))
         self.assertEqual(len(set(distinct)),4)

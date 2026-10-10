@@ -67,6 +67,7 @@ func setup(owner_game: Node3D) -> void:
 	for i in roster.size():
 		var model := Node3D.new()
 		model.set_script(Visual)
+		model.set("portrait_detail",true)
 		model.set("team",int(game.call("actor_team",roster[i])))
 		model.set("style_index",int(roster[i].get_node("Body").get("style_index")))
 		model.set("ornament_seed",int(roster[i].get_node("Body").get("ornament_seed")))

@@ -23,6 +23,7 @@ extends Node3D
 @export_range(0, 1) var team := 0
 @export_range(0, 3) var style_index := 0
 @export var ornament_seed := -1
+@export var portrait_detail := false
 var ornament_pattern := 0
 var ornament_color := Color("ffc04a")
 var ornament_pose := Vector4(1,0,0,0)
@@ -35,12 +36,9 @@ const HAIR_SURFACE := preload("res://shaders/characters/character_hair.gdshader"
 const CLOTH_SURFACE := preload("res://shaders/characters/character_cloth.gdshader")
 const IRIS := [Color("ffcf3a"),Color("4ff0dc"),Color("c9a2ff"),Color("a8f56a")]
 const IRIS_DARK := [Color("ff7a00"),Color("0b7fb0"),Color("5b2ad6"),Color("1d9a4a")]
-const OUTFITS := [
-	["39727b","263747","d9e2df","eae7da","dadfda","c2cdc6"],
-	["a1a6b9","303649","463f43","d9d5ca","424652","505666"],
-	["b2734b","354951","5c4437","d8c8a9","46554d","34443f"],
-	["e1d9c5","4a655c","333d43","e4ddc8","d7dccb","525d50"]
-]
+const Wardrobe := preload("res://src/actors/wardrobe_palette.gd")
+const WardrobeMesh := preload("res://src/actors/wardrobe_mesh.gd")
+var wardrobe: Dictionary = {}
 var face_material: ShaderMaterial
 var eye_material: ShaderMaterial
 var face_expression := "idle"
@@ -174,6 +172,7 @@ func _configure_ornament() -> void:
 		rng.randomize()
 		ornament_seed = int(rng.randi() & 0x7fffffff)
 	rng.seed = ornament_seed
+	wardrobe = Wardrobe.look(ornament_seed)
 	ornament_pattern = rng.randi_range(0,7)
 	ornament_pose = Vector4(rng.randf_range(0.85,1.12),rng.randf_range(-0.22,0.22),rng.randf_range(-0.025,0.025),rng.randf_range(-0.02,0.02))
 	ornament_side = [0,0,-1,1][rng.randi_range(0,3)]
@@ -632,9 +631,7 @@ func _hide_primitive_meshes(node: Node) -> void:
 func _materialize_original(node: Node) -> void:
 	if node is MeshInstance3D and node.get_parent() != kid:
 		if node.get_meta("procedural_equipment", false): return
-		# Preserve the smooth authored silhouette/face at portrait distances. Godot's
-		# automatic low-detail mesh otherwise collapses cheeks and cap into facets.
-		(node as MeshInstance3D).lod_bias = 6.0
+		(node as MeshInstance3D).lod_bias = 6.0 if portrait_detail else 1.0
 		if node.name == "TankGlass":
 			var glass := StandardMaterial3D.new()
 			glass.albedo_color = Color(0.65,0.9,1.0,0.18)
@@ -645,6 +642,13 @@ func _materialize_original(node: Node) -> void:
 		var mesh := (node as MeshInstance3D).mesh
 		var imported := mesh.surface_get_material(0)
 		var semantic := imported.resource_name if imported != null else "Equipment"
+		if semantic == "Cloth":
+			var mixed_clothes := WardrobeMesh.combined(wardrobe.top,wardrobe.trousers,wardrobe.shoes)
+			if mixed_clothes == null:return
+			(node as MeshInstance3D).mesh = mixed_clothes
+		# Close-up inspection retains authored detail. In combat Godot picks LODs
+		# by projected size; face/eyes/hair get a larger budget than cloth/shoes.
+		(node as MeshInstance3D).lod_bias = 6.0 if portrait_detail else (3.0 if semantic in ["Skin","Eyes","TeamHair"] else 1.0)
 		if semantic == "Skin" or semantic == "Eyes":
 			var instance_material := face_material if semantic == "Skin" else eye_material
 			if instance_material == null:
@@ -666,14 +670,27 @@ func _materialize_original(node: Node) -> void:
 			(node as MeshInstance3D).material_override = instance_material
 			return
 		var key := TeamPalette.color(team).to_html()+semantic+str(style_index)
+		if semantic == "Cloth":
+			key += ":"+str(wardrobe.values())
 		if not _original_team_materials.has(key):
+			# Session rerolls have thousands of combinations; retain only a bounded
+			# reuse cache. Existing actors still own their immutable materials.
+			if _original_team_materials.size()>=128:_original_team_materials.erase(_original_team_materials.keys()[0])
 			var shared := ShaderMaterial.new()
 			shared.shader = HAIR_SURFACE if semantic == "TeamHair" else CLOTH_SURFACE if semantic == "Cloth" else ORIGINAL_SURFACE
 			shared.set_shader_parameter("team_color", TeamPalette.color(team))
 			shared.set_shader_parameter("pattern",posmod(style_index,4))
 			if semantic == "Cloth":
-				var names := ["shirt_color","shorts_color","shoe_color","sole_color","sock_color","strap_color"]
-				for i in names.size():shared.set_shader_parameter(names[i],Color(OUTFITS[posmod(style_index,4)][i]))
+				shared.set_shader_parameter("garment_kind",wardrobe.top)
+				shared.set_shader_parameter("trouser_kind",wardrobe.trousers)
+				shared.set_shader_parameter("graphic",wardrobe.graphic)
+				var colors: Array=Wardrobe.COLORS[wardrobe.palette]
+				shared.set_shader_parameter("shirt_color",Color(colors[0]).lerp(TeamPalette.color(team),0.38))
+				shared.set_shader_parameter("shorts_color",Color(Wardrobe.COLORS[wardrobe.trouser_palette][1]).lerp(TeamPalette.color(team),0.16))
+				shared.set_shader_parameter("shoe_color",Color(Wardrobe.COLORS[wardrobe.shoe_palette][2]).lerp(TeamPalette.color(team),0.32))
+				shared.set_shader_parameter("sole_color",Color(Wardrobe.COLORS[wardrobe.shoe_palette][3]))
+				shared.set_shader_parameter("sock_color",Color(Wardrobe.COLORS[wardrobe.trouser_palette][4]))
+				shared.set_shader_parameter("strap_color",Color(colors[5]))
 			_original_team_materials[key] = shared
 		(node as MeshInstance3D).material_override = _original_team_materials[key]
 	for child in node.get_children():

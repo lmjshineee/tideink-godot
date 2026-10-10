@@ -245,6 +245,7 @@ func sync() -> void:
 	character_hint.text="拖动旋转 · 滚轮缩放 · 点按跳跃"
 	appearance_choice.visible=preparing
 	appearance_choice.text="形象："+preload("res://src/actors/character_archetypes.gd").LABELS[Setup.style_index]+" ▷"
+	appearance_choice.tooltip_text=preload("res://src/actors/wardrobe_palette.gd").label(Setup.appearance_seed)+"；点击切换剪裁，随机形象重摇配色与图案。"
 	_place(appearance_choice,Vector2(size.x*.742,size.y*.573),Vector2(size.x*.227,29*u),maxi(11,int(14*u)))
 	character_hint.visible=not preparing
 	for i in pose_buttons.size():

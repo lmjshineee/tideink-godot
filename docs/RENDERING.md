@@ -1,6 +1,6 @@
 # 地图、角色与墨迹显示
 
-默认 Forward+ / Metal，`./run.sh --compatibility` 使用兼容渲染。窗口、帧率、精度和 UI 由 `src/ui/tidewater_settings.gd` 管理，默认 30 FPS / 75% 精度。
+默认 Forward+ / Metal，`./run.sh --compatibility` 使用兼容渲染。窗口、帧率、精度和 UI 由 `src/ui/tidewater_settings.gd` 管理，默认 30 FPS / 100% 精度，已有保存偏好优先。30 FPS / 75% 是可主动选择的省电配置。
 
 ## 状态权威
 
@@ -8,7 +8,7 @@
 
 `tidewater_map.gd` / `scenes/world/tidewater_map.tscn` 生成碰撞；`tidewater_scenery.gd` 加载本地视觉网格，避免重复建立碰撞。墨层与壁画保持独立深度偏移。
 
-`src/actors/tidewater_character_visual.gd` 读取阵营、武器、形态和动作，并加载本地模型／骨骼／动作数据。身体、脸部、服装与头发的既有外观保持；实验在 `experiments/`，未经用户确认不得替换正式人物。
+`src/actors/tidewater_character_visual.gd` 读取阵营、武器、形态和动作，并加载本地模型／骨骼／动作数据。正式人物按用户要求使用四种体型与独立的主题色服装混搭；实际剪裁、近景／战斗 LOD 和热负载证据边界见 [主题色混搭](WARDROBE_RENDERING.md)。`experiments/` 的样板没有接入正式人物。
 
 ## 本地资源与验证
 

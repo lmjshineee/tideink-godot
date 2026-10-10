@@ -284,20 +284,20 @@
       "bytes": 17425917
     },
     "assets/characters/archetypes/dock_worker.glb": {
-      "sha256": "58bf32cde5fe835b57fcc7d03b14b5328867b65440d53d89554b5b21e44f261a",
-      "bytes": 4625652
+      "sha256": "99485d552cae04d125079e53d7986a0c610df35ab4d977a6fa845a2b8c06a957",
+      "bytes": 6064896
     },
     "assets/characters/archetypes/fin_drifter.glb": {
-      "sha256": "b4d623a3fcd300a2c969e28758b218f5b7167b8f828d4a9152549e584bd4948d",
-      "bytes": 4600012
+      "sha256": "659f62aa2524544f03b260315377f74898d032867feabf910c4927c26e29a6b7",
+      "bytes": 6039252
     },
     "assets/characters/archetypes/reef_runner.glb": {
-      "sha256": "472d776fe06af27c2bf946c302d2ab6a7d64d2eb8ffef736be65f4720d5e994b",
-      "bytes": 4591104
+      "sha256": "15acf69f4c323b25eba1a36d1ca1e8f5a0fbcf260b23b13ba1c0b8cf84ad66ae",
+      "bytes": 4591124
     },
     "assets/characters/archetypes/spark_writer.glb": {
-      "sha256": "3961cd295267b9fe1259e86e49d781939a683139bb380d19ca268bbaae178bd8",
-      "bytes": 4636820
+      "sha256": "693f0ee65bde3d18fc5e85ca6f6997a5a8768ad5e83c76d57e831eeb55e324d7",
+      "bytes": 4636844
     },
     "assets/characters/kid_0.glb": {
       "sha256": "104333dff2e5c5b8d0461c6603392cdc09400a39d08799a455f8e07742e8cd64",

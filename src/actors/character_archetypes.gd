@@ -3,7 +3,7 @@ extends RefCounted
 # Authored skinned garments provide the silhouettes; no block accessories.
 # Combat capsules and all attributes remain owned by actor/match rules.
 const IDS := ["reef_runner", "fin_drifter", "dock_worker", "spark_writer"]
-const LABELS := ["礁跑 · 短袖轻装", "鳍影 · 修长风衣", "港工 · 宽身工装", "电涂 · 宽松短衫"]
+const LABELS := ["礁跑 · 轻巧短发", "鳍影 · 修长长发", "港工 · 厚实体型", "电涂 · 蓬松发束"]
 const SCALE := [.94, 1.06, .97, 1.01]
 const SKIN_TINT := [Color("fff7ef"), Color("ead7cc"), Color("d1b498"), Color("ebc5ba")]
 

@@ -20,7 +20,7 @@ CASES = ('check_tidewater_turf_points', 'check_gameplay_deployment', 'check_expa
          'check_bot_map_platforms', 'check_team_navigation_motion', 'check_map_routes26',
          'check_bot_beacon_placement', 'check_ink_buddy_combat', 'check_ink_buddy_lifecycle', 'check_item_previews',
          'check_damage_contract', 'check_damage_regions', 'check_bot_ink_refill',
-         'check_roller_surface_contact', 'check_extended_damage', 'check_loadout_tuning', 'check_area_rules', 'check_attribute_allocation', 'check_bot_attribute_builds', 'check_character_archetypes')
+         'check_roller_surface_contact', 'check_extended_damage', 'check_loadout_tuning', 'check_area_rules', 'check_attribute_allocation', 'check_bot_attribute_builds', 'check_character_archetypes', 'check_wardrobe_roll')
 
 
 def main():
@@ -144,6 +144,14 @@ def main():
                       '--output=' + str(output / 'art-native')], fixture, output / 'art-native.txt')
         report['art_native'] = {'status': 'passed', 'source_sha256': sha(art_source),
                                'external_sha256': sha(art), 'pck_sha256': receipt['pck_sha256']}
+        wardrobe_source = project / 'tools/capture/verify_wardrobe.gd'
+        wardrobe = fixture / 'wardrobe_native.gd'
+        shutil.copy2(wardrobe_source, wardrobe)
+        run(common + ['--rendering-driver', 'metal', '--script', str(wardrobe),
+                      '--log-file', str(output / 'wardrobe-native.engine.txt'), '--',
+                      '--output=' + str(output / 'wardrobe-native')], fixture, output / 'wardrobe-native.txt')
+        report['wardrobe_native'] = {'status': 'passed', 'source_sha256': sha(wardrobe_source),
+                                   'external_sha256': sha(wardrobe), 'pck_sha256': receipt['pck_sha256']}
         smoke = output / 'app-startup.txt'
         with smoke.open('w') as log:
             result = subprocess.run([str(app / receipt['executable']), '--headless', '--quit-after', '4',
@@ -152,8 +160,18 @@ def main():
         if result.returncode != 0 or re.search(r'^(SCRIPT ERROR:|ERROR:)', smoke.read_text(), re.M):
             raise RuntimeError('actual app startup failed; see ' + str(smoke))
         report['app_startup'] = {'exit': result.returncode, 'path_overrides': False, 'script_overrides': False}
+        metal = output / 'app-metal.txt'
+        with metal.open('w') as log:
+            result = subprocess.run([str(app / receipt['executable']), '--rendering-driver', 'metal',
+                                     '--quit-after', '90', '--log-file', str(output / 'app-metal.engine.txt')],
+                                    cwd=fixture, stdout=log, stderr=subprocess.STDOUT, timeout=60)
+        if result.returncode != 0 or re.search(r'^(SCRIPT ERROR:|ERROR:)', metal.read_text(), re.M):
+            raise RuntimeError('actual Metal app startup failed; see ' + str(metal))
+        report['app_metal'] = {'exit': result.returncode, 'path_overrides': False, 'script_overrides': False,
+                               'render_frames': 90}
+    validate_receipt(receipt, identity(project), production_files(project), inventory([app], app))
     (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
-    print(f'PASS: {len(CASES)} exported PCK rules, six native PCK input/art groups and actual app startup')
+    print(f'PASS: {len(CASES)} exported PCK rules, seven native PCK input/art groups and actual app headless/Metal startup')
 
 
 def run(command, cwd, output):

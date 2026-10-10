@@ -38,11 +38,14 @@ static func take_loadout() -> Dictionary:
 static func random_appearance() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.randomize()
-	style_index = rng.randi_range(0,3)
+	# A visible silhouette change on every roll, rather than a 25% repeat.
+	style_index = posmod(style_index+rng.randi_range(1,3),4)
 	appearance_seed = int(rng.randi() & 0x7fffffff)
-	preload("res://src/core/team_palette.gd").random_pair(rng)
 	randomized = true
 
 static func ensure_randomized() -> void:
 	if not randomized:
 		random_appearance()
+		var rng := RandomNumberGenerator.new()
+		rng.randomize()
+		preload("res://src/core/team_palette.gd").random_pair(rng)

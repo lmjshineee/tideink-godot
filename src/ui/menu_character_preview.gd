@@ -34,6 +34,7 @@ func setup(game: Node3D) -> void:
 	var material:=StandardMaterial3D.new();material.albedo_color=preload("res://src/core/team_palette.gd").color(0).darkened(0.45);material.roughness=0.55;plinth.material_override=material;view.add_child(plinth)
 	actor=StageActor.new();actor.collision_layer=0;actor.collision_mask=0;view.add_child(actor)
 	model=preload("res://src/actors/tidewater_character_visual.gd").new()
+	model.portrait_detail=true
 	model.style_index=preload("res://src/core/match_setup.gd").style_index;model.ornament_seed=game.get_node("World/Walker/Body").ornament_seed
 	actor.add_child(model);model.configure_animation(game.get_node("Combat").weapon_data["player"]);model.set_weapon(game.selected_weapon)
 	camera=Camera3D.new();camera.fov=38;camera.current=true;view.add_child(camera);_update_camera()

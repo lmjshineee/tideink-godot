@@ -33,7 +33,7 @@ func _run() -> void:
 	camera=Camera3D.new();camera.projection=Camera3D.PROJECTION_ORTHOGONAL;camera.size=1.85;camera.current=true
 	stage.add_child(camera);camera.position=Vector3(0,.9,5);camera.look_at(Vector3(0,.72,0))
 	for i in 4:
-		var model:=Visual.new();model.style_index=i;model.team=0;model.ornament_seed=401+i;model.position.x=(i-1.5)*.77
+		var model:=Visual.new();model.style_index=i;model.team=0;model.portrait_detail=true;model.ornament_seed=401+i;model.position.x=(i-1.5)*.77
 		stage.add_child(model);model.set_physics_process(false);model.set_weapon("shooter");models.append(model)
 	animate(30);await snap("lineup-front")
 	for model in models:model.rotation.y=-.55
@@ -54,6 +54,26 @@ func _run() -> void:
 		var file:=FileAccess.open(output.path_join("character-%d.json"%i),FileAccess.WRITE)
 		file.store_string(JSON.stringify({"archetype":subject.get_meta("archetype"),"model_path":Visual.Archetypes.path(i),"bones":subject.skeleton.get_bone_count(),"root_scale":subject.original_rig.scale},"\t"));file.close()
 		subject.visible=false
+	# Independent garment cuts on the SAME body, repeated with the other team
+	# theme. Seed is the same across both; only the team theme changes.
+	for model in models:model.queue_free()
+	models.clear();await frames(3)
+	for team in 2:
+		for i in 4:
+			var selected_seed:=0
+			for candidate in 20000:
+				var look:=Visual.Wardrobe.look(candidate)
+				if look.top==i and look.trousers==(3-i) and look.shoes==(i+2)%4:selected_seed=candidate;break
+			var model:=Visual.new();model.style_index=0;model.team=team;model.portrait_detail=true;model.ornament_seed=selected_seed
+			model.position.x=(i-1.5)*.77;stage.add_child(model);model.set_physics_process(false);model.set_weapon("shooter");models.append(model)
+		camera.size=1.85;camera.position=Vector3(0,.9,5);camera.look_at(Vector3(0,.72,0));animate(30)
+		await snap("wardrobe-team-%d-front"%team)
+		for model in models:model.rotation.y=PI
+		await snap("wardrobe-team-%d-back"%team)
+		for model in models:model.rotation.y=-.28;model.anim_speed=5;model.moving=true
+		animate(9);await snap("wardrobe-team-%d-run"%team)
+		for model in models:model.queue_free()
+		models.clear();await frames(3)
 	report.status="passed";var file:=FileAccess.open(output.path_join("characters.json"),FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	stage.queue_free();await frames(3)
 	print("PASS: four distinct production silhouettes, front/three-quarter/back/run, face closeups and eight held weapons each; visual review still required")

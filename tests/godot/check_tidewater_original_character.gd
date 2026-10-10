@@ -25,14 +25,14 @@ func _run() -> void:
 			if custom.size()!=points.size()*4 or clothing.size()!=points.size()*4:
 				fail("lost bind-space fragment attributes");return
 			for i in points.size():
-				# Real ankle-length trousers/coat replace the short source garment.
+				# Mixed garment cuts retain the bounded bind-space envelope.
 				var envelope:float=.47 if semantic=="Cloth" else .145
 				if not points[i].is_finite() or points[i].distance_to(Vector3(custom[i*4],custom[i*4+1],custom[i*4+2]))>envelope:
 					fail("authored body deformation exceeds bounded semantic envelope");return
 			if semantic=="Cloth":
 				var material := mesh.material_override as ShaderMaterial
-				if material.shader!=Visual.CLOTH_SURFACE or material.get_shader_parameter("shorts_color")!=Color(Visual.OUTFITS[style][1]):
-					fail("source clothing palette not applied");return
+				if material.shader!=Visual.CLOTH_SURFACE or mesh.mesh.get_meta("garment_sources",[])!=[visual.wardrobe.top,visual.wardrobe.trousers,visual.wardrobe.shoes]:
+					fail("mixed clothing geometry or shader not applied");return
 		for weapon in ["shooter","roller","charger","blaster"]:
 			visual.set_weapon(weapon)
 			visual.moving = false
@@ -74,7 +74,7 @@ func _run() -> void:
 				fail("one-shot moved hair to another variant's anchors");return
 		visual.queue_free()
 		await process_frame
-	print("PASS: original rig/skin remains, bounded body derivation and semantic clothing attributes survive import, original palette, source idle/gait and floor height, per-variant hair anchors")
+	print("PASS: original rig/skin remains, bounded body derivation and semantic clothing attributes survive mixing, source idle/gait and floor height, per-variant hair anchors")
 	quit()
 
 func floats(value: Variant) -> PackedFloat32Array:

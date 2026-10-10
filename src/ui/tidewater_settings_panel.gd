@@ -40,8 +40,9 @@ func _ready() -> void:
 	fps_button = OptionButton.new()
 	fps_button.name = "FpsChoice"
 	fps_button.add_item("30 FPS · 省电", 30)
-	fps_button.add_item("45 FPS", 45)
-	fps_button.add_item("60 FPS", 60)
+	fps_button.add_item("45 FPS · 均衡", 45)
+	fps_button.add_item("60 FPS · 流畅", 60)
+	fps_button.tooltip_text="战斗发热明显时可选 30 FPS；帧率越高，每秒渲染工作越多。保存后生效。"
 	add_child(fps_button)
 	var render_label := _label("画面精度",18,Color.WHITE)
 	render_label.name = "RenderScaleLabel"
@@ -49,6 +50,7 @@ func _ready() -> void:
 	render_scale_button.name = "RenderScaleChoice"
 	render_scale_button.add_item("均衡 · 75%",75)
 	render_scale_button.add_item("清晰 · 100%",100)
+	render_scale_button.tooltip_text="75% 降低战斗画面渲染负载，界面文字保持清晰；100% 优先画面细节。"
 	add_child(render_scale_button)
 	var ui_scale_label := _label("界面缩放", 18, Color.WHITE)
 	ui_scale_label.name = "UiScaleLabel"
@@ -126,7 +128,7 @@ func close_panel() -> void:
 
 func _on_reset_pressed() -> void:
 	fps_button.select(0)
-	render_scale_button.select(0)
+	render_scale_button.select(Settings.RENDER_SCALE_OPTIONS.find(Settings.DEFAULT_RENDER_SCALE))
 	ui_scale_button.select(1)
 	sensitivity_slider.value = Settings.DEFAULT_LOOK_SENSITIVITY
 	for key in volume_sliders:

@@ -137,7 +137,7 @@ func _enter_tree() -> void:
 	preload("res://src/core/map_catalog.gd").ensure_setup()
 	MatchSetup.ensure_randomized()
 	appearance_rng.randomize()
-	get_node("Bot/Body").set("style_index",appearance_rng.randi_range(0,3))
+	get_node("Bot/Body").set("style_index",posmod(MatchSetup.style_index+2,4))
 	phase = MatchSetup.screen
 
 
@@ -790,6 +790,7 @@ func choose_appearance(index: int) -> void:
 	get_tree().reload_current_scene()
 
 func randomize_appearance() -> void:
+	if phase not in ["home", "setup"] or perks.locked: return
 	MatchSetup.random_appearance()
 	MatchSetup.screen = phase
 	MatchSetup.pending_loadout = {"player":selected_weapon,"settings_path":settings_path}
@@ -869,7 +870,9 @@ func _build_roster() -> void:
 			body.name = "Body"
 			body.set_script(visual_script)
 			body.set("team", team)
-			body.set("style_index", appearance_rng.randi_range(0,3))
+			# Each side's four extra actors cover every silhouette once. Wardrobe
+			# colours/graphics and faces still roll independently on each actor.
+			body.set("style_index", posmod(MatchSetup.style_index+slot+team,4))
 			actor.add_child(body)
 			add_child(actor)
 			extra_bots.append(actor)

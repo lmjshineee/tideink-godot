@@ -2,8 +2,9 @@
 """Derive four bind-space silhouettes from local licensed rigs, preserving skinning.
 
 No external checkout or DCC runtime is required. Original kid_*.glb are read-only.
-Positions, inverse-transpose normals and tailored garment weights change. Topology,
-joint palette, semantic UVs, source license metadata, weapons and squid are retained.
+Positions, inverse-transpose normals and tailored garment weights change. Original
+faces/semantic UVs remain; long tops add 594 triangles of weighted inner sleeves.
+Joint palette, source license metadata, weapons and squid are retained.
 """
 import argparse, copy, hashlib, json, math, struct
 from pathlib import Path
@@ -12,14 +13,14 @@ ROOT = Path(__file__).resolve().parents[2]
 PROFILES = (
     ('reef_runner', 0, .98, .95, .96, .60, 1.03, .99),
     ('fin_drifter', 2, .93, .89, 1.00, 1.03, .98, 1.00),
-    ('dock_worker', 3, 1.65, 1.08, .90, .54, 1.16, 1.06),
-    ('spark_writer', 1, 1.24, .95, .98, .72, 1.05, .99),
+    ('dock_worker', 3, 1.40, 1.08, .90, .54, 1.20, 1.08),
+    ('spark_writer', 1, 1.30, .95, .98, .72, 1.12, 1.06),
 )
 CUTS = {
     'reef_runner': (1.00, .52, .52, 1.00, .88, 1.00),
-    'fin_drifter': (1.75, 3.05, 3.05, 3.00, .96, 1.10),
-    'dock_worker': (1.15, 3.25, 3.25, 3.02, 1.06, 1.40),
-    'spark_writer': (.90, 1.50, 2.60, 1.40, 1.10, 1.12),
+    'fin_drifter': (1.10, 3.05, 3.05, 3.00, .92, 1.00),
+    'dock_worker': (1.18, 3.05, 3.05, 3.02, 1.16, 1.18),
+    'spark_writer': (1.00, 1.30, 1.30, 1.42, 1.16, 1.05),
 }
 
 
@@ -48,9 +49,6 @@ def transform(p, semantic, profile, part=0, uv=None):
             y -= (shirt-1)*max(0.,.93-y)
             # Leave room for the existing pelvis mesh under a longer shirt.
             z *= 1+.25*(1-smooth(.72,.87,y))
-            if profile[0]=='fin_drifter':
-                flare=1-smooth(.52,.90,y)
-                x *= 1 + .28*flare; z *= 1 + .38*flare
         if part in (4,5,15):
             y -= (pants-1)*max(0.,.645-y)
             center = .078 if x > 0 else -.078
@@ -69,24 +67,30 @@ def transform(p, semantic, profile, part=0, uv=None):
             old_center=.14499+s*.1125
             cy=.981-new_s*.992
             new_center=.14499+new_s*.1125 if cy>=.771 else .16899+(.771-cy)*(.014/.194)
-            fullness=1.19 if profile[0]=='dock_worker' else 1.13 if profile[0]=='fin_drifter' else 1.07 if profile[0]=='spark_writer' else 1.0
+            if max(left,right)>2.5:
+                new_center+=.009*smooth(.009,.030,s)*(1-smooth(.82,.90,cy))
+            fullness=1.15 if profile[0]=='dock_worker' else 1.06 if profile[0]=='fin_drifter' else 1.12 if profile[0]=='spark_writer' else 1.0
             # Sparse source sleeve rings need loose elbow ease when extended.
-            fullness+=.60*smooth(.675,.73,cy)*(1-smooth(.77,.825,cy))
+            fullness+=.30*smooth(.675,.73,cy)*(1-smooth(.77,.825,cy))
             fullness=1+(fullness-1)*smooth(.009,.025,s)
             if s>.009:
                 old_z=-.0124-s*.038
                 new_z=-.0124-new_s*.038 if cy>=.771 else -.0204+(.771-cy)*(.016/.194)
                 x=side*new_center+(x-side*old_center)*fullness
                 z=new_z+(z-old_z)*fullness
-        if part == 3 and profile[0] in ['fin_drifter','dock_worker']:
-            y=.973+(y-.973)*1.70
+        if part == 3 and profile[0]=='fin_drifter':
+            y=.973+(y-.973)*1.90
+        if part == 3 and profile[0]=='dock_worker':
+            # Lay the front collar down; its neck attachment stays fixed.
+            t=smooth(.978,1.001,p[1])*smooth(-.002,.032,p[2])
+            y-=.025*t;z+=.018*t;x*=1+.22*t
         if part in [7,11,17,19,20] or (part==16 and y<.22):
             y=.04+(y-.04)*boot
     if semantic == 'TeamHair':
         # Only strand-weighted hair is cut; the scalp cap must still meet the skin.
         if part==1 and p[1] < 1.14: y = 1.115 + (p[1]-1.14)*hair_length
         return [x, y, z]
-    if semantic=='Skin' and profile[0]=='fin_drifter' and .14<y<.66:
+    if semantic=='Skin' and profile[0]=='fin_drifter' and .14<y<.66 and abs(x)<.14:
         w=smooth(.14,.18,y)*(1-smooth(.60,.66,y))*smooth(.02,.055,abs(x))
         center=.078 if x>0 else -.078
         x=center+(x-center)*(1-.20*w); z=-.005+(z+.005)*(1-.20*w)
@@ -102,6 +106,10 @@ def transform(p, semantic, profile, part=0, uv=None):
             foot = .084 if x > 0 else -.084
             x = foot + (x - foot) * shoe_x
             z = .03 + (z - .03) * shoe_z
+            # Grounded sole, with a thicker work/skate profile and continuous
+            # transition through laces/socks. No detached cube shoe covers.
+            sole_height=1.24 if profile[0]=='dock_worker' else 1.12 if profile[0]=='spark_writer' else 1.0
+            y*=1+(sole_height-1)*(1-smooth(.09,.19,p[1]))
     return [x, y, z]
 
 
@@ -136,6 +144,58 @@ def normal(p, n, semantic, profile, part=0, uv=None):
     if length < 1e-12: return list(n)  # Source degenerate triangles carry zero normals.
     return [a / length for a in v]
 
+
+def accessor_rows(doc, binary, index):
+    a=doc['accessors'][index];view=doc['bufferViews'][a['bufferView']]
+    size={'SCALAR':1,'VEC2':2,'VEC3':3,'VEC4':4}[a['type']]
+    fmt='<'+str(size)+{5126:'f',5123:'H',5125:'I',5121:'B'}[a['componentType']]
+    width=struct.calcsize(fmt);start=view.get('byteOffset',0)+a.get('byteOffset',0)
+    rows=[struct.unpack_from(fmt,binary,start+i*view.get('byteStride',width)) for i in range(a['count'])]
+    return rows,fmt
+
+def sleeve_lining(doc,binary,profile):
+    """Dense, flexible inner sleeve; same arm weights as the visible skin.
+
+    The sparse extended outer sleeve leaves an elbow exposed when bent. This
+    594-triangle lining follows the actual arm, inside that loose outer cut.
+    It is part of the existing cloth surface, without extra nodes/draw calls.
+    """
+    if profile[0] not in ['fin_drifter','dock_worker']:return 0
+    primitives=[p for mesh in doc['meshes'] for p in mesh['primitives']]
+    cloth=next(p for p in primitives if doc['materials'][p['material']]['name']=='Cloth')
+    skin=next(p for p in primitives if doc['materials'][p['material']]['name']=='Skin' and 'JOINTS_0' in p['attributes'])
+    names=[doc['nodes'][n]['name'] for n in doc['skins'][0]['joints']]
+    points,_=accessor_rows(doc,binary,skin['attributes']['POSITION'])
+    normals,_=accessor_rows(doc,binary,skin['attributes']['NORMAL'])
+    joints,_=accessor_rows(doc,binary,skin['attributes']['JOINTS_0'])
+    weights,_=accessor_rows(doc,binary,skin['attributes']['WEIGHTS_0'])
+    selected={i for i,(p,js,ws) in enumerate(zip(points,joints,weights)) if .59<p[1]<.96 and sum(w for j,w in zip(js,ws) if names[j] in ['uArmL','fArmL','uArmR','fArmR'])>.999}
+    source_indices,_=accessor_rows(doc,binary,skin['indices']);source_indices=[row[0] for row in source_indices]
+    faces=[source_indices[i:i+3] for i in range(0,len(source_indices),3) if all(v in selected for v in source_indices[i:i+3])]
+    used=sorted({v for face in faces for v in face});old_count=doc['accessors'][cloth['attributes']['POSITION']]['count']
+    mapping={v:old_count+i for i,v in enumerate(used)}
+    def store(index,rows,fmt):
+        while len(binary)%4:binary.append(0)
+        start=len(binary);raw=b''.join(struct.pack(fmt,*row) for row in rows);binary.extend(raw)
+        view={'buffer':0,'byteOffset':start,'byteLength':len(raw)}
+        doc['bufferViews'].append(view);a=doc['accessors'][index]
+        a['bufferView']=len(doc['bufferViews'])-1;a['byteOffset']=0;a['count']=len(rows)
+        if a['type']=='VEC3' and 'min' in a:
+            a['min']=[min(p[k] for p in rows) for k in range(3)];a['max']=[max(p[k] for p in rows) for k in range(3)]
+    for name,index in cloth['attributes'].items():
+        rows,fmt=accessor_rows(doc,binary,index)
+        for v in used:
+            p=points[v];n=normals[v];q=tuple(p[k]+n[k]*.0035 for k in range(3))
+            values={'POSITION':q,'NORMAL':n,'COLOR_0':(1.,1.,1.,0.),
+                    'TEXCOORD_0':(math.atan2(p[2]+.02,abs(p[0])-.175)/(2*math.pi)%1,.981-p[1]),
+                    'TEXCOORD_1':(1.,0.),'TEXCOORD_2':(p[0],p[1]),'TEXCOORD_3':(p[2],2.),
+                    'TEXCOORD_4':(21.,0.),'TEXCOORD_5':(.38,0.),'JOINTS_0':joints[v],'WEIGHTS_0':weights[v]}
+            rows.append(values[name])
+        store(index,rows,fmt)
+    rows,fmt=accessor_rows(doc,binary,cloth['indices'])
+    rows.extend((mapping[v],) for face in faces for v in face);store(cloth['indices'],rows,fmt)
+    doc['buffers'][0]['byteLength']=len(binary)
+    return len(faces)
 
 def derive(profile):
     source = ROOT / 'assets/characters' / f'kid_{profile[1]}.glb'
@@ -213,7 +273,8 @@ def derive(profile):
             doc['accessors'][pos_id]['min'] = [min(p[k] for p in new) for k in range(3)]
             doc['accessors'][pos_id]['max'] = [max(p[k] for p in new) for k in range(3)]
             changed.append(semantic)
-    doc.setdefault('extras',{})['tideink_archetype']={'id':profile[0],'method':'local tailored garment/body derivation; garment elbow/knee weights repainted; original skin/UV/rig retained','source_file':str(source.relative_to(ROOT)),'source_sha256':hashlib.sha256(data).hexdigest(),'changed_semantics':changed,'garment_cuts':CUTS[profile[0]]}
+    lining_faces=sleeve_lining(doc,binary,profile)
+    doc.setdefault('extras',{})['tideink_archetype']={'id':profile[0],'method':'local tailored garment/body derivation; garment elbow/knee weights repainted; original skin/UV/rig retained','source_file':str(source.relative_to(ROOT)),'source_sha256':hashlib.sha256(data).hexdigest(),'changed_semantics':changed,'garment_cuts':CUTS[profile[0]],'lining_triangles':lining_faces}
     encoded = json.dumps(doc,separators=(',',':')).encode(); encoded += b' ' * (-len(encoded)%4)
     payload = struct.pack('<II',len(encoded),0x4e4f534a)+encoded+struct.pack('<II',len(binary),0x004e4942)+binary
     return struct.pack('<III',0x46546c67,2,len(payload)+12)+payload
