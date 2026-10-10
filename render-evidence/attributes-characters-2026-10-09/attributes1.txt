@@ -1,0 +1,12 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+ERROR: Resource file not found: res://assets/ui/nav-attributes.svg (expected type: unknown)
+   at: _load (core/io/resource_loader.cpp:325)
+   GDScript backtrace (most recent call first):
+       [0] setup (res://src/ui/tidewater_frontend.gd:84)
+       [1] _build_hud (res://src/ui/tidewater_hud.gd:92)
+       [2] _build_hud (res://src/match/tidewater_play.gd:1136)
+       [3] _ready (res://src/match/tidewater_play.gd:236)
+       [4] prepare (res://tests/godot/helpers/creative_fixture.gd:27)
+       [5] _run (res://tests/godot/check_attribute_allocation.gd:19)
+FAIL: refunding capacity clamps existing ink

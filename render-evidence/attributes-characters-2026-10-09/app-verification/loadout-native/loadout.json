@@ -1,0 +1,52 @@
+{
+	"area": {
+		"cells": 1509,
+		"center": "(-6.125, 0.0, -3.875)",
+		"hud": "计数 90 (+5) : 99 (+0) · 对方控制",
+		"penalty": [
+			5.0,
+			0.0
+		],
+		"remaining": [
+			90.0,
+			0.0
+		]
+	},
+	"cases": [
+		{
+			"header": "主 三弦墨弓 / 副 墨仔伙伴\n大招 雨箭齐射 · 天赋 均衡\n生命 147 · 墨量 128 · 跑速 6.5 · 潜泳 13.3",
+			"main": "bow",
+			"mode": "custom",
+			"perk": "balanced",
+			"size": [
+				1280,
+				720
+			],
+			"sub": "ink_buddy"
+		},
+		{
+			"header": "主 三弦墨弓 / 副 墨仔伙伴\n大招 雨箭齐射 · 天赋 均衡\n生命 144 · 墨量 124 · 跑速 6.7 · 潜泳 13.1",
+			"main": "bow",
+			"mode": "custom",
+			"perk": "balanced",
+			"size": [
+				960,
+				540
+			],
+			"sub": "ink_buddy"
+		}
+	],
+	"environment": {
+		"api": "4.0",
+		"arm64": true,
+		"engine": "4.8-dev6 (official)"
+	},
+	"failures": [
+		"native header shows actual baseline bonuses",
+		"native header shows actual baseline bonuses"
+	],
+	"kind": "controlled native loadout and area input",
+	"limits": "Frozen match/AI and explicit CPU paint probes. Not human play, natural timing or temperature acceptance.",
+	"status": "failed",
+	"verification": "explicit exported PCK; receipt supplies pack identity"
+}

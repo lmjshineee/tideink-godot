@@ -1,0 +1,45 @@
+PASS exported PCK: check_tidewater_turf_points
+PASS exported PCK: check_gameplay_deployment
+PASS exported PCK: check_expanded_loadouts
+PASS exported PCK: check_bow_precision
+PASS exported PCK: check_canopy_push
+PASS exported PCK: check_creative_wings
+PASS exported PCK: check_vertical_combat
+PASS exported PCK: check_actor_turf_credit
+PASS exported PCK: check_bot_high_ground
+PASS exported PCK: check_experience_balance
+PASS exported PCK: check_weapon_specials
+PASS exported PCK: check_combat_readability
+PASS exported PCK: check_ink_hazard_feedback
+PASS exported PCK: check_bot_patrol_commitment
+PASS exported PCK: check_bot_route_clearance
+PASS exported PCK: check_bot_map_platforms
+PASS exported PCK: check_team_navigation_motion
+PASS exported PCK: check_map_routes26
+PASS exported PCK: check_bot_beacon_placement
+PASS exported PCK: check_ink_buddy_combat
+PASS exported PCK: check_ink_buddy_lifecycle
+PASS exported PCK: check_item_previews
+PASS exported PCK: check_damage_contract
+PASS exported PCK: check_damage_regions
+PASS exported PCK: check_bot_ink_refill
+PASS exported PCK: check_roller_surface_contact
+PASS exported PCK: check_extended_damage
+PASS exported PCK: check_loadout_tuning
+PASS exported PCK: check_area_rules
+PASS exported PCK: check_attribute_allocation
+PASS exported PCK: check_character_archetypes
+Traceback (most recent call last):
+  File "/Users/yunni/Joy/inkwave-game-cleaned/tools/release/verify_app.py", line 169, in <module>
+    main()
+    ~~~~^^
+  File "/Users/yunni/Joy/inkwave-game-cleaned/tools/release/verify_app.py", line 117, in main
+    run(common + ['--rendering-driver', 'metal', '--script', str(loadout),
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  '--log-file', str(output / 'loadout-native.engine.txt'), '--',
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  '--output=' + str(output / 'loadout-native')], fixture, output / 'loadout-native.txt')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yunni/Joy/inkwave-game-cleaned/tools/release/verify_app.py", line 165, in run
+    raise RuntimeError(f'export verification failed: {output}; exit={result.returncode}; {errors[:3]}')
+RuntimeError: export verification failed: /Users/yunni/Joy/inkwave-game-cleaned/render-evidence/attributes-characters-2026-10-09/app-verification/loadout-native.txt; exit=1; ['FAIL: native header shows actual baseline bonuses', 'FAIL: native header shows actual baseline bonuses']

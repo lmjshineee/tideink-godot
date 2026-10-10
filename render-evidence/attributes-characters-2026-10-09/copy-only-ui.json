@@ -1,0 +1,11 @@
+{
+  "full_rules_head": "d6d2087d5c70b0643f7849ada399f71d4d59987e",
+  "changed_production_paths": [
+    "src/ui/loadout_details.gd"
+  ],
+  "replacements": {
+    "装备省墨": "属性省墨",
+    "装备重摇": "配装重摇"
+  },
+  "logic_unchanged": true
+}

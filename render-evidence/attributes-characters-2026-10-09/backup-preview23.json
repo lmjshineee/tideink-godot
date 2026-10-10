@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "app": "/Users/yunni/Joy/inkwave-game-cleaned/build/TideInk-preview.23.app",
+  "source_receipt": "/Users/yunni/Joy/inkwave-game-cleaned/build/export-source-preview.23.json",
+  "export_receipt": "/Users/yunni/Joy/inkwave-game-cleaned/build/export-receipt-preview.23.json",
+  "source_head": "a213c51988ad7fd874bcdff8af27725d7934c347",
+  "pck_sha256": "5d45246422cbadf1698d72d57b02122148a2c9fd5a3f45019f3e5d5d3d9ab99c",
+  "app_files": 7,
+  "all_app_bytes_match_original_receipt": true
+}

@@ -1,0 +1,573 @@
+{
+	"cases": [
+		{
+			"attributes": {
+				"health": 2,
+				"ink_capacity": 2,
+				"ink_recovery": 1,
+				"main_saver": 2,
+				"run_speed": 6,
+				"special_charge": 4,
+				"sub_cooldown": 2,
+				"swim_speed": 1
+			},
+			"effects": "已用 20 点 · 重置免费 · 外观独立选择",
+			"points": {
+				"health": 2,
+				"ink_capacity": 2,
+				"ink_recovery": 1,
+				"main_saver": 2,
+				"run_speed": 6,
+				"special_charge": 4,
+				"sub_cooldown": 2,
+				"swim_speed": 1
+			},
+			"size": [
+				1280,
+				720
+			],
+			"ui_scale": 1.0
+		},
+		{
+			"attributes": {
+				"health": 2,
+				"ink_capacity": 2,
+				"ink_recovery": 4,
+				"main_saver": 1,
+				"run_speed": 2,
+				"special_charge": 5,
+				"sub_cooldown": 3,
+				"swim_speed": 1
+			},
+			"effects": "已用 20 点 · 重置免费 · 外观独立选择",
+			"points": {
+				"health": 2,
+				"ink_capacity": 2,
+				"ink_recovery": 4,
+				"main_saver": 1,
+				"run_speed": 2,
+				"special_charge": 5,
+				"sub_cooldown": 3,
+				"swim_speed": 1
+			},
+			"size": [
+				960,
+				540
+			],
+			"ui_scale": 1.1
+		}
+	],
+	"clicks": [
+		{
+			"allocation": {
+				"health": 0,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 0,
+				"run_speed": 0,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "属性 · 加点",
+			"control_rect": "[P: (1099.52, 478.08), S: (142.08, 39.99997)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "属性 · 加点",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(1170.56, 498.08)",
+			"preview_rect": "[P: (949.76, 149.04), S: (289.28, 252.0)]"
+		},
+		{
+			"allocation": {
+				"health": 0,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 0,
+				"run_speed": 0,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "重置 · 返还点数",
+			"control_rect": "[P: (964.6, 627.8), S: (185.0, 42.0)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "重置 · 返还点数",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(1057.1, 648.8)",
+			"preview_rect": "[P: (949.76, 149.04), S: (289.28, 252.0)]"
+		},
+		{
+			"allocation": {
+				"health": 0,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 1,
+				"run_speed": 0,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "+",
+			"control_rect": "[P: (1100.6, 355.2), S: (42.0, 37.0)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "+",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(1121.6, 373.7)",
+			"preview_rect": "[P: (949.76, 149.04), S: (289.28, 252.0)]"
+		},
+		{
+			"allocation": {
+				"health": 0,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 2,
+				"run_speed": 0,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "+",
+			"control_rect": "[P: (1100.6, 355.2), S: (42.0, 37.0)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "+",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(1121.6, 373.7)",
+			"preview_rect": "[P: (949.76, 149.04), S: (289.28, 252.0)]"
+		},
+		{
+			"allocation": {
+				"health": 0,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 1,
+				"run_speed": 0,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "−",
+			"control_rect": "[P: (1047.6, 355.2), S: (42.0, 37.0)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "−",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(1068.6, 373.7)",
+			"preview_rect": "[P: (949.76, 149.04), S: (289.28, 252.0)]"
+		},
+		{
+			"allocation": {
+				"health": 0,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 1,
+				"run_speed": 1,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "+",
+			"control_rect": "[P: (1100.6, 261.2), S: (42.0, 37.0)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "+",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(1121.6, 279.7)",
+			"preview_rect": "[P: (949.76, 149.04), S: (289.28, 252.0)]"
+		},
+		{
+			"allocation": {
+				"health": 1,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 1,
+				"run_speed": 1,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "+",
+			"control_rect": "[P: (1100.6, 167.2), S: (42.0, 37.0)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "+",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(1121.6, 185.7)",
+			"preview_rect": "[P: (949.76, 149.04), S: (289.28, 252.0)]"
+		},
+		{
+			"allocation": {
+				"health": 1,
+				"ink_capacity": 1,
+				"ink_recovery": 0,
+				"main_saver": 1,
+				"run_speed": 1,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "+",
+			"control_rect": "[P: (1100.6, 214.2), S: (42.0, 37.0)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "+",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(1121.6, 232.7)",
+			"preview_rect": "[P: (949.76, 149.04), S: (289.28, 252.0)]"
+		},
+		{
+			"allocation": {
+				"health": 2,
+				"ink_capacity": 2,
+				"ink_recovery": 1,
+				"main_saver": 2,
+				"run_speed": 6,
+				"special_charge": 4,
+				"sub_cooldown": 2,
+				"swim_speed": 1
+			},
+			"button": "ROLL · 分配 20 点",
+			"control_rect": "[P: (766.6, 627.8), S: (183.0, 42.0)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "ROLL · 分配 20 点",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(858.1, 648.8)",
+			"preview_rect": "[P: (949.76, 149.04), S: (289.28, 252.0)]"
+		},
+		{
+			"allocation": {
+				"health": 2,
+				"ink_capacity": 1,
+				"ink_recovery": 3,
+				"main_saver": 2,
+				"run_speed": 2,
+				"special_charge": 2,
+				"sub_cooldown": 1,
+				"swim_speed": 7
+			},
+			"button": "ROLL · 随机配装",
+			"control_rect": "[P: (686.08, 640.8), S: (222.72, 30.0)]",
+			"disabled": false,
+			"editor_open": false,
+			"hovered": "ROLL · 随机配装",
+			"locked": false,
+			"perk": "vault_runner",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(797.4401, 655.8)",
+			"preview_rect": "[P: (949.76, 149.04), S: (289.28, 252.0)]"
+		},
+		{
+			"allocation": {
+				"health": 2,
+				"ink_capacity": 1,
+				"ink_recovery": 3,
+				"main_saver": 2,
+				"run_speed": 2,
+				"special_charge": 2,
+				"sub_cooldown": 1,
+				"swim_speed": 7
+			},
+			"button": "属性 · 加点",
+			"control_rect": "[P: (824.64, 358.56), S: (106.56, 30.0)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "属性 · 加点",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(877.92, 373.56)",
+			"preview_rect": "[P: (712.3199, 111.78), S: (216.96, 189.0)]"
+		},
+		{
+			"allocation": {
+				"health": 0,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 0,
+				"run_speed": 0,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "重置 · 返还点数",
+			"control_rect": "[P: (723.45, 470.85), S: (138.75, 31.5)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "重置 · 返还点数",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(792.825, 486.6)",
+			"preview_rect": "[P: (712.3199, 111.78), S: (216.96, 189.0)]"
+		},
+		{
+			"allocation": {
+				"health": 0,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 1,
+				"run_speed": 0,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "+",
+			"control_rect": "[P: (825.45, 266.4), S: (31.5, 35.20001)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "+",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(841.2, 284.0)",
+			"preview_rect": "[P: (712.3199, 111.78), S: (216.96, 189.0)]"
+		},
+		{
+			"allocation": {
+				"health": 0,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 2,
+				"run_speed": 0,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "+",
+			"control_rect": "[P: (825.45, 266.4), S: (31.5, 30.79999)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "+",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(841.2, 281.8)",
+			"preview_rect": "[P: (712.3199, 111.78), S: (216.96, 189.0)]"
+		},
+		{
+			"allocation": {
+				"health": 0,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 1,
+				"run_speed": 0,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "−",
+			"control_rect": "[P: (785.7, 266.4), S: (31.5, 30.79999)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "−",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(801.45, 281.8)",
+			"preview_rect": "[P: (712.3199, 111.78), S: (216.96, 189.0)]"
+		},
+		{
+			"allocation": {
+				"health": 0,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 1,
+				"run_speed": 1,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "+",
+			"control_rect": "[P: (825.45, 195.9), S: (31.5, 30.8)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "+",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(841.2, 211.3)",
+			"preview_rect": "[P: (712.3199, 111.78), S: (216.96, 189.0)]"
+		},
+		{
+			"allocation": {
+				"health": 1,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 1,
+				"run_speed": 1,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "+",
+			"control_rect": "[P: (825.45, 125.4), S: (31.5, 30.8)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "+",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(841.2, 140.8)",
+			"preview_rect": "[P: (712.3199, 111.78), S: (216.96, 189.0)]"
+		},
+		{
+			"allocation": {
+				"health": 1,
+				"ink_capacity": 1,
+				"ink_recovery": 0,
+				"main_saver": 1,
+				"run_speed": 1,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"button": "+",
+			"control_rect": "[P: (825.45, 160.65), S: (31.5, 30.8)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "+",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(841.2, 176.05)",
+			"preview_rect": "[P: (712.3199, 111.78), S: (216.96, 189.0)]"
+		},
+		{
+			"allocation": {
+				"health": 2,
+				"ink_capacity": 2,
+				"ink_recovery": 4,
+				"main_saver": 1,
+				"run_speed": 2,
+				"special_charge": 5,
+				"sub_cooldown": 3,
+				"swim_speed": 1
+			},
+			"button": "ROLL · 分配 20 点",
+			"control_rect": "[P: (574.95, 470.85), S: (137.25, 31.5)]",
+			"disabled": false,
+			"editor_open": true,
+			"hovered": "ROLL · 分配 20 点",
+			"locked": false,
+			"perk": "balanced",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(643.575, 486.6)",
+			"preview_rect": "[P: (712.3199, 111.78), S: (216.96, 189.0)]"
+		},
+		{
+			"allocation": {
+				"health": 3,
+				"ink_capacity": 3,
+				"ink_recovery": 3,
+				"main_saver": 4,
+				"run_speed": 3,
+				"special_charge": 0,
+				"sub_cooldown": 1,
+				"swim_speed": 3
+			},
+			"button": "ROLL · 随机配装",
+			"control_rect": "[P: (514.56, 480.6), S: (167.04, 23.10001)]",
+			"disabled": false,
+			"editor_open": false,
+			"hovered": "ROLL · 随机配装",
+			"locked": false,
+			"perk": "turf_engine",
+			"phase": "setup",
+			"phase_after": "setup",
+			"point": "(598.08, 492.15)",
+			"preview_rect": "[P: (712.3199, 111.78), S: (216.96, 189.0)]"
+		},
+		{
+			"button": "全图涂地战 ↔",
+			"control_rect": "[P: (437.76, 640.8), S: (234.24, 30.0)]",
+			"disabled": false,
+			"editor_open": false,
+			"hovered": "全图涂地战 ↔",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "scene reloaded",
+			"point": "(554.88, 655.8)",
+			"preview_rect": "[P: (949.76, 149.04), S: (289.28, 252.0)]"
+		},
+		{
+			"button": "形象：港工 · 厚实工装 ▷",
+			"control_rect": "[P: (949.76, 412.56), S: (290.5601, 29.0)]",
+			"disabled": false,
+			"editor_open": false,
+			"hovered": "形象：港工 · 厚实工装 ▷",
+			"locked": false,
+			"phase": "setup",
+			"phase_after": "scene reloaded",
+			"point": "(1095.04, 427.06)",
+			"preview_rect": "[P: (949.76, 149.04), S: (289.28, 252.0)]"
+		}
+	],
+	"environment": {
+		"adapter": "Apple M5 (Apple9)",
+		"api": "4.0",
+		"arm64": true,
+		"engine": "4.8-dev6 (official)"
+	},
+	"failures": [],
+	"kind": "controlled native attributes input",
+	"limits": "Frozen AI/match and explicit input probes; not human balance, natural timing or thermal acceptance.",
+	"primary": {
+		"attributes": {
+			"health": 0,
+			"ink_capacity": 0,
+			"ink_recovery": 0,
+			"main_saver": 1,
+			"run_speed": 0,
+			"special_charge": 0,
+			"sub_cooldown": 0,
+			"swim_speed": 0
+		},
+		"effective_cost": 0.8041,
+		"health_max": 132.0,
+		"ink_after": 99.1959,
+		"mouse_pressed_at_tick": true
+	},
+	"status": "passed",
+	"verification": "explicit exported PCK; receipt supplies pack identity"
+}

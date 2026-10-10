@@ -1,0 +1,6 @@
+{
+	"archetype": "spark_writer",
+	"bones": 87,
+	"model_path": "res://assets/characters/archetypes/spark_writer.glb",
+	"root_scale": "(0.98, 0.98, 0.98)"
+}

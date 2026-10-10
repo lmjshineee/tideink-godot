@@ -1,16 +1,16 @@
 # TideInk（潮墨）· Godot
 
-独立的 Godot 4.8.dev6 原生涂墨对战项目。项目入口 `project.godot` 就在仓库根目录；当前单机支持 1v1 / 5v5、90 / 180 秒、全图涂地／中央争夺、七张地图、八武器、十一副武器和八天赋。配装可选固定套装或自定义，头饰／衣服／鞋子共十二个能力槽，并支持开战前随机 ROLL。
+独立的 Godot 4.8.dev6 原生涂墨对战项目。项目入口 `project.godot` 就在仓库根目录；当前单机支持 1v1 / 5v5、90 / 180 秒、全图涂地／中央争夺、七张地图、八武器、十一副武器和八天赋。配装可选固定套装或自定义，八项属性可分配 20 点，支持开战前随机 ROLL，并提供四种不同体型与服装剪裁的潮墨街头造型。
 
 原 INKWAVE 原生项目现名 TideInk。资源来源、许可证和历史记录保留；本地工程目录仍为 `inkwave-game-cleaned`。
 
-当前可玩应用：`build/TideInk.app`（`0.3.0-preview.23`，arm64），新增三件装备、十二槽能力、逐槽编辑及装备 ROLL，保留较宽容伤害。109 项源码检查、30 项实际 PCK 规则、原生输入和实际应用启动通过，已打开新版。旧版备份未建立可核验记录；无界面退出引用警告仍有保留，详见 [本批验收](render-evidence/gear-abilities-2026-10-09/summary.md)。
+当前可玩应用：`build/TideInk.app`（`0.3.0-preview.24`，arm64），已打开。改为 20 点／八属性的直接加点、返还／重置／ROLL，队友和对手按玩家已用点数独立随机；四种人物使用不同的真实几何。110 项源码回归、31 项实际 PCK 规则、六组原生及独立 180 秒区域自动对局通过；末尾两个 UI 文案修改另有专项与包内覆盖。preview.23 App 和收据已核验备份；无界面退出引用警告仍有记录，真人审美／平衡尚未验收。见 [本批验收](render-evidence/attributes-characters-2026-10-09/summary.md)。
 
 私有源码仓库：[lmjshineee/tideink-godot](https://github.com/lmjshineee/tideink-godot)。preview.16 的构建与启动证据见下方发布验收。
 
 运行、检查与导出均不使用网页源码、Node、Next.js、Three.js 或浏览器服务。角色、地图、字体与声音的 Godot 资源以及许可证保留在本项目中。
 
-当前源码为 preview.23：默认均衡 132 HP／110 墨量／5% 移动加成，普通射击近距四轮、远距五轮；弓／爆破／滚筒需要追击，满蓄狙保留精准一击。装备六类能力提高移动、墨水效率、充能或副武器冷却，采用递减上限，不增加伤害或生命。准备页点「装备 · 12槽」配置，整局锁定且跨死亡保留；双方机器人与玩家启用槽位预算相同。见 [装备能力](docs/GEAR_ABILITIES.md) 与 [战斗规则](docs/COMBAT_BALANCE.md)。
+当前源码为 preview.24：零加点均衡仍为 132 HP／110 墨量／5% 移动加成，普通射击近距四轮、远距五轮。准备页点「属性 · 加点」调整生命、墨量、奔跑、潜泳、省墨、回墨、充能和副武器冷却，各项最多 8 级、收益递减；伤害不加点。满生命均衡最高 155.76 HP，可接住 150 的精准狙击。整局固定、死亡保留；地图／规则／造型重载保留本次会话分配，退出 App 后没有磁盘加点存档。见 [属性和人物](docs/ATTRIBUTES_CHARACTERS.md) 与 [战斗规则](docs/COMBAT_BALANCE.md)。
 
 ## 运行
 
@@ -42,9 +42,10 @@ python3 tests/python/test_asset_integrity.py
 python3 tests/python/test_runtime.py
 python3 tests/python/test_visual_config.py
 python3 tests/python/test_release_metadata.py
+python3 tests/python/test_character_archetypes.py
 # 先提交生产源码，再导出；构建收据绑定该提交与应用文件哈希。
 ./export_macos.sh
-python3 tools/release/package_macos.py --version v0.3.0-preview.16
+python3 tools/release/package_macos.py --version v0.3.0-preview.24
 ```
 
 统一入口只要求 Godot 和系统 shell：导入 → 生产脚本编译 → 本地资源完整性 → 规则／场景检查。Python 用于隔离负例、资源清单更新和 arm64 打包。日志保存在 `.godot/`；macOS 构建输出在 `build/`。

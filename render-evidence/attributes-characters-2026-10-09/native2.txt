@@ -1,0 +1,6 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M5 (Apple9)
+
+2026-10-09 22:02:49.532 Godot[57430:1417633] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+FAIL: point purchase changes actual movement
+FAIL: native health and capacity purchase changes actual caps

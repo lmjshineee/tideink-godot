@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "app": "/Users/yunni/Joy/inkwave-game-cleaned/build/TideInk.app",
+  "version": "0.3.0-preview.24",
+  "pck_sha256": "396841b2ea91069d392118921aa1bcbf51f0312039a29c83efc25331f85b738d",
+  "previous_pids": [],
+  "new_pids": [
+    62338
+  ],
+  "old_instances_preserved": true
+}

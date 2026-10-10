@@ -1,0 +1,29 @@
+{
+  "original_asset_files": 432,
+  "intentional_changed_existing_files": [
+    "assets/integrity.json"
+  ],
+  "original_model_files_unchanged": true,
+  "pre_existing_uids_preserved": 285,
+  "uid_renames": {
+    "src/core/gear_catalog.gd.uid": "src/core/attribute_catalog.gd.uid",
+    "src/abilities/tidewater_gear.gd.uid": "src/abilities/tidewater_attributes.gd.uid",
+    "src/ui/gear_editor.gd.uid": "src/ui/attribute_editor.gd.uid",
+    "tests/godot/check_gear_abilities.gd.uid": "tests/godot/check_attribute_allocation.gd.uid",
+    "tools/capture/verify_gear_abilities.gd.uid": "tools/capture/verify_attribute_allocation.gd.uid"
+  },
+  "uid_changes": [],
+  "manifest_original_entries_unchanged": 270,
+  "manifest_new_entries": [
+    "assets/characters/archetypes/dock_worker.glb",
+    "assets/characters/archetypes/fin_drifter.glb",
+    "assets/characters/archetypes/reef_runner.glb",
+    "assets/characters/archetypes/spark_writer.glb"
+  ],
+  "total_asset_entries": 274,
+  "semantic_tests_before_manifest_update": [
+    "model-semantic-final.txt",
+    "original-rig.txt",
+    "art-final/characters.json"
+  ]
+}

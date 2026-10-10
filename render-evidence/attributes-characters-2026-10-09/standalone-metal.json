@@ -1,0 +1,7 @@
+{
+  "status": "passed",
+  "exit": 0,
+  "pck_sha256": "396841b2ea91069d392118921aa1bcbf51f0312039a29c83efc25331f85b738d",
+  "method": "Actual bundled executable from temporary cwd, Metal, 45 frames, no path/script/main-pack overrides",
+  "cwd": "/private/tmp/tideink-standalone-cbsii_0w"
+}
