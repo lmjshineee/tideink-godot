@@ -1,0 +1,448 @@
+{
+  "exit_code": 0,
+  "passed": 111,
+  "failed": 0,
+  "fingerprint": "00a88d2206caa8fff516948d0715dec4566d58d4e1433f245e6e02cac7b31e7e",
+  "cases": {
+    "check_scripts_parse": {
+      "source_sha256": "b6f5435f84ac1916b90edef948361a92800e8c48e4f2b5eb80c7ffdb173aa885"
+    },
+    "check_asset_integrity": {
+      "source_sha256": "98e99ac4714925dee87cbf4849d19c472452f1b439c8dad3e9ee996dbe313676"
+    },
+    "check_actor_feedback": {
+      "source_sha256": "59684344f3f6f6ef660f9bf79fc5a25902d3106b03138b8cc2d45c43f53cf850"
+    },
+    "check_actor_turf_credit": {
+      "source_sha256": "45577598c8b004421c5fdd584dd05d85f35cc35446fe7094f4f5c719d893933f"
+    },
+    "check_area_rules": {
+      "source_sha256": "013a3135bde732da5df7b18aa397ff909f15a0899b638e095dcfa8c351e6737a"
+    },
+    "check_arena_catalog": {
+      "source_sha256": "dcfa790a00d4d9d8df0821b7584bfb5ef4af9271c79e8ee565aa449a273fc12b"
+    },
+    "check_attribute_allocation": {
+      "source_sha256": "dea292a41ed4246f873c21b0ee527864486e3777dbe9d611031cc79e74fab3bd"
+    },
+    "check_behavior_perks": {
+      "source_sha256": "5ef451b766aca4686ec68592bfd205ebff77e00cb5bbea3c3bfefb65d33fa7fa"
+    },
+    "check_bot_attribute_builds": {
+      "source_sha256": "221bade2d0ffa44b893f6beaa343bebf83f90de24d144608f0142e0dbc4c0c1a"
+    },
+    "check_bot_beacon_placement": {
+      "source_sha256": "8f8a8b4a73a321a6c3e9ec11be0564566388da05a158e6b6706c5ac961df095c"
+    },
+    "check_bot_deployment": {
+      "source_sha256": "e0fca37b2e022838b3ca81317a6cc765eee160c50bfc621900b49ea7baaf0cf1"
+    },
+    "check_bot_high_ground": {
+      "source_sha256": "84456bbcb7507d14b846dcd3b69defb7b6e1bd6a2718eea914db0696d92f38fd"
+    },
+    "check_bot_ink_refill": {
+      "source_sha256": "fd6a88aafb63c9c7547a0b8acc38c0960be8fb73f3854cc4469a42ba7b5d2fc4"
+    },
+    "check_bot_jump_edges": {
+      "source_sha256": "249ad444db89e5ef91a2158a55feb5efff7d79782a8d3746a7b77c558c97075b"
+    },
+    "check_bot_map_platforms": {
+      "source_sha256": "e62f9749d5a337d8777602f504cfd1fc9826a1f5b6b68765642bbdba984a093e"
+    },
+    "check_bot_patrol_commitment": {
+      "source_sha256": "aee5b7cd843d48e9f46911cbd761b7400736e898a2ac8922873cf35c342c5d11"
+    },
+    "check_bot_route_clearance": {
+      "source_sha256": "e26d8fdc7875b8768027dcda9c319d906048c6d4f45a29f7c1093055e1ea03f0"
+    },
+    "check_bot_weapon_ranges": {
+      "source_sha256": "b286f1e1c48fb83a497d4b7ce798dafd0708c594444f48d7bf1900e4065c1be8"
+    },
+    "check_bow_precision": {
+      "source_sha256": "0654048170ba34af9c2fdf3a198f27c8a5d9c6e18ecc3909d51fd25fb6cd7d60"
+    },
+    "check_canopy_push": {
+      "source_sha256": "aa4b39354be05860c8bbbbb98f955266e7f2fe1b4b707048d86c2efc934c9e51"
+    },
+    "check_character_archetypes": {
+      "source_sha256": "1be72c60b7e16419b3484a9bc1efbf7147760a92e2153332f5112dedb869bd43"
+    },
+    "check_combat_readability": {
+      "source_sha256": "9f22d763f784a76103ce44617138feebfc3cbb43015c7b1d255b9dcae0c128f3"
+    },
+    "check_comeback_hud": {
+      "source_sha256": "d8a9fde48fcb969da970da70fa90370336aaeb1e7ac8ae471fb7e0f0544dbd5b"
+    },
+    "check_config_consumption": {
+      "source_sha256": "9e8d0cce410128beece0ab4d3c4d52cd86d06912c189cdfa3e5851dcc68575d8"
+    },
+    "check_creative_bow": {
+      "source_sha256": "f304e6e8ee10086112b17f2d7267b80455d1fd34c4ad93d98d2a01ff5194f7c4"
+    },
+    "check_creative_canopy": {
+      "source_sha256": "4e2284adfb95924d3fdf2ba85921b61ff8fb0d0413b01531b7a6c823182aa432"
+    },
+    "check_creative_counter": {
+      "source_sha256": "53b09b96d93b8905ce2a78974f6357afeda26845fdc8c3b55320e6591a80bc24"
+    },
+    "check_creative_decoys": {
+      "source_sha256": "542a3afe04883aee2e6469e3d9b8b238a04400f2f495c2cb950e0a5dec7177d2"
+    },
+    "check_creative_discs": {
+      "source_sha256": "c7ac42f7b2f193d40608321fe5206536e4d5560ca621b2f25561d9919c2cd880"
+    },
+    "check_creative_mines": {
+      "source_sha256": "b9b05574e522ba007e96aedc457a98a5c303d3899aa4cf1bff13b727f3aea363"
+    },
+    "check_creative_mist": {
+      "source_sha256": "506c17ea1420e5877fdf959654bf44fb633e999644bbb1affbe62cc46f0d7a6a"
+    },
+    "check_creative_mobility": {
+      "source_sha256": "aeda914d0ac4b656277697c318cb062cac5da6c95b9b0d5942b8df40528a8dca"
+    },
+    "check_creative_rain_arrows": {
+      "source_sha256": "1146c561a1a620fcbec83827e43ee49409ef4215c5e9586334293c533a42797a"
+    },
+    "check_creative_sonar": {
+      "source_sha256": "8b99604e791a675a70d21df8b1792a5cf8f2ded987acb11592cc1b53d167e3dd"
+    },
+    "check_creative_supply": {
+      "source_sha256": "3ec9b16ded041f92129121f479d7109e399f245d4565f6f2f1f0ab57baf44610"
+    },
+    "check_creative_wings": {
+      "source_sha256": "25abe5364274e9baac3f57ee2e7d292586c3e67a6730dac4ceba7783e58b4a86"
+    },
+    "check_damage_contract": {
+      "source_sha256": "8985975ac9b55ec0f4078af38cbbc24713a575b70fe91d60337419586cd38045"
+    },
+    "check_damage_popups": {
+      "source_sha256": "9e5d85c7cb3777d03b6318fe08e3b1c8fb488ec2d07162d91077445a8f0646cf"
+    },
+    "check_damage_regions": {
+      "source_sha256": "f678f57536dd12bed6831bacd93204f4e406d4552e14cdb32eabcae4d38e7327"
+    },
+    "check_enemy_swim_damage": {
+      "source_sha256": "4a12a9c9431f4b1e618bacba579bdf9167fd68d0024e8ff20f73c876106849d0"
+    },
+    "check_equipment_orientation": {
+      "source_sha256": "d6a478bec47104a0cd9d5fb0dee31e68e6f5816c907125747c1f227f614325f8"
+    },
+    "check_expanded_loadouts": {
+      "source_sha256": "ec8e90456881ea272a78c446ed08f73ad9e061fdda605e90f60a83b796ffb3ec"
+    },
+    "check_experience_balance": {
+      "source_sha256": "79f46e12a1da9553be69e93344fde37f466dc9e47237704b1ab8fb192a0b6c32"
+    },
+    "check_extended_damage": {
+      "source_sha256": "93a0987ed9e579876a208d2f0e7ac8b1f14fa9bb7eaad12b4a3e9f126c093e80"
+    },
+    "check_feedback_regressions": {
+      "source_sha256": "364563cf2f3b8414926d9d64c4568d77897ceaf01f1325addd68d1b63cc05351"
+    },
+    "check_gallery_platforms": {
+      "source_sha256": "3204ebcd4046a832bb6c32f1c63dc45d154de994061f46580aa87c1fd5657ffc"
+    },
+    "check_gameplay_deployment": {
+      "source_sha256": "ab9fb3dfeb51ef6c3c3a90cf4f6dd9f365e9b41ecd316aa8f5bad84201f94c36"
+    },
+    "check_garden_platforms": {
+      "source_sha256": "649d4b07e3d96ec74711fd07067c8139b5c9c67b9ee31516dd9582fda86edb7a"
+    },
+    "check_hud_refresh": {
+      "source_sha256": "5517d64a56d825bcf0d5e0cb25fa7ac1262c92dde932b74e581e27558f079d0a"
+    },
+    "check_ink_buddy_combat": {
+      "source_sha256": "0d7ed3a20eab99cf74c21934ee5d492339b7229b0c527272691d202fd2f1376f"
+    },
+    "check_ink_buddy_lifecycle": {
+      "source_sha256": "0ee8210c34fb3959431014ad4ff6319f154128fc62ff5c5f6d3deddc942571cc"
+    },
+    "check_ink_hazard_feedback": {
+      "source_sha256": "7b3c5ff716296f89910524690f3ee1947a10b19a2aa36faba5057fc876419ca8"
+    },
+    "check_item_previews": {
+      "source_sha256": "f909589c7f724799b4fe0969643bc478cdb70316e586c6d70e99068be4ef64b2"
+    },
+    "check_loadout_tuning": {
+      "source_sha256": "bdf359602987fa52bc032dda26390535ccdf9105cc6a6df3436af17861b35ce8"
+    },
+    "check_low_ceiling_step": {
+      "source_sha256": "edf36e89755a55ff331e5f2ee05d6c03406983ce95396f8e0dc0a8cb266f76a9"
+    },
+    "check_map_routes26": {
+      "source_sha256": "c0ab1d15dcb12624a742e25c338ed549e73366fb150f24fd50b7b38f2c31cf0f"
+    },
+    "check_menu_inspection": {
+      "source_sha256": "b07317b3027d793e678f53bc4beaff4228af973075bc6f30ac4a3997f69be9af"
+    },
+    "check_minimap_feedback": {
+      "source_sha256": "66d13274e19022e431a16b0f909d27397e53af4b2f9d5fa6b52e0675870390f6"
+    },
+    "check_names_and_bot_specials": {
+      "source_sha256": "a19bbce7197f9d7c6ee1f1fe5d8ea5950450bcb3eedd2d4f11f11b7d8c867589"
+    },
+    "check_perks_lock": {
+      "source_sha256": "a24a2d036b5d77287f363645f3ff7a371bdf752ccd77e0f58074d26c822904cb"
+    },
+    "check_quick_input": {
+      "source_sha256": "606961cbc663d89b6ceec33d11f2286d635c22b49f80e0153fedfb92862e8217"
+    },
+    "check_recall_anchor": {
+      "source_sha256": "b5385d9a561ca25c04eaebbbb0a5fdc912e7cbeb24139c2cf2c7453efea7231e"
+    },
+    "check_roller_surface_contact": {
+      "source_sha256": "ab13a83aff0339d5e00029fae91051df66189a4914ea015737c43d22dea190e2"
+    },
+    "check_setup_settings": {
+      "source_sha256": "4633b2f89aecbab27d496606ff0402426de3559f610163a6df9e08a4bdea0bf4"
+    },
+    "check_splat_attribution": {
+      "source_sha256": "6df00369e2e5bce46369d63ad6cebaf78841869708e849f5ef0eacd29bca8944"
+    },
+    "check_super_jump": {
+      "source_sha256": "41265dec4782f87faffa21c3c6a6507e330b9a2fd8ef9ae4ea3cf3cd38e9e1f2"
+    },
+    "check_surface_ink": {
+      "source_sha256": "03ef270c6bf671ec0f58ad11ddc7b0a699a79055cb47c9f52af382ae6557e2c9"
+    },
+    "check_surface_ink_view": {
+      "source_sha256": "a8c0b14eb40399c1817ae09b05dac99e222df15eea1b58d9bef0219701ad6d9a"
+    },
+    "check_team_intel": {
+      "source_sha256": "688a025cff65f4f4f1aa6e937afccb24ce40b3b8657294beca0d08eea0639c08"
+    },
+    "check_team_match": {
+      "source_sha256": "f2b7f5b06c2f08762a1b833a1726e338af70bd528cf61eedc9c511047005c120"
+    },
+    "check_team_navigation_motion": {
+      "source_sha256": "b1e7d6ca6389df1d442c64cdd380e8ff0364261178210297ba5f6ef0ddf1c619"
+    },
+    "check_team_palette": {
+      "source_sha256": "712676b3a820803f78c44d4b660b7ba1dd55fb3e997aee166cca0e5931b22239"
+    },
+    "check_tidewater_appearance": {
+      "source_sha256": "6b3670b5395711730204a1c092b7965dd88ff5312a44287072a38aeeee31d857"
+    },
+    "check_tidewater_bomb": {
+      "source_sha256": "09b674bda9627b791343e1c7faa52e73d9e9e8044e422361a29d6ff16e37ae9f"
+    },
+    "check_tidewater_bot": {
+      "source_sha256": "012ada3b4adce78ffd9bfa88638b9160481a7af84f7f92eee8d52b6332be0daf"
+    },
+    "check_tidewater_bot_chase": {
+      "source_sha256": "236903532d0f70ad69521b7567c5465e0cfda4ba89591f1147d2e52bc122c75f"
+    },
+    "check_tidewater_bot_loadout": {
+      "source_sha256": "18fd3d4fd7d984b25207f9a928b061e79233d2e62668ad3da9f4e3d6ccd3cf37"
+    },
+    "check_tidewater_bot_vitals": {
+      "source_sha256": "11883e903af57cf58a343437450ea7205a36ee9b51b109778870654b0ac31775"
+    },
+    "check_tidewater_camera": {
+      "source_sha256": "14d28485821efa440199aa26ec8b2d6b8e9168a79aa690e52273fb8925ae08e8"
+    },
+    "check_tidewater_climb": {
+      "source_sha256": "0e46165907b1518652e359303c86395a616e2ff6a58803dad66702657775ad9f"
+    },
+    "check_tidewater_combat_loop": {
+      "source_sha256": "165472e21712fb599129c418d3054fcbc40c900ac33604c4a8c7d954798ef57a"
+    },
+    "check_tidewater_face": {
+      "source_sha256": "3f43c25c8db2ab37d105cc4c96967b01463e210f5b4197d44fc2e1fbdba63071"
+    },
+    "check_tidewater_form": {
+      "source_sha256": "bca0ee4f43b88235ae9f8bb6688c23f9dbd7ace3eaa23d81c922039725d5788d"
+    },
+    "check_tidewater_full_round": {
+      "source_sha256": "04d080859199abe6541a48b9bc8b6e38424e478795fae20c6064c7877ee93503"
+    },
+    "check_tidewater_handling": {
+      "source_sha256": "2c837ecfbfb80f250bd9b1fc6916d557cc83726563984ea8750b9ea84026ddca"
+    },
+    "check_tidewater_hard_land": {
+      "source_sha256": "10aeec0ed7b55d977ee399a92323d2923291d707f8761d6c0ba5e419991c880d"
+    },
+    "check_tidewater_hud": {
+      "source_sha256": "d65c88d0f32fff6c9732d05de8f96d8c18861443dab01fab815b61837947f7c9"
+    },
+    "check_tidewater_input_flow": {
+      "source_sha256": "94413236e64f59616705269e3e051c23dcb0858c87b063b49247c6d99b5a3f82"
+    },
+    "check_tidewater_jump": {
+      "source_sha256": "1505588ed36af18198abd61e6f3c3fcee735b1245478a66c3103c8dba04c2735"
+    },
+    "check_tidewater_match": {
+      "source_sha256": "02c3a59bc5cdf4934e1419fcbe9d2459a42781e95125b84b8b015a8cfa01923a"
+    },
+    "check_tidewater_menu": {
+      "source_sha256": "d842e5450aaea49c2e1a923d9b7b047da7ca283f5e3fc4bb62cb70e050996e22"
+    },
+    "check_tidewater_original_character": {
+      "source_sha256": "059d402e311afe28167b1406ae714db351e936d637f399b44d59b7cefdfec755"
+    },
+    "check_tidewater_play": {
+      "source_sha256": "c96bab9d7cea1550b3b46ae705970fd3cd7a2924a25b71014fe9bdb74acb3466"
+    },
+    "check_tidewater_presentation": {
+      "source_sha256": "f12717c16072b2202cd0489d269a59d0865d5a2d0d0ce8e3485679b317462a86"
+    },
+    "check_tidewater_scene": {
+      "source_sha256": "a305e61eb76871a1919534237d257c0578e425c218c1364c5b375a963eb91913"
+    },
+    "check_tidewater_scenery": {
+      "source_sha256": "b94120fcb477a614d0b1abefc6af8510b12a08b820f9f1cb6529d4d7597b73a7"
+    },
+    "check_tidewater_settings": {
+      "source_sha256": "039c46511451b574e0afb49ea8334a7bd90993f6209301a8d66b466ba64fc99e"
+    },
+    "check_tidewater_settings_ui": {
+      "source_sha256": "d170966b29956920fc9f68d7ca4eb45b5a12699c748ede4b8f6b12ce004bc51b"
+    },
+    "check_tidewater_spawn_barrier": {
+      "source_sha256": "29d489125762e38eac7dd9e205bee87a9db3309d8cbb13a0b20e68939fd73da9"
+    },
+    "check_tidewater_special": {
+      "source_sha256": "48962c8755389a8fb425f2fa117c3805c5d96ab652278f7b6a747b047122f160"
+    },
+    "check_tidewater_squid_body": {
+      "source_sha256": "651c41fb8e9794ed8ae9c8e686ba8729471a0ab5f3477b7bafd37c37b8881394"
+    },
+    "check_tidewater_steps": {
+      "source_sha256": "39001e842eb967afc76f244a3c065d1f4c51b61adaccd3554a0b7af1d35192fc"
+    },
+    "check_tidewater_turf_points": {
+      "source_sha256": "cb5cd63c983368a38950ada85b01d6c0ccf2e04f5c56557cac1a7f11bd924417"
+    },
+    "check_tidewater_visual": {
+      "source_sha256": "657752e05778a8e27be349b6b23882353f4ed3cf083d561abd26d91e58e1a28d"
+    },
+    "check_tidewater_visual_config": {
+      "source_sha256": "e52f7033de320027f6272affb9c133684eaf1688943f410168421933f8bcdfa2"
+    },
+    "check_tidewater_vitals": {
+      "source_sha256": "3f0e0f90616f9458dfab98d6cbcd98ca557b16682868d3f7c568768d6f0b8c9c"
+    },
+    "check_tidewater_walk": {
+      "source_sha256": "55dc5479944b393ad9e261187a96d7a90aabae19d5a2c5784c09cb033253d656"
+    },
+    "check_tidewater_weapons": {
+      "source_sha256": "d9b217368c00734e127c5fedb4338eb9832161b5912a33917fb4c550d246fba3"
+    },
+    "check_vertical_combat": {
+      "source_sha256": "9e66df8279c9c8893e93b2a385d6eefa420a8f621d981596cc160293c20c824d"
+    },
+    "check_vertical_navigation": {
+      "source_sha256": "3194cf72fdb53adc57d3d17d37855738d842c483dff8a0b6c576fe7c555f40b6"
+    },
+    "check_weapon_specials": {
+      "source_sha256": "813d0acf2df10091aae57ddb6d9e679cdefbd7dc503ba9ae25bde90cad5761b8"
+    }
+  },
+  "godot_errors": {},
+  "warning_cases": {
+    "check_actor_feedback": [
+      "WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_actor_turf_credit": [
+      "WARNING: 14 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_bot_jump_edges": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_bot_weapon_ranges": [
+      "WARNING: 10 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_damage_popups": [
+      "WARNING: 10 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_expanded_loadouts": [
+      "WARNING: 20 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_feedback_regressions": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_gameplay_deployment": [
+      "WARNING: 20 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_names_and_bot_specials": [
+      "WARNING: 16 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_perks_lock": [
+      "WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_quick_input": [
+      "WARNING: 16 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_setup_settings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_splat_attribution": [
+      "WARNING: 16 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_team_match": [
+      "WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_team_navigation_motion": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_team_palette": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_appearance": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_bomb": [
+      "WARNING: 14 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_bot_chase": [
+      "WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_bot_vitals": [
+      "WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_camera": [
+      "WARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_full_round": [
+      "WARNING: 10 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_hud": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_input_flow": [
+      "WARNING: 20 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_menu": [
+      "WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_play": [
+      "WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_presentation": [
+      "WARNING: 22 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_settings_ui": [
+      "WARNING: 16 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_special": [
+      "WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_turf_points": [
+      "WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_visual": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_vitals": [
+      "WARNING: 13 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_weapons": [
+      "WARNING: 22 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_vertical_navigation": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ]
+  },
+  "known_macos_sandbox_ca_diagnostic_cases": 111,
+  "logs_saved": 222
+}

@@ -20,7 +20,7 @@ CASES = ('check_tidewater_turf_points', 'check_gameplay_deployment', 'check_expa
          'check_bot_map_platforms', 'check_team_navigation_motion', 'check_map_routes26',
          'check_bot_beacon_placement', 'check_ink_buddy_combat', 'check_ink_buddy_lifecycle', 'check_item_previews',
          'check_damage_contract', 'check_damage_regions', 'check_bot_ink_refill',
-         'check_roller_surface_contact', 'check_extended_damage', 'check_loadout_tuning', 'check_area_rules', 'check_attribute_allocation', 'check_character_archetypes')
+         'check_roller_surface_contact', 'check_extended_damage', 'check_loadout_tuning', 'check_area_rules', 'check_attribute_allocation', 'check_bot_attribute_builds', 'check_character_archetypes')
 
 
 def main():

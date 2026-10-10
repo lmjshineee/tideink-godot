@@ -21,6 +21,7 @@
 | `capture/verify_bot_deployment.gd` | 两图原生受控机器人复活／队友／信标跳跃及玩家 J／Esc；新绝对证据目录，无导出或打包 |
 | `capture/verify_loadout_tuning.gd` | 原生两尺寸／110% 画布输入、固定／自定义／ROLL、规则切换保留配装、CPU 区域倒数／罚分／结算；固定角色与人工涂墨，只算受控原生证据 |
 | `capture/verify_attribute_allocation.gd` | 八属性／二十点实际鼠标加减、Enter／Esc、重置／属性与整套 ROLL、两尺寸、规则／造型重载、有效射击耗墨和阶段关闭；受控原生，包内外分别核验 |
+| `../tests/godot/check_bot_attribute_builds.gd` | 双方按武器／天赋加权属性 ROLL、同预算与整局锁定、Tab 只读摘要和敌方情报遮蔽；默认无界面规则，原生运行并传 `-- --output=新绝对目录` 保存两尺寸 1v1／5v5 四张图及报告 |
 | `capture/capture_archetypes.gd` | 四套实际模型的正面／侧面／背面／跑动、脸部和各八武器持握；原生画面供审美复核 |
 | `assets/build_character_archetypes.py`、`../tests/python/test_character_archetypes.py` | 从本地保留的 GLB 生成四套轮廓／服装剪裁；核对骨骼、蒙皮、语义 UV 和非角色几何不变 |
 | `../tests/godot/check_loadout_tuning.gd` | 真实 132 HP 下四／五轮射击、弓追击与最终上限，200 次配装随机、锁定／冷却、两尺寸布局 |

@@ -1,0 +1,3 @@
+# Preserve raw engine output, including progress-line spaces and final blank lines.
+*.log -whitespace
+import.engine.txt -whitespace

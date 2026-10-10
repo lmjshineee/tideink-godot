@@ -1,0 +1,15 @@
+{
+  "production_fingerprint": "3fa5973064f057644eae0612c11845eb7684beb723b5239ed3c798b6b2522cfb",
+  "production_files": 626,
+  "frozen_source_unchanged": true,
+  "native_script_hashes_match": true,
+  "native_fixture_sha256": "fd24953ea5a96ef561356c9f99846e62aba2ee2ce78c0a00bdcd9ad699093246",
+  "tracked_asset_files_unchanged": 440,
+  "existing_uid_files_unchanged": 288,
+  "new_uid": "tests/godot/check_bot_attribute_builds.gd.uid",
+  "version_configuration_unchanged": true,
+  "app_files_unchanged": 7,
+  "app_source_head": "6ca5df5f080153c7709fd199acf8b651584a68a2",
+  "app_pck_sha256": "396841b2ea91069d392118921aa1bcbf51f0312039a29c83efc25331f85b738d",
+  "no_export": true
+}

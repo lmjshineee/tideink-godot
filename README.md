@@ -4,13 +4,17 @@
 
 原 INKWAVE 原生项目现名 TideInk。资源来源、许可证和历史记录保留；本地工程目录仍为 `inkwave-game-cleaned`。
 
-当前可玩应用：`build/TideInk.app`（`0.3.0-preview.24`，arm64），已打开。改为 20 点／八属性的直接加点、返还／重置／ROLL，队友和对手按玩家已用点数独立随机；四种人物使用不同的真实几何。110 项源码回归、31 项实际 PCK 规则、六组原生及独立 180 秒区域自动对局通过；末尾两个 UI 文案修改另有专项与包内覆盖。preview.23 App 和收据已核验备份；无界面退出引用警告仍有记录，外观已被用户否定，修正源码进行中；新外观尚未导出，平衡仍需真人验收。见 [本批验收](render-evidence/attributes-characters-2026-10-09/summary.md)。
+当前源码继续按功能推进，未递增版本号。双方 AI 加点现在按武器与天赋带倾向地 ROLL，沿用玩家已用点数预算和整局锁定；Tab 重做为中央地图、双方分列卡片，显示真实武器图标、玩家高亮、情报状态、已用点数及最高三项等级。见 [AI 配点与战术卡片](docs/BOT_ATTRIBUTE_BUILDS.md) 和 [本批验收](render-evidence/bot-builds-2026-10-10/summary.md)。
+
+最终 111 项源码检查及两尺寸 1v1／5v5 原生 Tab 输入／画面通过；32 项无界面夹具有退出引用警告，新增专项和最终原生没有 Godot 告警。440 个既有资产文件与 288 个 UID 保持，人工审美、配点平衡和长期性能仍待验收。
+
+已有可玩应用 `build/TideInk.app`（`0.3.0-preview.24`，arm64）保持原七个文件，未重新导出，尚不包含上述 AI 改动及之后的外观修正。该旧包的 110 项源码、31 项实际 PCK 规则、六组原生及 180 秒自动对局证据见 [历史应用验收](render-evidence/attributes-characters-2026-10-09/summary.md)。其外观已被用户否定；新模型仍待专项原生复查与人工审美验收。运行最新源码用下方 `./run.sh`。
 
 私有源码仓库：[lmjshineee/tideink-godot](https://github.com/lmjshineee/tideink-godot)。preview.16 的构建与启动证据见下方发布验收。
 
 运行、检查与导出均不使用网页源码、Node、Next.js、Three.js 或浏览器服务。角色、地图、字体与声音的 Godot 资源以及许可证保留在本项目中。
 
-当前源码为 preview.24：零加点均衡仍为 132 HP／110 墨量／5% 移动加成，普通射击近距四轮、远距五轮。准备页点「属性 · 加点」调整生命、墨量、奔跑、潜泳、省墨、回墨、充能和副武器冷却，各项最多 8 级、收益递减；伤害不加点。满生命均衡最高 155.76 HP，可接住 150 的精准狙击。整局固定、死亡保留；地图／规则／造型重载保留本次会话分配，退出 App 后没有磁盘加点存档。见 [属性和人物](docs/ATTRIBUTES_CHARACTERS.md) 与 [战斗规则](docs/COMBAT_BALANCE.md)。
+零加点均衡仍为 132 HP／110 墨量／5% 移动加成，普通射击近距四轮、远距五轮。准备页点「属性 · 加点」调整生命、墨量、奔跑、潜泳、省墨、回墨、充能和副武器冷却，各项最多 8 级、收益递减；伤害不加点。满生命均衡最高 155.76 HP，可接住 150 的精准狙击。整局固定、死亡保留；地图／规则／造型重载保留本次会话分配，退出 App 后没有磁盘加点存档。见 [属性和人物](docs/ATTRIBUTES_CHARACTERS.md) 与 [战斗规则](docs/COMBAT_BALANCE.md)。
 
 ## 运行
 
@@ -45,7 +49,6 @@ python3 tests/python/test_release_metadata.py
 python3 tests/python/test_character_archetypes.py
 # 先提交生产源码，再导出；构建收据绑定该提交与应用文件哈希。
 ./export_macos.sh
-python3 tools/release/package_macos.py --version v0.3.0-preview.24
 ```
 
 统一入口只要求 Godot 和系统 shell：导入 → 生产脚本编译 → 本地资源完整性 → 规则／场景检查。Python 用于隔离负例、资源清单更新和 arm64 打包。日志保存在 `.godot/`；macOS 构建输出在 `build/`。
@@ -59,4 +62,4 @@ python3 tools/release/package_macos.py --version v0.3.0-preview.24
 - [原生完整对局与结算验收](render-evidence/native-match-2026-10-04/summary.md)：180 秒 5v5 受控基线、帧间隔及面积／积分展示修正。
 - [机器人出场跳跃验收](render-evidence/bot-deployment-2026-10-05/summary.md)：91 项统一检查、两队负例与两个原生 Metal 受控场景。
 
-`docs/history/`、`render-evidence/` 和 `experiments/` 保留 Godot 历史记录与人物实验，正式导出排除。真实手感、长期温度、全地图长时机器人策略与联网仍需验收。最新应用为 `build/TideInk.app`，交付状态见 [当前状态](docs/COORDINATION.md)；本轮仅本地提交与 arm64 应用导出，没有创建压缩包、推送或发布 Release。
+`docs/history/`、`render-evidence/` 和 `experiments/` 保留 Godot 历史记录与人物实验，正式导出排除。真实手感、长期温度、全地图长时机器人策略与联网仍需验收。源码与已有应用的交付状态见 [当前状态](docs/COORDINATION.md)；本轮仅本地提交，没有导出、压缩、推送或发布。

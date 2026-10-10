@@ -18,7 +18,7 @@ func prepare_bots() -> void:
 	var budget := Catalog.spent(loadout(game.get_node("World/Walker")))
 	for actor in game.all_actors():
 		if actor != game.get_node("World/Walker"):
-			_store(actor, Catalog.roll(game.equipment_rng, {}, budget))
+			_store(actor, Catalog.roll_bot(game.equipment_rng, budget, String(actor.weapon_id), game.perks.kind(actor)))
 	_bots_prepared = true
 
 func _store(actor: Node3D, value: Dictionary) -> void:
@@ -31,6 +31,9 @@ func loadout(actor: Node3D) -> Dictionary:
 
 func totals(actor: Node3D) -> Dictionary:
 	return _totals.get(actor.get_instance_id(), {}).duplicate()
+
+func brief(actor: Node3D) -> String:
+	return Catalog.brief(loadout(actor))
 
 func bonus(actor: Node3D, ability: String) -> float:
 	return Catalog.bonus(ability, int(_totals.get(actor.get_instance_id(), {}).get(ability, 0)))

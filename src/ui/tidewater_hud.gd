@@ -3,6 +3,13 @@ extends RefCounted
 # Builds, lays out and refreshes UI. Gameplay and score state remain on the match.
 const SettingsPanel := preload("res://src/ui/tidewater_settings_panel.gd")
 var game: Node3D
+var tactical_shade: ColorRect
+var tactical_cards: Array[Panel] = []
+var tactical_names: Array[Label] = []
+var tactical_icons: Array[TextureRect] = []
+var tactical_headers: Array[Label] = []
+var tactical_counts: Array[Label] = []
+var tactical_weapon_icons: Dictionary = {}
 
 static func displayed_amount(value: float) -> int:
 	# Continuous DPS/refill can leave an exact integer a few ulps above it.
@@ -92,7 +99,7 @@ func _build_hud() -> void:
 	game.frontend.call("setup",game)
 	game.deployment.setup_ui()
 	# Interactive controls stay above the full-screen presentation.
-	for control in [game.scoreboard_panel,game.result_panel,game.settings_panel]:
+	for control in [tactical_shade,game.scoreboard_panel,game.result_panel,game.settings_panel]:
 		layer.move_child(control,-1)
 	# Connect through the owning Node so scene reload/free disconnects the signal.
 	game.get_viewport().size_changed.connect(game._layout_hud)
@@ -115,6 +122,13 @@ func _hud_label(parent: Control, name_text: String, color: Color, size_px: int) 
 	label.add_theme_font_size_override("font_size", size_px)
 	label.add_theme_color_override("font_color", color)
 	parent.add_child(label)
+	return label
+
+func _tactical_label(parent: Control, name_text: String, color: Color, size_px: int, display: bool=false) -> Label:
+	var label := _hud_label(parent,name_text,color,size_px)
+	label.add_theme_font_override("font",preload("res://src/ui/ui_fonts.gd").font(display))
+	label.add_theme_constant_override("outline_size",1)
+	label.add_theme_color_override("font_outline_color",color)
 	return label
 
 
@@ -410,18 +424,62 @@ func _build_team_ui(layer: Node) -> void:
 	back.text = "返回主菜单"
 	back.pressed.connect(game._reload_setup)
 	rows.add_child(back)
+	tactical_shade = ColorRect.new()
+	tactical_shade.name = "TacticalShade"
+	tactical_shade.color = Color(0.015,0.02,0.035,0.65)
+	tactical_shade.visible = false
+	tactical_shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(tactical_shade)
 	game.scoreboard_panel = _hud_panel(layer, "TeamRoster")
-	var header := _hud_label(game.scoreboard_panel, "TeamHeader", Color.WHITE, 22)
-	header.text = "战术地图 · 松开 Tab 返回"
-	header.position = Vector2(20,16)
+	game.scoreboard_panel.add_theme_stylebox_override("panel",_ui_style(Color("151925"),Color("353e51"),1,22))
+	var header := _tactical_label(game.scoreboard_panel, "TeamHeader", Color("f5f7fc"), 25,true)
+	header.text = "战术总览"
+	header.position = Vector2(20,14)
+	var hint := _tactical_label(game.scoreboard_panel,"TacticalHint",Color("a8b3c8"),12)
+	hint.text = "松开 TAB 返回"
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	var map_title := _tactical_label(game.scoreboard_panel,"MapTitle",Color("bac5d7"),14)
+	map_title.text = "战场"
+	map_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var map_hint := _tactical_label(game.scoreboard_panel,"MapHint",Color("8c99b1"),11)
+	map_hint.text = "涂地 / 队友 / 标记"
+	map_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	game.expanded_map = Control.new()
 	game.expanded_map.set_script(preload("res://src/ui/turf_minimap.gd"))
 	game.expanded_map.name = "ExpandedMap"
 	game.scoreboard_panel.add_child(game.expanded_map)
 	game.expanded_map.call("setup",game)
+	game.expanded_map.show_border = false
+	for weapon in game.weapon_order:tactical_weapon_icons[weapon]=load("res://assets/ui/%s.svg" % weapon)
 	for team in range(2):
+		var accent: Color = game.TeamPalette.color(team).lightened(0.25)
+		var title := _tactical_label(game.scoreboard_panel,"TacticalTeam_%d"%team,accent,17,true)
+		tactical_headers.append(title)
+		var count := _tactical_label(game.scoreboard_panel,"TacticalCount_%d"%team,Color("99a6bd"),11)
+		count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		tactical_counts.append(count)
 		for slot in range(5):
-			var row := _hud_label(game.scoreboard_panel, "Roster_%d_%d" % [team,slot], game.TeamPalette.color(team).lightened(0.4), 16)
+			var card := _hud_panel(game.scoreboard_panel,"TacticalCard_%d_%d"%[team,slot])
+			var regular := _ui_style(Color("202637"),Color("2f394d"),1,12)
+			var selected := _ui_style(Color("263247"),accent,1,12)
+			card.set_meta("regular_style",regular);card.set_meta("player_style",selected)
+			card.add_theme_stylebox_override("panel",regular)
+			tactical_cards.append(card)
+			var stripe := ColorRect.new()
+			stripe.name="TeamStripe";stripe.color=accent;stripe.mouse_filter=Control.MOUSE_FILTER_IGNORE
+			card.add_child(stripe)
+			var icon := TextureRect.new()
+			icon.name="WeaponIcon";icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
+			icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			icon.mouse_filter=Control.MOUSE_FILTER_IGNORE
+			card.add_child(icon);tactical_icons.append(icon)
+			var name_label := _tactical_label(card,"ActorName",Color("f5f7fc"),15,true)
+			name_label.clip_text=true;name_label.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+			tactical_names.append(name_label)
+			var row := _tactical_label(card, "Roster_%d_%d" % [team,slot], Color("c5cfe0"), 12)
+			row.clip_text = true
+			row.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+			row.add_theme_constant_override("line_spacing",0)
 			game.roster_rows.append(row)
 	game.result_actions = HBoxContainer.new()
 	game.result_actions.add_theme_constant_override("separation",12)
@@ -452,15 +510,41 @@ func _layout_team_ui(view_size: Vector2) -> void:
 	game.feed_label.size = Vector2(300,28)
 	game.pause_panel.size = Vector2(328,245)
 	game.pause_panel.position = (view_size - game.pause_panel.size) * 0.5
-	game.scoreboard_panel.size = Vector2(minf(900.0,view_size.x-32.0),minf(460.0,view_size.y-32.0))
+	tactical_shade.size = view_size
+	game.scoreboard_panel.size = Vector2(minf(1040.0,view_size.x-32.0),minf(530.0,view_size.y-32.0))
 	game.scoreboard_panel.position = (view_size-game.scoreboard_panel.size)*0.5
-	game.expanded_map.position = Vector2(20,58)
-	game.expanded_map.size = Vector2(game.scoreboard_panel.size.x*0.37,game.scoreboard_panel.size.y-76.0)
-	var roster_x: float = game.expanded_map.position.x + game.expanded_map.size.x + 16.0
-	var row_width: float = game.scoreboard_panel.size.x-roster_x-20.0
+	var panel_size: Vector2 = game.scoreboard_panel.size
+	var map_width: float = floorf(panel_size.x*0.30)
+	var column_width: float = floorf((panel_size.x-map_width-64.0)*0.5)
+	var map_x: float = 32.0+column_width
+	game.scoreboard_panel.get_node("TacticalHint").position = Vector2(panel_size.x-180,25)
+	game.scoreboard_panel.get_node("TacticalHint").size = Vector2(160,24)
+	game.scoreboard_panel.get_node("MapTitle").position = Vector2(map_x,66)
+	game.scoreboard_panel.get_node("MapTitle").size = Vector2(map_width,24)
+	game.scoreboard_panel.get_node("MapHint").position = Vector2(map_x,panel_size.y-35)
+	game.scoreboard_panel.get_node("MapHint").size = Vector2(map_width,20)
+	game.expanded_map.position = Vector2(map_x,100)
+	game.expanded_map.size = Vector2(map_width,panel_size.y-145.0)
+	var row_stride: float = (panel_size.y-112.0)/5.0
+	var card_height: float = minf(74.0,floorf(row_stride)-2.0)
+	for team in 2:
+		var x: float = 20.0 if team==0 else panel_size.x-column_width-20.0
+		tactical_headers[team].position=Vector2(x,64)
+		tactical_headers[team].size=Vector2(column_width-66,26)
+		tactical_counts[team].position=Vector2(x+column_width-64,69)
+		tactical_counts[team].size=Vector2(64,20)
 	for index in game.roster_rows.size():
-		game.roster_rows[index].position = Vector2(roster_x,58.0+index*(game.scoreboard_panel.size.y-78.0)/10.0)
-		game.roster_rows[index].size = Vector2(row_width,30.0)
+		var card: Panel = tactical_cards[index]
+		card.position = Vector2(20.0 if index<5 else panel_size.x-column_width-20.0,98+floorf((index%5)*row_stride))
+		card.size = Vector2(column_width,card_height)
+		card.get_node("TeamStripe").position=Vector2(0,14)
+		card.get_node("TeamStripe").size=Vector2(3,card_height-28)
+		tactical_icons[index].position=Vector2(9,(card_height-38)*0.5)
+		tactical_icons[index].size=Vector2(38,38)
+		tactical_names[index].position=Vector2(56,2)
+		tactical_names[index].size=Vector2(column_width-66,25)
+		game.roster_rows[index].position=Vector2(56,27)
+		game.roster_rows[index].size=Vector2(column_width-66,card_height-29)
 	game.settings_panel.size = Vector2(minf(540.0, view_size.x - 24.0), minf(580.0,view_size.y-24.0))
 	game.settings_panel.position = (view_size - game.settings_panel.size) * 0.5
 	game.result_actions.position = Vector2((game.result_panel.size.x - 292.0) * 0.5,game.result_panel.size.y - 45.0)
@@ -480,15 +564,21 @@ func _update_team_ui() -> void:
 	game.result_actions.visible = game.phase == "results"
 	game.scoreboard_panel.visible = game.phase == "playing" and Input.is_key_pressed(KEY_TAB) and not game.settings_panel.visible and not game.paused
 	game.scoreboard_panel.visible = game.scoreboard_panel.visible and game.player_respawn<=0.0
+	tactical_shade.visible = game.scoreboard_panel.visible
 	if not game.scoreboard_panel.visible:
 		return
 	var roster := [[],[]]
 	for actor in game.all_actors():
 		roster[game.actor_team(actor)].append(actor)
 	for team in range(2):
+		var role: String = "我方" if team==0 else "对方"
+		tactical_headers[team].text = role if game.team_names[team]==role else role+" · "+game.team_names[team]
+		tactical_counts[team].text = "%d / %d 在场"%[live[team],game.MatchSetup.team_size]
 		for slot in range(5):
-			var row: Label = game.roster_rows[team * 5 + slot]
+			var index: int = team*5+slot
+			var row: Label = game.roster_rows[index]
 			row.visible = slot < roster[team].size()
+			tactical_cards[index].visible = row.visible
 			if not row.visible:
 				continue
 			var actor: Node3D = roster[team][slot]
@@ -497,7 +587,11 @@ func _update_team_ui() -> void:
 			var status := "等待重生"
 			if game.actor_alive(actor):
 				status = "生命 %d" % int(game.actor_health(actor)) if team == 0 or (not info.is_empty() and info.status == "seen") else ("声呐标记" if not info.is_empty() and info.status == "sonar" else "最后发现" if not info.is_empty() else "位置未知")
-			row.text = "%s · %s · %s" % [game._actor_name(actor), game._weapon_text(weapon), status]
+			tactical_names[index].text=game._actor_name(actor)
+			tactical_icons[index].texture=tactical_weapon_icons.get(weapon)
+			tactical_cards[index].modulate=Color(1,1,1,1 if game.actor_alive(actor) else 0.6)
+			tactical_cards[index].add_theme_stylebox_override("panel",tactical_cards[index].get_meta("player_style" if actor==game.get_node("World/Walker") else "regular_style"))
+			row.text = "%s · %s\n%s" % [game._weapon_text(weapon), status, game.attributes.brief(actor)]
 
 
 func _build_settings_ui(parent: Node) -> void:

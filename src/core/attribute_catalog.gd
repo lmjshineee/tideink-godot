@@ -6,6 +6,14 @@ const BUDGET := 20
 const MAX_RANK := 8
 const LABELS := {"health":"生命上限", "ink_capacity":"墨水容量", "run_speed":"奔跑速度", "swim_speed":"潜泳速度", "main_saver":"主武器省墨", "ink_recovery":"回墨速度", "special_charge":"大招充能", "sub_cooldown":"副武器冷却"}
 const CAPS := {"health":.18, "ink_capacity":.25, "run_speed":.12, "swim_speed":.12, "main_saver":.18, "ink_recovery":.20, "special_charge":.15, "sub_cooldown":.15}
+const SHORT_LABELS := ["生命", "墨量", "跑速", "潜泳", "省墨", "回墨", "充能", "副CD"]
+# Weighted tickets for bot allocation only, ordered like ABILITIES. Every stat
+# remains reachable; players keep the uniform ROLL and the same rank/budget caps.
+const BOT_WEIGHTS := {
+	"shooter":[3,2,3,2,2,2,2,1], "roller":[3,2,2,3,3,2,1,1],
+	"charger":[1,4,2,1,5,4,2,1], "bow":[2,3,2,1,4,4,2,1],
+	"blaster":[3,3,3,1,4,3,1,1], "dualie":[3,2,4,3,2,2,1,1],
+	"disc":[2,2,3,1,3,3,2,1], "canopy":[4,4,2,1,3,3,1,1]}
 const DESCRIPTIONS := {
 	"health":"增加最大生命，最多 +18%。加点不立即回血，开战与复活使用新上限。",
 	"ink_capacity":"增加最大墨量，最多 +25%。加点不立即补墨，主副武器仍实际扣墨。",
@@ -65,3 +73,47 @@ static func roll(rng: RandomNumberGenerator, previous: Dictionary, budget: int =
 					result[source] -= 1; result[target] += 1
 					return result
 	return result
+
+static func bot_weights(weapon: String, perk: String) -> Dictionary:
+	var base: Array = BOT_WEIGHTS.get(weapon, [2,2,2,1,2,2,1,1])
+	var result := {}
+	for i in ABILITIES.size():result[ABILITIES[i]]=int(base[i])
+	match perk:
+		"adrenaline":result.health+=2;result.ink_recovery+=1
+		"leech":result.health+=2;result.main_saver+=1
+		"enemy_swim":result.health+=2;result.run_speed+=2
+		"vault_runner":result.run_speed+=3;result.health+=1
+		"last_ink":result.health+=2;result.sub_cooldown+=2
+		"dry_focus":result.main_saver+=3;result.ink_recovery+=2;result.ink_capacity=1
+		"turf_engine":result.special_charge+=4;result.main_saver+=1;result.ink_recovery+=1
+	return result
+
+static func roll_bot(rng: RandomNumberGenerator, budget: int, weapon: String, perk: String) -> Dictionary:
+	var result := empty()
+	var weights := bot_weights(weapon, perk)
+	for point in clampi(budget,0,BUDGET):
+		var tickets := 0
+		for ability in ABILITIES:
+			if result[ability]<MAX_RANK:tickets+=int(weights[ability])
+		var pick := rng.randi_range(1,tickets)
+		for ability in ABILITIES:
+			if result[ability]>=MAX_RANK:continue
+			pick-=int(weights[ability])
+			if pick<=0:
+				result[ability]+=1
+				break
+	return result
+
+static func brief(value: Dictionary) -> String:
+	var order: Array[int]=[]
+	for i in ABILITIES.size():
+		var rank: int = int(value.get(ABILITIES[i],0))
+		if rank<=0:continue
+		var at: int = order.size()
+		for j in order.size():
+			if rank>int(value[ABILITIES[order[j]]]):at=j;break
+		order.insert(at,i)
+	var parts: Array[String]=[]
+	for i in mini(3,order.size()):
+		var index:int=order[i];parts.append("%s%d"%[SHORT_LABELS[index],int(value[ABILITIES[index]])])
+	return "%d 点 · %s"%[spent(value),"未分配" if parts.is_empty() else " / ".join(parts)]
