@@ -1,0 +1,15 @@
+{
+  "kind": "intentional inventory update after model semantic checks",
+  "changed_manifest_entries": [
+    "assets/characters/archetypes/dock_worker.glb",
+    "assets/characters/archetypes/fin_drifter.glb",
+    "assets/characters/archetypes/reef_runner.glb",
+    "assets/characters/archetypes/spark_writer.glb"
+  ],
+  "manifest_entries": 274,
+  "preserved_asset_files": 435,
+  "semantic_tests": 3,
+  "native_visual_acceptance": false,
+  "human_aesthetic_acceptance": false,
+  "reason": "User requests commit and a different gameplay batch. Inventory records verified GLB structure and intentional bytes; latest art remains unreviewed."
+}

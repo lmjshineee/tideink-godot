@@ -51,4 +51,4 @@ inkwave-game-cleaned/
 
 preview.22 新增：`src/core/loadout_rules.gd` 定义本地主武器／固定副武器映射；`src/match/area_control.gd` 根据可涂面和双方可达导航选中央区域，维护控制、倒数、罚分与加时。`src/world/surface_ink.gd` 仍是唯一涂墨账本，分别维护可奖励格与当前规则可计分格；墙壁视觉更新不依赖奖励值。
 
-preview.24 属性与人物：`core/attribute_catalog.gd` 定义二十点、八属性和递减规则；`abilities/tidewater_attributes.gd` 拥有演员整局快照，`ui/attribute_editor.gd` 提供真实加减与剩余点数。`actors/character_archetypes.gd` 只建视觉附件，`assets/characters/archetypes/` 保存四套不同体型／脸型／头发／服装剪裁；本地生成工具在 `tools/assets/`，保留原件与骨骼。见 [设计与操作](ATTRIBUTES_CHARACTERS.md)。
+preview.24 属性与人物：`core/attribute_catalog.gd` 定义二十点、八属性和递减规则；`abilities/tidewater_attributes.gd` 拥有演员整局快照，`ui/attribute_editor.gd` 提供真实加减与剩余点数。`actors/character_archetypes.gd` 只配置视觉体型及造型标识，`assets/characters/archetypes/` 保存四套不同体型／脸型／头发／服装剪裁；本地生成工具在 `tools/assets/`，保留原件与骨骼。见 [设计与操作](ATTRIBUTES_CHARACTERS.md)。
