@@ -25,7 +25,9 @@ func _run() -> void:
 			if custom.size()!=points.size()*4 or clothing.size()!=points.size()*4:
 				fail("lost bind-space fragment attributes");return
 			for i in points.size():
-				if not points[i].is_finite() or points[i].distance_to(Vector3(custom[i*4],custom[i*4+1],custom[i*4+2]))>0.145:
+				# Real ankle-length trousers/coat replace the short source garment.
+				var envelope:float=.47 if semantic=="Cloth" else .145
+				if not points[i].is_finite() or points[i].distance_to(Vector3(custom[i*4],custom[i*4+1],custom[i*4+2]))>envelope:
 					fail("authored body deformation exceeds bounded semantic envelope");return
 			if semantic=="Cloth":
 				var material := mesh.material_override as ShaderMaterial

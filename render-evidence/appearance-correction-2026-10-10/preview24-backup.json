@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "backup": "/Users/yunni/Joy/inkwave-game-cleaned/build/TideInk-preview.24.app",
+  "files": 7,
+  "version": "0.3.0-preview.24",
+  "pck_sha256": "396841b2ea91069d392118921aa1bcbf51f0312039a29c83efc25331f85b738d",
+  "source_head": "6ca5df5f080153c7709fd199acf8b651584a68a2"
+}

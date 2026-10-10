@@ -1,6 +1,6 @@
 shader_type spatial;
 render_mode cull_disabled;
-// Generated from unmodified character-mats.js; CUSTOM0/1 retain bind-space data.
+// Local tailored streetwear; preserved CUSTOM0/1 supply source textile details.
 uniform vec4 team_color : source_color;
 uniform vec4 shirt_color : source_color;
 uniform vec4 shorts_color : source_color;
@@ -52,16 +52,13 @@ float iwShirtPattern(vec3 p) {
   float ax = abs(p.x);
   float m = 0.0;
   if (float(pattern) < 0.5) {            // ringer: no body pattern (trim + big emblem)
-    m = 0.0;
+    m = iwBand(ax, 0.09, 0.12);
   } else if (float(pattern) < 1.5) {     // double pinstripe
-    m = iwBand(p.y, 0.842, 0.852) + iwBand(p.y, 0.866, 0.876);
-  } else if (float(pattern) < 2.5) {     // raglan sleeves + side panel
-    float sleeve = smoothstep(0.108, 0.115, ax) * step(0.86, p.y);
-    m = max(sleeve, iwBand(ax, 0.098, 0.2) * step(p.y, 0.86) * step(0.74, p.y) * step(abs(p.z + 0.012), 0.05));
+    m = iwBand(ax, 0.075, 0.086);
+  } else if (float(pattern) < 2.5) {     // work jacket: narrow stitched front seams
+    m = iwBand(ax, 0.055, 0.058);
   } else {                         // chevron + hem band
-    float y0 = 0.925 - 0.55 * ax;
-    m = iwBand(p.y - y0, -0.022, 0.0) * step(0.0, p.z);
-    m = max(m, iwBand(p.y, 0.726, 0.738));
+    m = step(0.012,p.x)*iwBand(p.y,0.90,0.998);
   }
   return clamp(m, 0.0, 1.0);
 }
@@ -105,7 +102,7 @@ void fragment(){
           vec3 p = vBindPos; vec2 uv = vIwUv;
           vec3 base = vec3(1.0);
           if (slot == 1.0) base = team_color.rgb;
-          else if (slot == 2.0) base = mix(shirt_color.rgb, team_color.rgb, iwShirtPattern(p));
+          else if (slot == 2.0) base = mix(shirt_color.rgb, iwContrast(shirt_color.rgb), iwShirtPattern(p)*0.28);
           else if (slot == 3.0) base = shorts_color.rgb;
           else if (slot == 4.0) base = shoe_color.rgb;
           else if (slot == 5.0) base = sock_color.rgb;
@@ -117,7 +114,12 @@ void fragment(){
           else if (slot == 11.0) base = strap_color.rgb * 0.55 + vec3(0.02);
           else if (slot == 12.0) base = mix(sock_color.rgb, vec3(0.96), 0.6);
           else if (slot == 13.0) base = team_color.rgb * 0.62;
-          else if (slot == 14.0) base = float(pattern) < 0.5 || float(pattern) > 2.5 ? team_color.rgb : iwContrast(shirt_color.rgb);
+          else if (slot == 14.0) base = iwPart==15.0 ? shorts_color.rgb*0.82 : mix(shirt_color.rgb,sole_color.rgb,0.25);
+          if (iwPart==15.0) base=shorts_color.rgb*0.82;
+          if (pattern>0 && iwPart==10.0 && p.z>0.0) discard;
+          if (pattern>0 && iwPart==0.0 && p.z>0.04 && p.y>0.84 && p.y<0.91) discard;
+          if ((pattern==1 || pattern==2) && iwPart==16.0 && p.y>0.5) discard;
+          if (pattern==1 && iwPart==1.0 && p.z>0.025 && p.y<0.83 && abs(p.x)<0.015) discard;
 
           // ---------------- part decorations ----------------
           if (iwPart == 1.0) { // TEE body: uv = (theta/2pi, y)
@@ -150,7 +152,9 @@ void fragment(){
               else if (float(pattern) < 1.5) { q = vec2(p.x, p.y - 0.927); R = 0.0135; }
               else if (float(pattern) < 2.5) { q = vec2(p.x, p.y - 0.818); R = 0.032; }
               else { q = vec2(p.x, p.y - 0.8); R = 0.028; }
-              vec2 e = iwEmblem(q, R) * on;
+              // Small stitched chest label replaces the shared oversized squid print.
+              q=vec2(p.x-0.047,p.y-0.91);
+              vec2 e = vec2(iwFill(iwSdBox(q,vec2(0.014,0.009),0.002)),0.0);
               vec3 ink = team_color.rgb;
               base = mix(base, ink, e.x);
               base = mix(base, shirt_color.rgb * 1.02 + 0.02, e.y * e.x);
@@ -167,7 +171,7 @@ void fragment(){
           } else if (iwPart == 2.0) { // SLEEVE: uv = (theta, s along from shoulder)
             float s = uv.y, L = vCloth.z;
             float cuff = smoothstep(L - 0.02, L - 0.018, s);
-            base = mix(base, slot == 2.0 ? (float(pattern) < 0.5 || float(pattern) > 2.5 ? team_color.rgb : iwContrast(shirt_color.rgb)) : base, cuff);
+            base = mix(base, slot == 2.0 ? mix(shirt_color.rgb,sole_color.rgb,0.35) : base, cuff);
             float circ = 0.3;
             float st = iwStroke(s - (L - 0.024), 0.0005) * iwDash(uv.x * circ, 0.005, 0.6);
             float st2 = iwStroke(s - 0.012, 0.0005) * iwDash(uv.x * circ, 0.005, 0.6);

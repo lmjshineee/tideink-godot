@@ -36,10 +36,10 @@ const CLOTH_SURFACE := preload("res://shaders/characters/character_cloth.gdshade
 const IRIS := [Color("ffcf3a"),Color("4ff0dc"),Color("c9a2ff"),Color("a8f56a")]
 const IRIS_DARK := [Color("ff7a00"),Color("0b7fb0"),Color("5b2ad6"),Color("1d9a4a")]
 const OUTFITS := [
-	["e4e5d1","24394a","284454","e6dfc8","e4e5d1","253542"],
-	["5b536d","303449","373449","aeb8c9","333044","272d3a"],
-	["beac81","83734f","333c43","dad2b9","4b4e42","3a4144"],
-	["b86b6b","29374c","282f40","ebe0c6","e5dac4","303646"]
+	["39727b","263747","d9e2df","eae7da","dadfda","c2cdc6"],
+	["a1a6b9","303649","463f43","d9d5ca","424652","505666"],
+	["b2734b","354951","5c4437","d8c8a9","46554d","34443f"],
+	["e1d9c5","4a655c","333d43","e4ddc8","d7dccb","525d50"]
 ]
 var face_material: ShaderMaterial
 var eye_material: ShaderMaterial

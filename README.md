@@ -4,7 +4,7 @@
 
 原 INKWAVE 原生项目现名 TideInk。资源来源、许可证和历史记录保留；本地工程目录仍为 `inkwave-game-cleaned`。
 
-当前可玩应用：`build/TideInk.app`（`0.3.0-preview.24`，arm64），已打开。改为 20 点／八属性的直接加点、返还／重置／ROLL，队友和对手按玩家已用点数独立随机；四种人物使用不同的真实几何。110 项源码回归、31 项实际 PCK 规则、六组原生及独立 180 秒区域自动对局通过；末尾两个 UI 文案修改另有专项与包内覆盖。preview.23 App 和收据已核验备份；无界面退出引用警告仍有记录，真人审美／平衡尚未验收。见 [本批验收](render-evidence/attributes-characters-2026-10-09/summary.md)。
+当前可玩应用：`build/TideInk.app`（`0.3.0-preview.24`，arm64），已打开。改为 20 点／八属性的直接加点、返还／重置／ROLL，队友和对手按玩家已用点数独立随机；四种人物使用不同的真实几何。110 项源码回归、31 项实际 PCK 规则、六组原生及独立 180 秒区域自动对局通过；末尾两个 UI 文案修改另有专项与包内覆盖。preview.23 App 和收据已核验备份；无界面退出引用警告仍有记录，外观已被用户否定，修正源码进行中；新外观尚未导出，平衡仍需真人验收。见 [本批验收](render-evidence/attributes-characters-2026-10-09/summary.md)。
 
 私有源码仓库：[lmjshineee/tideink-godot](https://github.com/lmjshineee/tideink-godot)。preview.16 的构建与启动证据见下方发布验收。
 

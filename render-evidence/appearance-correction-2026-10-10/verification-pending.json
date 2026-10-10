@@ -1,0 +1,37 @@
+{
+  "state": "native review pending; no new app exported",
+  "model_iteration": 7,
+  "python_model_tests": 3,
+  "model_semantic_log": "model-semantic7.txt",
+  "rig_log": "rig7.txt",
+  "character_log": "characters7.txt",
+  "preserved_asset_files": 436,
+  "preserved_uids": 288,
+  "changed_glb_files": 4,
+  "manifest_updated": false,
+  "current_app_version": "0.3.0-preview.24",
+  "backup": "build/TideInk-preview.24.app",
+  "native_block": "Two automatic permission reviews timed out; workspace-restricted native launch exits 134. Explicit desktop execution approval requested.",
+  "known_previous_iteration_defects": [
+    "art6 elbow skin intersections",
+    "art6 lower shirt and coat intersections"
+  ],
+  "latest_fixes": [
+    "loose elbow ease",
+    "lower-shirt pelvis clearance",
+    "shirt hem weights merged into hips"
+  ],
+  "latest_visual_verified": false,
+  "human_aesthetic_acceptance": false,
+  "unified_checks": {
+    "passed": 1,
+    "failed": 1,
+    "reason": "Asset integrity rejects deliberately changed character GLBs before manifest update; remaining checks not run",
+    "log": "checks-pending-visual.txt"
+  },
+  "release_metadata_negative_tests": 11,
+  "integrity_cases": {
+    "total": 6,
+    "negative_cases": 4
+  }
+}

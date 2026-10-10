@@ -1,0 +1,4 @@
+WROTE reef_runner.glb 4591104 bytes
+WROTE fin_drifter.glb 4600012 bytes
+WROTE dock_worker.glb 4625652 bytes
+WROTE spark_writer.glb 4636820 bytes
