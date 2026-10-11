@@ -1,0 +1,16 @@
+{
+  "starting_assets": 440,
+  "starting_uids": 294,
+  "original_changes": [
+    "assets/characters/archetypes/dock_worker.glb",
+    "assets/characters/archetypes/fin_drifter.glb",
+    "assets/characters/archetypes/reef_runner.glb",
+    "assets/characters/archetypes/spark_writer.glb",
+    "assets/integrity.json"
+  ],
+  "original_removed": [
+    "src/match/area_control.gd.uid",
+    "tests/godot/check_area_rules.gd.uid"
+  ],
+  "frozen_inputs": 1033
+}

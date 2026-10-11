@@ -1,19 +1,32 @@
 shader_type spatial;
 render_mode cull_disabled;
 uniform vec4 team_color : source_color;
-// Source strand tint, cap grooves and underside suction cups, carried by UV2.
+// One groom scalp, smooth authored locks and retained eyebrow/accessory tags.
 void fragment() {
  vec3 tc=team_color.rgb,light=mix(tc,vec3(1.0),0.55),dark=tc*0.65;
  vec3 col=tc;
  float cup=0.0;
  ROUGHNESS=0.48;
- CLEARCOAT=0.45;
+ CLEARCOAT=0.14;
  if(UV2.x<=-1.5) {
   col=mix(COLOR.rgb,COLOR.rgb*tc,COLOR.a);
   float cls=floor(-UV2.x-2.0+0.5);
   ROUGHNESS=cls==2.0?0.85:0.4;
   METALLIC=cls==1.0?0.85:0.0;
   CLEARCOAT=cls==2.0?0.0:0.4;
+ } else if(UV2.y>=3.5) {
+  // Scalp is the root volume of this groom, with the same base as the locks.
+  float flow=pow(0.5+0.5*cos(UV.x*150.8+UV.y*5.0),5.0);
+  col=tc*mix(0.88,0.98,smoothstep(0.0,0.4,UV.y))*(1.0-flow*0.025);
+  ROUGHNESS=0.72;
+  CLEARCOAT=0.02;
+ } else if(UV2.y>=2.5) {
+  // Broad ribbons of hair, with restrained anisotropic-looking strand grooves.
+  float strand=pow(0.5+0.5*cos(UV.x*37.699+sin(UV.y*4.0)*0.8),7.0);
+  float root=smoothstep(0.0,0.35,UV.y);
+  col=mix(tc*0.88,mix(tc,light,0.08),root)*(1.0-strand*0.032);
+  ROUGHNESS=0.70;
+  CLEARCOAT=0.04;
  } else if(UV2.y>=1.5) {
   float groove=pow(1.0-abs(sin(UV.x*9.0+0.35*sin(UV.y*5.0))),6.0)*(1.0-smoothstep(0.9,1.45,UV.y));
   col=mix(dark,tc,0.55+0.45*smoothstep(0.0,0.25,COLOR.g));
@@ -37,7 +50,7 @@ void fragment() {
   ROUGHNESS=mix(0.48,0.58,cup);
  }
  ALBEDO=col;
- SPECULAR=0.4;
+ SPECULAR=0.28;
  BACKLIGHT=col*0.08;
  CLEARCOAT_ROUGHNESS=0.4;
 }

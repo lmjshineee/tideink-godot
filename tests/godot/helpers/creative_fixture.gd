@@ -14,7 +14,7 @@ func expect(ok: bool, message: String) -> void:
 func prepare(match_size: int = 5, map_id: String = "modular_harbor", rule: String = "turf", mode: String = "custom") -> void:
 	var setup := preload("res://src/core/match_setup.gd")
 	setup.screen = "setup"
-	setup.battle_rule = rule
+	assert(rule == "turf", "Only full-map turf remains playable")
 	setup.loadout_mode = mode
 	setup.map_id = map_id
 	setup.random_map = false

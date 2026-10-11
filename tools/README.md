@@ -2,6 +2,8 @@
 
 从项目根目录运行 `./tools/run_checks.sh`。顺序：资源导入 → 编译预检 → 本地资源完整性 → 所有规则／场景检查。任一门失败立即停止；退出成功且有独立 `PASS:` 行才算通过，日志在 `.godot/`。不需要 Node、浏览器或 Web 源码。
 
+脸发近景使用 `capture/capture_face_sculpt.gd -- --baseline=/保存四个旧派生GLB的绝对目录 --output=/新的绝对目录`（通过原生 Godot `--path . --script res://tools/capture/capture_face_sculpt.gd` 启动）。固定镜头／灯光／姿态对照旧、新模型，保存四种脸型的正面／三分之四／侧面、灰模、后脑／头顶、眨眼／表情及资源 SHA256；`comparison-front.png` 上排旧几何、下排新几何。旧模型以运行时 GLTF 导入并按骨骼名称匹配当前绑定，避免误用墨形的同名材质。这里只建立受控画面，不自动确认人工审美。完整运动／八武器／两队服装仍使用 `capture/capture_archetypes.gd`。
+
 | 工具 | 用途 |
 | --- | --- |
 | `lib/runtime.sh` | 运行／验证／导出共用引擎发现与导入缓存 |
@@ -16,20 +18,23 @@
 | `../tests/python/test_release_metadata.py` | 旧版本、变更源码／PCK、错误源码提交与证据目录隔离负例 |
 | `update_asset_integrity.py --write` | 有意资源修改验证后，记录新的本地资产基线 |
 | `capture/`、`measure/` | 原生画面、回放和受控测量，按输出路径保留证据 |
-| `measure/measure_native_match.gd` | 原生 180 秒上限 5v5，可用 `--map=<id>`、`--weapon=<id>`、`--rule=turf|area` 与 `--attribute-roll` 指定地图、武器、规则及赛前属性随机；自然死亡／确认复活、计分核对、双方属性点预算及整局保持、回墨观察、帧间隔与新证据目录 |
+| `measure/measure_native_match.gd` | 原生 180 秒上限 5v5，可用 `--map=<id>`、`--weapon=<id>`、`--rule=turf` 与 `--attribute-roll` 指定地图、武器、规则及赛前属性随机；自然死亡／确认复活、计分核对、双方属性点预算及整局保持、回墨观察、帧间隔与新证据目录 |
 | `measure/measure_bot_idle.gd` | 七图受控移动记录，固定配装 RNG／均衡天赋，排除战斗、技能、补给与死亡等待；可指定 `--map`、`--seconds`、`--trace-actor`，必须使用新的绝对输出文件 |
 | `capture/verify_bot_deployment.gd` | 两图原生受控机器人复活／队友／信标跳跃及玩家 J／Esc；新绝对证据目录，无导出或打包 |
-| `capture/verify_loadout_tuning.gd` | 原生两尺寸／110% 画布输入、固定／自定义／ROLL、规则切换保留配装、CPU 区域倒数／罚分／结算；固定角色与人工涂墨，只算受控原生证据 |
-| `capture/verify_attribute_allocation.gd` | 八属性／二十点实际鼠标加减、Enter／Esc、重置／属性与整套 ROLL、两尺寸、规则／造型重载、有效射击耗墨和阶段关闭；受控原生，包内外分别核验 |
+| `capture/verify_loadout_tuning.gd` | 原生两尺寸／110% 画布输入、固定／自定义／ROLL；区域模式已移除；固定角色与人工涂墨，只算受控原生证据 |
+| `capture/verify_attribute_allocation.gd` | 八属性／二十点实际鼠标加减、Enter／Esc、重置／属性与整套 ROLL、两尺寸、造型重载、有效射击耗墨和阶段关闭；受控原生，包内外分别核验 |
 | `../tests/godot/check_bot_attribute_builds.gd` | 双方按武器／天赋加权属性 ROLL、同预算与整局锁定、Tab 只读摘要和敌方情报遮蔽；默认无界面规则，原生运行并传 `-- --output=新绝对目录` 保存两尺寸 1v1／5v5 四张图及报告 |
 | `capture/capture_archetypes.gd` | 四套实际模型的正面／侧面／背面／跑动、脸部和各八武器持握；原生画面供审美复核 |
 | `assets/build_character_archetypes.py`、`../tests/python/test_character_archetypes.py` | 从本地保留的 GLB 生成四套轮廓／服装剪裁；核对骨骼、蒙皮、语义 UV 和非角色几何不变 |
 | `../tests/godot/check_loadout_tuning.gd` | 真实 132 HP 下四／五轮射击、弓追击与最终上限，200 次配装随机、锁定／冷却、两尺寸布局 |
-| `../tests/godot/check_area_rules.gd` | 不可涂／遮蔽／墨墙反例、区域外资源与区域内计分、控制／罚分／加时、十九布局、场景结果与重开 |
+| `../tests/godot/check_turf_rules.gd` | 全图两端计分、无区域控制／HUD、按时间结束和 CPU 覆盖率结算 |
 | `capture/verify_ink_buddy.gd` | 原生两尺寸伙伴选择、实际右键／E、双方真实追击伤害、手雷预测与实爆对照、投放提示；固定角色和逐帧控制，只算受控原生证据 |
 | `capture/verify_tidewater_ink_loop.gd` | 原生潮水码头 61 个计分面抽样、CPU／纹理／覆盖率核对；实际滚涂上下坡、潜墨回墨、干地／敌墨拒绝与爬墙越沿；固定位置和墨量、冻结机器人，只算受控原生证据 |
 | `capture/verify_bot_ink_refill.gd` | 原生两队低墨寻路／停火／潜墨回补／恢复行动、干地敌墨与互斥负例、玩家实际 Shift 输入；固定资源与加速物理，只算受控原生证据 |
 | `capture/verify_bot_beacons.gd` | 两队 AI 出生点拒绝／前方放置和真实玩家 E 输入；固定坐标、暂停对局物理、实际道具 tick，只算受控原生证据 |
+| `assets/build_curated_maps.py`、`../tests/python/test_curated_maps.py` | 两张新图的碰撞／墨面／导航／小地图一致性、埋藏格及掩码／边／索引负例 |
+| `capture/verify_curated_art.gd` | 两张新图实际鼠标选择、两尺寸原生 UI、W／射击及三种地图视角 |
+| `../tests/godot/check_curated_map_routes.gd` | 双方从基地实际到达弧形高线与车站桥上／桥下，真实多边形／坡面碰撞和墨格一致，布景无额外碰撞 |
 | `release/` | arm64 模板与本地打包 |
 
 单项检查：
@@ -98,9 +103,9 @@ python3 tools/release/package_macos.py --version v0.3.0-preview.16 \
 
 打包工具会核对生产输入及所有应用文件与收据一致；拒绝任意改变的源码、PCK、版本或伪造的 `--source-commit`。随包 `BUILD.json` 记录引擎、源码提交、输入／应用／证据文件哈希，ZIP 附 SHA256SUMS。原生画面与解压后的实际启动另行验证；临时签名不表示 Apple 公证。
 
-`verify_app.py` 要求新的证据子目录：同版本原生编辑器从临时工作目录显式加载导出 PCK，运行指定外部规则（当前 27 项）、原生 UI、伙伴／投放及主武器实际鼠标蓄力／护盾／悬停检查；再单独运行实际应用、不添加路径／脚本覆盖参数。标准发行模板禁用路径覆盖，不能把 `--main-pack` 传给发行应用。默认编辑器可用 `--godot` 指定。
+`verify_app.py` 要求新的证据子目录：同版本原生编辑器从临时工作目录显式加载导出 PCK，运行当前 34 项外部规则，包括全图涂地与两张新地图的实际路线；八组原生检查覆盖 UI、伙伴／投放、主武器、配装／属性、人物／服装及新图选择／移动／射击，再单独运行实际应用、不添加路径／脚本覆盖参数。外部人物／地图夹具移除仅源码可用的输入清单查询，保存原夹具与外部夹具哈希并绑定实际 PCK 收据。标准发行模板禁用路径覆盖，不能把 `--main-pack` 传给发行应用。默认编辑器可用 `--godot` 指定。
 
-用户要求只导出 `.app`、不创建压缩包时，使用 `build_metadata.py prepare` → Godot `--export-release macOS <新临时目录>/TideInk.app` → 保留旧应用并替换 `build/TideInk.app` → `build_metadata.py finish` → `verify_app.py`。复用已验证的 arm64 模板缓存，不能运行会生成 ZIP 的 `export_macos.sh` 或 `package_macos.py`；生产输入提交和收据验证要求保持不变。
+用户要求只导出 `.app`、不创建分发压缩包时，使用 `build_metadata.py prepare` → Godot `--export-release macOS <新临时目录>/TideInk.app` → 验证新应用后替换 `build/TideInk.app` → `build_metadata.py finish` → `verify_app.py`。复用已验证的 arm64 模板缓存；当前 `export_macos.sh` 仅输出 App 和收据，`package_macos.py` 才创建分发 ZIP。生产输入提交和收据验证要求保持不变；用户要求删除旧应用时，在新 App 验证通过后删除已盘点的旧包。
 
 ## 主武器伤害与原生输入
 

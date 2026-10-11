@@ -284,20 +284,20 @@
       "bytes": 17425917
     },
     "assets/characters/archetypes/dock_worker.glb": {
-      "sha256": "99485d552cae04d125079e53d7986a0c610df35ab4d977a6fa845a2b8c06a957",
-      "bytes": 6064896
+      "sha256": "7f79521cb694348e2b571fb91c9a2188b7a25bae7aafa3775ccbfef356204986",
+      "bytes": 15833144
     },
     "assets/characters/archetypes/fin_drifter.glb": {
-      "sha256": "659f62aa2524544f03b260315377f74898d032867feabf910c4927c26e29a6b7",
-      "bytes": 6039252
+      "sha256": "7549cd154b059e527eff1616d7aa795376b4a2aa3fb3bbaacdf051290a59d87e",
+      "bytes": 8205688
     },
     "assets/characters/archetypes/reef_runner.glb": {
-      "sha256": "15acf69f4c323b25eba1a36d1ca1e8f5a0fbcf260b23b13ba1c0b8cf84ad66ae",
-      "bytes": 4591124
+      "sha256": "c73bad044c4ff80c0d99d45f75b0bd2ab448142490e052994af83244b50f6e24",
+      "bytes": 5791480
     },
     "assets/characters/archetypes/spark_writer.glb": {
-      "sha256": "693f0ee65bde3d18fc5e85ca6f6997a5a8768ad5e83c76d57e831eeb55e324d7",
-      "bytes": 4636844
+      "sha256": "f321ed6e6d9362865fbb1b3ac19f7bf3dc578532bcc0636cc397aee0cf00c3c7",
+      "bytes": 5619904
     },
     "assets/characters/kid_0.glb": {
       "sha256": "104333dff2e5c5b8d0461c6603392cdc09400a39d08799a455f8e07742e8cd64",
@@ -438,6 +438,30 @@
     "assets/maps/kelpline_v2_surfaces.json": {
       "sha256": "ece22057ee606eabdd89a66313f8eb12225bc24e4388bacf66c65dd3876e624a",
       "bytes": 281484
+    },
+    "assets/maps/lantern_depot.json": {
+      "sha256": "c8755caf29b56cfe6f080325cd04613f1fb9c0afef5f044b410fc4d4be4bea8a",
+      "bytes": 42013
+    },
+    "assets/maps/lantern_depot_minimap.json": {
+      "sha256": "9e7d04742949ae65c588950aa8ac59416d8b513dbcab17b1e89bcaec22e104cd",
+      "bytes": 348
+    },
+    "assets/maps/lantern_depot_minimap.png": {
+      "sha256": "a067cdb8f19a76670321769ad37b545006ed95a445b4fe9fda6e04dcc2951284",
+      "bytes": 5169
+    },
+    "assets/maps/lantern_depot_minimap_lookup.bin": {
+      "sha256": "1f8131ca2d96ea64b47edfefe07177e52c0f05c36387a20b02d2abb9e4a76282",
+      "bytes": 1474560
+    },
+    "assets/maps/lantern_depot_nav.json": {
+      "sha256": "6889d7683790ea89c8c39fb949f67c7389c941752f8ba2d3429ed912ed41d21e",
+      "bytes": 553054
+    },
+    "assets/maps/lantern_depot_surfaces.json": {
+      "sha256": "8d70759e64fae7cd98a8d763fa71455cad624fe02a2762a2c03705d372db28f1",
+      "bytes": 187226
     },
     "assets/maps/modular_harbor.json": {
       "sha256": "62654ff05f61f963b08b5c3f9f1f630b75e1b74efcebf55a089e240458b62baa",
@@ -678,6 +702,30 @@
     "assets/maps/prism_gallery_surfaces.json": {
       "sha256": "46426b58dd7898fa4abaf5314f6b4cf8157747e4880755ce3647fab2cb8b4ea4",
       "bytes": 164989
+    },
+    "assets/maps/sunset_park.json": {
+      "sha256": "0666dae89675ef97f27591a9c61acc5d900cfd82cd2c6a91cb4e4fd95643fe90",
+      "bytes": 46139
+    },
+    "assets/maps/sunset_park_minimap.json": {
+      "sha256": "e66f1551ae64e73b21f74ca49be74d5c7b86644aa79b337558389ec84c4904f4",
+      "bytes": 342
+    },
+    "assets/maps/sunset_park_minimap.png": {
+      "sha256": "1faf8c4c8d81b1d0d47dc5403676c44675ac3c8b929b16c0a14f5a4361e1a3bd",
+      "bytes": 3740
+    },
+    "assets/maps/sunset_park_minimap_lookup.bin": {
+      "sha256": "a9be4fd54171ca2f7eada2f558700c8a548e7e8a5ebec0d61071b60002a2d68c",
+      "bytes": 1474560
+    },
+    "assets/maps/sunset_park_nav.json": {
+      "sha256": "6a96fe2678843a245125cfb5c6994f318b8aaeb1c5cb2e554798078b4456c657",
+      "bytes": 494643
+    },
+    "assets/maps/sunset_park_surfaces.json": {
+      "sha256": "96012f37b761e0d0d41f083e98ad9bf65a14627cc605502f08a130cc0d7aea9d",
+      "bytes": 223273
     },
     "assets/maps/terrace_garden.json": {
       "sha256": "85ae89a9b2895f2aef0997549b80861d2dbae76712a9842da6c63b19259a5bf5",

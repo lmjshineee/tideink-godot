@@ -94,6 +94,34 @@ void fragment() {
 		float seam=max(grid_line(p.x,0.8,0.015),grid_line(p.y,0.8,0.015));
 		base*=(0.92+hash2(floor(p/0.8))*0.09)*(1.0-seam*0.19);rough=0.26;
 	}
+	if(pattern==17 || pattern==18){
+		// Broad concrete / transit paving, with less visual noise than small tiles.
+		float seam=max(grid_line(p.x,pattern==17?4.0:2.0,.008),grid_line(p.y,4.0,.008));
+		base=base_color.rgb*(.90+hash2(floor(p/4.0))*.025)*(1.0-seam*.12);
+		rough=.86;
+		if(pattern==17 && local_normal.y>.5){
+			float arc=abs(length(world_position.xz*vec2(1.0,.7))-10.5);
+			base=mix(base,vec3(.91,.79,.58),(1.0-smoothstep(.045,.075,arc))*.55);
+		}
+	}
+	if(pattern==19 || pattern==20){
+		// Authored curved park / diagonal station: broad material, continuous marks.
+		vec2 wp=world_position.xz;
+		base=base_color.rgb*.93;
+		rough=.84;
+		float seam=max(grid_line(wp.x,4.0,.006),grid_line(wp.y,4.0,.006));
+		base*=1.0-seam*.07;
+		if(world_normal.y>.5 && pattern==19){
+			float radial=length(wp);
+			float stripe=1.0-smoothstep(.035,.065,abs(radial-14.6));
+			base=mix(base,vec3(.93,.82,.65),stripe*.9);
+		}
+		if(world_normal.y>.5 && pattern==20){
+			float lane=min(abs(wp.x-wp.y*.55),abs(wp.x+wp.y*.55));
+			float stripe=(1.0-smoothstep(.05,.09,abs(lane-1.8)))*step(5.3,length(wp));
+			base=mix(base,vec3(.96,.73,.36),stripe*.9);
+		}
+	}
 	// Subpixel microdetail fades before it can shimmer across distant tiles.
 	float detail = 1.0 - smoothstep(0.018,0.065,max(length(dFdx(p)),length(dFdy(p))));
 	micro *= detail;

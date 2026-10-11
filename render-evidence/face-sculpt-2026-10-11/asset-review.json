@@ -1,0 +1,10 @@
+{
+  "changed_assets": [
+    "assets/characters/archetypes/dock_worker.glb",
+    "assets/characters/archetypes/fin_drifter.glb",
+    "assets/characters/archetypes/reef_runner.glb",
+    "assets/characters/archetypes/spark_writer.glb"
+  ],
+  "asset_count": 286,
+  "source_models_unchanged": true
+}

@@ -1,0 +1,24 @@
+{
+  "changed": [
+    "assets/characters/archetypes/dock_worker.glb",
+    "assets/characters/archetypes/fin_drifter.glb",
+    "assets/characters/archetypes/reef_runner.glb",
+    "assets/characters/archetypes/spark_writer.glb"
+  ],
+  "added": [
+    "assets/maps/lantern_depot.json",
+    "assets/maps/lantern_depot_minimap.json",
+    "assets/maps/lantern_depot_minimap.png",
+    "assets/maps/lantern_depot_minimap_lookup.bin",
+    "assets/maps/lantern_depot_nav.json",
+    "assets/maps/lantern_depot_surfaces.json",
+    "assets/maps/sunset_park.json",
+    "assets/maps/sunset_park_minimap.json",
+    "assets/maps/sunset_park_minimap.png",
+    "assets/maps/sunset_park_minimap_lookup.bin",
+    "assets/maps/sunset_park_nav.json",
+    "assets/maps/sunset_park_surfaces.json"
+  ],
+  "removed": [],
+  "assets": 286
+}

@@ -46,5 +46,5 @@ func _run() -> void:
 	setup.random_map=true;setup.map_id="tidewater";setup.map_seed=120;setup.map_variant=0
 	var stable: String=catalog.asset_id();catalog.ensure_setup();expect(catalog.asset_id()==stable,"same seed/variant stable through scene reload")
 	setup.random_map=false;setup.map_variant=0;setup.map_id="tidewater"
-	if failures.is_empty():print("PASS: seven playable stages, nine modular compositions and four source variants have synchronized physics/ink/nav/minimap, both spawn routes, safe launch and stable selection")
+	if failures.is_empty():print("PASS: five curated stages and four retained harbor variants have synchronized physics/ink/nav/minimap, both spawn routes, safe launch and stable selection")
 	quit(0 if failures.is_empty() else 1)

@@ -41,8 +41,6 @@ var blue_color := Color.WHITE
 var team_names: Array[String] = []
 const UI_PANEL := Color(0.035, 0.045, 0.075, 0.92)
 
-var area := preload("res://src/match/area_control.gd").new()
-var zone_label: Label
 var ink: RefCounted
 var phase := "home"
 var phase_time := 0.0
@@ -159,12 +157,7 @@ func _ready() -> void:
 	settings.call("apply_to", $World/Walker)
 	Engine.physics_ticks_per_second = 30
 	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/%s_surfaces.json" % preload("res://src/core/map_catalog.gd").asset_id()))
-	area.enabled = MatchSetup.battle_rule=="area"
-	area.region = preload("res://src/match/area_control.gd").central_region(data,JSON.parse_string(FileAccess.get_file_as_string("res://assets/maps/%s_nav.json" % preload("res://src/core/map_catalog.gd").asset_id())),$World/Map.spawn_pads) if area.enabled else {}
-	if area.enabled and area.region.is_empty():
-		push_error("No valid central area on selected map");return
-	ink = SurfaceInk.new(data,area.region)
-	area.add_marker($World/Map)
+	ink = SurfaceInk.new(data)
 	$InkView.call("setup", ink)
 	$World/Walker.global_position = ($World/Map.get("spawn_pads")[0] as Vector3) + Vector3.UP * 0.05
 	$World/Walker.set("ink", ink)
@@ -302,7 +295,7 @@ func _input(event: InputEvent) -> void:
 				_choose_player_weapon(String(weapon_order[slot]))
 		KEY_ENTER:
 			# A menu selection must reach the GUI before the match-start shortcut.
-			if phase=="setup" and frontend!=null and (frontend.popup_open() or get_viewport().gui_get_focus_owner() is OptionButton or get_viewport().gui_get_focus_owner() in [frontend.kit_mode,frontend.rule_choice,frontend.roll_button,frontend.attribute_button,frontend.appearance_choice]):return
+			if phase=="setup" and frontend!=null and (frontend.popup_open() or get_viewport().gui_get_focus_owner() is OptionButton or get_viewport().gui_get_focus_owner() in [frontend.kit_mode,frontend.roll_button,frontend.attribute_button,frontend.appearance_choice]):return
 			if phase == "setup":
 				_begin_intro()
 			elif phase == "results":
@@ -393,7 +386,6 @@ func _start_round() -> void:
 	perks.locked = true
 	phase = "playing"
 	comeback.reset()
-	area.reset()
 	paused = false
 	phase_time = 0.0
 	round_left = round_time
@@ -459,9 +451,8 @@ func _physics_process(delta: float) -> void:
 	perks.tick(delta)
 	items.call("tick",delta)
 	bot_specials.call("tick",delta)
-	area.tick(delta,[ink.coverage(0),ink.coverage(1)])
 	round_left = maxf(0.0, round_left - delta)
-	if area.winner>=0 or (round_left<=0 and not area.overtime()):
+	if round_left<=0:
 		_finish_round()
 		_update_hud()
 		return
@@ -541,7 +532,6 @@ func _finish_round() -> void:
 func _judge_round() -> void:
 	judged_coverage = [float(ink.call("coverage", 0)), float(ink.call("coverage", 1))]
 	winner = randi_range(0, 1) if judged_coverage[0] == judged_coverage[1] else (0 if judged_coverage[0] > judged_coverage[1] else 1)
-	if area.enabled:winner=area.decide(judged_coverage)
 	result = "平局" if winner<0 else "%s胜利" % team_names[winner]
 	phase = "results"
 	phase_time = 0.0

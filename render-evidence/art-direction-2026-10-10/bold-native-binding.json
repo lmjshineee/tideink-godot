@@ -1,0 +1,9 @@
+{
+  "map_native_scripts": 73,
+  "map_script_mismatches": [],
+  "character_inputs_compared": 37,
+  "character_mismatches": [],
+  "wet_native_scripts": 73,
+  "wet_script_mismatches": [],
+  "final_freeze": "final-frozen-inputs.json"
+}

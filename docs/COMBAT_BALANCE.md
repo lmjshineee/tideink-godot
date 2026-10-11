@@ -1,4 +1,6 @@
-# 伤害、配装与区域规则 · preview.22
+# 伤害、配装与涂地规则
+
+2026-10-10 当前只保留全图涂地战，中央区域控制／计数／罚分／加时与 UI 已移除。伤害／配装保持；本页区域算法段落保留作历史记录，当前地图见 [精选地图](CURATED_ART.md)。
 
 用户试玩反馈 preview.21 伤害过高，本批采用较宽容节奏：普通射击近距四轮、远距五轮击倒；弓、爆破和滚筒通常需要追击，完整蓄力狙保留准确一击。保留 5v5 / 1v1。
 
@@ -8,7 +10,7 @@
 
 [Nintendo 装备入门](https://splatoon.nintendo.com/en/news/beginner-basics-for-splatoon-3-choosing-the-right-gear/)说明头、衣、鞋各有一个主能力和最多三个附加能力。因此原作可以叠多种装备能力；preview.22 保留一个整局天赋，preview.23 曾加入三件／十二能力槽，preview.24 按用户反馈改为直接属性加点，详见 [当前属性规则](ATTRIBUTES_CHARACTERS.md)。上述入门资料发布于 2024 年，不作为最新数值补丁规格。
 
-[Nintendo 对战规则入门](https://www.nintendo.com/en-gb/News/2024/December/Beginner-basics-for-Splatoon-3-the-ins-and-outs-of-playing-online-2645154.html)区分全图涂地战与争夺指定区域的占地模式。本批实现对应的两种本地规则；地图区域、80%/40% 门槛、罚分算法与时长是本地设计，不宣称逐项还原原作。
+[Nintendo 对战规则入门](https://www.nintendo.com/en-gb/News/2024/December/Beginner-basics-for-Splatoon-3-the-ins-and-outs-of-playing-online-2645154.html)区分全图涂地战与争夺指定区域的占地模式。preview.22 曾实现对应的两种本地规则，当前中央区域模式已移除；地图区域、80%/40% 门槛、罚分算法与时长是本地设计，不宣称逐项还原原作。
 
 ## 当前生效数值
 
@@ -48,7 +50,7 @@
 
 开战前的 ROLL 一次重摇主武器、天赋、副武器，避免返回完全相同的组合。套装模式按主武器匹配副武器，自定义模式独立抽选。开战后天赋与完整随机按钮锁定；死亡配装重摇只改变主／副，不改变天赋、不重置已使用道具的冷却。
 
-## 涂地限制与中央争夺
+## 涂地限制与历史中央争夺（已移除）
 
 CPU 墨格是唯一归属和计分权威：
 

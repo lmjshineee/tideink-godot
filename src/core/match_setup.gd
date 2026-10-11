@@ -16,7 +16,6 @@ static var map_seed := -1
 static var reroll_bots := true
 static var ai_level := "standard"
 static var loadout_mode := "custom"
-static var battle_rule := "turf"
 static var screen := "home"
 static var randomized := false
 static var pending_loadout: Dictionary = {}

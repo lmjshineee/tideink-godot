@@ -42,11 +42,11 @@ func _run() -> void:
 	for pixels in [Vector2i(1280,720),Vector2i(960,540)]:
 		root.size=pixels;root.content_scale_size=pixels;game.settings.ui_scale=1;await process_frame;game._layout_hud();front.sync();await process_frame;front.sync()
 		var row:Rect2=front.strips.perk.get_global_rect()
-		for control in [front.kit_mode,front.rule_choice,front.roll_button]:
+		for control in [front.kit_mode,front.roll_button]:
 			expect(not row.intersects(control.get_global_rect()),"new controls do not overlap perk cards")
 			expect(Rect2(Vector2.ZERO,Vector2(pixels)).encloses(control.get_global_rect()),"new controls fit viewport")
 		expect(front.kit.text.contains("大招") and front.kit.text.contains("天赋") and front.kit.text.contains("生命"),"loadout header explains all roles and stats")
-	for selector in [front.kit_mode,front.rule_choice,front.roll_button]:
+	for selector in [front.kit_mode,front.roll_button]:
 		var enter:=InputEventKey.new();enter.keycode=KEY_ENTER;enter.pressed=true
 		selector.grab_focus();game._input(enter)
 		expect(game.phase=="setup","focused loadout control retains Enter")

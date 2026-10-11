@@ -1,0 +1,1 @@
+{"schema":1,"id":"sunset_park","width":240,"height":384,"cells":90108,"paintPixels":92160,"source":"tools/assets/build_curated_maps.py","outputs":{"sunset_park_minimap.png":"1faf8c4c8d81b1d0d47dc5403676c44675ac3c8b929b16c0a14f5a4361e1a3bd","sunset_park_minimap_lookup.bin":"a9be4fd54171ca2f7eada2f558700c8a548e7e8a5ebec0d61071b60002a2d68c"}}

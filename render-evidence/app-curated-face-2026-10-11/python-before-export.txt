@@ -1,0 +1,25 @@
+test_face_expression_pivots_match_bind_geometry_and_reject_old_anchor (test_character_archetypes.Archetypes) ... ok
+test_faces_have_anatomical_depth_and_distinct_jaws (test_character_archetypes.Archetypes)
+Check the delivered surfaces, independently of the sculpt formulas. ... ok
+test_groom_surface_orientation_and_closed_scalp_seam (test_character_archetypes.Archetypes) ... ok
+test_mixed_garments_share_their_active_skeletal_bindings (test_character_archetypes.Archetypes) ... ok
+test_production_meshes_preserve_animation_contract (test_character_archetypes.Archetypes) ... ok
+test_tailored_long_cloth_follows_elbows_and_knees (test_character_archetypes.Archetypes) ... ok
+test_tailored_panel_seams_remain_sewn_and_reject_a_gap (test_character_archetypes.Archetypes) ... ok
+test_geometry_grid_navigation_and_minimap_are_coherent (test_curated_maps.CuratedMaps) ... ok
+test_added_app_file_rejected (test_release_metadata.ReleaseIntegrity) ... ok
+test_architecture_rejected (test_release_metadata.ReleaseIntegrity) ... ok
+test_changed_pack_rejected (test_release_metadata.ReleaseIntegrity) ... ok
+test_changed_source_rejected (test_release_metadata.ReleaseIntegrity) ... ok
+test_current_export_and_actual_source_override (test_release_metadata.ReleaseIntegrity) ... ok
+test_evidence_path_cannot_escape (test_release_metadata.ReleaseIntegrity) ... ok
+test_excluded_runtime_dependency_is_rejected_before_export (test_release_metadata.ReleaseIntegrity) ... ok
+test_fingerprint_covers_added_source_and_import_settings (test_release_metadata.ReleaseIntegrity) ... ok
+test_identity_must_agree_with_export_preset (test_release_metadata.ReleaseIntegrity) ... ok
+test_stale_identity_rejected (test_release_metadata.ReleaseIntegrity) ... ok
+test_wrong_tag_and_false_commit_rejected (test_release_metadata.ReleaseIntegrity) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 6.723s
+
+OK

@@ -1,0 +1,1 @@
+{"schema":1,"id":"lantern_depot","width":240,"height":384,"cells":72361,"paintPixels":85180,"source":"tools/assets/build_curated_maps.py","outputs":{"lantern_depot_minimap.png":"a067cdb8f19a76670321769ad37b545006ed95a445b4fe9fda6e04dcc2951284","lantern_depot_minimap_lookup.bin":"1f8131ca2d96ea64b47edfefe07177e52c0f05c36387a20b02d2abb9e4a76282"}}

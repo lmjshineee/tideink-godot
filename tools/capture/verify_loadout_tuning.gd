@@ -2,7 +2,7 @@ extends "res://tests/godot/helpers/creative_fixture.gd"
 const Setup=preload("res://src/core/match_setup.gd")
 const Kits=preload("res://src/core/loadout_rules.gd")
 var output:=""
-var report:Dictionary={"kind":"controlled native loadout and area input","limits":"Frozen match/AI and explicit CPU paint probes. Not human play, natural timing or temperature acceptance.","cases":[]}
+var report:Dictionary={"kind":"controlled native loadout input","limits":"Frozen match/AI and explicit CPU paint probes. Not human play, natural timing or temperature acceptance.","cases":[]}
 
 func _initialize() -> void:call_deferred("_run")
 func frames(count:int=6) -> void:
@@ -17,7 +17,7 @@ func click(control:Control) -> void:
 		event.button_index=MOUSE_BUTTON_LEFT;event.pressed=down;event.button_mask=MOUSE_BUTTON_MASK_LEFT if down else 0
 		root.push_input(event,true);await frames(3)
 func choose(control:Button,index:int) -> void:
-	var current:int=Kits.MODES.find(Setup.loadout_mode) if control==game.frontend.kit_mode else (0 if Setup.battle_rule=="turf" else 1)
+	var current:int=Kits.MODES.find(Setup.loadout_mode)
 	if current==index:
 		await click(control);await frames()
 		if not is_instance_valid(control):return
@@ -65,39 +65,12 @@ func _run() -> void:
 		var expected_caps:String="生命 %.0f · 墨量 %.0f" % [game.actor_max_health(walker),game.actor_ink_max(walker)]
 		expect(game.frontend.kit.text.contains(expected_caps),"native header shows actual talent and rolled-attribute caps")
 		expect(preload("res://src/core/attribute_catalog.gd").spent(game.attributes.loadout(walker))==20,"complete native ROLL assigns twenty points")
-		for control in [game.frontend.kit_mode,game.frontend.rule_choice,game.frontend.roll_button]:
+		for control in [game.frontend.kit_mode,game.frontend.roll_button]:
 			expect(Rect2(Vector2.ZERO,Vector2(pixels)).encloses(Rect2(control.get_global_transform_with_canvas()*Vector2.ZERO,control.get_global_transform_with_canvas()*control.size-control.get_global_transform_with_canvas()*Vector2.ZERO)),"native new control fits viewport")
 		report.cases.append({"size":[pixels.x,pixels.y],"mode":Setup.loadout_mode,"main":game.selected_weapon,"sub":Setup.selected_item,"perk":Setup.selected_perk,"attributes":game.attributes.loadout(walker),"expected_caps":expected_caps,"header":game.frontend.kit.text})
 		var away:=InputEventMouseMotion.new();away.position=Vector2(20,20);root.push_input(away,true);await create_timer(.2).timeout
 		await snap("loadout-%d"%pixels.x)
 	root.size=Vector2i(1280,720);root.content_scale_size=root.size;game.settings.ui_scale=1;await frames(10);game._layout_hud()
-	await choose(game.frontend.rule_choice,1)
-	await frames(15);bind_game()
-	expect(Setup.battle_rule=="area" and game.area.enabled,"actual rule button reloads playable area scene")
-	if not game.area.enabled:
-		await finish("native loadout rule selection");return
-	expect(Setup.selected_item=="ink_buddy" and game.selected_weapon=="bow" and Setup.selected_perk=="balanced","rule switch preserves selected loadout")
-	await snap("area-preparation")
-	# Return to native 1280 for the map and counter screenshots.
-	root.size=Vector2i(1280,720);root.content_scale_size=root.size;game.settings.ui_scale=1
-	await frames(8);game._layout_hud();game._start_round();game._set_pointer_lock(false)
-	game.set_physics_process(false);walker.set_physics_process(false)
-	var center:Vector3=game.area.region.center
-	var camera:Camera3D=walker.get_node("Camera3D")
-	walker.global_position=center+Vector3(0,.05,-8);camera.global_position=center+Vector3(10,13,-16);camera.look_at(center);camera.current=true
-	game.phase_time=5
-	game.ink.splat_world(center+Vector3.UP*.04,12,0,.5)
-	game.area.tick(10,[game.ink.coverage(0),game.ink.coverage(1)])
-	expect(game.area.owner==0 and game.area.remaining[0]==90,"native scene paints and counts CPU objective")
-	await snap("area-capture")
-	game.ink.splat_world(center+Vector3.UP*.04,12,1,.5)
-	game.area.tick(1,[game.ink.coverage(0),game.ink.coverage(1)])
-	expect(game.area.owner==1 and game.area.penalty[0]==5,"native loss gives comeback penalty")
-	await snap("area-recapture")
-	report.area={"center":center,"cells":game.ink.turf_total,"remaining":game.area.remaining,"penalty":game.area.penalty,"hud":game.zone_label.text}
-	game.area.tick(100,[game.ink.coverage(0),game.ink.coverage(1)]);game._judge_round()
-	expect(game.winner==1,"native area winner reaches results")
-	await snap("area-results")
 	report.status="passed" if failures.is_empty() else "failed";report.failures=failures
 	var file:=FileAccess.open(output.path_join("loadout.json"),FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
-	await finish("native actual mouse/selector inputs, roll/kits/custom, 1280/960 at 110%, reload persistence, marked CPU area/count/penalty/results")
+	await finish("native actual mouse/selector inputs, roll/kits/custom, 1280/960 at 110%, full-map turf setup")

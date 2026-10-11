@@ -1,0 +1,6 @@
+{
+  "path": "tools/README.md",
+  "old_sha256": "df1f7f03d88e523a318b9e9ab1130410292d601f93a5fb632aff9805beb561a9",
+  "new_sha256": "0c29399f583c27439448803c343e7aa8a8e3e87632837e96a27f1c4d1366f321",
+  "reason": "Added face capture instructions after checks started; documentation only, no executable/asset/test inputs changed."
+}

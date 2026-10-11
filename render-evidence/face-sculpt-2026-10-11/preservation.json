@@ -1,0 +1,48 @@
+{
+  "frozen_inputs": 1036,
+  "preserved_existing_uids": 274,
+  "no_frozen_drift": true,
+  "documentation_only_amendment_recorded": true,
+  "changed_baseline_files": [
+    "assets/integrity.json",
+    "assets/characters/archetypes/reef_runner.glb",
+    "assets/characters/archetypes/dock_worker.glb",
+    "assets/characters/archetypes/fin_drifter.glb",
+    "assets/characters/archetypes/spark_writer.glb",
+    "shaders/characters/character_skin.gdshader",
+    "shaders/characters/character_hair.gdshader",
+    "tools/README.md",
+    "tools/capture/capture_archetypes.gd",
+    "tools/assets/build_character_archetypes.py",
+    "tools/assets/hairstyle_geometry.py",
+    "tests/python/test_character_archetypes.py",
+    "tests/godot/check_character_archetypes.gd",
+    "docs/COORDINATION.md",
+    "docs/CURATED_ART.md"
+  ],
+  "native_binding": {
+    "portraits": {
+      "inputs_checked": 82,
+      "images": 60,
+      "matched_frozen": true
+    },
+    "motion": {
+      "inputs_checked": 82,
+      "images": 46,
+      "matched_frozen": true
+    },
+    "input": {
+      "inputs_checked": 73,
+      "images": 0,
+      "matched_frozen": true
+    }
+  },
+  "body_below_neck_and_all_clothes_unchanged": [
+    "reef_runner",
+    "fin_drifter",
+    "dock_worker",
+    "spark_writer"
+  ],
+  "production_scripts_unchanged": true,
+  "maps_unchanged": true
+}

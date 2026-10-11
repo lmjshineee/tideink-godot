@@ -79,6 +79,8 @@ func find_surface(point: Vector3, normal: Vector3, block_id: int, paintable_only
 		var local_v := relative.dot(_vector(face["v"]))
 		if local_u < -0.01 or local_v < -0.01 or local_u > float(face["su"]) + 0.01 or local_v > float(face["sv"]) + 0.01:
 			continue
+		if face.has("polygon") and not _in_polygon(Vector2(local_u, local_v), face.polygon):
+			continue
 		best = face
 		best_gap = gap
 	return best
@@ -92,6 +94,9 @@ func _add_block(def: Dictionary) -> void:
 	block.set_meta("pattern", int(def.get("pattern", 0)))
 	block.set_meta("tag", String(def.get("tag", "")))
 	var geometry: Dictionary = def["geometry"]
+	if def["kind"] == "convex":
+		_add_convex(block, def)
+		return
 	var half := _vector(geometry["half"])
 	var size := half * 2.0
 	var axes: Array = geometry["axes"]
@@ -112,6 +117,54 @@ func _add_block(def: Dictionary) -> void:
 		visual.mesh = mesh
 		visual.material_override = _material(String(def.get("color", "#dddddd")), int(def.get("pattern", 0)), size)
 		block.add_child(visual)
+
+
+func _add_convex(block: StaticBody3D, def: Dictionary) -> void:
+	var geometry: Dictionary = def["geometry"]
+	var points := PackedVector3Array()
+	for value in geometry.vertices:
+		points.append(_vector(value))
+	block.collision_layer = 1
+	block.collision_mask = 0
+	add_child(block)
+	var collision := CollisionShape3D.new()
+	var hull := ConvexPolygonShape3D.new()
+	hull.points = points
+	collision.shape = hull
+	block.add_child(collision)
+	var vertices := PackedVector3Array()
+	var normals := PackedVector3Array()
+	for polygon in geometry.polygons:
+		var a := points[int(polygon[0])]
+		var normal := (points[int(polygon[1])] - a).cross(points[int(polygon[2])] - a).normalized()
+		for i in range(1, polygon.size() - 1):
+			# Source polygons use outward cross products; Godot fronts are clockwise.
+			for index in [polygon[0], polygon[i + 1], polygon[i]]:
+				vertices.append(points[int(index)])
+				normals.append(normal)
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_NORMAL] = normals
+	var mesh := ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	var visual := MeshInstance3D.new()
+	visual.mesh = mesh
+	visual.material_override = _material(String(def.color), int(def.pattern), _vector(def.max) - _vector(def.min))
+	block.add_child(visual)
+
+
+static func _in_polygon(point: Vector2, polygon: Array) -> bool:
+	var positive := false
+	var negative := false
+	for i in polygon.size():
+		var a := Vector2(float(polygon[i][0]), float(polygon[i][1]))
+		var next: Array = polygon[(i + 1) % polygon.size()]
+		var edge := Vector2(float(next[0]), float(next[1])) - a
+		var side := edge.cross(point - a)
+		positive = positive or side > 0.01
+		negative = negative or side < -0.01
+	return not (positive and negative)
 
 
 func _material(hex: String, pattern: int, size: Vector3) -> ShaderMaterial:

@@ -20,7 +20,7 @@ CASES = ('check_tidewater_turf_points', 'check_gameplay_deployment', 'check_expa
          'check_bot_map_platforms', 'check_team_navigation_motion', 'check_map_routes26',
          'check_bot_beacon_placement', 'check_ink_buddy_combat', 'check_ink_buddy_lifecycle', 'check_item_previews',
          'check_damage_contract', 'check_damage_regions', 'check_bot_ink_refill',
-         'check_roller_surface_contact', 'check_extended_damage', 'check_loadout_tuning', 'check_area_rules', 'check_attribute_allocation', 'check_bot_attribute_builds', 'check_character_archetypes', 'check_wardrobe_roll')
+         'check_roller_surface_contact', 'check_extended_damage', 'check_loadout_tuning', 'check_turf_rules', 'check_curated_map_routes', 'check_attribute_allocation', 'check_bot_attribute_builds', 'check_character_archetypes', 'check_wardrobe_roll')
 
 
 def main():
@@ -138,7 +138,13 @@ def main():
                                 'external_sha256': sha(attributes), 'pck_sha256': receipt['pck_sha256']}
         art_source = project / 'tools/capture/capture_archetypes.gd'
         art = fixture / 'art_native.gd'
-        shutil.copy2(art_source, art)
+        external = external_test(art_source.read_text())
+        begin = external.index('\treport.source_sha256={}\n')
+        end = external.index('\troot.size=', begin)
+        external = external[:begin] + (
+            '\treport.verification="explicit exported PCK; receipt supplies pack identity"\n'
+        ) + external[end:]
+        art.write_text(external)
         run(common + ['--rendering-driver', 'metal', '--script', str(art),
                       '--log-file', str(output / 'art-native.engine.txt'), '--',
                       '--output=' + str(output / 'art-native')], fixture, output / 'art-native.txt')
@@ -152,6 +158,20 @@ def main():
                       '--output=' + str(output / 'wardrobe-native')], fixture, output / 'wardrobe-native.txt')
         report['wardrobe_native'] = {'status': 'passed', 'source_sha256': sha(wardrobe_source),
                                    'external_sha256': sha(wardrobe), 'pck_sha256': receipt['pck_sha256']}
+        curated_source = project / 'tools/capture/verify_curated_art.gd'
+        curated = fixture / 'curated_native.gd'
+        external = external_test(curated_source.read_text())
+        begin = external.index('\treport.source_sha256={}\n')
+        end = external.index('\tSetup.pending_loadout=', begin)
+        external = external[:begin] + (
+            '\treport.verification="explicit exported PCK; receipt supplies pack identity"\n'
+        ) + external[end:]
+        curated.write_text(external)
+        run(common + ['--rendering-driver', 'metal', '--script', str(curated),
+                      '--log-file', str(output / 'curated-native.engine.txt'), '--',
+                      '--output=' + str(output / 'curated-native')], fixture, output / 'curated-native.txt')
+        report['curated_native'] = {'status': 'passed', 'source_sha256': sha(curated_source),
+                                  'external_sha256': sha(curated), 'pck_sha256': receipt['pck_sha256']}
         smoke = output / 'app-startup.txt'
         with smoke.open('w') as log:
             result = subprocess.run([str(app / receipt['executable']), '--headless', '--quit-after', '4',
@@ -171,7 +191,7 @@ def main():
                                'render_frames': 90}
     validate_receipt(receipt, identity(project), production_files(project), inventory([app], app))
     (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
-    print(f'PASS: {len(CASES)} exported PCK rules, seven native PCK input/art groups and actual app headless/Metal startup')
+    print(f'PASS: {len(CASES)} exported PCK rules, eight native PCK input/art groups and actual app headless/Metal startup')
 
 
 def run(command, cwd, output):

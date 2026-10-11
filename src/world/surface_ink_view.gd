@@ -97,6 +97,25 @@ static func _face_mesh(face: Dictionary) -> ArrayMesh:
 	# Source u/v use a right-handed basis; Godot front faces are clockwise.
 	# Correct winding prevents double-sided lighting from flipping the normals.
 	arrays[Mesh.ARRAY_INDEX] = PackedInt32Array([0, 2, 1, 0, 3, 2]) if handedness > 0.0 else PackedInt32Array([0, 1, 2, 0, 2, 3])
+	if face.has("polygon"):
+		var vertices := PackedVector3Array()
+		var uv := PackedVector2Array()
+		var normals := PackedVector3Array()
+		var indices := PackedInt32Array()
+		tangents.clear()
+		for point in face.polygon:
+			var at := Vector2(float(point[0]) / float(face.su), float(point[1]) / float(face.sv))
+			vertices.append(origin + horizontal * at.x + vertical * at.y)
+			uv.append(at)
+			normals.append(normal)
+			tangents.append_array(PackedFloat32Array([tangent.x, tangent.y, tangent.z, handedness]))
+		for i in range(1, vertices.size() - 1):
+			indices.append_array(PackedInt32Array([0, i + 1, i]))
+		arrays[Mesh.ARRAY_VERTEX] = vertices
+		arrays[Mesh.ARRAY_TEX_UV] = uv
+		arrays[Mesh.ARRAY_NORMAL] = normals
+		arrays[Mesh.ARRAY_TANGENT] = tangents
+		arrays[Mesh.ARRAY_INDEX] = indices
 	var mesh := ArrayMesh.new()
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 	return mesh

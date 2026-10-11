@@ -1,8 +1,11 @@
 extends RefCounted
 const Setup:=preload("res://src/core/match_setup.gd")
-const IDS:=["tidewater","kelpline","coral_market","prism_gallery","viaduct","modular_harbor","terrace_garden"]
-const NAMES:=["潮水码头","海藻工坊","珊瑚集市","回廊展馆","双层高架","模块港湾","阶梯花园"]
-const BLURBS:=["港口 / 高台 / 双侧路线","船坞 / 栅格桥 / 高低差","交错摊位 / 3.4m 屋顶绕侧","地面 / 3m 回廊 / 6m 上层","6m 悬桥 / 桥下穿行 / 侧坡夹击","中央区 × 侧路 / 9 种模块组合","花园回廊 / 3m 中层 / 6m 上层"]
+# Curated menu: five distinct arenas. Retired assets stay available to historical
+# fixtures, without appearing in the player selection pool.
+const IDS:=["tidewater","kelpline","terrace_garden","sunset_park","lantern_depot"]
+const NAMES:=["潮水码头","海藻工坊","阶梯花园","日落滑场","灯轨车站"]
+const BLURBS:=["港口 / 高台 / 双侧路线","船坞 / 栅格桥 / 高低差","花园回廊 / 多层推进","环形滑场 / 弧形高线 / 圆场争夺","暮色车站 / 斜交大厅 / 桥下穿行"]
+const RETIRED:={"coral_market":"珊瑚集市","prism_gallery":"回廊展馆","viaduct":"双层高架","modular_harbor":"模块港湾"}
 const VARIANTS:={"tidewater":3,"kelpline":3,"modular_harbor":9}
 static func supports_random(id:String) -> bool:return VARIANTS.has(id)
 static func variant_count(id:String) -> int:return int(VARIANTS.get(id,1))
@@ -11,7 +14,7 @@ static func roll() -> void:
 	Setup.map_seed=int(rng.randi() & 0x7fffffff)
 	Setup.map_variant=Setup.map_seed%variant_count(Setup.map_id) if Setup.random_map else 0
 static func ensure_setup() -> void:
-	if not IDS.has(Setup.map_id):Setup.map_id="tidewater"
+	if not IDS.has(Setup.map_id) and not RETIRED.has(Setup.map_id):Setup.map_id="tidewater"
 	if Setup.map_seed<0:roll()
 	Setup.map_variant=clampi(Setup.map_variant,0,variant_count(Setup.map_id)-1)
 static func reroll() -> void:
@@ -21,7 +24,7 @@ static func reroll() -> void:
 static func asset_id() -> String:
 	return Setup.map_id+"_v%d" % Setup.map_variant if Setup.random_map and supports_random(Setup.map_id) and Setup.map_variant>0 else Setup.map_id
 static func scenery_id() -> String:return Setup.map_id
-static func title() -> String:return NAMES[IDS.find(Setup.map_id)]
+static func title() -> String:return NAMES[IDS.find(Setup.map_id)] if IDS.has(Setup.map_id) else String(RETIRED.get(Setup.map_id,"潮水码头"))
 static func layout_name() -> String:
 	if Setup.map_id=="modular_harbor":
 		var variant:=Setup.map_variant if Setup.random_map else 0

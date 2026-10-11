@@ -49,6 +49,6 @@ inkwave-game-cleaned/
 主武器基础击倒门槛与单次上限归 `core/gameplay_rules.gd`；`match/tidewater_play.gd` 统一天赋／护盾／实际扣血账本，`combat/tidewater_combat.gd` 拥有真实命中、距离衰减、墙面溅射和滚筒整轮预算。部位标签只做反馈。见 [主武器比较](COMBAT_BALANCE.md)。
 
 
-preview.22 新增：`src/core/loadout_rules.gd` 定义本地主武器／固定副武器映射；`src/match/area_control.gd` 根据可涂面和双方可达导航选中央区域，维护控制、倒数、罚分与加时。`src/world/surface_ink.gd` 仍是唯一涂墨账本，分别维护可奖励格与当前规则可计分格；墙壁视觉更新不依赖奖励值。
+`src/core/loadout_rules.gd` 定义本地主武器／固定副武器映射；当前只有全图涂地战，`area_control.gd` 已移除。`src/world/surface_ink.gd` 仍是唯一涂墨账本，墨墙可留墨攀爬但不给积分／充能。`tools/assets/build_curated_maps.py` 从一份本地几何同步构建两张新图；`world/curated_scenery.gd` 仅读布景，碰撞继续来自地图资产。见 [精选地图与脸发](CURATED_ART.md)。
 
 属性与人物：`core/attribute_catalog.gd` 定义二十点、八属性和递减规则，以及 AI 按武器／天赋加权 ROLL；`abilities/tidewater_attributes.gd` 拥有演员整局快照，`ui/attribute_editor.gd` 提供真实加减与剩余点数，`ui/tidewater_hud.gd` 只读显示 Tab 配点摘要。`actors/character_archetypes.gd` 只配置视觉体型及造型标识，`assets/characters/archetypes/` 保存四套不同体型／脸型／头发／服装剪裁；本地生成工具在 `tools/assets/`，保留原件与骨骼。见 [设计与操作](ATTRIBUTES_CHARACTERS.md) 和 [AI 配点](BOT_ATTRIBUTE_BUILDS.md)。

@@ -1,0 +1,6 @@
+{
+	"archetype": "fin_drifter",
+	"bones": 87,
+	"model_path": "res://assets/characters/archetypes/fin_drifter.glb",
+	"root_scale": "(1.06, 1.06, 1.06)"
+}

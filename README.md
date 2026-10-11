@@ -1,6 +1,6 @@
 # TideInk（潮墨）· Godot
 
-独立的 Godot 4.8.dev6 原生涂墨对战项目。项目入口 `project.godot` 就在仓库根目录；当前单机支持 1v1 / 5v5、90 / 180 秒、全图涂地／中央争夺、七张地图、八武器、十一副武器和八天赋。配装可选固定套装或自定义，八项属性可分配 20 点，支持开战前随机 ROLL，并提供四种不同体型与服装剪裁的潮墨街头造型。
+独立的 Godot 4.8.dev6 原生涂墨对战项目。项目入口 `project.godot` 就在仓库根目录；当前单机支持 1v1 / 5v5、90 / 180 秒、全图涂地战、五张精选地图、八武器、十一副武器和八天赋。配装可选固定套装或自定义，八项属性可分配 20 点，支持开战前随机 ROLL，并提供四种不同体型、非触须发型与服装混搭的潮墨街头造型。
 
 原 INKWAVE 原生项目现名 TideInk。资源来源、许可证和历史记录保留；本地工程目录仍为 `inkwave-game-cleaned`。
 
@@ -8,13 +8,15 @@
 
 最终 111 项源码检查及两尺寸 1v1／5v5 原生 Tab 输入／画面通过；32 项无界面夹具有退出引用警告，新增专项和最终原生没有 Godot 告警。440 个既有资产文件与 288 个 UID 保持，人工审美、配点平衡和长期性能仍待验收。
 
-当前可玩应用 `build/TideInk.app` 已按生产提交 `25fa67e` 重新导出，仅 arm64，包含上述 AI／Tab 改动和第七轮外观修正。版本字串保持 `0.3.0-preview.24`，构建身份以源码提交与收据为准；32 项实际 PCK 规则、六组原生、两尺寸 1v1／5v5 Tab 和工程外实际 App headless／Metal 启动通过，见 [本次应用验收](render-evidence/app-build-2026-10-10/summary.md)。新人物已生成专项原生图，人工审美及动态关节质量仍待验收；旧备份目录最终核对时已缺失，原因未确认。旧包的 180 秒对局只算 [历史证据](render-evidence/attributes-characters-2026-10-09/summary.md)。
+已有 `build/TideInk.app` 是生产提交 `7f2368c` 的主题色服装混搭版本，仅 arm64；本次精选地图／脸发改动尚未导出。版本字串保持，以提交／构建收据区分应用。应用历史验收见 [服装混搭记录](render-evidence/performance-wardrobe-2026-10-10/summary.md)，最新源码状态见 [当前状态](docs/COORDINATION.md)。
 
 私有源码仓库：[lmjshineee/tideink-godot](https://github.com/lmjshineee/tideink-godot)。preview.16 的构建与启动证据见下方发布验收。
 
 运行、检查与导出均不使用网页源码、Node、Next.js、Three.js 或浏览器服务。角色、地图、字体与声音的 Godot 资源以及许可证保留在本项目中。
 
 零加点均衡仍为 132 HP／110 墨量／5% 移动加成，普通射击近距四轮、远距五轮。准备页点「属性 · 加点」调整生命、墨量、奔跑、潜泳、省墨、回墨、充能和副武器冷却，各项最多 8 级、收益递减；伤害不加点。满生命均衡最高 155.76 HP，可接住 150 的精准狙击。整局固定、死亡保留；地图／规则／造型重载保留本次会话分配，退出 App 后没有磁盘加点存档。见 [属性和人物](docs/ATTRIBUTES_CHARACTERS.md) 与 [战斗规则](docs/COMBAT_BALANCE.md)。
+
+2026-10-10 源码新增弧形高线／圆场的日落滑场、悬空斜交大厅／桥下通路的灯轨车站，更新墙贴、脸型与四种发型，并移除中央区域模式；已有 App 尚未更新。见 [地图与人物设计](docs/CURATED_ART.md)。
 
 ## 运行
 
@@ -62,4 +64,4 @@ python3 tests/python/test_character_archetypes.py
 - [原生完整对局与结算验收](render-evidence/native-match-2026-10-04/summary.md)：180 秒 5v5 受控基线、帧间隔及面积／积分展示修正。
 - [机器人出场跳跃验收](render-evidence/bot-deployment-2026-10-05/summary.md)：91 项统一检查、两队负例与两个原生 Metal 受控场景。
 
-`docs/history/`、`render-evidence/` 和 `experiments/` 保留 Godot 历史记录与人物实验，正式导出排除。真实手感、长期温度、全地图长时机器人策略与联网仍需验收。源码与已有应用的交付状态见 [当前状态](docs/COORDINATION.md)；本次本地导出已完成，没有创建分发压缩包、推送或发布。
+`docs/history/`、`render-evidence/` 和 `experiments/` 保留 Godot 历史记录与人物实验，正式导出排除。真实手感、长期温度、全地图长时机器人策略与联网仍需验收。源码与已有应用的交付状态见 [当前状态](docs/COORDINATION.md)；本批源码未导出，没有创建分发压缩包、推送或发布。

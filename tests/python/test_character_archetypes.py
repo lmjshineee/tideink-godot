@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Verify real local geometry changes preserve rigging, semantic data and originals."""
-import collections, importlib.util, json, struct, unittest
+import collections, importlib.util, json, math, struct, unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 spec=importlib.util.spec_from_file_location('builder',ROOT/'tools/assets/build_character_archetypes.py')
@@ -17,6 +17,40 @@ def accessor(doc,buf,index):
     return b''.join(buf[start+i*stride:start+i*stride+width] for i in range(a['count']))
 
 class Archetypes(unittest.TestCase):
+    def groom_orientation(self,doc,buf,indices=None):
+        prim=next(p for m in doc['meshes'] for p in m['primitives'] if doc['materials'][p['material']]['name']=='TeamHair' and 'JOINTS_0' in p['attributes'])
+        data={k:builder.accessor_rows(doc,buf,i)[0] for k,i in prim['attributes'].items()}
+        ids=indices if indices is not None else [v[0] for v in builder.accessor_rows(doc,buf,prim['indices'])[0]]
+        result=[]
+        for start in range(0,len(ids),3):
+            tri=ids[start:start+3]
+            if any(data['TEXCOORD_1'][i][1]<2.5 for i in tri):continue
+            a,b,c=[data['POSITION'][i] for i in tri]
+            u=[b[k]-a[k] for k in range(3)];v=[c[k]-a[k] for k in range(3)]
+            n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]]
+            length=math.sqrt(sum(k*k for k in n))
+            if length<1e-11:continue
+            avg=[sum(data['NORMAL'][i][k] for i in tri)/3 for k in range(3)]
+            result.append((start,sum(n[k]*avg[k] for k in range(3))/length))
+        return result
+
+    def test_groom_surface_orientation_and_closed_scalp_seam(self):
+        for profile in builder.PROFILES:
+            doc,buf=read(ROOT/'assets/characters/archetypes'/(profile[0]+'.glb'))
+            prim=next(p for m in doc['meshes'] for p in m['primitives'] if doc['materials'][p['material']]['name']=='TeamHair' and 'JOINTS_0' in p['attributes'])
+            data={k:builder.accessor_rows(doc,buf,i)[0] for k,i in prim['attributes'].items()}
+            ids=[v[0] for v in builder.accessor_rows(doc,buf,prim['indices'])[0]]
+            good=self.groom_orientation(doc,buf,ids)
+            self.assertGreater(len(good),15000);self.assertGreater(min(v for _,v in good),0.)
+            # Reject an inward triangle like the old scalp winding, even when
+            # a two-sided material happens to conceal it in one camera view.
+            bad=list(ids);at=good[0][0];bad[at],bad[at+1]=bad[at+1],bad[at]
+            self.assertLess(min(v for _,v in self.groom_orientation(doc,buf,bad)),0.)
+            scalp=[i for i,tag in enumerate(data['TEXCOORD_1']) if tag[1]==4.]
+            self.assertEqual(len(scalp),65*25)
+            for ring in range(25):
+                a,b=scalp[ring*65],scalp[ring*65+64]
+                self.assertLess(sum((data['POSITION'][a][k]-data['POSITION'][b][k])**2 for k in range(3))**.5,.00002)
     def test_mixed_garments_share_their_active_skeletal_bindings(self):
         reference=None;reference_names=None
         for profile in builder.PROFILES:
@@ -71,12 +105,39 @@ class Archetypes(unittest.TestCase):
                 source=ROOT/'assets/characters'/f'kid_{profile[1]}.glb';target=ROOT/'assets/characters/archetypes'/(profile[0]+'.glb')
                 old,ob=read(source);new,nb=read(target)
                 self.assertEqual(target.read_bytes(),builder.derive(profile))
-                self.assertEqual(old['nodes'],new['nodes']);self.assertEqual(old['skins'],new['skins'])
+                # Four expression pivots follow the sculpted geometry; all
+                # other joints, hierarchy and animations retain their contract.
+                for a,c in zip(old['nodes'],new['nodes']):
+                    if a.get('name') in ['eyeL','eyeR','browL','browR']:
+                        self.assertEqual({k:v for k,v in a.items() if k!='translation'}, {k:v for k,v in c.items() if k!='translation'})
+                        self.assertLess(sum((x-y)**2 for x,y in zip(a['translation'],c['translation']))**.5,.06)
+                    else:self.assertEqual(a,c)
+                self.assertEqual(old['skins'],new['skins'])
                 self.assertEqual(old.get('animations'),new.get('animations'));self.assertEqual(old['materials'],new['materials'])
                 changed=set(); points=[]
                 for om,nm in zip(old['meshes'],new['meshes']):
                     for op,np in zip(om['primitives'],nm['primitives']):
                         self.assertEqual(op,np)
+                        if old['materials'][op['material']]['name']=='TeamHair':
+                            hair=new['extras']['tideink_archetype']['hair']
+                            self.assertGreater(hair['removed_strand_vertices'],100)
+                            self.assertGreater(hair['removed_scalp_vertices'],500)
+                            uv2=list(struct.iter_unpack('<2f',accessor(new,nb,np['attributes']['TEXCOORD_1'])))
+                            self.assertTrue(all(v<1.5 or v>=2.5 for u,v in uv2), 'old scalp layer must be absent')
+                            self.assertGreater(hair['triangles'],500)
+                            pos=list(struct.iter_unpack('<3f',accessor(new,nb,np['attributes']['POSITION'])))
+                            norms=list(struct.iter_unpack('<3f',accessor(new,nb,np['attributes']['NORMAL'])))
+                            self.assertTrue(all(all(-2<x<2 for x in row) for row in pos))
+                            self.assertTrue(all(sum(x*x for x in row)>.90 for row in norms if any(row)))
+                            indices=[v[0] for v in struct.iter_unpack('<I',accessor(new,nb,np['indices']))]
+                            self.assertTrue(all(v<len(pos) for v in indices))
+                            js=list(struct.iter_unpack('<4B',accessor(new,nb,np['attributes']['JOINTS_0'])))
+                            ws=list(struct.iter_unpack('<4f',accessor(new,nb,np['attributes']['WEIGHTS_0'])))
+                            names=[new['nodes'][n]['name'] for n in new['skins'][0]['joints']]
+                            self.assertTrue(all(not names[j].startswith('hair') for joints,weights in zip(js,ws) for j,w in zip(joints,weights) if w>.005))
+                            self.assertTrue(all(abs(sum(w)-1)<.00001 for w in ws))
+                            changed.add('TeamHair');points.append(accessor(new,nb,np['attributes']['POSITION']))
+                            continue
                         skinned='JOINTS_0' in op['attributes'];semantic=old['materials'][op['material']]['name']
                         for name,index in op['attributes'].items():
                             a=accessor(old,ob,index);b=accessor(new,nb,index)
@@ -110,6 +171,58 @@ class Archetypes(unittest.TestCase):
                 self.assertEqual(changed,{'Skin','Cloth','Eyes','TeamHair'})
                 self.assertEqual(new['extras']['tideink_archetype']['id'],profile[0]);distinct.append(b''.join(points))
         self.assertEqual(len(set(distinct)),4)
+
+    def test_faces_have_anatomical_depth_and_distinct_jaws(self):
+        """Check the delivered surfaces, independently of the sculpt formulas."""
+        jaw_ratios=[]
+        for profile in builder.PROFILES:
+            doc,buf=read(ROOT/'assets/characters/archetypes'/(profile[0]+'.glb'))
+            prim=next(p for m in doc['meshes'] for p in m['primitives'] if doc['materials'][p['material']]['name']=='Skin' and 'JOINTS_0' in p['attributes'])
+            points=builder.accessor_rows(doc,buf,prim['attributes']['POSITION'])[0]
+            uv=builder.accessor_rows(doc,buf,prim['attributes']['TEXCOORD_0'])[0]
+            direction=builder.accessor_rows(doc,buf,prim['attributes']['TEXCOORD_1'])[0]
+            original=builder.accessor_rows(doc,buf,prim['attributes']['TEXCOORD_2'])[0]
+            face=[(p,o) for p,u,d,o in zip(points,uv,direction,original) if u[0]**2+u[1]**2+d[0]**2>.5 and d[0]>0]
+            def region_depth(cx,cy,wx=.006,wy=.006):
+                group=[p for p,o in face if abs(abs(o[0])-cx)<wx and abs(o[1]-cy)<wy]
+                self.assertGreater(len(group),2)
+                return sum(p[2] for p in group)/len(group)
+            # A visible bridge and nose projection; recessed orbital surface
+            # instead of a bead nose sitting on an unchanged sphere.
+            nose=region_depth(0,1.163)
+            bridge=region_depth(0,1.195)
+            orbit=region_depth(.055,1.195)
+            cheek=region_depth(.055,1.153)
+            self.assertGreater(nose-cheek,.018)
+            self.assertGreater(bridge-orbit,.012)
+            low=[abs(p[0]) for p,o in face if 1.068<o[1]<1.076]
+            mid=[abs(p[0]) for p,o in face if 1.178<o[1]<1.191]
+            jaw_ratios.append(max(low)/max(mid))
+            normals=builder.accessor_rows(doc,buf,prim['attributes']['NORMAL'])[0]
+            self.assertTrue(all(abs(sum(n*n for n in row)-1)<.00002 for row in normals if any(row)))
+        # Dock's broad jaw and Fin's heart outline remain different even after
+        # normalizing away overall head/body size.
+        self.assertGreater(jaw_ratios[2]-jaw_ratios[1],.20)
+        self.assertGreater(jaw_ratios[3]-jaw_ratios[1],.06)
+
+    def test_face_expression_pivots_match_bind_geometry_and_reject_old_anchor(self):
+        for profile in builder.PROFILES:
+            doc,buf=read(ROOT/'assets/characters/archetypes'/(profile[0]+'.glb'))
+            names=[doc['nodes'][n]['name'] for n in doc['skins'][0]['joints']]
+            binds=list(struct.iter_unpack('<16f',accessor(doc,buf,doc['skins'][0]['inverseBindMatrices'])))
+            prim=next(p for m in doc['meshes'] for p in m['primitives'] if doc['materials'][p['material']]['name']=='Eyes' and 'JOINTS_0' in p['attributes'])
+            points=builder.accessor_rows(doc,buf,prim['attributes']['POSITION'])[0]
+            uvs=builder.accessor_rows(doc,buf,prim['attributes']['TEXCOORD_0'])[0]
+            for side,name in [(1,'eyeL'),(-1,'eyeR')]:
+                center=next(p for p,uv in zip(points,uvs) if abs(uv[0])+abs(uv[1])<.000001 and p[0]*side>0)
+                pivot=[-v for v in binds[names.index(name)][12:15]]
+                self.assertLess(sum((a-b)**2 for a,b in zip(center,pivot))**.5,.00001)
+                # Isolated bad anchor: closing the eye at the old height would
+                # drift the eyelid by >2cm instead of closing in its socket.
+                wrong=list(pivot);wrong[1]+=.025
+                drift=lambda anchor:abs((anchor[1]+(center[1]-anchor[1])*.07)-center[1])
+                self.assertLess(drift(pivot),.00001)
+                self.assertGreater(drift(wrong),.02)
 
     def test_tailored_long_cloth_follows_elbows_and_knees(self):
         for profile in builder.PROFILES:

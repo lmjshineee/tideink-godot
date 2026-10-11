@@ -1,6 +1,10 @@
 extends "res://tests/godot/helpers/creative_fixture.gd"
 func _initialize() -> void:call_deferred("_run")
 func reach(actor:Node3D,target:Vector3,label:String) -> void:
+	# Each geometric route is isolated: a previous roller traverse must not
+	# trigger normal low-ink behaviour and replace the fixture-owned destination.
+	actor.ink_amount=game.actor_ink_max(actor)
+	actor.ink_brain.reset()
 	actor.route=game.navigation.route(actor.global_position,target,game.actor_team(actor))
 	expect(actor.route.size()>3,label+" has a navigation path")
 	# This fixture owns a patrol route; suppress ordinary timer replanning.
@@ -15,6 +19,8 @@ func reach(actor:Node3D,target:Vector3,label:String) -> void:
 func _run() -> void:
 	for id in ["coral_market","viaduct"]:
 		await prepare(5,id)
+		Engine.time_scale=4;Engine.physics_ticks_per_second=120
+		bot.weapon_id="roller" # Lock the kit that exposed cross-route ink depletion.
 		walker.global_position=Vector3(80,40,80)
 		var map:Node3D=game.get_node("World/Map")
 		for team in 2:

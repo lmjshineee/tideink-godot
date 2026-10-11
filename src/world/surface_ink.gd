@@ -16,8 +16,8 @@ var version := 0
 var _dirty_cells: Dictionary = {}
 
 
-func _init(surface_data: Dictionary, region: Dictionary = {}) -> void:
-	turf_total = int(surface_data["turfCells"]) if region.is_empty() else 0
+func _init(surface_data: Dictionary) -> void:
+	turf_total = int(surface_data["turfCells"])
 	for face in surface_data["faces"]:
 		surfaces.append(face)
 		var grid: Variant = face["grid"]
@@ -38,11 +38,6 @@ func _init(surface_data: Dictionary, region: Dictionary = {}) -> void:
 			for index in cells:
 				credit[index] = int(bool(face.paintable) and bool(face.turf) and dead[index]==0)
 				score[index] = credit[index]
-				if credit[index] and not region.is_empty():
-					var point := _vector(face.origin)+_vector(face.u)*(float(index%int(grid.nu))+.5)*float(grid.cu)+_vector(face.v)*(float(index/int(grid.nu))+.5)*float(grid.cv)
-					var relative: Vector3 = point-region.center
-					score[index] = int(absf(relative.dot(region.u))<=float(region.half_u) and absf(relative.dot(region.v))<=float(region.half_v) and absf(relative.dot(region.n))<=.75)
-				if not region.is_empty():turf_total+=int(score[index])
 		owners.append(ownership)
 		buried.append(dead)
 		credit_masks.append(credit);score_masks.append(score)

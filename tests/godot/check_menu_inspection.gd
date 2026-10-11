@@ -6,10 +6,10 @@ func _initialize() -> void:call_deferred("_run")
 func expect(ok:bool,label:String) -> void:
 	if not ok:failed=true;printerr("FAIL: ",label)
 func _run() -> void:
-	Setup.screen="setup";Setup.selected_perk="balanced";Setup.map_id="prism_gallery";Setup.team_size=5
+	Setup.screen="setup";Setup.selected_perk="balanced";Setup.map_id="sunset_park";Setup.team_size=5
 	var game:Node3D=(load("res://scenes/match/tidewater_play.tscn") as PackedScene).instantiate();root.add_child(game);await process_frame;game.set_physics_process(false)
 	var front:Control=game.frontend
-	expect(front.map_buttons.size()==preload("res://src/core/map_catalog.gd").IDS.size() and front.stage_preview.asset_id=="prism_gallery","seven scrollable map choices and actual selected geometry")
+	expect(front.map_buttons.size()==preload("res://src/core/map_catalog.gd").IDS.size() and front.stage_preview.asset_id=="sunset_park","five curated map choices and actual selected geometry")
 	expect(front.stage_preview.map.block_count==game.get_node("World/Map").block_count,"map preview and real stage share all collision definitions")
 	expect(front.stage_preview.view.own_world_3d and front.preview.view.own_world_3d,"independent inspection worlds")
 	for ch in "稳枪专注":expect((load("res://assets/fonts/NotoSansSC.ttf") as Font).has_char(ch.unicode_at(0)),"bundled CJK glyph "+ch)

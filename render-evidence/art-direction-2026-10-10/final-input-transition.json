@@ -1,0 +1,7 @@
+{
+  "changed": [
+    "tests/godot/check_map_routes26.gd"
+  ],
+  "production_changed": false,
+  "reason": "isolate each geometric route from prior roller ink depletion"
+}

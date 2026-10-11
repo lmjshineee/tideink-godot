@@ -543,7 +543,6 @@ func _tick_team(delta: float) -> void:
 	elif target_actor != null: purpose = "enemy:%d" % game.actor_id(target_actor)
 	elif not resupply.is_empty(): purpose = "supply:%d" % int(resupply.id)
 	elif not contact.is_empty(): purpose = "contact"
-	elif game.area.enabled:purpose="zone"
 	var refill_path: PackedVector3Array = refill_plan.get("route",PackedVector3Array())
 	if jump_time <= 0.0 and (repath_time <= 0.0 or route_index >= route.size() or purpose != route_purpose or (refilling and refill_path != route)):
 		var nav: RefCounted = game.get("navigation")
@@ -553,7 +552,6 @@ func _tick_team(delta: float) -> void:
 		elif target_actor != null: route = nav.route(global_position, target_actor.global_position, team)
 		elif not resupply.is_empty(): route = nav.route(global_position,resupply.point,team)
 		elif not contact.is_empty(): route = nav.route(global_position, contact.point, team)
-		elif purpose=="zone":route=nav.route(global_position,game.area.goal(slot),team)
 		elif route_purpose == "patrol" and route_index < route.size():
 			# Refresh the path to the same objective. A periodic path query must
 			# not reroll the destination and turn around halfway up a ramp.

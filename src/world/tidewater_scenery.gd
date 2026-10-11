@@ -13,14 +13,20 @@ var mural_count := 0
 
 
 func _ready() -> void:
-	var packed := load("res://assets/scenery/%s_visuals.glb" % preload("res://src/core/map_catalog.gd").scenery_id()) as PackedScene
-	if packed == null:
-		push_error("Missing exported Tidewater visuals")
-		return
-	var models := packed.instantiate()
-	models.name = "OriginalModels"
-	add_child(models)
-	_prepare_materials(models)
+	var id := preload("res://src/core/map_catalog.gd").scenery_id()
+	if id in ["sunset_park","lantern_depot"]:
+		var authored := Node3D.new();authored.name="OriginalModels";add_child(authored)
+		visual_meshes=preload("res://src/world/curated_scenery.gd").new().build(authored,id)
+		call_deferred("_theme_light",id)
+	else:
+		var packed := load("res://assets/scenery/%s_visuals.glb" % preload("res://src/core/map_catalog.gd").scenery_id()) as PackedScene
+		if packed == null:
+			push_error("Missing exported Tidewater visuals")
+			return
+		var models := packed.instantiate()
+		models.name = "OriginalModels"
+		add_child(models)
+		_prepare_materials(models)
 	var sea := MeshInstance3D.new()
 	sea.name = "Sea"
 	var plane := PlaneMesh.new()
@@ -30,7 +36,10 @@ func _ready() -> void:
 	sea.mesh = plane
 	sea.position.y = -1.6 # PLAYER.waterY in original config.js.
 	var material := ShaderMaterial.new()
-	material.shader = SEA
+	if id in ["sunset_park","lantern_depot"]:
+		material.shader=preload("res://shaders/world/calm_water.gdshader")
+	else:
+		material.shader = SEA
 	sea.material_override = material
 	sea.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(sea)
@@ -95,7 +104,35 @@ func _add_murals() -> void:
 				material.set_shader_parameter("artwork",atlas)
 				material.set_shader_parameter("surface_size",Vector2(face["su"],face["sv"]))
 				material.set_shader_parameter("mural_id",float(mural["id"]))
+				material.set_shader_parameter("new_art",true)
+				material.set_shader_parameter("theme",1 if MatchSetup.map_id=="lantern_depot" else 0)
 				visual.material_override = material
 				visual.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 				add_child(visual)
 				mural_count += 1
+
+func _theme_light(id: String) -> void:
+	var park := id=="sunset_park"
+	var lighting := get_parent().get_node_or_null("Lighting")
+	if lighting==null:lighting=get_parent().get_parent()
+	var env_node: WorldEnvironment
+	for child in lighting.get_children():
+		if child is WorldEnvironment:env_node=child;break
+	if env_node==null:return
+	var env: Environment=env_node.environment.duplicate(true);env_node.environment=env
+	if env.sky==null:
+		env.sky=Sky.new();env.sky.sky_material=ProceduralSkyMaterial.new();env.background_mode=Environment.BG_SKY
+	var sky: ProceduralSkyMaterial=env.sky.sky_material
+	sky.sky_top_color=Color("76889b") if park else Color("233b62")
+	sky.sky_horizon_color=Color("f2c59b") if park else Color("a2879f")
+	env.ambient_light_color=Color("ffe6cf") if park else Color("b9cee0")
+	env.ambient_light_energy=.56 if park else .65
+	env.fog_light_color=sky.sky_horizon_color
+	var sun: DirectionalLight3D=lighting.get_node_or_null("Sun")
+	if sun==null:
+		for child in lighting.get_children():
+			if child is DirectionalLight3D:sun=child;break
+	if sun==null:return
+	sun.light_color=Color("ffd3a3") if park else Color("ffe4ca")
+	sun.light_energy=.95 if park else .70
+	sun.rotation_degrees=Vector3(-28,-40,0) if park else Vector3(-38,25,0)

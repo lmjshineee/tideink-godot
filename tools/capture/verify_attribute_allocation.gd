@@ -100,8 +100,6 @@ func _run() -> void:
 		await snap("setup-%d"%pixels.x)
 	root.size=Vector2i(1280,720);root.content_scale_size=root.size;game.settings.ui_scale=1;await frames(10);game._layout_hud()
 	var saved:Dictionary=game.attributes.loadout(walker)
-	await click(game.frontend.rule_choice);await frames(15);bind_game()
-	expect(game.attributes.loadout(walker)==saved and game.area.enabled,"rule reload preserves actual attributes snapshot")
 	var style_before:int=Setup.style_index
 	expect(not rect(game.frontend.preview).intersects(rect(game.frontend.appearance_choice)),"appearance selector stays outside the drag-consuming preview")
 	await click(game.frontend.appearance_choice);await frames(15);bind_game()

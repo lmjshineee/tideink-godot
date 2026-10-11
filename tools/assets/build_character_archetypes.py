@@ -8,6 +8,10 @@ Joint palette, source license metadata, weapons and squid are retained.
 """
 import argparse, copy, hashlib, json, math, struct
 from pathlib import Path
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from hairstyle_geometry import replace_hair
+from face_geometry import sculpt, eye_point, eye_normal, brow_point, FACES
 
 ROOT = Path(__file__).resolve().parents[2]
 PROFILES = (
@@ -32,6 +36,12 @@ def smooth(a, b, x):
 def transform(p, semantic, profile, part=0, uv=None):
     _, _, torso, face_x, face_y, hair_length, shoe_x, shoe_z = profile
     x, y, z = p
+    if semantic=='Skin' and part==10:
+        return sculpt(p,profile)
+    if semantic=='Eyes':
+        return eye_point(p,uv,profile)
+    if semantic=='TeamHair' and part==2:
+        return brow_point(p,profile)
     if semantic in ('Skin', 'Eyes', 'TeamHair') and y > 1.0:
         t = smooth(1.0, 1.065, y)
         x *= 1 + (face_x - 1) * t
@@ -39,10 +49,11 @@ def transform(p, semantic, profile, part=0, uv=None):
         y = 1.17 + (y - 1.17) * (1 + (face_y - 1) * t) - .025*t
         if semantic == 'Skin':
             x *= 1 - .10*(1-smooth(1.09,1.18,p[1]))*t
-    if semantic == 'Eyes':
-        center = (.056 if x > 0 else -.056) * face_x
-        x = center + (x-center)*.91
-        y = 1.165 + (y-1.165) * (.78 if profile[0]=='dock_worker' else .90)
+    if semantic == 'Skin' and p[1]>1.015:
+        # Ears/neck are outside the direction-mapped face surface.
+        ear=smooth(.125,.19,abs(p[0]))
+        x*=1-.22*ear
+        y-=.015*ear
     if semantic == 'Cloth':
         shirt, left, right, pants, leg_width, boot = CUTS[profile[0]]
         if part == 1:
@@ -153,6 +164,32 @@ def accessor_rows(doc, binary, index):
     rows=[struct.unpack_from(fmt,binary,start+i*view.get('byteStride',width)) for i in range(a['count'])]
     return rows,fmt
 
+def sculpt_normals(doc,binary,primitive,positions,source_points,parts,normal_offsets):
+    """Rebuild face normals from the final mesh, weld only source UV seams.
+
+    The source head's analytic normal describes its original rounded surface;
+    the new orbital/chin planes need normals from their actual triangles.
+    """
+    indices=[row[0] for row in accessor_rows(doc,binary,primitive['indices'])[0]]
+    sums=[[0.,0.,0.] for p in positions]
+    for start in range(0,len(indices),3):
+        a,b,c=indices[start:start+3]
+        if not all(parts[i]==10 for i in (a,b,c)):continue
+        u=[positions[b][k]-positions[a][k] for k in range(3)]
+        v=[positions[c][k]-positions[a][k] for k in range(3)]
+        n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]]
+        for i in (a,b,c):
+            for k in range(3):sums[i][k]+=n[k]
+    seams={}
+    for i,p in enumerate(source_points):
+        if parts[i]==10:seams.setdefault(tuple(round(v,6) for v in p),[]).append(i)
+    for group in seams.values():
+        n=[sum(sums[i][k] for i in group) for k in range(3)]
+        length=math.sqrt(sum(k*k for k in n))
+        if length<1e-12:continue
+        n=[k/length for k in n]
+        for i in group:struct.pack_into('<3f',binary,normal_offsets[i],*n)
+
 def sleeve_lining(doc,binary,profile):
     """Dense, flexible inner sleeve; same arm weights as the visible skin.
 
@@ -237,13 +274,20 @@ def derive(profile):
                     ji=struct.unpack_from(jformat,binary,jstart+i*jview.get('byteStride',4*jwidth))
                     wi=struct.unpack_from('<4f',binary,wstart+i*wview.get('byteStride',16))
                     parts[i]=int(any(bone_names[j].startswith('hair') and w>.005 for j,w in zip(ji,wi)))
+                    if any(bone_names[j].startswith('brow') and w>.5 for j,w in zip(ji,wi)):parts[i]=2
+            if semantic in ('Skin','Eyes'):
+                uvs=accessor_rows(doc,binary,primitive['attributes']['TEXCOORD_0'])[0]
+                if semantic=='Skin':
+                    directions=accessor_rows(doc,binary,primitive['attributes']['TEXCOORD_1'])[0]
+                    parts=[10 if u*u+v*v+direction[0]**2>.5 else 0 for (u,v),direction in zip(uvs,directions)]
             source_points=[]
             for index,(vp,vn,part,uv) in enumerate(zip(po,no,parts,uvs)):
                 p = struct.unpack_from('<3f',binary,vp); n = struct.unpack_from('<3f',binary,vn)
                 source_points.append(p)
                 q = transform(p, semantic, profile, part, uv)
                 struct.pack_into('<3f',binary,vp,*q)
-                struct.pack_into('<3f',binary,vn,*normal(p,n,semantic,profile,part,uv)); new.append(q)
+                nn=eye_normal(p,uv,profile) if semantic=='Eyes' else normal(p,n,semantic,profile,part,uv)
+                struct.pack_into('<3f',binary,vn,*nn); new.append(q)
                 repaint=garment_weights(profile,part,p,q,palette,uv) if semantic=='Cloth' else None
                 if semantic=='Cloth' and part==1:
                     ji=struct.unpack_from(jformat,binary,jstart+index*jview.get('byteStride',4*jwidth))
@@ -270,11 +314,30 @@ def derive(profile):
                     anchor=min(group,key=lambda i:parts[i]);q=new[anchor]
                     for i in group:
                         new[i]=list(q);struct.pack_into('<3f',binary,po[i],*q)
+            if semantic=='Skin':sculpt_normals(doc,binary,primitive,new,source_points,parts,no)
             doc['accessors'][pos_id]['min'] = [min(p[k] for p in new) for k in range(3)]
             doc['accessors'][pos_id]['max'] = [max(p[k] for p in new) for k in range(3)]
             changed.append(semantic)
+    hair_info=replace_hair(doc,binary,profile,accessor_rows)
+    # Move expression pivots WITH the new eye/brow geometry and correct their
+    # inverse binds. Neutral skinning stays identical; blink scales around the
+    # eyelid rather than the old, higher spherical-eye anchor.
+    bind=doc['accessors'][doc['skins'][0]['inverseBindMatrices']]
+    view=doc['bufferViews'][bind['bufferView']]
+    bind_start=view.get('byteOffset',0)+bind.get('byteOffset',0)
+    for name in ('eyeL','eyeR','browL','browR'):
+        j=palette[name];node=doc['nodes'][doc['skins'][0]['joints'][j]]
+        offset=bind_start+j*view.get('byteStride',64)
+        ib=list(struct.unpack_from('<16f',binary,offset))
+        assert all(abs(ib[k]-v)<.00001 for k,v in [(0,1),(5,1),(10,1),(15,1)])
+        old=[-ib[12+k] for k in range(3)]
+        new=eye_point(old,(0.,0.),profile) if name.startswith('eye') else brow_point(old,profile)
+        delta=[new[k]-old[k] for k in range(3)]
+        node['translation']=[node['translation'][k]+delta[k] for k in range(3)]
+        for k in range(3):ib[12+k]-=delta[k]
+        struct.pack_into('<16f',binary,offset,*ib)
     lining_faces=sleeve_lining(doc,binary,profile)
-    doc.setdefault('extras',{})['tideink_archetype']={'id':profile[0],'method':'local tailored garment/body derivation; garment elbow/knee weights repainted; original skin/UV/rig retained','source_file':str(source.relative_to(ROOT)),'source_sha256':hashlib.sha256(data).hexdigest(),'changed_semantics':changed,'garment_cuts':CUTS[profile[0]],'lining_triangles':lining_faces}
+    doc.setdefault('extras',{})['tideink_archetype']={'id':profile[0],'method':'local facial sculpture and tailored body/garments; original semantic UV/rig retained','source_file':str(source.relative_to(ROOT)),'source_sha256':hashlib.sha256(data).hexdigest(),'changed_semantics':changed,'garment_cuts':CUTS[profile[0]],'lining_triangles':lining_faces,'hair':hair_info,'face':{'version':2,'planes':['chin','jaw','cheek','orbit','bridge','nose_wings','lips'],'profile':FACES[profile[0]]}}
     encoded = json.dumps(doc,separators=(',',':')).encode(); encoded += b' ' * (-len(encoded)%4)
     payload = struct.pack('<II',len(encoded),0x4e4f534a)+encoded+struct.pack('<II',len(binary),0x004e4942)+binary
     return struct.pack('<III',0x46546c67,2,len(payload)+12)+payload

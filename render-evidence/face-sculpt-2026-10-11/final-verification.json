@@ -1,0 +1,109 @@
+{
+  "godot_checks_passed": 113,
+  "godot_checks_failed": 0,
+  "python_unittest_passed": 19,
+  "python_isolated_programs_passed": 4,
+  "isolated_programs_stage": "prior verified face/hair stage; fixture and gate test inputs unchanged",
+  "isolated_program_code_unchanged": true,
+  "headless_warning_checks": {
+    "check_actor_feedback": [
+      "WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_actor_turf_credit": [
+      "WARNING: 14 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_arena_catalog": [
+      "WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_bot_jump_edges": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_expanded_loadouts": [
+      "WARNING: 20 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_feedback_regressions": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_gameplay_deployment": [
+      "WARNING: 20 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_ink_buddy_combat": [
+      "WARNING: 15 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_minimap_feedback": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_setup_settings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_splat_attribution": [
+      "WARNING: 16 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_super_jump": [
+      "WARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_team_match": [
+      "WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_bomb": [
+      "WARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_bot_chase": [
+      "WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_bot_vitals": [
+      "WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_camera": [
+      "WARNING: 10 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_full_round": [
+      "WARNING: 10 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_match": [
+      "WARNING: 32 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_play": [
+      "WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_presentation": [
+      "WARNING: 24 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_settings_ui": [
+      "WARNING: 15 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_special": [
+      "WARNING: 8 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_visual": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_tidewater_weapons": [
+      "WARNING: 22 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "check_vertical_navigation": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ]
+  },
+  "native": {
+    "final-portraits-v3": {
+      "godot_diagnostics": [],
+      "os_input_method_diagnostic": true
+    },
+    "final-motion-v3": {
+      "godot_diagnostics": [],
+      "os_input_method_diagnostic": true
+    },
+    "final-input-v3": {
+      "godot_diagnostics": [],
+      "os_input_method_diagnostic": true
+    }
+  },
+  "frozen_input_count": 1036,
+  "no_frozen_input_drift": true,
+  "exported": false,
+  "human_aesthetic_acceptance": false,
+  "full_check_log": "final-full-checks.log",
+  "individual_check_logs": "final-v3-check-logs",
+  "python_log": "final-v3-python.log"
+}

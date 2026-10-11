@@ -1,0 +1,7 @@
+{
+  "path": ".godot/arm64-template.zip",
+  "sha256": "daf43479c6c792c06d47e22e59bdbac39170d27b6bc5e739871d17601ba2fce7",
+  "archive_executable": "macos_template.app/Contents/MacOS/godot_macos_release.arm64",
+  "architecture": "arm64",
+  "reused": true
+}

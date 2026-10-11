@@ -1,0 +1,14 @@
+{
+  "changes_since_pre_crown_verified_inputs": [
+    "assets/characters/archetypes/dock_worker.glb",
+    "assets/characters/archetypes/fin_drifter.glb",
+    "assets/characters/archetypes/reef_runner.glb",
+    "assets/characters/archetypes/spark_writer.glb",
+    "assets/integrity.json",
+    "tools/assets/face_geometry.py",
+    "tools/assets/hairstyle_geometry.py"
+  ],
+  "reason": "Native crown/clay review found flat scalp areas and overstrong lower-face transitions. Added crown locks and denser scalp-normal curls; softened facial depth. Rebuilt, ran 19 Python tests and recaptured 60 native portraits before explicit manifest update. Full final check follows on these frozen inputs.",
+  "prior_frozen_inputs": "frozen-inputs.json",
+  "final_frozen_inputs": "final-inputs.json"
+}

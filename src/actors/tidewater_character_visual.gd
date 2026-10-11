@@ -658,6 +658,7 @@ func _materialize_original(node: Node) -> void:
 				if semantic == "Skin":
 					instance_material.set_shader_parameter("skin_tint", Archetypes.SKIN_TINT[posmod(style_index, 4)])
 					instance_material.set_shader_parameter("freckles",style_index == 0)
+					instance_material.set_shader_parameter("face_feature",posmod(style_index,4))
 					instance_material.set_shader_parameter("ornament_pattern",ornament_pattern)
 					instance_material.set_shader_parameter("ornament_color",ornament_color)
 					instance_material.set_shader_parameter("ornament_pose",ornament_pose)

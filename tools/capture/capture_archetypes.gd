@@ -23,6 +23,11 @@ func _run() -> void:
 		printerr("FAIL: native display/new absolute output required");quit(1);return
 	DirAccess.make_dir_recursive_absolute(output)
 	report.environment={"engine":Engine.get_version_info().string,"arm64":OS.has_feature("arm64"),"api":RenderingServer.get_video_adapter_api_version(),"adapter":RenderingServer.get_video_adapter_name()}
+	report.source_sha256={}
+	for path in preload("res://tools/lib/source_inventory.gd").scripts():report.source_sha256[path]=FileAccess.get_sha256(path)
+	for style in 4:report.source_sha256[Visual.Archetypes.path(style)]=FileAccess.get_sha256(Visual.Archetypes.path(style))
+	for path in ["res://shaders/characters/character_skin.gdshader","res://shaders/characters/character_eyes.gdshader","res://shaders/characters/character_hair.gdshader","res://assets/characters/actions.json","res://tools/capture/capture_archetypes.gd"]:
+		report.source_sha256[path]=FileAccess.get_sha256(path)
 	root.size=Vector2i(1440,900);root.content_scale_size=root.size;root.msaa_3d=Viewport.MSAA_4X
 	stage=Node3D.new();root.add_child(stage)
 	var env:=WorldEnvironment.new();env.environment=Environment.new();env.environment.background_mode=Environment.BG_COLOR
@@ -34,7 +39,7 @@ func _run() -> void:
 	stage.add_child(camera);camera.position=Vector3(0,.9,5);camera.look_at(Vector3(0,.72,0))
 	for i in 4:
 		var model:=Visual.new();model.style_index=i;model.team=0;model.portrait_detail=true;model.ornament_seed=401+i;model.position.x=(i-1.5)*.77
-		stage.add_child(model);model.set_physics_process(false);model.set_weapon("shooter");models.append(model)
+		stage.add_child(model);model.set_physics_process(false);model.set_weapon("shooter");model._blink_remaining=999;model._blink_elapsed=1;models.append(model)
 	animate(30);await snap("lineup-front")
 	for model in models:model.rotation.y=-.55
 	await snap("lineup-three-quarter")
@@ -65,7 +70,7 @@ func _run() -> void:
 				var look:=Visual.Wardrobe.look(candidate)
 				if look.top==i and look.trousers==(3-i) and look.shoes==(i+2)%4:selected_seed=candidate;break
 			var model:=Visual.new();model.style_index=0;model.team=team;model.portrait_detail=true;model.ornament_seed=selected_seed
-			model.position.x=(i-1.5)*.77;stage.add_child(model);model.set_physics_process(false);model.set_weapon("shooter");models.append(model)
+			model.position.x=(i-1.5)*.77;stage.add_child(model);model.set_physics_process(false);model.set_weapon("shooter");model._blink_remaining=999;model._blink_elapsed=1;models.append(model)
 		camera.size=1.85;camera.position=Vector3(0,.9,5);camera.look_at(Vector3(0,.72,0));animate(30)
 		await snap("wardrobe-team-%d-front"%team)
 		for model in models:model.rotation.y=PI

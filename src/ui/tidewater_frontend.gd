@@ -21,7 +21,6 @@ var home_stats:Label
 var home_weapon:Button
 var profile:Label
 var kit_mode:Button
-var rule_choice:Button
 var roll_button:Button
 var appearance_choice:Button
 var attribute_button:Button
@@ -142,11 +141,6 @@ func setup(owner_game:Node3D) -> void:
 	kit_mode=Button.new();preparation.add_child(kit_mode)
 	kit_mode.tooltip_text="点击切换固定套装／自定义配装"
 	kit_mode.pressed.connect(func():game.set_loadout_mode("custom" if Setup.loadout_mode=="kit" else "kit");sync())
-	rule_choice=Button.new();preparation.add_child(rule_choice)
-	rule_choice.tooltip_text="点击切换全图涂地战／中央区域争夺"
-	rule_choice.pressed.connect(func():
-		if game.phase not in ["home","setup"] or game.perks.locked:return
-		Setup.battle_rule="area" if Setup.battle_rule=="turf" else "turf";_reload_preparation())
 	roll_button=_button(preparation,"ROLL · 随机配装",func():game.roll_setup_loadout();sync())
 	roll_button.tooltip_text="一次重摇主武器、天赋、副武器和 20 点属性分配；固定套装的副武器随主武器。开战后锁定。"
 	appearance_choice=_button(preparation,"",func():game.choose_appearance((Setup.style_index+1)%4))
@@ -255,7 +249,7 @@ func sync() -> void:
 	_place(random_button,Vector2(size.x*(.74 if preparing else .37),size.y*(.664 if preparing else .91)),Vector2(size.x*(.11 if preparing else .28),40*u),maxi(11,int(15*u)))
 	_place(attribute_button,Vector2(size.x*.859,size.y*.664),Vector2(size.x*.111,40*u),maxi(11,int(15*u)))
 	attribute_button.disabled=not game.attributes.can_edit()
-	_place(profile,Vector2(size.x*.715,size.y*.19),Vector2(size.x*.245,size.y*.19),int(20*u));profile.text="#01 "+Setup.player_name+"\n"+("AREA CONTROL" if Setup.battle_rule=="area" else "TURF WAR")+" · "+("5 v 5" if Setup.team_size==5 else "1 v 1")
+	_place(profile,Vector2(size.x*.715,size.y*.19),Vector2(size.x*.245,size.y*.19),int(20*u));profile.text="#01 "+Setup.player_name+"\n"+"TURF WAR"+" · "+("5 v 5" if Setup.team_size==5 else "1 v 1")
 	_place(kit,Vector2(size.x*(.37 if preparing else .715),size.y*(.058 if preparing else .435)),Vector2(size.x*(.60 if preparing else .235),size.y*.13),maxi(11,int(16*u)))
 	var main_detail:Dictionary=Details.weapon(game,game.selected_weapon)
 	var walker:Node3D=game.get_node("World/Walker")
@@ -268,7 +262,7 @@ func sync() -> void:
 
 func _layout_preparation(u:float) -> void:
 	_place(stage,Vector2(size.x*.047,size.y*.185),Vector2(size.x*.35,36*u),maxi(16,int(25*u)));stage.text=Catalog.title()
-	_place(map_blurb,Vector2(size.x*.047,size.y*.235),Vector2(size.x*.60,28*u),maxi(11,int(13*u)));map_blurb.text=Catalog.BLURBS[Catalog.IDS.find(Setup.map_id)]+" · "+Catalog.layout_name()
+	_place(map_blurb,Vector2(size.x*.047,size.y*.235),Vector2(size.x*.60,28*u),maxi(11,int(13*u)));map_blurb.text=(Catalog.BLURBS[Catalog.IDS.find(Setup.map_id)] if Catalog.IDS.has(Setup.map_id) else "历史地图")+" · "+Catalog.layout_name()
 	stage_preview.position=Vector2(size.x*.037,size.y*.267);stage_preview.size=Vector2(size.x*.666,size.y*.239)
 	_place(map_hint,Vector2(size.x*.047,size.y*.508),Vector2(size.x*.60,24*u),maxi(10,int(12*u)))
 	_place(character_heading,Vector2(size.x*.752,size.y*.178),Vector2(size.x*.21,30*u),maxi(12,int(16*u)))
@@ -279,7 +273,8 @@ func _layout_preparation(u:float) -> void:
 		var id:String=Catalog.IDS[i];var button:Button=map_buttons[id]
 		_place(button,Vector2(i*(map_width+6*u),0),Vector2(map_width,36*u),maxi(11,int(14*u)));_selected(button,id==Setup.map_id)
 	if seen_map!=Setup.map_id:
-		seen_map=Setup.map_id;strips.map.call_deferred("ensure_control_visible",map_buttons[seen_map])
+		seen_map=Setup.map_id
+		if map_buttons.has(seen_map):strips.map.call_deferred("ensure_control_visible",map_buttons[seen_map])
 	var row_width:float=size.x*.58
 	for pair in [["weapon",.627],["item",.714],["perk",.802]]:
 		var key:String=pair[0];var strip:ScrollContainer=strips[key]
@@ -320,12 +315,9 @@ func _layout_preparation(u:float) -> void:
 	_place(kit_mode,Vector2(size.x*.13,size.y*.890),Vector2(size.x*.20,30*u),maxi(11,int(14*u)))
 	kit_mode.text="固定套装 ↔" if Setup.loadout_mode=="kit" else "自定义配装 ↔"
 	kit_mode.disabled=game.perks.locked
-	_place(rule_choice,Vector2(size.x*.342,size.y*.890),Vector2(size.x*.183,30*u),maxi(11,int(14*u)))
-	rule_choice.text="全图涂地战 ↔" if Setup.battle_rule=="turf" else "中央区域争夺 ↔"
-	rule_choice.disabled=game.perks.locked
-	_place(roll_button,Vector2(size.x*.536,size.y*.890),Vector2(size.x*.174,30*u),maxi(11,int(14*u)))
+	_place(roll_button,Vector2(size.x*.355,size.y*.890),Vector2(size.x*.25,30*u),maxi(11,int(14*u)))
 	roll_button.disabled=game.perks.locked
-	map_hint.text="可涂面留墨；墨墙可攀但不计分"+(" · 黄色框内争夺，控制后计数递减" if Setup.battle_rule=="area" else " · 全图地面／坡面计分")
+	map_hint.text="全图涂地战 · 地面／坡面计分；墨墙可攀但不计分"
 	_place(duration_choice,Vector2(size.x*.75,size.y*.741),Vector2(size.x*.09,30*u),maxi(11,int(14*u)))
 	_place(mode_choice,Vector2(size.x*.857,size.y*.741),Vector2(size.x*.10,30*u),maxi(11,int(14*u)))
 	_place(ai_choice,Vector2(size.x*.75,size.y*.790),Vector2(size.x*.21,30*u),maxi(11,int(14*u)))

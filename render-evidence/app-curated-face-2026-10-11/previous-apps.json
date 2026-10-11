@@ -1,0 +1,31 @@
+{
+  "authorized_action": "User requested latest App build and deletion of previous Apps. Inventory before replacement; deletion after verified new App.",
+  "previous_apps": [
+    {
+      "path": "/Users/yunni/Joy/inkwave-game-cleaned/build/TideInk.app",
+      "files": {
+        "Contents/Info.plist": "f1d38d6210d9a3796435dd45252fb4f920c41a8d49285145bf19bcebeea86f12",
+        "Contents/PkgInfo": "7e50a30efad50208a173203ced60818d693bb61266b75aa10927d1a2adce80cb",
+        "Contents/_CodeSignature/CodeResources": "a9e26f0297f974d5a2796ce1359ff1e4d627e29ca48acc816bcb04f7b79790cb",
+        "Contents/MacOS/TideInk": "4586e3635187a62a11195c81d28b5319d114a81e017c0da55a5f71b879ffece5",
+        "Contents/Resources/icon.icns": "779ff524928785811d6d4c61f47a26491160b1092db9b610e85fcdfd9b2d2b2a",
+        "Contents/Resources/PrivacyInfo.xcprivacy": "0535353bb08c25b8ce5ed9ac7e442a5994f402e0f6cbc4bed668cfc63c2ceac3",
+        "Contents/Resources/TideInk.pck": "fbdd6fb729b668526a0b1f6e68267e295c55fa9de309db454272c63e99f87b39"
+      },
+      "size_bytes": 327806269
+    },
+    {
+      "path": "/Users/yunni/Joy/inkwave-game-cleaned/build/TideInk-before-wardrobe-bb384b6.app",
+      "files": {
+        "Contents/Info.plist": "f1d38d6210d9a3796435dd45252fb4f920c41a8d49285145bf19bcebeea86f12",
+        "Contents/PkgInfo": "7e50a30efad50208a173203ced60818d693bb61266b75aa10927d1a2adce80cb",
+        "Contents/_CodeSignature/CodeResources": "c7760b49dd8e7cddff6d98f8b824e1c72774bc921dd2479254625658ed3e44ed",
+        "Contents/MacOS/TideInk": "128af3711772c10cd3b58ee4443f95d2cf5fe9d15ae26e40005aee1b94d4e88a",
+        "Contents/Resources/icon.icns": "779ff524928785811d6d4c61f47a26491160b1092db9b610e85fcdfd9b2d2b2a",
+        "Contents/Resources/PrivacyInfo.xcprivacy": "0535353bb08c25b8ce5ed9ac7e442a5994f402e0f6cbc4bed668cfc63c2ceac3",
+        "Contents/Resources/TideInk.pck": "62148277cfecaefc5a7659e2ecbea910a76bdee99ab167c0c47c024bcdef1dc0"
+      },
+      "size_bytes": 327772713
+    }
+  ]
+}

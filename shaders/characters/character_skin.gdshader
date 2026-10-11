@@ -5,6 +5,7 @@ uniform vec4 team_color : source_color;
 uniform vec4 skin_tint : source_color = vec4(1.0);
 uniform vec4 mouth=vec4(0.75,1.0,0.0,0.0);
 uniform bool freckles=false;
+uniform int face_feature=0;
 uniform int ornament_pattern=0;
 uniform vec4 ornament_color : source_color = vec4(1.0,0.68,0.14,1.0);
 uniform vec4 ornament_pose=vec4(1.0,0.0,0.0,0.0); // scale, rotation, angle offsets
@@ -87,13 +88,8 @@ void fragment(){
           if (hl > 0.5) {
             vec3 d = vHead / hl;
             float az = atan(d.x, d.z), el = asin(clamp(d.y, -1.0, 1.0));
-            // ---- painted hairline under the cap edge (hides the cap/skin seam), soft shadow just below it
-            float hs = el - iwHairline(az) + 0.004;
-            float hw = max(fwidth(hs), 1e-4);
-            iwHairP = smoothstep(-hw, hw, hs);
-            float capShadow = smoothstep(-0.09, 0.0, hs) * (1.0 - iwHairP);
-            diffuseColor.rgb *= 1.0 - 0.22 * capShadow;
-            diffuseColor.rgb = mix(diffuseColor.rgb, team_color.rgb * 0.55, iwHairP);
+            // Hair is geometry-owned; never paint a second cap on the skin.
+            iwHairP=0.0;
             // ---- freckles across the nose bridge + cheeks
             if ((freckles?1.0:0.0) > 0.5) {
               vec2 fp = vec2(az, el + 0.12) * 42.0;
@@ -104,6 +100,23 @@ void fragment(){
               float fd = length(fr - off * 0.5) - 0.13 * rnd;
               float fk = iwFill(fd) * step(0.45, rnd) * region;
               diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(0.78, 0.6, 0.5), fk * 0.7);
+            }
+            // Distinct, small facial features stay below the eyes and away from
+            // the animated mouth. Both sides retain the source expression UVs.
+            float blush=exp(-pow((abs(az)-0.46)/0.19,2.0)-pow((el+0.21)/0.13,2.0));
+            diffuseColor.rgb=mix(diffuseColor.rgb,vec3(0.93,0.53,0.45),blush*0.09);
+            if (face_feature==1) {
+              float mole=iwFill(length(vec2(az-0.43,el+0.27))-0.017);
+              diffuseColor.rgb=mix(diffuseColor.rgb,vec3(0.22,0.10,0.09),mole*0.8);
+            } else if (face_feature==2) {
+              float dimples=exp(-pow((abs(az)-0.20)/0.026,2.0)-pow((el+0.38)/0.03,2.0));
+              diffuseColor.rgb*=1.0-dimples*0.18;
+            } else if (face_feature==3) {
+              vec2 patch=vec2(az+0.57,el+0.24);
+              float bandage=iwFill(iwSdBox(patch,vec2(0.12,0.046),0.028));
+              diffuseColor.rgb=mix(diffuseColor.rgb,vec3(0.96,0.83,0.66),bandage*0.90);
+              float vents=iwFill(length(vec2(abs(patch.x)-0.075,patch.y))-0.007);
+              diffuseColor.rgb*=1.0-vents*bandage*0.25;
             }
             // ---- nose tip: slightly warmer
             float nose = exp(-pow(az / 0.06, 2.0) - pow((el + 0.125) / 0.06, 2.0));
@@ -193,15 +206,15 @@ void fragment(){
         }
       
  ALBEDO=diffuseColor.rgb * skin_tint.rgb;
- ROUGHNESS=mix(0.58,0.48,iwDecor);
+ ROUGHNESS=mix(0.68,0.55,iwDecor);
  ROUGHNESS=mix(ROUGHNESS,0.35,iwHairP);
  ROUGHNESS=mix(ROUGHNESS,0.22,iwNail);
  ROUGHNESS=mix(ROUGHNESS,0.3,iwMouthIn);
- SPECULAR=0.32;
+ SPECULAR=0.24;
  BACKLIGHT=diffuseColor.rgb*0.16;
  RIM=0.12;
  RIM_TINT=0.75;
- CLEARCOAT=0.04+iwNail*0.15;
+ CLEARCOAT=iwNail*0.15;
  CLEARCOAT_ROUGHNESS=0.4;
  NORMAL=iwBumpN(NORMAL,iwH,VERTEX);
  AO=mix(0.72,1.0,iwAO);
