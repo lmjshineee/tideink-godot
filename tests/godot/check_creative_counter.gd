@@ -11,6 +11,7 @@ func start() -> void:
 	combat.special_active = ""; combat.special_points = combat.special_cost()
 	game.player_health = 120; game.player_respawn = 0; game.player_invuln = 0
 	expect(combat.try_special(), "player starts weapon-specific counter through actual meter gate")
+	game.player_invuln=0 # Legacy intake vulnerability, after the shared startup window.
 	counter.intakes[walker.get_instance_id()].direction = Vector3(0,0,1)
 
 func _run() -> void:
@@ -18,6 +19,7 @@ func _run() -> void:
 	counter = combat.counter
 	walker.global_position = Vector3(0,40,0); walker.update_form(false)
 	bot.global_position = Vector3(0,40,8)
+	combat.weapons.canopy.special="absorb_counter";combat.weapons.canopy.specialCost=125
 	combat.select_weapon("canopy"); combat.special_points = 0
 	# Meter coverage uses real pellets on fresh authoritative terrain, rather than
 	# granting points. Positions/resources are controlled; this is not a timed match.
@@ -40,7 +42,7 @@ func _run() -> void:
 	game.pointer_locked = true
 	key(KEY_F,true); key(KEY_F,false)
 	expect(counter.busy(walker) and combat.special_points == 0,"actual F input releases a legitimately paint-charged counter")
-	counter.cancel(walker); combat.special_active = ""
+	counter.cancel(walker); combat.special_active = "";game.player_invuln=0
 	walker.global_position = Vector3(0,40,0); combat.ink_amount = 20
 	start()
 	expect(combat.special_points == 0 and is_equal_approx(combat.ink_amount,game.actor_ink_max(walker)) and combat.is_busy(), "meter consumed, tank refill and human-form action lock")

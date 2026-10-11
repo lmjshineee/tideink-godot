@@ -18,7 +18,7 @@ func _run() -> void:
 	walker.global_position += Vector3(4, 0, 0)
 	expect(game.items.use(walker), "second press returns immediately")
 	expect(walker.global_position.distance_to(home) < 0.01 and game.player_health == 61 and combat.ink_amount == 33, "recall preserves current resources")
-	expect(combat.action_lock == 0.35 and game.items.state(walker).cooldowns.recall == 14 and not recall.anchors.has(id), "return removes anchor, starts cooldown and weapon lock")
+	expect(combat.action_lock == 0.35 and game.items.state(walker).cooldowns.recall == 9 and not recall.anchors.has(id), "return removes anchor, starts cooldown and weapon lock")
 	combat.select_weapon("shooter")
 	combat.tick(0.01, true, false)
 	expect(combat.projectiles.is_empty(), "return firing lock blocks actual primary")
@@ -39,19 +39,19 @@ func _run() -> void:
 	var at: Vector3 = home + Vector3(0, 0.45, 3)
 	combat.spawn_bot_shot(at, home + Vector3.UP * 0.45, "heavy", 1, bot)
 	for i in 40: combat._update_projectiles(0.01)
-	expect(not recall.anchors.has(id) and game.items.state(walker).cooldowns.recall == 14, "enemy bullets destroy anchor and start cooldown")
+	expect(not recall.anchors.has(id) and game.items.state(walker).cooldowns.recall == 9, "enemy bullets destroy anchor and start cooldown")
 	game.items.state(walker).cooldowns.recall = 0
 	walker.global_position = home
 	combat.ink_amount = 100
 	game.items.use(walker)
 	recall.tick(12.1)
-	expect(not recall.anchors.has(id) and game.items.state(walker).cooldowns.recall == 14, "expiry starts cooldown")
+	expect(not recall.anchors.has(id) and game.items.state(walker).cooldowns.recall == 9, "expiry starts cooldown")
 	game.items.state(walker).cooldowns.recall = 0
 	game.items.use(walker)
 	game.items.on_death(walker)
 	expect(not recall.anchors.has(id), "death clears anchor")
 	game.randomize_player_kit()
-	expect(game.items.state(walker).cooldowns.recall == 14, "reroll does not reset recall cooldown")
+	expect(game.items.state(walker).cooldowns.recall == 9, "reroll does not reset recall cooldown")
 	game.items.equip(bot, "recall")
 	bot.global_position = Vector3(3, 0.05, -20)
 	bot.ink_amount = 100

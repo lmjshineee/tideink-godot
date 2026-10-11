@@ -19,7 +19,7 @@ func _run() -> void:
 	expect(not game.items.use(walker) and game.items.state(walker).cooldowns.supply_box == 0,"insufficient ink preserves CD")
 	var b: Dictionary = await deploy()
 	if b.is_empty(): await finish("supply placement"); return
-	expect(combat.ink_amount == 60 and b.health == 60 and b.stock == 2 and game.items.state(walker).cooldowns.supply_box == 20,"real resource/health/stock/cooldown")
+	expect(combat.ink_amount == 60 and b.health == 60 and b.stock == 2 and game.items.state(walker).cooldowns.supply_box == 12,"real resource/health/stock/cooldown")
 	combat.ink_amount = 30; var meter: float = combat.special_points
 	advance(.3); expect(combat.ink_amount == 30 and not supply.channel_text(walker).is_empty(),"stationary hold begins readable channel without instant refill")
 	walker.global_position.x += .15; await physics_frame; advance(.3); expect(combat.ink_amount == 30,"movement resets channel")
@@ -63,7 +63,7 @@ func _run() -> void:
 	combat._fire_charger_ray(combat.weapons.charger,1,bot.global_position+Vector3.UP,(b.point+Vector3.UP*.25-bot.global_position-Vector3.UP).normalized(),1,bot)
 	expect(supply.boxes.is_empty() and supply.channels.is_empty(),"actual hostile ray destroys box and cancels all channels")
 	b = await deploy(); combat.ink_amount = 20; advance(.3); game.items.on_death(walker); game.items.equip(walker,"bomb")
-	expect(supply.boxes.size() == 1 and supply.channels.is_empty() and game.items.state(walker).cooldowns.supply_box == 20,"death cancels channel while preserving box and CD")
+	expect(supply.boxes.size() == 1 and supply.channels.is_empty() and game.items.state(walker).cooldowns.supply_box == 12,"death cancels channel while preserving box and CD")
 	var first: int = b.id; game.items.equip(walker,"supply_box"); game.items.state(walker).cooldowns.supply_box = 0; combat.ink_amount = 100
 	expect(game.items.use(walker) and supply.boxes.size() == 1 and not supply.boxes.has(first),"new box replaces owner old box")
 	supply.tick(14.1); expect(supply.boxes.is_empty(),"expiry removes unused box")

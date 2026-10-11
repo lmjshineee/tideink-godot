@@ -346,9 +346,14 @@ func _update_hud() -> void:
 		if combat.selected_id=="bow" and combat.charging:
 			charge_text="  "+("精准三箭" if charge>=.999 else "爆裂箭就绪" if charge>=.5 else "快速箭")
 		var controls := "Tab 地图 · J 跳跃 · Esc 暂停"
+		var walker:Node3D=game.get_node("World/Walker")
+		if walker.squid_form:controls="潜墨：方向 + 空格跳跃／转向翻滚 · 墨墙长按空格冲刺"
 		var cover_text := ""
 		if combat.counter.busy(game.get_node("World/Walker")):
 			cover_text = "  转向瞄准 · 吸墨结束后自动反击"
+		elif combat.push_wall.active(game.get_node("World/Walker")):
+			var wall:Dictionary=combat.push_wall.states[game.get_node("World/Walker").get_instance_id()]
+			cover_text="  防护墙 %.0f HP · %.1fs" % [wall.hp,wall.time]
 		elif combat.selected_id=="canopy":
 			var cover:Dictionary=combat.canopy.state(game.get_node("World/Walker"))
 			cover_text="  伞面 %.0f HP%s" % [cover.hp," · 推进中" if cover.launched else " · 持伞"] if cover.cover!=null else ("  伞恢复 %.1fs" % cover.cooldown if cover.cooldown>0 else "  按住开伞 / 推出")

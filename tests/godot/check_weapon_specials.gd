@@ -32,11 +32,12 @@ func _run() -> void:
 	var friendly:float=game.actor_health(ally)
 	expect(combat.try_special(),"dualie moving vortex activation")
 	combat.weapon_specials.tick(.5)
-	expect(absf(game.bot_health-108)<.01 and game.actor_health(ally)==friendly,"vortex hurts visible enemies only at 24 DPS")
+	expect(absf(game.bot_health-104)<.01 and game.actor_health(ally)==friendly,"vortex hurts visible enemies only at 32 DPS")
 	var blocker:=wall(walker.global_position+Vector3(1,1,0),Vector3(.2,3,5));await physics_frame
 	var before:float=game.bot_health;combat.weapon_specials.tick(.5)
 	expect(game.bot_health==before,"wall blocks vortex damage")
 	blocker.queue_free();await physics_frame
+	game.player_invuln=0 # Isolate vulnerability after startup.
 	game.player_health=120;game.damage_player(25,false,bot,"shooter")
 	expect(game.player_health==95,"vortex gives no armour or invincibility")
 	combat.on_death();expect(not combat.weapon_specials.active(walker),"death cancels owned vortex")
@@ -45,6 +46,7 @@ func _run() -> void:
 	expect(combat.try_special() and combat.is_busy(),"blaster pressure salvo starts and locks primary")
 	var active:Dictionary=combat.weapon_specials.states[walker.get_instance_id()]
 	active.direction=Vector3.FORWARD
+	walker.camera_yaw=PI;walker.camera_pitch=0;walker._update_camera();game.pointer_locked=true
 	blocker=wall(walker.global_position+Vector3(0,1,-1),Vector3(6,3,.3));bot.global_position=walker.global_position+Vector3(0,0,-3);game.bot_health=120
 	await physics_frame
 	var launched:int=combat.weapon_specials.launched
@@ -64,6 +66,11 @@ func _run() -> void:
 	expect(absf(game.bot_health-250)<.01,"shared pressure cap is 150 final HP even with defender vulnerability")
 	game.perks.choices[bot.get_instance_id()]="balanced";game.bot_health=120
 	# Cancel unlaunched shots but retain an already flying shell and its cast budget.
+	# Isolate flight lifetime from the map's nearby covers and perimeter wall.
+	wall(Vector3(0,39.8,12),Vector3(30,.4,40))
+	walker.global_position=Vector3(0,40.05,0);walker.camera_yaw=0;walker.camera_pitch=0;walker._update_camera()
+	bot.global_position=walker.global_position+Vector3(0,0,18)
+	await physics_frame
 	combat.special_points=combat.special_cost();expect(combat.try_special(),"second pressure salvo activation")
 	combat.weapon_specials.tick(.26);var flying:int=combat.weapon_specials.shells.size();launched=combat.weapon_specials.launched
 	combat.on_death();combat.weapon_specials.tick(.05)

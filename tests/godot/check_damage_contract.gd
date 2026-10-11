@@ -59,7 +59,10 @@ func _run() -> void:
 			observe("near shooter actor %d height %.2f" % [game.actor_id(victim),height],victim)
 		for id in ["charger","blaster"]:
 			reset_fight(victim,attacker)
-			if id=="charger":combat.fire_bot_charger(attacker.global_position+Vector3.UP*.9,victim.global_position+Vector3.UP*.9,1,game.actor_team(attacker),attacker)
+			if id=="charger":
+				combat.fire_bot_charger(attacker.global_position+Vector3.UP*.9,victim.global_position+Vector3.UP*.9,1,game.actor_team(attacker),attacker)
+				expect(is_equal_approx(game.actor_health(victim),5),"full charger now requires follow-up at 120 HP")
+				combat.fire_bot_charger(attacker.global_position+Vector3.UP*.9,victim.global_position+Vector3.UP*.9,1,game.actor_team(attacker),attacker)
 			else:
 				shoot(id,attacker,victim)
 				expect(is_equal_approx(game.actor_health(victim),25),"blaster direct requires follow-up")
@@ -81,7 +84,7 @@ func _run() -> void:
 		reset_fight(bot,walker);game.items.state(bot).armor=60
 		if id=="charger":combat.fire_bot_charger(walker.global_position+Vector3.UP*.9,bot.global_position+Vector3.UP*.9,1,0,walker)
 		else:shoot(id,walker,bot)
-		var expected: float = 30.0 if id=="charger" else 85.0
+		var expected: float = 65.0 if id=="charger" else 85.0
 		expect(is_equal_approx(game.bot_health,expected) and game.items.state(bot).armor==0,"finite shield protects once from "+id)
 		observe("shield vs "+id,bot)
 	reset_fight(bot,walker)
@@ -129,7 +132,7 @@ func _run() -> void:
 	observe("near flick",bot)
 	reset_fight(walker,bot);game.perks.choices[bot.get_instance_id()]="dry_focus";bot.ink_amount=10
 	combat.fire_bot_charger(bot.global_position+Vector3.UP*.9,walker.global_position+Vector3.UP*.9,.98,1,bot)
-	expect(is_equal_approx(game.player_health,120-(32+(93-32)*.98)*.8),"bot charge consumes effective dry-focus damage")
+	expect(is_equal_approx(game.player_health,120-(28+(115*.62-28)*.98)*.8),"bot charge consumes effective dry-focus damage")
 	# Rolling requires movement, frontal contact and a clear path, for both teams.
 	for attacking_bot in [false,true]:
 		reset_fight(walker if attacking_bot else bot,bot if attacking_bot else walker)

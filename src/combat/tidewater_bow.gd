@@ -31,9 +31,10 @@ func fire(actor: Node3D, target: Vector3, charge: float) -> bool:
 	var budget := {"hits":{},"blasts":{},"final_hits":{},"max":float(weapon.volleyDamageCap),"final_max":float(weapon.finalDamageCap)}
 	# Half draw spreads explosive traps; full draw actually converges all three
 	# arrows within a body-width target at the advertised range.
-	var spread:=lerpf(.105,.07,charge*2) if charge<.5 else lerpf(.07,.008,(charge-.5)*2)
+	var spread:float=combat.Accuracy.bow_fan(charge)
 	for side in [-1.0,0.0,1.0]:
 		var forward: Vector3 = (direction+fan*tan(spread)*side).normalized()
+		forward=combat.Accuracy.sample(forward,Vector2(.0015,.0015))
 		var model := preload("res://src/combat/ink_equipment_mesh.gd").bolt(game.actor_team(actor))
 		add_child(model)
 		model.global_position = start

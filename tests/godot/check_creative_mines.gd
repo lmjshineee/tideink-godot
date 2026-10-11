@@ -19,7 +19,7 @@ func _run() -> void:
 	expect(not game.items.use(walker) and game.items.state(walker).cooldowns.mine == 0,"insufficient ink preserves cooldown")
 	var m: Dictionary = await deploy()
 	if m.is_empty(): await finish("mine placement"); return
-	expect(combat.ink_amount == 70 and game.items.state(walker).cooldowns.mine == 10 and m.health == 25,"real item cost, durable CD and destructible HP")
+	expect(combat.ink_amount == 70 and game.items.state(walker).cooldowns.mine == 6 and m.health == 25,"real item cost, durable CD and destructible HP")
 	bot.global_position = home + Vector3(1.8,.05,0); bot.set_meta("enemy_swimming",true); await physics_frame
 	mines.tick(.79); expect(m.fuse < 0 and game.bot_health == 120,"arming prevents instant proximity damage")
 	mines.tick(.02); expect(m.fuse == .45 and m.warning.visible,"submerged enemy starts actual warning instead of immediate damage")
@@ -55,7 +55,7 @@ func _run() -> void:
 	mines.tick(.81); mines.damage_area(home+Vector3.UP*.2,1,25,1)
 	mines.tick(.5); expect(mines.mines.is_empty() and mines.explosions_total == count,"warning-period explosive disarm cancels blast")
 	m = await deploy(); game.items.on_death(walker); game.items.equip(walker,"bomb")
-	expect(mines.mines.size() == 1 and game.items.state(walker).cooldowns.mine == 10,"owner death/reroll preserve mine and cooldown")
+	expect(mines.mines.size() == 1 and game.items.state(walker).cooldowns.mine == 6,"owner death/reroll preserve mine and cooldown")
 	game.items.equip(walker,"mine"); game.items.state(walker).cooldowns.mine = 0; combat.ink_amount = 100
 	expect(not game.items.use(walker),"cannot stack mines on the same spot")
 	var first: int = mines.mines.keys()[0]

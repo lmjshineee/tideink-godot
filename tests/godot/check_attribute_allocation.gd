@@ -82,7 +82,7 @@ func _run() -> void:
 		for key_name in original:
 			if String(key_name).to_lower().contains("damage"):expect(original[key_name]==w[key_name],"attributes does not change damage or caps")
 	game.perks.choices[walker.get_instance_id()]="dry_focus";combat.ink_amount=20
-	expect(is_equal_approx(game.perks.weapon(walker,combat.weapons.shooter).inkPerShot,.85*.82*.65),"attributes saving stacks once with conditional talent")
+	expect(is_equal_approx(game.perks.weapon(walker,combat.weapons.shooter).inkPerShot,.92*.82*.65),"attributes saving stacks once with conditional talent")
 	game.perks.choices[walker.get_instance_id()]="balanced";game.phase="setup"
 	combat.select_weapon("shooter");combat.on_death();combat.last_fire_time=99;walker.grounded=true;walker.ink_owner=0
 	game.attributes.select_player(mono("ink_recovery"));combat.ink_amount=30
@@ -100,7 +100,7 @@ func _run() -> void:
 	expect(is_equal_approx(game.bot_specials.state(bot).points,11.5),"bot and player share charge rules")
 	game.attributes.select_player(mono("sub_cooldown"));game.phase="playing";game.paused=false;game.player_respawn=0;game.player_health=132;combat.action_lock=0
 	game.items.equip(walker,"bomb");game.items.state(walker).cooldowns.bomb=0;combat.ink_amount=100
-	expect(game.items.use(walker) and is_equal_approx(game.items.state(walker).cooldowns.bomb,5.1),"actual sub cast uses capped new cooldown")
+	expect(game.items.use(walker) and is_equal_approx(game.items.state(walker).cooldowns.bomb,3.4),"actual sub cast uses capped new cooldown")
 	expect(is_equal_approx(combat.ink_amount,100-float(combat.weapon_data.sub.bomb.inkCost)),"cooldown ability does not also change sub cost")
 	game.phase="setup";game.attributes.roll_player();before=game.attributes.loadout(walker)
 	var all_before:=[]
@@ -119,7 +119,7 @@ func _run() -> void:
 		expect(not game.attributes.roll_player() and not game.attributes.adjust("health",-1) and not game.attributes.select_player(Catalog.empty()),"phase spoofing cannot unlock points")
 	game.phase="playing";game.player_invuln=0;game.damage_player(500,false,bot,"shooter")
 	game.randomize_player_kit();game.randomize_bot_kit(bot);game.items.on_respawn(walker)
-	expect(game.attributes.loadout(walker)==before and is_equal_approx(game.items.state(walker).cooldowns.bomb,5.1),"death/kit reroll preserve points and cooldown")
+	expect(game.attributes.loadout(walker)==before and is_equal_approx(game.items.state(walker).cooldowns.bomb,3.4),"death/kit reroll preserve points and cooldown")
 	for i in game.all_actors().size():expect(game.attributes.loadout(game.all_actors()[i])==all_before[i],"all actor points locked for whole match")
 	game.phase="setup";game.perks.locked=false
 	var sparse:=Catalog.empty();sparse.health=8;sparse.run_speed=5;game.attributes.select_player(sparse)

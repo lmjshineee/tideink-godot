@@ -1,0 +1,232 @@
+Godot: 4.8.dev6.official.8898c2b3d
+
+PASS  check_scripts_parse
+PASS  check_asset_integrity
+PASS  check_actor_feedback
+PASS  check_actor_turf_credit
+PASS  check_arena_catalog
+FAIL  check_attribute_allocation (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: attributes saving stacks once with conditional talent
+      FAIL: actual sub cast uses capped new cooldown
+      FAIL: death/kit reroll preserve points and cooldown
+      FAIL: attributes saving stacks once with conditional talent
+      FAIL: actual sub cast uses capped new cooldown
+      FAIL: death/kit reroll preserve points and cooldown
+PASS  check_behavior_perks
+PASS  check_bot_attribute_builds
+FAIL  check_bot_beacon_placement (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: valid placement pays the real ink and cooldown
+      FAIL: valid placement pays the real ink and cooldown
+      FAIL: valid placement pays the real ink and cooldown
+      FAIL: valid placement pays the real ink and cooldown
+PASS  check_bot_deployment
+PASS  check_bot_high_ground
+PASS  check_bot_ink_refill
+PASS  check_bot_jump_edges
+PASS  check_bot_map_platforms
+PASS  check_bot_patrol_commitment
+PASS  check_bot_route_clearance
+FAIL  check_bot_weapon_ranges (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: extended-range shot must actually hit the target
+      FAIL: extended-range shot must actually hit the target
+FAIL  check_bow_precision (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: half-draw actual release costs 4.25 ink
+      FAIL: AI fires affordable real arrows at close or low-ink range
+      FAIL: AI chooses quick close draw or half low-ink draw
+      FAIL: half-draw actual release costs 4.25 ink
+      FAIL: AI fires affordable real arrows at close or low-ink range
+      FAIL: AI chooses quick close draw or half low-ink draw
+PASS  check_canopy_guard
+PASS  check_canopy_push
+PASS  check_character_archetypes
+PASS  check_charger_counterplay
+PASS  check_combat_readability
+PASS  check_comeback_hud
+FAIL  check_config_consumption (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: exported fields with no consumer and no recorded reason:
+      FAIL: exported fields with no consumer and no recorded reason:
+FAIL  check_creative_bow (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: full bow costs 6 on release
+      FAIL: full bow costs 6 on release
+      FAIL: full bow costs 6 on release
+      FAIL: full bow costs 6 on release
+      FAIL: full bow costs 6 on release
+      FAIL: full bow costs 6 on release
+FAIL  check_creative_canopy (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: tap emits six pellets and pays once
+      FAIL: tap emits six pellets and pays once
+PASS  check_creative_counter
+FAIL  check_creative_decoys (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: resources/health and per-kind cooldown
+      FAIL: death and reroll keep device and CD
+      FAIL: resources/health and per-kind cooldown
+      FAIL: death and reroll keep device and CD
+PASS  check_creative_discs
+FAIL  check_creative_mines (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: real item cost, durable CD and destructible HP
+      FAIL: owner death/reroll preserve mine and cooldown
+      FAIL: real item cost, durable CD and destructible HP
+      FAIL: owner death/reroll preserve mine and cooldown
+FAIL  check_creative_mist (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: real aimed map deployment pays ink and starts cooldown
+      FAIL: deployed fog and cooldown survive death/reroll
+      FAIL: real aimed map deployment pays ink and starts cooldown
+      FAIL: deployed fog and cooldown survive death/reroll
+PASS  check_creative_mobility
+PASS  check_creative_rain_arrows
+FAIL  check_creative_sonar (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: deployment costs ink and starts persistent cooldown
+      FAIL: pulse has deployment prelude
+      FAIL: owner death and reroll preserve deployed station and CD
+      FAIL: deployment costs ink and starts persistent cooldown
+      FAIL: pulse has deployment prelude
+      FAIL: owner death and reroll preserve deployed station and CD
+PASS  check_creative_supply
+PASS  check_creative_wings
+PASS  check_curated_map_routes
+PASS  check_damage_contract
+PASS  check_damage_popups
+FAIL  check_damage_regions (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: actual ray damage is equal across legs/torso/head
+      FAIL: precision ceiling allows a lethal charge and remains finite
+      FAIL: shield absorbs before HP and provenance shows remaining damage
+      FAIL: actual ray damage is equal across legs/torso/head
+      FAIL: precision ceiling allows a lethal charge and remains finite
+      FAIL: shield absorbs before HP and provenance shows remaining damage
+FAIL  check_enemy_swim_damage (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: full charge splats an unshielded full-health vulnerable target
+      FAIL: attacker and defender modifiers retain their explicit lethal result
+      FAIL: full charge splats an unshielded full-health vulnerable target
+      FAIL: attacker and defender modifiers retain their explicit lethal result
+PASS  check_equipment_orientation
+PASS  check_expanded_loadouts
+PASS  check_experience_balance
+FAIL  check_extended_damage (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: six real canopy pellets deal 90 and cost 4.5
+      FAIL: six real canopy pellets deal 90 and cost 4.5
+PASS  check_feedback_regressions
+PASS  check_gallery_platforms
+PASS  check_gameplay_deployment
+PASS  check_garden_platforms
+PASS  check_hud_refresh
+PASS  check_ink_actions
+FAIL  check_ink_buddy_combat (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: real resource spend without fixture refill
+      FAIL: creature bite spends shield before actor health
+      FAIL: shield overflow uses the same damage path
+      FAIL: real resource spend without fixture refill
+      FAIL: creature bite spends shield before actor health
+      FAIL: shield overflow uses the same damage path
+PASS  check_ink_buddy_lifecycle
+PASS  check_ink_clash
+PASS  check_ink_hazard_feedback
+PASS  check_item_previews
+PASS  check_loadout_tuning
+PASS  check_low_ceiling_step
+PASS  check_map_routes26
+FAIL  check_menu_inspection (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: hover reflects actual selected talent cost
+      FAIL: hover reflects actual selected talent cost
+PASS  check_minimap_feedback
+PASS  check_names_and_bot_specials
+FAIL  check_perks_lock (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: ink saver transforms main costs
+      FAIL: ink saver transforms main costs
+PASS  check_pushing_wall
+PASS  check_quick_input
+FAIL  check_recall_anchor (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: return removes anchor, starts cooldown and weapon lock
+      FAIL: enemy bullets destroy anchor and start cooldown
+      FAIL: expiry starts cooldown
+      FAIL: return removes anchor, starts cooldown and weapon lock
+      FAIL: enemy bullets destroy anchor and start cooldown
+      FAIL: expiry starts cooldown
+PASS  check_rectangular_scatter
+PASS  check_roller_surface_contact
+PASS  check_setup_settings
+PASS  check_special_guard_feedback
+PASS  check_splat_attribution
+PASS  check_super_jump
+PASS  check_surface_ink
+PASS  check_surface_ink_view
+PASS  check_team_intel
+PASS  check_team_match
+PASS  check_team_navigation_motion
+PASS  check_team_palette
+PASS  check_tidewater_appearance
+PASS  check_tidewater_bomb
+PASS  check_tidewater_bot
+PASS  check_tidewater_bot_chase
+FAIL  check_tidewater_bot_loadout (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: blue charger charge, beam, ink cost or hit
+      FAIL: blue charger charge, beam, ink cost or hit
+PASS  check_tidewater_bot_vitals
+PASS  check_tidewater_camera
+PASS  check_tidewater_climb
+FAIL  check_tidewater_combat_loop (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: full charger must splat an unshielded target
+      FAIL: full charger must splat an unshielded target
+PASS  check_tidewater_face
+PASS  check_tidewater_form
+PASS  check_tidewater_full_round
+PASS  check_tidewater_handling
+PASS  check_tidewater_hard_land
+PASS  check_tidewater_hud
+PASS  check_tidewater_input_flow
+PASS  check_tidewater_jump
+PASS  check_tidewater_match
+PASS  check_tidewater_menu
+PASS  check_tidewater_original_character
+PASS  check_tidewater_play
+PASS  check_tidewater_presentation
+PASS  check_tidewater_scene
+PASS  check_tidewater_scenery
+PASS  check_tidewater_settings
+PASS  check_tidewater_settings_ui
+PASS  check_tidewater_spawn_barrier
+PASS  check_tidewater_special
+PASS  check_tidewater_squid_body
+PASS  check_tidewater_steps
+PASS  check_tidewater_turf_points
+PASS  check_tidewater_visual
+PASS  check_tidewater_visual_config
+PASS  check_tidewater_vitals
+PASS  check_tidewater_walk
+FAIL  check_tidewater_weapons (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: shooter projectile or source ink cost
+      FAIL: shooter projectile or source ink cost
+PASS  check_turf_rules
+PASS  check_vertical_combat
+PASS  check_vertical_navigation
+PASS  check_wardrobe_roll
+FAIL  check_weapon_specials (exit=1)
+      ERROR: Condition "ret != noErr" is true. Returning: ""
+      FAIL: vortex hurts visible enemies only at 24 DPS
+      FAIL: death cancels remaining launches without respawning or refunding shots
+      FAIL: vortex hurts visible enemies only at 24 DPS
+      FAIL: death cancels remaining launches without respawning or refunding shots
+
+----------------------------------------
+通过 98，失败 22
+日志保留在 /Users/yunni/Joy/inkwave-game-cleaned/.godot/*.log

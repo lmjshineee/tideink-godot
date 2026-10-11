@@ -1,6 +1,6 @@
 extends RefCounted
 # White vector artwork is tinted by the current team; retired IDs have a fallback.
-const SPECIAL_NAMES := {"slam":"重击","storm":"远程墨雨", "overdrive":"潮流速射", "ink_vortex":"回旋墨环", "siege_shell":"压力连炮","twin_discs":"双镖突进","rain_arrows":"雨箭齐射","absorb_counter":"吸墨反击"}
+const SPECIAL_NAMES := {"slam":"重击","storm":"远程墨雨", "overdrive":"潮流速射", "ink_vortex":"回旋墨环", "siege_shell":"压力连炮","twin_discs":"双镖突进","rain_arrows":"雨箭齐射","pushing_wall":"推进防护墙", "absorb_counter":"吸墨反击"}
 static var textures: Dictionary = {}
 
 static func icon(kind: String, id: String) -> Texture2D:

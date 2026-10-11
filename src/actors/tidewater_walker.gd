@@ -96,6 +96,13 @@ var step_down := 0.45
 var foot_radius := 0.24
 var _kid_shape: Shape3D
 var _squid_shape: Shape3D
+var squid_roll_time := 0.0
+var squid_roll_cooldown := 0.0
+var squid_roll_guard := 0.0
+var squid_roll_direction := Vector2.ZERO
+var squid_roll_speed := 0.0
+var surge_charge := 0.0
+var surge_time := 0.0
 
 
 func _ready() -> void:
@@ -170,6 +177,7 @@ func _physics_process(delta: float) -> void:
 	if not slam_phase.is_empty():
 		_advance_slam(delta)
 		return
+	advance_ink_actions(delta)
 	if wings != null and wings.busy(self):
 		wings.move_player(self,delta); return
 	var axis := Vector2.ZERO
@@ -186,6 +194,7 @@ func _physics_process(delta: float) -> void:
 	if not intent_driven:
 		squid = update_form(Input.is_key_pressed(KEY_SHIFT) and can_dive())
 	_advance_jump_input(delta)
+	try_squid_roll(axis)
 	hard_land = maxf(0.0, hard_land - delta / float(player_config["hardLandTime"]))
 	# Ground state from the previous frame's foot probe, exactly as actor.js reads
 	# this.grounded before _integrate. Both "submerged" and "on enemy ink" require
@@ -203,7 +212,9 @@ func _physics_process(delta: float) -> void:
 		_face(delta, squid, axis, submerged)
 		_update_camera()
 		return
-	if mobility != null and mobility.rolling(self):
+	if squid_roll_time>0:
+		_set_horizontal(squid_roll_direction*squid_roll_speed)
+	elif mobility != null and mobility.rolling(self):
 		var movement: Vector3 = mobility.velocity_for(self)
 		_set_horizontal(Vector2(movement.x, movement.z))
 		jump_buffer = 0.0
@@ -313,7 +324,47 @@ func reset_movement_state() -> void:
 	hard_land = 0.0
 	land_speed = 0.0
 	velocity = Vector3.ZERO
+	squid_roll_time=0; squid_roll_cooldown=0; squid_roll_guard=0; surge_charge=0; surge_time=0
+	$Body.rotation.z=0
 	_update_camera()
+
+
+func advance_ink_actions(delta:float) -> void:
+	squid_roll_time=maxf(0,squid_roll_time-delta)
+	squid_roll_cooldown=maxf(0,squid_roll_cooldown-delta)
+	squid_roll_guard=maxf(0,squid_roll_guard-delta)
+	surge_time=maxf(0,surge_time-delta)
+	$Body.rotation.z=sin((1.0-squid_roll_time/.30)*TAU)*.9 if squid_roll_time>0 and squid_form else 0.0
+	if not climbing:surge_charge=0
+
+
+func try_squid_roll(axis:Vector2) -> bool:
+	var horizontal:=Vector2(velocity.x,velocity.z)
+	if jump_buffer<=0 or not squid_form or not grounded or ink_owner!=team or squid_roll_cooldown>0 or weapon_busy_state or horizontal.length()<6.0 or axis.length_squared()<.1:
+		return false
+	if horizontal.normalized().dot(axis.normalized())>.5:return false
+	squid_roll_direction=axis.normalized()
+	squid_roll_speed=minf(maxf(horizontal.length(),10.5),float(player_config.swimSpeed)*1.1)
+	squid_roll_time=.30; squid_roll_cooldown=.70; squid_roll_guard=.22
+	velocity=Vector3(squid_roll_direction.x*squid_roll_speed,8.5,squid_roll_direction.y*squid_roll_speed)
+	grounded=false; jump_buffer=0; coyote=0
+	jumped.emit()
+	return true
+
+
+func ink_action_damage_factor() -> float:
+	return .4 if squid_form and squid_roll_guard>0 else 1.0
+
+
+func charge_surge(delta:float,held:bool,capped:bool) -> bool:
+	if not held or capped or surge_time>0:
+		surge_charge=0;return false
+	surge_charge+=delta
+	if surge_charge<.45:return false
+	surge_charge=0;surge_time=.32;squid_roll_guard=.22
+	jump_buffer=0;climb_velocity=16.5
+	jumped.emit()
+	return true
 
 
 # Applies one frame of player intent and decides, per actor.js:253-263 and
@@ -610,6 +661,15 @@ func _update_climb(delta: float, squid: bool, axis: Vector2) -> bool:
 		climb_exit = 0.2
 		return true
 	if into < float(player_config["climbDetachDot"]):
+		if jump_buffer>0 and squid_roll_cooldown<=0 and not weapon_busy_state:
+			# Kick away from an actually painted wall; collision still owns the flight.
+			squid_roll_direction=Vector2(normal.x,normal.z).normalized()
+			squid_roll_speed=10.5;squid_roll_time=.30;squid_roll_cooldown=.70;squid_roll_guard=.22
+			_set_climbing(false);surge_charge=0;surge_time=0
+			velocity=normal*10.5+Vector3.UP*8.5
+			climb_exit=.35;jump_buffer=0;coyote=0
+			jumped.emit()
+			return true
 		_set_climbing(false)
 		velocity = normal * 3.2 + Vector3.UP * 3.2
 		climb_exit = 0.3
@@ -618,6 +678,12 @@ func _update_climb(delta: float, squid: bool, axis: Vector2) -> bool:
 	var upper_hit := _wall_ray(global_position + Vector3.UP * 0.85, direction, radius + 0.45)
 	var capped := not upper_hit.is_empty() and absf(float(upper_hit["normal"].y)) < 0.5 and not _is_own_wall_hit(upper_hit)
 	var want := 0.0 if capped else float(player_config["climbSpeed"]) * clampf(into, 0.0, 1.0) * minf(1.0, movement.length())
+	var charging_surge:=Input.is_physical_key_pressed(KEY_SPACE) and not capped
+	charge_surge(delta,charging_surge,capped)
+	if surge_time>0:
+		want=16.5 if not capped else 0.0
+	elif charging_surge:
+		want=0.0
 	if upper_hit.is_empty() and want > 0.0:
 		want = minf(want, sqrt(2.0 * float(player_config["gravity"]) * float(player_config["apexGravityMul"]) * (float(player_config["ledgePopClear"]) + 0.3)))
 	var accel := float(player_config["climbAccel"]) * delta * (1.0 if want > climb_velocity else 1.6)

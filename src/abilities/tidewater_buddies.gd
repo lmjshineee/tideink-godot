@@ -1,14 +1,14 @@
 extends Node3D
 
 const COST:=45.0
-const HEALTH:=45.0
+const HEALTH:=60.0
 const LIFE:=12.0
-const DETECT:=8.0
-const SPEED:=4.2
+const DETECT:=10.0
+const SPEED:=5.8
 const GRAVITY:=18.0
 const RADIUS:=.28
 const HEIGHT:=.7
-const DAMAGE:=18.0
+const DAMAGE:=24.0
 const REACH:=1.2
 const WINDUP:=.22
 const RECOVERY:=.38

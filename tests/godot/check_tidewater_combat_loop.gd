@@ -36,8 +36,8 @@ func _check() -> void:
 	walker.global_position = Vector3(0.0, 2.25, 31.2)
 	var charger: Dictionary = weapon_data["weapons"]["charger"]
 	combat.call("_fire_charger", charger, 1.0, Vector3(0.0, 0.0, 1.0))
-	if float(scene.get("bot_respawn")) <= 0.0 or float(scene.get("bot_health"))!=0:
-		_fail("full charger must splat an unshielded target")
+	if float(scene.get("bot_respawn")) > 0.0 or not is_equal_approx(float(scene.get("bot_health")),17.0):
+		_fail("full charger leaves reaction HP on a healthy target")
 		return
 	_respawn_bot(scene)
 	var blaster: Dictionary = weapon_data["weapons"]["blaster"]

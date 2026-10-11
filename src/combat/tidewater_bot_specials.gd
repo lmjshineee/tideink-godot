@@ -20,13 +20,15 @@ func charge(actor: Node3D, area: float) -> void:
 func busy(actor: Node3D) -> bool:
 	return bool(state(actor).get("active",false))
 func locks_primary(actor: Node3D) -> bool:
-	return busy(actor) and String(state(actor).get("kind","")) not in ["overdrive","ink_vortex"]
+	return busy(actor) and String(state(actor).get("kind","")) not in ["overdrive","ink_vortex","pushing_wall"]
 func on_death(actor: Node3D) -> void:
+	game.get_node("Combat").special_guard.cancel(actor)
 	var s := state(actor)
 	if s.is_empty(): return
 	game.get_node("Combat").counter.cancel(actor)
 	game.get_node("Combat").rain_arrows.cancel(actor)
 	game.get_node("Combat").weapon_specials.cancel(actor)
+	game.get_node("Combat").push_wall.cancel(actor)
 	# Death preserves unspent progress. Activated casts already have zero points.
 	s["active"] = false
 	s["windup"] = 0.0
@@ -39,6 +41,9 @@ func tick(delta: float) -> void:
 		s["cooldown"] = maxf(0,float(s["cooldown"])-delta)
 		if not bool(game.call("actor_alive",actor)): continue
 		if game.bot_deployment.busy(actor): continue
+		if bool(s.active) and String(s.get("kind","")) == "pushing_wall":
+			s.active = combat.push_wall.active(actor)
+			continue
 		if bool(s.active) and String(s.get("kind","")) in combat.weapon_specials.KINDS:
 			s.active = combat.weapon_specials.active(actor)
 			continue
@@ -70,6 +75,7 @@ func tick(delta: float) -> void:
 				nearest = enemy
 				range_limit = distance
 		if nearest==null: continue
+		if weapon.special == "pushing_wall" and not combat.push_wall.begin(actor,(game.intel.point(nearest)-actor.global_position).normalized()):continue
 		if weapon.special == "rain_arrows" and not combat.rain_arrows.begin(actor,game.intel.point(nearest)): continue
 		if weapon.special in combat.weapon_specials.KINDS and not combat.weapon_specials.begin(actor,weapon.special,(game.intel.point(nearest)-(actor.global_position+Vector3.UP*1.05)).normalized()): continue
 		s["points"] = 0.0
@@ -78,10 +84,13 @@ func tick(delta: float) -> void:
 		var stats: Dictionary = actor.get_meta("match_stats")
 		stats["specials"] = int(stats.get("specials",0))+1
 		actor.set("ink_amount",game.call("actor_ink_max",actor))
+		combat.grant_special_protection(actor)
 		game.call("play_sound","special_activate",actor.global_position)
 		var team: int = game.call("actor_team",actor)
 		s.kind = weapon.special
-		if weapon.special in combat.weapon_specials.KINDS:
+		if weapon.special == "pushing_wall":
+			s.active = true
+		elif weapon.special in combat.weapon_specials.KINDS:
 			s.active = true
 		elif weapon.special == "rain_arrows":
 			s.active = true
@@ -100,7 +109,7 @@ func tick(delta: float) -> void:
 			var from: Vector3 = actor.global_position+Vector3.UP*1.45
 			var direction: Vector3 = (nearest.global_position+Vector3.UP*0.8-from).normalized()
 			combat.call("throw_actor_storm",actor,direction)
-		game.get("presentation").call("notify_ability",String(game.call("_actor_name",actor))+" · "+{"rain_arrows":"雨箭齐射", "absorb_counter":"吸墨反击", "slam":"潮汐重击","storm":"远程墨雨", "overdrive":"潮流速射", "ink_vortex":"回旋墨环", "siege_shell":"压力连炮","twin_discs":"双镖突进"}[weapon.special])
+		game.get("presentation").call("notify_ability",String(game.call("_actor_name",actor))+" · "+{"rain_arrows":"雨箭齐射", "pushing_wall":"推进防护墙", "absorb_counter":"吸墨反击", "slam":"潮汐重击","storm":"远程墨雨", "overdrive":"潮流速射", "ink_vortex":"回旋墨环", "siege_shell":"压力连炮","twin_discs":"双镖突进"}[weapon.special])
 func escape(actor: Node3D) -> Vector3:
 	var combat := game.get_node("Combat")
 	var residual_escape: Vector3 = game.perks.escape_burst(actor)

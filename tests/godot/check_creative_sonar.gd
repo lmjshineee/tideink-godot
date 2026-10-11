@@ -20,11 +20,11 @@ func _run() -> void:
 	if not sonar.stations.has(id): await finish("sonar placement"); return
 	var s: Dictionary = sonar.stations[id]
 	var home: Vector3 = s.point
-	expect(combat.ink_amount == 60 and s.health == 60 and game.items.state(walker).cooldowns.sonar == 18, "deployment costs ink and starts persistent cooldown")
+	expect(combat.ink_amount == 60 and s.health == 60 and game.items.state(walker).cooldowns.sonar == 10, "deployment costs ink and starts persistent cooldown")
 	bot.global_position = home + Vector3(0,0,6)
 	bot.set_meta("enemy_swimming",true)
 	intel.clear_all(); await physics_frame
-	sonar.tick(.39)
+	sonar.tick(.07)
 	expect(intel.marker(bot,0).is_empty(), "pulse has deployment prelude")
 	for i in 16: sonar.tick(.033)
 	expect(not intel.marker(bot,0).is_empty() and intel.marker(bot,0).status == "sonar", "travelling wave reveals submerged enemy")
@@ -51,7 +51,7 @@ func _run() -> void:
 	expect(intel.marker(bot,0).is_empty(), "radius uses 3D distance rather than flat map distance")
 	game.items.on_death(walker)
 	game.randomize_player_kit()
-	expect(sonar.stations.has(id) and game.items.state(walker).cooldowns.sonar == 18, "owner death and reroll preserve deployed station and CD")
+	expect(sonar.stations.has(id) and game.items.state(walker).cooldowns.sonar == 10, "owner death and reroll preserve deployed station and CD")
 	expect(not sonar.damage_hit({"collider":s.visual},100,0), "allied fire cannot damage station")
 	await physics_frame
 	var origin := home + Vector3(0,.55,3)

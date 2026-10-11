@@ -74,7 +74,7 @@ func _run() -> void:
 	var direction: Vector3=(bot.global_position+Vector3.UP*.9-(walker.global_position+Vector3.UP*1.05)).normalized()
 	combat.canopy._shot(walker,direction,combat.weapons.canopy)
 	for i in 45:combat._update_projectiles(1.0/30)
-	expect(is_equal_approx(game.bot_health,30) and is_equal_approx(combat.ink_amount,95.5),"six real canopy pellets deal 90 and cost 4.5")
+	expect(is_equal_approx(game.bot_health,30) and is_equal_approx(combat.ink_amount,95),"six real canopy pellets deal 90 and cost 5")
 	observe("one canopy volley",bot)
 	combat.canopy._shot(walker,direction,combat.weapons.canopy)
 	for i in 45:combat._update_projectiles(1.0/30)

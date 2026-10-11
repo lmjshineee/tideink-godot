@@ -7,12 +7,14 @@ func _sound(id: String, at: Vector3) -> void:
 # Source-configured weapon cores, bomb and two specials for the 1v1 demo.
 # Projectiles hit map collision and the visible bot; detailed effects are simplified.
 const TeamPalette := preload("res://src/core/team_palette.gd")
+const Accuracy := preload("res://src/core/weapon_accuracy.gd")
 
 var weapon_specials: Node3D
 var rain_arrows: Node3D
 var counter: Node3D
 var bow: Node3D
 var canopy: Node3D
+var push_wall: Node3D
 var discs: Node3D
 var action_lock := 0.0
 var feedback: Node3D
@@ -48,6 +50,9 @@ var elapsed := 0.0
 var special_points := 0.0
 var special_active := ""
 var special_time := 0.0
+var actor_spread: Dictionary = {}
+var ink_clash := preload("res://src/combat/tidewater_ink_clash.gd").new()
+var special_guard := preload("res://src/combat/tidewater_special_guard.gd").new()
 
 
 # weapons.js:42 — a weapon mid-charge or mid-flick keeps the actor a kid.
@@ -88,6 +93,7 @@ func _paint_team(at: Vector3, team: int, radius: float, seed: float,
 func setup(owner: Node3D, avatar: CharacterBody3D) -> void:
 	game = owner
 	walker = avatar
+	add_child(special_guard);special_guard.setup(game,self)
 	feedback = preload("res://src/presentation/tidewater_feedback_fx.gd").new()
 	feedback.name = "FeedbackFX"
 	add_child(feedback)
@@ -105,6 +111,9 @@ func setup(owner: Node3D, avatar: CharacterBody3D) -> void:
 	canopy = preload("res://src/combat/tidewater_canopy.gd").new()
 	add_child(canopy)
 	canopy.setup(game,self)
+	push_wall = preload("res://src/combat/tidewater_push_wall.gd").new()
+	add_child(push_wall)
+	push_wall.setup(game,self)
 	counter = preload("res://src/combat/tidewater_counter.gd").new()
 	add_child(counter)
 	counter.setup(game,self)
@@ -123,10 +132,11 @@ func select_weapon(weapon_id: String) -> bool:
 		return false
 	var retained_fraction := special_fraction()
 	if weapon_specials != null: weapon_specials.cancel(walker)
+	if push_wall != null: push_wall.cancel(walker)
 	if canopy != null: canopy.cancel(walker)
 	if counter != null: counter.cancel(walker)
 	if rain_arrows != null: rain_arrows.cancel(walker)
-	if special_active in ["absorb_counter","rain_arrows","overdrive","ink_vortex","siege_shell"]: special_active = ""
+	if special_active in ["pushing_wall","absorb_counter","rain_arrows","overdrive","ink_vortex","siege_shell"]: special_active = ""
 	selected_id = weapon_id
 	special_points = retained_fraction * special_cost()
 	bloom = 0.0
@@ -147,9 +157,11 @@ func select_weapon(weapon_id: String) -> bool:
 
 
 func on_death() -> void:
+	special_guard.cancel(walker)
 	rain_arrows.cancel(walker)
 	counter.cancel(walker)
-	canopy.cancel(walker)
+	canopy.cancel(walker,false)
+	push_wall.cancel(walker)
 	action_lock = 0.0
 	weapon_specials.cancel(walker)
 	# Unspent progress survives death; an activated special has already spent it.
@@ -173,14 +185,16 @@ func on_death() -> void:
 
 func advance_effects(delta: float) -> void:
 	action_lock = maxf(0, action_lock - delta)
+	special_guard.tick(delta)
 	weapon_specials.tick(delta)
 	counter.tick(delta)
 	rain_arrows.tick(delta)
 	discs.tick(delta)
-	bow.tick(delta)
 	canopy.tick(delta)
+	push_wall.tick(delta)
 	feedback.call("advance",delta)
 	_update_projectiles(delta)
+	bow.tick(delta)
 	_update_beams(delta)
 	_update_bursts(delta)
 	_update_bombs(delta)
@@ -197,6 +211,7 @@ func try_special() -> bool:
 		return false
 	var weapon: Dictionary = weapons[selected_id]
 	var id := String(weapon["special"])
+	if id == "pushing_wall" and not push_wall.begin(walker,_aim_direction(walker.global_position+Vector3.UP*1.05,24)): return false
 	if id == "rain_arrows" and not rain_arrows.begin(walker,_aim_target(walker.global_position+Vector3.UP*1.05,24)): return false
 	if id in weapon_specials.KINDS and not weapon_specials.begin(walker,id,_aim_direction(walker.global_position+Vector3.UP*1.05,24)): return false
 	canopy.cancel(walker)
@@ -205,6 +220,7 @@ func try_special() -> bool:
 	charge_fraction=0
 	special_points = 0.0
 	ink_amount = float(game.call("actor_ink_max",walker)) if game.has_method("actor_ink_max") else float(weapon_data["player"]["inkMax"])
+	grant_special_protection(walker)
 	_sound("special_activate",walker.global_position)
 	special_active = id
 	special_time = 0.0
@@ -216,17 +232,32 @@ func try_special() -> bool:
 		walker.firing_speed_limit = counter.MOVE_LIMIT
 	elif id == "twin_discs":
 		discs.begin_twins(walker, _aim_direction(walker.global_position + Vector3.UP, 20.0))
-	elif id == "rain_arrows" or id in weapon_specials.KINDS:
+	elif id in ["rain_arrows","pushing_wall"] or id in weapon_specials.KINDS:
 		pass # Floor target already validated before spending meter.
 	else:
 		_throw_storm(weapon_data["specials"]["storm"])
 	if game.get("presentation")!=null:
-		game.get("presentation").call("notify_ability",{"rain_arrows":"雨箭齐射 · 落点锁定 · 三轮抛射 / 屋顶可挡箭", "absorb_counter":"吸墨反击 · 正面吸墨 3 秒 · 侧后方仍可受击", "slam":"潮汐重击 · 近身清场", "storm":"远程墨雨 · 持续控场 9 秒", "overdrive":"潮流速射 · 连射加速 6 秒 / 耗墨减半", "ink_vortex":"回旋墨环 · 跟随自身 6 秒 / 遮挡有效", "siege_shell":"压力连炮 · 三发破阵 / 同目标总伤害最多 150", "twin_discs":"双镖开道 · 双轨前掷 · 不穿墙"}[id])
+		game.get("presentation").call("notify_ability",{"rain_arrows":"雨箭齐射 · 落点锁定 · 三轮抛射 / 屋顶可挡箭", "pushing_wall":"推进防护墙 · 600 HP / 6 秒 · 可跟进射击", "absorb_counter":"吸墨反击 · 正面吸墨 3 秒 · 侧后方仍可受击", "slam":"潮汐重击 · 近身清场", "storm":"远程墨雨 · 持续控场 9 秒", "overdrive":"潮流速射 · 连射加速 6 秒 / 耗墨减半", "ink_vortex":"回旋墨环 · 跟随自身 6 秒 / 遮挡有效", "siege_shell":"压力连炮 · 三发破阵 / 同目标总伤害最多 150", "twin_discs":"双镖开道 · 双轨前掷 · 不穿墙"}[id])
 	return true
 
 
+func grant_special_protection(actor: Node3D) -> void:
+	# Existing invulnerability clocks are paused/decremented by actor vitals.
+	var id:String=selected_id if actor==walker else actor.weapon_id
+	var kind:String=weapons[id].special
+	var seconds:=1.35 if kind=="siege_shell" else 1.2 if kind=="slam" else 1.0
+	if actor==walker:game.player_invuln=maxf(game.player_invuln,seconds)
+	elif actor==game.get_node("Bot"):game.bot_invuln=maxf(game.bot_invuln,seconds)
+	else:actor.invuln=maxf(actor.invuln,seconds)
+	special_guard.begin(actor,seconds)
+	feedback.emit("splat",actor.global_position+Vector3.UP*.7,game.actor_team(actor))
+	_ability_ring(actor.global_position,2.8,.45,game.actor_team(actor))
+
+
 func _update_special(delta: float) -> void:
-	if special_active in weapon_specials.KINDS:
+	if special_active == "pushing_wall":
+		if not push_wall.active(walker):special_active=""
+	elif special_active in weapon_specials.KINDS:
 		if not weapon_specials.active(walker): special_active = ""
 	elif special_active == "rain_arrows":
 		if not rain_arrows.busy(walker): special_active = ""
@@ -256,7 +287,7 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 	firing_time = maxf(0.0, firing_time - delta)
 	flick_recover = maxf(0.0, flick_recover - delta)
 	advance_effects(delta)
-	if not special_active.is_empty() and special_active not in ["overdrive","ink_vortex"]:
+	if not special_active.is_empty() and special_active not in ["overdrive","ink_vortex","pushing_wall"]:
 		walker.set("firing_speed_limit", counter.move_limit(walker))
 		return
 	var player_config: Dictionary = weapon_data["player"].duplicate()
@@ -342,19 +373,19 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 					charge_time=0
 					charge_fraction=0
 			"charger":
-				if fire and cooldown <= 0.0 and ink_amount >= float(weapon["inkFull"]) * 0.2:
+				if fire and cooldown <= 0.0 and ink_amount >= float(weapon.inkMin):
 					charging = true
 					charge_time = minf(float(weapon["chargeTime"]), charge_time + delta)
 					var t := charge_time / float(weapon["chargeTime"])
 					var curved := t * 1.25 if t < 0.2 else 0.25 + (t - 0.2) * 0.9375
-					charge_fraction = minf(ink_amount / float(weapon["inkFull"]), curved)
+					charge_fraction = minf(clampf((ink_amount-float(weapon.inkMin))/(float(weapon.inkFull)-float(weapon.inkMin)),0,1), curved)
 					speed_limit = float(weapon["moveSpeedFiring"])
 				elif charging:
-					_fire_charger(weapon, maxf(0.12, charge_fraction))
+					_fire_charger(weapon, charge_fraction)
 					charging = false
 					charge_time = 0.0
 					charge_fraction = 0.0
-					cooldown = 0.28
+					cooldown = float(weapon.releaseRecovery)
 			"roller":
 				_update_roller(delta, fire, pressed, weapon)
 				speed_limit = _roller_speed_limit(weapon)
@@ -368,16 +399,39 @@ func tick(delta: float, fire: bool, squid: bool, sub: bool = false) -> void:
 	walker.set("firing_speed_limit", speed_limit)
 
 
-# Current shot cone half-angle in degrees, mirroring weapons.js:57-64. Only the
-# shooter's cone widens with bloom; the blaster's is constant.
+# Compatibility query; shot sampling and the HUD use the full rectangular box.
 func _spread_degrees(weapon: Dictionary) -> float:
-	# The walker's bodies are lifted out of the ground, so is_on_floor() is always false;
-	# the probe state is what decides ground versus air spread.
-	var base := float(weapon["spreadBaseGround"]) if bool(walker.get("grounded")) else float(weapon["spreadBaseAir"])
-	if selected_id == "dualie" and game.mobility.precision(walker): base *= 0.35
-	if String(weapon["kind"]) == "shooter":
-		return base * lerpf(float(weapon["spreadFirst"]), 1.0, bloom)
-	return base
+	return rad_to_deg(Accuracy.box(weapon,walker.grounded,bloom,selected_id=="dualie" and game.mobility.precision(walker)).x)
+
+func spread_box(weapon:Dictionary) -> Vector2:
+	return Accuracy.box(weapon,walker.grounded,bloom,selected_id=="dualie" and game.mobility.precision(walker))
+
+func reticle_box() -> Rect2:
+	var camera:Camera3D=walker.get_node("Camera3D")
+	var w:Dictionary=weapon_specials.modify_weapon(walker,game.perks.weapon(walker,weapons[selected_id]))
+	var half_box:=Vector2.ZERO
+	match String(w.kind):
+		"shooter","blaster":half_box=spread_box(w)
+		"canopy":half_box=Accuracy.canopy_box(w,walker.grounded)
+		"bow":
+			var fan:=Accuracy.bow_fan(charge_fraction)
+			half_box=Vector2(.0015,fan+.0015) if not walker.grounded else Vector2(fan+.0015,.0015)
+		"roller":half_box=Vector2(deg_to_rad(float(w.flickSpreadDeg))*.5,.04)
+	var muzzle:=walker.global_position+Vector3.UP*1.05
+	var target:=_aim_target(muzzle,float(w.get("range",w.get("rangeMax",12.0))))
+	var direction:Vector3=(target-muzzle).normalized()
+	var basis:=Accuracy.axes(direction)
+	var distance:=muzzle.distance_to(target)
+	var center:=camera.unproject_position(target)
+	var rect:=Rect2(center,Vector2.ZERO)
+	for x in [-1,1]:
+		for y in [-1,1]:
+			var point:Vector3=target+basis[0]*tan(half_box.x)*distance*x+basis[1]*tan(half_box.y)*distance*y
+			if not camera.is_position_behind(point):rect=rect.expand(camera.unproject_position(point))
+	# Dual muzzle separation is part of the volley envelope too.
+	if int(w.get("shots",1))>1:
+		for x in [-1,1]:rect=rect.expand(camera.unproject_position(target+basis[0]*.13*x))
+	return rect.grow(1.0)
 
 
 func _spawn_shot(weapon: Dictionary) -> void:
@@ -389,15 +443,10 @@ func _spawn_shot(weapon: Dictionary) -> void:
 		direction = _ballistic_direction(muzzle, direction, target,
 			float(weapon["projSpeed"]), float(weapon["straightTime"]),
 			28.0, 0.8, float(weapon["range"]))
-	# Per-shot spread with bloom (weapons.js:57-64, 119). Without it the shooter is a
-	# laser: 5.5 deg on the ground, 11 deg in the air, opening from spreadFirst to the
-	# full cone over a burst and recovering once the trigger is released.
-	var angle := deg_to_rad(_spread_degrees(weapon))
-	if angle > 0.0:
-		direction = _spread_direction(direction, angle)
+	var half_box:=spread_box(weapon)
 	bloom = minf(1.0, bloom + float(weapon["bloomPerShot"]))
 	muzzle += direction * 0.55
-	_spawn_shot_pair(weapon,muzzle,direction,0,walker)
+	_spawn_shot_pair(weapon,muzzle,direction,0,walker,half_box)
 
 
 # Both automatic weapons use the same projectile, impact and hit rules for each team.
@@ -413,29 +462,35 @@ func spawn_bot_shot(from: Vector3, target: Vector3, weapon_id: String = "shooter
 		direction = _ballistic_direction(from, direction, target,
 			float(weapon["projSpeed"]), float(weapon["straightTime"]),
 			28.0, 0.8, float(weapon["range"]))
-	direction = _spread_direction(direction, deg_to_rad(float(weapon["spreadBaseGround"])) * (0.35 if source_actor != null and weapon_id == "dualie" and game.mobility.precision(source_actor) else 1.0))
-	_spawn_shot_pair(weapon,from+direction*.55,direction,team,source_actor)
+	var grounded:=true
+	var actor_bloom:=1.0
+	if source_actor!=null:
+		grounded=walker.grounded if source_actor==walker else source_actor.team_mover!=null and source_actor.team_mover.is_on_floor()
+		var key:=source_actor.get_instance_id()
+		var spread:Dictionary=actor_spread.get(key,{"weapon":"","bloom":0.0,"time":-99.0})
+		if spread.weapon!=weapon_id or elapsed-float(spread.time)>=float(weapon.bloomRecover):spread.bloom=0.0
+		actor_bloom=float(spread.bloom)
+		spread.bloom=minf(1,float(spread.bloom)+float(weapon.bloomPerShot));spread.time=elapsed;spread.weapon=weapon_id;actor_spread[key]=spread
+	var half_box:=Accuracy.box(weapon,grounded,actor_bloom,weapon_id=="dualie" and source_actor!=null and game.mobility.precision(source_actor))
+	_spawn_shot_pair(weapon,from+direction*.55,direction,team,source_actor,half_box)
 
 
-func _spawn_shot_pair(weapon:Dictionary,at:Vector3,direction:Vector3,team:int,actor:Node3D) -> void:
+func _spawn_shot_pair(weapon:Dictionary,at:Vector3,direction:Vector3,team:int,actor:Node3D,half_box:Vector2=Vector2(-1,-1)) -> void:
 	var count:=int(weapon.get("shots",1))
 	var right:=direction.cross(Vector3.UP).normalized()
 	for i in count:
 		var offset:=right*(float(i)-float(count-1)*.5)*.26
-		_spawn_projectile(String(weapon.kind),at+offset,direction*float(weapon.projSpeed),weapon,team,actor)
+		var forward:=direction
+		if half_box.x>=0:
+			forward=Accuracy.sample(direction,half_box)
+		elif count>1:
+			forward=Accuracy.sample(direction,Accuracy.box(weapon,true,0.0,actor!=null and game.mobility.precision(actor)))
+		_spawn_projectile(String(weapon.kind),at+offset,forward*float(weapon.projSpeed),weapon,team,actor)
 
 
-# weapons.js:_spread samples a disk in angular space, with 55% vertical spread.
-# The radius and azimuth share one sample; independent positive offsets would
-# bias every shot to the same quadrant and can exceed the intended cone.
+# Older callers supply the horizontal half-angle; sample the same rectangle.
 func _spread_direction(direction: Vector3, angle: float) -> Vector3:
-	if angle <= 0.0:
-		return direction
-	var basis := _perpendicular_basis(direction)
-	var radius := angle * sqrt(randf())
-	var azimuth := randf() * TAU
-	return (direction + basis[0] * cos(azimuth) * tan(radius)
-			+ basis[1] * sin(azimuth) * tan(radius) * 0.55).normalized()
+	return Accuracy.sample(direction,Vector2(angle,angle*.55))
 
 
 # Horizontal and vertical unit vectors perpendicular to `direction`.
@@ -583,6 +638,7 @@ func _spawn_projectile(kind: String, at: Vector3, velocity: Vector3,
 
 
 func _update_projectiles(delta: float) -> void:
+	ink_clash.resolve(self,delta)
 	var previous_credit_guard: bool = bool(game.get("bot_painting"))
 	var previous_actor: Node3D = game.get("painting_actor")
 	for index in range(projectiles.size() - 1, -1, -1):
@@ -767,7 +823,7 @@ func _ability_ring(at: Vector3, radius: float, life: float, team: int = 0) -> vo
 
 func _fire_charger(weapon: Dictionary, charge: float, aim_override: Vector3 = Vector3.ZERO) -> void:
 	_sound("shoot_charger",walker.global_position)
-	ink_amount = maxf(0.0, ink_amount - float(weapon["inkFull"]) * charge)
+	ink_amount = maxf(0.0, ink_amount - lerpf(float(weapon.inkMin),float(weapon.inkFull),charge))
 	last_fire_time = 0.0
 	walker.get_node("Body").call("set_action", "shoot")
 	var muzzle := walker.global_position + Vector3.UP * 1.05
@@ -796,7 +852,7 @@ func _fire_charger_ray(weapon: Dictionary, charge: float, muzzle: Vector3,
 		query.exclude = [walker.get_rid()]
 	var hit := get_world_3d().direct_space_state.intersect_ray(query)
 	var length := muzzle.distance_to(hit["position"]) if not hit.is_empty() else range_m
-	var target_hit := _segment_team_hit(muzzle, muzzle + direction * length, 0.14, team)
+	var target_hit := _segment_team_hit(muzzle, muzzle + direction * length, float(weapon.hitRadius), team)
 	if not target_hit.is_empty():
 		length = float(target_hit["distance"])
 		var damage := float(weapon["damageMax"]) if charge >= 0.999 else lerpf(float(weapon["damageMin"]), float(weapon["damageMax"]) * 0.62, charge)
@@ -1394,6 +1450,7 @@ func damage_cover_hit(hit: Dictionary, amount: float, team: int) -> void:
 	game.items.sonar.damage_hit(hit,amount,team)
 	game.items.recall.damage_hit(hit,amount,team)
 	canopy.damage_hit(hit,amount,team)
+	push_wall.damage_hit(hit,amount,team)
 
 func damage_cover_area(at: Vector3, radius: float, amount: float, team: int) -> void:
 	game.items.buddies.damage_area(at,radius,amount,team)
@@ -1403,6 +1460,7 @@ func damage_cover_area(at: Vector3, radius: float, amount: float, team: int) -> 
 	game.items.sonar.damage_area(at,radius,amount,team)
 	game.items.recall.damage_area(at,radius,amount,team)
 	canopy.damage_area(at,radius,amount,team)
+	push_wall.damage_area(at,radius,amount,team)
 
 func _unblocked(from: Vector3, to: Vector3, source_team: int = -1) -> bool:
 	var mask := 1 if source_team < 0 else world_mask(source_team)

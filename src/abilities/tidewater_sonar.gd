@@ -47,7 +47,7 @@ func place(actor: Node3D) -> bool:
 	shell.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(shell); shell.global_position = checked.point + Vector3.UP * .75; shell.visible = false
 	stations[key] = {"owner": actor, "team": team, "point": checked.point, "visual": body,
-		"wave": wave, "shell": shell, "dish": dish, "health": HEALTH, "time": LIFETIME, "next": .4, "radius": -1.0, "hits": {}}
+		"wave": wave, "shell": shell, "dish": dish, "health": HEALTH, "time": LIFETIME, "next": .08, "radius": -1.0, "hits": {}}
 	tank.ink_amount -= COST; tank.last_fire_time = 0.0
 	return true
 

@@ -52,3 +52,7 @@ inkwave-game-cleaned/
 `src/core/loadout_rules.gd` 定义本地主武器／固定副武器映射；当前只有全图涂地战，`area_control.gd` 已移除。`src/world/surface_ink.gd` 仍是唯一涂墨账本，墨墙可留墨攀爬但不给积分／充能。`tools/assets/build_curated_maps.py` 从一份本地几何同步构建两张新图；`world/curated_scenery.gd` 仅读布景，碰撞继续来自地图资产。见 [精选地图与脸发](CURATED_ART.md)。
 
 属性与人物：`core/attribute_catalog.gd` 定义二十点、八属性和递减规则，以及 AI 按武器／天赋加权 ROLL；`abilities/tidewater_attributes.gd` 拥有演员整局快照，`ui/attribute_editor.gd` 提供真实加减与剩余点数，`ui/tidewater_hud.gd` 只读显示 Tab 配点摘要。`actors/character_archetypes.gd` 只配置视觉体型及造型标识，`assets/characters/archetypes/` 保存四套不同体型／脸型／头发／服装剪裁；本地生成工具在 `tools/assets/`，保留原件与骨骼。见 [设计与操作](ATTRIBUTES_CHARACTERS.md) 和 [AI 配点](BOT_ATTRIBUTE_BUILDS.md)。
+
+动作与防御：`actors/tidewater_walker.gd` 持有玩家潜墨翻滚／冲刺时间，生命路径读取其减伤；`combat/tidewater_canopy.gd` 持有伞盾耐久／恢复，`combat/tidewater_push_wall.gd` 持有独立防护墙碰撞／寿命。`tidewater_combat.gd` 与 `tidewater_bot_specials.gd` 在成功施放时授回墨／启动保护，UI 只读。见 [规则](ACTION_COMBAT.md)。
+
+2026-10-11 方框乱数与抵消：`src/core/weapon_accuracy.gd` 共用实际射击与 HUD 精度查询；`src/combat/tidewater_ink_clash.gd` 拥有同帧敌我主射扫掠抵消，不写墨格；`src/combat/tidewater_special_guard.gd` 只显示既有生命时钟，死亡／终场立即清除。墨翼状态、耗墨和直接升降归 `src/abilities/tidewater_wings.gd`，HUD 只读。见 [当前规则](ACTION_COMBAT.md)。

@@ -1,8 +1,10 @@
 # Godot 版与 Web 版的差异，以及 AI 维护规范
 
-更新：2026-10-10。适用项目：`/Users/yunni/Joy/inkwave-game-cleaned`，Godot 4.8.dev6，Apple Silicon / arm64。入口在根目录 `project.godot`。
+更新：2026-10-11。适用项目：`/Users/yunni/Joy/inkwave-game-cleaned`，Godot 4.8.dev6，Apple Silicon / arm64。入口在根目录 `project.godot`。
 
 游戏现名 TideInk（潮墨），原 INKWAVE 来源与历史记录保留。
+
+当前战斗参数以 [COMBAT_BALANCE.md](COMBAT_BALANCE.md)、动作／抵消／大招／道具以 [ACTION_COMBAT.md](ACTION_COMBAT.md) 为准；原作参考版本和单位见 [SPLATOON_REFERENCE.md](SPLATOON_REFERENCE.md)。主射乱数与准星共用只读精度查询，护罩只读取既有生命时钟，不新增墨格／伤害权威。
 
 本项目已经独立维护。当前工作树不包含 Web 页面、服务器、浏览器测试、JavaScript 转换器、Three.js 模块、Node 包或网页构建配置。Godot 源码、资源、检查与导出均不读取旧项目。Git 早期提交与部分历史文档／资源清单仍记录移植来源；这些记录不作为当前可执行流程。
 
@@ -134,3 +136,5 @@ preview.24 按用户反馈把三件／十二能力槽改为赛前直接分配属
 2026-10-10 主题色混搭将体型与上衣／裤子／鞋子选择分离；`wardrobe_mesh.gd` 按语义重映射组合成一个表面，并保留导入 LOD，禁止假定不同 GLB 的导入顶点顺序相同。长袖有意追加 594 个三角形的内袖，原有面／UV／绑定仍保留；原件不得修改。实际参与混搭的骨骼绑定、语义错配隔离负例、预览／战斗／死亡锁定与两队原生动作须一起核对。热负载短测不得充当温度或自然整局证据。见 [维护依据](WARDROBE_RENDERING.md)。
 
 2026-10-10 精选地图／人物脸发源码批次：五张可选图，新增日落滑场和灯轨车站，原中央区域模式已移除；四种非触须发型替换旧发帽和触须，脸部增加独立特征。服装混搭、87 骨骼、命中与 CPU 账本保持。见 [设计](CURATED_ART.md)；未导出新 App。
+
+2026-10-11 动作／伞盾批次新增玩家潜墨转向翻滚／墨墙冲刺，成功大招回墨／启动保护，普通伞盾低墨与展开修复、耐久和收开恢复，以及伞的实体推进防护墙。状态与碰撞归各玩法模块，CPU 墨格、显式复活、道具跨死亡冷却、整局天赋与 arm64-only 约束保持。规则见 [ACTION_COMBAT.md](ACTION_COMBAT.md)，统一入口／失败项复验、隔离负例和原生输入边界见 [本批验收](../render-evidence/action-defense-2026-10-11/summary.md)；未导出新 App。

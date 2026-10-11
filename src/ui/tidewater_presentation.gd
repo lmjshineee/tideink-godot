@@ -264,7 +264,12 @@ func _draw_special(team: Color) -> void:
 	var caption := "F / Q  就绪" if fraction >= 1 else "大招充能"
 	var remaining := ""
 	var walker: Node3D = game.get_node("World/Walker")
-	if combat.weapon_specials.active(walker):
+	if combat.push_wall.active(walker):
+		var wall:Dictionary=combat.push_wall.states[walker.get_instance_id()]
+		ring_fraction=float(wall.hp)/combat.push_wall.HEALTH
+		value="%.0f" % wall.hp;unit="HP";caption="防护墙推进" if not wall.stopped else "防护墙驻留"
+		remaining="%.1fs · 可跟进射击" % wall.time
+	elif combat.weapon_specials.active(walker):
 		var active:Dictionary=combat.weapon_specials.states[walker.get_instance_id()]
 		ring_fraction=float(active.time)/(1.35 if active.kind=="siege_shell" else 6.0)
 		value="%.1f" % active.time;unit="s";caption="连炮发射" if active.kind=="siege_shell" else "大招生效"
@@ -299,6 +304,8 @@ func _draw_special(team: Color) -> void:
 	if not remaining.is_empty(): _hud_text(remaining,orb+Vector2(0,13),10)
 	_hud_text(caption,orb+Vector2(0,34),10,team.lightened(.4) if fraction >= 1 else Color.WHITE)
 	_hud_text("涂地  %d p" % int(float(game.get("turf_shown"))),orb+Vector2(0,49),10,Color("e6e1e9"))
+	if combat.special_guard.guards.has(walker.get_instance_id()) and game.player_invuln>0:
+		_hud_text("无敌 %.1fs · 墨水已回满" % game.player_invuln,orb+Vector2(-80,67),11,team.lightened(.5))
 
 func _draw_vitals(team: Color) -> void:
 	if not game.get("vitals_panel").visible: return
@@ -332,7 +339,19 @@ func _draw_reticle(team: Color) -> void:
 	var combat := game.get_node("Combat")
 	var center := size*0.5
 	var weapon: String = game.get("selected_weapon")
-	var radius := 9.0+float(combat.get("bloom"))*8.0
+	var frame:Rect2=combat.reticle_box()
+	# Four open corners retain the actual spread envelope, with a small readable
+	# minimum around precise shots. The middle of every edge stays unobstructed.
+	var extent:=Vector2(maxf(14,frame.size.x),maxf(12,frame.size.y))
+	frame=Rect2(frame.get_center()-extent*.5,extent)
+	var arm:=clampf(minf(extent.x,extent.y)*.28,3.0,8.0)
+	for x in [-1,1]:
+		for y in [-1,1]:
+			var corner:=frame.get_center()+extent*.5*Vector2(x,y)
+			var points:=PackedVector2Array([corner-Vector2(x*arm,0),corner,corner-Vector2(0,y*arm)])
+			draw_polyline(points,Color(.07,.06,.10,.52),3.6,true)
+			draw_polyline(points,Color(1,.98,.93,.84),1.6,true)
+			draw_circle(corner,.9,Color(team.lightened(.6),.8))
 	if weapon in ["charger","bow"]:
 		draw_arc(center,21,0,TAU,48,Color(1,1,1,0.28),2,true)
 		draw_arc(center,21,-PI*0.5,-PI*0.5+TAU*maxf(0.001,float(combat.get("charge_fraction"))),48,team,4,true)
@@ -343,16 +362,14 @@ func _draw_reticle(team: Color) -> void:
 			draw_line(center+Vector2(0,18),center+Vector2(0,24),team if draw>=.5 else Color(1,1,1,.35),2,true)
 	elif weapon == "blaster":
 		draw_arc(center,16,0,TAU,32,Color.WHITE,2,true)
-	for side in [Vector2.LEFT,Vector2.RIGHT,Vector2.UP,Vector2.DOWN]:
-		draw_line(center+side*radius,center+side*(radius+6),Color("15121c"),5,true)
-		draw_line(center+side*radius,center+side*(radius+6),Color.WHITE,2,true)
-	draw_circle(center,2,Color.WHITE)
+	draw_circle(center,2.5,Color(.07,.06,.10,.5))
+	draw_circle(center,1.35,Color(1,.98,.93,.95))
 	if hit_flash > 0:
 		for x in [-1,1]:
 			for y in [-1,1]:
 				var v := Vector2(x,y)
 				draw_line(center+v*5,center+v*15,team if kill_flash else Color.WHITE,4,true)
-	var max_ink: float = combat.get("weapon_data")["player"]["inkMax"]
+	var max_ink: float = game.actor_ink_max(combat.walker)
 	var level := clampf(float(combat.get("ink_amount"))/max_ink,0,1)
 	if level <= .25:
 		draw_style_box(_pill(Color("15121c")),Rect2(center+Vector2(28,-17),Vector2(7,36)))

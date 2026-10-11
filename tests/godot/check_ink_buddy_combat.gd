@@ -28,7 +28,7 @@ func _run() -> void:
 		await steps(1);furthest=maxf(furthest,b.body.global_position.distance_to(start))
 	print("AUDIT: thrown creature start=",start," end=",b.body.global_position," mode=",b.mode," floor=",b.body.is_on_floor())
 	expect(b.mode!="flying" and b.body.is_on_floor() and furthest>4,"real capsule follows throw arc and lands on terrain")
-	expect(combat.ink_amount==55 and game.items.state(walker).cooldowns.ink_buddy==18,"real resource spend without fixture refill")
+	expect(combat.ink_amount==55 and game.items.state(walker).cooldowns.ink_buddy==12,"real resource spend without fixture refill")
 	# Controlled ground encounter, with actual capsule movement and attack timer.
 	b.body.global_position=home+Vector3(0,0,3);b.body.velocity=Vector3.ZERO;b.mode="search";b.time=12;b.scan=0
 	walker.global_position=home-Vector3(0,0,10)
@@ -55,9 +55,9 @@ func _run() -> void:
 	# Shared shield and damage authority, not direct health writes.
 	game.items.state(bot).armor=30;game.items.state(bot).time=6
 	b.target=bot;b.mode="windup";b.windup=.01;await steps(1)
-	expect(game.bot_health==120 and game.items.state(bot).armor==12,"creature bite spends shield before actor health")
+	expect(game.bot_health==120 and game.items.state(bot).armor==6,"creature bite spends shield before actor health")
 	b.target=bot;b.mode="windup";b.windup=.01;await steps(1)
-	expect(game.bot_health==114 and game.items.state(bot).armor==0,"shield overflow uses the same damage path")
+	expect(game.bot_health==102 and game.items.state(bot).armor==0,"shield overflow uses the same damage path")
 	# Concealment and fog do not reveal hidden transforms.
 	bot.global_position=b.body.global_position+Vector3(0,0,4);bot.set_meta("enemy_swimming",true)
 	game.intel.clear_all();await physics_frame
@@ -78,7 +78,7 @@ func _run() -> void:
 	bot.select_weapon("canopy");bot.reaction_target=null;bot.reaction_time=0;bot.attack_cooldown=0;bot.ink_amount=100
 	await physics_frame;bot._tick_team(1.0/30)
 	for i in range(45):combat._update_projectiles(.01)
-	expect(b.health<45,"AI canopy pellets aim at the small creature's body and hit its actual capsule")
+	expect(b.health<companions.HEALTH,"AI canopy pellets aim at the small creature's body and hit its actual capsule")
 	combat.canopy.cancel(bot);combat.projectiles.clear()
 	b=await deploy();b.body.global_position=home+Vector3(0,0,3);b.body.velocity=Vector3.ZERO;b.mode="search"
 	bot.global_position=b.body.global_position+Vector3(0,0,-3);walker.global_position=Vector3(70,40,70)
@@ -87,7 +87,7 @@ func _run() -> void:
 	await physics_frame;bot._tick_team(1.0/30)
 	expect(int(bot.get_meta("buddy_target",0))==int(b.id) and bot.ink_amount<100 and not combat.projectiles.is_empty(),"AI spends real weapon ink countering a visible nearby hostile summon")
 	for i in range(45):combat._update_projectiles(.01)
-	expect(b.health<45 or not companions.buddies.has(b.id),"real opposing projectiles hit summon collision instead of aiming above it")
+	expect(b.health<companions.HEALTH or not companions.buddies.has(b.id),"real opposing projectiles hit summon collision instead of aiming above it")
 	if companions.buddies.has(b.id):
 		expect(not companions.damage_hit({"collider":b.body},100,0),"friendly weapons do not damage own summon")
 		companions.damage_area(b.body.global_position+Vector3.UP*.4,1,100,1)

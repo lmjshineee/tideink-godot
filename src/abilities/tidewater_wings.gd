@@ -1,7 +1,10 @@
 extends Node3D
-const COST := 40.0
-const LIFE := 4.0
-const DRAIN := 8.0
+const COST := 25.0
+const LIFE := 5.5
+const DRAIN := 5.0
+const RISE := 9.0
+const DESCEND := 7.0
+const CEILING := 6.5
 var game: Node3D
 var flights: Dictionary = {}
 var casts_total := 0
@@ -39,9 +42,8 @@ func vertical(actor: Node3D, delta: float = 1.0/30) -> float:
 	var local := actor == game.get_node("World/Walker")
 	var rise := Input.is_physical_key_pressed(KEY_SPACE) if local else actor.global_position.y < float(s.base)+2.5
 	var fall := Input.is_physical_key_pressed(KEY_SHIFT) if local else false
-	var speed := 3.2 if rise else -3.2 if fall else 0.0
-	if s.age < .35: speed = 3.2
-	if speed > 0: speed = minf(speed,maxf(0,(float(s.base)+4.5-actor.global_position.y)/maxf(.001,delta)))
+	var speed := RISE if rise else -DESCEND if fall else 0.0
+	if speed > 0: speed = minf(speed,maxf(0,(float(s.base)+CEILING-actor.global_position.y)/maxf(.001,delta)))
 	return speed
 func move_player(actor: CharacterBody3D, delta: float) -> void:
 	var axis := Vector2.ZERO
@@ -63,7 +65,7 @@ func tick(delta: float) -> void:
 		if s.time <= 0 or tank.ink_amount <= 0 or not game.actor_alive(actor): cancel(actor); continue
 		s.visual.global_position = actor.global_position
 		s.visual.rotation.y = actor.get_node("Body").rotation.y
-		s.visual.rotation.z = .06*sin(s.age*15)
+		s.visual.rotation.z = 0.0
 func cancel(actor: Node3D) -> void:
 	var id := actor.get_instance_id()
 	if not flights.has(id): return

@@ -5,11 +5,11 @@ extends RefCounted
 static func apply(data: Dictionary) -> void:
 	data["player"].merge({"hp":120,"regenDelay":1.8,"regenRate":24,"regenRateSwim":65,
 		"respawnTime":4.0,"climbSpeed":9.5,"climbAccel":58,"enemyInkDps":2.0,"enemyInkDamageCap":24.0,"enemyInkSpeed":3.8,"inkRefillDelay":.7},true)
-	# Four/five accurate shooter hits; only a fully charged precision ray is lethal.
-	data["weapons"]["shooter"].merge({"specialCost":120,"damage":34,"inkPerShot":.85,"special":"overdrive"},true)
+	# Local balance; percentage ink references are documented in COMBAT_BALANCE.md.
+	data["weapons"]["shooter"].merge({"specialCost":120,"damage":34,"inkPerShot":.92,"spreadBaseGround":4.8,"spreadBaseAir":11.6,"special":"overdrive"},true)
 	data["weapons"]["roller"].merge({"rollDamage":95,"flickDamageNear":105,"flickDamageFar":22,"finalDamageCap":130.0},true)
-	data["weapons"]["charger"].merge({"damageMin":32,"damageMax":150,"inkFull":14.0,"finalDamageCap":180.0},true)
-	data["weapons"]["blaster"].merge({"directDamage":95,"splashDamageMax":45,"splashDamageMin":20,"inkPerShot":7.0,"special":"siege_shell","finalDamageCap":130.0},true)
+	data["weapons"]["charger"].merge({"damageMin":28,"damageMax":115,"inkMin":2.5,"inkFull":18.0,"chargeTime":1.15,"releaseRecovery":.4,"rangeMax":24.0,"hitRadius":.04,"finalDamageCap":118.0},true)
+	data["weapons"]["blaster"].merge({"directDamage":95,"splashDamageMax":45,"splashDamageMin":20,"inkPerShot":9.0,"spreadBaseGround":1.0,"spreadBaseAir":6.0,"special":"siege_shell","finalDamageCap":130.0},true)
 	data["sub"]["bomb"].merge({"damageMax":100,"damageMin":30},true)
 	data["weapons"]["roller"]["specialCost"] = 120
 	data["weapons"]["charger"]["specialCost"] = 130

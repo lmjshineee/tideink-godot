@@ -15,18 +15,18 @@ func setup(owner_game: Node3D, owner_combat: Node3D) -> void:
 func state(actor: Node3D) -> Dictionary:
 	var key := actor.get_instance_id()
 	if not states.has(key):
-		states[key] = {"owner":actor,"cooldown":0.0,"hold":0.0,"fire":false,"shot_cd":0.0,"cover":null,"launched":false,"age":0.0,"hp":0.0,"direction":Vector3.FORWARD,"paint":0.0,"grounded":false,"fall_speed":0.0}
+		states[key] = {"owner":actor,"cooldown":0.0,"repair":0.0,"dry_guard":false,"hold":0.0,"fire":false,"shot_cd":0.0,"cover":null,"launched":false,"age":0.0,"hp":0.0,"direction":Vector3.FORWARD,"paint":0.0,"grounded":false,"fall_speed":0.0}
 	return states[key]
 
 func holding(actor: Node3D) -> bool:
 	var s := state(actor)
 	return s.cover != null and not s.launched
 
-func cancel(actor: Node3D) -> void:
+func cancel(actor: Node3D, soft: bool = true) -> void:
 	var s := state(actor)
 	s.fire = false
 	s.hold = 0.0
-	if holding(actor): _remove(s)
+	if holding(actor): _remove(s, soft)
 
 func update_input(actor: Node3D, delta: float, fire: bool, target: Vector3) -> void:
 	if game.phase!="playing" or game.paused or not game.actor_alive(actor):
@@ -38,7 +38,8 @@ func update_input(actor: Node3D, delta: float, fire: bool, target: Vector3) -> v
 	if direction.length_squared()<.1: return
 	s.direction = direction if not s.launched else s.direction
 	if not fire:
-		if holding(actor): _remove(s)
+		s.dry_guard=false
+		if holding(actor): _remove(s, true)
 		s.hold = 0.0
 	elif not s.fire:
 		if not holding(actor) and s.shot_cd<=0: _shot(actor,direction,weapon)
@@ -59,12 +60,17 @@ func _shot(actor: Node3D, direction: Vector3, weapon: Dictionary) -> bool:
 	if float(tank.ink_amount)<float(weapon.inkPerShot): return false
 	tank.ink_amount -= float(weapon.inkPerShot)
 	tank.last_fire_time = 0.0
+	state(actor).dry_guard=false
 	state(actor).shot_cd = float(weapon.fireInterval) * (float(preload("res://src/core/bot_difficulty.gd").profile(game.ai_level).cadence) if actor!=combat.walker else 1.0)
 	var at := actor.global_position+Vector3.UP*1.05
-	var basis: Array = combat._perpendicular_basis(direction)
+	var grounded:bool=combat.walker.grounded if actor==combat.walker else actor.team_mover.is_on_floor()
+	var half_box:Vector2=combat.Accuracy.canopy_box(weapon,grounded)
+	# One sample per cell prevents six pellets clustering into a single random corner.
 	for i in range(int(weapon.pellets)):
-		var angle := i*TAU/float(weapon.pellets)
-		var forward: Vector3 = (direction+basis[0]*cos(angle)*.055+basis[1]*sin(angle)*.055).normalized()
+		var axes: Array = combat._perpendicular_basis(direction)
+		var x:=lerpf(-tan(half_box.x),tan(half_box.x),(float(i%3)+randf())/3.0)
+		var y:=lerpf(-tan(half_box.y),tan(half_box.y),(float(i/3)+randf())/2.0)
+		var forward:Vector3=(direction+axes[0]*x+axes[1]*y).normalized()
 		combat._spawn_projectile("canopy",at,forward*float(weapon.projSpeed),weapon.duplicate(true),game.actor_team(actor),actor)
 	actor.get_node("Body").set_action("shoot")
 	game.play_sound("shoot_shooter",at)
@@ -72,15 +78,12 @@ func _shot(actor: Node3D, direction: Vector3, weapon: Dictionary) -> bool:
 
 func _open(actor: Node3D, direction: Vector3, weapon: Dictionary) -> bool:
 	var tank: Node = combat if actor==combat.walker else actor
-	# Do not trap a nearly empty held trigger in a drain-only guard. Reserve
-	# enough for the short hold and launch; low-ink shots can still refill normally.
-	var reserve:=float(weapon.launchInk)+float(weapon.coverDrain)*maxf(0,float(weapon.launchTime)-float(weapon.openTime))
+	# Guarding is independent of paying for a launch. A truly empty tank can refill.
+	var reserve:=float(weapon.coverDrain)*.25
 	if float(tank.ink_amount)<reserve: return false
+	if state(actor).dry_guard and float(tank.ink_amount)<float(weapon.inkPerShot):return false
 	var at := actor.global_position+Vector3.UP*1.05
 	# A narrow wall cannot be used to place the cover on its far side.
-	var query := PhysicsRayQueryParameters3D.create(at,at+direction*1.15,1)
-	query.hit_from_inside = true
-	if not get_world_3d().direct_space_state.intersect_ray(query).is_empty(): return false
 	var s := state(actor)
 	var body := StaticBody3D.new()
 	body.collision_layer = 64 if game.actor_team(actor)==0 else 128
@@ -93,13 +96,11 @@ func _open(actor: Node3D, direction: Vector3, weapon: Dictionary) -> bool:
 	body.add_child(preload("res://src/combat/ink_equipment_mesh.gd").canopy(game.actor_team(actor),true))
 	add_child(body)
 	s.cover = body
-	s.hp = float(weapon.coverHealth)
+	if s.repair<=0:s.hp = float(weapon.coverHealth)
 	s.launched = false
 	s.age = 0.0
 	s.direction = direction
-	var position:=_held_position(at,direction)
-	_pose(s,position)
-	if not _clear_motion(s,position,position):
+	if not _fit_held(s,at,direction):
 		body.collision_layer=0;body.queue_free();s.cover=null
 		return false
 	game.play_sound("ink_hit_wall",at)
@@ -134,14 +135,24 @@ func _ground(at:Vector3,up:float,down:float) -> Dictionary:
 	var hit:=get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(at+Vector3.UP*up,at-Vector3.UP*down,FLOOR_MASK))
 	return hit if not hit.is_empty() and hit.normal.y>=.68 else {}
 
-func _held_position(at:Vector3,direction:Vector3) -> Vector3:
-	var position:=at+direction*1.15
+func _held_position(at:Vector3,direction:Vector3,distance:float=1.15) -> Vector3:
+	var position:=at+direction*distance
 	var basis:=Basis.looking_at(direction,Vector3.UP if absf(direction.y)<.99 else Vector3.RIGHT,true)
 	var floor_hit:=_panel_ground(position,basis.x,.4,1.8)
 	if not floor_hit.is_empty():
 		var extent:=absf(basis.y.y)*.85+absf(basis.z.y)*.26
 		position.y=maxf(position.y,float(floor_hit.position.y)+extent+.10)
 	return position
+
+func _fit_held(s:Dictionary,at:Vector3,direction:Vector3) -> bool:
+	for distance in [1.15,.9,.65]:
+		var position:=_held_position(at,direction,distance)
+		var ray:=PhysicsRayQueryParameters3D.create(at,position,1)
+		ray.hit_from_inside=true
+		if not get_world_3d().direct_space_state.intersect_ray(ray).is_empty():continue
+		_pose(s,position)
+		if _clear_motion(s,position,position):return true
+	return false
 
 func _panel_ground(at:Vector3,side:Vector3,up:float,down:float) -> Dictionary:
 	var best:Dictionary={}
@@ -171,6 +182,7 @@ func _pose(s: Dictionary, at: Vector3) -> void:
 func tick(delta: float) -> void:
 	for s in states.values():
 		s.cooldown = maxf(0,s.cooldown-delta)
+		if s.cover==null:s.repair=maxf(0,s.repair-delta)
 		s.shot_cd = maxf(0,s.shot_cd-delta)
 		if s.cover==null: continue
 		if game.phase!="playing":
@@ -180,24 +192,18 @@ func tick(delta: float) -> void:
 		var weapon: Dictionary = game.perks.weapon(actor,combat.weapons.canopy)
 		if not s.launched:
 			if not game.actor_alive(actor) or (combat.selected_id if actor==combat.walker else actor.weapon_id)!="canopy":
-				cancel(actor)
+				cancel(actor,false)
 				continue
 			var tank: Node = combat if actor==combat.walker else actor
 			var drain := float(weapon.coverDrain)*delta
 			if float(tank.ink_amount)<drain:
+				s.dry_guard=true
 				cancel(actor)
 				continue
 			tank.ink_amount -= drain
 			tank.last_fire_time = 0.0
 			var at := actor.global_position+Vector3.UP*1.05
-			var query := PhysicsRayQueryParameters3D.create(at,at+(s.direction as Vector3)*1.15,1)
-			query.hit_from_inside = true
-			if not get_world_3d().direct_space_state.intersect_ray(query).is_empty():
-				cancel(actor)
-				continue
-			var position:=_held_position(at,s.direction)
-			_pose(s,position)
-			if not _clear_motion(s,position,position):cancel(actor)
+			if not _fit_held(s,at,s.direction):cancel(actor)
 		else:
 			s.age += delta
 			var start: Vector3 = s.cover.global_position
@@ -248,13 +254,15 @@ func damage_area(at: Vector3, radius: float, amount: float, team: int) -> void:
 			s.hp -= amount
 			if s.hp<=0: _remove(s)
 
-func _remove(s: Dictionary) -> void:
+func _remove(s: Dictionary, soft: bool = false) -> void:
 	if s.cover==null: return
 	# Remove the collision immediately; queue_free only runs after the physics step.
 	s.cover.collision_layer = 0
 	s.cover.queue_free()
 	s.cover = null
-	if not s.launched:s.cooldown = float(combat.weapons.canopy.coverCooldown)
+	if not s.launched:
+		s.cooldown = .35 if soft else float(combat.weapons.canopy.coverCooldown)
+		s.repair = float(combat.weapons.canopy.coverCooldown) if soft else 0.0
 
 func bot_input(actor: Node3D, delta: float, target: Node3D) -> void:
 	var s := state(actor)

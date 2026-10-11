@@ -38,6 +38,11 @@ func _check() -> void:
 		_fail("slam did not enter rise or consume the meter")
 		return
 	scene.call("damage_player", 40.0)
+	if absf(float(scene.get("player_health")) - 132.0) > 0.01:
+		_fail("special startup should block direct damage")
+		return
+	scene.call("_update_player_vitals", 1.21)
+	scene.call("damage_player", 40.0)
 	if absf(float(scene.get("player_health")) - 122.0) > 0.01:
 		_fail("slam armor should reduce direct damage to one quarter")
 		return

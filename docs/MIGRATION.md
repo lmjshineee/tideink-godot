@@ -36,3 +36,7 @@
 运行、验证、导出共用 [运行辅助](../tools/lib/runtime.sh)，通过 `GODOT` 指定引擎。导出仅 arm64；`.godot/` / `build/` 不提交，历史记录和人物实验不进资源包。实际导出后才记录包的架构、签名、哈希和启动证据。
 
 与 Web 版的差异及 AI 工作流程以 [GODOT_MAINTENANCE.md](GODOT_MAINTENANCE.md) 为准。
+
+2026-10-11 动作／防御批次：潜墨翻滚／墨墙冲刺状态由玩家移动控制器持有，启动无敌沿现有演员生命时钟，主射矩形散布与双持独立取样继续归战斗模块。伞大招由 `tidewater_push_wall.gd` 持有实体、耐久和推进；普通伞保持独立冷却／修复账本。当前规则见 [ACTION_COMBAT.md](ACTION_COMBAT.md)，源码未导出状态见 [本批验收](../render-evidence/action-defense-2026-10-11/summary.md)。
+
+2026-10-11 方框乱数与抵消：`src/core/weapon_accuracy.gd` 共用实际射击与 HUD 精度查询；`src/combat/tidewater_ink_clash.gd` 拥有同帧敌我主射扫掠抵消，不写墨格；`src/combat/tidewater_special_guard.gd` 只显示既有生命时钟，死亡／终场立即清除。墨翼状态、耗墨和直接升降归 `src/abilities/tidewater_wings.gd`，HUD 只读。见 [当前规则](ACTION_COMBAT.md)。

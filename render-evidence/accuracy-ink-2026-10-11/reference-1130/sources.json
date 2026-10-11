@@ -1,0 +1,41 @@
+{
+  "snapshot": "1130",
+  "source_kind": "community directly extracted parameters, not official Nintendo balance table",
+  "files": [
+    {
+      "file": "reference-1130/WeaponShooterNormal.game__GameParameterTable.json",
+      "url": "https://raw.githubusercontent.com/Leanny/splat3/main/data/parameter/1130/weapon/WeaponShooterNormal.game__GameParameterTable.json",
+      "sha256": "dfca9f45fd0df3b6afab8f6ec0e47034912f3a6fc411936b9fd7257fe85c4cb9"
+    },
+    {
+      "file": "reference-1130/WeaponManeuverNormal.game__GameParameterTable.json",
+      "url": "https://raw.githubusercontent.com/Leanny/splat3/main/data/parameter/1130/weapon/WeaponManeuverNormal.game__GameParameterTable.json",
+      "sha256": "55e37c4d8db92b63d48f281015a30a9aaccd1ff838edf88ae4103124c365eb07"
+    },
+    {
+      "file": "reference-1130/WeaponRollerNormal.game__GameParameterTable.json",
+      "url": "https://raw.githubusercontent.com/Leanny/splat3/main/data/parameter/1130/weapon/WeaponRollerNormal.game__GameParameterTable.json",
+      "sha256": "5b423eb35d4cac268a1e4085ec8321d27639ddbfc8f3775bb65696af5c2449c7"
+    },
+    {
+      "file": "reference-1130/WeaponChargerNormal.game__GameParameterTable.json",
+      "url": "https://raw.githubusercontent.com/Leanny/splat3/main/data/parameter/1130/weapon/WeaponChargerNormal.game__GameParameterTable.json",
+      "sha256": "dfe4637def507f933b0bbecbc805331f6357bb69ac165608a6e558406a4b72c1"
+    },
+    {
+      "file": "reference-1130/WeaponBlasterMiddle.game__GameParameterTable.json",
+      "url": "https://raw.githubusercontent.com/Leanny/splat3/main/data/parameter/1130/weapon/WeaponBlasterMiddle.game__GameParameterTable.json",
+      "sha256": "36139282d2bd915f675424d99d5641800f184bcc9a9d1b0c94be533d38f64e18"
+    },
+    {
+      "file": "reference-1130/WeaponStringerNormal.game__GameParameterTable.json",
+      "url": "https://raw.githubusercontent.com/Leanny/splat3/main/data/parameter/1130/weapon/WeaponStringerNormal.game__GameParameterTable.json",
+      "sha256": "cb61af8d568193c5c3af677ca8a324aae2afe92a9a681c0483a15f6266e5317f"
+    },
+    {
+      "file": "reference-1130/WeaponShelterNormal.game__GameParameterTable.json",
+      "url": "https://raw.githubusercontent.com/Leanny/splat3/main/data/parameter/1130/weapon/WeaponShelterNormal.game__GameParameterTable.json",
+      "sha256": "a5cfa45bd450b773fd39eccf51ac39cde2cd45367fa6b46eccc8d8c2a2b9b268"
+    }
+  ]
+}

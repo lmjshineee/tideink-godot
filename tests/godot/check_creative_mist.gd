@@ -13,10 +13,10 @@ func _run() -> void:
 	expect(not game.items.use(walker) and game.items.state(walker).cooldowns.intel_mist == 0, "ink failure preserves cooldown")
 	combat.ink_amount = 100
 	await physics_frame
-	expect(game.items.use(walker) and combat.ink_amount == 65 and game.items.state(walker).cooldowns.intel_mist == 15 and mist.volumes.size() == 1, "real aimed map deployment pays ink and starts cooldown")
+	expect(game.items.use(walker) and combat.ink_amount == 65 and game.items.state(walker).cooldowns.intel_mist == 10 and mist.volumes.size() == 1, "real aimed map deployment pays ink and starts cooldown")
 	expect(not game.items.use(walker), "cannot bypass cooldown while field exists")
 	game.items.on_death(walker); game.randomize_player_kit()
-	expect(mist.volumes.size() == 1 and game.items.state(walker).cooldowns.intel_mist == 15, "deployed fog and cooldown survive death/reroll")
+	expect(mist.volumes.size() == 1 and game.items.state(walker).cooldowns.intel_mist == 10, "deployed fog and cooldown survive death/reroll")
 	mist.tick(6.01)
 	expect(mist.volumes.is_empty(), "fog lifetime removes visual and vision rule")
 	# Wall rejects placement without payment, and an actual ceiling caps height.
@@ -71,13 +71,13 @@ func _run() -> void:
 	mist.create_volume(walker,Vector3(0,.05,-16))
 	bot.select_weapon("canopy"); bot.attack_cooldown = 0; bot.target_actor = null
 	var bs: Dictionary = game.bot_specials.state(bot)
-	bs.points = 150; bs.cooldown = 0; bs.active = false
+	bs.points = combat.weapons.canopy.specialCost; bs.cooldown = 0; bs.active = false
 	intel.refresh()
 	var shots: int = combat.projectiles.size()
 	bot.tick(.033); game.bot_specials.tick(.033)
-	expect(bot.target_actor == null and combat.projectiles.size() == shots and bs.points == 150 and not bs.active, "AI primary and special both respect enemy fog")
+	expect(bot.target_actor == null and combat.projectiles.size() == shots and bs.points == combat.weapons.canopy.specialCost and not bs.active, "AI primary and special both respect enemy fog")
 	intel.tag(walker,1); intel.refresh(); game.bot_specials.tick(.033)
-	expect(bs.active and combat.counter.busy(bot), "same AI can react to sonar-acquired opponent through fog")
+	expect(bs.active and combat.push_wall.active(bot), "same AI can react to sonar-acquired opponent through fog")
 	game._finish_round()
 	expect(mist.volumes.is_empty(), "round end clears fog and its information effect")
 	await finish("information mist real placement/cost/CD, lifetime/ceiling, frozen map memory, team visibility/health/flash, sonar counter without wall bypass, real projectile passage, 3D swept volume and knowledge-driven AI item/primary/special")

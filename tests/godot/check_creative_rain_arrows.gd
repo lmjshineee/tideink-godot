@@ -74,15 +74,19 @@ func _run() -> void:
 	bot.select_weapon("bow"); bot.global_position = Vector3(0,.05,-20); walker.global_position = Vector3(0,.05,-14)
 	var bs: Dictionary = game.bot_specials.state(bot); bs.points = 170; bs.cooldown = 0; await physics_frame
 	barrier = wall(Vector3(0,1,-17),Vector3(10,5,.12)); await physics_frame
+	game.player_invuln=0 # Test hostile rain after the player startup window.
 	game.bot_specials.tick(.01); expect(bs.points == 170 and not rain.busy(bot),"AI requires actual visibility and valid target before spending meter")
-	barrier.queue_free(); await physics_frame; game.intel.refresh(); game.bot_specials.tick(.01)
+	barrier.queue_free(); await physics_frame; game.intel.refresh(); game.player_invuln=0 # Test hostile rain after the player startup window.
+	game.bot_specials.tick(.01)
 	expect(bs.active and bs.kind == "rain_arrows" and bs.points == 0 and rain.busy(bot),"AI dispatches same ballistic special from actual bow meter")
-	simulate(3); game.bot_specials.tick(.01)
+	simulate(3); game.player_invuln=0 # Test hostile rain after the player startup window.
+	game.bot_specials.tick(.01)
 	expect(not bs.active and game.player_health < 120 and game.bot_health == 120,"AI real rain hits opposing player, no self/team damage")
 	expect(game.last_damage_text.contains("雨箭"),"actual hostile rain is attributed by readable special name")
 	clear(); rain.cancel(bot); bs.active = false; bs.cooldown = 0; bs.points = 170
 	bot.global_position = Vector3(0,2,-20); walker.global_position = Vector3(0,.05,-14); await physics_frame
-	game.intel.refresh(); game.bot_specials.tick(.01)
+	game.intel.refresh(); game.player_invuln=0 # Test hostile rain after the player startup window.
+	game.bot_specials.tick(.01)
 	var height: float = bot.global_position.y
 	game._update_bot(.033)
 	expect(bs.active and bot.global_position.y < height and combat.bow.arrows.is_empty(),"casting AI keeps actual gravity/body movement while primary stays locked")

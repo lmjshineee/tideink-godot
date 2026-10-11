@@ -41,7 +41,7 @@ func _run() -> void:
 		if not game.deployment.beacons.is_empty():
 			var placed:Dictionary=game.deployment.beacons[0]
 			expect(placed.point.distance_to(base)>12 and placed.team==team,"forward beacon belongs to the correct team outside spawn")
-			expect(actor.ink_amount==65 and state.cooldowns.beacon>17,"valid placement pays the real ink and cooldown")
+			expect(actor.ink_amount==65 and state.cooldowns.beacon>9,"valid placement pays the real ink and cooldown")
 			var serial:int=game.deployment.beacon_serial
 			game.items.tick(18.1)
 			expect(game.deployment.beacon_serial==serial,"AI preserves a usable nearby beacon after cooldown instead of repeatedly replacing it")

@@ -4,8 +4,8 @@ extends Node3D
 const Palette := preload("res://src/core/team_palette.gd")
 const KINDS := ["overdrive","ink_vortex","siege_shell"]
 const DURATION := 6.0
-const VORTEX_RADIUS := 3.4
-const VORTEX_DPS := 24.0
+const VORTEX_RADIUS := 3.8
+const VORTEX_DPS := 32.0
 const SHELL_CAP := 150.0
 var game: Node3D
 var combat: Node3D
@@ -54,7 +54,7 @@ func tick(delta: float) -> void:
 		if s.kind=="siege_shell":
 			s.next-=delta
 			if s.next<=0 and s.count<3:
-				# Aim is fixed at activation: three telegraphed shots do not track through walls.
+				# Each launch reads current visible aim, allowing the player to steer the volley.
 				s.next+=.40;s.count+=1;_launch(s)
 		elif s.kind=="ink_vortex":
 			var from:Vector3=actor.global_position+Vector3.UP*.7
@@ -79,6 +79,10 @@ func tick(delta: float) -> void:
 			_explode(shell,at,direct,hit.normal if direct==null and not hit.is_empty() else Vector3.ZERO);shell.visual.queue_free();shells.remove_at(i)
 		else:shell.visual.global_position=to
 func _launch(s:Dictionary) -> void:
+	if s.actor==combat.walker:
+		s.direction=combat._aim_direction(s.actor.global_position+Vector3.UP*1.05,24)
+	elif s.actor.target_actor!=null and game.intel.can_see(s.actor,s.actor.target_actor):
+		s.direction=(game.intel.point(s.actor.target_actor)-(s.actor.global_position+Vector3.UP*1.05)).normalized()
 	var visual:=MeshInstance3D.new();var sphere:=SphereMesh.new();sphere.radius=.32;sphere.height=.64;visual.mesh=sphere
 	var mat:=StandardMaterial3D.new();var team:int=game.actor_team(s.actor);mat.albedo_color=Palette.color(team);mat.emission_enabled=true;mat.emission=mat.albedo_color*.4;visual.material_override=mat;add_child(visual)
 	# Start inside the body so the swept ray also sees a wall directly at the muzzle.

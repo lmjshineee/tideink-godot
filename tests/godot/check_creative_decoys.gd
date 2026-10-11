@@ -15,7 +15,7 @@ func _run() -> void:
 	combat.weapons.shooter.spreadBaseGround = 0
 	var d: Dictionary = await deploy()
 	if d.is_empty(): await finish("decoy placement"); return
-	expect(combat.ink_amount == 75 and d.health == 20 and game.items.state(walker).cooldowns.echo_decoy == 12,"resources/health and per-kind cooldown")
+	expect(combat.ink_amount == 75 and d.health == 20 and game.items.state(walker).cooldowns.echo_decoy == 8,"resources/health and per-kind cooldown")
 	game.items.state(walker).cooldowns.echo_decoy = 0; combat.ink_amount = 24
 	expect(not game.items.use(walker) and game.items.state(walker).cooldowns.echo_decoy == 0 and decoys.decoys.size() == 1,"refused low-ink placement preserves old fake and CD")
 	game.items.state(walker).cooldowns.echo_decoy = 12; combat.ink_amount = 75
@@ -65,7 +65,7 @@ func _run() -> void:
 	expect(decoys.marks_for(1).size() == 1 and decoys.marks_for(1)[0].status == "last","last fake contact freezes after LOS lost")
 	decoys.tick(1.6); expect(decoys.marks_for(1).is_empty(),"hidden fake expires from enemy map")
 	game.items.on_death(walker); game.items.equip(walker,"bomb")
-	expect(decoys.decoys.size() == 1 and game.items.state(walker).cooldowns.echo_decoy == 12,"death and reroll keep device and CD")
+	expect(decoys.decoys.size() == 1 and game.items.state(walker).cooldowns.echo_decoy == 8,"death and reroll keep device and CD")
 	decoys.tick(8); expect(decoys.decoys.is_empty(),"fake lifetime expires safely")
 	d = await deploy(); bot.global_position = d.point+Vector3(0,2,0); var deck := wall(d.point+Vector3(0,1,0),Vector3(6,.1,6)); await physics_frame
 	expect(decoys.target_for(bot,13).is_empty(),"other-floor fake has real thin-deck occlusion")

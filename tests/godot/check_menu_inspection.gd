@@ -19,7 +19,7 @@ func _run() -> void:
 	expect(game.get_node("World/Walker").global_position==initial,"preview never moves match character")
 	expect(Details.weapon(game,"shooter")["body"].contains("伤害 34") and Details.item(game,"bomb")["body"].contains("消耗 70"),"hover reads adjusted combat data")
 	game.perks.select_player("saver")
-	expect(Details.weapon(game,"shooter")["body"].contains("0.68") and Details.weapon(game,"shooter")["body"].contains("节墨"),"hover reflects actual selected talent cost")
+	expect(Details.weapon(game,"shooter")["body"].contains("0.74") and Details.weapon(game,"shooter")["body"].contains("节墨"),"hover reflects actual selected talent cost")
 	for id in game.weapon_order:
 		expect(Details.weapon(game,id)["body"].count("★")>=5 and Details.weapon(game,id)["body"].contains("机动") and Details.weapon(game,id)["body"].contains("相对比较"),"floating stars and expanded detail "+id)
 		expect(not game.weapon_cards[id].has_node("Stars"),"undivided weapon card "+id)

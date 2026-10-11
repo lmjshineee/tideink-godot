@@ -2,7 +2,7 @@ extends Node3D
 
 const Palette := preload("res://src/core/team_palette.gd")
 const KINDS := ["bomb","shield","ink_buddy","intel_mist","beacon","recall","sonar","mine","echo_decoy","supply_box","ink_wings"]
-const COOLDOWNS := {"ink_buddy":18.0,"ink_wings":18.0,"echo_decoy":12.0,"supply_box":20.0,"mine":10.0,"intel_mist":15.0,"sonar":18.0,"recall":14.0,"bomb":6.0,"refill":12.0,"shield":16.0,"beacon":18.0,"cluster":10.0,"mist":15.0,"healing":18.0}
+const COOLDOWNS := {"ink_buddy":12.0,"ink_wings":10.0,"echo_decoy":8.0,"supply_box":12.0,"mine":6.0,"intel_mist":10.0,"sonar":10.0,"recall":9.0,"bomb":4.0,"refill":12.0,"shield":10.0,"beacon":10.0,"cluster":10.0,"mist":15.0,"healing":18.0}
 const LABELS := {"ink_buddy":"墨仔伙伴","ink_wings":"墨翼背包","echo_decoy":"回声诱饵","supply_box":"接力补给盒","mine":"感应墨雷","intel_mist":"信息墨雾","sonar":"脉冲声呐","recall":"回溯锚","bomb":"墨水手雷","refill":"补充剂","shield":"护盾","beacon":"跳跃信标","cluster":"爆墨瓶","mist":"减速墨雾","healing":"医疗领域"}
 const BLURBS:={"ink_buddy":"投掷召唤 / 追敌扑击","ink_wings":"升降悬停 / 空中主射","echo_decoy":"假身诱敌 / 声呐识破","supply_box":"停留领取 / 敌方可抢","mine":"埋伏 / 可拆 / 位置标记","intel_mist":"遮断视野 / 声呐反制","sonar":"扩散探测 / 队伍标记","recall":"标记 / 瞬间返回","bomb":"范围伤害","refill":"回血 / 回墨","shield":"60 点护盾","beacon":"队伍跳跃点","cluster":"短引信爆破","mist":"区域减速","healing":"队伍恢复"}
 var fields:Array[Dictionary]=[]
@@ -127,8 +127,9 @@ func use(actor: Node3D, requested: String = "") -> bool:
 	s["cooldowns"][kind] = game.perks.item_cooldown(actor,COOLDOWNS[kind])
 	if kind!="bomb":
 		game.call("play_sound","special_activate",actor.global_position)
+		game.get_node("Combat")._ability_ring(actor.global_position,1.8,.3,game.actor_team(actor))
 	if local and kind!="bomb":
-		game.get("presentation").call("notify_ability",{"ink_buddy":"墨仔出动 · 12 秒 · 追敌扑击 / 可被击毁", "ink_wings":"墨翼展开 · 4 秒 · 空格上升 / Shift 下降 · 可主射", "echo_decoy":"诱饵部署 · 8 秒 · 声呐可以识破", "supply_box":"补给部署 · 两份墨水 · 停留 0.6 秒领取 / 敌方可抢", "mine":"墨雷部署 · 0.8s 布防 / 30s · 敌弹可拆", "intel_mist":"信息墨雾 · 遮断敌方视野 6 秒 · 声呐可标记", "sonar":"声呐部署 · 12m 脉冲 / 8 秒 · 墙与楼板遮挡", "refill":"补充剂：恢复墨水与生命","shield":"护盾：吸收 60 伤害 · 6 秒","beacon":"已设置信标 · J 跳跃 · 2 次 / 45 秒","cluster":"爆墨瓶投出","mist":"减速墨雾 · 6 秒","healing":"医疗领域 · 5 秒"}[kind])
+		game.get("presentation").call("notify_ability",{"ink_buddy":"墨仔出动 · 60 HP · 追击 5.8m/s / 扑击 24", "ink_wings":"墨翼展开 · 5.5 秒 · 空格直升 9m/s / Shift 下降", "echo_decoy":"诱饵部署 · 8 秒 · 声呐可以识破", "supply_box":"补给部署 · 两份墨水 · 停留 0.35 秒领取 / 敌方可抢", "mine":"墨雷部署 · 0.8s 布防 / 30s · 敌弹可拆", "intel_mist":"信息墨雾 · 遮断敌方视野 6 秒 · 声呐可标记", "sonar":"声呐部署 · 12m 脉冲 / 8 秒 · 墙与楼板遮挡", "refill":"补充剂：恢复墨水与生命","shield":"护盾：吸收 60 伤害 · 6 秒","beacon":"已设置信标 · J 跳跃 · 2 次 / 45 秒","cluster":"爆墨瓶投出","mist":"减速墨雾 · 6 秒","healing":"医疗领域 · 5 秒"}[kind])
 	return true
 
 func absorb(actor: Node3D, amount: float) -> float:

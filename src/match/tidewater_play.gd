@@ -496,7 +496,9 @@ func _physics_process(delta: float) -> void:
 
 
 func _finish_round() -> void:
+	$Combat.special_guard.clear_all()
 	$Combat.weapon_specials.clear()
+	$Combat.push_wall.clear()
 	comeback.reset()
 	intel.clear_all()
 	items.sonar.clear_all()
@@ -604,6 +606,7 @@ func damage_player(amount: float, bypass_invuln: bool = false, source_actor: Nod
 	if not bypass_invuln and String($Combat.get("special_active")) == "slam":
 		amount *= 0.25
 	if not bypass_invuln:
+		amount *= $World/Walker.ink_action_damage_factor()
 		amount = _modified_damage(amount,$World/Walker,source_actor,source_weapon)
 		amount = float(items.call("absorb",$World/Walker,amount))
 	if amount<=0.0:
@@ -807,7 +810,7 @@ func _update_bot(delta: float) -> void:
 	if bot_deployment.update(bot,delta): return
 	bot_painting = true
 	painting_actor = bot
-	if not bool(bot_specials.call("busy",bot)) or String(bot_specials.state(bot).get("kind","")) in ["absorb_counter","rain_arrows","overdrive","ink_vortex"]:
+	if not bool(bot_specials.call("busy",bot)) or String(bot_specials.state(bot).get("kind","")) in ["pushing_wall","absorb_counter","rain_arrows","overdrive","ink_vortex"]:
 		bot.call("tick",delta)
 	painting_actor = null
 	bot_painting = false
@@ -988,7 +991,7 @@ func _update_team_actor(actor: Node3D, delta: float) -> void:
 	if bot_deployment.update(actor,delta): return
 	bot_painting = true
 	painting_actor = actor
-	if not bool(bot_specials.call("busy",actor)) or String(bot_specials.state(actor).get("kind","")) in ["absorb_counter","rain_arrows","overdrive","ink_vortex"]:
+	if not bool(bot_specials.call("busy",actor)) or String(bot_specials.state(actor).get("kind","")) in ["pushing_wall","absorb_counter","rain_arrows","overdrive","ink_vortex"]:
 		actor.call("tick",delta)
 	painting_actor = null
 	bot_painting = false
@@ -1039,7 +1042,7 @@ func _attacker_description(actor: Node3D, weapon_id: String = "") -> String:
 		return "未知来源"
 	if weapon_id.is_empty():
 		weapon_id = selected_weapon if actor == $World/Walker else String(actor.get("weapon_id"))
-	var names := {"ink_buddy":"墨仔伙伴", "last_ink":"残墨引爆", "mine":"感应墨雷", "rain_arrows":"雨箭齐射", "absorb_counter":"吸墨反击", "bomb":"炸弹","slam":"砸地","storm":"远程墨雨", "overdrive":"潮流速射", "ink_vortex":"回旋墨环", "siege_shell":"压力连炮","twin_discs":"双镖突进"}
+	var names := {"ink_buddy":"墨仔伙伴", "last_ink":"残墨引爆", "mine":"感应墨雷", "rain_arrows":"雨箭齐射", "pushing_wall":"推进防护墙", "absorb_counter":"吸墨反击", "bomb":"炸弹","slam":"砸地","storm":"远程墨雨", "overdrive":"潮流速射", "ink_vortex":"回旋墨环", "siege_shell":"压力连炮","twin_discs":"双镖突进"}
 	var weapon := String(names.get(weapon_id,_weapon_text(weapon_id)))
 	return "%s · %s" % [_actor_name(actor),weapon]
 

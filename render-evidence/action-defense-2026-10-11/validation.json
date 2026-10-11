@@ -1,0 +1,52 @@
+{
+  "source_rule_count": 116,
+  "unified_entry": {
+    "passed": 113,
+    "failed": 3,
+    "log": "full-checks.log"
+  },
+  "resolved_fixture_reruns": {
+    "check_creative_mist": "creative_mist-final.log",
+    "check_creative_rain_arrows": "creative_rain_arrows-final.log",
+    "check_tidewater_special": "special-final.log"
+  },
+  "unresolved_failures": [],
+  "native": "native-02/report.json",
+  "final_frozen_files": 1002,
+  "preserved_existing_uids": 300,
+  "asset_change": "one new wall icon, manifest adds one entry",
+  "parse_gate_negative_cases": 8,
+  "asset_gate_negative_cases": 6,
+  "headless_fixture_objectdb_warning_count": 28,
+  "headless_fixture_objectdb_warnings": [
+    "check_actor_feedback",
+    "check_actor_turf_credit",
+    "check_arena_catalog",
+    "check_bot_jump_edges",
+    "check_expanded_loadouts",
+    "check_feedback_regressions",
+    "check_gameplay_deployment",
+    "check_minimap_feedback",
+    "check_names_and_bot_specials",
+    "check_perks_lock",
+    "check_splat_attribution",
+    "check_team_match",
+    "check_tidewater_appearance",
+    "check_tidewater_bomb",
+    "check_tidewater_bot_chase",
+    "check_tidewater_bot_vitals",
+    "check_tidewater_camera",
+    "check_tidewater_full_round",
+    "check_tidewater_hud",
+    "check_tidewater_input_flow",
+    "check_tidewater_match",
+    "check_tidewater_play",
+    "check_tidewater_presentation",
+    "check_tidewater_settings_ui",
+    "check_tidewater_visual",
+    "check_tidewater_vitals",
+    "check_vertical_navigation",
+    "check_tidewater_special"
+  ],
+  "native_godot_diagnostics": []
+}

@@ -1,0 +1,6 @@
+PASS: valid nested asset and complete inventory
+PASS: corrupt asset fails
+PASS: missing asset fails
+PASS: added asset requires an intentional manifest update
+PASS: regenerated import metadata is excluded
+PASS: empty inventory fails

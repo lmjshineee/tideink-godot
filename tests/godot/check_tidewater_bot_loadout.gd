@@ -84,9 +84,9 @@ func _check() -> void:
 	if float(charger_scene.get("player_health")) < 132.0:
 		_fail("charger fired before completing its charge")
 		return
-	charger_bot.call("tick", 0.51)
+	charger_bot.call("tick", 0.66)
 	var charger_combat: Node3D = charger_scene.get_node("Combat")
-	if float(charger_scene.get("player_respawn")) <= 0.0 or float(charger_scene.get("player_health")) != 0.0 \
+	if float(charger_scene.get("player_respawn")) > 0.0 or not is_equal_approx(float(charger_scene.get("player_health")),17.0) \
 			or (charger_combat.get("beams") as Array).size() != 1 \
 			or float(charger_bot.get("ink_amount")) > 110.0 - float(weapons["charger"]["inkFull"]):
 		_fail("blue charger charge, beam, ink cost or hit")

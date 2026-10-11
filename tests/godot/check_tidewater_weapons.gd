@@ -66,7 +66,7 @@ func _check() -> void:
 	combat.call("select_weapon", "shooter")
 	var before := float(combat.get("ink_amount"))
 	combat.call("tick", 1.0/30.0, true, false)
-	if (combat.get("projectiles") as Array).size() != 1 or absf(float(combat.get("ink_amount")) - before + 0.85) > 0.001:
+	if (combat.get("projectiles") as Array).size() != 1 or absf(float(combat.get("ink_amount")) - before + 0.92) > 0.001:
 		_fail("shooter projectile or source ink cost")
 		return
 	var launched: Dictionary = (combat.get("projectiles") as Array)[0]
@@ -110,8 +110,9 @@ func _check() -> void:
 	if widest < 0.2:
 		_fail("shooter fired with no spread")
 		return
-	if widest > cone * 2.0 + 0.5:
-		_fail("shooter spread exceeded the source cone: %.2f deg (cone %.1f)" % [widest, cone])
+	var diagonal:=rad_to_deg(atan(Vector2(tan(deg_to_rad(cone)),tan(deg_to_rad(cone)*.55)).length()))
+	if widest > diagonal * 2.0 + 0.5:
+		_fail("shooter spread exceeded its rectangular diagonal: %.2f deg" % widest)
 		return
 	# Check the actual sampling region. A previous implementation used two
 	# positive offsets: shots varied, but all landed on one side of the aim.
@@ -126,8 +127,9 @@ func _check() -> void:
 		signed_sides[1] = signed_sides[1] or horizontal < -0.001
 		signed_sides[2] = signed_sides[2] or vertical > 0.001
 		signed_sides[3] = signed_sides[3] or vertical < -0.001
-		if rad_to_deg(aim.angle_to(spread)) > cone + 0.001:
-			_fail("spread sample escaped the source cone")
+		var forward:=spread.dot(aim)
+		if absf(horizontal/forward)>tan(deg_to_rad(cone))+.00001 or absf(vertical/forward)>tan(deg_to_rad(cone)*.55)+.00001:
+			_fail("spread sample escaped the rectangular bounds")
 			return
 	if signed_sides.has(false):
 		_fail("spread samples favored only one side of the crosshair")
@@ -167,7 +169,7 @@ func _check() -> void:
 	combat.call("select_weapon", "blaster")
 	before = float(combat.get("ink_amount"))
 	combat.call("tick", 0.05, true, false)
-	if absf(float(combat.get("ink_amount")) - before + 7.0) > 0.001 or not _has_projectile(combat, "blaster"):
+	if absf(float(combat.get("ink_amount")) - before + 9.0) > 0.001 or not _has_projectile(combat, "blaster"):
 		_fail("blaster projectile or source ink cost")
 		return
 	var paint_version := int(ink.get("version"))
@@ -180,10 +182,10 @@ func _check() -> void:
 	combat.call("tick", 0.02, false, false)
 	combat.call("select_weapon", "charger")
 	combat.call("tick", 0.5, true, false)
-	combat.call("tick", 0.5, true, false)
+	combat.call("tick", 0.66, true, false)
 	before = float(combat.get("ink_amount"))
 	combat.call("tick", 0.01, false, false)
-	if (combat.get("beams") as Array).is_empty() or float(combat.get("ink_amount")) > before - 13.0:
+	if (combat.get("beams") as Array).is_empty() or not is_equal_approx(float(combat.get("ink_amount")),before-18.0):
 		_fail("charger release, beam or ink cost")
 		return
 	paint_version = int(ink.get("version"))

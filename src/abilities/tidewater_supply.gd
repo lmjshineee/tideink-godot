@@ -1,7 +1,7 @@
 extends Node3D
 const COST := 40.0
 const LIFE := 14.0
-const CHANNEL := .6
+const CHANNEL := .35
 var game: Node3D
 var boxes: Dictionary = {}
 var channels: Dictionary = {}

@@ -47,6 +47,7 @@ var attack_cooldown := 0.0
 var roll_hit_cooldown := 0.0
 var roll_distance := 0.0
 var charge_time := 0.0
+var charger_aim:=Vector3.ZERO
 var weapon_id := "shooter"
 var ink_amount := 100.0
 var last_fire_time := 99.0
@@ -271,15 +272,18 @@ func tick(delta: float) -> void:
 		"charger":
 			if can_attack and attack_cooldown <= 0.0 and ink_amount >= float(weapon["inkFull"]):
 				charge_time += delta
+				target=_charger_target(target,weapon)
+				_show_attack(target,true)
 				if charge_time >= float(weapon["chargeTime"]):
 					charge_time = 0.0
-					attack_cooldown = 0.28
+					attack_cooldown = float(weapon.releaseRecovery)
 					ink_amount -= float(weapon["inkFull"])
 					last_fire_time = 0.0
 					_show_attack()
 					combat.call("fire_bot_charger", global_position + Vector3.UP * 1.05, target,1.0,team,self)
 			else:
 				charge_time = 0.0
+				charger_aim=Vector3.ZERO
 		"roller":
 			if can_attack and distance > 1.5 and attack_cooldown <= 0.0 \
 					and ink_amount >= float(weapon["flickInk"]):
@@ -662,6 +666,7 @@ func _tick_team(delta: float) -> void:
 		return
 	if not fighting or game.mobility.busy(self) or game.bot_specials.locks_primary(self) or reaction_time > 0:
 		charge_time = 0.0
+		charger_aim=Vector3.ZERO
 		return
 	var from := global_position + Vector3.UP * 1.05
 	var target: Vector3 = (lure.point if not lure.is_empty() else target_actor.global_position)+Vector3.UP*(.35 if lure.get("buddy",false) else .8)
@@ -689,12 +694,13 @@ func _tick_team(delta: float) -> void:
 			if ink_amount < float(weapon["inkFull"]):
 				return
 			charge_time += delta
+			target=_charger_target(target,weapon)
 			if charge_time < float(weapon["chargeTime"]):
 				_show_attack(target,true)
 				return
 			charge_time = 0.0
 			ink_amount -= float(weapon["inkFull"])
-			attack_cooldown = 0.28 * float(profile.cadence)
+			attack_cooldown = float(weapon.releaseRecovery) * float(profile.cadence)
 			combat.call("fire_bot_charger", from, target, 1.0, team,self)
 		"roller":
 			if ink_amount < float(weapon["flickInk"]):
@@ -705,6 +711,12 @@ func _tick_team(delta: float) -> void:
 	last_fire_time = 0.0
 	$Body.call("set_action", "flick" if weapon_id == "roller" else "shoot")
 	_show_attack(target)
+
+func _charger_target(target:Vector3,weapon:Dictionary) -> Vector3:
+	# Last 240 ms commit to a point. A lateral dodge defeats the released shot.
+	if charge_time<float(weapon.chargeTime)-.24:charger_aim=Vector3.ZERO
+	elif charger_aim==Vector3.ZERO:charger_aim=target
+	return target if charger_aim==Vector3.ZERO else charger_aim
 
 
 func _visible_actor(actor: Node3D) -> bool:

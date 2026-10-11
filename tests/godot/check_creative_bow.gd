@@ -25,7 +25,7 @@ func _run() -> void:
 		combat.tick(1,true,false)
 		expect(combat.charging and combat.charge_fraction==1 and combat.bow.arrows.is_empty(),"charge holds three arrows")
 		combat.tick(.001,false,false)
-		expect(combat.bow.arrows.size()==3 and is_equal_approx(combat.ink_amount,94),"full bow costs 6 on release")
+		expect(combat.bow.arrows.size()==3 and is_equal_approx(combat.ink_amount,91.5),"full bow costs 8.5 on release")
 		for i in 45: combat.bow.tick(1.0/30)
 		print("AUDIT: bow crosshair height=",height," remainingHP=",game.bot_health)
 		expect(is_equal_approx(game.bot_health,15) and game.bot_respawn==0,"actual bow hits crosshair at "+str(height)+" with 105 full-draw damage")
@@ -34,13 +34,13 @@ func _run() -> void:
 	expect(is_equal_approx(combat.ink_amount,97.5),"tap costs 2.5")
 	var ground_first: Vector3=combat.bow.arrows[0].velocity
 	var ground_last: Vector3=combat.bow.arrows[2].velocity
-	expect(absf(ground_first.x-ground_last.x)>4 and absf(ground_first.y-ground_last.y)<.01,"ground fan is horizontal")
+	expect(absf(ground_first.x-ground_last.x)>4 and absf(ground_first.y-ground_last.y)<.18,"ground fan is horizontal")
 	combat.bow.clear_all()
 	walker.grounded=false
 	combat.bow.fire(walker,bot.global_position+Vector3.UP,1)
 	var air_first: Vector3=combat.bow.arrows[0].velocity
 	var air_last: Vector3=combat.bow.arrows[2].velocity
-	expect(absf(air_first.y-air_last.y)>.8 and absf(air_first.x-air_last.x)<.01,"full air fan is vertical and narrow")
+	expect(absf(air_first.y-air_last.y)>.8 and absf(air_first.x-air_last.x)<.18,"full air fan is vertical and narrow")
 	walker.grounded=true
 	combat.bow.clear_all()
 	var barrier:=wall(Vector3(0,41,6),Vector3(6,8,.4))

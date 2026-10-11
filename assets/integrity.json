@@ -1123,6 +1123,10 @@
       "sha256": "4a8ccd21d35d6e6fa5a53cfb8a9883d3794060c6dcbe880d43fbd6cc3d757666",
       "bytes": 223
     },
+    "assets/ui/special-pushing_wall.svg": {
+      "sha256": "602f7ff171c643436ff0e1c8287d093146965299ad68b5432ef06640ce08dfa2",
+      "bytes": 272
+    },
     "assets/ui/special-rain_arrows.svg": {
       "sha256": "c460026930b64c40ff64389781d07249b0508270cec1257d0a1feda9c2cc6d76",
       "bytes": 361
