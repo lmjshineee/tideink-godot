@@ -2,20 +2,28 @@ extends "res://tests/godot/helpers/creative_fixture.gd"
 const Setup=preload("res://src/core/match_setup.gd")
 const Kits=preload("res://src/core/loadout_rules.gd")
 var output:=""
-var report:Dictionary={"kind":"controlled native loadout input","limits":"Frozen match/AI and explicit CPU paint probes. Not human play, natural timing or temperature acceptance.","cases":[]}
+var report:Dictionary={"kind":"controlled native loadout input","limits":"Frozen match/AI and explicit CPU paint probes. Not human play, natural timing or temperature acceptance.","cases":[],"clicks":[]}
 
 func _initialize() -> void:call_deferred("_run")
 func frames(count:int=6) -> void:
 	for i in count:await process_frame
 func click(control:Control) -> void:
+	root.grab_focus();await frames(3)
 	var point:Vector2=control.get_global_transform_with_canvas()*(control.size*.5)
-	root.warp_mouse(point);await frames(2)
+	# Keep the GUI sequence together. A native warp can deliver late motion
+	# between button-down/up while the window is acquiring focus.
 	var motion:=InputEventMouseMotion.new();motion.position=point;motion.global_position=point
 	root.push_input(motion,true);await frames(2)
+	var hovered:=root.gui_get_hovered_control()
+	expect(hovered==control,"actual mouse reaches "+control.text)
+	var trace:Dictionary={"button":control.text,"point":point,"hovered":hovered.text if hovered is Button else str(hovered),"mouse_mode":Input.mouse_mode,"phase":game.phase,"locked":game.perks.locked,"disabled":control.disabled if control is BaseButton else false}
 	for down in [true,false]:
 		var event:=InputEventMouseButton.new();event.position=point;event.global_position=point
 		event.button_index=MOUSE_BUTTON_LEFT;event.pressed=down;event.button_mask=MOUSE_BUTTON_MASK_LEFT if down else 0
-		root.push_input(event,true);await frames(3)
+		root.push_input(event,true)
+	await frames(6)
+	trace.attributes=game.attributes.loadout(walker)
+	report.clicks.append(trace)
 func choose(control:Button,index:int) -> void:
 	var current:int=Kits.MODES.find(Setup.loadout_mode)
 	if current==index:

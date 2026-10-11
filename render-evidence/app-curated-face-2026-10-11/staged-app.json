@@ -1,0 +1,15 @@
+{
+  "architecture": "arm64",
+  "strict_signature": "passed",
+  "app_files": {
+    "Contents/Info.plist": "f1d38d6210d9a3796435dd45252fb4f920c41a8d49285145bf19bcebeea86f12",
+    "Contents/MacOS/TideInk": "307145a804f3f2fa576b2e6d61d4dc77020287dacc369ea1b03693464ee78531",
+    "Contents/PkgInfo": "7e50a30efad50208a173203ced60818d693bb61266b75aa10927d1a2adce80cb",
+    "Contents/Resources/PrivacyInfo.xcprivacy": "0535353bb08c25b8ce5ed9ac7e442a5994f402e0f6cbc4bed668cfc63c2ceac3",
+    "Contents/Resources/TideInk.pck": "f39422f873145c2f64679c0ea38aeace3c2d502dc08a5e62180a2f3536efa77e",
+    "Contents/Resources/icon.icns": "779ff524928785811d6d4c61f47a26491160b1092db9b610e85fcdfd9b2d2b2a",
+    "Contents/_CodeSignature/CodeResources": "af4021ca7f7bd3bd5f2a3f00365bc329a20caad2b66964f2579edc94242bb5b1"
+  },
+  "staged_app": "/Users/yunni/Joy/inkwave-game-cleaned/build/export-curated-6747da7/TideInk.app",
+  "export_diagnostics": []
+}

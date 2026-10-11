@@ -1,0 +1,54 @@
+{
+  "ui": {
+    "errors": [],
+    "warnings": [],
+    "os_input_method_diagnostic": false
+  },
+  "buddy": {
+    "errors": [],
+    "warnings": [],
+    "os_input_method_diagnostic": true
+  },
+  "primary": {
+    "errors": [],
+    "warnings": [],
+    "os_input_method_diagnostic": true
+  },
+  "loadout": {
+    "errors": [],
+    "warnings": [],
+    "os_input_method_diagnostic": true
+  },
+  "attributes": {
+    "errors": [],
+    "warnings": [],
+    "os_input_method_diagnostic": true
+  },
+  "art": {
+    "errors": [],
+    "warnings": [],
+    "os_input_method_diagnostic": true
+  },
+  "wardrobe": {
+    "errors": [],
+    "warnings": [],
+    "os_input_method_diagnostic": true
+  },
+  "curated": {
+    "errors": [],
+    "warnings": [],
+    "os_input_method_diagnostic": true
+  },
+  "app-headless": {
+    "errors": [],
+    "warnings": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "os_input_method_diagnostic": false
+  },
+  "app-metal": {
+    "errors": [],
+    "warnings": [],
+    "os_input_method_diagnostic": true
+  }
+}

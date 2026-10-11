@@ -1,0 +1,3 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+PASS: source jump windows/gravity and CharacterBody space-key launch

@@ -1,0 +1,12 @@
+{
+  "authorized_request": "commit, build latest App, delete previous Apps",
+  "deleted_apps": [
+    "/Users/yunni/Joy/inkwave-game-cleaned/build/TideInk-before-curated-6747da7.app",
+    "/Users/yunni/Joy/inkwave-game-cleaned/build/TideInk-before-wardrobe-bb384b6.app"
+  ],
+  "deleted_bytes": 655578982,
+  "remaining_apps": [
+    "build/TideInk.app"
+  ],
+  "new_app_receipt_matches": true
+}

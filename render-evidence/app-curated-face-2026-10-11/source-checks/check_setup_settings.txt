@@ -1,0 +1,5 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+PASS: exported/injected durations, random appearance rebuild retains weapon/item/map/duration, material palette and live guard
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2604)

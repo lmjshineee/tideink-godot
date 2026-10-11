@@ -1,0 +1,61 @@
+{
+	"cases": [
+		{
+			"attributes": {
+				"health": 0,
+				"ink_capacity": 0,
+				"ink_recovery": 0,
+				"main_saver": 0,
+				"run_speed": 0,
+				"special_charge": 0,
+				"sub_cooldown": 0,
+				"swim_speed": 0
+			},
+			"expected_caps": "生命 132 · 墨量 110",
+			"header": "主 三弦墨弓 / 副 墨仔伙伴\n大招 雨箭齐射 · 天赋 均衡\n生命 132 · 墨量 110 · 跑速 6.3 · 潜泳 12.4",
+			"main": "bow",
+			"mode": "custom",
+			"perk": "balanced",
+			"size": [
+				1280,
+				720
+			],
+			"sub": "ink_buddy"
+		},
+		{
+			"attributes": {
+				"health": 3,
+				"ink_capacity": 2,
+				"ink_recovery": 0,
+				"main_saver": 3,
+				"run_speed": 1,
+				"special_charge": 4,
+				"sub_cooldown": 3,
+				"swim_speed": 4
+			},
+			"expected_caps": "生命 147 · 墨量 124",
+			"header": "主 三弦墨弓 / 副 墨仔伙伴\n大招 雨箭齐射 · 天赋 均衡\n生命 147 · 墨量 124 · 跑速 6.5 · 潜泳 13.5",
+			"main": "bow",
+			"mode": "custom",
+			"perk": "balanced",
+			"size": [
+				960,
+				540
+			],
+			"sub": "ink_buddy"
+		}
+	],
+	"environment": {
+		"api": "4.0",
+		"arm64": true,
+		"engine": "4.8-dev6 (official)"
+	},
+	"failures": [
+		"actual mouse roll changes loadout",
+		"complete native ROLL assigns twenty points"
+	],
+	"kind": "controlled native loadout input",
+	"limits": "Frozen match/AI and explicit CPU paint probes. Not human play, natural timing or temperature acceptance.",
+	"status": "failed",
+	"verification": "explicit exported PCK; receipt supplies pack identity"
+}

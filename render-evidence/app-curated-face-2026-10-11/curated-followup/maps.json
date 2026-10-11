@@ -1,0 +1,28 @@
+{
+	"cases": [
+		{
+			"blocks": 74,
+			"ink": 103.2,
+			"map": "sunset_park",
+			"scoring_cells": 46188,
+			"travel": 3.36638569831848
+		},
+		{
+			"blocks": 72,
+			"ink": 103.2,
+			"map": "lantern_depot",
+			"scoring_cells": 51439,
+			"travel": 3.36638569831848
+		}
+	],
+	"environment": {
+		"api": "4.0",
+		"arm64": true,
+		"engine": "4.8-dev6 (official)"
+	},
+	"failures": [],
+	"human_review": false,
+	"kind": "controlled native curated maps and menu input",
+	"status": "passed",
+	"verification": "explicit unchanged exported PCK; receipt supplies pack identity"
+}

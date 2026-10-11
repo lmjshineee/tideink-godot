@@ -1,0 +1,5 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: garden team=0 route nodes=41 progress=41 position=(-7.587331, 6.0, -2.995252) maxY=6.0
+AUDIT: garden team=1 route nodes=43 progress=43 position=(6.583292, 6.0, 1.983387) maxY=6.0
+PASS: player controller climbs both garden routes from spawn to 6m upper platforms with live physics

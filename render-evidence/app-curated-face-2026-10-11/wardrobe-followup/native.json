@@ -1,0 +1,72 @@
+{
+	"cases": [
+		{
+			"fps": 30,
+			"preview_matches_combat": true,
+			"render_scale": 0.75,
+			"seed": 395514671,
+			"size": "(1280, 720)",
+			"wardrobe": {
+				"graphic": 2,
+				"palette": 5,
+				"shoe_palette": 7,
+				"shoes": 0,
+				"top": 2,
+				"trouser_palette": 0,
+				"trousers": 0
+			}
+		},
+		{
+			"fps": 30,
+			"preview_matches_combat": true,
+			"render_scale": 0.75,
+			"seed": 1660511063,
+			"size": "(960, 540)",
+			"wardrobe": {
+				"graphic": 2,
+				"palette": 0,
+				"shoe_palette": 7,
+				"shoes": 1,
+				"top": 3,
+				"trouser_palette": 6,
+				"trousers": 0
+			}
+		}
+	],
+	"clicks": [
+		{
+			"button": "@Button@1658",
+			"hovered": "@Button@1658:<Button#232850990785>",
+			"point": "(1017.6, 498.08)"
+		},
+		{
+			"button": "@Button@3587",
+			"hovered": "@Button@3587:<Button#439093306221>",
+			"point": "(195.2, 691.04)"
+		},
+		{
+			"button": "SaveButton",
+			"hovered": "SaveButton:<Button#358042572619>",
+			"point": "(806.6667, 590.0)"
+		},
+		{
+			"button": "@Button@3484",
+			"hovered": "@Button@3484:<Button#429882615608>",
+			"point": "(763.2, 373.56)"
+		},
+		{
+			"button": "@Button@5418",
+			"hovered": "@Button@5418:<Button#660921656452>",
+			"point": "(146.4, 518.28)"
+		},
+		{
+			"button": "SaveButton",
+			"hovered": "SaveButton:<Button#579870922476>",
+			"point": "(663.3333, 473.669)"
+		}
+	],
+	"failures": [],
+	"kind": "native wardrobe/settings mouse input",
+	"limits": "Controlled menu/input and frozen combat; not natural match, temperature or human aesthetics.",
+	"status": "passed"
+}

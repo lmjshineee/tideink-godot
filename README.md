@@ -6,9 +6,9 @@
 
 当前源码继续按功能推进，未递增版本号。双方 AI 加点现在按武器与天赋带倾向地 ROLL，沿用玩家已用点数预算和整局锁定；Tab 重做为中央地图、双方分列卡片，显示真实武器图标、玩家高亮、情报状态、已用点数及最高三项等级。见 [AI 配点与战术卡片](docs/BOT_ATTRIBUTE_BUILDS.md) 和 [本批验收](render-evidence/bot-builds-2026-10-10/summary.md)。
 
-最终 111 项源码检查及两尺寸 1v1／5v5 原生 Tab 输入／画面通过；32 项无界面夹具有退出引用警告，新增专项和最终原生没有 Godot 告警。440 个既有资产文件与 288 个 UID 保持，人工审美、配点平衡和长期性能仍待验收。
+最新源码完整检查 113 项及 Python 19 项通过，实际导出包的 34 项规则、八组原生输入／画面和工程外 App headless／Metal 启动通过。受控验证不代表人工审美、配点平衡或长期性能／温度验收，诊断边界见 [本次应用验收](render-evidence/app-curated-face-2026-10-11/summary.md)。
 
-已有 `build/TideInk.app` 是生产提交 `7f2368c` 的主题色服装混搭版本，仅 arm64；本次精选地图／脸发改动尚未导出。版本字串保持，以提交／构建收据区分应用。应用历史验收见 [服装混搭记录](render-evidence/performance-wardrobe-2026-10-10/summary.md)，最新源码状态见 [当前状态](docs/COORDINATION.md)。
+最新 `build/TideInk.app` 来自生产提交 `6747da7`，仅 arm64，包含精选地图、全图涂地规则和本轮脸型／头发。版本字串保持，以提交／构建收据区分应用；新包验收后，按用户要求删除两份旧 App，目前仅保留最新应用。见 [应用验收](render-evidence/app-curated-face-2026-10-11/summary.md) 与 [当前状态](docs/COORDINATION.md)。
 
 私有源码仓库：[lmjshineee/tideink-godot](https://github.com/lmjshineee/tideink-godot)。preview.16 的构建与启动证据见下方发布验收。
 
@@ -16,7 +16,7 @@
 
 零加点均衡仍为 132 HP／110 墨量／5% 移动加成，普通射击近距四轮、远距五轮。准备页点「属性 · 加点」调整生命、墨量、奔跑、潜泳、省墨、回墨、充能和副武器冷却，各项最多 8 级、收益递减；伤害不加点。满生命均衡最高 155.76 HP，可接住 150 的精准狙击。整局固定、死亡保留；地图／规则／造型重载保留本次会话分配，退出 App 后没有磁盘加点存档。见 [属性和人物](docs/ATTRIBUTES_CHARACTERS.md) 与 [战斗规则](docs/COMBAT_BALANCE.md)。
 
-2026-10-10 源码新增弧形高线／圆场的日落滑场、悬空斜交大厅／桥下通路的灯轨车站，更新墙贴、脸型与四种发型，并移除中央区域模式；已有 App 尚未更新。见 [地图与人物设计](docs/CURATED_ART.md)。
+2026-10-10–11 新增弧形高线／圆场的日落滑场、悬空斜交大厅／桥下通路的灯轨车站，更新墙贴、实际脸型雕形与四种发型，并移除中央区域模式；上述修改已包含在最新 App。见 [地图与人物设计](docs/CURATED_ART.md)。
 
 ## 运行
 
@@ -64,4 +64,4 @@ python3 tests/python/test_character_archetypes.py
 - [原生完整对局与结算验收](render-evidence/native-match-2026-10-04/summary.md)：180 秒 5v5 受控基线、帧间隔及面积／积分展示修正。
 - [机器人出场跳跃验收](render-evidence/bot-deployment-2026-10-05/summary.md)：91 项统一检查、两队负例与两个原生 Metal 受控场景。
 
-`docs/history/`、`render-evidence/` 和 `experiments/` 保留 Godot 历史记录与人物实验，正式导出排除。真实手感、长期温度、全地图长时机器人策略与联网仍需验收。源码与已有应用的交付状态见 [当前状态](docs/COORDINATION.md)；本批源码未导出，没有创建分发压缩包、推送或发布。
+`docs/history/`、`render-evidence/` 和 `experiments/` 保留 Godot 历史记录与人物实验，正式导出排除。真实手感、长期温度、全地图长时机器人策略与联网仍需验收。源码与已有应用的交付状态见 [当前状态](docs/COORDINATION.md)；最新 App 已本地导出，没有创建分发压缩包、推送或发布。

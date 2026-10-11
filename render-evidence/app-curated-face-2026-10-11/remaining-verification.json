@@ -1,0 +1,67 @@
+{
+  "source_head": "6747da72db01e3873a7645225c9924ebd34cf3b4",
+  "pck_sha256": "f39422f873145c2f64679c0ea38aeace3c2d502dc08a5e62180a2f3536efa77e",
+  "production_inputs_unchanged": true,
+  "status": "passed",
+  "prior": {
+    "rules_passed": 34,
+    "native_passed": [
+      "native",
+      "buddy-native",
+      "primary-native"
+    ],
+    "log": "pack-verification.txt",
+    "failed_fixture": "exported-pack/loadout-native.txt",
+    "note": "The first aggregate stopped before emitting its report. Its stdout/engine logs and committed verifier remain. Exact deleted temporary fixture hashes from that run are unavailable."
+  },
+  "loadout_followup": {
+    "source_sha256": "d73e9569a27ca63c1653e63df43745568f43a562afd68a8e2081899db375f0f9",
+    "external_sha256": "935f06037903c0e561d2d9540381ee70f1de3a801435fd683fae3826e835f55f",
+    "pck_sha256": "f39422f873145c2f64679c0ea38aeace3c2d502dc08a5e62180a2f3536efa77e",
+    "script": "/private/tmp/tideink-followup-6747da7/loadout-native.gd",
+    "production_inputs_unchanged": true
+  },
+  "groups": {
+    "attributes": {
+      "status": "passed",
+      "source_sha256": "496e13d7b36b3f43b5638e438a254256a1088df9e2e982ccd89f76f023a128f3",
+      "external_sha256": "0fd2eb435379d96ed081fe476d4915c058308ff65f1254def6d2f51588912681",
+      "pck_sha256": "f39422f873145c2f64679c0ea38aeace3c2d502dc08a5e62180a2f3536efa77e"
+    },
+    "art": {
+      "status": "passed",
+      "source_sha256": "14ba1c7ac0b6ebec8054e0df7b357f987b9358255ebd3df370c6cdbad9ebd2d8",
+      "external_sha256": "31fc151249bfadf026094b87e309244104b66901eb3bbc06b700483212def8ad",
+      "pck_sha256": "f39422f873145c2f64679c0ea38aeace3c2d502dc08a5e62180a2f3536efa77e"
+    },
+    "wardrobe": {
+      "status": "passed",
+      "source_sha256": "4da23e1144e97c7bf590056265f85d755122a645d59292b2363f6d1d2d4cc866",
+      "external_sha256": "4da23e1144e97c7bf590056265f85d755122a645d59292b2363f6d1d2d4cc866",
+      "pck_sha256": "f39422f873145c2f64679c0ea38aeace3c2d502dc08a5e62180a2f3536efa77e"
+    },
+    "curated": {
+      "status": "passed",
+      "source_sha256": "2a98421926dcf8bc8e58de8042461c2ab2c1f3c1bff4ac7b0d5812d094e75730",
+      "external_sha256": "b78a1fb7b1e975844f082c376970dc8b6df8ad0a3dd0e41dc52cd5e75c5c6298",
+      "pck_sha256": "f39422f873145c2f64679c0ea38aeace3c2d502dc08a5e62180a2f3536efa77e"
+    },
+    "app-headless": {
+      "status": "passed",
+      "exit": 0,
+      "path_overrides": false,
+      "script_overrides": false
+    },
+    "app-metal": {
+      "status": "passed",
+      "exit": 0,
+      "path_overrides": false,
+      "script_overrides": false
+    }
+  },
+  "native_groups_passed": 8,
+  "actual_app_startup_passed": [
+    "headless",
+    "Metal"
+  ]
+}

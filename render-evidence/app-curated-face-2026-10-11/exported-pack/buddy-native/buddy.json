@@ -1,0 +1,37 @@
+{
+	"cases": [
+		{
+			"bites": 1,
+			"chase_captured": true,
+			"health_after": 102.0,
+			"input": "right hold/release",
+			"team": 0,
+			"windup_captured": true
+		},
+		{
+			"health_after": 102.0,
+			"source": "#06 Nori · 墨仔伙伴",
+			"team": 1
+		},
+		{
+			"actual": "(-0.000002, 0.166285, -17.17958)",
+			"input": "right hold/release",
+			"item": "bomb",
+			"predicted": "(-0.000002, 0.166285, -17.17958)",
+			"radius": 3.1
+		}
+	],
+	"environment": {
+		"adapter": "Apple M5 (Apple9)",
+		"api": "4.0",
+		"display": "macOS",
+		"engine": "4.8-dev6 (official)",
+		"render_scale": 1.0,
+		"window": "(1280, 720)"
+	},
+	"failures": [],
+	"fixture_home": "(0.0, 0.05, -25.0)",
+	"method": "Controlled native scene: fixed actors, actual item E/right mouse events, physical creature ticks, real map collision; not a natural round or human balance acceptance.",
+	"status": "passed",
+	"verification": "explicit exported PCK; receipt supplies pack identity"
+}

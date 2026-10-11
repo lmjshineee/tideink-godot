@@ -1,0 +1,7 @@
+PASS native follow-up: attributes
+PASS native follow-up: art
+PASS native follow-up: wardrobe
+PASS native follow-up: curated
+PASS actual App startup: app-headless
+PASS actual App startup: app-metal
+PASS: 34 retained PCK rules, eight native groups, actual App startup and final receipt

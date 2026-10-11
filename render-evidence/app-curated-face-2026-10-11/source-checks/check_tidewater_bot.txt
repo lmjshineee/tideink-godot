@@ -1,0 +1,4 @@
+Godot Engine v4.8.dev6.official.8898c2b3d - https://godotengine.org
+
+AUDIT: physical traversal m=128.282354447525 advance_z=69.5436763763428 grounded_samples=699
+PASS: opponent advances from spawn, follows grounded support, paints real turf and freezes at finish

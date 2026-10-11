@@ -1,0 +1,212 @@
+{
+	"cases": [
+		{
+			"attributes": {
+				"health": 3,
+				"ink_capacity": 1,
+				"ink_recovery": 2,
+				"main_saver": 2,
+				"run_speed": 4,
+				"special_charge": 3,
+				"sub_cooldown": 1,
+				"swim_speed": 4
+			},
+			"expected_caps": "生命 147 · 墨量 118",
+			"header": "主 三弦墨弓 / 副 墨仔伙伴\n大招 雨箭齐射 · 天赋 均衡\n生命 147 · 墨量 118 · 跑速 6.9 · 潜泳 13.5",
+			"main": "bow",
+			"mode": "custom",
+			"perk": "balanced",
+			"size": [
+				1280,
+				720
+			],
+			"sub": "ink_buddy"
+		},
+		{
+			"attributes": {
+				"health": 3,
+				"ink_capacity": 2,
+				"ink_recovery": 6,
+				"main_saver": 1,
+				"run_speed": 5,
+				"special_charge": 1,
+				"sub_cooldown": 2,
+				"swim_speed": 0
+			},
+			"expected_caps": "生命 147 · 墨量 124",
+			"header": "主 三弦墨弓 / 副 墨仔伙伴\n大招 雨箭齐射 · 天赋 均衡\n生命 147 · 墨量 124 · 跑速 6.9 · 潜泳 12.4",
+			"main": "bow",
+			"mode": "custom",
+			"perk": "balanced",
+			"size": [
+				960,
+				540
+			],
+			"sub": "ink_buddy"
+		}
+	],
+	"clicks": [
+		{
+			"attributes": {
+				"health": 3,
+				"ink_capacity": 1,
+				"ink_recovery": 2,
+				"main_saver": 2,
+				"run_speed": 4,
+				"special_charge": 3,
+				"sub_cooldown": 1,
+				"swim_speed": 4
+			},
+			"button": "ROLL · 随机配装",
+			"disabled": false,
+			"hovered": "ROLL · 随机配装",
+			"locked": false,
+			"mouse_mode": 0,
+			"phase": "setup",
+			"point": "(614.4, 655.8)"
+		},
+		{
+			"attributes": {
+				"health": 3,
+				"ink_capacity": 1,
+				"ink_recovery": 2,
+				"main_saver": 2,
+				"run_speed": 4,
+				"special_charge": 3,
+				"sub_cooldown": 1,
+				"swim_speed": 4
+			},
+			"button": "自定义配装 ↔",
+			"disabled": false,
+			"hovered": "自定义配装 ↔",
+			"locked": false,
+			"mouse_mode": 0,
+			"phase": "setup",
+			"point": "(294.4, 655.8)"
+		},
+		{
+			"attributes": {
+				"health": 3,
+				"ink_capacity": 1,
+				"ink_recovery": 2,
+				"main_saver": 2,
+				"run_speed": 4,
+				"special_charge": 3,
+				"sub_cooldown": 1,
+				"swim_speed": 4
+			},
+			"button": "",
+			"disabled": false,
+			"hovered": "",
+			"locked": false,
+			"mouse_mode": 0,
+			"phase": "setup",
+			"point": "(820.4, 474.44)"
+		},
+		{
+			"attributes": {
+				"health": 3,
+				"ink_capacity": 1,
+				"ink_recovery": 2,
+				"main_saver": 2,
+				"run_speed": 4,
+				"special_charge": 3,
+				"sub_cooldown": 1,
+				"swim_speed": 4
+			},
+			"button": "墨仔伙伴\n冷却 17.2s",
+			"disabled": false,
+			"hovered": "墨仔伙伴\n冷却 17.2s",
+			"locked": false,
+			"mouse_mode": 0,
+			"phase": "setup",
+			"point": "(255.4, 537.08)"
+		},
+		{
+			"attributes": {
+				"health": 3,
+				"ink_capacity": 2,
+				"ink_recovery": 6,
+				"main_saver": 1,
+				"run_speed": 5,
+				"special_charge": 1,
+				"sub_cooldown": 2,
+				"swim_speed": 0
+			},
+			"button": "ROLL · 随机配装",
+			"disabled": false,
+			"hovered": "ROLL · 随机配装",
+			"locked": false,
+			"mouse_mode": 0,
+			"phase": "setup",
+			"point": "(460.8, 492.15)"
+		},
+		{
+			"attributes": {
+				"health": 3,
+				"ink_capacity": 2,
+				"ink_recovery": 6,
+				"main_saver": 1,
+				"run_speed": 5,
+				"special_charge": 1,
+				"sub_cooldown": 2,
+				"swim_speed": 0
+			},
+			"button": "自定义配装 ↔",
+			"disabled": false,
+			"hovered": "自定义配装 ↔",
+			"locked": false,
+			"mouse_mode": 0,
+			"phase": "setup",
+			"point": "(220.8, 493.8)"
+		},
+		{
+			"attributes": {
+				"health": 3,
+				"ink_capacity": 2,
+				"ink_recovery": 6,
+				"main_saver": 1,
+				"run_speed": 5,
+				"special_charge": 1,
+				"sub_cooldown": 2,
+				"swim_speed": 0
+			},
+			"button": "",
+			"disabled": false,
+			"hovered": "",
+			"locked": false,
+			"mouse_mode": 0,
+			"phase": "setup",
+			"point": "(614.95, 355.83)"
+		},
+		{
+			"attributes": {
+				"health": 3,
+				"ink_capacity": 2,
+				"ink_recovery": 6,
+				"main_saver": 1,
+				"run_speed": 5,
+				"special_charge": 1,
+				"sub_cooldown": 2,
+				"swim_speed": 0
+			},
+			"button": "墨仔伙伴\n冷却 16.7s",
+			"disabled": false,
+			"hovered": "墨仔伙伴\n冷却 16.7s",
+			"locked": false,
+			"mouse_mode": 0,
+			"phase": "setup",
+			"point": "(192.25, 405.36)"
+		}
+	],
+	"environment": {
+		"api": "4.0",
+		"arm64": true,
+		"engine": "4.8-dev6 (official)"
+	},
+	"failures": [],
+	"kind": "controlled native loadout input",
+	"limits": "Frozen match/AI and explicit CPU paint probes. Not human play, natural timing or temperature acceptance.",
+	"status": "passed",
+	"verification": "explicit unchanged exported PCK; receipt supplies pack identity"
+}
